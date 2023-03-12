@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>2023-2-11 每日一题 | Decade</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
+<link rel="shortcut icon" href="https://decade-qiu.github.io/favicon.ico?v=1678588290805">
+<link rel="stylesheet" href="https://decade-qiu.github.io/styles/main.css">
+
+
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="Leetcode 2335. 装满杯子需要的最短总时长
+贪心+分类讨论
+
+Leetcode
+
+2335. 装满杯子需要的最短总时长 - 力扣（Leetcode）
+有一台饮水机，可以制备冷水、温水和热水。每秒钟，可以装满 2 杯 不同 类型的..." />
+    <meta name="keywords" content="贪心,分类讨论,LeetCode,每日一题" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+    
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <script>
+  function secondToDate(second) {
+    if (!second) {
+      return 0;
+    }
+    var time = new Array(0, 0, 0, 0, 0);
+    if (second >= 365 * 24 * 3600) {
+      time[0] = parseInt(second / (365 * 24 * 3600));
+      second %= 365 * 24 * 3600;
+    }
+    if (second >= 24 * 3600) {
+      time[1] = parseInt(second / (24 * 3600));
+      second %= 24 * 3600;
+    }
+    if (second >= 3600) {
+      time[2] = parseInt(second / 3600);
+      second %= 3600;
+    }
+    if (second >= 60) {
+      time[3] = parseInt(second / 60);
+      second %= 60;
+    }
+    if (second > 0) {
+      time[4] = second;
+    }
+    return time;
+  }</script>
+<script type="text/javascript" language="javascript">
+  function setTime() {
+    var create_time = Math.round(new Date(Date.UTC(2022, 11, 01, 17, 17, 20)).getTime() / 1000);
+    var timestamp = Math.round((new Date().getTime() + 8 * 60 * 60 * 1000) / 1000);
+    currentTime = secondToDate((timestamp - create_time));
+    currentTimeHtml = currentTime[1] + ' days '
+      + currentTime[2] + ' hours ' + currentTime[3] + ' minutes ' + currentTime[4] + ' second';
+    document.getElementById("htmer_time").innerHTML = currentTimeHtml;
+  } setInterval(setTime, 1000);</script>
+<div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://decade-qiu.github.io">
+        <img src="https://decade-qiu.github.io/images/avatar.png?v=1678588290805" class="site-logo">
+        <h1 class="site-title">
+          Decade
+        </h1>
+      </a>
+      <!-- <div style="text-align: center">
+         <form id="gridea-search-form" style="position: relative" data-update="1678588290805" action="/search/">
+          <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+          <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+        </form> </div>
+		-->
+	   <div class="menu-btn" @click="menuVisible = !menuVisible">
+        	<div class="line"></div>
+      	</div>
+    </div>
+    <div>
+      
+        
+            <a href="/" class="site-nav">
+              首页
+            </a>
+            
+              
+        
+            <a href="/archives" class="site-nav">
+              归档
+            </a>
+            
+              
+        
+            <a href="/tags" class="site-nav">
+              标签
+            </a>
+            
+              
+        
+            <a href="/post/about" class="site-nav">
+              个人
+            </a>
+            
+              
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/Decade-qiu" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+          
+            
+        
+          <a class="social-link" href="https://twitter.com/LukasMa46743746" target="_blank">
+            <i class="fab fa-twitter"></i>
+          </a>
+          
+            
+        
+          <a class="social-link" href="https://www.zhihu.com/people/chou-yu-80-33" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+          
+            
+              
+                
+                  <a class="social-link" href="https://leetcode.cn/u/luxury_f/" target="_blank">
+                    <i class="fas fa-code"></i>
+                  </a>
+                  
+                    
+                      
+                        
+                          <a class="social-link" href="https://music.163.com/#/user/home?id=480745566" target="_blank">
+                            <i class="fas fa-music"></i>
+                          </a>
+                          
+                            
+                              
+                                
+                                  <a class="social-link" href="https://www.youtube.com/@lukasmayer1340/playlists" target="_blank">
+                                    <i class="fab fa-youtube"></i>
+                                  </a>
+                                  
+                                    
+    </div>
+    <div class="site-description">
+      GO！
+    </div>
+    <div class="site-footer">
+      
+        Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+        <div class="line"></div>
+        Have Ran <span id="htmer_time" style="color: white;"></span>
+    </div>
+  </div>
+</div>
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">2023-2-11 每日一题</h2>
+            <div class="post-date">2023-02-11-Sat</div>
+            
+              <div class="feature-container" style="background-image: url('https://pic.3gbizhi.com/2019/0929/20190929022112661.jpg.556.308.jpg')">
+              </div>
+            
+            <div class="post-content" v-pre>
+              <p>Leetcode 2335. 装满杯子需要的最短总时长</p>
+<p>贪心+分类讨论</p>
+<!-- more -->
+<h2 id="leetcode">Leetcode</h2>
+<blockquote>
+<p><a href="https://leetcode.cn/problems/minimum-amount-of-time-to-fill-cups/description/">2335. 装满杯子需要的最短总时长 - 力扣（Leetcode）</a></p>
+<p>有一台饮水机，可以制备冷水、温水和热水。每秒钟，可以装满 <code>2</code> 杯 <strong>不同</strong> 类型的水或者 <code>1</code> 杯任意类型的水。</p>
+<p>给你一个下标从 <strong>0</strong> 开始、长度为 <code>3</code> 的整数数组 <code>amount</code> ，其中 <code>amount[0]</code>、<code>amount[1]</code> 和 <code>amount[2]</code> 分别表示需要装满冷水、温水和热水的杯子数量。返回装满所有杯子所需的 <strong>最少</strong> 秒数。</p>
+<p><strong>示例 1：</strong></p>
+<pre><code>输入：amount = [1,4,2]
+输出：4
+解释：下面给出一种方案：
+第 1 秒：装满一杯冷水和一杯温水。
+第 2 秒：装满一杯温水和一杯热水。
+第 3 秒：装满一杯温水和一杯热水。
+第 4 秒：装满一杯温水。
+可以证明最少需要 4 秒才能装满所有杯子。
+</code></pre>
+<p><strong>示例 2：</strong></p>
+<pre><code>输入：amount = [5,4,4]
+输出：7
+解释：下面给出一种方案：
+第 1 秒：装满一杯冷水和一杯热水。
+第 2 秒：装满一杯冷水和一杯温水。
+第 3 秒：装满一杯冷水和一杯温水。
+第 4 秒：装满一杯温水和一杯热水。
+第 5 秒：装满一杯冷水和一杯热水。
+第 6 秒：装满一杯冷水和一杯温水。
+第 7 秒：装满一杯热水。
+</code></pre>
+<p><strong>示例 3：</strong></p>
+<pre><code>输入：amount = [5,0,0]
+输出：5
+解释：每秒装满一杯冷水。
+</code></pre>
+<p><strong>提示：</strong></p>
+<ul>
+<li><code>amount.length == 3</code></li>
+<li><code>0 &lt;= amount[i] &lt;= 100</code></li>
+</ul>
+</blockquote>
+<h3 id="思路">思路</h3>
+<p>贪心，假设三个杯子数量从小到大为 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>x</mi><mo separator="true">,</mo><mi>y</mi><mo separator="true">,</mo><mi>z</mi></mrow><annotation encoding="application/x-tex">x, y, z</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.04398em;">z</span></span></span></span> 分成两类：</p>
+<ul>
+<li>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>x</mi><mo>+</mo><mi>y</mi><mo>&lt;</mo><mo>=</mo><mi>z</mi></mrow><annotation encoding="application/x-tex">x + y &lt;= z</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord mathdefault">x</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.7335400000000001em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&lt;</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.04398em;">z</span></span></span></span> 。可以 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>z</mi></mrow><annotation encoding="application/x-tex">z</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.04398em;">z</span></span></span></span> 为主体， 在装完 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>z</mi></mrow><annotation encoding="application/x-tex">z</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.04398em;">z</span></span></span></span> 时，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>x</mi><mo separator="true">,</mo><mi>y</mi></mrow><annotation encoding="application/x-tex">x, y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span></span></span></span> 可以同时装完。</p>
+</li>
+<li>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>x</mi><mo>+</mo><mi>y</mi><mo>&gt;</mo><mi>z</mi></mrow><annotation encoding="application/x-tex">x+y &gt; z</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord mathdefault">x</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.7335400000000001em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.04398em;">z</span></span></span></span>。每次贪心地把其中两个最大的数减一，不断重复。最终三个都为0，或者只剩下一个数。</p>
+<p>要花费 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>⌊</mo><mo>(</mo><mi>x</mi><mo>+</mo><mi>y</mi><mo>+</mo><mi>z</mi><mo>+</mo><mn>1</mn><mo>)</mo><mi mathvariant="normal">/</mi><mn>2</mn><mo>⌋</mo></mrow><annotation encoding="application/x-tex">\lfloor (x+y+z+1)/ 2 \rfloor</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">⌊</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.7777700000000001em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord mathdefault" style="margin-right:0.04398em;">z</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mord">/</span><span class="mord">2</span><span class="mclose">⌋</span></span></span></span></p>
+</li>
+</ul>
+<h3 id="代码">代码</h3>
+<pre><code class="language-python">class Solution:
+    def fillCups(self, a: List[int]) -&gt; int:
+        x, y = max(a), sum(a)
+        return x if x*2 &gt;= y else (y+1)//2
+</code></pre>
+<h3 id="复杂度分析">复杂度分析</h3>
+<ul>
+<li>时间复杂度：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mn>1</mn><mo>)</mo></mrow><annotation encoding="application/x-tex">O(1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span>。</li>
+<li>空间复杂度： <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mn>1</mn><mo>)</mo></mrow><annotation encoding="application/x-tex">O(1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span> 。</li>
+</ul>
+<h3 id="欢迎加我好友一起来讨论算法题目">欢迎加我好友一起来讨论算法题目😎</h3>
+<blockquote>
+<p>本文作者：Decade<br>
+作者博客：<a href="https://decade.net.cn/"><strong>https://decade.net.cn/</strong></a><br>
+联系方式：<a href="https://github.com/Decade-qiu"><strong>Github</strong></a>  <strong>QQ</strong>：3237550600<br>
+转载要求： 转载请在文首显眼出表明本文链接且在留言区告知我并附上你转载到哪里的链接。</p>
+</blockquote>
+
+            </div>
+              <div class="tag-container">
+                
+                  <a href="https://decade-qiu.github.io/tag/pQFRIW5gz/" class="tag">
+                    贪心
+                  </a>
+                
+                  <a href="https://decade-qiu.github.io/tag/q13ED54Ld/" class="tag">
+                    分类讨论
+                  </a>
+                
+                  <a href="https://decade-qiu.github.io/tag/F2kUQf7xN/" class="tag">
+                    LeetCode
+                  </a>
+                
+                  <a href="https://decade-qiu.github.io/tag/RA0H2vwSY/" class="tag">
+                    每日一题
+                  </a>
+                
+              </div>
+			<script src="https://utteranc.es/client.js"
+        repo="Decade-qiu/Decade-qiu.github.io"
+        issue-term="pathname"
+        label="Comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://decade-qiu.github.io/post/2023-2-10-mei-ri-yi-ti/">
+                  <h3 class="post-title">
+                    2023-2-10 每日一题
+                  </h3>
+                </a>
+              </div>
+            
+            
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>

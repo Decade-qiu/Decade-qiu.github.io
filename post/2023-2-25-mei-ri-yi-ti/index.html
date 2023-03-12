@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>2023-2-25 每日二题 | Decade</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
+<link rel="shortcut icon" href="https://decade-qiu.github.io/favicon.ico?v=1678588290805">
+<link rel="stylesheet" href="https://decade-qiu.github.io/styles/main.css">
+
+
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="Leetcode 1247. 交换字符使得字符串相同
+CodeForces  B. Recover the String
+
+CodeForces
+
+Problem - 708B - Codeforces
+对于 01 字符串 s，定义 f(x..." />
+    <meta name="keywords" content="贪心,分类讨论,CF,数组,LeetCode,每日一题" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+    
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <script>
+  function secondToDate(second) {
+    if (!second) {
+      return 0;
+    }
+    var time = new Array(0, 0, 0, 0, 0);
+    if (second >= 365 * 24 * 3600) {
+      time[0] = parseInt(second / (365 * 24 * 3600));
+      second %= 365 * 24 * 3600;
+    }
+    if (second >= 24 * 3600) {
+      time[1] = parseInt(second / (24 * 3600));
+      second %= 24 * 3600;
+    }
+    if (second >= 3600) {
+      time[2] = parseInt(second / 3600);
+      second %= 3600;
+    }
+    if (second >= 60) {
+      time[3] = parseInt(second / 60);
+      second %= 60;
+    }
+    if (second > 0) {
+      time[4] = second;
+    }
+    return time;
+  }</script>
+<script type="text/javascript" language="javascript">
+  function setTime() {
+    var create_time = Math.round(new Date(Date.UTC(2022, 11, 01, 17, 17, 20)).getTime() / 1000);
+    var timestamp = Math.round((new Date().getTime() + 8 * 60 * 60 * 1000) / 1000);
+    currentTime = secondToDate((timestamp - create_time));
+    currentTimeHtml = currentTime[1] + ' days '
+      + currentTime[2] + ' hours ' + currentTime[3] + ' minutes ' + currentTime[4] + ' second';
+    document.getElementById("htmer_time").innerHTML = currentTimeHtml;
+  } setInterval(setTime, 1000);</script>
+<div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://decade-qiu.github.io">
+        <img src="https://decade-qiu.github.io/images/avatar.png?v=1678588290805" class="site-logo">
+        <h1 class="site-title">
+          Decade
+        </h1>
+      </a>
+      <!-- <div style="text-align: center">
+         <form id="gridea-search-form" style="position: relative" data-update="1678588290805" action="/search/">
+          <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+          <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+        </form> </div>
+		-->
+	   <div class="menu-btn" @click="menuVisible = !menuVisible">
+        	<div class="line"></div>
+      	</div>
+    </div>
+    <div>
+      
+        
+            <a href="/" class="site-nav">
+              首页
+            </a>
+            
+              
+        
+            <a href="/archives" class="site-nav">
+              归档
+            </a>
+            
+              
+        
+            <a href="/tags" class="site-nav">
+              标签
+            </a>
+            
+              
+        
+            <a href="/post/about" class="site-nav">
+              个人
+            </a>
+            
+              
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/Decade-qiu" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+          
+            
+        
+          <a class="social-link" href="https://twitter.com/LukasMa46743746" target="_blank">
+            <i class="fab fa-twitter"></i>
+          </a>
+          
+            
+        
+          <a class="social-link" href="https://www.zhihu.com/people/chou-yu-80-33" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+          
+            
+              
+                
+                  <a class="social-link" href="https://leetcode.cn/u/luxury_f/" target="_blank">
+                    <i class="fas fa-code"></i>
+                  </a>
+                  
+                    
+                      
+                        
+                          <a class="social-link" href="https://music.163.com/#/user/home?id=480745566" target="_blank">
+                            <i class="fas fa-music"></i>
+                          </a>
+                          
+                            
+                              
+                                
+                                  <a class="social-link" href="https://www.youtube.com/@lukasmayer1340/playlists" target="_blank">
+                                    <i class="fab fa-youtube"></i>
+                                  </a>
+                                  
+                                    
+    </div>
+    <div class="site-description">
+      GO！
+    </div>
+    <div class="site-footer">
+      
+        Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+        <div class="line"></div>
+        Have Ran <span id="htmer_time" style="color: white;"></span>
+    </div>
+  </div>
+</div>
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">2023-2-25 每日二题</h2>
+            <div class="post-date">2023-02-25-Sat</div>
+            
+              <div class="feature-container" style="background-image: url('https://pic.3gbizhi.com/2019/0906/thumb_1680_0_20190906033848455.jpg')">
+              </div>
+            
+            <div class="post-content" v-pre>
+              <p>Leetcode 1247. 交换字符使得字符串相同</p>
+<p>CodeForces  B. Recover the String</p>
+<!-- more -->
+<h2 id="codeforces">CodeForces</h2>
+<blockquote>
+<p><a href="https://codeforces.com/problemset/problem/708/B">Problem - 708B - Codeforces</a></p>
+<p>对于 01 字符串 s，定义 f(x,y) 表示子序列 [x,y] 在 s 中的出现次数。<br>
+输入 f(0,0), f(0,1), f(1,0) 和 f(1,1)，范围在 [0,1e9]。<br>
+请构造任意一个满足输入的非空字符串 s。<br>
+如果不存在，输出 Impossible。</p>
+</blockquote>
+<h3 id="思路">思路</h3>
+<ol>
+<li>
+<p>设 有 x 个 0 , 那 么 00 的 组 合 就 是 x ∗ ( x − 1 ) / 2。根据 f(0,0) 可以求出 0 的个数 c0，因为 f(0,0) = C(c0,2)；同理可求出 1 的个数 c1。</p>
+</li>
+<li>
+<p>f(0,1) + f(1,0) = c0 * c1</p>
+</li>
+</ol>
+<h3 id="代码">代码</h3>
+<pre><code class="language-python">def solve():
+    a, b, c, d = list(map(int, input().split()))
+    n, pre = 1000001, 0
+    dic = {0:1}
+    for i in range(2, n):
+        pre += i-1
+        dic[pre] = i
+    c00, c11 = dic.get(a, -1), dic.get(d, -1)
+    if a+b+c == 0 and c11 != -1:
+        print(c11*'1')
+        return
+    if b+c+d == 0 and c00 != -1:
+        print(c00*'0')
+        return
+    if c00==-1 or c11==-1 or b+c != c00*c11:
+        print(&quot;Impossible&quot;)
+    else:
+        ans = &quot;&quot;
+        for i in range(b//c11): ans += '0'
+        for i in range(c11-b%c11): ans += '1'
+        if c00-b//c11 &gt; 0: 
+            ans += '0'
+            for i in range(b%c11): ans += '1'
+            for i in range(c00-b//c11-1): ans += '0'
+        print(ans)
+</code></pre>
+<h3 id="复杂度分析">复杂度分析</h3>
+<ul>
+<li>时间复杂度: <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mn>1</mn><mi>e</mi><mn>6</mn><mo>)</mo></mrow><annotation encoding="application/x-tex">O(1e6)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mord mathdefault">e</span><span class="mord">6</span><span class="mclose">)</span></span></span></span> 。</li>
+<li>空间复杂度: <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mn>1</mn><mi>e</mi><mn>6</mn><mo>)</mo></mrow><annotation encoding="application/x-tex">O(1e6)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mord mathdefault">e</span><span class="mord">6</span><span class="mclose">)</span></span></span></span> 。</li>
+</ul>
+<h2 id="leetcode">Leetcode</h2>
+<blockquote>
+<p><a href="https://leetcode.cn/problems/minimum-swaps-to-make-strings-equal/description/">1247. 交换字符使得字符串相同 - 力扣（Leetcode）</a></p>
+<p>有两个长度相同的字符串 <code>s1</code> 和 <code>s2</code>，且它们其中 <strong>只含有</strong> 字符 <code>&quot;x&quot;</code> 和 <code>&quot;y&quot;</code>，你需要通过「交换字符」的方式使这两个字符串相同。</p>
+<p>每次「交换字符」的时候，你都可以在两个字符串中各选一个字符进行交换。</p>
+<p>交换只能发生在两个不同的字符串之间，绝对不能发生在同一个字符串内部。也就是说，我们可以交换 <code>s1[i]</code> 和 <code>s2[j]</code>，但不能交换 <code>s1[i]</code> 和 <code>s1[j]</code>。</p>
+<p>最后，请你返回使 <code>s1</code> 和 <code>s2</code> 相同的最小交换次数，如果没有方法能够使得这两个字符串相同，则返回 <code>-1</code> 。</p>
+<p><strong>示例 1：</strong></p>
+<pre><code>输入：s1 = &quot;xx&quot;, s2 = &quot;yy&quot;
+输出：1
+解释：
+交换 s1[0] 和 s2[1]，得到 s1 = &quot;yx&quot;，s2 = &quot;yx&quot;。
+</code></pre>
+<p><strong>示例 2：</strong></p>
+<pre><code>输入：s1 = &quot;xy&quot;, s2 = &quot;yx&quot;
+输出：2
+解释：
+交换 s1[0] 和 s2[0]，得到 s1 = &quot;yy&quot;，s2 = &quot;xx&quot; 。
+交换 s1[0] 和 s2[1]，得到 s1 = &quot;xy&quot;，s2 = &quot;xy&quot; 。
+注意，你不能交换 s1[0] 和 s1[1] 使得 s1 变成 &quot;yx&quot;，因为我们只能交换属于两个不同字符串的字符。
+</code></pre>
+<p><strong>提示：</strong></p>
+<ul>
+<li><code>1 &lt;= s1.length, s2.length &lt;= 1000</code></li>
+<li><code>s1, s2</code> 只包含 <code>'x'</code> 或 <code>'y'</code>。</li>
+</ul>
+</blockquote>
+<h3 id="思路-2">思路</h3>
+<p>每个字符串中因为只有两种字符x,y。所以s1,s2相同位置字符对只有4种</p>
+<ul>
+<li>xx</li>
+<li>yy</li>
+<li>xy</li>
+<li>yx</li>
+</ul>
+<p>要求操作次数最小，所以前两种已经匹配的就不需要再交换了。</p>
+<p>对于剩下两个，如果存在两个xy，或者两个yx，例1已经给出交换方案只需要交换1次就行。</p>
+<p>但存在一个xy和一个yx，例2也指出只需交换2次。</p>
+<p>于是，优先将xy和yx分别内部消化，多出来的再按例2那样消化。</p>
+<h3 id="代码-2">代码</h3>
+<pre><code class="language-java">class Solution {
+    public int minimumSwap(String s1, String s2) {
+        int n = s1.length(), m = s2.length(), xy = 0, yx = 0;
+        if (n != m) return -1;
+        for (int i = 0;i &lt; n;i++){
+            char a = s1.charAt(i), b = s2.charAt(i);
+            if (a == b) continue;
+            else if (a == 'x') xy++;
+            else yx++;
+        }
+        if ((xy+yx)%2 == 1) return -1;
+        return xy/2+yx/2+(xy%2+yx%2);
+    }
+}
+</code></pre>
+<h3 id="复杂度分析-2">复杂度分析</h3>
+<ul>
+<li>时间复杂度: <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>n</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span> 。</li>
+<li>空间复杂度: <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mn>1</mn><mo>)</mo></mrow><annotation encoding="application/x-tex">O(1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span> 。</li>
+</ul>
+<h3 id="欢迎加我好友一起来讨论算法题目">欢迎加我好友一起来讨论算法题目😎</h3>
+<blockquote>
+<p>本文作者：Decade<br>
+作者博客：<a href="https://decade.net.cn/"><strong>https://decade.net.cn/</strong></a><br>
+联系方式：<a href="https://github.com/Decade-qiu"><strong>Github</strong></a>  <strong>QQ</strong>：3237550600<br>
+转载要求： 转载请在文首显眼出表明本文链接且在留言区告知我并附上你转载到哪里的链接。</p>
+</blockquote>
+
+            </div>
+              <div class="tag-container">
+                
+                  <a href="https://decade-qiu.github.io/tag/pQFRIW5gz/" class="tag">
+                    贪心
+                  </a>
+                
+                  <a href="https://decade-qiu.github.io/tag/q13ED54Ld/" class="tag">
+                    分类讨论
+                  </a>
+                
+                  <a href="https://decade-qiu.github.io/tag/ZFabRpDwN/" class="tag">
+                    CF
+                  </a>
+                
+                  <a href="https://decade-qiu.github.io/tag/8kKiiOO0t/" class="tag">
+                    数组
+                  </a>
+                
+                  <a href="https://decade-qiu.github.io/tag/F2kUQf7xN/" class="tag">
+                    LeetCode
+                  </a>
+                
+                  <a href="https://decade-qiu.github.io/tag/RA0H2vwSY/" class="tag">
+                    每日一题
+                  </a>
+                
+              </div>
+			<script src="https://utteranc.es/client.js"
+        repo="Decade-qiu/Decade-qiu.github.io"
+        issue-term="pathname"
+        label="Comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://decade-qiu.github.io/post/202-2-24-mei-ri-yi-ti/">
+                  <h3 class="post-title">
+                    202-2-24 每日一题
+                  </h3>
+                </a>
+              </div>
+            
+            
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>

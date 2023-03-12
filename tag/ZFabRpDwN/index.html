@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>CF | Decade</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
+<link rel="shortcut icon" href="https://decade-qiu.github.io/favicon.ico?v=1678588290805">
+<link rel="stylesheet" href="https://decade-qiu.github.io/styles/main.css">
+
+
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="GO！">
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <script>
+  function secondToDate(second) {
+    if (!second) {
+      return 0;
+    }
+    var time = new Array(0, 0, 0, 0, 0);
+    if (second >= 365 * 24 * 3600) {
+      time[0] = parseInt(second / (365 * 24 * 3600));
+      second %= 365 * 24 * 3600;
+    }
+    if (second >= 24 * 3600) {
+      time[1] = parseInt(second / (24 * 3600));
+      second %= 24 * 3600;
+    }
+    if (second >= 3600) {
+      time[2] = parseInt(second / 3600);
+      second %= 3600;
+    }
+    if (second >= 60) {
+      time[3] = parseInt(second / 60);
+      second %= 60;
+    }
+    if (second > 0) {
+      time[4] = second;
+    }
+    return time;
+  }</script>
+<script type="text/javascript" language="javascript">
+  function setTime() {
+    var create_time = Math.round(new Date(Date.UTC(2022, 11, 01, 17, 17, 20)).getTime() / 1000);
+    var timestamp = Math.round((new Date().getTime() + 8 * 60 * 60 * 1000) / 1000);
+    currentTime = secondToDate((timestamp - create_time));
+    currentTimeHtml = currentTime[1] + ' days '
+      + currentTime[2] + ' hours ' + currentTime[3] + ' minutes ' + currentTime[4] + ' second';
+    document.getElementById("htmer_time").innerHTML = currentTimeHtml;
+  } setInterval(setTime, 1000);</script>
+<div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://decade-qiu.github.io">
+        <img src="https://decade-qiu.github.io/images/avatar.png?v=1678588290805" class="site-logo">
+        <h1 class="site-title">
+          Decade
+        </h1>
+      </a>
+      <!-- <div style="text-align: center">
+         <form id="gridea-search-form" style="position: relative" data-update="1678588290805" action="/search/">
+          <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+          <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+        </form> </div>
+		-->
+	   <div class="menu-btn" @click="menuVisible = !menuVisible">
+        	<div class="line"></div>
+      	</div>
+    </div>
+    <div>
+      
+        
+            <a href="/" class="site-nav">
+              首页
+            </a>
+            
+              
+        
+            <a href="/archives" class="site-nav">
+              归档
+            </a>
+            
+              
+        
+            <a href="/tags" class="site-nav">
+              标签
+            </a>
+            
+              
+        
+            <a href="/post/about" class="site-nav">
+              个人
+            </a>
+            
+              
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/Decade-qiu" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+          
+            
+        
+          <a class="social-link" href="https://twitter.com/LukasMa46743746" target="_blank">
+            <i class="fab fa-twitter"></i>
+          </a>
+          
+            
+        
+          <a class="social-link" href="https://www.zhihu.com/people/chou-yu-80-33" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+          
+            
+              
+                
+                  <a class="social-link" href="https://leetcode.cn/u/luxury_f/" target="_blank">
+                    <i class="fas fa-code"></i>
+                  </a>
+                  
+                    
+                      
+                        
+                          <a class="social-link" href="https://music.163.com/#/user/home?id=480745566" target="_blank">
+                            <i class="fas fa-music"></i>
+                          </a>
+                          
+                            
+                              
+                                
+                                  <a class="social-link" href="https://www.youtube.com/@lukasmayer1340/playlists" target="_blank">
+                                    <i class="fab fa-youtube"></i>
+                                  </a>
+                                  
+                                    
+    </div>
+    <div class="site-description">
+      GO！
+    </div>
+    <div class="site-footer">
+      
+        Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+        <div class="line"></div>
+        Have Ran <span id="htmer_time" style="color: white;"></span>
+    </div>
+  </div>
+</div>
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <h2 class="current-tag">标签: CF</h2>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://decade-qiu.github.io/post/2023-2-25-mei-ri-yi-ti/">
+                  <h2 class="post-title">2023-2-25 每日二题</h2>
+                </a>
+			 <div class="tag-container">
+			  	
+                    	<a href="https://decade-qiu.github.io/tag/pQFRIW5gz/" class="tag">
+                      	贪心
+                    	</a>
+                 	
+                    	<a href="https://decade-qiu.github.io/tag/q13ED54Ld/" class="tag">
+                      	分类讨论
+                    	</a>
+                 	
+                    	<a href="https://decade-qiu.github.io/tag/ZFabRpDwN/" class="tag">
+                      	CF
+                    	</a>
+                 	
+                    	<a href="https://decade-qiu.github.io/tag/8kKiiOO0t/" class="tag">
+                      	数组
+                    	</a>
+                 	
+                    	<a href="https://decade-qiu.github.io/tag/F2kUQf7xN/" class="tag">
+                      	LeetCode
+                    	</a>
+                 	
+                    	<a href="https://decade-qiu.github.io/tag/RA0H2vwSY/" class="tag">
+                      	每日一题
+                    	</a>
+                 	
+			  </div>
+                <!-- <div class="post-date">
+                  2023-02-25-Sat
+                </div>
+                <div class="post-abstract">
+                  <p>Leetcode 1247. 交换字符使得字符串相同</p>
+<p>CodeForces  B. Recover the String</p>
+
+                </div> -->
+              </div>
+              <div class="right">
+                <div class="post-abstract">
+                  <p>Leetcode 1247. 交换字符使得字符串相同</p>
+<p>CodeForces  B. Recover the String</p>
+
+                </div>
+              </div>
+              <!-- 
+                <a class="right" href="https://decade-qiu.github.io/post/2023-2-25-mei-ri-yi-ti/">
+                  <div class="feature-container" style="background-image: url('https://pic.3gbizhi.com/2019/0906/thumb_1680_0_20190906033848455.jpg')">
+                  </div>
+                </a>
+               -->
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://decade-qiu.github.io/post/2023-2-16-mei-ri-yi-ti/">
+                  <h2 class="post-title">2023-2-16 每日二题</h2>
+                </a>
+			 <div class="tag-container">
+			  	
+                    	<a href="https://decade-qiu.github.io/tag/eSZUAEcuc/" class="tag">
+                      	模拟
+                    	</a>
+                 	
+                    	<a href="https://decade-qiu.github.io/tag/pQFRIW5gz/" class="tag">
+                      	贪心
+                    	</a>
+                 	
+                    	<a href="https://decade-qiu.github.io/tag/ZFabRpDwN/" class="tag">
+                      	CF
+                    	</a>
+                 	
+                    	<a href="https://decade-qiu.github.io/tag/F2kUQf7xN/" class="tag">
+                      	LeetCode
+                    	</a>
+                 	
+                    	<a href="https://decade-qiu.github.io/tag/RA0H2vwSY/" class="tag">
+                      	每日一题
+                    	</a>
+                 	
+			  </div>
+                <!-- <div class="post-date">
+                  2023-02-16-Thu
+                </div>
+                <div class="post-abstract">
+                  <p>Leetcode 2341. 数组能形成多少数对<br>
+CodeForces 1250. 检查「好数组」</p>
+
+                </div> -->
+              </div>
+              <div class="right">
+                <div class="post-abstract">
+                  <p>Leetcode 2341. 数组能形成多少数对<br>
+CodeForces 1250. 检查「好数组」</p>
+
+                </div>
+              </div>
+              <!-- 
+                <a class="right" href="https://decade-qiu.github.io/post/2023-2-16-mei-ri-yi-ti/">
+                  <div class="feature-container" style="background-image: url('https://pic.3gbizhi.com/2021/0831/20210831091339518.jpg.556.308.jpg')">
+                  </div>
+                </a>
+               -->
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://decade-qiu.github.io/post/2023-2-15-mei-ri-yi-ti/">
+                  <h2 class="post-title">2023-2-15 每日二题</h2>
+                </a>
+			 <div class="tag-container">
+			  	
+                    	<a href="https://decade-qiu.github.io/tag/MTrTSCXhh/" class="tag">
+                      	GCD
+                    	</a>
+                 	
+                    	<a href="https://decade-qiu.github.io/tag/pQFRIW5gz/" class="tag">
+                      	贪心
+                    	</a>
+                 	
+                    	<a href="https://decade-qiu.github.io/tag/ZFabRpDwN/" class="tag">
+                      	CF
+                    	</a>
+                 	
+                    	<a href="https://decade-qiu.github.io/tag/F2kUQf7xN/" class="tag">
+                      	LeetCode
+                    	</a>
+                 	
+                    	<a href="https://decade-qiu.github.io/tag/RA0H2vwSY/" class="tag">
+                      	每日一题
+                    	</a>
+                 	
+			  </div>
+                <!-- <div class="post-date">
+                  2023-02-15-Wed
+                </div>
+                <div class="post-abstract">
+                  <p>Leetcode 1250. 检查「好数组」<br>
+CodeForces 1374 E1 选书</p>
+
+                </div> -->
+              </div>
+              <div class="right">
+                <div class="post-abstract">
+                  <p>Leetcode 1250. 检查「好数组」<br>
+CodeForces 1374 E1 选书</p>
+
+                </div>
+              </div>
+              <!-- 
+                <a class="right" href="https://decade-qiu.github.io/post/2023-2-15-mei-ri-yi-ti/">
+                  <div class="feature-container" style="background-image: url('https://pic.3gbizhi.com/2022/0801/20220801052557693.jpg.556.308.jpg')">
+                  </div>
+                </a>
+               -->
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://decade-qiu.github.io/post/codeforces-round-849-quan-ti-ti-jie/">
+                  <h2 class="post-title">Codeforces Round #849 全题题解</h2>
+                </a>
+			 <div class="tag-container">
+			  	
+                    	<a href="https://decade-qiu.github.io/tag/R4IAG0U4d/" class="tag">
+                      	DP
+                    	</a>
+                 	
+                    	<a href="https://decade-qiu.github.io/tag/M3jGa6EF9/" class="tag">
+                      	二分
+                    	</a>
+                 	
+                    	<a href="https://decade-qiu.github.io/tag/2CsPNHBH_/" class="tag">
+                      	前缀和
+                    	</a>
+                 	
+                    	<a href="https://decade-qiu.github.io/tag/d7p-iel5V/" class="tag">
+                      	树状数组
+                    	</a>
+                 	
+                    	<a href="https://decade-qiu.github.io/tag/CRDgA15G4/" class="tag">
+                      	线段树
+                    	</a>
+                 	
+                    	<a href="https://decade-qiu.github.io/tag/ZFabRpDwN/" class="tag">
+                      	CF
+                    	</a>
+                 	
+                    	<a href="https://decade-qiu.github.io/tag/8kKiiOO0t/" class="tag">
+                      	数组
+                    	</a>
+                 	
+                    	<a href="https://decade-qiu.github.io/tag/11a3eLQs3/" class="tag">
+                      	字符串
+                    	</a>
+                 	
+                    	<a href="https://decade-qiu.github.io/tag/nTFeAmnF3/" class="tag">
+                      	竞赛
+                    	</a>
+                 	
+			  </div>
+                <!-- <div class="post-date">
+                  2023-02-09-Thu
+                </div>
+                <div class="post-abstract">
+                  <p>A. Codeforces Checking<br>
+B. Following Directions<br>
+C. Prepend and Append<br>
+D. Distinct Split<br>
+E. Negatives and Positives<br>
+F. Range Update Point Query<br>
+G1. Teleporters (Easy Version)<br>
+G2. Teleporters (Hard Version)</p>
+
+                </div> -->
+              </div>
+              <div class="right">
+                <div class="post-abstract">
+                  <p>A. Codeforces Checking<br>
+B. Following Directions<br>
+C. Prepend and Append<br>
+D. Distinct Split<br>
+E. Negatives and Positives<br>
+F. Range Update Point Query<br>
+G1. Teleporters (Easy Version)<br>
+G2. Teleporters (Hard Version)</p>
+
+                </div>
+              </div>
+              <!-- 
+                <a class="right" href="https://decade-qiu.github.io/post/codeforces-round-849-quan-ti-ti-jie/">
+                  <div class="feature-container" style="background-image: url('https://pic.3gbizhi.com/2020/0823/20200823084509467.jpg.556.308.jpg')">
+                  </div>
+                </a>
+               -->
+            </article>
+          
+
+          <div class="pagination-container">
+  
+  
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>

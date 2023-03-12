@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>字符串 | Decade</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
+<link rel="shortcut icon" href="https://decade-qiu.github.io/favicon.ico?v=1678588290805">
+<link rel="stylesheet" href="https://decade-qiu.github.io/styles/main.css">
+
+
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="字符串哈希
+字典树
+KMP
+
+
+
+
+字符串哈希
+字典树
+KMP
+
+
+
+
+字符串哈希
+// 大M取一个比较大的素数 1e9+7 4294967291 大P取一个比较小的素数 171 131
+long M = 0x60000005, P = 1..." />
+    <meta name="keywords" content="算法模板,数据结构,算法" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+    
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <script>
+  function secondToDate(second) {
+    if (!second) {
+      return 0;
+    }
+    var time = new Array(0, 0, 0, 0, 0);
+    if (second >= 365 * 24 * 3600) {
+      time[0] = parseInt(second / (365 * 24 * 3600));
+      second %= 365 * 24 * 3600;
+    }
+    if (second >= 24 * 3600) {
+      time[1] = parseInt(second / (24 * 3600));
+      second %= 24 * 3600;
+    }
+    if (second >= 3600) {
+      time[2] = parseInt(second / 3600);
+      second %= 3600;
+    }
+    if (second >= 60) {
+      time[3] = parseInt(second / 60);
+      second %= 60;
+    }
+    if (second > 0) {
+      time[4] = second;
+    }
+    return time;
+  }</script>
+<script type="text/javascript" language="javascript">
+  function setTime() {
+    var create_time = Math.round(new Date(Date.UTC(2022, 11, 01, 17, 17, 20)).getTime() / 1000);
+    var timestamp = Math.round((new Date().getTime() + 8 * 60 * 60 * 1000) / 1000);
+    currentTime = secondToDate((timestamp - create_time));
+    currentTimeHtml = currentTime[1] + ' days '
+      + currentTime[2] + ' hours ' + currentTime[3] + ' minutes ' + currentTime[4] + ' second';
+    document.getElementById("htmer_time").innerHTML = currentTimeHtml;
+  } setInterval(setTime, 1000);</script>
+<div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://decade-qiu.github.io">
+        <img src="https://decade-qiu.github.io/images/avatar.png?v=1678588290805" class="site-logo">
+        <h1 class="site-title">
+          Decade
+        </h1>
+      </a>
+      <!-- <div style="text-align: center">
+         <form id="gridea-search-form" style="position: relative" data-update="1678588290805" action="/search/">
+          <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+          <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+        </form> </div>
+		-->
+	   <div class="menu-btn" @click="menuVisible = !menuVisible">
+        	<div class="line"></div>
+      	</div>
+    </div>
+    <div>
+      
+        
+            <a href="/" class="site-nav">
+              首页
+            </a>
+            
+              
+        
+            <a href="/archives" class="site-nav">
+              归档
+            </a>
+            
+              
+        
+            <a href="/tags" class="site-nav">
+              标签
+            </a>
+            
+              
+        
+            <a href="/post/about" class="site-nav">
+              个人
+            </a>
+            
+              
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/Decade-qiu" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+          
+            
+        
+          <a class="social-link" href="https://twitter.com/LukasMa46743746" target="_blank">
+            <i class="fab fa-twitter"></i>
+          </a>
+          
+            
+        
+          <a class="social-link" href="https://www.zhihu.com/people/chou-yu-80-33" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+          
+            
+              
+                
+                  <a class="social-link" href="https://leetcode.cn/u/luxury_f/" target="_blank">
+                    <i class="fas fa-code"></i>
+                  </a>
+                  
+                    
+                      
+                        
+                          <a class="social-link" href="https://music.163.com/#/user/home?id=480745566" target="_blank">
+                            <i class="fas fa-music"></i>
+                          </a>
+                          
+                            
+                              
+                                
+                                  <a class="social-link" href="https://www.youtube.com/@lukasmayer1340/playlists" target="_blank">
+                                    <i class="fab fa-youtube"></i>
+                                  </a>
+                                  
+                                    
+    </div>
+    <div class="site-description">
+      GO！
+    </div>
+    <div class="site-footer">
+      
+        Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+        <div class="line"></div>
+        Have Ran <span id="htmer_time" style="color: white;"></span>
+    </div>
+  </div>
+</div>
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">字符串</h2>
+            <div class="post-date">2022-11-30-Wed</div>
+            
+              <div class="feature-container" style="background-image: url('https://decade-qiu.github.io/post-images/zi-fu-chuan.jpeg')">
+              </div>
+            
+            <div class="post-content" v-pre>
+              <p>字符串哈希<br>
+字典树<br>
+KMP</p>
+<!-- more -->
+<p><ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%93%88%E5%B8%8C">字符串哈希</a></li>
+<li><a href="#%E5%AD%97%E5%85%B8%E6%A0%91">字典树</a></li>
+<li><a href="#kmp">KMP</a></li>
+</ul>
+</li>
+</ul>
+</p>
+<h2 id="字符串哈希">字符串哈希</h2>
+<pre><code class="language-java">// 大M取一个比较大的素数 1e9+7 4294967291 大P取一个比较小的素数 171 131
+long M = 0x60000005, P = 171;
+long[] p, h;
+p[0] = 1;
+for (int i = 1;i &lt;= n;i++){
+    h[i] = (h[i-1]*P+(s.charAt(i-1)-'a'+1))%M;
+    p[i] = p[i-1]*P%M;
+}
+long get(int l, int r){
+    return (h[r]-h[l-1]*p[r-l+1]%M+M)%M;
+}
+</code></pre>
+<hr>
+<h2 id="字典树">字典树</h2>
+<blockquote>
+<pre><code class="language-java">class Node{
+    Node[] r = new Node[26];
+    boolean isEnd = false; // 判断是不是一个字符串末尾
+}
+static Node root = new Node();
+static add(String ss){
+    Node cur = root;
+    for (int k = 0;k &lt; ss.length();k++){
+        int x = ss.charAt(k)-'a';
+        if (cur.r[x] == null) cur.r[x] = new Node();
+        cur = cur.r[x];
+    }
+    cur.isEnd = true;
+}
+static boolean qurey(String ss){
+    Node cur = root;
+    for (int k = 0;k &lt; ss.length();k++){
+        int x = ss.charAt(k)-'a';
+        if (cur.r[x] == null) return false; //下一个字符没有出现 直接false
+        cur = cur.r[x];
+    }
+    return cur.isEnd; //字符都在 判断是不是结束了
+}
+</code></pre>
+</blockquote>
+<hr>
+<h2 id="kmp">KMP</h2>
+<pre><code class="language-java">//两个字符串的下标都从 1 开始
+// 求ne过程,是p[]自己和自己匹配的过程； 起始i = 2,要注意
+for( int i = 2, j = 0; i &lt;=n; i++){
+    while( j &amp;&amp; p[i] != p[j + 1])   j = ne[j];
+    if( p[i] == p[j + 1]) j ++;
+    // 这里不用管是否匹配成功，ne[i]的值都要记录下来
+    ne[i] = j;
+}
+// kmp匹配过程 
+for(int i = 1, j = 0 ; i &lt;= m; i++){
+    // j 表示是否退回起点
+    while( j &amp;&amp; s[i] != p[ j + 1])  j = ne[j];
+    if ( s[i] == p [ j + 1 ])    j++;
+    if( j == n){
+        // 匹配成功，这里的 i - n 是第一个匹配元素的下标，本应该是 i - n + 1， 由于数组是从1开始计数，所以为 i - n
+        printf(&quot;%d &quot; , i - n );
+        // 匹配成功后找下一个匹配
+        j = ne[j];
+    }
+}
+
+fail = new int[m];
+for (int i = 1, j = 0; i &lt; m; ++i) {
+    while (j != 0 &amp;&amp; e.charAt(j) != e.charAt(i)) j = fail[j - 1];
+    if (e.charAt(j) == e.charAt(i)) ++j;
+    fail[i] = j;
+}
+</code></pre>
+<blockquote>
+<p>本文作者：Decade<br>
+作者博客：<a href="https://decade.net.cn/"><strong>https://decade.net.cn/</strong></a><br>
+联系方式：<a href="https://github.com/Decade-qiu"><strong>Github</strong></a>  <strong>QQ</strong>：3237550600<br>
+转载要求： 转载请在文首显眼出表明本文链接且在留言区告知我并附上你转载到哪里的链接。</p>
+</blockquote>
+
+            </div>
+              <div class="tag-container">
+                
+                  <a href="https://decade-qiu.github.io/tag/w0vJRlzrU/" class="tag">
+                    算法模板
+                  </a>
+                
+                  <a href="https://decade-qiu.github.io/tag/UQgbyag2t/" class="tag">
+                    数据结构
+                  </a>
+                
+                  <a href="https://decade-qiu.github.io/tag/B1Yna-tVg/" class="tag">
+                    算法
+                  </a>
+                
+              </div>
+			<script src="https://utteranc.es/client.js"
+        repo="Decade-qiu/Decade-qiu.github.io"
+        issue-term="pathname"
+        label="Comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://decade-qiu.github.io/post/ji-chu-suan-fa/">
+                  <h3 class="post-title">
+                    基础算法
+                  </h3>
+                </a>
+              </div>
+            
+            
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>

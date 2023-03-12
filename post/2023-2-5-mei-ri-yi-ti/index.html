@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>2023-2-5 每日一题 | Decade</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
+<link rel="shortcut icon" href="https://decade-qiu.github.io/favicon.ico?v=1678588290805">
+<link rel="stylesheet" href="https://decade-qiu.github.io/styles/main.css">
+
+
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="LeetCode 1210. 穿过迷宫的最少移动次数
+
+LeetCode
+
+1210. 穿过迷宫的最少移动次数 - 力扣（Leetcode）
+你还记得那条风靡全球的贪吃蛇吗？
+我们在一个 n*n 的网格上构建了新的迷宫地图，蛇的长度为 2，..." />
+    <meta name="keywords" content="LeetCode,每日一题,算法" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+    
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <script>
+  function secondToDate(second) {
+    if (!second) {
+      return 0;
+    }
+    var time = new Array(0, 0, 0, 0, 0);
+    if (second >= 365 * 24 * 3600) {
+      time[0] = parseInt(second / (365 * 24 * 3600));
+      second %= 365 * 24 * 3600;
+    }
+    if (second >= 24 * 3600) {
+      time[1] = parseInt(second / (24 * 3600));
+      second %= 24 * 3600;
+    }
+    if (second >= 3600) {
+      time[2] = parseInt(second / 3600);
+      second %= 3600;
+    }
+    if (second >= 60) {
+      time[3] = parseInt(second / 60);
+      second %= 60;
+    }
+    if (second > 0) {
+      time[4] = second;
+    }
+    return time;
+  }</script>
+<script type="text/javascript" language="javascript">
+  function setTime() {
+    var create_time = Math.round(new Date(Date.UTC(2022, 11, 01, 17, 17, 20)).getTime() / 1000);
+    var timestamp = Math.round((new Date().getTime() + 8 * 60 * 60 * 1000) / 1000);
+    currentTime = secondToDate((timestamp - create_time));
+    currentTimeHtml = currentTime[1] + ' days '
+      + currentTime[2] + ' hours ' + currentTime[3] + ' minutes ' + currentTime[4] + ' second';
+    document.getElementById("htmer_time").innerHTML = currentTimeHtml;
+  } setInterval(setTime, 1000);</script>
+<div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://decade-qiu.github.io">
+        <img src="https://decade-qiu.github.io/images/avatar.png?v=1678588290805" class="site-logo">
+        <h1 class="site-title">
+          Decade
+        </h1>
+      </a>
+      <!-- <div style="text-align: center">
+         <form id="gridea-search-form" style="position: relative" data-update="1678588290805" action="/search/">
+          <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+          <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+        </form> </div>
+		-->
+	   <div class="menu-btn" @click="menuVisible = !menuVisible">
+        	<div class="line"></div>
+      	</div>
+    </div>
+    <div>
+      
+        
+            <a href="/" class="site-nav">
+              首页
+            </a>
+            
+              
+        
+            <a href="/archives" class="site-nav">
+              归档
+            </a>
+            
+              
+        
+            <a href="/tags" class="site-nav">
+              标签
+            </a>
+            
+              
+        
+            <a href="/post/about" class="site-nav">
+              个人
+            </a>
+            
+              
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/Decade-qiu" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+          
+            
+        
+          <a class="social-link" href="https://twitter.com/LukasMa46743746" target="_blank">
+            <i class="fab fa-twitter"></i>
+          </a>
+          
+            
+        
+          <a class="social-link" href="https://www.zhihu.com/people/chou-yu-80-33" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+          
+            
+              
+                
+                  <a class="social-link" href="https://leetcode.cn/u/luxury_f/" target="_blank">
+                    <i class="fas fa-code"></i>
+                  </a>
+                  
+                    
+                      
+                        
+                          <a class="social-link" href="https://music.163.com/#/user/home?id=480745566" target="_blank">
+                            <i class="fas fa-music"></i>
+                          </a>
+                          
+                            
+                              
+                                
+                                  <a class="social-link" href="https://www.youtube.com/@lukasmayer1340/playlists" target="_blank">
+                                    <i class="fab fa-youtube"></i>
+                                  </a>
+                                  
+                                    
+    </div>
+    <div class="site-description">
+      GO！
+    </div>
+    <div class="site-footer">
+      
+        Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+        <div class="line"></div>
+        Have Ran <span id="htmer_time" style="color: white;"></span>
+    </div>
+  </div>
+</div>
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">2023-2-5 每日一题</h2>
+            <div class="post-date">2023-02-05-Sun</div>
+            
+              <div class="feature-container" style="background-image: url('https://pic.3gbizhi.com/2020/0914/thumb_1680_0_20200914111243735.jpeg')">
+              </div>
+            
+            <div class="post-content" v-pre>
+              <p>LeetCode 1210. 穿过迷宫的最少移动次数</p>
+<!-- more -->
+<h2 id="leetcode">LeetCode</h2>
+<blockquote>
+<p><a href="https://leetcode.cn/problems/minimum-moves-to-reach-target-with-rotations/description/">1210. 穿过迷宫的最少移动次数 - 力扣（Leetcode）</a></p>
+<p>你还记得那条风靡全球的贪吃蛇吗？</p>
+<p>我们在一个 <code>n*n</code> 的网格上构建了新的迷宫地图，蛇的长度为 2，也就是说它会占去两个单元格。蛇会从左上角（<code>(0, 0)</code> 和 <code>(0, 1)</code>）开始移动。我们用 <code>0</code> 表示空单元格，用 1 表示障碍物。蛇需要移动到迷宫的右下角（<code>(n-1, n-2)</code> 和 <code>(n-1, n-1)</code>）。</p>
+<p>每次移动，蛇可以这样走：</p>
+<ul>
+<li>如果没有障碍，则向右移动一个单元格。并仍然保持身体的水平／竖直状态。</li>
+<li>如果没有障碍，则向下移动一个单元格。并仍然保持身体的水平／竖直状态。</li>
+<li>如果它处于水平状态并且其下面的两个单元都是空的，就顺时针旋转 90 度。蛇从（<code>(r, c)</code>、<code>(r, c+1)</code>）移动到 （<code>(r, c)</code>、<code>(r+1, c)</code>）。<br>
+<img src="E:%5CDeskTop%5Ccode%5C%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87%E5%BA%93%5Cimage-2.png" alt="img" loading="lazy"></li>
+<li>如果它处于竖直状态并且其右面的两个单元都是空的，就逆时针旋转 90 度。蛇从（<code>(r, c)</code>、<code>(r+1, c)</code>）移动到（<code>(r, c)</code>、<code>(r, c+1)</code>）。<br>
+<img src="E:%5CDeskTop%5Ccode%5C%E7%AC%94%E8%AE%B0%E5%9B%BE%E7%89%87%E5%BA%93%5Cimage-1.png" alt="img" loading="lazy"></li>
+</ul>
+<p>返回蛇抵达目的地所需的最少移动次数。</p>
+<p>如果无法到达目的地，请返回 <code>-1</code>。</p>
+<p><strong>示例 1：</strong></p>
+<pre><code>输入：grid = [[0,0,0,0,0,1],
+               [1,1,0,0,1,0],
+               [0,0,0,0,1,1],
+               [0,0,1,0,1,0],
+               [0,1,1,0,0,0],
+               [0,1,1,0,0,0]]
+输出：11
+解释：
+一种可能的解决方案是 [右, 右, 顺时针旋转, 右, 下, 下, 下, 下, 逆时针旋转, 右, 下]。
+</code></pre>
+<p><strong>示例 2：</strong></p>
+<pre><code>输入：grid = [[0,0,1,1,1,1],
+               [0,0,0,0,1,1],
+               [1,1,0,0,0,1],
+               [1,1,1,0,0,1],
+               [1,1,1,0,0,1],
+               [1,1,1,0,0,0]]
+输出：9
+</code></pre>
+<p><strong>提示：</strong></p>
+<ul>
+<li><code>2 &lt;= n &lt;= 100</code></li>
+<li><code>0 &lt;= grid[i][j] &lt;= 1</code></li>
+<li>蛇保证从空单元格开始出发。</li>
+</ul>
+</blockquote>
+<h3 id="思路">思路</h3>
+<p>二维矩阵最短路模型：优先使用 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>B</mi><mi>F</mi><mi>S</mi></mrow><annotation encoding="application/x-tex">BFS</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="mord mathdefault" style="margin-right:0.13889em;">F</span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span></span></span></span>。</p>
+<p>维护一个步数，每一步把所有可能的方案添加到队列里。不要忘了去重，重复访问的点不可能是最短路，遇到了跳过即可。</p>
+<p>所有可能移动方案如下：</p>
+<ul>
+<li>当 st <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">=0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span></span></span></span> （横着）时:<br>
+「向右移动」「向下移动」「顺时针旋转」</li>
+<li>当 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>s</mi><mi>t</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">s t=1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.61508em;vertical-align:0em;"></span><span class="mord mathdefault">s</span><span class="mord mathdefault">t</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span> （竖着）时:<br>
+「向右移动」「向下移动」「逆时针旋转」</li>
+</ul>
+<h3 id="代码">代码</h3>
+<pre><code class="language-java">class Solution {
+    public int minimumMoves(int[][] g) {
+        Deque&lt;int[]&gt; d = new LinkedList&lt;&gt;();
+        Set&lt;String&gt; hs = new HashSet&lt;&gt;();
+        int n = g.length, ans = 0;
+        d.offerLast(new int[]{0, 1, 0});
+        while (!d.isEmpty()){
+            int si = d.size();
+            while (si-- &gt; 0){
+                int[] cur = d.pollFirst();
+                String hash = cur[0]+&quot; &quot;+cur[1];
+                if (hs.contains(hash)) continue;
+                hs.add(hash);
+                int x=cur[0]/n,y=cur[0]%n,s=cur[1]/n,t=cur[1]%n, st = cur[2];
+                if (st == 0 &amp;&amp; x==n-1 &amp;&amp; y==n-2 &amp;&amp; s==n-1 &amp;&amp; t == n-1) return ans;
+                if (st == 0){
+                    if (t+1&lt;n &amp;&amp; g[s][t+1]==0){
+                        d.offerLast(new int[]{cur[1], cur[1]+1, 0});
+                    }
+                    if (x+1&lt;n &amp;&amp; s+1&lt;n &amp;&amp; g[x+1][y]==0 &amp;&amp; g[s+1][t]==0){
+                        d.offerLast(new int[]{cur[0]+n,cur[1]+n,0});
+                        d.offerLast(new int[]{cur[0], cur[0]+n,1});
+                    }
+                }else{
+                    if (s+1&lt;n &amp;&amp; g[s+1][t]==0){
+                        d.offerLast(new int[]{cur[0]+n, cur[1]+n, 1});
+                    }
+                    if (y+1&lt;n &amp;&amp; t+1&lt;n &amp;&amp; g[x][y+1]==0 &amp;&amp; g[s][t+1]==0){
+                        d.offerLast(new int[]{cur[0]+1,cur[1]+1,1});
+                        d.offerLast(new int[]{cur[0], cur[0]+1,0});
+                    }
+                }
+            }++ans;
+        }return -1;
+    }
+}
+</code></pre>
+<h3 id="复杂度分析">复杂度分析</h3>
+<ul>
+<li>时间复杂度：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><msup><mi>n</mi><mn>2</mn></msup><mo>)</mo></mrow><annotation encoding="application/x-tex">O(n ^ 2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></li>
+<li>空间复杂度：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><msup><mi>n</mi><mn>2</mn></msup><mo>)</mo></mrow><annotation encoding="application/x-tex">O(n^2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></li>
+</ul>
+<h3 id="欢迎加我好友一起来讨论算法题目">欢迎加我好友一起来讨论算法题目😎</h3>
+<blockquote>
+<p>本文作者：Decade<br>
+作者博客：<a href="https://decade.net.cn/"><strong>https://decade.net.cn/</strong></a><br>
+联系方式：<a href="https://github.com/Decade-qiu"><strong>Github</strong></a>  <strong>QQ</strong>：3237550600<br>
+转载要求： 转载请在文首显眼出表明本文链接且在留言区告知我并附上你转载到哪里的链接。</p>
+</blockquote>
+
+            </div>
+              <div class="tag-container">
+                
+                  <a href="https://decade-qiu.github.io/tag/F2kUQf7xN/" class="tag">
+                    LeetCode
+                  </a>
+                
+                  <a href="https://decade-qiu.github.io/tag/RA0H2vwSY/" class="tag">
+                    每日一题
+                  </a>
+                
+                  <a href="https://decade-qiu.github.io/tag/B1Yna-tVg/" class="tag">
+                    算法
+                  </a>
+                
+              </div>
+			<script src="https://utteranc.es/client.js"
+        repo="Decade-qiu/Decade-qiu.github.io"
+        issue-term="pathname"
+        label="Comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://decade-qiu.github.io/post/di-331-chang-zhou-sai/">
+                  <h3 class="post-title">
+                    第 331 场周赛
+                  </h3>
+                </a>
+              </div>
+            
+            
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>

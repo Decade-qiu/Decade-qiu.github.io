@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>2023-2-13 每日一题 | Decade</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
+<link rel="shortcut icon" href="https://decade-qiu.github.io/favicon.ico?v=1678588290805">
+<link rel="stylesheet" href="https://decade-qiu.github.io/styles/main.css">
+
+
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="Leetcode 1138. 字母板上的路径
+
+Leetcode
+
+1234. 替换子串得到平衡字符串 - 力扣（Leetcode）
+有一个只含有 'Q', 'W', 'E', 'R' 四种字符，且长度为 n 的字符串。
+假如在该字符串中，..." />
+    <meta name="keywords" content="滑动窗口,二分,LeetCode,每日一题" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+    
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <script>
+  function secondToDate(second) {
+    if (!second) {
+      return 0;
+    }
+    var time = new Array(0, 0, 0, 0, 0);
+    if (second >= 365 * 24 * 3600) {
+      time[0] = parseInt(second / (365 * 24 * 3600));
+      second %= 365 * 24 * 3600;
+    }
+    if (second >= 24 * 3600) {
+      time[1] = parseInt(second / (24 * 3600));
+      second %= 24 * 3600;
+    }
+    if (second >= 3600) {
+      time[2] = parseInt(second / 3600);
+      second %= 3600;
+    }
+    if (second >= 60) {
+      time[3] = parseInt(second / 60);
+      second %= 60;
+    }
+    if (second > 0) {
+      time[4] = second;
+    }
+    return time;
+  }</script>
+<script type="text/javascript" language="javascript">
+  function setTime() {
+    var create_time = Math.round(new Date(Date.UTC(2022, 11, 01, 17, 17, 20)).getTime() / 1000);
+    var timestamp = Math.round((new Date().getTime() + 8 * 60 * 60 * 1000) / 1000);
+    currentTime = secondToDate((timestamp - create_time));
+    currentTimeHtml = currentTime[1] + ' days '
+      + currentTime[2] + ' hours ' + currentTime[3] + ' minutes ' + currentTime[4] + ' second';
+    document.getElementById("htmer_time").innerHTML = currentTimeHtml;
+  } setInterval(setTime, 1000);</script>
+<div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://decade-qiu.github.io">
+        <img src="https://decade-qiu.github.io/images/avatar.png?v=1678588290805" class="site-logo">
+        <h1 class="site-title">
+          Decade
+        </h1>
+      </a>
+      <!-- <div style="text-align: center">
+         <form id="gridea-search-form" style="position: relative" data-update="1678588290805" action="/search/">
+          <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+          <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+        </form> </div>
+		-->
+	   <div class="menu-btn" @click="menuVisible = !menuVisible">
+        	<div class="line"></div>
+      	</div>
+    </div>
+    <div>
+      
+        
+            <a href="/" class="site-nav">
+              首页
+            </a>
+            
+              
+        
+            <a href="/archives" class="site-nav">
+              归档
+            </a>
+            
+              
+        
+            <a href="/tags" class="site-nav">
+              标签
+            </a>
+            
+              
+        
+            <a href="/post/about" class="site-nav">
+              个人
+            </a>
+            
+              
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/Decade-qiu" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+          
+            
+        
+          <a class="social-link" href="https://twitter.com/LukasMa46743746" target="_blank">
+            <i class="fab fa-twitter"></i>
+          </a>
+          
+            
+        
+          <a class="social-link" href="https://www.zhihu.com/people/chou-yu-80-33" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+          
+            
+              
+                
+                  <a class="social-link" href="https://leetcode.cn/u/luxury_f/" target="_blank">
+                    <i class="fas fa-code"></i>
+                  </a>
+                  
+                    
+                      
+                        
+                          <a class="social-link" href="https://music.163.com/#/user/home?id=480745566" target="_blank">
+                            <i class="fas fa-music"></i>
+                          </a>
+                          
+                            
+                              
+                                
+                                  <a class="social-link" href="https://www.youtube.com/@lukasmayer1340/playlists" target="_blank">
+                                    <i class="fab fa-youtube"></i>
+                                  </a>
+                                  
+                                    
+    </div>
+    <div class="site-description">
+      GO！
+    </div>
+    <div class="site-footer">
+      
+        Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+        <div class="line"></div>
+        Have Ran <span id="htmer_time" style="color: white;"></span>
+    </div>
+  </div>
+</div>
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">2023-2-13 每日一题</h2>
+            <div class="post-date">2023-02-13-Mon</div>
+            
+              <div class="feature-container" style="background-image: url('https://w.wallhaven.cc/full/rr/wallhaven-rrrw9m.jpg')">
+              </div>
+            
+            <div class="post-content" v-pre>
+              <p>Leetcode 1138. 字母板上的路径</p>
+<!-- more -->
+<h2 id="leetcode">Leetcode</h2>
+<blockquote>
+<p><a href="https://leetcode.cn/problems/replace-the-substring-for-balanced-string/solutions/">1234. 替换子串得到平衡字符串 - 力扣（Leetcode）</a></p>
+<p>有一个只含有 <code>'Q', 'W', 'E', 'R'</code> 四种字符，且长度为 <code>n</code> 的字符串。</p>
+<p>假如在该字符串中，这四个字符都恰好出现 <code>n/4</code> 次，那么它就是一个「平衡字符串」。</p>
+<p>给你一个这样的字符串 <code>s</code>，请通过「替换一个子串」的方式，使原字符串 <code>s</code> 变成一个「平衡字符串」。</p>
+<p>你可以用和「待替换子串」长度相同的 <strong>任何</strong> 其他字符串来完成替换。</p>
+<p>请返回待替换子串的最小可能长度。</p>
+<p>如果原字符串自身就是一个平衡字符串，则返回 <code>0</code>。</p>
+<p><strong>示例 1：</strong></p>
+<pre><code>输入：s = &quot;QWER&quot;
+输出：0
+解释：s 已经是平衡的了。
+</code></pre>
+<p><strong>示例 2：</strong></p>
+<pre><code>输入：s = &quot;QQWE&quot;
+输出：1
+解释：我们需要把一个 'Q' 替换成 'R'，这样得到的 &quot;RQWE&quot; (或 &quot;QRWE&quot;) 是平衡的。
+</code></pre>
+<p><strong>示例 3：</strong></p>
+<pre><code>输入：s = &quot;QQQW&quot;
+输出：2
+解释：我们可以把前面的 &quot;QQ&quot; 替换成 &quot;ER&quot;。 
+</code></pre>
+<p><strong>示例 4：</strong></p>
+<pre><code>输入：s = &quot;QQQQ&quot;
+输出：3
+解释：我们可以替换后 3 个 'Q'，使 s = &quot;QWER&quot;。
+</code></pre>
+<p><strong>提示：</strong></p>
+<ul>
+<li><code>1 &lt;= s.length &lt;= 10^5</code></li>
+<li><code>s.length</code> 是 <code>4</code> 的倍数</li>
+<li><code>s</code> 中只含有 <code>'Q'</code>, <code>'W'</code>, <code>'E'</code>, <code>'R'</code> 四种字符</li>
+</ul>
+</blockquote>
+<h3 id="思路">思路</h3>
+<ol>
+<li>
+<p>暴力想法：遍历每个子字符串长度，再利用滑动窗口看是否满足题意。</p>
+</li>
+<li>
+<p>优化：子字符串越长，越可能满足题意。满足二分地单调性。</p>
+<p>即想到二分子字符串长度，再利用滑动窗口判断是否可行。</p>
+<p>在滑窗判断时，首先需要知道一开始所有字符出现次数。当删去滑窗内的字符后，所有字符出现次数都小于 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi><mi mathvariant="normal">/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">n/4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">n</span><span class="mord">/</span><span class="mord">4</span></span></span></span>，说明可行；反之，说明不行。因为如果滑窗外有字符出现次数大于 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi><mi mathvariant="normal">/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">n/4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">n</span><span class="mord">/</span><span class="mord">4</span></span></span></span>，无论滑窗内字符怎么更改，都不能让这个字符总次数等于 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi><mi mathvariant="normal">/</mi><mn>4</mn></mrow><annotation encoding="application/x-tex">n/4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">n</span><span class="mord">/</span><span class="mord">4</span></span></span></span>。</p>
+</li>
+</ol>
+<h3 id="代码">代码</h3>
+<pre><code class="language-java">class Solution {
+    Map&lt;Character, Integer&gt; mp = new HashMap&lt;&gt;();
+    int n, k, cnt[] = new int[4];
+    public boolean check(String s, int m) {
+        int[] tp = Arrays.copyOf(cnt, cnt.length);
+        for (int i = 0, j = 0;j &lt; n;i++) {
+            while (j &lt; n &amp;&amp; j - i != m) tp[mp.get(s.charAt(j++))]--;
+            if (tp[0] &lt;= k &amp;&amp; tp[1] &lt;= k &amp;&amp; tp[2] &lt;= k &amp;&amp; tp[3] &lt;= k)
+                return true;
+            tp[mp.get(s.charAt(i))]++;
+        }
+        return false;
+    }
+    public int balancedString(String s) {
+        mp.put('Q', 0);mp.put('W', 1);
+        mp.put('E', 2);mp.put('R', 3);
+        n = s.length(); k = n / 4;
+        for (int i = 0; i &lt; n; i++) cnt[mp.get(s.charAt(i))]++;
+        if (cnt[0] == k &amp;&amp; cnt[1] == k &amp;&amp; cnt[2] == k) return 0;
+        int l = 1, r = n;
+        while (l &lt;= r) {
+            int m = l + r &gt;&gt; 1;
+            if (check(s, m)) r = m - 1;
+            else l = m + 1;
+        }
+        return l;
+    }
+}
+</code></pre>
+<h3 id="复杂度分析">复杂度分析</h3>
+<ul>
+<li>时间复杂度：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>n</mi><mi>log</mi><mo>⁡</mo><mi>n</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">O(n \log n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span>。 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">n</span></span></span></span> 是给定字符串长度。</li>
+<li>空间复杂度： <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>n</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span> 。</li>
+</ul>
+<h3 id="tips">Tips</h3>
+<blockquote>
+<p><code>最小可能长度</code>这类字眼也是二分答案的关键词，只要判断出答案具有单调性就可以愉快AC了。</p>
+</blockquote>
+<h3 id="欢迎加我好友一起来讨论算法题目">欢迎加我好友一起来讨论算法题目😎</h3>
+<blockquote>
+<p>本文作者：Decade<br>
+作者博客：<a href="https://decade.net.cn/"><strong>https://decade.net.cn/</strong></a><br>
+联系方式：<a href="https://github.com/Decade-qiu"><strong>Github</strong></a>  <strong>QQ</strong>：3237550600<br>
+转载要求： 转载请在文首显眼出表明本文链接且在留言区告知我并附上你转载到哪里的链接。</p>
+</blockquote>
+
+            </div>
+              <div class="tag-container">
+                
+                  <a href="https://decade-qiu.github.io/tag/zT_eqPQej/" class="tag">
+                    滑动窗口
+                  </a>
+                
+                  <a href="https://decade-qiu.github.io/tag/M3jGa6EF9/" class="tag">
+                    二分
+                  </a>
+                
+                  <a href="https://decade-qiu.github.io/tag/F2kUQf7xN/" class="tag">
+                    LeetCode
+                  </a>
+                
+                  <a href="https://decade-qiu.github.io/tag/RA0H2vwSY/" class="tag">
+                    每日一题
+                  </a>
+                
+              </div>
+			<script src="https://utteranc.es/client.js"
+        repo="Decade-qiu/Decade-qiu.github.io"
+        issue-term="pathname"
+        label="Comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://decade-qiu.github.io/post/di-332-chang-zhou-sai/">
+                  <h3 class="post-title">
+                    第 332 场周赛
+                  </h3>
+                </a>
+              </div>
+            
+            
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>

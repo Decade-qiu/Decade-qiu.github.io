@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>2023-3-7  | Decade</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
+<link rel="shortcut icon" href="https://decade-qiu.github.io/favicon.ico?v=1678588290805">
+<link rel="stylesheet" href="https://decade-qiu.github.io/styles/main.css">
+
+
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="Leetcode 1096. 花括号展开 II
+
+Leetcode
+
+1653. 使字符串平衡的最少删除次数 - 力扣（Leetcode）
+如果你熟悉 Shell 编程，那么一定了解过花括号展开，它可以用来生成任意字符串。
+花括号展开的表达..." />
+    <meta name="keywords" content="BFS,字符串,LeetCode,每日一题" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+    
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <script>
+  function secondToDate(second) {
+    if (!second) {
+      return 0;
+    }
+    var time = new Array(0, 0, 0, 0, 0);
+    if (second >= 365 * 24 * 3600) {
+      time[0] = parseInt(second / (365 * 24 * 3600));
+      second %= 365 * 24 * 3600;
+    }
+    if (second >= 24 * 3600) {
+      time[1] = parseInt(second / (24 * 3600));
+      second %= 24 * 3600;
+    }
+    if (second >= 3600) {
+      time[2] = parseInt(second / 3600);
+      second %= 3600;
+    }
+    if (second >= 60) {
+      time[3] = parseInt(second / 60);
+      second %= 60;
+    }
+    if (second > 0) {
+      time[4] = second;
+    }
+    return time;
+  }</script>
+<script type="text/javascript" language="javascript">
+  function setTime() {
+    var create_time = Math.round(new Date(Date.UTC(2022, 11, 01, 17, 17, 20)).getTime() / 1000);
+    var timestamp = Math.round((new Date().getTime() + 8 * 60 * 60 * 1000) / 1000);
+    currentTime = secondToDate((timestamp - create_time));
+    currentTimeHtml = currentTime[1] + ' days '
+      + currentTime[2] + ' hours ' + currentTime[3] + ' minutes ' + currentTime[4] + ' second';
+    document.getElementById("htmer_time").innerHTML = currentTimeHtml;
+  } setInterval(setTime, 1000);</script>
+<div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://decade-qiu.github.io">
+        <img src="https://decade-qiu.github.io/images/avatar.png?v=1678588290805" class="site-logo">
+        <h1 class="site-title">
+          Decade
+        </h1>
+      </a>
+      <!-- <div style="text-align: center">
+         <form id="gridea-search-form" style="position: relative" data-update="1678588290805" action="/search/">
+          <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+          <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+        </form> </div>
+		-->
+	   <div class="menu-btn" @click="menuVisible = !menuVisible">
+        	<div class="line"></div>
+      	</div>
+    </div>
+    <div>
+      
+        
+            <a href="/" class="site-nav">
+              首页
+            </a>
+            
+              
+        
+            <a href="/archives" class="site-nav">
+              归档
+            </a>
+            
+              
+        
+            <a href="/tags" class="site-nav">
+              标签
+            </a>
+            
+              
+        
+            <a href="/post/about" class="site-nav">
+              个人
+            </a>
+            
+              
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/Decade-qiu" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+          
+            
+        
+          <a class="social-link" href="https://twitter.com/LukasMa46743746" target="_blank">
+            <i class="fab fa-twitter"></i>
+          </a>
+          
+            
+        
+          <a class="social-link" href="https://www.zhihu.com/people/chou-yu-80-33" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+          
+            
+              
+                
+                  <a class="social-link" href="https://leetcode.cn/u/luxury_f/" target="_blank">
+                    <i class="fas fa-code"></i>
+                  </a>
+                  
+                    
+                      
+                        
+                          <a class="social-link" href="https://music.163.com/#/user/home?id=480745566" target="_blank">
+                            <i class="fas fa-music"></i>
+                          </a>
+                          
+                            
+                              
+                                
+                                  <a class="social-link" href="https://www.youtube.com/@lukasmayer1340/playlists" target="_blank">
+                                    <i class="fab fa-youtube"></i>
+                                  </a>
+                                  
+                                    
+    </div>
+    <div class="site-description">
+      GO！
+    </div>
+    <div class="site-footer">
+      
+        Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+        <div class="line"></div>
+        Have Ran <span id="htmer_time" style="color: white;"></span>
+    </div>
+  </div>
+</div>
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">2023-3-7 </h2>
+            <div class="post-date">2023-03-07-Tue</div>
+            
+              <div class="feature-container" style="background-image: url('https://pic.3gbizhi.com/2021/1222/20211222075619910.jpg.476.780.jpg')">
+              </div>
+            
+            <div class="post-content" v-pre>
+              <p>Leetcode 1096. 花括号展开 II</p>
+<!-- more -->
+<h2 id="leetcode">Leetcode</h2>
+<blockquote>
+<p><a href="https://leetcode.cn/problems/minimum-deletions-to-make-string-balanced/description/">1653. 使字符串平衡的最少删除次数 - 力扣（Leetcode）</a></p>
+<p>如果你熟悉 Shell 编程，那么一定了解过花括号展开，它可以用来生成任意字符串。</p>
+<p>花括号展开的表达式可以看作一个由 <strong>花括号</strong>、<strong>逗号</strong> 和 <strong>小写英文字母</strong> 组成的字符串，定义下面几条语法规则：</p>
+<p>如果只给出单一的元素 x，那么表达式表示的字符串就只有 “x”.</p>
+<ul>
+<li>
+<p>例如，表达式 <code>&quot;a&quot;</code> 表示字符串 <code>&quot;a&quot;</code>。</p>
+</li>
+<li>
+<p>而表达式 <code>&quot;w&quot;</code> 就表示字符串 <code>&quot;w&quot;</code>。</p>
+</li>
+<li>
+<p>当两个或多个表达式并列，以逗号分隔，我们取这些表达式中元素的并集。</p>
+<pre><code>R({e_1,e_2,...}) = R(e_1) ∪ R(e_2) ∪ ...
+</code></pre>
+<ul>
+<li>例如，表达式 <code>&quot;{a,b,c}&quot;</code> 表示字符串 <code>&quot;a&quot;,&quot;b&quot;,&quot;c&quot;</code>。</li>
+<li>而表达式 <code>&quot;{{a,b},{b,c}}&quot;</code> 也可以表示字符串 <code>&quot;a&quot;,&quot;b&quot;,&quot;c&quot;</code>。</li>
+</ul>
+</li>
+<li>
+<p>要是两个或多个表达式相接，中间没有隔开时，我们从这些表达式中各取一个元素依次连接形成字符串。</p>
+<pre><code>R(e_1 + e_2) = {a + b for (a, b) in R(e_1) × R(e_2)}
+</code></pre>
+<ul>
+<li>例如，表达式 <code>&quot;{a,b}{c,d}&quot;</code> 表示字符串 <code>&quot;ac&quot;,&quot;ad&quot;,&quot;bc&quot;,&quot;bd&quot;</code>。</li>
+</ul>
+</li>
+<li>
+<p>表达式之间允许嵌套，单一元素与表达式的连接也是允许的。</p>
+<ul>
+<li>例如，表达式 <code>&quot;a{b,c,d}&quot;</code> 表示字符串 <code>&quot;ab&quot;,&quot;ac&quot;,&quot;ad&quot;</code>。</li>
+<li>例如，表达式 <code>&quot;a{b,c}{d,e}f{g,h}&quot;</code> 可以表示字符串 <code>&quot;abdfg&quot;, &quot;abdfh&quot;, &quot;abefg&quot;, &quot;abefh&quot;, &quot;acdfg&quot;, &quot;acdfh&quot;, &quot;acefg&quot;, &quot;acefh&quot;</code>。</li>
+</ul>
+</li>
+</ul>
+<p>给出表示基于给定语法规则的表达式 <code>expression</code>，返回它所表示的所有字符串组成的有序列表。</p>
+<p>假如你希望以「集合」的概念了解此题，也可以通过点击 “<strong>显示英文描述</strong>” 获取详情。</p>
+<p><strong>示例 1：</strong></p>
+<pre><code>输入：expression = &quot;{a,b}{c,{d,e}}&quot;
+输出：[&quot;ac&quot;,&quot;ad&quot;,&quot;ae&quot;,&quot;bc&quot;,&quot;bd&quot;,&quot;be&quot;]
+</code></pre>
+<p><strong>示例 2：</strong></p>
+<pre><code>输入：expression = &quot;{{a,z},a{b,c},{ab,z}}&quot;
+输出：[&quot;a&quot;,&quot;ab&quot;,&quot;ac&quot;,&quot;z&quot;]
+解释：输出中 不应 出现重复的组合结果。
+</code></pre>
+<p><strong>提示：</strong></p>
+<ul>
+<li><code>1 &lt;= expression.length &lt;= 60</code></li>
+<li><code>expression[i]</code> 由 <code>'{'</code>，<code>'}'</code>，<code>','</code> 或小写英文字母组成</li>
+<li>给出的表达式 <code>expression</code> 用以表示一组基于题目描述中语法构造的字符串</li>
+</ul>
+</blockquote>
+<h3 id="思路">思路</h3>
+<ol>
+<li>对于每个exp找到最外面的一对括号{}，将exp分为三个部分 a, b, c。</li>
+</ol>
+<ul>
+<li>{}里的,对于里面的字符串，用&quot;,&quot;分割成字符串组。</li>
+<li>{}前面的</li>
+<li>{}后面的</li>
+</ul>
+<ol start="2">
+<li>遍历 b， 将a+b+c添加到队列进行后续搜索。</li>
+</ol>
+<h3 id="代码">代码</h3>
+<pre><code class="language-java">class Solution {
+    public List&lt;String&gt; braceExpansionII(String exp) {
+        HashSet&lt;String&gt; hs = new HashSet&lt;&gt;();
+        Deque&lt;String&gt; d = new LinkedList&lt;&gt;();
+        d.offerLast(exp);
+        StringBuilder sb = new StringBuilder();
+        while (!d.isEmpty()){
+            String cur  = d.pollFirst();
+            if (cur.indexOf('{') == -1){
+                hs.add(cur);
+                continue;
+            }
+            int l = -1, r = -1, cl = 0, cr = 0;
+            for (int i = 0;i &lt; cur.length();i++){
+                char c = cur.charAt(i);
+                if (c == '{'){
+                    if (cl++ == 0) l = i;
+                }else if (c == '}'){
+                    if (++cr == cl){
+                        r = i;
+                        break;
+                    }
+                }
+            }
+            String a = cur.substring(0, l);
+            String tp = cur.substring(l+1, r);
+            List&lt;String&gt; mi = new ArrayList&lt;&gt;();
+            int i = 0, j = 0, left = 0, right = 0;
+            for (;j &lt; tp.length();j++){
+                char c = tp.charAt(j);
+                if (c == '{') left++;
+                else if (c == '}') right++;
+                else if (c == ',' &amp;&amp; left == right){
+                    mi.add(tp.substring(i, j));
+                    i = j+1;
+                }
+            }mi.add(tp.substring(i));
+            String c = cur.substring(r+1);
+            for (String b : mi){
+                sb.setLength(0);
+                d.offerLast(sb.append(a).append(b).append(c).toString());
+            }
+        }
+        List&lt;String&gt; ans = new ArrayList&lt;&gt;(hs);
+        Collections.sort(ans);
+        return ans;
+    }
+}
+</code></pre>
+<h3 id="复杂度分析">复杂度分析</h3>
+<ul>
+<li>时间复杂度: <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>n</mi><mi>log</mi><mo>⁡</mo><mi>n</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">O(n\log n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span> 。</li>
+<li>空间复杂度: <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>n</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span> 。</li>
+</ul>
+<h3 id="欢迎加我好友一起来讨论算法题目">欢迎加我好友一起来讨论算法题目😎</h3>
+<blockquote>
+<p>本文作者：Decade<br>
+作者博客：<a href="https://decade.net.cn/"><strong>https://decade.net.cn/</strong></a><br>
+联系方式：<a href="https://github.com/Decade-qiu"><strong>Github</strong></a>  <strong>QQ</strong>：3237550600<br>
+转载要求： 转载请在文首显眼出表明本文链接且在留言区告知我并附上你转载到哪里的链接。</p>
+</blockquote>
+
+            </div>
+              <div class="tag-container">
+                
+                  <a href="https://decade-qiu.github.io/tag/NBlyL2VLF/" class="tag">
+                    BFS
+                  </a>
+                
+                  <a href="https://decade-qiu.github.io/tag/11a3eLQs3/" class="tag">
+                    字符串
+                  </a>
+                
+                  <a href="https://decade-qiu.github.io/tag/F2kUQf7xN/" class="tag">
+                    LeetCode
+                  </a>
+                
+                  <a href="https://decade-qiu.github.io/tag/RA0H2vwSY/" class="tag">
+                    每日一题
+                  </a>
+                
+              </div>
+			<script src="https://utteranc.es/client.js"
+        repo="Decade-qiu/Decade-qiu.github.io"
+        issue-term="pathname"
+        label="Comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://decade-qiu.github.io/post/2023-3-6-mei-ri-yi-ti/">
+                  <h3 class="post-title">
+                    2023-3-6 每日一题
+                  </h3>
+                </a>
+              </div>
+            
+            
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>

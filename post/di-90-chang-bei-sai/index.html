@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>第 90 场杯赛 | Decade</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
+<link rel="shortcut icon" href="https://decade-qiu.github.io/favicon.ico?v=1678588290805">
+<link rel="stylesheet" href="https://decade-qiu.github.io/styles/main.css">
+
+
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="AcWing 4806. 首字母大写	
+AcWing 4807. 找数字	
+AcWing 4808. 构造字符串
+
+Q1
+
+4806. 首字母大写 - AcWing题库
+给你一个字符串，如果首字符是小写，就把它改为大写。最后返回
+
+思路
+额..." />
+    <meta name="keywords" content="KMP,贪心,分类讨论,AcWing" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+    
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <script>
+  function secondToDate(second) {
+    if (!second) {
+      return 0;
+    }
+    var time = new Array(0, 0, 0, 0, 0);
+    if (second >= 365 * 24 * 3600) {
+      time[0] = parseInt(second / (365 * 24 * 3600));
+      second %= 365 * 24 * 3600;
+    }
+    if (second >= 24 * 3600) {
+      time[1] = parseInt(second / (24 * 3600));
+      second %= 24 * 3600;
+    }
+    if (second >= 3600) {
+      time[2] = parseInt(second / 3600);
+      second %= 3600;
+    }
+    if (second >= 60) {
+      time[3] = parseInt(second / 60);
+      second %= 60;
+    }
+    if (second > 0) {
+      time[4] = second;
+    }
+    return time;
+  }</script>
+<script type="text/javascript" language="javascript">
+  function setTime() {
+    var create_time = Math.round(new Date(Date.UTC(2022, 11, 01, 17, 17, 20)).getTime() / 1000);
+    var timestamp = Math.round((new Date().getTime() + 8 * 60 * 60 * 1000) / 1000);
+    currentTime = secondToDate((timestamp - create_time));
+    currentTimeHtml = currentTime[1] + ' days '
+      + currentTime[2] + ' hours ' + currentTime[3] + ' minutes ' + currentTime[4] + ' second';
+    document.getElementById("htmer_time").innerHTML = currentTimeHtml;
+  } setInterval(setTime, 1000);</script>
+<div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://decade-qiu.github.io">
+        <img src="https://decade-qiu.github.io/images/avatar.png?v=1678588290805" class="site-logo">
+        <h1 class="site-title">
+          Decade
+        </h1>
+      </a>
+      <!-- <div style="text-align: center">
+         <form id="gridea-search-form" style="position: relative" data-update="1678588290805" action="/search/">
+          <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+          <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+        </form> </div>
+		-->
+	   <div class="menu-btn" @click="menuVisible = !menuVisible">
+        	<div class="line"></div>
+      	</div>
+    </div>
+    <div>
+      
+        
+            <a href="/" class="site-nav">
+              首页
+            </a>
+            
+              
+        
+            <a href="/archives" class="site-nav">
+              归档
+            </a>
+            
+              
+        
+            <a href="/tags" class="site-nav">
+              标签
+            </a>
+            
+              
+        
+            <a href="/post/about" class="site-nav">
+              个人
+            </a>
+            
+              
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/Decade-qiu" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+          
+            
+        
+          <a class="social-link" href="https://twitter.com/LukasMa46743746" target="_blank">
+            <i class="fab fa-twitter"></i>
+          </a>
+          
+            
+        
+          <a class="social-link" href="https://www.zhihu.com/people/chou-yu-80-33" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+          
+            
+              
+                
+                  <a class="social-link" href="https://leetcode.cn/u/luxury_f/" target="_blank">
+                    <i class="fas fa-code"></i>
+                  </a>
+                  
+                    
+                      
+                        
+                          <a class="social-link" href="https://music.163.com/#/user/home?id=480745566" target="_blank">
+                            <i class="fas fa-music"></i>
+                          </a>
+                          
+                            
+                              
+                                
+                                  <a class="social-link" href="https://www.youtube.com/@lukasmayer1340/playlists" target="_blank">
+                                    <i class="fab fa-youtube"></i>
+                                  </a>
+                                  
+                                    
+    </div>
+    <div class="site-description">
+      GO！
+    </div>
+    <div class="site-footer">
+      
+        Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+        <div class="line"></div>
+        Have Ran <span id="htmer_time" style="color: white;"></span>
+    </div>
+  </div>
+</div>
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">第 90 场杯赛</h2>
+            <div class="post-date">2023-02-12-Sun</div>
+            
+              <div class="feature-container" style="background-image: url('https://pic.3gbizhi.com/2019/1120/20191120092758491.jpg.556.308.jpg')">
+              </div>
+            
+            <div class="post-content" v-pre>
+              <p>AcWing 4806. 首字母大写	<br>
+AcWing 4807. 找数字	<br>
+AcWing 4808. 构造字符串</p>
+<!-- more -->
+<h2 id="q1">Q1</h2>
+<blockquote>
+<p><a href="https://www.acwing.com/problem/content/4809/">4806. 首字母大写 - AcWing题库</a></p>
+<p>给你一个字符串，如果首字符是小写，就把它改为大写。最后返回</p>
+</blockquote>
+<h3 id="思路">思路</h3>
+<p>额😅😅</p>
+<h3 id="代码">代码</h3>
+<pre><code class="language-python">def solve(): 
+    s = input()
+    if ord(s[0]) &gt;= 97:
+        s = chr(ord(s[0])-97+65)+s[1:]
+    print(s)
+</code></pre>
+<h3 id="复杂度分析">复杂度分析</h3>
+<ul>
+<li>时间复杂度：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mn>1</mn><mo>)</mo></mrow><annotation encoding="application/x-tex">O(1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></li>
+<li>空间复杂度：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mn>1</mn><mo>)</mo></mrow><annotation encoding="application/x-tex">O(1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></li>
+</ul>
+<h2 id="q2">Q2</h2>
+<blockquote>
+<p><a href="https://www.acwing.com/problem/content/4810/">4807. 找数字 - AcWing题库</a></p>
+<p>给定一个正整数 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>m</mi></mrow><annotation encoding="application/x-tex">m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">m</span></span></span></span> 和一个非负整数 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>s</mi></mrow><annotation encoding="application/x-tex">s</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">s</span></span></span></span>。</p>
+<p>请你找到长度为 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>m</mi></mrow><annotation encoding="application/x-tex">m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">m</span></span></span></span> 且各位数字之和为 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>s</mi></mrow><annotation encoding="application/x-tex">s</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">s</span></span></span></span> 的最小和最大<strong>非负</strong>整数。</p>
+<p>要求所求非负整数不得包含前导零。</p>
+</blockquote>
+<h3 id="思路-2">思路</h3>
+<p>因为位数是固定的，所以直接从高位到低位贪心。</p>
+<ul>
+<li>最小数：从高位到低位遍历，每次从最小值选择（最高位最小值为1，因为不能有前导0）。判断剩余的的数字能不能被剩余的位数填满，就是后面全填9看总和有没有大于m；如果小于，说明后面无论怎么填都不行。</li>
+<li>最大数：从高位到低位遍历，每次都填9，如果剩余数字不满9，就填剩余的数字。</li>
+</ul>
+<p>然后开头加两个特判：总和为0，位数只能小于等于1；如果所有位都填9还小于m，说明不可能实现。</p>
+<h3 id="代码-2">代码</h3>
+<pre><code class="language-python">def solve(): 
+    n, m = list(map(int, input().split()))
+    if m == 0:
+        if n &lt;= 1: print(0, 0)
+        else: print(-1, -1)
+        return
+    if n*9 &lt; m:
+        print(-1, -1)
+        return
+    a, b = [0]*n, [0]*n
+    ca, cb = 0, 0
+    for i in range(n):
+        bound = 0 if i != 0 else 1
+        for k in range(bound, 10):
+            if ca+k+9*(n-i-1) &gt;= m:
+                a[i] = k
+                ca += k
+                break
+    for i in range(n):
+        if m-cb &gt;= 9:
+            b[i] = 9
+            cb += 9
+        else:
+            b[i] = m-cb
+            break
+    for i in a: print(i, end='')
+    print(' ', end='')
+    for i in b: print(i, end='')
+</code></pre>
+<h3 id="复杂度分析-2">复杂度分析</h3>
+<ul>
+<li>时间复杂度：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>n</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">O(n )</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span></li>
+<li>空间复杂度：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>n</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span></li>
+</ul>
+<h2 id="q3">Q3</h2>
+<blockquote>
+<p><a href="https://www.acwing.com/problem/content/4811/">4808. 构造字符串 - AcWing题库</a></p>
+<p>给定一个长度为 n 的由小写字母构成的字符串 t 以及一个整数 k。</p>
+<p>请你构造一个字符串 s，要求：</p>
+<ol>
+<li>字符串 s 恰好有 k 个子串等于字符串 t。</li>
+<li>字符串 s 的长度尽可能短。</li>
+</ol>
+</blockquote>
+<h3 id="思路-3">思路</h3>
+<p>简单来说，就是s后面再加上(k-1)个s。为了总长最小，所以每次添加的字符要最少。</p>
+<p>即求出最长的，s的前缀和后缀相等的长度。</p>
+<p>例如，s = &quot;abab&quot; 最长的是&quot;ab&quot;，2个字符长。三个就不行了，因为&quot;aba&quot; != &quot;bab&quot;。</p>
+<p>对于这题数据量 <code>n &lt;= 50</code>,直接暴力遍历公共前后缀长度。</p>
+<h3 id="代码-3">代码</h3>
+<pre><code class="language-python">def solve(): 
+    n, m = list(map(int, input().split()))
+    s = input()
+    match = 0
+    for i in range(n-1, 0, -1):
+        if s[:i] == s[n-i:]:
+            match = i
+            break
+    ans = s
+    for j in range(m-1):
+        ans += s[match:]
+    print(ans)
+</code></pre>
+<h3 id="复杂度分析-3">复杂度分析</h3>
+<ul>
+<li>时间复杂度：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><msup><mi>n</mi><mn>2</mn></msup><mo>)</mo></mrow><annotation encoding="application/x-tex">O(n^2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></li>
+<li>空间复杂度：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>n</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span></li>
+</ul>
+<h3 id="tips">Tips</h3>
+<p>当数据量大的时候，建议使用KMP，匹配公共前后缀。复杂度 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>n</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span></p>
+<pre><code class="language-python">def solve(): 
+    n, m = list(map(int, input().split()))
+    s = &quot; &quot;+input()
+    i, j = 2, 0
+    ne = [0]*(n+1)
+    while i &lt;= n:
+        while j and s[i] != s[j + 1]: j = ne[j]
+        if s[i] == s[j + 1]: j += 1
+        ne[i] = j;
+        i += 1
+    ans = s[1:]
+    for j in range(m-1):
+        ans += s[ne[n]+1:]
+    print(ans)
+</code></pre>
+<h3 id="欢迎加我好友一起来讨论算法题目">欢迎加我好友一起来讨论算法题目😎</h3>
+<blockquote>
+<p>本文作者：Decade<br>
+作者博客：<a href="https://decade.net.cn/"><strong>https://decade.net.cn/</strong></a><br>
+联系方式：<a href="https://github.com/Decade-qiu"><strong>Github</strong></a>  <strong>QQ</strong>：3237550600<br>
+转载要求： 转载请在文首显眼出表明本文链接且在留言区告知我并附上你转载到哪里的链接。</p>
+</blockquote>
+
+            </div>
+              <div class="tag-container">
+                
+                  <a href="https://decade-qiu.github.io/tag/mx3RwcMT_/" class="tag">
+                    KMP
+                  </a>
+                
+                  <a href="https://decade-qiu.github.io/tag/pQFRIW5gz/" class="tag">
+                    贪心
+                  </a>
+                
+                  <a href="https://decade-qiu.github.io/tag/q13ED54Ld/" class="tag">
+                    分类讨论
+                  </a>
+                
+                  <a href="https://decade-qiu.github.io/tag/Y26isEeml/" class="tag">
+                    AcWing
+                  </a>
+                
+              </div>
+			<script src="https://utteranc.es/client.js"
+        repo="Decade-qiu/Decade-qiu.github.io"
+        issue-term="pathname"
+        label="Comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://decade-qiu.github.io/post/2023-2-12-mei-ri-yi-ti/">
+                  <h3 class="post-title">
+                    2023-2-12 每日一题 
+                  </h3>
+                </a>
+              </div>
+            
+            
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>

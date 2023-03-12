@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>2023-2-26 每日一题 | Decade</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.0/css/all.min.css">
+<link rel="shortcut icon" href="https://decade-qiu.github.io/favicon.ico?v=1678588290805">
+<link rel="stylesheet" href="https://decade-qiu.github.io/styles/main.css">
+
+
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css">
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="Leetcode 1255. 得分最高的单词集合
+
+Leetcode
+
+1255. 得分最高的单词集合 - 力扣（Leetcode）
+你将会得到一份单词表 words，一个字母表 letters （可能会有重复字母），以及每个字母对应的得分..." />
+    <meta name="keywords" content="DFS,二进制枚举,LeetCode,每日一题" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+    
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <script>
+  function secondToDate(second) {
+    if (!second) {
+      return 0;
+    }
+    var time = new Array(0, 0, 0, 0, 0);
+    if (second >= 365 * 24 * 3600) {
+      time[0] = parseInt(second / (365 * 24 * 3600));
+      second %= 365 * 24 * 3600;
+    }
+    if (second >= 24 * 3600) {
+      time[1] = parseInt(second / (24 * 3600));
+      second %= 24 * 3600;
+    }
+    if (second >= 3600) {
+      time[2] = parseInt(second / 3600);
+      second %= 3600;
+    }
+    if (second >= 60) {
+      time[3] = parseInt(second / 60);
+      second %= 60;
+    }
+    if (second > 0) {
+      time[4] = second;
+    }
+    return time;
+  }</script>
+<script type="text/javascript" language="javascript">
+  function setTime() {
+    var create_time = Math.round(new Date(Date.UTC(2022, 11, 01, 17, 17, 20)).getTime() / 1000);
+    var timestamp = Math.round((new Date().getTime() + 8 * 60 * 60 * 1000) / 1000);
+    currentTime = secondToDate((timestamp - create_time));
+    currentTimeHtml = currentTime[1] + ' days '
+      + currentTime[2] + ' hours ' + currentTime[3] + ' minutes ' + currentTime[4] + ' second';
+    document.getElementById("htmer_time").innerHTML = currentTimeHtml;
+  } setInterval(setTime, 1000);</script>
+<div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://decade-qiu.github.io">
+        <img src="https://decade-qiu.github.io/images/avatar.png?v=1678588290805" class="site-logo">
+        <h1 class="site-title">
+          Decade
+        </h1>
+      </a>
+      <!-- <div style="text-align: center">
+         <form id="gridea-search-form" style="position: relative" data-update="1678588290805" action="/search/">
+          <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+          <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+        </form> </div>
+		-->
+	   <div class="menu-btn" @click="menuVisible = !menuVisible">
+        	<div class="line"></div>
+      	</div>
+    </div>
+    <div>
+      
+        
+            <a href="/" class="site-nav">
+              首页
+            </a>
+            
+              
+        
+            <a href="/archives" class="site-nav">
+              归档
+            </a>
+            
+              
+        
+            <a href="/tags" class="site-nav">
+              标签
+            </a>
+            
+              
+        
+            <a href="/post/about" class="site-nav">
+              个人
+            </a>
+            
+              
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/Decade-qiu" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+          
+            
+        
+          <a class="social-link" href="https://twitter.com/LukasMa46743746" target="_blank">
+            <i class="fab fa-twitter"></i>
+          </a>
+          
+            
+        
+          <a class="social-link" href="https://www.zhihu.com/people/chou-yu-80-33" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+          
+            
+              
+                
+                  <a class="social-link" href="https://leetcode.cn/u/luxury_f/" target="_blank">
+                    <i class="fas fa-code"></i>
+                  </a>
+                  
+                    
+                      
+                        
+                          <a class="social-link" href="https://music.163.com/#/user/home?id=480745566" target="_blank">
+                            <i class="fas fa-music"></i>
+                          </a>
+                          
+                            
+                              
+                                
+                                  <a class="social-link" href="https://www.youtube.com/@lukasmayer1340/playlists" target="_blank">
+                                    <i class="fab fa-youtube"></i>
+                                  </a>
+                                  
+                                    
+    </div>
+    <div class="site-description">
+      GO！
+    </div>
+    <div class="site-footer">
+      
+        Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+        <div class="line"></div>
+        Have Ran <span id="htmer_time" style="color: white;"></span>
+    </div>
+  </div>
+</div>
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">2023-2-26 每日一题</h2>
+            <div class="post-date">2023-02-26-Sun</div>
+            
+              <div class="feature-container" style="background-image: url('https://pic.3gbizhi.com/2020/0821/20200821111006720.jpg.556.308.jpg')">
+              </div>
+            
+            <div class="post-content" v-pre>
+              <p>Leetcode 1255. 得分最高的单词集合</p>
+<!-- more -->
+<h2 id="leetcode">Leetcode</h2>
+<blockquote>
+<p><a href="https://leetcode.cn/problems/maximum-score-words-formed-by-letters/description/">1255. 得分最高的单词集合 - 力扣（Leetcode）</a></p>
+<p>你将会得到一份单词表 <code>words</code>，一个字母表 <code>letters</code> （可能会有重复字母），以及每个字母对应的得分情况表 <code>score</code>。</p>
+<p>请你帮忙计算玩家在单词拼写游戏中所能获得的「最高得分」：能够由 <code>letters</code> 里的字母拼写出的 <strong>任意</strong> 属于 <code>words</code> 单词子集中，分数最高的单词集合的得分。</p>
+<p>单词拼写游戏的规则概述如下：</p>
+<ul>
+<li>玩家需要用字母表 <code>letters</code> 里的字母来拼写单词表 <code>words</code> 中的单词。</li>
+<li>可以只使用字母表 <code>letters</code> 中的部分字母，但是每个字母最多被使用一次。</li>
+<li>单词表 <code>words</code> 中每个单词只能计分（使用）一次。</li>
+<li>根据字母得分情况表<code>score</code>，字母 <code>'a'</code>, <code>'b'</code>, <code>'c'</code>, ... , <code>'z'</code> 对应的得分分别为 <code>score[0]</code>, <code>score[1]</code>, ..., <code>score[25]</code>。</li>
+<li>本场游戏的「得分」是指：玩家所拼写出的单词集合里包含的所有字母的得分之和。</li>
+</ul>
+<p><strong>示例 1：</strong></p>
+<pre><code>输入：words = [&quot;dog&quot;,&quot;cat&quot;,&quot;dad&quot;,&quot;good&quot;], letters = [&quot;a&quot;,&quot;a&quot;,&quot;c&quot;,&quot;d&quot;,&quot;d&quot;,&quot;d&quot;,&quot;g&quot;,&quot;o&quot;,&quot;o&quot;], score = [1,0,9,5,0,0,3,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0]
+输出：23
+解释：
+字母得分为  a=1, c=9, d=5, g=3, o=2
+使用给定的字母表 letters，我们可以拼写单词 &quot;dad&quot; (5+1+5)和 &quot;good&quot; (3+2+2+5)，得分为 23 。
+而单词 &quot;dad&quot; 和 &quot;dog&quot; 只能得到 21 分。
+</code></pre>
+<p><strong>提示：</strong></p>
+<ul>
+<li><code>1 &lt;= words.length &lt;= 14</code></li>
+<li><code>1 &lt;= words[i].length &lt;= 15</code></li>
+<li><code>1 &lt;= letters.length &lt;= 100</code></li>
+<li><code>letters[i].length == 1</code></li>
+<li><code>score.length == 26</code></li>
+<li><code>0 &lt;= score[i] &lt;= 10</code></li>
+<li><code>words[i]</code> 和 <code>letters[i]</code> 只包含小写的英文字母。</li>
+</ul>
+</blockquote>
+<h3 id="思路">思路</h3>
+<ol>
+<li>最多只有14个单词，每个单词长度不超过15。所以暴力枚举每一个可选的情况需要 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><msup><mn>2</mn><mn>14</mn></msup><mo>)</mo></mrow><annotation encoding="application/x-tex">O(2^{14})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mtight">4</span></span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>，统计字符数还需 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mn>15</mn><mo>)</mo></mrow><annotation encoding="application/x-tex">O(15)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mord">5</span><span class="mclose">)</span></span></span></span>，总共 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mn>2</mn><mi>e</mi><mn>5</mn><mo>)</mo></mrow><annotation encoding="application/x-tex">O(2e5)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord">2</span><span class="mord mathdefault">e</span><span class="mord">5</span><span class="mclose">)</span></span></span></span>。</li>
+<li>首先统计letters中字符数量。</li>
+<li>枚举每一个可能情况，统计需要的字符数量。</li>
+<li>遍历a-z，看需要的字符数量是不是小于等于提供的字符数量。判断过程中更新最后得分。</li>
+</ol>
+<h3 id="代码">代码</h3>
+<pre><code class="language-java">class Solution {
+    public int maxScoreWords(String[] w, char[] letters, int[] score) {
+        int n = w.length, ans = 0;
+        int[] tot = new int[26];
+        for (char i : letters) tot[i-'a']++;
+        for (int i = 1;i &lt; (1&lt;&lt;n);i++){
+            int[] cnt = new int[26];
+            for (int j = 0;j &lt; n;j++){
+                if ((i &gt;&gt; j &amp; 1) == 1){
+                    for (int k = 0;k &lt; w[j].length();k++) {
+                        cnt[w[j].charAt(k)-'a']++;
+                    }
+                }
+            }
+            int res = 0, flag = 0;
+            for (int j = 0;j &lt; 26 &amp;&amp; flag == 0;j++){
+                if (cnt[j] &lt;= tot[j]) res += score[j]*cnt[j];
+                else flag = 1;
+            }if (flag == 0) ans = Math.max(ans, res);
+        }
+        return ans;
+    }
+}
+</code></pre>
+<h3 id="复杂度分析">复杂度分析</h3>
+<ul>
+<li>时间复杂度: <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><msup><mn>2</mn><mi>n</mi></msup><mo>∗</mo><mi>m</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">O(2^n*m)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.664392em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">n</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">m</span><span class="mclose">)</span></span></span></span> 。<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>m</mi><mo>=</mo><mi>m</mi><mi>a</mi><mi>x</mi><mo>(</mo><mi>l</mi><mi>e</mi><mi>n</mi><mo>(</mo><mi>w</mi><mo>[</mo><mi>i</mi><mo>]</mo><mo>)</mo><mo>)</mo></mrow><annotation encoding="application/x-tex">m = max(len(w[i]))</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">m</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">m</span><span class="mord mathdefault">a</span><span class="mord mathdefault">x</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">e</span><span class="mord mathdefault">n</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="mopen">[</span><span class="mord mathdefault">i</span><span class="mclose">]</span><span class="mclose">)</span><span class="mclose">)</span></span></span></span>。</li>
+<li>空间复杂度: <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mn>26</mn><mo>)</mo></mrow><annotation encoding="application/x-tex">O(26)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord">2</span><span class="mord">6</span><span class="mclose">)</span></span></span></span> 。</li>
+</ul>
+<h3 id="递归版">递归版</h3>
+<ul>
+<li>由于递归可以剪枝，所以算法运行时间快一点。</li>
+</ul>
+<pre><code class="language-Java">class Solution {
+    int cnt[] = new int[26], tot[] = new int[26], ans, n;
+    void dfs(int dx, int res, String[] w, int[] score){
+        if (dx &gt;= n){
+            ans = Math.max(ans, res);
+            return;
+        }
+        int tp = 0, flag = 0;
+        for (int i = 0;i &lt; w[dx].length();i++){
+            int x = w[dx].charAt(i)-'a';
+            tp += score[x];
+            if (--tot[x] &lt; 0) flag = 1;
+        }
+        if (flag == 0) dfs(dx+1, res+tp, w, score);
+        for (int i = 0;i &lt; w[dx].length();i++){
+            tot[w[dx].charAt(i)-'a']++;
+        }
+        dfs(dx+1, res, w, score);
+    }
+    public int maxScoreWords(String[] w, char[] letters, int[] score) {
+        n = w.length; ans = 0;
+        for (char i : letters) tot[i-'a']++;
+        dfs(0, 0, w, score);
+        return ans;
+    }
+}
+</code></pre>
+<h3 id="欢迎加我好友一起来讨论算法题目">欢迎加我好友一起来讨论算法题目😎</h3>
+<blockquote>
+<p>本文作者：Decade<br>
+作者博客：<a href="https://decade.net.cn/"><strong>https://decade.net.cn/</strong></a><br>
+联系方式：<a href="https://github.com/Decade-qiu"><strong>Github</strong></a>  <strong>QQ</strong>：3237550600<br>
+转载要求： 转载请在文首显眼出表明本文链接且在留言区告知我并附上你转载到哪里的链接。</p>
+</blockquote>
+
+            </div>
+              <div class="tag-container">
+                
+                  <a href="https://decade-qiu.github.io/tag/q30MGs_42/" class="tag">
+                    DFS
+                  </a>
+                
+                  <a href="https://decade-qiu.github.io/tag/jioa60t_Z/" class="tag">
+                    二进制枚举
+                  </a>
+                
+                  <a href="https://decade-qiu.github.io/tag/F2kUQf7xN/" class="tag">
+                    LeetCode
+                  </a>
+                
+                  <a href="https://decade-qiu.github.io/tag/RA0H2vwSY/" class="tag">
+                    每日一题
+                  </a>
+                
+              </div>
+			<script src="https://utteranc.es/client.js"
+        repo="Decade-qiu/Decade-qiu.github.io"
+        issue-term="pathname"
+        label="Comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script>
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://decade-qiu.github.io/post/2023-2-25-mei-ri-yi-ti/">
+                  <h3 class="post-title">
+                    2023-2-25 每日二题
+                  </h3>
+                </a>
+              </div>
+            
+            
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.min.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad()
+  </script>
+
+
+
+
+
+  </body>
+</html>
