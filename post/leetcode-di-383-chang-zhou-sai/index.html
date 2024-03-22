@@ -1,0 +1,589 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>leetcode 第 383 场周赛 | Decade</title>
+<meta name="description" content="Stay hungry. Stay foolish.">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.1/css/all.css" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://decade-qiu.github.io/favicon.ico?v=1711118819754">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://decade-qiu.github.io/styles/main.css">
+
+<script src="https://decade-qiu.github.io/media/scripts/vue.js"></script>
+<script src="https://decade-qiu.github.io/media/scripts/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.5.0/tocbot.min.js"></script>
+  </head>
+  <body>
+    <div class="carousel carousel-slider center index-cover" data-indicators="true">
+    <div class="bg-cover pd-header" style="background: url('') no-repeat center center fixed" data-link="https://decade-qiu.github.io/post/leetcode-di-383-chang-zhou-sai/">
+        <div class="container">
+            <div class="row">
+                <div class="col s10 offset-s1 m8 offset-m2 l8 offset-l2">
+                    <div class="brand">
+                        <div class="title center-align">
+                            leetcode 第 383 场周赛
+                        </div>
+                        <div class="description center-align">
+                            <span id="subtitle">
+                                Day Day Learn, Day Day Up.
+                            </span><span class="typed-cursor">|</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
+<script>
+    window.onload = function () {
+        var typed = new Typed("#subtitle", {
+            strings: [ 
+                
+                    "从来没有真正的绝境, 只有心灵的迷途",
+                
+                    'Day Day Learn, Day Day Up.',
+
+            ],
+            startDelay: 300,
+            typeSpeed: 100,
+            loop: true,
+            backSpeed: 50,
+            showCursor: true
+        });
+        let cover = document.querySelector('.bg-cover');
+        cover.setAttribute('style', `background: url('${localStorage[cover.dataset.link]}') no-repeat center center fixed`);
+    }
+</script>
+
+
+    <div class="toc-body hide">  
+        <div class="toc"></div>
+    </div>
+    <div id="floating-toc-btn">
+        <i class="fas fa-list-ul bg-color"></i>
+    </div>
+    <div id="app" class="main">
+      <div class="site-header-container nav-transparent">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://decade-qiu.github.io">
+        <img class="avatar" src="https://decade-qiu.github.io/images/avatar.png?v=1711118819754" alt=""
+          width="32px" height="32px">
+      </a>
+      <a href="https://decade-qiu.github.io">
+        <h1 class="site-title">
+          Decade
+        </h1>
+      </a>
+    </div>
+    <div class="right">
+        <div class="menu">
+            <a href="/post/about" v-if="headSearchShow">
+                <i class="fa-solid fa-user"></i>&nbsp;个人
+            </a>
+            <a href="/archives" v-if="headSearchShow">
+                <i class="fa-solid fa-box-archive"></i>&nbsp;归档
+            </a>
+            <a href="/tags" v-if="headSearchShow">
+                <i class="fa-solid fa-tag"></i>&nbsp;标签
+            </a>
+            <a href="/life" v-if="headSearchShow">
+                <i class="fa-fw fas fa-heart"></i>&nbsp;生活
+            </a>
+            
+        </div>
+      <div class="gridea-search-div" v-if="headSearchShow">
+        <form id="gridea-search-form" action="https://decade-qiu.github.io/search/">
+          <input class="gridea-search-input" autocomplete="off" spellcheck="false" name="q" />
+        </form>
+      </div>
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }"
+          @click="menuClick()" v-if="menuSearchShow"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      <div class="gridea-search-div" v-if="menuSearchShow">
+        <form id="gridea-search-form" action="https://decade-qiu.github.io/search/">
+          <input class="gridea-search-input" autocomplete="off" spellcheck="false" name="q" />
+        </form>
+      </div>
+      
+        
+            <a href="/" class="menu purple-link">
+              首页
+            </a>
+            
+              
+        
+            <a href="/archives" class="menu purple-link">
+              归档
+            </a>
+            
+              
+        
+            <a href="/tags" class="menu purple-link">
+              标签
+            </a>
+            
+              
+        
+            <a href="/post/about" class="menu purple-link">
+              个人
+            </a>
+            
+              
+        
+            <a href="/life" class="menu purple-link">
+              生活
+            </a>
+            
+              
+              
+    </div>
+  </div>
+</transition>
+
+<script>
+    window.onscroll = function () {
+        var t = document.documentElement.scrollTop || document.body.scrollTop;
+        var header = document.querySelector('.site-header-container');
+        if (t > 0) {
+            header.classList.remove('nav-transparent');
+        } else {
+            header.classList.add('nav-transparent');
+        }
+    }
+</script>
+
+      <div class="content-body">
+        <div class="content-container content-card">
+            <div class="post-detail">
+              <div class="post-info post-detail-info">
+                <span><i class="icon-calendar-outline"></i> 2024-02-04-Sun</span>
+                
+                  <span>
+                    
+                        <i class="icon-pricetags-outline"></i>
+                      <a href="https://decade-qiu.github.io/tag/eSZUAEcuc/">
+                        模拟
+                      </a>
+                    
+                        <i class="icon-pricetags-outline"></i>
+                      <a href="https://decade-qiu.github.io/tag/mx3RwcMT_/">
+                        KMP
+                      </a>
+                    
+                        <i class="icon-pricetags-outline"></i>
+                      <a href="https://decade-qiu.github.io/tag/11a3eLQs3/">
+                        字符串
+                      </a>
+                    
+                        <i class="icon-pricetags-outline"></i>
+                      <a href="https://decade-qiu.github.io/tag/nTFeAmnF3/">
+                        竞赛
+                      </a>
+                    
+                        <i class="icon-pricetags-outline"></i>
+                      <a href="https://decade-qiu.github.io/tag/F2kUQf7xN/">
+                        LeetCode
+                      </a>
+                    
+                  </span>
+                
+              </div>
+              
+                <div class="post-card-abstract">
+                    <p>边界上的蚂蚁：<code>模拟</code><br>
+找出网格的区域平均强度：<code>网格图枚举</code><br>
+将单词恢复初始状态所需的最短时间： <code>字符串匹配问题</code></p>
+
+                  </div>
+                
+              <hr class="clear">
+              <div class="post-content">
+                
+<h2 id="100214-边界上的蚂蚁"><a href="https://leetcode.cn/problems/ant-on-the-boundary/">100214. 边界上的蚂蚁</a></h2>
+<p>边界上有一只蚂蚁，它有时向 <strong>左</strong> 走，有时向 <strong>右</strong> 走。</p>
+<p>给你一个 <strong>非零</strong> 整数数组 <code>nums</code> 。蚂蚁会按顺序读取 <code>nums</code> 中的元素，从第一个元素开始直到结束。每一步，蚂蚁会根据当前元素的值移动：</p>
+<ul>
+<li>如果 <code>nums[i] &lt; 0</code> ，向 <strong>左</strong> 移动 <code>-nums[i]</code>单位。</li>
+<li>如果 <code>nums[i] &gt; 0</code> ，向 <strong>右</strong> 移动 <code>nums[i]</code>单位。</li>
+</ul>
+<p>返回蚂蚁 <strong>返回</strong> 到边界上的次数。</p>
+<p><strong>注意：</strong></p>
+<ul>
+<li>边界两侧有无限的空间。</li>
+<li>只有在蚂蚁移动了 <code>|nums[i]|</code> 单位后才检查它是否位于边界上。换句话说，如果蚂蚁只是在移动过程中穿过了边界，则不会计算在内。</li>
+</ul>
+<p><strong>示例 1：</strong></p>
+<pre><code>输入：nums = [2,3,-5]
+输出：1
+解释：第 1 步后，蚂蚁距边界右侧 2 单位远。
+第 2 步后，蚂蚁距边界右侧 5 单位远。
+第 3 步后，蚂蚁位于边界上。
+所以答案是 1 。
+</code></pre>
+<p><strong>示例 2：</strong></p>
+<pre><code>输入：nums = [3,2,-3,-4]
+输出：0
+解释：第 1 步后，蚂蚁距边界右侧 3 单位远。
+第 2 步后，蚂蚁距边界右侧 5 单位远。
+第 3 步后，蚂蚁距边界右侧 2 单位远。
+第 4 步后，蚂蚁距边界左侧 2 单位远。
+蚂蚁从未返回到边界上，所以答案是 0 。
+</code></pre>
+<p><strong>提示：</strong></p>
+<ul>
+<li><code>1 &lt;= nums.length &lt;= 100</code></li>
+<li><code>-10 &lt;= nums[i] &lt;= 10</code></li>
+<li><code>nums[i] != 0</code></li>
+</ul>
+<h3 id="思路">思路</h3>
+<p>​	模拟一下即可。</p>
+<h3 id="代码">代码</h3>
+<pre><code class="language-js">function returnToBoundaryCount(nums: number[]): number {
+    let ans = 0, sum = 0;
+    nums.forEach(v =&gt; {
+        sum += v;
+        if (sum == 0){
+            ans++;
+        }
+    });
+    return ans;
+};
+</code></pre>
+<h3 id="复杂度分析">复杂度分析</h3>
+<ul>
+<li>时间：O(n)。</li>
+<li>空间：O(1)。</li>
+</ul>
+<h2 id="100189-找出网格的区域平均强度"><a href="https://leetcode.cn/problems/find-the-grid-of-region-average/">100189. 找出网格的区域平均强度</a></h2>
+<p>给你一个下标从 <strong>0</strong> 开始、大小为 <code>m x n</code> 的网格 <code>image</code> ，表示一个灰度图像，其中 <code>image[i][j]</code> 表示在范围 <code>[0..255]</code> 内的某个像素强度。另给你一个 <strong>非负</strong> 整数 <code>threshold</code> 。</p>
+<p>如果 <code>image[a][b]</code> 和 <code>image[c][d]</code> 满足 <code>|a - c| + |b - d| == 1</code> ，则称这两个像素是 <strong>相邻像素</strong> 。</p>
+<p><strong>区域</strong> 是一个 <code>3 x 3</code> 的子网格，且满足区域中任意两个 <strong>相邻</strong> 像素之间，像素强度的 <strong>绝对差</strong> <strong>小于或等于</strong> <code>threshold</code> 。</p>
+<p><strong>区域</strong> 内的所有像素都认为属于该区域，而一个像素 <strong>可以</strong> 属于 <strong>多个</strong> 区域。</p>
+<p>你需要计算一个下标从 <strong>0</strong> 开始、大小为 <code>m x n</code> 的网格 <code>result</code> ，其中 <code>result[i][j]</code> 是 <code>image[i][j]</code> 所属区域的 <strong>平均</strong> 强度，<strong>向下取整</strong> 到最接近的整数。如果 <code>image[i][j]</code> 属于多个区域，<code>result[i][j]</code> 是这些区域的 <strong>“取整后的平均强度”</strong> 的 <strong>平均值</strong>，也 <strong>向下取整</strong> 到最接近的整数。如果 <code>image[i][j]</code> 不属于任何区域，则 <code>result[i][j]</code> <strong>等于</strong> <code>image[i][j]</code> 。</p>
+<p>返回网格 <code>result</code> 。</p>
+<p><strong>示例 1：</strong></p>
+<figure data-type="image" tabindex="1"><img src="https://assets.leetcode.com/uploads/2023/12/21/example0corrected.png" alt="img" loading="lazy"></figure>
+<pre><code>输入：image = [[5,6,7,10],[8,9,10,10],[11,12,13,10]], threshold = 3
+输出：[[9,9,9,9],[9,9,9,9],[9,9,9,9]]
+解释：图像中存在两个区域，如图片中的阴影区域所示。第一个区域的平均强度为 9 ，而第二个区域的平均强度为 9.67 ，向下取整为 9 。两个区域的平均强度为 (9 + 9) / 2 = 9 。由于所有像素都属于区域 1 、区域 2 或两者，因此 result 中每个像素的强度都为 9 。
+注意，在计算多个区域的平均值时使用了向下取整的值，因此使用区域 2 的平均强度 9 来进行计算，而不是 9.67 。
+</code></pre>
+<p><strong>示例 2：</strong></p>
+<figure data-type="image" tabindex="2"><img src="https://assets.leetcode.com/uploads/2023/12/21/example1corrected.png" alt="img" loading="lazy"></figure>
+<pre><code>输入：image = [[10,20,30],[15,25,35],[20,30,40],[25,35,45]], threshold = 12
+输出：[[25,25,25],[27,27,27],[27,27,27],[30,30,30]]
+解释：图像中存在两个区域，如图片中的阴影区域所示。第一个区域的平均强度为 25 ，而第二个区域的平均强度为 30 。两个区域的平均强度为 (25 + 30) / 2 = 27.5 ，向下取整为 27 。图像中第 0 行的所有像素属于区域 1 ，因此 result 中第 0 行的所有像素为 25 。同理，result 中第 3 行的所有像素为 30 。图像中第 1 行和第 2 行的像素属于区域 1 和区域 2 ，因此它们在 result 中的值为 27 。
+</code></pre>
+<p><strong>示例 3：</strong></p>
+<pre><code>输入：image = [[5,6,7],[8,9,10],[11,12,13]], threshold = 1
+输出：[[5,6,7],[8,9,10],[11,12,13]]
+解释：图像中不存在任何区域，因此对于所有像素，result[i][j] == image[i][j] 。
+</code></pre>
+<p><strong>提示：</strong></p>
+<ul>
+<li><code>3 &lt;= n, m &lt;= 500</code></li>
+<li><code>0 &lt;= image[i][j] &lt;= 255</code></li>
+<li><code>0 &lt;= threshold &lt;= 255</code></li>
+</ul>
+<h3 id="思路-2">思路</h3>
+<p>​	阅读理解题。</p>
+<ol>
+<li>遍历每一个3X3方格。</li>
+<li>维护一个dp数组：dp(i)(j)[0]表示该像素所属区域强度和，dp(i)(j)[1]表示该像素总共属于多少个区域。</li>
+<li>判断该方格是否为一个区域：即判断相邻格子像素差是否小于threshold</li>
+<li>如果是区域：则再次遍历区域中每一个像素，维护dp数组值。</li>
+<li>最后dp(i)(j)[0]/dp(i)(j)[1]则是每个像素所属区域强度和的均值；</li>
+<li>如果dp(i)(j)[0]等于0，说明像素不属于任何一个区域，答案是它自己像素值。</li>
+</ol>
+<h3 id="代码-2">代码</h3>
+<pre><code class="language-c++">class Solution {
+public:
+    vector&lt;vector&lt;int&gt;&gt; resultGrid(vector&lt;vector&lt;int&gt;&gt;&amp; image, int threshold) {
+        int n = image.size(), m = image[0].size();
+        vector&lt;vector&lt;int&gt;&gt; ans(n, vector&lt;int&gt;(m, 0));
+        vector&lt;vector&lt;vector&lt;int&gt;&gt;&gt; dp(n, vector&lt;vector&lt;int&gt;&gt;(m, vector&lt;int&gt;(2, 0)));
+        for (int i = 0;i &lt;= n-3;i++){
+            for (int j = 0;j &lt;= m-3;j++){
+                int flag = 1, sum = 0;
+                for (int k = 0;k &lt; 3 &amp;&amp; flag==1;k++){
+                    for (int l = 0;l &lt; 3 &amp;&amp; flag==1;l++){
+                        int cur = image[i+k][j+l];
+                        sum += cur;
+                        int left = l==2?cur:image[i+k][j+l+1];
+                        int down = k==2?cur:image[i+k+1][j+l];
+                        if (abs(cur-left) &gt; threshold || abs(cur-down) &gt; threshold){
+                            flag = 0;
+                        }
+                    }
+                }
+                if (flag == 1){
+                    for (int k = 0;k &lt; 3;k++){
+                        for (int l = 0;l &lt; 3;l++){
+                            dp[i+k][j+l][0] += sum/9;
+                            dp[i+k][j+l][1]++;
+                        }
+                    }
+                }
+            }
+        }
+        for (int i = 0;i &lt; n;i++){
+            for (int j = 0;j &lt; m;j++){
+                if (dp[i][j][1] &gt; 0){
+                    ans[i][j] = dp[i][j][0]/dp[i][j][1];
+                }else{
+                    ans[i][j] = image[i][j];
+                }
+            }
+        }
+        return ans;
+    }
+};
+</code></pre>
+<h3 id="复杂度分析-2">复杂度分析</h3>
+<ul>
+<li>时间：O(n*m*9)。</li>
+<li>空间：O(n*m)。</li>
+</ul>
+<h2 id="100203-将单词恢复初始状态所需的最短时间"><a href="https://leetcode.cn/problems/minimum-time-to-revert-word-to-initial-state-ii/">100203. 将单词恢复初始状态所需的最短时间</a></h2>
+<p>给你一个下标从 <strong>0</strong> 开始的字符串 <code>word</code> 和一个整数 <code>k</code> 。</p>
+<p>在每一秒，你必须执行以下操作：</p>
+<ul>
+<li>移除 <code>word</code> 的前 <code>k</code> 个字符。</li>
+<li>在 <code>word</code> 的末尾添加 <code>k</code> 个任意字符。</li>
+</ul>
+<p><strong>注意</strong> 添加的字符不必和移除的字符相同。但是，必须在每一秒钟都执行 <strong>两种</strong> 操作。</p>
+<p>返回将 <code>word</code> 恢复到其 <strong>初始</strong> 状态所需的 <strong>最短</strong> 时间（该时间必须大于零）。</p>
+<p><strong>示例 1：</strong></p>
+<pre><code>输入：word = &quot;abacaba&quot;, k = 3
+输出：2
+解释：
+第 1 秒，移除 word 的前缀 &quot;aba&quot;，并在末尾添加 &quot;bac&quot; 。因此，word 变为 &quot;cababac&quot;。
+第 2 秒，移除 word 的前缀 &quot;cab&quot;，并在末尾添加 &quot;aba&quot; 。因此，word 变为 &quot;abacaba&quot; 并恢复到始状态。
+可以证明，2 秒是 word 恢复到其初始状态所需的最短时间。
+</code></pre>
+<p><strong>示例 2：</strong></p>
+<pre><code>输入：word = &quot;abacaba&quot;, k = 4
+输出：1
+解释：
+第 1 秒，移除 word 的前缀 &quot;abac&quot;，并在末尾添加 &quot;caba&quot; 。因此，word 变为 &quot;abacaba&quot; 并恢复到初始状态。
+可以证明，1 秒是 word 恢复到其初始状态所需的最短时间。
+</code></pre>
+<p><strong>示例 3：</strong></p>
+<pre><code>输入：word = &quot;abcbabcd&quot;, k = 2
+输出：4
+解释：
+每一秒，我们都移除 word 的前 2 个字符，并在 word 末尾添加相同的字符。
+4 秒后，word 变为 &quot;abcbabcd&quot; 并恢复到初始状态。
+可以证明，4 秒是 word 恢复到其初始状态所需的最短时间。
+</code></pre>
+<p><strong>提示：</strong></p>
+<ul>
+<li><code>1 &lt;= word.length &lt;= 10^5 </code></li>
+<li><code>1 &lt;= k &lt;= word.length</code></li>
+<li><code>word</code>仅由小写英文字母组成。</li>
+</ul>
+<h3 id="思路-3">思路</h3>
+<ol>
+<li>
+<p>由于可以往s的末尾添加任意字符，这意味着只要s[k:]是s的前缀，就能让s恢复成其初始值，其中s[k:]表示从s[k]开始的后缀。</p>
+</li>
+<li>
+<p>即需要找到最小的t，使得s[tk:]是s的前缀。</p>
+<pre><code class="language-html">s = abacaba，k = 4 时
+第一秒后，s[4:]=aba，是s的前缀。
+相当于最前面删除abac，最后面加上caba。
+</code></pre>
+<pre><code class="language-html">s = abacaba，k = 3 时
+第一秒后，s[3:]=caba，不是s的前缀。
+第二秒后，s[6:]=a，是s的前缀。
+相当于最前面删除aba和cab，最后面加上bac和aba。
+</code></pre>
+</li>
+<li>
+<p>判断前后缀一般有两种方法：</p>
+<ul>
+<li>KMP</li>
+<li>字符串哈希</li>
+</ul>
+</li>
+</ol>
+<h3 id="代码-3">代码</h3>
+<h4 id="kmp">KMP</h4>
+<blockquote>
+<p>next[i]表示最长相同前后缀的长度。</p>
+<p>例如：next(s = abacaba) = [0,0,1,0,1,2,3]，k = 3。</p>
+<p>一开始相同前后缀长度 len = next[n-1] = 3。(此时前后缀为aba)。</p>
+<p>但需要删除abac四个字符，不是k的整数倍。再次寻找次短相同前后缀长度。</p>
+<p>len = next[len-1] = next[2] = 1。（此时前后缀为a）。</p>
+<p>需要删除abacab六个字符，是k的两倍，符合题意。</p>
+</blockquote>
+<pre><code class="language-C++">class Solution {
+public:
+    // 基础的KMP计算next数组
+    vector&lt;int&gt; calcLSP(string s){
+        int n = s.size();
+        vector&lt;int&gt; next(n, 0);
+        for (int i = 1, j = 0;i &lt; n;i++){
+            while (j &amp;&amp; s[i] != s[j]) j = next[j - 1];
+            if (s[i] == s[j]) j++;
+            next[i] = j;
+        }
+        return next;
+    }
+    int minimumTimeToInitialState(string word, int k){
+        int n = word.size();
+        vector&lt;int&gt; next = calcLSP(word);
+        for (int len = next[n-1];;){
+            // 枚举每一个可能的相同前后缀长度
+            if ((n-len)%k == 0) return (n-len+k-1)/k;
+            // 下一个相同前后缀长度（肯定比现在长度小）
+            len = next[len-1];
+        }
+        return (n+k-1)/k;
+    }
+};
+</code></pre>
+<ul>
+<li>时间：O(n)。</li>
+<li>空间：O(n)。</li>
+</ul>
+
+              </div>
+              <hr class="clear">
+              
+                <div class="next-post">
+                  <a class="purple-link" href="https://decade-qiu.github.io/post/leetcode-ti-mu-fen-xiang-2024-01-21/">
+                    <h3 class="post-title">
+                      下一篇：leetcode 题目分享 2024-01-21
+                    </h3>
+                  </a>
+                </div>
+                
+            </div>
+          </div>
+      </div>
+
+      
+          <div id="gitalk-container"></div>
+      
+
+    
+    </div>
+    <div class="site-footer">
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/Decade-qiu" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        <a href="https://space.bilibili.com/98721375?spm_id_from=333.1007.0.0" target="_blank">
+          <i class="fab fa-bilibili"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.zhihu.com/people/chou-yu-80-33" target="_blank">
+          <i class="fab fa-zhihu"></i>
+        </a>
+      
+    
+  </div>
+  <div class="slogan">Stay hungry. Stay foolish.</div> |
+  <a href="https://github.com/Decade-qiu/gridea-theme-Eternal" target="_blank">Today is happy day again!</a> | <a href="https://github.com/Decade-qiu/gridea-theme-Eternal" target="_blank">Powered by Eternal</a> | <a href="https://decade-qiu.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+    <script src="https://decade-qiu.github.io/media/scripts/index.js"></script>
+
+
+    <script src='https://decade-qiu.github.io/media/scripts/valine.min.js'></script>
+    <script>
+        new Valine({
+            el: '#gitalk-container',
+            appId: 'b2xhAFZQq4FxBeHcVRgXNEbf-gzGzoHsz',
+            appKey: 'QqIty1r7mCD1MbFanHuyw57O',
+            placeholder: 'Write something...',
+        })
+    </script>
+
+
+
+  </body>
+</html>
+
+<script>
+    window.onload = function() {
+        let id = 1;
+        let post_content = document.querySelector('.content-card');
+        post_content.querySelectorAll('h1,h2,h3,h4,h5,h6').forEach(function (item) {
+            item.setAttribute('id', 'toc-' + id);
+            id++;
+        });
+        tocbot.init({
+            tocSelector: '.toc',
+            contentSelector: '.post-content',
+            headingSelector: 'h1,h2,h3,h4',
+            headingsOffset: 58,
+        });
+        // 检测页面滚动距离 用eventlistener
+        window.addEventListener('scroll', function () {
+            let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            let toc = document.querySelector('.toc');
+            let tocBtn = document.querySelector('.toc-body');
+            if (scrollTop > 250) {
+                tocBtn.classList.add('toc-body-fixed');
+                toc.classList.add('toc-fixed');
+            } else {
+                tocBtn.classList.remove('toc-body-fixed');
+                toc.classList.remove('toc-fixed');
+            }
+        });
+        document.querySelector('#floating-toc-btn').addEventListener('click', function () {
+            let toc = document.querySelector('.toc-body');
+            let main = document.querySelector('.main');
+            if (toc.classList.contains('hide')) {
+                main.classList.add('main-small');
+                toc.classList.remove('hide');
+            } else {
+                toc.classList.add('hide');
+                main.classList.remove('main-small');
+            }
+        });
+        window.addEventListener('resize', function() {
+            // 获取屏幕宽度
+            var screenWidth = window.innerWidth || document.documentElement.clientWidth;
+            // 设置 .content-card 的 max-width
+            var contentCard = document.querySelector('.content-card');
+            contentCard.style.maxWidth = screenWidth + 'px';
+        });
+        // 初始加载时执行一次，确保初始状态下也设置正确
+        window.dispatchEvent(new Event('resize'));
+    };
+</script>

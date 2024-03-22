@@ -1,0 +1,536 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>JavaScript 数据类型 | Decade</title>
+<meta name="description" content="Stay hungry. Stay foolish.">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.1/css/all.css" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://decade-qiu.github.io/favicon.ico?v=1711118819754">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://decade-qiu.github.io/styles/main.css">
+
+<script src="https://decade-qiu.github.io/media/scripts/vue.js"></script>
+<script src="https://decade-qiu.github.io/media/scripts/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.5.0/tocbot.min.js"></script>
+  </head>
+  <body>
+    <div class="carousel carousel-slider center index-cover" data-indicators="true">
+    <div class="bg-cover pd-header" style="background: url('') no-repeat center center fixed" data-link="https://decade-qiu.github.io/post/javascript-shu-ju-lei-xing/">
+        <div class="container">
+            <div class="row">
+                <div class="col s10 offset-s1 m8 offset-m2 l8 offset-l2">
+                    <div class="brand">
+                        <div class="title center-align">
+                            JavaScript 数据类型
+                        </div>
+                        <div class="description center-align">
+                            <span id="subtitle">
+                                Day Day Learn, Day Day Up.
+                            </span><span class="typed-cursor">|</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
+<script>
+    window.onload = function () {
+        var typed = new Typed("#subtitle", {
+            strings: [ 
+                
+                    "从来没有真正的绝境, 只有心灵的迷途",
+                
+                    'Day Day Learn, Day Day Up.',
+
+            ],
+            startDelay: 300,
+            typeSpeed: 100,
+            loop: true,
+            backSpeed: 50,
+            showCursor: true
+        });
+        let cover = document.querySelector('.bg-cover');
+        cover.setAttribute('style', `background: url('${localStorage[cover.dataset.link]}') no-repeat center center fixed`);
+    }
+</script>
+
+
+    <div class="toc-body hide">  
+        <div class="toc"></div>
+    </div>
+    <div id="floating-toc-btn">
+        <i class="fas fa-list-ul bg-color"></i>
+    </div>
+    <div id="app" class="main">
+      <div class="site-header-container nav-transparent">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://decade-qiu.github.io">
+        <img class="avatar" src="https://decade-qiu.github.io/images/avatar.png?v=1711118819754" alt=""
+          width="32px" height="32px">
+      </a>
+      <a href="https://decade-qiu.github.io">
+        <h1 class="site-title">
+          Decade
+        </h1>
+      </a>
+    </div>
+    <div class="right">
+        <div class="menu">
+            <a href="/post/about" v-if="headSearchShow">
+                <i class="fa-solid fa-user"></i>&nbsp;个人
+            </a>
+            <a href="/archives" v-if="headSearchShow">
+                <i class="fa-solid fa-box-archive"></i>&nbsp;归档
+            </a>
+            <a href="/tags" v-if="headSearchShow">
+                <i class="fa-solid fa-tag"></i>&nbsp;标签
+            </a>
+            <a href="/life" v-if="headSearchShow">
+                <i class="fa-fw fas fa-heart"></i>&nbsp;生活
+            </a>
+            
+        </div>
+      <div class="gridea-search-div" v-if="headSearchShow">
+        <form id="gridea-search-form" action="https://decade-qiu.github.io/search/">
+          <input class="gridea-search-input" autocomplete="off" spellcheck="false" name="q" />
+        </form>
+      </div>
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }"
+          @click="menuClick()" v-if="menuSearchShow"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      <div class="gridea-search-div" v-if="menuSearchShow">
+        <form id="gridea-search-form" action="https://decade-qiu.github.io/search/">
+          <input class="gridea-search-input" autocomplete="off" spellcheck="false" name="q" />
+        </form>
+      </div>
+      
+        
+            <a href="/" class="menu purple-link">
+              首页
+            </a>
+            
+              
+        
+            <a href="/archives" class="menu purple-link">
+              归档
+            </a>
+            
+              
+        
+            <a href="/tags" class="menu purple-link">
+              标签
+            </a>
+            
+              
+        
+            <a href="/post/about" class="menu purple-link">
+              个人
+            </a>
+            
+              
+        
+            <a href="/life" class="menu purple-link">
+              生活
+            </a>
+            
+              
+              
+    </div>
+  </div>
+</transition>
+
+<script>
+    window.onscroll = function () {
+        var t = document.documentElement.scrollTop || document.body.scrollTop;
+        var header = document.querySelector('.site-header-container');
+        if (t > 0) {
+            header.classList.remove('nav-transparent');
+        } else {
+            header.classList.add('nav-transparent');
+        }
+    }
+</script>
+
+      <div class="content-body">
+        <div class="content-container content-card">
+            <div class="post-detail">
+              <div class="post-info post-detail-info">
+                <span><i class="icon-calendar-outline"></i> 2023-12-14-Thu</span>
+                
+                  <span>
+                    
+                        <i class="icon-pricetags-outline"></i>
+                      <a href="https://decade-qiu.github.io/tag/EI4u1kOvT/">
+                        JavaScript
+                      </a>
+                    
+                  </span>
+                
+              </div>
+              
+              <hr class="clear">
+              <div class="post-content">
+                <h2 id="原始类型对象">原始类型对象</h2>
+<pre><code class="language-javascript">let str = &quot;Hello&quot;;
+
+alert( str.toUpperCase() ); // HELLO
+</code></pre>
+<p>很简单，对吧？以下是 <code>str.toUpperCase()</code> 中实际发生的情况：</p>
+<ol>
+<li>字符串 <code>str</code> 是一个原始值。因此，在访问其属性时，会创建一个包含字符串字面值的特殊对象，并且具有可用的方法，例如 <code>toUpperCase()</code>。</li>
+<li>该方法运行并返回一个新的字符串（由 <code>alert</code> 显示）。</li>
+<li>特殊对象被销毁，只留下原始值 <code>str</code>。</li>
+</ol>
+<p>即原始类型在调用方法时，会自动生成一个对象[String Number Boolean Symbol BigInt]。<strong>没有undefined和null</strong></p>
+<h2 id="数字">数字</h2>
+<p><strong>Math对象</strong></p>
+<p>与python，Java提供的API类似。</p>
+<pre><code class="language-javascript">Math.floor
+Math.ceil
+Math.round 
+num.toFixed(precision)
+num.toString(radix)
+
+alert( parseInt('100px') ); // 100
+alert( parseFloat('12.5em') ); // 12.5
+
+alert( parseInt('12.3') ); // 12
+alert( parseFloat('12.3.4') ); // 12.3
+
+alert( parseInt('a123') ); // NaN
+alert( parseInt('0xff', 16) ); // 255
+alert( parseInt('ff', 16) ); // 255
+
+alert( parseInt('2n9c', 36) ); // 123456
+</code></pre>
+<p><strong>Number对象</strong></p>
+<pre><code class="language-javascript">let num = 255;
+
+alert( num.toString(16) );  // ff
+alert( num.toString(2) );   // 11111111
+
+let num = 12.36;
+alert( num.toFixed(1) ); // &quot;12.4&quot;
+
+let num = 12.34;
+alert( num.toFixed(5) ); // &quot;12.34000&quot;，在结尾添加了 0，以达到小数点后五位
+</code></pre>
+<h2 id="字符串">字符串</h2>
+<p>str.codePointAt(pos)：返回在 <code>pos</code> 位置的字符代码。</p>
+<p>String.fromCodePoint(code)：通过数字 <code>code</code> 创建字符。</p>
+<p>str.substring(start, end)</p>
+<p>str.trim()： 删除字符串前后的空格。</p>
+<p><code>str.repeat(n)</code>：重复字符串 <code>n</code> 次。</p>
+<h2 id="数组">数组</h2>
+<p><strong>声明和初始化</strong></p>
+<pre><code class="language-javascript">let arr = new Array();
+let arr = [];
+
+let n = 1e5;
+// vector&lt;int&gt;(n, -1);
+let arr = new Array(n).fill(-1);
+</code></pre>
+<p><strong>负索引</strong>：</p>
+<p><code>arr.at(i)</code></p>
+<ul>
+<li>如果 <code>i &gt;= 0</code>，则与 <code>arr[i]</code> 完全相同。</li>
+<li>对于 <code>i</code> 为负数的情况，它则从数组的尾部向前数。</li>
+</ul>
+<p><strong>添加/删除</strong></p>
+<ul>
+<li><code>push</code> 在末端添加一个元素</li>
+<li><code>shift</code> 取出队列首端的一个元素</li>
+<li><code>pop</code> 从末端取出一个元素</li>
+<li><code>unshift</code> 在队列首端加一个元素</li>
+</ul>
+<p><code>push</code> 和 <code>unshift</code> 方法都可以一次添加多个元素：</p>
+<pre><code class="language-javascript">let fruits = [&quot;Apple&quot;];
+
+fruits.push(&quot;Orange&quot;, &quot;Peach&quot;);
+// 或者使用展开语法：...
+fruits.push(...[&quot;Orange&quot;, &quot;Peach&quot;]);
+
+// [&quot;Apple&quot;, &quot;Orange&quot;, &quot;Peach&quot;]
+</code></pre>
+<p><strong>splice</strong></p>
+<pre><code class="language-javascript">arr.splice(start[, deleteCount, elem1, ..., elemN])
+</code></pre>
+<p>它从索引 <code>start</code> 开始修改 <code>arr</code>：删除 <code>deleteCount</code> 个元素并在当前位置插入 <code>elem1, ..., elemN</code>。最后返回被删除的元素所组成的数组。</p>
+<pre><code class="language-javascript">let arr = [&quot;I&quot;, &quot;study&quot;, &quot;JavaScript&quot;, &quot;right&quot;, &quot;now&quot;];
+// 删除数组的前三项，并使用其他内容代替它们
+let r = arr.splice(0, 3, &quot;dance&quot;);
+alert( arr ) // [&quot;dance&quot;, &quot;right&quot;, &quot;now&quot;]
+alert( r ) // [&quot;I&quot;, &quot;study&quot;, &quot;JavaScript&quot;]
+</code></pre>
+<p><strong>slice</strong></p>
+<pre><code class="language-javascript">arr.slice([start], [end])
+</code></pre>
+<p>数组赋值，与字符串切片类似。</p>
+<p><strong>concat</strong></p>
+<pre><code class="language-javascript">arr.concat(arg1, arg2...)
+
+let arr = [1, 2];
+// 从 arr、[3,4]、5 和 6 创建一个新数组
+alert( arr.concat([3, 4], 5, 6) ); // 1,2,3,4,5,6
+</code></pre>
+<p>数组会被展开。</p>
+<p><strong>forEach</strong></p>
+<pre><code class="language-javascript">arr.forEach(function(item, index, array) {
+  // ... do something with each item
+});
+</code></pre>
+<p><strong>find</strong></p>
+<p>与forEach类似，只传入一个参数时，默认传入的是item。</p>
+<pre><code class="language-javascript">let result = arr.find(function(item, index, array) {
+  // 如果返回 true，则返回 item 并停止迭代
+  // 搜索不到，则返回 undefined
+});
+
+let users = [
+  {id: 1, name: &quot;John&quot;},
+  {id: 2, name: &quot;Pete&quot;},
+  {id: 3, name: &quot;Mary&quot;}
+];
+let user = users.find(item =&gt; item.id == 1);
+alert(user.name); // John
+</code></pre>
+<p><strong>findIndex/findLastIndex</strong></p>
+<p>与<code>arr.find</code>具有相同的语法，但它返回找到的元素的索引，而不是元素本身。如果没找到，则返回<code>-1</code>。</p>
+<p><strong>filter</strong></p>
+<p>语法与<code>find</code>大致相同，但是<code>filter</code>返回的是所有匹配元素组成的数组：</p>
+<pre><code class="language-javascript">let results = arr.filter(function(item, index, array) {
+  // 如果 true item 被 push 到 results，迭代继续
+  // 如果什么都没找到，则返回空数组
+});
+</code></pre>
+<p><strong>map</strong></p>
+<p>对数组的每个元素都调用函数，并返回结果数组。</p>
+<pre><code class="language-javascript">let result = arr.map(function(item, index, array) {
+  // 返回新值而不是当前元素
+})
+
+let lengths = [&quot;Bilbo&quot;, &quot;Gandalf&quot;, &quot;Nazgul&quot;].map(item =&gt; item.length);
+alert(lengths); // 5,7,6
+</code></pre>
+<p><strong>sort</strong></p>
+<p>默认会当成字符串类型排序。</p>
+<pre><code class="language-javascript">// 数字从小到大
+arr.sort( (a, b) =&gt; a - b );
+arr.sort( (a, b) =&gt; a &lt; b ? -1 : 1);
+</code></pre>
+<p><strong>Array.from(arrayLike, mapFn)</strong></p>
+<p>将类数组或可迭代对象转换成数组。</p>
+<h2 id="map">Map</h2>
+<ul>
+<li><code>new Map()</code> —— 创建 map。</li>
+<li><code>map.set(key, value)</code> —— 根据键存储值。</li>
+<li><code>map.get(key)</code> —— 根据键来返回值，如果 <code>map</code> 中不存在对应的 <code>key</code>，则返回 <code>undefined</code>。</li>
+<li><code>map.has(key)</code> —— 如果 <code>key</code> 存在则返回 <code>true</code>，否则返回 <code>false</code>。</li>
+<li><code>map.delete(key)</code> —— 删除指定键的值。</li>
+<li><code>map.clear()</code> —— 清空 map。</li>
+<li><code>map.size</code> —— 返回当前元素个数。</li>
+<li><code>map.forEach</code>((value, key, map) =&gt; {}</li>
+</ul>
+<p>map中的key类型可以是任意类型（不同于对象，key只能为str或Symbol）。</p>
+<pre><code class="language-javascript">let map = new Map([
+  ['1',  'str1'],
+  [1,    'num1'],
+  [true, 'bool1']
+]);
+// 或者
+let obj = {
+  name: &quot;John&quot;,
+  age: 30
+};
+let map = new Map(Object.entries(obj));
+</code></pre>
+<h2 id="set">Set</h2>
+<ul>
+<li><code>new Set(iterable)</code> —— 创建一个 <code>set</code>，如果提供了一个 <code>iterable</code> 对象（通常是数组），将会从数组里面复制值到 <code>set</code> 中。</li>
+<li><code>set.add(value)</code> —— 添加一个值，返回 set 本身</li>
+<li><code>set.delete(value)</code> —— 删除值，如果 <code>value</code> 在这个方法调用的时候存在则返回 <code>true</code> ，否则返回 <code>false</code>。</li>
+<li><code>set.has(value)</code> —— 如果 <code>value</code> 在 set 中，返回 <code>true</code>，否则返回 <code>false</code>。</li>
+<li><code>set.clear()</code> —— 清空 set。</li>
+<li><code>set.size</code> —— 返回元素个数。</li>
+<li><code>set.forEach</code>((value, valueAgain, set)=&gt;{}</li>
+</ul>
+<h2 id="对象转换">对象转换</h2>
+<p>实现map，filter等功能。</p>
+<pre><code class="language-javascript">let prices = {
+  banana: 1,
+  orange: 2,
+  meat: 4,
+};
+
+let doublePrices = Object.fromEntries(
+  // 将价格转换为数组，将每个键/值对映射为另一对
+  // 然后通过 fromEntries 再将结果转换为对象
+  Object.entries(prices).map(entry =&gt; [entry[0], entry[1] * 2])
+);
+</code></pre>
+<h2 id="json">Json</h2>
+<p><strong>JSON.stringify(value[, replacer,space])</strong></p>
+<pre><code class="language-javascript">let meetup = {
+  title: &quot;Conference&quot;,
+  participants: [{name: &quot;John&quot;}, {name: &quot;Alice&quot;}],
+  place: &quot;aaa&quot; // meetup 引用了 room
+};
+
+x =  JSON.stringify(meetup, function replacer(key, value) {
+  return (key == 'place') ? undefined : value;
+});
+
+//'{&quot;title&quot;:&quot;Conference&quot;,&quot;participants&quot;:[{&quot;name&quot;:&quot;John&quot;},{&quot;name&quot;:&quot;Alice&quot;}]}'
+</code></pre>
+<p>replace:替换指定key对应的value（value为undefined的不显示在序列化结果中）。</p>
+<p><strong>JSON.parse(str, [reviver])</strong></p>
+<pre><code class="language-javascript">let str = '{&quot;title&quot;:&quot;Conference&quot;,&quot;date&quot;:&quot;2017-11-30T12:00:00.000Z&quot;}';
+
+let meetup = JSON.parse(str, function(key, value) {
+  if (key == 'date') return new Date(value);
+  return value;
+});
+
+alert( meetup.date.getDate() ); 
+</code></pre>
+
+              </div>
+              <hr class="clear">
+              
+                <div class="next-post">
+                  <a class="purple-link" href="https://decade-qiu.github.io/post/javascript-ji-chu/">
+                    <h3 class="post-title">
+                      下一篇：JavaScript基础
+                    </h3>
+                  </a>
+                </div>
+                
+            </div>
+          </div>
+      </div>
+
+      
+          <div id="gitalk-container"></div>
+      
+
+    
+    </div>
+    <div class="site-footer">
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/Decade-qiu" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        <a href="https://space.bilibili.com/98721375?spm_id_from=333.1007.0.0" target="_blank">
+          <i class="fab fa-bilibili"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.zhihu.com/people/chou-yu-80-33" target="_blank">
+          <i class="fab fa-zhihu"></i>
+        </a>
+      
+    
+  </div>
+  <div class="slogan">Stay hungry. Stay foolish.</div> |
+  <a href="https://github.com/Decade-qiu/gridea-theme-Eternal" target="_blank">Today is happy day again!</a> | <a href="https://github.com/Decade-qiu/gridea-theme-Eternal" target="_blank">Powered by Eternal</a> | <a href="https://decade-qiu.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+    <script src="https://decade-qiu.github.io/media/scripts/index.js"></script>
+
+
+    <script src='https://decade-qiu.github.io/media/scripts/valine.min.js'></script>
+    <script>
+        new Valine({
+            el: '#gitalk-container',
+            appId: 'b2xhAFZQq4FxBeHcVRgXNEbf-gzGzoHsz',
+            appKey: 'QqIty1r7mCD1MbFanHuyw57O',
+            placeholder: 'Write something...',
+        })
+    </script>
+
+
+
+  </body>
+</html>
+
+<script>
+    window.onload = function() {
+        let id = 1;
+        let post_content = document.querySelector('.content-card');
+        post_content.querySelectorAll('h1,h2,h3,h4,h5,h6').forEach(function (item) {
+            item.setAttribute('id', 'toc-' + id);
+            id++;
+        });
+        tocbot.init({
+            tocSelector: '.toc',
+            contentSelector: '.post-content',
+            headingSelector: 'h1,h2,h3,h4',
+            headingsOffset: 58,
+        });
+        // 检测页面滚动距离 用eventlistener
+        window.addEventListener('scroll', function () {
+            let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            let toc = document.querySelector('.toc');
+            let tocBtn = document.querySelector('.toc-body');
+            if (scrollTop > 250) {
+                tocBtn.classList.add('toc-body-fixed');
+                toc.classList.add('toc-fixed');
+            } else {
+                tocBtn.classList.remove('toc-body-fixed');
+                toc.classList.remove('toc-fixed');
+            }
+        });
+        document.querySelector('#floating-toc-btn').addEventListener('click', function () {
+            let toc = document.querySelector('.toc-body');
+            let main = document.querySelector('.main');
+            if (toc.classList.contains('hide')) {
+                main.classList.add('main-small');
+                toc.classList.remove('hide');
+            } else {
+                toc.classList.add('hide');
+                main.classList.remove('main-small');
+            }
+        });
+        window.addEventListener('resize', function() {
+            // 获取屏幕宽度
+            var screenWidth = window.innerWidth || document.documentElement.clientWidth;
+            // 设置 .content-card 的 max-width
+            var contentCard = document.querySelector('.content-card');
+            contentCard.style.maxWidth = screenWidth + 'px';
+        });
+        // 初始加载时执行一次，确保初始状态下也设置正确
+        window.dispatchEvent(new Event('resize'));
+    };
+</script>

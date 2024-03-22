@@ -1,0 +1,463 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>JavaScript基础 | Decade</title>
+<meta name="description" content="Stay hungry. Stay foolish.">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.1/css/all.css" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://decade-qiu.github.io/favicon.ico?v=1711118819754">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://decade-qiu.github.io/styles/main.css">
+
+<script src="https://decade-qiu.github.io/media/scripts/vue.js"></script>
+<script src="https://decade-qiu.github.io/media/scripts/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.5.0/tocbot.min.js"></script>
+  </head>
+  <body>
+    <div class="carousel carousel-slider center index-cover" data-indicators="true">
+    <div class="bg-cover pd-header" style="background: url('') no-repeat center center fixed" data-link="https://decade-qiu.github.io/post/javascript-ji-chu/">
+        <div class="container">
+            <div class="row">
+                <div class="col s10 offset-s1 m8 offset-m2 l8 offset-l2">
+                    <div class="brand">
+                        <div class="title center-align">
+                            JavaScript基础
+                        </div>
+                        <div class="description center-align">
+                            <span id="subtitle">
+                                Day Day Learn, Day Day Up.
+                            </span><span class="typed-cursor">|</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
+<script>
+    window.onload = function () {
+        var typed = new Typed("#subtitle", {
+            strings: [ 
+                
+                    "从来没有真正的绝境, 只有心灵的迷途",
+                
+                    'Day Day Learn, Day Day Up.',
+
+            ],
+            startDelay: 300,
+            typeSpeed: 100,
+            loop: true,
+            backSpeed: 50,
+            showCursor: true
+        });
+        let cover = document.querySelector('.bg-cover');
+        cover.setAttribute('style', `background: url('${localStorage[cover.dataset.link]}') no-repeat center center fixed`);
+    }
+</script>
+
+
+    <div class="toc-body hide">  
+        <div class="toc"></div>
+    </div>
+    <div id="floating-toc-btn">
+        <i class="fas fa-list-ul bg-color"></i>
+    </div>
+    <div id="app" class="main">
+      <div class="site-header-container nav-transparent">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://decade-qiu.github.io">
+        <img class="avatar" src="https://decade-qiu.github.io/images/avatar.png?v=1711118819754" alt=""
+          width="32px" height="32px">
+      </a>
+      <a href="https://decade-qiu.github.io">
+        <h1 class="site-title">
+          Decade
+        </h1>
+      </a>
+    </div>
+    <div class="right">
+        <div class="menu">
+            <a href="/post/about" v-if="headSearchShow">
+                <i class="fa-solid fa-user"></i>&nbsp;个人
+            </a>
+            <a href="/archives" v-if="headSearchShow">
+                <i class="fa-solid fa-box-archive"></i>&nbsp;归档
+            </a>
+            <a href="/tags" v-if="headSearchShow">
+                <i class="fa-solid fa-tag"></i>&nbsp;标签
+            </a>
+            <a href="/life" v-if="headSearchShow">
+                <i class="fa-fw fas fa-heart"></i>&nbsp;生活
+            </a>
+            
+        </div>
+      <div class="gridea-search-div" v-if="headSearchShow">
+        <form id="gridea-search-form" action="https://decade-qiu.github.io/search/">
+          <input class="gridea-search-input" autocomplete="off" spellcheck="false" name="q" />
+        </form>
+      </div>
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }"
+          @click="menuClick()" v-if="menuSearchShow"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      <div class="gridea-search-div" v-if="menuSearchShow">
+        <form id="gridea-search-form" action="https://decade-qiu.github.io/search/">
+          <input class="gridea-search-input" autocomplete="off" spellcheck="false" name="q" />
+        </form>
+      </div>
+      
+        
+            <a href="/" class="menu purple-link">
+              首页
+            </a>
+            
+              
+        
+            <a href="/archives" class="menu purple-link">
+              归档
+            </a>
+            
+              
+        
+            <a href="/tags" class="menu purple-link">
+              标签
+            </a>
+            
+              
+        
+            <a href="/post/about" class="menu purple-link">
+              个人
+            </a>
+            
+              
+        
+            <a href="/life" class="menu purple-link">
+              生活
+            </a>
+            
+              
+              
+    </div>
+  </div>
+</transition>
+
+<script>
+    window.onscroll = function () {
+        var t = document.documentElement.scrollTop || document.body.scrollTop;
+        var header = document.querySelector('.site-header-container');
+        if (t > 0) {
+            header.classList.remove('nav-transparent');
+        } else {
+            header.classList.add('nav-transparent');
+        }
+    }
+</script>
+
+      <div class="content-body">
+        <div class="content-container content-card">
+            <div class="post-detail">
+              <div class="post-info post-detail-info">
+                <span><i class="icon-calendar-outline"></i> 2023-12-12-Tue</span>
+                
+                  <span>
+                    
+                        <i class="icon-pricetags-outline"></i>
+                      <a href="https://decade-qiu.github.io/tag/EI4u1kOvT/">
+                        JavaScript
+                      </a>
+                    
+                  </span>
+                
+              </div>
+              
+                <div class="post-card-abstract">
+                    <p>基础和常用的知识点</p>
+
+                  </div>
+                
+              <hr class="clear">
+              <div class="post-content">
+                
+<h2 id="反引号">反引号</h2>
+<pre><code class="language-javascript">let name = &quot;John&quot;;
+
+// 嵌入一个变量
+alert( `Hello, ${name}!` ); // Hello, John!
+
+// 嵌入一个表达式
+alert( `the result is ${1 + 2}` ); // the result is 3
+</code></pre>
+<h2 id="类型转换">类型转换</h2>
+<pre><code class="language-js">let apples = &quot;2&quot;;
+let oranges = &quot;3&quot;;
+
+// 在二元运算符加号起作用之前，所有的值都被转化为了数字
+alert( +apples + +oranges ); // 5
+
+// 更长的写法
+// alert( Number(apples) + Number(oranges) ); // 5
+</code></pre>
+<h2 id="运算符">??运算符</h2>
+<p><strong>a ?? b == (a !== null &amp;&amp; a !== undefined) ? a : b;</strong></p>
+<pre><code class="language-javascript">let firstName = null;
+let lastName = null;
+let nickName = &quot;Supercoder&quot;;
+
+// 显示第一个真值：
+alert(firstName || lastName || nickName || &quot;Anonymous&quot;); // Supercoder
+</code></pre>
+<h2 id="函数">函数</h2>
+<p><strong>回调函数</strong></p>
+<pre><code class="language-javascript">function ask(question, yes, no) {
+  if (confirm(question)) yes()
+  else no();
+}
+
+// 1
+function showOk() {
+  alert( &quot;You agreed.&quot; );
+}
+function showCancel() {
+  alert( &quot;You canceled the execution.&quot; );
+}
+ask(&quot;Do you agree?&quot;, showOk, showCancel);
+
+// 2
+ask(
+  &quot;Do you agree?&quot;,
+  function() { alert(&quot;You agreed.&quot;); },
+  function() { alert(&quot;You canceled the execution.&quot;); }
+);
+</code></pre>
+<p><strong>箭头函数</strong></p>
+<pre><code class="language-js">let func = (arg1, arg2, ..., argN) =&gt; expression;
+let func = function(arg1, arg2, ..., argN) {
+  return expression;
+};
+
+let double = n =&gt; n * 2;
+// let double = function(n) { return n * 2; }
+
+let sum = (a, b) =&gt; a + b;
+// let sum = function(a, b) { return a + b; };
+
+let sum = (a, b) =&gt; {  // 花括号表示开始一个多行函数
+  let result = a + b;
+  return result; 
+};
+// 如果我们使用了花括号，那么我们需要一个显式的 “return”
+</code></pre>
+<h2 id="可选链">可选链</h2>
+<ol>
+<li><code>obj?.prop</code> —— 如果 <code>obj</code> 存在则返回 <code>obj.prop</code>，否则返回 <code>undefined</code>。</li>
+<li><code>obj?.[prop]</code> —— 如果 <code>obj</code> 存在则返回 <code>obj[prop]</code>，否则返回 <code>undefined</code>。</li>
+<li><code>obj.method?.()</code> —— 如果 <code>obj.method</code> 存在则调用 <code>obj.method()</code>，否则返回 <code>undefined</code>。</li>
+</ol>
+<h2 id="对象类型">对象类型</h2>
+<pre><code class="language-javascript">let user = {
+  name: &quot;json&quot;,
+  sex: &quot;male&quot;
+};
+</code></pre>
+<p><strong>对象中所有key的类型均是<code>字符串</code>或<code>Symbol</code></strong></p>
+<ul>
+<li>user.age = 1: &quot;.&quot;访问方式中的key默认就是一个字符串。(age默认转成字符串&quot;age&quot;)</li>
+<li>user[age] = 1 or user[&quot;age&quot;]: &quot;[]&quot;访问方式中的key可以是一个变量，也可以是一个字符串；如果是变量，最终存储的key值即为该变量对应的值（如果该变量值不是字符串，会被强制转为字符串）。</li>
+</ul>
+<h2 id="对象强制类型转换">对象强制类型转换</h2>
+<p>依次自动尝试对象中以下存在的方法：</p>
+<p><code>[Symbol.toPrimitive]</code></p>
+<pre><code class="language-javascript">obj[Symbol.toPrimitive] = function(hint) {
+  // 这里是将此对象转换为原始值的代码
+  // 它必须返回一个原始值
+  // hint 为 &quot;string&quot;、&quot;number&quot; 或 &quot;default&quot; 中的一个
+  // 除了Date对象，所有hint=default调用默认使用hint=number的方法
+}
+
+let user = {
+  name: &quot;John&quot;,
+  money: 1000,
+
+  [Symbol.toPrimitive](hint) {
+    alert(`hint: ${hint}`);
+    return hint == &quot;string&quot; ? `{name: &quot;${this.name}&quot;}` : this.money;
+  }
+};
+
+// 转换演示：
+alert(user); // hint: string -&gt; {name: &quot;John&quot;}
+alert(+user); // hint: number -&gt; 1000
+alert(user + 500); // hint: default -&gt; 1500
+</code></pre>
+<p><code>toString/valueOf</code></p>
+<pre><code class="language-javascript">let user = {name: &quot;John&quot;};
+
+alert(user); // [object Object]
+alert(user.valueOf() === user); // true
+
+let user = {
+  name: &quot;John&quot;,
+  money: 1000,
+
+  // 对于 hint=&quot;string&quot;
+  toString() {
+    return `{name: &quot;${this.name}&quot;}`;
+  },
+
+  // 对于 hint=&quot;number&quot; 或 &quot;default&quot;
+  valueOf() {
+    return this.money;
+  }
+
+};
+
+alert(user); // toString -&gt; {name: &quot;John&quot;}
+alert(+user); // valueOf -&gt; 1000
+alert(user + 500); // valueOf -&gt; 1500
+</code></pre>
+<h2 id="内建对象比较方法">内建对象比较方法</h2>
+<p>有一个特殊的内建方法 <code>Object.is</code>，它类似于 <code>===</code> 一样对值进行比较，但它对于两种边缘情况更可靠：</p>
+<ol>
+<li>它适用于 <code>NaN</code>：<code>Object.is(NaN, NaN) === true</code>，这是件好事。</li>
+<li>值 <code>0</code> 和 <code>-0</code> 是不同的：<code>Object.is(0, -0) === false</code>，从技术上讲这是对的，因为在内部，数字的符号位可能会不同，即使其他所有位均为零。</li>
+</ol>
+<p>在所有其他情况下，<code>Object.is(a, b)</code> 与 <code>a === b</code> 相同。</p>
+
+              </div>
+              <hr class="clear">
+              
+                <div class="next-post">
+                  <a class="purple-link" href="https://decade-qiu.github.io/post/leetcode-2454-xia-yi-ge-geng-da-yuan-su-iv/">
+                    <h3 class="post-title">
+                      下一篇：Leetcode 2454. 下一个更大元素 IV
+                    </h3>
+                  </a>
+                </div>
+                
+            </div>
+          </div>
+      </div>
+
+      
+          <div id="gitalk-container"></div>
+      
+
+    
+    </div>
+    <div class="site-footer">
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/Decade-qiu" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        <a href="https://space.bilibili.com/98721375?spm_id_from=333.1007.0.0" target="_blank">
+          <i class="fab fa-bilibili"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.zhihu.com/people/chou-yu-80-33" target="_blank">
+          <i class="fab fa-zhihu"></i>
+        </a>
+      
+    
+  </div>
+  <div class="slogan">Stay hungry. Stay foolish.</div> |
+  <a href="https://github.com/Decade-qiu/gridea-theme-Eternal" target="_blank">Today is happy day again!</a> | <a href="https://github.com/Decade-qiu/gridea-theme-Eternal" target="_blank">Powered by Eternal</a> | <a href="https://decade-qiu.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+    <script src="https://decade-qiu.github.io/media/scripts/index.js"></script>
+
+
+    <script src='https://decade-qiu.github.io/media/scripts/valine.min.js'></script>
+    <script>
+        new Valine({
+            el: '#gitalk-container',
+            appId: 'b2xhAFZQq4FxBeHcVRgXNEbf-gzGzoHsz',
+            appKey: 'QqIty1r7mCD1MbFanHuyw57O',
+            placeholder: 'Write something...',
+        })
+    </script>
+
+
+
+  </body>
+</html>
+
+<script>
+    window.onload = function() {
+        let id = 1;
+        let post_content = document.querySelector('.content-card');
+        post_content.querySelectorAll('h1,h2,h3,h4,h5,h6').forEach(function (item) {
+            item.setAttribute('id', 'toc-' + id);
+            id++;
+        });
+        tocbot.init({
+            tocSelector: '.toc',
+            contentSelector: '.post-content',
+            headingSelector: 'h1,h2,h3,h4',
+            headingsOffset: 58,
+        });
+        // 检测页面滚动距离 用eventlistener
+        window.addEventListener('scroll', function () {
+            let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            let toc = document.querySelector('.toc');
+            let tocBtn = document.querySelector('.toc-body');
+            if (scrollTop > 250) {
+                tocBtn.classList.add('toc-body-fixed');
+                toc.classList.add('toc-fixed');
+            } else {
+                tocBtn.classList.remove('toc-body-fixed');
+                toc.classList.remove('toc-fixed');
+            }
+        });
+        document.querySelector('#floating-toc-btn').addEventListener('click', function () {
+            let toc = document.querySelector('.toc-body');
+            let main = document.querySelector('.main');
+            if (toc.classList.contains('hide')) {
+                main.classList.add('main-small');
+                toc.classList.remove('hide');
+            } else {
+                toc.classList.add('hide');
+                main.classList.remove('main-small');
+            }
+        });
+        window.addEventListener('resize', function() {
+            // 获取屏幕宽度
+            var screenWidth = window.innerWidth || document.documentElement.clientWidth;
+            // 设置 .content-card 的 max-width
+            var contentCard = document.querySelector('.content-card');
+            contentCard.style.maxWidth = screenWidth + 'px';
+        });
+        // 初始加载时执行一次，确保初始状态下也设置正确
+        window.dispatchEvent(new Event('resize'));
+    };
+</script>

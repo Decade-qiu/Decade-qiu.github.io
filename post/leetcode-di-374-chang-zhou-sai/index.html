@@ -1,0 +1,507 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>Leetcode 第 374 场周赛 | Decade</title>
+<meta name="description" content="Stay hungry. Stay foolish.">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.1/css/all.css" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://decade-qiu.github.io/favicon.ico?v=1711118819754">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://decade-qiu.github.io/styles/main.css">
+
+<script src="https://decade-qiu.github.io/media/scripts/vue.js"></script>
+<script src="https://decade-qiu.github.io/media/scripts/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.5.0/tocbot.min.js"></script>
+  </head>
+  <body>
+    <div class="carousel carousel-slider center index-cover" data-indicators="true">
+    <div class="bg-cover pd-header" style="background: url('') no-repeat center center fixed" data-link="https://decade-qiu.github.io/post/leetcode-di-374-chang-zhou-sai/">
+        <div class="container">
+            <div class="row">
+                <div class="col s10 offset-s1 m8 offset-m2 l8 offset-l2">
+                    <div class="brand">
+                        <div class="title center-align">
+                            Leetcode 第 374 场周赛
+                        </div>
+                        <div class="description center-align">
+                            <span id="subtitle">
+                                Day Day Learn, Day Day Up.
+                            </span><span class="typed-cursor">|</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
+<script>
+    window.onload = function () {
+        var typed = new Typed("#subtitle", {
+            strings: [ 
+                
+                    "从来没有真正的绝境, 只有心灵的迷途",
+                
+                    'Day Day Learn, Day Day Up.',
+
+            ],
+            startDelay: 300,
+            typeSpeed: 100,
+            loop: true,
+            backSpeed: 50,
+            showCursor: true
+        });
+        let cover = document.querySelector('.bg-cover');
+        cover.setAttribute('style', `background: url('${localStorage[cover.dataset.link]}') no-repeat center center fixed`);
+    }
+</script>
+
+
+    <div class="toc-body hide">  
+        <div class="toc"></div>
+    </div>
+    <div id="floating-toc-btn">
+        <i class="fas fa-list-ul bg-color"></i>
+    </div>
+    <div id="app" class="main">
+      <div class="site-header-container nav-transparent">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://decade-qiu.github.io">
+        <img class="avatar" src="https://decade-qiu.github.io/images/avatar.png?v=1711118819754" alt=""
+          width="32px" height="32px">
+      </a>
+      <a href="https://decade-qiu.github.io">
+        <h1 class="site-title">
+          Decade
+        </h1>
+      </a>
+    </div>
+    <div class="right">
+        <div class="menu">
+            <a href="/post/about" v-if="headSearchShow">
+                <i class="fa-solid fa-user"></i>&nbsp;个人
+            </a>
+            <a href="/archives" v-if="headSearchShow">
+                <i class="fa-solid fa-box-archive"></i>&nbsp;归档
+            </a>
+            <a href="/tags" v-if="headSearchShow">
+                <i class="fa-solid fa-tag"></i>&nbsp;标签
+            </a>
+            <a href="/life" v-if="headSearchShow">
+                <i class="fa-fw fas fa-heart"></i>&nbsp;生活
+            </a>
+            
+        </div>
+      <div class="gridea-search-div" v-if="headSearchShow">
+        <form id="gridea-search-form" action="https://decade-qiu.github.io/search/">
+          <input class="gridea-search-input" autocomplete="off" spellcheck="false" name="q" />
+        </form>
+      </div>
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }"
+          @click="menuClick()" v-if="menuSearchShow"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      <div class="gridea-search-div" v-if="menuSearchShow">
+        <form id="gridea-search-form" action="https://decade-qiu.github.io/search/">
+          <input class="gridea-search-input" autocomplete="off" spellcheck="false" name="q" />
+        </form>
+      </div>
+      
+        
+            <a href="/" class="menu purple-link">
+              首页
+            </a>
+            
+              
+        
+            <a href="/archives" class="menu purple-link">
+              归档
+            </a>
+            
+              
+        
+            <a href="/tags" class="menu purple-link">
+              标签
+            </a>
+            
+              
+        
+            <a href="/post/about" class="menu purple-link">
+              个人
+            </a>
+            
+              
+        
+            <a href="/life" class="menu purple-link">
+              生活
+            </a>
+            
+              
+              
+    </div>
+  </div>
+</transition>
+
+<script>
+    window.onscroll = function () {
+        var t = document.documentElement.scrollTop || document.body.scrollTop;
+        var header = document.querySelector('.site-header-container');
+        if (t > 0) {
+            header.classList.remove('nav-transparent');
+        } else {
+            header.classList.add('nav-transparent');
+        }
+    }
+</script>
+
+      <div class="content-body">
+        <div class="content-container content-card">
+            <div class="post-detail">
+              <div class="post-info post-detail-info">
+                <span><i class="icon-calendar-outline"></i> 2023-12-10-Sun</span>
+                
+                  <span>
+                    
+                        <i class="icon-pricetags-outline"></i>
+                      <a href="https://decade-qiu.github.io/tag/XvO2auUat/">
+                        题目分享
+                      </a>
+                    
+                        <i class="icon-pricetags-outline"></i>
+                      <a href="https://decade-qiu.github.io/tag/F2kUQf7xN/">
+                        LeetCode
+                      </a>
+                    
+                  </span>
+                
+              </div>
+              
+                <div class="post-card-abstract">
+                    <h1 id="第-374-场周赛">第 374 场周赛</h1>
+
+                  </div>
+                
+              <hr class="clear">
+              <div class="post-content">
+                
+<h2 id="100143-统计已测试设备"><a href="https://leetcode.cn/problems/matrix-similarity-after-cyclic-shifts/">100143. 统计已测试设备</a></h2>
+<p>给你一个长度为 <code>n</code> 、下标从 <strong>0</strong> 开始的整数数组 <code>batteryPercentages</code> ，表示 <code>n</code> 个设备的电池百分比。</p>
+<p>你的任务是按照顺序测试每个设备 <code>i</code>，执行以下测试操作：</p>
+<ul>
+<li>如果batteryPercentages[i]大于0：
+<ul>
+<li><strong>增加</strong> 已测试设备的计数。</li>
+<li>将下标在 <code>[i + 1, n - 1]</code> 的所有设备的电池百分比减少 <code>1</code>，确保它们的电池百分比 <strong>不会低于</strong> <code>0</code> ，即 <code>batteryPercentages[j] = max(0, batteryPercentages[j] - 1)</code>。</li>
+<li>移动到下一个设备。</li>
+</ul>
+</li>
+<li>否则，移动到下一个设备而不执行任何测试。</li>
+</ul>
+<p>返回一个整数，表示按顺序执行测试操作后 <strong>已测试设备</strong> 的数量。</p>
+<h3 id="思路">思路</h3>
+<p>​	暴力模拟一下</p>
+<h3 id="代码">代码</h3>
+<pre><code class="language-C++">class Solution {
+public:
+    int countTestedDevices(vector&lt;int&gt;&amp; batteryPercentages) {
+        int n = batteryPercentages.size();
+        int ans = 0;
+        for (int i = 0;i &lt; n;i++){
+            if (batteryPercentages[i] &gt; 0){
+                ans++;
+                for (int j = i+1;j &lt; n;j++){
+                    batteryPercentages[j] = max(0, batteryPercentages[j] - 1);
+                }
+            }
+        }
+        return ans;
+    }
+};
+</code></pre>
+<h3 id="复杂度分析">复杂度分析</h3>
+<ul>
+<li>时间：O(n)。</li>
+<li>空间：O(1)。</li>
+</ul>
+<h2 id="100155-双模幂运算"><a href="https://leetcode.cn/problems/count-beautiful-substrings-i/">100155. 双模幂运算</a></h2>
+<p>给你一个下标从 <strong>0</strong> 开始的二维数组 <code>variables</code> ，其中 <code>variables[i] = [ai, bi, ci, mi]</code>，以及一个整数 <code>target</code> 。</p>
+<p>如果满足以下公式，则下标 <code>i</code> 是 <strong>好下标</strong>：</p>
+<ul>
+<li><code>0 &lt;= i &lt; variables.length</code></li>
+<li><code>((ai^bi % 10)^ci) % mi == target</code></li>
+</ul>
+<p>返回一个由 <strong>好下标</strong> 组成的数组，<strong>顺序不限</strong> 。</p>
+<h3 id="思路-2">思路</h3>
+<pre><code>1. 用python自带的`pow`函数，可以传入取模参数。
+2. C++手写一个快速幂。
+</code></pre>
+<h3 id="代码-2">代码</h3>
+<p><strong>python</strong></p>
+<pre><code class="language-python">class Solution:
+    def getGoodIndices(self, variables: List[List[int]], target: int) -&gt; List[int]:
+        ans = []
+        x = 0
+        for a, b, c, m in variables:
+            tp = pow(a, b, 10)
+            if pow(tp, c, m) == target:
+                ans.append(x)
+            x += 1
+        return ans
+</code></pre>
+<p><strong>C++</strong></p>
+<pre><code class="language-C++">class Solution {
+public:
+    vector&lt;int&gt; getGoodIndices(vector&lt;vector&lt;int&gt;&gt;&amp; variables, int target) {
+        vector&lt;int&gt; ans;
+        typedef long long ll;
+        function&lt;int(ll, ll, ll)&gt; qpow = [&amp;](ll a, ll b, ll m){
+            ll res = 1;
+            while (b){
+                if (b&amp;1) res = (res*a)%m;
+                a = a*a%m;
+                b &gt;&gt;= 1;
+            }
+            return (int)res;
+        };
+        int x = 0;
+        for (vector&lt;int&gt;&amp; x : variables){
+            int a = x[0], b = x[1], c = x[2], m = x[3];
+            if (qpow(qpow(a, b, 10), c, m) == target){
+                ans.push_back(x);
+            }
+            x += 1;
+        }
+        return ans;
+    }
+};
+</code></pre>
+<h3 id="复杂度分析-2">复杂度分析</h3>
+<ul>
+<li>时间：O(n*<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>log</mi><mo>⁡</mo><mi>v</mi></mrow><annotation encoding="application/x-tex">\log v</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span></span></span></span>)。n，v分别是variables数组长度和bi, ci最大值。</li>
+<li>空间：O(1)。</li>
+</ul>
+<h2 id="100137-统计最大元素出现至少-k-次的子数组"><a href="https://leetcode.cn/contest/weekly-contest-375/problems/count-subarrays-where-max-element-appears-at-least-k-times/">100137. 统计最大元素出现至少 K 次的子数组</a></h2>
+<p>给你一个整数数组 <code>nums</code> 和一个 <strong>正整数</strong> <code>k</code> 。</p>
+<p>请你统计有多少满足 「 <code>nums</code> 中的 <strong>最大</strong> 元素」至少出现 <code>k</code> 次的子数组，并返回满足这一条件的子数组的数目。</p>
+<p>子数组是数组中的一个连续元素序列。</p>
+<h3 id="思路-3">思路</h3>
+<p>​	<s>一开始看成恰好出现k次了</s></p>
+<p>​	枚举子数组的结尾<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>i</mi></mrow><annotation encoding="application/x-tex">i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.65952em;vertical-align:0em;"></span><span class="mord mathdefault">i</span></span></span></span>，再维护下标 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>j</mi></mrow><annotation encoding="application/x-tex">j</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.85396em;vertical-align:-0.19444em;"></span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span></span></span></span> (nums[j]=MAXV)表示区间 [j, i]中有 k 个最大值，那么区间 [1, i], [2, i], <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>⋯</mo></mrow><annotation encoding="application/x-tex">\cdots</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.31em;vertical-align:0em;"></span><span class="minner">⋯</span></span></span></span>, [j, i]都是符合要求的区间。因此答案增加j。</p>
+<h3 id="代码-3">代码</h3>
+<pre><code class="language-C++">class Solution {
+public:
+    long long countSubarrays(vector&lt;int&gt;&amp; nums, int k) {
+        int n = nums.size(), maxv = *max_element(nums.begin(), nums.end()), cnt = 0;
+        vector&lt;int&gt; idx;
+        for (int i = 0;i &lt; n;i++){
+            if (nums[i] == maxv){
+                idx.push_back(i);
+                cnt++;
+            }
+        }
+        if (cnt &lt; k) return 0;
+        long long ans = 0;
+        for (int i = 0, j = 0;i &lt; n;i++){
+            if (j &lt; cnt &amp;&amp; idx[j] &lt;= i) j++;
+            if (j &gt;= k){
+                ans += idx[j-k]+1L;
+            }
+        }   
+        return ans;
+    }
+};
+</code></pre>
+<h3 id="复杂度分析-3">复杂度分析</h3>
+<ul>
+<li>时间：O(n)。</li>
+<li>空间：O(n)。</li>
+</ul>
+<h2 id="100136-统计好分割方案的数目"><a href="https://leetcode.cn/contest/weekly-contest-375/problems/count-the-number-of-good-partitions/">100136. 统计好分割方案的数目</a></h2>
+<p>给你一个下标从 <strong>0</strong> 开始、由 <strong>正整数</strong> 组成的数组 <code>nums</code>。</p>
+<p>将数组分割成一个或多个 <strong>连续</strong> 子数组，如果不存在包含了相同数字的两个子数组，则认为是一种 <strong>好分割方案</strong> 。</p>
+<p>返回 <code>nums</code> 的 <strong>好分割方案</strong> 的 <strong>数目</strong>。</p>
+<p>由于答案可能很大，请返回答案对 <code>109 + 7</code> <strong>取余</strong> 的结果。</p>
+<h3 id="思路-4">思路</h3>
+<pre><code>1. 首先找出该数组究竟可以分成几段区间
+ - 利用哈希表记录所有元素最后出现的位置
+ - 依次遍历，同时维护遍历到的元素最后出现位置的最大值。
+ - 如果遍历的下标大于之前遍历的元素最后出现位置的最大值，则说明可以成为一段
+2. 分割方案就相当于：对这t个不相交的区间有多少种合并方式。相当于往t个区间中插入0,1,2...(t-1)个板子，两两板子之间的区间进行合并。组合数学中经典隔板法。
+</code></pre>
+<h3 id="代码-4">代码</h3>
+<pre><code class="language-C++">class Solution {
+public:
+    int numberOfGoodPartitions(vector&lt;int&gt;&amp; nums) {
+        int n = nums.size();
+        unordered_map&lt;int, int&gt; mp;
+        for (int i = 0;i &lt; n;i++){
+            mp[nums[i]] = i;
+        }
+        int cnt = 0;
+        for (int i = 0;i &lt; n;){
+            int j = i, ed = mp[nums[j]];
+            while (j &lt;= ed){
+                ed = max(ed, mp[nums[j]]);
+                j++;
+            }
+            cnt++;
+            i = j;
+        }
+        typedef long long ll;
+        function&lt;int(ll, ll, ll)&gt; qpow = [&amp;](ll a, ll b, ll m){
+            ll res = 1;
+            while (b){
+                if (b&amp;1) res = (res*a)%m;
+                a = a*a%m;
+                b &gt;&gt;= 1;
+            }
+            return (int)res;
+        };
+        long long M = 1e9+7, ans = qpow(2, cnt-1, M);
+        return (int)ans;
+    }
+};
+</code></pre>
+<h3 id="复杂度分析-4">复杂度分析</h3>
+<ul>
+<li>时间：O(n)。</li>
+<li>空间：O(n)。</li>
+</ul>
+
+              </div>
+              <hr class="clear">
+              
+                <div class="next-post">
+                  <a class="purple-link" href="https://decade-qiu.github.io/post/leetcode-2646-zui-xiao-hua-lu-xing-de-jie-ge-zong-he/">
+                    <h3 class="post-title">
+                      下一篇：Leetcode  2646. 最小化旅行的价格总和
+                    </h3>
+                  </a>
+                </div>
+                
+            </div>
+          </div>
+      </div>
+
+      
+          <div id="gitalk-container"></div>
+      
+
+    
+    </div>
+    <div class="site-footer">
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/Decade-qiu" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        <a href="https://space.bilibili.com/98721375?spm_id_from=333.1007.0.0" target="_blank">
+          <i class="fab fa-bilibili"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.zhihu.com/people/chou-yu-80-33" target="_blank">
+          <i class="fab fa-zhihu"></i>
+        </a>
+      
+    
+  </div>
+  <div class="slogan">Stay hungry. Stay foolish.</div> |
+  <a href="https://github.com/Decade-qiu/gridea-theme-Eternal" target="_blank">Today is happy day again!</a> | <a href="https://github.com/Decade-qiu/gridea-theme-Eternal" target="_blank">Powered by Eternal</a> | <a href="https://decade-qiu.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+    <script src="https://decade-qiu.github.io/media/scripts/index.js"></script>
+
+
+    <script src='https://decade-qiu.github.io/media/scripts/valine.min.js'></script>
+    <script>
+        new Valine({
+            el: '#gitalk-container',
+            appId: 'b2xhAFZQq4FxBeHcVRgXNEbf-gzGzoHsz',
+            appKey: 'QqIty1r7mCD1MbFanHuyw57O',
+            placeholder: 'Write something...',
+        })
+    </script>
+
+
+
+  </body>
+</html>
+
+<script>
+    window.onload = function() {
+        let id = 1;
+        let post_content = document.querySelector('.content-card');
+        post_content.querySelectorAll('h1,h2,h3,h4,h5,h6').forEach(function (item) {
+            item.setAttribute('id', 'toc-' + id);
+            id++;
+        });
+        tocbot.init({
+            tocSelector: '.toc',
+            contentSelector: '.post-content',
+            headingSelector: 'h1,h2,h3,h4',
+            headingsOffset: 58,
+        });
+        // 检测页面滚动距离 用eventlistener
+        window.addEventListener('scroll', function () {
+            let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            let toc = document.querySelector('.toc');
+            let tocBtn = document.querySelector('.toc-body');
+            if (scrollTop > 250) {
+                tocBtn.classList.add('toc-body-fixed');
+                toc.classList.add('toc-fixed');
+            } else {
+                tocBtn.classList.remove('toc-body-fixed');
+                toc.classList.remove('toc-fixed');
+            }
+        });
+        document.querySelector('#floating-toc-btn').addEventListener('click', function () {
+            let toc = document.querySelector('.toc-body');
+            let main = document.querySelector('.main');
+            if (toc.classList.contains('hide')) {
+                main.classList.add('main-small');
+                toc.classList.remove('hide');
+            } else {
+                toc.classList.add('hide');
+                main.classList.remove('main-small');
+            }
+        });
+        window.addEventListener('resize', function() {
+            // 获取屏幕宽度
+            var screenWidth = window.innerWidth || document.documentElement.clientWidth;
+            // 设置 .content-card 的 max-width
+            var contentCard = document.querySelector('.content-card');
+            contentCard.style.maxWidth = screenWidth + 'px';
+        });
+        // 初始加载时执行一次，确保初始状态下也设置正确
+        window.dispatchEvent(new Event('resize'));
+    };
+</script>

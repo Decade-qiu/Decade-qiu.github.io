@@ -1,0 +1,520 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>Web-UI Event | Decade</title>
+<meta name="description" content="Stay hungry. Stay foolish.">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.1/css/all.css" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://decade-qiu.github.io/favicon.ico?v=1711118819754">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://decade-qiu.github.io/styles/main.css">
+
+<script src="https://decade-qiu.github.io/media/scripts/vue.js"></script>
+<script src="https://decade-qiu.github.io/media/scripts/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.5.0/tocbot.min.js"></script>
+  </head>
+  <body>
+    <div class="carousel carousel-slider center index-cover" data-indicators="true">
+    <div class="bg-cover pd-header" style="background: url('') no-repeat center center fixed" data-link="https://decade-qiu.github.io/post/web-ui-event/">
+        <div class="container">
+            <div class="row">
+                <div class="col s10 offset-s1 m8 offset-m2 l8 offset-l2">
+                    <div class="brand">
+                        <div class="title center-align">
+                            Web-UI Event
+                        </div>
+                        <div class="description center-align">
+                            <span id="subtitle">
+                                Day Day Learn, Day Day Up.
+                            </span><span class="typed-cursor">|</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
+<script>
+    window.onload = function () {
+        var typed = new Typed("#subtitle", {
+            strings: [ 
+                
+                    "从来没有真正的绝境, 只有心灵的迷途",
+                
+                    'Day Day Learn, Day Day Up.',
+
+            ],
+            startDelay: 300,
+            typeSpeed: 100,
+            loop: true,
+            backSpeed: 50,
+            showCursor: true
+        });
+        let cover = document.querySelector('.bg-cover');
+        cover.setAttribute('style', `background: url('${localStorage[cover.dataset.link]}') no-repeat center center fixed`);
+    }
+</script>
+
+
+    <div class="toc-body hide">  
+        <div class="toc"></div>
+    </div>
+    <div id="floating-toc-btn">
+        <i class="fas fa-list-ul bg-color"></i>
+    </div>
+    <div id="app" class="main">
+      <div class="site-header-container nav-transparent">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://decade-qiu.github.io">
+        <img class="avatar" src="https://decade-qiu.github.io/images/avatar.png?v=1711118819754" alt=""
+          width="32px" height="32px">
+      </a>
+      <a href="https://decade-qiu.github.io">
+        <h1 class="site-title">
+          Decade
+        </h1>
+      </a>
+    </div>
+    <div class="right">
+        <div class="menu">
+            <a href="/post/about" v-if="headSearchShow">
+                <i class="fa-solid fa-user"></i>&nbsp;个人
+            </a>
+            <a href="/archives" v-if="headSearchShow">
+                <i class="fa-solid fa-box-archive"></i>&nbsp;归档
+            </a>
+            <a href="/tags" v-if="headSearchShow">
+                <i class="fa-solid fa-tag"></i>&nbsp;标签
+            </a>
+            <a href="/life" v-if="headSearchShow">
+                <i class="fa-fw fas fa-heart"></i>&nbsp;生活
+            </a>
+            
+        </div>
+      <div class="gridea-search-div" v-if="headSearchShow">
+        <form id="gridea-search-form" action="https://decade-qiu.github.io/search/">
+          <input class="gridea-search-input" autocomplete="off" spellcheck="false" name="q" />
+        </form>
+      </div>
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }"
+          @click="menuClick()" v-if="menuSearchShow"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      <div class="gridea-search-div" v-if="menuSearchShow">
+        <form id="gridea-search-form" action="https://decade-qiu.github.io/search/">
+          <input class="gridea-search-input" autocomplete="off" spellcheck="false" name="q" />
+        </form>
+      </div>
+      
+        
+            <a href="/" class="menu purple-link">
+              首页
+            </a>
+            
+              
+        
+            <a href="/archives" class="menu purple-link">
+              归档
+            </a>
+            
+              
+        
+            <a href="/tags" class="menu purple-link">
+              标签
+            </a>
+            
+              
+        
+            <a href="/post/about" class="menu purple-link">
+              个人
+            </a>
+            
+              
+        
+            <a href="/life" class="menu purple-link">
+              生活
+            </a>
+            
+              
+              
+    </div>
+  </div>
+</transition>
+
+<script>
+    window.onscroll = function () {
+        var t = document.documentElement.scrollTop || document.body.scrollTop;
+        var header = document.querySelector('.site-header-container');
+        if (t > 0) {
+            header.classList.remove('nav-transparent');
+        } else {
+            header.classList.add('nav-transparent');
+        }
+    }
+</script>
+
+      <div class="content-body">
+        <div class="content-container content-card">
+            <div class="post-detail">
+              <div class="post-info post-detail-info">
+                <span><i class="icon-calendar-outline"></i> 2023-12-27-Wed</span>
+                
+                  <span>
+                    
+                        <i class="icon-pricetags-outline"></i>
+                      <a href="https://decade-qiu.github.io/tag/oBYaUIV9y/">
+                        Web
+                      </a>
+                    
+                  </span>
+                
+              </div>
+              
+              <hr class="clear">
+              <div class="post-content">
+                <h2 id="鼠标事件">鼠标事件</h2>
+<p><strong>事件顺序</strong></p>
+<p>从上面的列表中我们可以看到，一个用户操作可能会触发多个事件。</p>
+<p>例如，点击鼠标左键，在鼠标左键被按下时，会首先触发 <code>mousedown</code>，然后当鼠标左键被释放时，会触发 <code>mouseup</code> 和 <code>click</code>。</p>
+<p>在单个动作触发多个事件时，事件的顺序是固定的。也就是说，会遵循 <code>mousedown</code> → <code>mouseup</code> → <code>click</code> 的顺序调用处理程序。</p>
+<p><strong>鼠标按钮</strong></p>
+<p>与点击相关的事件始终具有 <code>button</code> 属性，该属性允许获取确切的鼠标按钮。</p>
+<p>通常我们不在 <code>click</code> 和 <code>contextmenu</code> 事件中使用这一属性，因为前者只在单击鼠标左键时触发，后者只在单击鼠标右键时触发。</p>
+<p>不过，在 <code>mousedown</code> 和 <code>mouseup</code> 事件中则可能需要用到 <code>event.button</code>，因为这两个事件在任何按键上都会触发，所以我们可以使用 <code>button</code> 属性来区分是左键单击还是右键单击。</p>
+<p><code>event.button</code> 的所有可能值如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">鼠标按键状态</th>
+<th style="text-align:left"><code>event.button</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">左键 (主要按键)</td>
+<td style="text-align:left">0</td>
+</tr>
+<tr>
+<td style="text-align:left">中键 (辅助按键)</td>
+<td style="text-align:left">1</td>
+</tr>
+<tr>
+<td style="text-align:left">右键 (次要按键)</td>
+<td style="text-align:left">2</td>
+</tr>
+<tr>
+<td style="text-align:left">X1 键 (后退按键)</td>
+<td style="text-align:left">3</td>
+</tr>
+<tr>
+<td style="text-align:left">X2 键 (前进按键)</td>
+<td style="text-align:left">4</td>
+</tr>
+</tbody>
+</table>
+<p>大多数鼠标设备只有左键和右键，对应的值就是 <code>0</code> 和 <code>2</code>。触屏设备中的点按操作也会触发类似的事件。</p>
+<p><strong>组合键：shift，alt，ctrl，meta</strong></p>
+<p>所有的鼠标事件都包含有关按下的组合键的信息。</p>
+<ul>
+<li><code>shiftKey</code>：Shift</li>
+<li><code>altKey</code>：Alt（或对于 Mac 是 Opt）</li>
+<li><code>ctrlKey</code>：Ctrl</li>
+<li><code>metaKey</code>：对于 Mac 是 Cmd</li>
+</ul>
+<p>如果在事件期间按下了相应的键，则它们为 <code>true</code>。</p>
+<p>比如，下面这个按钮仅在 Alt+Shift+click 时才有效：</p>
+<pre><code class="language-html">&lt;button id=&quot;button&quot;&gt;Alt+Shift+Click on me!&lt;/button&gt;
+
+&lt;script&gt;
+  button.onclick = function(event) {
+    if (event.altKey &amp;&amp; event.shiftKey) {
+      alert('Hooray!');
+    }
+  };
+&lt;/script&gt;
+</code></pre>
+<p><strong>坐标：clientX/Y，pageX/Y</strong></p>
+<p>所有的鼠标事件都提供了两种形式的坐标：</p>
+<ol>
+<li>相对于窗口的坐标：<code>clientX</code> 和 <code>clientY</code>。</li>
+<li>相对于文档的坐标：<code>pageX</code> 和 <code>pageY</code>。</li>
+</ol>
+<p><strong>防止在鼠标按下时的选择</strong></p>
+<p>双击鼠标会有副作用，在某些界面中可能会出现干扰：它会选择文本。</p>
+<p>比如，双击下面的文本，除了我们的处理程序外，还会选择文本：</p>
+<pre><code class="language-html">&lt;span ondblclick=&quot;alert('dblclick')&quot;&gt;Double-click me&lt;/span&gt;
+</code></pre>
+<p>如果按下鼠标左键，并在不松开的情况下移动鼠标，这也常常会造成不必要的选择。</p>
+<p>在这种情况下，最合理的方式是防止浏览器对 <code>mousedown</code> 进行操作。这样能够阻止刚刚提到的两种选择：</p>
+<pre><code class="language-html">Before...
+&lt;b ondblclick=&quot;alert('Click!')&quot; onmousedown=&quot;return false&quot;&gt;
+  Double-click me
+&lt;/b&gt;
+...After
+</code></pre>
+<blockquote>
+<p>如果我们想禁用选择以保护我们页面的内容不被复制粘贴，那么我们可以使用另一个事件：<code>oncopy</code>。</p>
+<pre><code class="language-html">&lt;div oncopy=&quot;alert('Copying forbidden!');return false&quot;&gt;
+  Dear user,
+  The copying is forbidden for you.
+  If you know JS or HTML, then you can get everything from the page source though.
+&lt;/div&gt;
+</code></pre>
+</blockquote>
+<h2 id="移动鼠标mouseoveroutmouseenterleave">移动鼠标：mouseover/out，mouseenter/leave</h2>
+<p>当鼠标指针移到某个元素上时，<code>mouseover</code> 事件就会发生，而当鼠标离开该元素时，<code>mouseout</code> 事件就会发生。</p>
+<p>事件 <code>mouseenter/mouseleave</code> 类似于 <code>mouseover/mouseout</code>。它们在鼠标指针进入/离开元素时触发。</p>
+<p>但是有两个重要的区别：</p>
+<ol>
+<li>元素内部与后代之间的转换不会产生影响。</li>
+<li>事件 <code>mouseenter/mouseleave</code> 不会冒泡。</li>
+</ol>
+<h2 id="鼠标拖放事件">鼠标拖放事件</h2>
+<ol>
+<li>事件流：<code>ball.mousedown</code> → <code>document.mousemove</code> → <code>ball.mouseup</code>（不要忘记取消原生 <code>ondragstart</code>）。</li>
+<li>在拖动开始时 —— 记住鼠标指针相对于元素的初始偏移（shift）：<code>shiftX/shiftY</code>，并在拖动过程中保持它不变。</li>
+<li>使用 <code>document.elementFromPoint</code> 检测鼠标指针下的 “droppable” 的元素。</li>
+</ol>
+<p>我们可以在此基础上做很多事情。</p>
+<ul>
+<li>在 <code>mouseup</code> 上，我们可以智能地完成放置（drop）：更改数据，移动元素。</li>
+<li>我们可以高亮我们正在“飞过”的元素。</li>
+<li>我们可以将拖动限制在特定的区域或者方向。</li>
+<li>我们可以对 <code>mousedown/up</code> 使用事件委托。一个大范围的用于检查 <code>event.target</code> 的事件处理程序可以管理数百个元素的拖放。</li>
+</ul>
+<h2 id="指针事件">指针事件</h2>
+<p>指针事件（Pointer Events）是一种用于处理来自各种输入设备（例如鼠标、触控笔和触摸屏等）的输入信息的现代化解决方案。</p>
+<p><strong>指针事件类型</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">指针事件</th>
+<th style="text-align:left">类似的鼠标事件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>pointerdown</code></td>
+<td style="text-align:left"><code>mousedown</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>pointerup</code></td>
+<td style="text-align:left"><code>mouseup</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>pointermove</code></td>
+<td style="text-align:left"><code>mousemove</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>pointerover</code></td>
+<td style="text-align:left"><code>mouseover</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>pointerout</code></td>
+<td style="text-align:left"><code>mouseout</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>pointerenter</code></td>
+<td style="text-align:left"><code>mouseenter</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>pointerleave</code></td>
+<td style="text-align:left"><code>mouseleave</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>pointercancel</code></td>
+<td style="text-align:left">-</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>gotpointercapture</code></td>
+<td style="text-align:left">-</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>lostpointercapture</code></td>
+<td style="text-align:left">-</td>
+</tr>
+</tbody>
+</table>
+<p>不难发现，每一个 <code>mouse&lt;event&gt;</code> 都有与之相对应的 <code>pointer&lt;event&gt;</code>。</p>
+<p><strong>指针事件属性</strong></p>
+<p>指针事件具备和鼠标事件完全相同的属性，包括 <code>clientX/Y</code> 和 <code>target</code> 等，以及一些其他属性：</p>
+<ul>
+<li>
+<p><code>pointerId</code> —— 触发当前事件的指针唯一标识符。</p>
+<p>浏览器生成的。使我们能够处理多指针的情况，例如带有触控笔和多点触控功能的触摸屏（下文会有相关示例）。</p>
+</li>
+<li>
+<p><code>pointerType</code> —— 指针的设备类型。必须为字符串，可以是：“mouse”、“pen” 或 “touch”。</p>
+<p>我们可以使用这个属性来针对不同类型的指针输入做出不同响应。</p>
+</li>
+<li>
+<p><code>isPrimary</code> —— 当指针为首要指针（多点触控时按下的第一根手指）时为 <code>true</code>。</p>
+</li>
+</ul>
+<h2 id="键盘keydown-和-keyup">键盘：keydown 和 keyup</h2>
+<p>当一个按键被按下时，会触发 <code>keydown</code> 事件，而当按键被释放时，会触发 <code>keyup</code> 事件。</p>
+<p><strong>event.code 和 event.key</strong></p>
+<p>事件对象的 <code>key</code> 属性允许获取字符，而事件对象的 <code>code</code> 属性则允许获取“物理按键代码”。</p>
+<p>例如，同一个按键 Z，可以与或不与 <code>Shift</code> 一起按下。我们会得到两个不同的字符：小写的 <code>z</code> 和大写的 <code>Z</code>。</p>
+<p><code>event.key</code> 正是这个字符，并且它将是不同的。但是，<code>event.code</code> 是相同的：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Key</th>
+<th style="text-align:left"><code>event.key</code></th>
+<th style="text-align:left"><code>event.code</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Z</td>
+<td style="text-align:left"><code>z</code>（小写）</td>
+<td style="text-align:left"><code>KeyZ</code></td>
+</tr>
+<tr>
+<td style="text-align:left">Shift+Z</td>
+<td style="text-align:left"><code>Z</code>（大写）</td>
+<td style="text-align:left"><code>KeyZ</code></td>
+</tr>
+</tbody>
+</table>
+<p>如果用户使用不同的语言，那么切换到另一种语言将产生完全不同的字符，而不是 <code>&quot;Z&quot;</code>。它将成为 <code>event.key</code> 的值，而 <code>event.code</code> 则始终都是一样的：<code>&quot;KeyZ&quot;</code>。</p>
+
+              </div>
+              <hr class="clear">
+              
+                <div class="next-post">
+                  <a class="purple-link" href="https://decade-qiu.github.io/post/web-event/">
+                    <h3 class="post-title">
+                      下一篇：Web-Event
+                    </h3>
+                  </a>
+                </div>
+                
+            </div>
+          </div>
+      </div>
+
+      
+          <div id="gitalk-container"></div>
+      
+
+    
+    </div>
+    <div class="site-footer">
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/Decade-qiu" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        <a href="https://space.bilibili.com/98721375?spm_id_from=333.1007.0.0" target="_blank">
+          <i class="fab fa-bilibili"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.zhihu.com/people/chou-yu-80-33" target="_blank">
+          <i class="fab fa-zhihu"></i>
+        </a>
+      
+    
+  </div>
+  <div class="slogan">Stay hungry. Stay foolish.</div> |
+  <a href="https://github.com/Decade-qiu/gridea-theme-Eternal" target="_blank">Today is happy day again!</a> | <a href="https://github.com/Decade-qiu/gridea-theme-Eternal" target="_blank">Powered by Eternal</a> | <a href="https://decade-qiu.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+    <script src="https://decade-qiu.github.io/media/scripts/index.js"></script>
+
+
+    <script src='https://decade-qiu.github.io/media/scripts/valine.min.js'></script>
+    <script>
+        new Valine({
+            el: '#gitalk-container',
+            appId: 'b2xhAFZQq4FxBeHcVRgXNEbf-gzGzoHsz',
+            appKey: 'QqIty1r7mCD1MbFanHuyw57O',
+            placeholder: 'Write something...',
+        })
+    </script>
+
+
+
+  </body>
+</html>
+
+<script>
+    window.onload = function() {
+        let id = 1;
+        let post_content = document.querySelector('.content-card');
+        post_content.querySelectorAll('h1,h2,h3,h4,h5,h6').forEach(function (item) {
+            item.setAttribute('id', 'toc-' + id);
+            id++;
+        });
+        tocbot.init({
+            tocSelector: '.toc',
+            contentSelector: '.post-content',
+            headingSelector: 'h1,h2,h3,h4',
+            headingsOffset: 58,
+        });
+        // 检测页面滚动距离 用eventlistener
+        window.addEventListener('scroll', function () {
+            let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            let toc = document.querySelector('.toc');
+            let tocBtn = document.querySelector('.toc-body');
+            if (scrollTop > 250) {
+                tocBtn.classList.add('toc-body-fixed');
+                toc.classList.add('toc-fixed');
+            } else {
+                tocBtn.classList.remove('toc-body-fixed');
+                toc.classList.remove('toc-fixed');
+            }
+        });
+        document.querySelector('#floating-toc-btn').addEventListener('click', function () {
+            let toc = document.querySelector('.toc-body');
+            let main = document.querySelector('.main');
+            if (toc.classList.contains('hide')) {
+                main.classList.add('main-small');
+                toc.classList.remove('hide');
+            } else {
+                toc.classList.add('hide');
+                main.classList.remove('main-small');
+            }
+        });
+        window.addEventListener('resize', function() {
+            // 获取屏幕宽度
+            var screenWidth = window.innerWidth || document.documentElement.clientWidth;
+            // 设置 .content-card 的 max-width
+            var contentCard = document.querySelector('.content-card');
+            contentCard.style.maxWidth = screenWidth + 'px';
+        });
+        // 初始加载时执行一次，确保初始状态下也设置正确
+        window.dispatchEvent(new Event('resize'));
+    };
+</script>

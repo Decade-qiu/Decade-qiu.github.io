@@ -1,0 +1,411 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>Leetcode 2023-12-21 题目分享 | Decade</title>
+<meta name="description" content="Stay hungry. Stay foolish.">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.1/css/all.css" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://decade-qiu.github.io/favicon.ico?v=1711118819754">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://decade-qiu.github.io/styles/main.css">
+
+<script src="https://decade-qiu.github.io/media/scripts/vue.js"></script>
+<script src="https://decade-qiu.github.io/media/scripts/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.5.0/tocbot.min.js"></script>
+  </head>
+  <body>
+    <div class="carousel carousel-slider center index-cover" data-indicators="true">
+    <div class="bg-cover pd-header" style="background: url('') no-repeat center center fixed" data-link="https://decade-qiu.github.io/post/leetcode-mei-ri-yi-ti/">
+        <div class="container">
+            <div class="row">
+                <div class="col s10 offset-s1 m8 offset-m2 l8 offset-l2">
+                    <div class="brand">
+                        <div class="title center-align">
+                            Leetcode 2023-12-21 题目分享
+                        </div>
+                        <div class="description center-align">
+                            <span id="subtitle">
+                                Day Day Learn, Day Day Up.
+                            </span><span class="typed-cursor">|</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
+<script>
+    window.onload = function () {
+        var typed = new Typed("#subtitle", {
+            strings: [ 
+                
+                    "从来没有真正的绝境, 只有心灵的迷途",
+                
+                    'Day Day Learn, Day Day Up.',
+
+            ],
+            startDelay: 300,
+            typeSpeed: 100,
+            loop: true,
+            backSpeed: 50,
+            showCursor: true
+        });
+        let cover = document.querySelector('.bg-cover');
+        cover.setAttribute('style', `background: url('${localStorage[cover.dataset.link]}') no-repeat center center fixed`);
+    }
+</script>
+
+
+    <div class="toc-body hide">  
+        <div class="toc"></div>
+    </div>
+    <div id="floating-toc-btn">
+        <i class="fas fa-list-ul bg-color"></i>
+    </div>
+    <div id="app" class="main">
+      <div class="site-header-container nav-transparent">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://decade-qiu.github.io">
+        <img class="avatar" src="https://decade-qiu.github.io/images/avatar.png?v=1711118819754" alt=""
+          width="32px" height="32px">
+      </a>
+      <a href="https://decade-qiu.github.io">
+        <h1 class="site-title">
+          Decade
+        </h1>
+      </a>
+    </div>
+    <div class="right">
+        <div class="menu">
+            <a href="/post/about" v-if="headSearchShow">
+                <i class="fa-solid fa-user"></i>&nbsp;个人
+            </a>
+            <a href="/archives" v-if="headSearchShow">
+                <i class="fa-solid fa-box-archive"></i>&nbsp;归档
+            </a>
+            <a href="/tags" v-if="headSearchShow">
+                <i class="fa-solid fa-tag"></i>&nbsp;标签
+            </a>
+            <a href="/life" v-if="headSearchShow">
+                <i class="fa-fw fas fa-heart"></i>&nbsp;生活
+            </a>
+            
+        </div>
+      <div class="gridea-search-div" v-if="headSearchShow">
+        <form id="gridea-search-form" action="https://decade-qiu.github.io/search/">
+          <input class="gridea-search-input" autocomplete="off" spellcheck="false" name="q" />
+        </form>
+      </div>
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }"
+          @click="menuClick()" v-if="menuSearchShow"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      <div class="gridea-search-div" v-if="menuSearchShow">
+        <form id="gridea-search-form" action="https://decade-qiu.github.io/search/">
+          <input class="gridea-search-input" autocomplete="off" spellcheck="false" name="q" />
+        </form>
+      </div>
+      
+        
+            <a href="/" class="menu purple-link">
+              首页
+            </a>
+            
+              
+        
+            <a href="/archives" class="menu purple-link">
+              归档
+            </a>
+            
+              
+        
+            <a href="/tags" class="menu purple-link">
+              标签
+            </a>
+            
+              
+        
+            <a href="/post/about" class="menu purple-link">
+              个人
+            </a>
+            
+              
+        
+            <a href="/life" class="menu purple-link">
+              生活
+            </a>
+            
+              
+              
+    </div>
+  </div>
+</transition>
+
+<script>
+    window.onscroll = function () {
+        var t = document.documentElement.scrollTop || document.body.scrollTop;
+        var header = document.querySelector('.site-header-container');
+        if (t > 0) {
+            header.classList.remove('nav-transparent');
+        } else {
+            header.classList.add('nav-transparent');
+        }
+    }
+</script>
+
+      <div class="content-body">
+        <div class="content-container content-card">
+            <div class="post-detail">
+              <div class="post-info post-detail-info">
+                <span><i class="icon-calendar-outline"></i> 2023-12-21-Thu</span>
+                
+                  <span>
+                    
+                        <i class="icon-pricetags-outline"></i>
+                      <a href="https://decade-qiu.github.io/tag/wRgrybOGs/">
+                        单调栈
+                      </a>
+                    
+                        <i class="icon-pricetags-outline"></i>
+                      <a href="https://decade-qiu.github.io/tag/XvO2auUat/">
+                        题目分享
+                      </a>
+                    
+                        <i class="icon-pricetags-outline"></i>
+                      <a href="https://decade-qiu.github.io/tag/F2kUQf7xN/">
+                        LeetCode
+                      </a>
+                    
+                  </span>
+                
+              </div>
+              
+                <div class="post-card-abstract">
+                    <p><a href="https://leetcode.cn/problems/beautiful-towers-ii/">2866. 美丽塔 II</a></p>
+
+                  </div>
+                
+              <hr class="clear">
+              <div class="post-content">
+                
+<h2 id="leetcode-美丽塔-ii">Leetcode 美丽塔 II</h2>
+<p>给你一个长度为 <code>n</code> 下标从 <strong>0</strong> 开始的整数数组 <code>maxHeights</code> 。</p>
+<p>你的任务是在坐标轴上建 <code>n</code> 座塔。第 <code>i</code> 座塔的下标为 <code>i</code> ，高度为 <code>heights[i]</code> 。</p>
+<p>如果以下条件满足，我们称这些塔是 <strong>美丽</strong> 的：</p>
+<ol>
+<li><code>1 &lt;= heights[i] &lt;= maxHeights[i]</code></li>
+<li><code>heights</code> 是一个 <strong>山脉</strong> 数组。</li>
+</ol>
+<p>如果存在下标 <code>i</code> 满足以下条件，那么我们称数组 <code>heights</code> 是一个 <strong>山脉</strong> 数组：</p>
+<ul>
+<li>对于所有 <code>0 &lt; j &lt;= i</code> ，都有 <code>heights[j - 1] &lt;= heights[j]</code></li>
+<li>对于所有 <code>i &lt;= k &lt; n - 1</code> ，都有 <code>heights[k + 1] &lt;= heights[k]</code></li>
+</ul>
+<p>请你返回满足 <strong>美丽塔</strong> 要求的方案中，<strong>高度和的最大值</strong> 。</p>
+<p><strong>示例 1：</strong></p>
+<pre><code>输入：maxHeights = [5,3,4,1,1]
+输出：13
+解释：和最大的美丽塔方案为 heights = [5,3,3,1,1] ，这是一个美丽塔方案，因为：
+- 1 &lt;= heights[i] &lt;= maxHeights[i]  
+- heights 是个山脉数组，峰值在 i = 0 处。
+13 是所有美丽塔方案中的最大高度和。
+</code></pre>
+<p><strong>示例 2：</strong></p>
+<pre><code>输入：maxHeights = [6,5,3,9,2,7]
+输出：22
+解释： 和最大的美丽塔方案为 heights = [3,3,3,9,2,2] ，这是一个美丽塔方案，因为：
+- 1 &lt;= heights[i] &lt;= maxHeights[i]
+- heights 是个山脉数组，峰值在 i = 3 处。
+22 是所有美丽塔方案中的最大高度和。
+</code></pre>
+<p><strong>示例 3：</strong></p>
+<pre><code>输入：maxHeights = [3,2,5,5,2,3]
+输出：18
+解释：和最大的美丽塔方案为 heights = [2,2,5,5,2,2] ，这是一个美丽塔方案，因为：
+- 1 &lt;= heights[i] &lt;= maxHeights[i]
+- heights 是个山脉数组，最大值在 i = 2 处。
+注意，在这个方案中，i = 3 也是一个峰值。
+18 是所有美丽塔方案中的最大高度和。
+</code></pre>
+<p><strong>提示：</strong></p>
+<ul>
+<li><code>1 &lt;= n == maxHeights &lt;= 10^5</code></li>
+<li><code>1 &lt;= maxHeights[i] &lt;= 10^9</code></li>
+</ul>
+<h3 id="思路">思路</h3>
+<ol>
+<li>山脉=&gt;从左到右递增，从右到左递减。</li>
+<li>容易联想到前后缀分解：分别处理前缀和后缀递增数组，找到对应的最大和。</li>
+<li>构造递增数组，使和最大=&gt;维护单调递增栈。</li>
+</ol>
+<h3 id="代码">代码</h3>
+<pre><code class="language-JavaScript">var maximumSumOfHeights = function(maxHeights) {
+    let handler = arr =&gt; {
+        let n = arr.length, sum = 0;
+        let res = new Array(n).fill(0), st = [[]];
+        for (let i = 0;i &lt; n;i++) {
+            let cnt = 1, cur = arr[i];
+            while (st.length != 0 &amp;&amp; st.at(-1)[0] &gt;= cur){
+                let pre = st.pop();
+                sum -= pre[0]*pre[1];
+                cnt++;
+            }
+            sum += cnt*cur;
+            st.push([cur, cnt]);
+            res[i] = sum;
+        }
+        return res;
+    };
+    let left = handler(maxHeights);
+    let right = handler(maxHeights.reverse()).reverse();
+    let n = maxHeights.length, ans = Math.max(left[n-1], right[0]);
+    for (let i = 0;i &lt; n-1;i++){
+        ans = Math.max(ans, left[i]+right[i+1]);
+    }
+    return ans;
+};
+</code></pre>
+<h3 id="复杂度分析">复杂度分析</h3>
+<ul>
+<li>时间：O(<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">n</span></span></span></span>)，每个元素至多被push一次和pop一次。</li>
+<li>空间：O($$1$$)。</li>
+</ul>
+
+              </div>
+              <hr class="clear">
+              
+                <div class="next-post">
+                  <a class="purple-link" href="https://decade-qiu.github.io/post/javascript-promise-and-asyncawait/">
+                    <h3 class="post-title">
+                      下一篇：JavaScript Promise &amp; async/await
+                    </h3>
+                  </a>
+                </div>
+                
+            </div>
+          </div>
+      </div>
+
+      
+          <div id="gitalk-container"></div>
+      
+
+    
+    </div>
+    <div class="site-footer">
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/Decade-qiu" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        <a href="https://space.bilibili.com/98721375?spm_id_from=333.1007.0.0" target="_blank">
+          <i class="fab fa-bilibili"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.zhihu.com/people/chou-yu-80-33" target="_blank">
+          <i class="fab fa-zhihu"></i>
+        </a>
+      
+    
+  </div>
+  <div class="slogan">Stay hungry. Stay foolish.</div> |
+  <a href="https://github.com/Decade-qiu/gridea-theme-Eternal" target="_blank">Today is happy day again!</a> | <a href="https://github.com/Decade-qiu/gridea-theme-Eternal" target="_blank">Powered by Eternal</a> | <a href="https://decade-qiu.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+    <script src="https://decade-qiu.github.io/media/scripts/index.js"></script>
+
+
+    <script src='https://decade-qiu.github.io/media/scripts/valine.min.js'></script>
+    <script>
+        new Valine({
+            el: '#gitalk-container',
+            appId: 'b2xhAFZQq4FxBeHcVRgXNEbf-gzGzoHsz',
+            appKey: 'QqIty1r7mCD1MbFanHuyw57O',
+            placeholder: 'Write something...',
+        })
+    </script>
+
+
+
+  </body>
+</html>
+
+<script>
+    window.onload = function() {
+        let id = 1;
+        let post_content = document.querySelector('.content-card');
+        post_content.querySelectorAll('h1,h2,h3,h4,h5,h6').forEach(function (item) {
+            item.setAttribute('id', 'toc-' + id);
+            id++;
+        });
+        tocbot.init({
+            tocSelector: '.toc',
+            contentSelector: '.post-content',
+            headingSelector: 'h1,h2,h3,h4',
+            headingsOffset: 58,
+        });
+        // 检测页面滚动距离 用eventlistener
+        window.addEventListener('scroll', function () {
+            let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            let toc = document.querySelector('.toc');
+            let tocBtn = document.querySelector('.toc-body');
+            if (scrollTop > 250) {
+                tocBtn.classList.add('toc-body-fixed');
+                toc.classList.add('toc-fixed');
+            } else {
+                tocBtn.classList.remove('toc-body-fixed');
+                toc.classList.remove('toc-fixed');
+            }
+        });
+        document.querySelector('#floating-toc-btn').addEventListener('click', function () {
+            let toc = document.querySelector('.toc-body');
+            let main = document.querySelector('.main');
+            if (toc.classList.contains('hide')) {
+                main.classList.add('main-small');
+                toc.classList.remove('hide');
+            } else {
+                toc.classList.add('hide');
+                main.classList.remove('main-small');
+            }
+        });
+        window.addEventListener('resize', function() {
+            // 获取屏幕宽度
+            var screenWidth = window.innerWidth || document.documentElement.clientWidth;
+            // 设置 .content-card 的 max-width
+            var contentCard = document.querySelector('.content-card');
+            contentCard.style.maxWidth = screenWidth + 'px';
+        });
+        // 初始加载时执行一次，确保初始状态下也设置正确
+        window.dispatchEvent(new Event('resize'));
+    };
+</script>

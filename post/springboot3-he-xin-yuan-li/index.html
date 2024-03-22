@@ -1,0 +1,634 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>SpringBoot3 核心原理 | Decade</title>
+<meta name="description" content="Stay hungry. Stay foolish.">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.1/css/all.css" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://decade-qiu.github.io/favicon.ico?v=1711118819754">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://decade-qiu.github.io/styles/main.css">
+
+<script src="https://decade-qiu.github.io/media/scripts/vue.js"></script>
+<script src="https://decade-qiu.github.io/media/scripts/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.5.0/tocbot.min.js"></script>
+  </head>
+  <body>
+    <div class="carousel carousel-slider center index-cover" data-indicators="true">
+    <div class="bg-cover pd-header" style="background: url('') no-repeat center center fixed" data-link="https://decade-qiu.github.io/post/springboot3-he-xin-yuan-li/">
+        <div class="container">
+            <div class="row">
+                <div class="col s10 offset-s1 m8 offset-m2 l8 offset-l2">
+                    <div class="brand">
+                        <div class="title center-align">
+                            SpringBoot3 核心原理
+                        </div>
+                        <div class="description center-align">
+                            <span id="subtitle">
+                                Day Day Learn, Day Day Up.
+                            </span><span class="typed-cursor">|</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
+<script>
+    window.onload = function () {
+        var typed = new Typed("#subtitle", {
+            strings: [ 
+                
+                    "从来没有真正的绝境, 只有心灵的迷途",
+                
+                    'Day Day Learn, Day Day Up.',
+
+            ],
+            startDelay: 300,
+            typeSpeed: 100,
+            loop: true,
+            backSpeed: 50,
+            showCursor: true
+        });
+        let cover = document.querySelector('.bg-cover');
+        cover.setAttribute('style', `background: url('${localStorage[cover.dataset.link]}') no-repeat center center fixed`);
+    }
+</script>
+
+
+    <div class="toc-body hide">  
+        <div class="toc"></div>
+    </div>
+    <div id="floating-toc-btn">
+        <i class="fas fa-list-ul bg-color"></i>
+    </div>
+    <div id="app" class="main">
+      <div class="site-header-container nav-transparent">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://decade-qiu.github.io">
+        <img class="avatar" src="https://decade-qiu.github.io/images/avatar.png?v=1711118819754" alt=""
+          width="32px" height="32px">
+      </a>
+      <a href="https://decade-qiu.github.io">
+        <h1 class="site-title">
+          Decade
+        </h1>
+      </a>
+    </div>
+    <div class="right">
+        <div class="menu">
+            <a href="/post/about" v-if="headSearchShow">
+                <i class="fa-solid fa-user"></i>&nbsp;个人
+            </a>
+            <a href="/archives" v-if="headSearchShow">
+                <i class="fa-solid fa-box-archive"></i>&nbsp;归档
+            </a>
+            <a href="/tags" v-if="headSearchShow">
+                <i class="fa-solid fa-tag"></i>&nbsp;标签
+            </a>
+            <a href="/life" v-if="headSearchShow">
+                <i class="fa-fw fas fa-heart"></i>&nbsp;生活
+            </a>
+            
+        </div>
+      <div class="gridea-search-div" v-if="headSearchShow">
+        <form id="gridea-search-form" action="https://decade-qiu.github.io/search/">
+          <input class="gridea-search-input" autocomplete="off" spellcheck="false" name="q" />
+        </form>
+      </div>
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }"
+          @click="menuClick()" v-if="menuSearchShow"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      <div class="gridea-search-div" v-if="menuSearchShow">
+        <form id="gridea-search-form" action="https://decade-qiu.github.io/search/">
+          <input class="gridea-search-input" autocomplete="off" spellcheck="false" name="q" />
+        </form>
+      </div>
+      
+        
+            <a href="/" class="menu purple-link">
+              首页
+            </a>
+            
+              
+        
+            <a href="/archives" class="menu purple-link">
+              归档
+            </a>
+            
+              
+        
+            <a href="/tags" class="menu purple-link">
+              标签
+            </a>
+            
+              
+        
+            <a href="/post/about" class="menu purple-link">
+              个人
+            </a>
+            
+              
+        
+            <a href="/life" class="menu purple-link">
+              生活
+            </a>
+            
+              
+              
+    </div>
+  </div>
+</transition>
+
+<script>
+    window.onscroll = function () {
+        var t = document.documentElement.scrollTop || document.body.scrollTop;
+        var header = document.querySelector('.site-header-container');
+        if (t > 0) {
+            header.classList.remove('nav-transparent');
+        } else {
+            header.classList.add('nav-transparent');
+        }
+    }
+</script>
+
+      <div class="content-body">
+        <div class="content-container content-card">
+            <div class="post-detail">
+              <div class="post-info post-detail-info">
+                <span><i class="icon-calendar-outline"></i> 2024-03-22-Fri</span>
+                
+              </div>
+              
+                <div class="post-card-abstract">
+                    <p><code>事件和监听器</code><br>
+<code>自动配置原理</code><br>
+<code>自定义Starter</code></p>
+
+                  </div>
+                
+              <hr class="clear">
+              <div class="post-content">
+                
+<h1 id="1-事件和监听器">1. 事件和监听器</h1>
+<h2 id="1-生命周期监听">1. 生命周期监听</h2>
+<p>场景：监听<strong>应用</strong>的<strong>生命周期</strong></p>
+<h3 id="1-监听器-springapplicationrunlistener">1. 监听器-SpringApplicationRunListener</h3>
+<ol>
+<li>
+<p>自定义<code>SpringApplicationRunListener</code>来<strong>监听事件</strong>；</p>
+<ol>
+<li>编写<code>SpringApplicationRunListener</code> <strong>实现类</strong></li>
+<li>在 <code>META-INF/spring.factories</code> 中配置 <code>org.springframework.boot.SpringApplicationRunListener=自己的Listener</code>，还可以指定一个<strong>有参构造器</strong>，接受两个参数<code>(SpringApplication application, String[] args)</code></li>
+<li>springboot 在<code>spring-boot.jar</code>中配置了默认的 Listener</li>
+</ol>
+</li>
+</ol>
+<pre><code class="language-java">/**
+ * Listener先要从 META-INF/spring.factories 读到
+ *
+ * 1、引导： 利用 BootstrapContext 引导整个项目启动
+ *      starting：              应用开始，SpringApplication的run方法一调用，只要有了 BootstrapContext 就执行
+ *      environmentPrepared：   环境准备好（把启动参数等绑定到环境变量中），但是ioc还没有创建；【调一次】
+ * 2、启动：
+ *      contextPrepared：       ioc容器创建并准备好，但是sources（主配置类）没加载。并关闭引导上下文；组件都没创建  【调一次】
+ *      contextLoaded：         ioc容器加载。主配置类加载进去了。但是ioc容器还没刷新（我们的bean没创建）。
+ *      =======截止以前，ioc容器里面还没造bean呢=======
+ *      started：               ioc容器刷新了（所有bean造好了），但是 runner 没调用。
+ *      ready:                  ioc容器刷新了（所有bean造好了），所有 runner 调用完了。
+ * 3、运行
+ *     以前步骤都正确执行，代表容器running。
+ */
+</code></pre>
+<h3 id="2-生命周期全流程">2. 生命周期全流程</h3>
+<figure data-type="image" tabindex="1"><img src="https://decade-qiu.github.io/post-images/1682322663331-25a89875-7ce3-40ae-9be7-9ea752fbab20.png" alt="img" loading="lazy"></figure>
+<h2 id="2-事件触发时机">2. 事件触发时机</h2>
+<h3 id="1-各种回调监听器">1. 各种回调监听器</h3>
+<ul>
+<li>
+<p><code>BootstrapRegistryInitializer</code>：    <strong>感知特定阶段：<strong>感知</strong>引导初始化</strong></p>
+<ul>
+<li><code>META-INF/spring.factories</code></li>
+<li>创建引导上下文<code>bootstrapContext</code>的时候触发。</li>
+<li>application.<code>addBootstrapRegistryInitializer</code>();</li>
+<li>场景：<code>进行密钥校对授权。</code></li>
+</ul>
+</li>
+<li>
+<p>ApplicationContextInitializer：   <strong>感知特定阶段：</strong> 感知ioc容器初始化</p>
+</li>
+<li>
+<ul>
+<li><code>META-INF/spring.factories</code><br>
+- application.addInitializers();</li>
+</ul>
+</li>
+<li>
+<p><strong>ApplicationListener：    感知全阶段：基于事件机制，感知事件。 一旦到了哪个阶段可以做别的事</strong></p>
+</li>
+<li>
+<ul>
+<li><code>@Bean</code>或<code>@EventListener</code>： <code>事件驱动</code><br>
+- <code>SpringApplication.addListeners(…)</code>或 <code>SpringApplicationBuilder.listeners(…)</code><br>
+- <code>META-INF/spring.factories</code></li>
+</ul>
+</li>
+<li>
+<p><strong>SpringApplicationRunListener：       感知全阶段生命周期 + 各种阶段都能自定义操作； 功能更完善。</strong></p>
+</li>
+<li>
+<ul>
+<li><code>META-INF/spring.factories</code></li>
+</ul>
+</li>
+<li>
+<p><strong>ApplicationRunner:          感知特定阶段：感知应用就绪Ready。卡死应用，就不会就绪</strong></p>
+</li>
+<li>
+<ul>
+<li><code>@Bean</code></li>
+</ul>
+</li>
+<li>
+<p><strong>CommandLineRunner：   感知特定阶段：感知应用就绪Ready。卡死应用，就不会就绪</strong></p>
+</li>
+<li>
+<ul>
+<li><code>@Bean</code></li>
+</ul>
+</li>
+</ul>
+<p>最佳实战：</p>
+<ul>
+<li>如果项目启动前做事： <code>BootstrapRegistryInitializer</code> 和 <code>ApplicationContextInitializer</code></li>
+<li>如果想要在项目启动完成后做事：<code>**ApplicationRunner**</code><strong>和</strong> <code>**CommandLineRunner**</code></li>
+<li><strong>如果要干涉生命周期做事：</strong><code>**SpringApplicationRunListener**</code></li>
+<li><strong>如果想要用事件机制：</strong><code>**ApplicationListener**</code></li>
+</ul>
+<h3 id="2-完整触发流程">2. 完整触发流程</h3>
+<p><code>**大事件</code>触发顺序&amp;时机</p>
+<ol>
+<li><code>ApplicationStartingEvent</code>：应用启动但未做任何事情, 除注册listeners and initializers.</li>
+<li><code>ApplicationEnvironmentPreparedEvent</code>：  Environment 准备好，但context 未创建.</li>
+<li><code>ApplicationContextInitializedEvent</code>: ApplicationContext 准备好，ApplicationContextInitializers 调用，但是任何bean未加载</li>
+<li><code>ApplicationPreparedEvent</code>： 容器刷新之前，bean定义信息加载</li>
+<li><code>ApplicationStartedEvent</code>： 容器刷新完成， runner未调用</li>
+</ol>
+<p>=<mark><mark><mark><mark>以下就开始插入了<strong>探针机制</strong></mark></mark></mark></mark>====</p>
+<ol>
+<li><code>AvailabilityChangeEvent</code>： <code>LivenessState.CORRECT</code>应用存活； <strong>存活探针</strong></li>
+<li><code>ApplicationReadyEvent</code>: 任何runner被调用</li>
+<li><code>AvailabilityChangeEvent</code>：<code>ReadinessState.ACCEPTING_TRAFFIC</code><strong>就绪探针</strong>，可以接请求</li>
+<li><code>ApplicationFailedEvent </code>：启动出错</li>
+</ol>
+<figure data-type="image" tabindex="2"><img src="https://decade-qiu.github.io/post-images/1682332243584-e7dd3527-b00f-4f65-a44c-19b88e0943fc.png" alt="img" loading="lazy"></figure>
+<p>应用事件发送顺序如下：</p>
+<figure data-type="image" tabindex="3"><img src="file://D:/%E6%A1%8C%E9%9D%A2/blog/Develop/Java/SpringBoot/pictures/05-%E6%A0%B8%E5%BF%83%E5%8E%9F%E7%90%86/1681829576515-f8e3e993-f696-4d9d-9cdd-76ba3ba396c3.png" alt="img" loading="lazy"></figure>
+<p>感知应用是否<strong>存活</strong>了：可能植物状态，虽然活着但是不能处理请求。</p>
+<p>应用是否<strong>就绪</strong>了：能响应请求，说明确实活的比较好。</p>
+<h3 id="3-springboot-事件驱动开发">3. SpringBoot 事件驱动开发</h3>
+<p><strong>应用启动过程生命周期事件感知（9大事件）</strong>、<strong>应用运行中事件感知（无数种）</strong>。</p>
+<ul>
+<li><strong>事件发布</strong>：<code>ApplicationEventPublisherAware</code>或<code>注入：ApplicationEventMulticaster</code></li>
+<li><strong>事件监听</strong>：<code>组件 + @EventListener</code></li>
+</ul>
+<figure data-type="image" tabindex="4"><img src="https://decade-qiu.github.io/post-images/1682341921101-aa095a84-00cc-4815-b675-f4ed81cecf3b.png" alt="img" loading="lazy"></figure>
+<p>事件发布者</p>
+<pre><code class="language-java">@Service
+public class EventPublisher implements ApplicationEventPublisherAware {
+
+    /**
+     * 底层发送事件用的组件，SpringBoot会通过ApplicationEventPublisherAware接口自动注入给我们
+     * 事件是广播出去的。所有监听这个事件的监听器都可以收到
+     */
+    ApplicationEventPublisher applicationEventPublisher;
+
+    /**
+     * 所有事件都可以发
+     * @param event
+     */
+    public void sendEvent(ApplicationEvent event) {
+        //调用底层API发送事件
+        applicationEventPublisher.publishEvent(event);
+    }
+
+    /**
+     * 会被自动调用，把真正发事件的底层组组件给我们注入进来
+     * @param applicationEventPublisher event publisher to be used by this object
+     */
+    @Override
+    public void setApplicationEventPublisher(ApplicationEventPublisher applicationEventPublisher) {
+        this.applicationEventPublisher = applicationEventPublisher;
+    }
+}
+</code></pre>
+<p>事件订阅者</p>
+<pre><code class="language-java">@Service
+public class CouponService {
+
+    @Order(1)
+    @EventListener
+    public void onEvent(LoginSuccessEvent loginSuccessEvent){
+        System.out.println(&quot;===== CouponService ====感知到事件&quot;+loginSuccessEvent);
+        UserEntity source = (UserEntity) loginSuccessEvent.getSource();
+        sendCoupon(source.getUsername());
+    }
+
+    public void sendCoupon(String username){
+        System.out.println(username + &quot; 随机得到了一张优惠券&quot;);
+    }
+}
+</code></pre>
+<h1 id="2-自动配置原理">2. 自动配置原理</h1>
+<h2 id="1-入门理解">1. 入门理解</h2>
+<p>应用关注的<strong>三大核心</strong>：<strong>场景</strong>、<strong>配置</strong>、<strong>组件</strong></p>
+<h3 id="1-自动配置流程">1. 自动配置流程</h3>
+<figure data-type="image" tabindex="5"><img src="https://decade-qiu.github.io/post-images/1681829645812-0f0cad01-66d4-42fc-8111-091e33a062c6.png" alt="img" loading="lazy"></figure>
+<ol>
+<li>
+<p>导入<code>starter</code></p>
+</li>
+<li>
+<p>依赖导入<code>autoconfigure</code></p>
+</li>
+<li>
+<p>寻找类路径下 <code>META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports</code>文件</p>
+</li>
+<li>
+<p>启动，加载所有 <code>自动配置类</code> <code>xxxAutoConfiguration</code></p>
+<ol>
+<li>给容器中配置<strong>功能</strong><code>组件</code></li>
+<li><code>组件参数</code>绑定到 <code>属性类</code>中。<code>xxxProperties</code></li>
+<li><code>属性类</code>和<code>配置文件</code>前缀项绑定</li>
+<li><code>@Contional派生的条件注解</code>进行判断<strong>是否组件生效</strong></li>
+</ol>
+</li>
+<li>
+<p>效果：</p>
+<ol>
+<li>修改配置文件，修改底层参数</li>
+<li>所有场景自动配置好直接使用</li>
+<li>可以注入SpringBoot配置好的组件随时使用</li>
+</ol>
+</li>
+</ol>
+<h3 id="2-spi机制">2. SPI机制</h3>
+<ul>
+<li>Java中的SPI（Service Provider Interface）是一种软件设计模式，用于在应用程序中动态地发现和加载组件。SPI的思想是，定义一个接口或抽象类，然后通过在classpath中定义实现该接口的类来实现对组件的动态发现和加载。</li>
+<li>SPI的主要目的是解决在应用程序中使用可插拔组件的问题。例如，一个应用程序可能需要使用不同的日志框架或数据库连接池，但是这些组件的选择可能取决于运行时的条件。通过使用SPI，应用程序可以在运行时发现并加载适当的组件，而无需在代码中硬编码这些组件的实现类。</li>
+<li>在Java中，<strong>SPI</strong>的实现方式是通过在<code>META-INF/services</code>目录下创建一个以服务接口全限定名为名字的文件，文件中包含实现该服务接口的类的全限定名。当应用程序启动时，Java的SPI机制会自动扫描classpath中的这些文件，并根据文件中指定的类名来加载实现类。</li>
+<li>通过使用SPI，应用程序可以实现更灵活、可扩展的架构，同时也可以避免硬编码依赖关系和增加代码的可维护性。</li>
+</ul>
+<h3 id="3-功能开关">3. 功能开关</h3>
+<ul>
+<li>自动配置：全部都配置好，什么都不用管。
+<ul>
+<li>自动批量导入</li>
+<li>项目一启动，spi文件中指定的所有都加载。</li>
+</ul>
+</li>
+<li><code>@EnableXxxx</code>：手动控制哪些功能的开启； 手动导入。
+<ul>
+<li>开启xxx功能</li>
+<li>都是利用 @Import 把此功能要用的组件导入进去</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-进阶理解">2. 进阶理解</h2>
+<h3 id="1-springbootapplication">1. @SpringBootApplication</h3>
+<h4 id="springbootconfiguration">@SpringBootConfiguration</h4>
+<p>就是： @Configuration ，容器中的组件，配置类。spring ioc启动就会加载创建这个类对象</p>
+<h4 id="enableautoconfiguration开启自动配置">@EnableAutoConfiguration：开启自动配置</h4>
+<p>开启自动配置</p>
+<h5 id="autoconfigurationpackage扫描主程序包加载自己的组件">@AutoConfigurationPackage：扫描主程序包：加载自己的组件</h5>
+<ul>
+<li>利用 <code>@Import(AutoConfigurationPackages.Registrar.class)</code> 想要给容器中导入组件。</li>
+<li>把主程序所在的<strong>包</strong>的所有组件导入进来。</li>
+<li><strong>为什么SpringBoot默认只扫描主程序所在的包及其子包</strong></li>
+</ul>
+<h5 id="importautoconfigurationimportselectorclass加载所有自动配置类加载starter导入的组件">@Import(AutoConfigurationImportSelector.class)：加载所有自动配置类：加载starter导入的组件</h5>
+<pre><code class="language-java">List&lt;String&gt; configurations = ImportCandidates.load(AutoConfiguration.class, getBeanClassLoader())
+    .getCandidates();
+</code></pre>
+<p>扫描SPI文件：<code>META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports</code></p>
+<h4 id="componentscan">@ComponentScan</h4>
+<p>组件扫描：排除一些组件（哪些不要）</p>
+<p>排除前面已经扫描进来的<code>配置类</code>、和<code>自动配置类</code>。</p>
+<pre><code class="language-plain">@ComponentScan(excludeFilters = { @Filter(type = FilterType.CUSTOM, classes = TypeExcludeFilter.class),
+@Filter(type = FilterType.CUSTOM, classes = AutoConfigurationExcludeFilter.class) })
+</code></pre>
+<h3 id="2-完整启动加载流程">2. 完整启动加载流程</h3>
+<p>生命周期启动加载流程</p>
+<figure data-type="image" tabindex="6"><img src="https://decade-qiu.github.io/post-images/1682569555020-b6cbc750-3171-44c6-810f-1c59e590b792.svg" alt="img" loading="lazy"></figure>
+<h1 id="3-自定义starter">3. 自定义starter</h1>
+<p>场景：<strong>抽取聊天机器人场景，它可以打招呼</strong>。</p>
+<p>效果：任何项目导入此<code>starter</code>都具有打招呼功能，并且<strong>问候语</strong>中的<strong>人名</strong>需要可以在<strong>配置文件</strong>中修改</p>
+<ul>
+<li>\1. 创建<code>自定义starter</code>项目，引入<code>spring-boot-starter</code>基础依赖</li>
+<li>\2. 编写模块功能，引入模块所有需要的依赖。</li>
+<li>\3. 编写<code>xxxAutoConfiguration</code>自动配置类，帮其他项目导入这个模块需要的所有组件</li>
+<li>\4. 编写配置文件<code>META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports</code>指定启动需要加载的自动配置</li>
+<li>\5. 其他项目引入即可使用</li>
+</ul>
+<h2 id="1-业务代码">1. 业务代码</h2>
+<p>自定义配置有提示。导入以下依赖重启项目，再写配置文件就有提示</p>
+<pre><code class="language-java">@ConfigurationProperties(prefix = &quot;robot&quot;)  //此属性类和配置文件指定前缀绑定
+@Component
+@Data
+public class RobotProperties {
+    private String name;
+    private String age;
+    private String email;
+}
+</code></pre>
+<pre><code class="language-xml">&lt;!--        导入配置处理器，配置文件自定义的properties配置都会有提示--&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-configuration-processor&lt;/artifactId&gt;
+    &lt;optional&gt;true&lt;/optional&gt;
+&lt;/dependency&gt;
+</code></pre>
+<h2 id="2-基本抽取">2. 基本抽取</h2>
+<ul>
+<li>
+<p>创建starter项目，把公共代码需要的所有依赖导入</p>
+</li>
+<li>
+<p>把公共代码复制进来</p>
+</li>
+<li>
+<p>自己写一个 <code>RobotAutoConfiguration</code>，给容器中导入这个场景需要的所有组件</p>
+</li>
+<li>
+<ul>
+<li>为什么这些组件默认不会扫描进去？<br>
+- <strong>starter所在的包和 引入它的项目的主程序所在的包不是父子层级</strong></li>
+</ul>
+</li>
+<li>
+<p>别人引用这个<code>starter</code>，直接导入这个 <code>RobotAutoConfiguration</code>,就能把这个场景的组件导入进来</p>
+</li>
+<li>
+<p>功能生效。</p>
+</li>
+<li>
+<p>测试编写配置文件</p>
+</li>
+</ul>
+<h2 id="3-使用enablexxx机制">3. 使用@EnableXxx机制</h2>
+<pre><code class="language-java">@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.TYPE})
+@Documented
+@Import(RobotAutoConfiguration.class)
+public @interface EnableRobot {
+
+
+}
+</code></pre>
+<p>别人引入<code>starter</code>需要使用 <code>@EnableRobot</code>开启功能</p>
+<h2 id="4-完全自动配置">4. 完全自动配置</h2>
+<ul>
+<li>依赖SpringBoot的SPI机制</li>
+<li>META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports 文件中编写好我们自动配置类的全类名即可</li>
+<li>项目启动，自动加载我们的自动配置类</li>
+</ul>
+
+              </div>
+              <hr class="clear">
+              
+                <div class="next-post">
+                  <a class="purple-link" href="https://decade-qiu.github.io/post/springboot3-ji-chu-te-xing/">
+                    <h3 class="post-title">
+                      下一篇：SpringBoot3 基础特性
+                    </h3>
+                  </a>
+                </div>
+                
+            </div>
+          </div>
+      </div>
+
+      
+          <div id="gitalk-container"></div>
+      
+
+    
+    </div>
+    <div class="site-footer">
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/Decade-qiu" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        <a href="https://space.bilibili.com/98721375?spm_id_from=333.1007.0.0" target="_blank">
+          <i class="fab fa-bilibili"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.zhihu.com/people/chou-yu-80-33" target="_blank">
+          <i class="fab fa-zhihu"></i>
+        </a>
+      
+    
+  </div>
+  <div class="slogan">Stay hungry. Stay foolish.</div> |
+  <a href="https://github.com/Decade-qiu/gridea-theme-Eternal" target="_blank">Today is happy day again!</a> | <a href="https://github.com/Decade-qiu/gridea-theme-Eternal" target="_blank">Powered by Eternal</a> | <a href="https://decade-qiu.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+    <script src="https://decade-qiu.github.io/media/scripts/index.js"></script>
+
+
+    <script src='https://decade-qiu.github.io/media/scripts/valine.min.js'></script>
+    <script>
+        new Valine({
+            el: '#gitalk-container',
+            appId: 'b2xhAFZQq4FxBeHcVRgXNEbf-gzGzoHsz',
+            appKey: 'QqIty1r7mCD1MbFanHuyw57O',
+            placeholder: 'Write something...',
+        })
+    </script>
+
+
+
+  </body>
+</html>
+
+<script>
+    window.onload = function() {
+        let id = 1;
+        let post_content = document.querySelector('.content-card');
+        post_content.querySelectorAll('h1,h2,h3,h4,h5,h6').forEach(function (item) {
+            item.setAttribute('id', 'toc-' + id);
+            id++;
+        });
+        tocbot.init({
+            tocSelector: '.toc',
+            contentSelector: '.post-content',
+            headingSelector: 'h1,h2,h3,h4',
+            headingsOffset: 58,
+        });
+        // 检测页面滚动距离 用eventlistener
+        window.addEventListener('scroll', function () {
+            let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            let toc = document.querySelector('.toc');
+            let tocBtn = document.querySelector('.toc-body');
+            if (scrollTop > 250) {
+                tocBtn.classList.add('toc-body-fixed');
+                toc.classList.add('toc-fixed');
+            } else {
+                tocBtn.classList.remove('toc-body-fixed');
+                toc.classList.remove('toc-fixed');
+            }
+        });
+        document.querySelector('#floating-toc-btn').addEventListener('click', function () {
+            let toc = document.querySelector('.toc-body');
+            let main = document.querySelector('.main');
+            if (toc.classList.contains('hide')) {
+                main.classList.add('main-small');
+                toc.classList.remove('hide');
+            } else {
+                toc.classList.add('hide');
+                main.classList.remove('main-small');
+            }
+        });
+        window.addEventListener('resize', function() {
+            // 获取屏幕宽度
+            var screenWidth = window.innerWidth || document.documentElement.clientWidth;
+            // 设置 .content-card 的 max-width
+            var contentCard = document.querySelector('.content-card');
+            contentCard.style.maxWidth = screenWidth + 'px';
+        });
+        // 初始加载时执行一次，确保初始状态下也设置正确
+        window.dispatchEvent(new Event('resize'));
+    };
+</script>

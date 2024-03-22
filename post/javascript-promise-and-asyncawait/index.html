@@ -1,0 +1,616 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>JavaScript Promise &amp; async/await | Decade</title>
+<meta name="description" content="Stay hungry. Stay foolish.">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.1/css/all.css" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://decade-qiu.github.io/favicon.ico?v=1711118819754">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://decade-qiu.github.io/styles/main.css">
+
+<script src="https://decade-qiu.github.io/media/scripts/vue.js"></script>
+<script src="https://decade-qiu.github.io/media/scripts/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.5.0/tocbot.min.js"></script>
+  </head>
+  <body>
+    <div class="carousel carousel-slider center index-cover" data-indicators="true">
+    <div class="bg-cover pd-header" style="background: url('') no-repeat center center fixed" data-link="https://decade-qiu.github.io/post/javascript-promise-and-asyncawait/">
+        <div class="container">
+            <div class="row">
+                <div class="col s10 offset-s1 m8 offset-m2 l8 offset-l2">
+                    <div class="brand">
+                        <div class="title center-align">
+                            JavaScript Promise &amp; async/await
+                        </div>
+                        <div class="description center-align">
+                            <span id="subtitle">
+                                Day Day Learn, Day Day Up.
+                            </span><span class="typed-cursor">|</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
+<script>
+    window.onload = function () {
+        var typed = new Typed("#subtitle", {
+            strings: [ 
+                
+                    "从来没有真正的绝境, 只有心灵的迷途",
+                
+                    'Day Day Learn, Day Day Up.',
+
+            ],
+            startDelay: 300,
+            typeSpeed: 100,
+            loop: true,
+            backSpeed: 50,
+            showCursor: true
+        });
+        let cover = document.querySelector('.bg-cover');
+        cover.setAttribute('style', `background: url('${localStorage[cover.dataset.link]}') no-repeat center center fixed`);
+    }
+</script>
+
+
+    <div class="toc-body hide">  
+        <div class="toc"></div>
+    </div>
+    <div id="floating-toc-btn">
+        <i class="fas fa-list-ul bg-color"></i>
+    </div>
+    <div id="app" class="main">
+      <div class="site-header-container nav-transparent">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://decade-qiu.github.io">
+        <img class="avatar" src="https://decade-qiu.github.io/images/avatar.png?v=1711118819754" alt=""
+          width="32px" height="32px">
+      </a>
+      <a href="https://decade-qiu.github.io">
+        <h1 class="site-title">
+          Decade
+        </h1>
+      </a>
+    </div>
+    <div class="right">
+        <div class="menu">
+            <a href="/post/about" v-if="headSearchShow">
+                <i class="fa-solid fa-user"></i>&nbsp;个人
+            </a>
+            <a href="/archives" v-if="headSearchShow">
+                <i class="fa-solid fa-box-archive"></i>&nbsp;归档
+            </a>
+            <a href="/tags" v-if="headSearchShow">
+                <i class="fa-solid fa-tag"></i>&nbsp;标签
+            </a>
+            <a href="/life" v-if="headSearchShow">
+                <i class="fa-fw fas fa-heart"></i>&nbsp;生活
+            </a>
+            
+        </div>
+      <div class="gridea-search-div" v-if="headSearchShow">
+        <form id="gridea-search-form" action="https://decade-qiu.github.io/search/">
+          <input class="gridea-search-input" autocomplete="off" spellcheck="false" name="q" />
+        </form>
+      </div>
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }"
+          @click="menuClick()" v-if="menuSearchShow"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      <div class="gridea-search-div" v-if="menuSearchShow">
+        <form id="gridea-search-form" action="https://decade-qiu.github.io/search/">
+          <input class="gridea-search-input" autocomplete="off" spellcheck="false" name="q" />
+        </form>
+      </div>
+      
+        
+            <a href="/" class="menu purple-link">
+              首页
+            </a>
+            
+              
+        
+            <a href="/archives" class="menu purple-link">
+              归档
+            </a>
+            
+              
+        
+            <a href="/tags" class="menu purple-link">
+              标签
+            </a>
+            
+              
+        
+            <a href="/post/about" class="menu purple-link">
+              个人
+            </a>
+            
+              
+        
+            <a href="/life" class="menu purple-link">
+              生活
+            </a>
+            
+              
+              
+    </div>
+  </div>
+</transition>
+
+<script>
+    window.onscroll = function () {
+        var t = document.documentElement.scrollTop || document.body.scrollTop;
+        var header = document.querySelector('.site-header-container');
+        if (t > 0) {
+            header.classList.remove('nav-transparent');
+        } else {
+            header.classList.add('nav-transparent');
+        }
+    }
+</script>
+
+      <div class="content-body">
+        <div class="content-container content-card">
+            <div class="post-detail">
+              <div class="post-info post-detail-info">
+                <span><i class="icon-calendar-outline"></i> 2023-12-20-Wed</span>
+                
+              </div>
+              
+              <hr class="clear">
+              <div class="post-content">
+                <h2 id="回调">回调</h2>
+<pre><code class="language-javascript">function loadScript(src, callback) {
+  let script = document.createElement('script');
+  script.src = src;
+  script.onload = () =&gt; callback(script);
+  document.head.append(script);
+}
+
+loadScript('https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.2.0/lodash.js', script =&gt; {
+  alert(`酷，脚本 ${script.src} 加载完成`);
+  alert( _ ); // _ 是所加载的脚本中声明的一个函数
+});
+</code></pre>
+<p>这被称为“基于回调”的异步编程风格。异步执行某项功能的函数应该提供一个 <code>callback</code> 参数用于在相应事件完成时调用。（译注：上面这个例子中的相应事件是指脚本加载）</p>
+<p><strong>处理 Error</strong></p>
+<p>在上述示例中，我们并没有考虑出现 error 的情况。如果脚本加载失败怎么办？我们的回调应该能够对此作出反应。</p>
+<pre><code class="language-javascript">function loadScript(src, callback) {
+  let script = document.createElement('script');
+  script.src = src;
+
+  script.onload = () =&gt; callback(null, script);
+  script.onerror = () =&gt; callback(new Error(`Script load error for ${src}`));
+
+  document.head.append(script);
+}
+
+loadScript('/my/script.js', function(error, script) {
+  if (error) {
+    // 处理 error
+  } else {
+    // 脚本加载成功
+  }
+});
+</code></pre>
+<p>加载成功时，它会调用 <code>callback(null, script)</code>，否则调用 <code>callback(error)</code>。</p>
+<h2 id="promise">Promise</h2>
+<p>Promise 对象的构造器（constructor）语法如下：</p>
+<pre><code class="language-javascript">let promise = new Promise(function(resolve, reject) {
+  // executor
+});
+</code></pre>
+<p>传递给 <code>new Promise</code> 的函数被称为 <strong>executor</strong>。当 <code>new Promise</code> 被创建，executor 会自动运行。它包含最终应产出结果的生产者代码。</p>
+<p>它的参数 <code>resolve</code> 和 <code>reject</code> 是由 JavaScript 自身提供的回调。我们的代码仅在 executor 的内部。</p>
+<p>当 executor 获得了结果，无论是早还是晚都没关系，它应该调用以下回调之一：</p>
+<ul>
+<li><code>resolve(value)</code> —— 如果任务成功完成并带有结果 <code>value</code>。</li>
+<li><code>reject(error)</code> —— 如果出现了 error，<code>error</code> 即为 error 对象。</li>
+</ul>
+<p>由 <code>new Promise</code> 构造器返回的 <code>promise</code> 对象具有以下内部属性：</p>
+<ul>
+<li><code>state</code> —— 最初是 <code>&quot;pending&quot;</code>，然后在 <code>resolve</code> 被调用时变为 <code>&quot;fulfilled&quot;</code>，或者在 <code>reject</code> 被调用时变为 <code>&quot;rejected&quot;</code>。</li>
+<li><code>result</code> —— 最初是 <code>undefined</code>，然后在 <code>resolve(value)</code> 被调用时变为 <code>value</code>，或者在 <code>reject(error)</code> 被调用时变为 <code>error</code>。</li>
+</ul>
+<pre><code class="language-javascript">let promise = new Promise(function(resolve, reject) {
+  // 当 promise 被构造完成时，自动执行此函数
+  // 1 秒后发出工作已经被完成的信号，并带有结果 &quot;done&quot;
+  setTimeout(() =&gt; resolve(&quot;done&quot;), 1000);
+});
+
+let promise = new Promise(function(resolve, reject) {
+  // 1 秒后发出工作已经被完成的信号，并带有 error
+  setTimeout(() =&gt; reject(new Error(&quot;Whoops!&quot;)), 1000);
+});
+</code></pre>
+<blockquote>
+<p>只能有一个结果或一个error：第一次调用resolve或reject后，函数就执行结束了。</p>
+<p><code>state</code> 和 <code>result</code> 都是内部的：无法直接访问。</p>
+</blockquote>
+<p><strong>then</strong></p>
+<pre><code class="language-javascript">promise.then(
+  function(result) { /* handle a successful result */ },
+  function(error) { /* handle an error */ }
+);
+</code></pre>
+<p><code>.then</code> 的第一个参数是一个函数，该函数将在 promise resolved 且接收到结果后执行。</p>
+<p><code>.then</code> 的第二个参数也是一个函数，该函数将在 promise rejected 且接收到 error 信息后执行。</p>
+<pre><code class="language-javascript">let promise = new Promise(function(resolve, reject) {
+  setTimeout(() =&gt; resolve(&quot;done!&quot;), 1000);
+});
+
+// resolve 运行 .then 中的第一个函数
+promise.then(
+  result =&gt; alert(result), // 1 秒后显示 &quot;done!&quot;
+  error =&gt; alert(error) // 不运行
+);
+// ------------------------------------------------------
+let promise = new Promise(function(resolve, reject) {
+  setTimeout(() =&gt; reject(new Error(&quot;Whoops!&quot;)), 1000);
+});
+
+// reject 运行 .then 中的第二个函数
+promise.then(
+  result =&gt; alert(result), // 不运行
+  error =&gt; alert(error) // 1 秒后显示 &quot;Error: Whoops!&quot;
+);
+</code></pre>
+<blockquote>
+<p>then中第一个函数必须是对successful处理，第二个是对error处理，不能调换。</p>
+</blockquote>
+<p><strong>catch</strong></p>
+<p>如果我们只对 error 感兴趣，那么我们可以使用 <code>null</code> 作为第一个参数：<code>.then(null, errorHandlingFunction)</code>。或者我们也可以使用 <code>.catch(errorHandlingFunction)</code>，其实是一样的：</p>
+<pre><code class="language-javascript">let promise = new Promise((resolve, reject) =&gt; {
+  setTimeout(() =&gt; reject(new Error(&quot;Whoops!&quot;)), 1000);
+});
+
+// .catch(f) 与 promise.then(null, f) 一样
+promise.catch(alert); // 1 秒后显示 &quot;Error: Whoops!&quot;
+</code></pre>
+<p><strong>finally</strong></p>
+<pre><code class="language-javascript">new Promise((resolve, reject) =&gt; {
+  /* 做一些需要时间的事，之后调用可能会 resolve 也可能会 reject */
+})
+  // 在 promise 为 settled 时运行，无论成功与否
+  .finally(() =&gt; stop loading indicator)
+  // 所以，加载指示器（loading indicator）始终会在我们继续之前停止
+  .then(result =&gt; show result, err =&gt; show error)
+</code></pre>
+<blockquote>
+<p>finally不关心Promise结果</p>
+</blockquote>
+<h2 id="promise-链">Promise 链</h2>
+<pre><code class="language-javascript">new Promise(function(resolve, reject) {
+
+  setTimeout(() =&gt; resolve(1), 1000); // (*)
+
+}).then(function(result) { // (**)
+
+  alert(result); // 1
+  return result * 2;
+
+}).then(function(result) { // (***)
+
+  alert(result); // 2
+  return result * 2;
+
+}).then(function(result) {
+
+  alert(result); // 4
+  return result * 2;
+
+});
+</code></pre>
+<p>它的想法是通过 <code>.then</code> 处理程序（handler）链进行传递 result。</p>
+<blockquote>
+<p>下面的不是链</p>
+<pre><code class="language-javascript">let promise = new Promise(function(resolve, reject) {
+setTimeout(() =&gt; resolve(1), 1000);
+});
+
+promise.then(function(result) {
+alert(result); // 1
+return result * 2;
+});
+
+promise.then(function(result) {
+alert(result); // 1
+return result * 2;
+});
+
+promise.then(function(result) {
+alert(result); // 1
+return result * 2;
+});
+</code></pre>
+<p>我们在这里所做的只是一个 promise 的几个处理程序。它们不会相互传递 result；相反，它们之间彼此独立运行处理任务。</p>
+</blockquote>
+<p><strong>一个完整的例子</strong></p>
+<pre><code class="language-javascript">function loadJson(url) {
+  return fetch(url)
+    .then(response =&gt; response.json());
+}
+
+function loadGithubUser(name) {
+  return loadJson(`https://api.github.com/users/${name}`);
+}
+
+function showAvatar(githubUser) {
+  return new Promise(function(resolve, reject) {
+    let img = document.createElement('img');
+    img.src = githubUser.avatar_url;
+    img.className = &quot;promise-avatar-example&quot;;
+    document.body.append(img);
+
+    setTimeout(() =&gt; {
+      img.remove();
+      resolve(githubUser);
+    }, 3000);
+  });
+}
+
+// 使用它们：
+loadJson('/article/promise-chaining/user.json')
+  .then(user =&gt; loadGithubUser(user.name))
+  .then(showAvatar)
+  .then(githubUser =&gt; alert(`Finished showing ${githubUser.name}`));
+</code></pre>
+<h2 id="promise-进行错误处理">promise 进行错误处理</h2>
+<p>promise 链在错误（error）处理中十分强大。当一个 promise 被 reject 时，控制权将移交至最近的 rejection 处理程序。</p>
+<pre><code class="language-javascript">fetch('/article/promise-chaining/user.json')
+  .then(response =&gt; response.json())
+  .then(user =&gt; fetch(`https://api.github.com/users/${user.name}`))
+  .then(response =&gt; response.json())
+  .then(githubUser =&gt; new Promise((resolve, reject) =&gt; {
+    let img = document.createElement('img');
+    img.src = githubUser.avatar_url;
+    img.className = &quot;promise-avatar-example&quot;;
+    document.body.append(img);
+
+    setTimeout(() =&gt; {
+      img.remove();
+      resolve(githubUser);
+    }, 3000);
+  }))
+  .catch(error =&gt; alert(error.message));
+</code></pre>
+<p>通常情况下，这样的 <code>.catch</code> 根本不会被触发。但是如果上述任意一个 promise rejected（网络问题或者无效的 json 或其他），<code>.catch</code> 就会捕获它。</p>
+<p><strong>未处理的 rejection</strong></p>
+<p>在浏览器中，我们可以使用 <code>unhandledrejection</code> 事件来捕获这类 error：</p>
+<pre><code class="language-javascript">window.addEventListener('unhandledrejection', function(event) {
+  // 这个事件对象有两个特殊的属性：
+  alert(event.promise); // [object Promise] —— 生成该全局 error 的 promise
+  alert(event.reason); // Error: Whoops! —— 未处理的 error 对象
+});
+
+new Promise(function() {
+  throw new Error(&quot;Whoops!&quot;);
+}); // 没有用来处理 error 的 catch
+</code></pre>
+<h2 id="promise-api-示例">Promise API 示例</h2>
+<p><strong>Promise.all</strong></p>
+<pre><code class="language-javascript">let names = ['iliakan', 'remy', 'jeresig'];
+
+let requests = names.map(name =&gt; fetch(`https://api.github.com/users/${name}`));
+
+Promise.all(requests)
+  .then(responses =&gt; {
+    // 所有响应都被成功 resolved
+    for(let response of responses) {
+      alert(`${response.url}: ${response.status}`); // 对应每个 url 都显示 200
+    }
+
+    return responses;
+  })
+  // 将响应数组映射（map）到 response.json() 数组中以读取它们的内容
+  .then(responses =&gt; Promise.all(responses.map(r =&gt; r.json())))
+  // 所有 JSON 结果都被解析：&quot;users&quot; 是它们的数组
+  .then(users =&gt; users.forEach(user =&gt; alert(user.name)));
+</code></pre>
+<blockquote>
+<p><strong>如果任意一个 promise 被 reject，由 <code>Promise.all</code> 返回的 promise 就会立即 reject，并且带有的就是这个 error。</strong></p>
+</blockquote>
+<p><code>Promise</code> 类有 6 种静态方法：</p>
+<ol>
+<li><code>Promise.all(promises)</code> —— 等待所有 promise 都 resolve 时，返回存放它们结果的数组。如果给定的任意一个 promise 为 reject，那么它就会变成 <code>Promise.all</code> 的 error，所有其他 promise 的结果都会被忽略。</li>
+<li><code>Promise.allSettled(promises)</code>（ES2020 新增方法）—— 等待所有 promise 都 settle 时，并以包含以下内容的对象数组的形式返回它们的结果：
+<ul>
+<li><code>status</code>: <code>&quot;fulfilled&quot;</code> 或 <code>&quot;rejected&quot;</code></li>
+<li><code>value</code>（如果 fulfilled）或 <code>reason</code>（如果 rejected）。</li>
+</ul>
+</li>
+<li><code>Promise.race(promises)</code> —— 等待第一个 settle 的 promise，并将其 result/error 作为结果返回。</li>
+<li><code>Promise.any(promises)</code>（ES2021 新增方法）—— 等待第一个 fulfilled 的 promise，并将其结果作为结果返回。如果所有 promise 都 rejected，<code>Promise.any</code> 则会抛出 <a href="https://developer.mozilla.org/zh/docs/Web/JavaScript/Reference/Global_Objects/AggregateError"><code>AggregateError</code></a> 错误类型的 error 实例。</li>
+<li><code>Promise.resolve(value)</code> —— 使用给定 value 创建一个 resolved 的 promise。</li>
+<li><code>Promise.reject(error)</code> —— 使用给定 error 创建一个 rejected 的 promise。</li>
+</ol>
+<h2 id="asyncawait">async/await</h2>
+<p><strong>async function</strong></p>
+<p>该函数总是返回一个 promise。其他值将自动被包装在一个 resolved 的 promise 中</p>
+<pre><code class="language-javascript">async function f() {
+  return 1; 
+  // 等价于
+  // return Promise.resolve(1);
+}
+
+f().then(alert); // 1
+</code></pre>
+<p><strong>await</strong></p>
+<p>等待特定的promise完成</p>
+<pre><code class="language-javascript">async function f() {
+
+  let promise = new Promise((resolve, reject) =&gt; {
+    setTimeout(() =&gt; resolve(&quot;done!&quot;), 1000)
+  });
+
+  let result = await promise; // 等待，直到 promise resolve (*)
+
+  alert(result); // &quot;done!&quot;
+}
+
+f();
+</code></pre>
+<p><strong>非 async 函数中调用 async 函数</strong></p>
+<p>如果我们尝试在非 async 函数中使用 <code>await</code>，则会报语法错误：</p>
+<pre><code class="language-javascript">function f() {
+  let promise = Promise.resolve(1);
+  let result = await promise; // Syntax error
+}
+</code></pre>
+<p>只需要把 <code>async</code> 调用当作 promise 对待，并在它的后面加上 <code>.then</code> 即可：</p>
+<pre><code class="language-javascript">async function wait() {
+  await new Promise(resolve =&gt; setTimeout(resolve, 1000));
+
+  return 10;
+}
+
+function f() {
+  // 1 秒后显示 10
+  wait().then(result =&gt; alert(result));
+}
+
+f();
+</code></pre>
+
+              </div>
+              <hr class="clear">
+              
+                <div class="next-post">
+                  <a class="purple-link" href="https://decade-qiu.github.io/post/leetcode-xun-zhao-feng-zhi/">
+                    <h3 class="post-title">
+                      下一篇：Leetcode 寻找峰值
+                    </h3>
+                  </a>
+                </div>
+                
+            </div>
+          </div>
+      </div>
+
+      
+          <div id="gitalk-container"></div>
+      
+
+    
+    </div>
+    <div class="site-footer">
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/Decade-qiu" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        <a href="https://space.bilibili.com/98721375?spm_id_from=333.1007.0.0" target="_blank">
+          <i class="fab fa-bilibili"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.zhihu.com/people/chou-yu-80-33" target="_blank">
+          <i class="fab fa-zhihu"></i>
+        </a>
+      
+    
+  </div>
+  <div class="slogan">Stay hungry. Stay foolish.</div> |
+  <a href="https://github.com/Decade-qiu/gridea-theme-Eternal" target="_blank">Today is happy day again!</a> | <a href="https://github.com/Decade-qiu/gridea-theme-Eternal" target="_blank">Powered by Eternal</a> | <a href="https://decade-qiu.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+    <script src="https://decade-qiu.github.io/media/scripts/index.js"></script>
+
+
+    <script src='https://decade-qiu.github.io/media/scripts/valine.min.js'></script>
+    <script>
+        new Valine({
+            el: '#gitalk-container',
+            appId: 'b2xhAFZQq4FxBeHcVRgXNEbf-gzGzoHsz',
+            appKey: 'QqIty1r7mCD1MbFanHuyw57O',
+            placeholder: 'Write something...',
+        })
+    </script>
+
+
+
+  </body>
+</html>
+
+<script>
+    window.onload = function() {
+        let id = 1;
+        let post_content = document.querySelector('.content-card');
+        post_content.querySelectorAll('h1,h2,h3,h4,h5,h6').forEach(function (item) {
+            item.setAttribute('id', 'toc-' + id);
+            id++;
+        });
+        tocbot.init({
+            tocSelector: '.toc',
+            contentSelector: '.post-content',
+            headingSelector: 'h1,h2,h3,h4',
+            headingsOffset: 58,
+        });
+        // 检测页面滚动距离 用eventlistener
+        window.addEventListener('scroll', function () {
+            let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            let toc = document.querySelector('.toc');
+            let tocBtn = document.querySelector('.toc-body');
+            if (scrollTop > 250) {
+                tocBtn.classList.add('toc-body-fixed');
+                toc.classList.add('toc-fixed');
+            } else {
+                tocBtn.classList.remove('toc-body-fixed');
+                toc.classList.remove('toc-fixed');
+            }
+        });
+        document.querySelector('#floating-toc-btn').addEventListener('click', function () {
+            let toc = document.querySelector('.toc-body');
+            let main = document.querySelector('.main');
+            if (toc.classList.contains('hide')) {
+                main.classList.add('main-small');
+                toc.classList.remove('hide');
+            } else {
+                toc.classList.add('hide');
+                main.classList.remove('main-small');
+            }
+        });
+        window.addEventListener('resize', function() {
+            // 获取屏幕宽度
+            var screenWidth = window.innerWidth || document.documentElement.clientWidth;
+            // 设置 .content-card 的 max-width
+            var contentCard = document.querySelector('.content-card');
+            contentCard.style.maxWidth = screenWidth + 'px';
+        });
+        // 初始加载时执行一次，确保初始状态下也设置正确
+        window.dispatchEvent(new Event('resize'));
+    };
+</script>

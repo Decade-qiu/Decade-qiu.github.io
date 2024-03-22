@@ -1,0 +1,959 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>Maven入门和进阶 | Decade</title>
+<meta name="description" content="Stay hungry. Stay foolish.">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.1/css/all.css" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://decade-qiu.github.io/favicon.ico?v=1711118819754">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://decade-qiu.github.io/styles/main.css">
+
+<script src="https://decade-qiu.github.io/media/scripts/vue.js"></script>
+<script src="https://decade-qiu.github.io/media/scripts/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.5.0/tocbot.min.js"></script>
+  </head>
+  <body>
+    <div class="carousel carousel-slider center index-cover" data-indicators="true">
+    <div class="bg-cover pd-header" style="background: url('') no-repeat center center fixed" data-link="https://decade-qiu.github.io/post/maven-ru-men-he-jin-jie/">
+        <div class="container">
+            <div class="row">
+                <div class="col s10 offset-s1 m8 offset-m2 l8 offset-l2">
+                    <div class="brand">
+                        <div class="title center-align">
+                            Maven入门和进阶
+                        </div>
+                        <div class="description center-align">
+                            <span id="subtitle">
+                                Day Day Learn, Day Day Up.
+                            </span><span class="typed-cursor">|</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
+<script>
+    window.onload = function () {
+        var typed = new Typed("#subtitle", {
+            strings: [ 
+                
+                    "从来没有真正的绝境, 只有心灵的迷途",
+                
+                    'Day Day Learn, Day Day Up.',
+
+            ],
+            startDelay: 300,
+            typeSpeed: 100,
+            loop: true,
+            backSpeed: 50,
+            showCursor: true
+        });
+        let cover = document.querySelector('.bg-cover');
+        cover.setAttribute('style', `background: url('${localStorage[cover.dataset.link]}') no-repeat center center fixed`);
+    }
+</script>
+
+
+    <div class="toc-body hide">  
+        <div class="toc"></div>
+    </div>
+    <div id="floating-toc-btn">
+        <i class="fas fa-list-ul bg-color"></i>
+    </div>
+    <div id="app" class="main">
+      <div class="site-header-container nav-transparent">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://decade-qiu.github.io">
+        <img class="avatar" src="https://decade-qiu.github.io/images/avatar.png?v=1711118819754" alt=""
+          width="32px" height="32px">
+      </a>
+      <a href="https://decade-qiu.github.io">
+        <h1 class="site-title">
+          Decade
+        </h1>
+      </a>
+    </div>
+    <div class="right">
+        <div class="menu">
+            <a href="/post/about" v-if="headSearchShow">
+                <i class="fa-solid fa-user"></i>&nbsp;个人
+            </a>
+            <a href="/archives" v-if="headSearchShow">
+                <i class="fa-solid fa-box-archive"></i>&nbsp;归档
+            </a>
+            <a href="/tags" v-if="headSearchShow">
+                <i class="fa-solid fa-tag"></i>&nbsp;标签
+            </a>
+            <a href="/life" v-if="headSearchShow">
+                <i class="fa-fw fas fa-heart"></i>&nbsp;生活
+            </a>
+            
+        </div>
+      <div class="gridea-search-div" v-if="headSearchShow">
+        <form id="gridea-search-form" action="https://decade-qiu.github.io/search/">
+          <input class="gridea-search-input" autocomplete="off" spellcheck="false" name="q" />
+        </form>
+      </div>
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }"
+          @click="menuClick()" v-if="menuSearchShow"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      <div class="gridea-search-div" v-if="menuSearchShow">
+        <form id="gridea-search-form" action="https://decade-qiu.github.io/search/">
+          <input class="gridea-search-input" autocomplete="off" spellcheck="false" name="q" />
+        </form>
+      </div>
+      
+        
+            <a href="/" class="menu purple-link">
+              首页
+            </a>
+            
+              
+        
+            <a href="/archives" class="menu purple-link">
+              归档
+            </a>
+            
+              
+        
+            <a href="/tags" class="menu purple-link">
+              标签
+            </a>
+            
+              
+        
+            <a href="/post/about" class="menu purple-link">
+              个人
+            </a>
+            
+              
+        
+            <a href="/life" class="menu purple-link">
+              生活
+            </a>
+            
+              
+              
+    </div>
+  </div>
+</transition>
+
+<script>
+    window.onscroll = function () {
+        var t = document.documentElement.scrollTop || document.body.scrollTop;
+        var header = document.querySelector('.site-header-container');
+        if (t > 0) {
+            header.classList.remove('nav-transparent');
+        } else {
+            header.classList.add('nav-transparent');
+        }
+    }
+</script>
+
+      <div class="content-body">
+        <div class="content-container content-card">
+            <div class="post-detail">
+              <div class="post-info post-detail-info">
+                <span><i class="icon-calendar-outline"></i> 2024-02-05-Mon</span>
+                
+                  <span>
+                    
+                        <i class="icon-pricetags-outline"></i>
+                      <a href="https://decade-qiu.github.io/tag/YE_ohUf94/">
+                        Maven
+                      </a>
+                    
+                  </span>
+                
+              </div>
+              
+                <div class="post-card-abstract">
+                    <p>高效构建Java应用<br>
+Maven的安装，配置，项目搭建，依赖管理，继承和聚合特性，构建流程...</p>
+
+                  </div>
+                
+              <hr class="clear">
+              <div class="post-content">
+                
+<h2 id="1-maven简介和快速入门">1 Maven简介和快速入门</h2>
+<h3 id="11-maven介绍">1.1 Maven介绍</h3>
+<p><a href="https://maven.apache.org/what-is-maven.html">https://maven.apache.org/what-is-maven.html</a></p>
+<p>Maven就是一个软件，掌握软件安装、配置、以及基本功能 <strong>（项目构建、依赖管理）</strong> 使用就是本课程的主要目标！</p>
+<h3 id="12-maven主要作用理解">1.2 Maven主要作用理解</h3>
+<ol>
+<li>
+<p>场景概念</p>
+<p><strong>场景1：</strong> 例如我们项目需要第三方库（依赖），如Druid连接池、MySQL数据库驱动和Jackson等。那么我们可以将需要的依赖项的信息编写到Maven工程的配置文件，Maven软件就会自动下载并复制这些依赖项到项目中，也会自动下载依赖需要的依赖！确保依赖版本正确无冲突和依赖完整！</p>
+<p><strong>场景2：</strong> 项目开发完成后，想要将项目打成.jar文件，并部署到服务器中运行，使用Maven软件，我们可以通过一行构建命令（mvn package）快速项目构建和打包！节省大量时间！</p>
+</li>
+<li>
+<p><strong>依赖管理：</strong></p>
+<p>Maven 可以管理项目的依赖，包括自动下载所需依赖库、自动下载依赖需要的依赖并且保证版本没有冲突、依赖版本管理等。通过 Maven，我们可以方便地维护项目所依赖的外部库，而我们仅仅需要编写配置即可。</p>
+</li>
+<li>
+<p><strong>构建管理：</strong></p>
+<p>项目构建是指将源代码、配置文件、资源文件等转化为能够运行或部署的应用程序或库的过程！</p>
+<p>Maven 可以管理项目的编译、测试、打包、部署等构建过程。通过实现标准的构建生命周期，Maven 可以确保每一个构建过程都遵循同样的规则和最佳实践。同时，Maven 的插件机制也使得开发者可以对构建过程进行扩展和定制。主动触发构建，只需要简单的命令操作即可。</p>
+<figure data-type="image" tabindex="1"><img src="https://decade-qiu.github.io/post-images/1707144054501.png" alt="" loading="lazy"></figure>
+</li>
+</ol>
+<h3 id="13-maven安装和配置">1.3 Maven安装和配置</h3>
+<p><a href="https://maven.apache.org/docs/history.html">https://maven.apache.org/docs/history.html</a></p>
+<ol>
+<li>
+<p>安装</p>
+<p><strong>安装条件：</strong> maven需要本机安装java环境、必需包含java_home环境变量！</p>
+<p><strong>软件结构：</strong></p>
+<figure data-type="image" tabindex="2"><img src="https://decade-qiu.github.io/post-images/1707144045311.png" alt="" loading="lazy"></figure>
+</li>
+<li>
+<p>环境变量</p>
+<p><strong>环境变量：</strong> 配置maven_home 和 path</p>
+</li>
+<li>
+<p>命令测试</p>
+<pre><code class="language-bash">mvn -v 
+# 输出版本信息即可，如果错误，请仔细检查环境变量即可！
+# 友好提示，如果此处错误，绝大部分原因都是java_home变量的事，请仔细检查！！
+</code></pre>
+</li>
+<li>
+<p>配置文件</p>
+<blockquote>
+<p>我们需要需改<strong>maven/conf/settings.xml</strong>配置文件，来修改maven的一些默认配置。我们主要休要修改的有三个配置：1.依赖本地缓存位置（本地仓库位置）2.maven下载镜像3.maven选用编译项目的jdk版本！</p>
+<ol>
+<li>
+<p>配置本地仓库地址</p>
+<pre><code class="language-xml">&lt;!-- localRepository
+ | The path to the local repository maven will use to store artifacts.
+ |
+ | Default: ${user.home}/.m2/repository
+&lt;localRepository&gt;/path/to/local/repo&lt;/localRepository&gt;
+--&gt;
+&lt;!-- conf/settings.xml 55行 --&gt;
+&lt;localRepository&gt;D:\repository&lt;/localRepository&gt;
+</code></pre>
+</li>
+<li>
+<p>配置国内阿里镜像</p>
+<pre><code class="language-xml">&lt;!--在mirrors节点(标签)下添加中央仓库镜像 160行附近--&gt;
+&lt;mirror&gt;
+    &lt;id&gt;alimaven&lt;/id&gt;
+    &lt;name&gt;aliyun maven&lt;/name&gt;
+    &lt;url&gt;http://maven.aliyun.com/nexus/content/groups/public/&lt;/url&gt;
+    &lt;mirrorOf&gt;central&lt;/mirrorOf&gt;
+&lt;/mirror&gt;
+</code></pre>
+</li>
+<li>
+<p>配置jdk17版本项目构建</p>
+<pre><code class="language-xml">&lt;!--在profiles节点(标签)下添加jdk编译版本 268行附近--&gt;
+&lt;profile&gt;
+    &lt;id&gt;jdk-17&lt;/id&gt;
+    &lt;activation&gt;
+      &lt;activeByDefault&gt;true&lt;/activeByDefault&gt;
+      &lt;jdk&gt;17&lt;/jdk&gt;
+    &lt;/activation&gt;
+    &lt;properties&gt;
+      &lt;maven.compiler.source&gt;17&lt;/maven.compiler.source&gt;
+      &lt;maven.compiler.target&gt;17&lt;/maven.compiler.target&gt;
+      &lt;maven.compiler.compilerVersion&gt;17&lt;/maven.compiler.compilerVersion&gt;
+    &lt;/properties&gt;
+&lt;/profile&gt;
+</code></pre>
+</li>
+</ol>
+</blockquote>
+</li>
+<li>
+<p>idea配置本地maven</p>
+<blockquote>
+<p>我们需要将配置好的maven软件，配置到idea开发工具中即可！ 注意：idea工具默认自带maven配置软件，但是因为没有修改配置，建议替换成本地配置好的maven！</p>
+</blockquote>
+</li>
+</ol>
+<h2 id="2-基于idea的maven工程创建">2 基于IDEA的Maven工程创建</h2>
+<h3 id="21梳理maven工程gavp属性">2.1梳理Maven工程GAVP属性</h3>
+<blockquote>
+<p>Maven工程相对之前的工程，多出一组gavp属性，gav需要我们在创建项目的时指定，p有默认值，后期通过配置文件修改。既然要填写的属性，我们先行了解下这组属性的含义!</p>
+</blockquote>
+<p>Maven 中的 GAVP 是指 GroupId、ArtifactId、Version、Packaging 等四个属性的缩写，其中前三个是必要的，而 Packaging 属性为可选项。这四个属性主要为每个项目在maven仓库总做一个标识，类似人的《姓-名》。有了具体标识，方便maven软件对项目进行管理和互相引用！</p>
+<p><strong>GAVP遵循一下规则：</strong></p>
+<p>1） <strong>GroupID 格式</strong>：com.{公司/BU }.业务线.[子业务线]，最多 4 级。</p>
+<p>说明：{公司/BU} 例如：alibaba/taobao/tmall/aliexpress 等 BU 一级；子业务线可选。</p>
+<p>正例：com.taobao.tddl 或 com.alibaba.sourcing.multilang  com.atguigu.java</p>
+<p>2） <strong>ArtifactID 格式</strong>：产品线名-模块名。语义不重复不遗漏，先到仓库中心去查证一下。</p>
+<p>正例：tc-client / uic-api / tair-tool / bookstore</p>
+<p>3） <strong>Version版本号格式推荐</strong>：主版本号.次版本号.修订号 1.0.0</p>
+<p>1） 主版本号：当做了不兼容的 API 修改，或者增加了能改变产品方向的新功能。</p>
+<p>2） 次版本号：当做了向下兼容的功能性新增（新增类、接口等）。</p>
+<p>3） 修订号：修复 bug，没有修改方法签名的功能加强，保持 API 兼容性。</p>
+<p>例如： 初始→1.0.0  修改bug → 1.0.1  功能调整 → 1.1.1等</p>
+<p><strong>Packaging定义规则：</strong></p>
+<p>指示将项目打包为什么类型的文件，idea根据packaging值，识别maven项目类型！</p>
+<p>packaging 属性为 jar（默认值），代表普通的Java工程，打包以后是.jar结尾的文件。</p>
+<p>packaging 属性为 war，代表Java的web工程，打包以后.war结尾的文件。</p>
+<p>packaging 属性为 pom，代表不会打包，用来做继承的父工程。</p>
+<h3 id="22-idea构建maven-javase工程">2.2 Idea构建Maven JavaSE工程</h3>
+<p>注意：此处省略了version，直接给了一个默认值&lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;</p>
+<p>自己后期可以在项目中随意修改！</p>
+<figure data-type="image" tabindex="3"><img src="https://decade-qiu.github.io/post-images/1707144005404.png" alt="" loading="lazy"></figure>
+<h3 id="23-idea构建maven-javaee工程">2.3 Idea构建Maven JavaEE工程</h3>
+<ol>
+<li>
+<p>手动创建</p>
+<ol>
+<li>
+<p>创建一个javasemaven工程</p>
+</li>
+<li>
+<p>手动添加web项目结构文件</p>
+<p>注意：结构和命名固定</p>
+<figure data-type="image" tabindex="4"><img src="https://decade-qiu.github.io/post-images/1707143955130.png" alt="" loading="lazy"></figure>
+</li>
+<li>
+<p>修改pom.xml文件打包方式</p>
+<p>修改位置：项目下/pom.xml</p>
+<pre><code class="language-xml">&lt;groupId&gt;com.atguigu&lt;/groupId&gt;
+&lt;artifactId&gt;maven_parent&lt;/artifactId&gt;
+&lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+&lt;!-- 新增一列打包方式packaging --&gt;
+&lt;packaging&gt;war&lt;/packaging&gt;
+</code></pre>
+</li>
+<li>
+<p>刷新和校验</p>
+</li>
+</ol>
+</li>
+<li>
+<p>插件方式创建</p>
+<ol>
+<li>
+<p>安装插件JBLJavaToWeb</p>
+<p>file / settings / plugins / marketplace</p>
+</li>
+<li>
+<p>创建一个javasemaven工程</p>
+</li>
+<li>
+<p>右键、使用插件快速补全web项目</p>
+</li>
+</ol>
+</li>
+</ol>
+<h3 id="24-maven工程项目结构说明">2.4 Maven工程项目结构说明</h3>
+<p>Maven 是一个强大的构建工具，它提供一种标准化的项目结构，可以帮助开发者更容易地管理项目的依赖、构建、测试和发布等任务。以下是 Maven Web 程序的文件结构及每个文件的作用：</p>
+<pre><code class="language-xml">|-- pom.xml                               # Maven 项目管理文件 
+|-- src
+    |-- main                              # 项目主要代码
+    |   |-- java                          # Java 源代码目录
+    |   |   `-- com/example/myapp         # 开发者代码主目录
+    |   |       |-- controller            # 存放 Controller 层代码的目录
+    |   |       |-- service               # 存放 Service 层代码的目录
+    |   |       |-- dao                   # 存放 DAO 层代码的目录
+    |   |       `-- model                 # 存放数据模型的目录
+    |   |-- resources                     # 资源目录，存放配置文件、静态资源等
+    |   |   |-- log4j.properties          # 日志配置文件
+    |   |   |-- spring-mybatis.xml        # Spring Mybatis 配置文件
+    |   |   `-- static                    # 存放静态资源的目录
+    |   |       |-- css                   # 存放 CSS 文件的目录
+    |   |       |-- js                    # 存放 JavaScript 文件的目录
+    |   |       `-- images                # 存放图片资源的目录
+    |   `-- webapp                        # 存放 WEB 相关配置和资源
+    |       |-- WEB-INF                   # 存放 WEB 应用配置文件
+    |       |   |-- web.xml               # Web 应用的部署描述文件
+    |       |   `-- classes               # 存放编译后的 class 文件
+    |       `-- index.html                # Web 应用入口页面
+    `-- test                              # 项目测试代码
+        |-- java                          # 单元测试目录
+        `-- resources                     # 测试资源目录
+</code></pre>
+<ul>
+<li>pom.xml：Maven 项目管理文件，用于描述项目的依赖和构建配置等信息。</li>
+<li>src/main/java：存放项目的 Java 源代码。</li>
+<li>src/main/resources：存放项目的资源文件，如配置文件、静态资源等。</li>
+<li>src/main/webapp/WEB-INF：存放 Web 应用的配置文件。</li>
+<li>src/main/webapp/index.html：Web 应用的入口页面。</li>
+<li>src/test/java：存放项目的测试代码。</li>
+<li>src/test/resources：存放测试相关的资源文件，如测试配置文件等。</li>
+</ul>
+<h2 id="3-maven核心功能依赖和构建管理">3 Maven核心功能依赖和构建管理</h2>
+<h3 id="31-依赖管理和配置">3.1 依赖管理和配置</h3>
+<p>Maven 依赖管理是 Maven 软件中最重要的功能之一。Maven 的依赖管理能够帮助开发人员自动解决软件包依赖问题，使得开发人员能够轻松地将其他开发人员开发的模块或第三方框架集成到自己的应用程序或模块中，避免出现版本冲突和依赖缺失等问题。</p>
+<p>我们通过定义 POM 文件，Maven 能够自动解析项目的依赖关系，并通过 Maven <strong>仓库自动</strong>下载和管理依赖，从而避免了手动下载和管理依赖的繁琐工作和可能引发的版本冲突问题。</p>
+<p>重点: 编写pom.xml文件!</p>
+<p>maven项目信息属性配置和读取：</p>
+<pre><code class="language-xml">&lt;!-- 模型版本 --&gt;
+&lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+&lt;!-- 公司或者组织的唯一标志，并且配置时生成的路径也是由此生成， 如com.companyname.project-group，maven会将该项目打成的jar包放本地路径：/com/companyname/project-group --&gt;
+&lt;groupId&gt;com.companyname.project-group&lt;/groupId&gt;
+&lt;!-- 项目的唯一ID，一个groupId下面可能多个项目，就是靠artifactId来区分的 --&gt;
+&lt;artifactId&gt;project&lt;/artifactId&gt;
+&lt;!-- 版本号 --&gt;
+&lt;version&gt;1.0.0&lt;/version&gt;
+
+&lt;!--打包方式
+    默认：jar
+    jar指的是普通的java项目打包方式！ 项目打成jar包！
+    war指的是web项目打包方式！项目打成war包！
+    pom不会讲项目打包！这个项目作为父工程，被其他工程聚合或者继承！后面会讲解两个概念
+--&gt;
+&lt;packaging&gt;jar/pom/war&lt;/packaging&gt;
+</code></pre>
+<p>依赖管理和添加：</p>
+<pre><code class="language-xml">&lt;!-- 
+   通过编写依赖jar包的gav必要属性，引入第三方依赖！
+   scope属性是可选的，可以指定依赖生效范围！
+   依赖信息查询方式：
+      1. maven仓库信息官网 https://mvnrepository.com/
+      2. mavensearch插件搜索
+ --&gt;
+&lt;dependencies&gt;
+    &lt;!-- 引入具体的依赖包 --&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;log4j&lt;/groupId&gt;
+        &lt;artifactId&gt;log4j&lt;/artifactId&gt;
+        &lt;version&gt;1.2.17&lt;/version&gt;
+        &lt;!--
+            生效范围
+            - compile ：main目录 test目录  打包 [默认]
+            - provided：main目录 test目录  Servlet
+            - runtime： 打包运行           MySQL
+            - test:    test目录           junit
+         --&gt;
+        &lt;scope&gt;runtime&lt;/scope&gt;
+    &lt;/dependency&gt;
+
+&lt;/dependencies&gt;
+</code></pre>
+<p>依赖版本提取和维护:</p>
+<pre><code class="language-xml">&lt;!--声明版本--&gt;
+&lt;properties&gt;
+  &lt;!--命名随便,内部制定版本号即可！--&gt;
+  &lt;junit.version&gt;4.11&lt;/junit.version&gt;
+  &lt;!-- 也可以通过 maven规定的固定的key，配置maven的参数！如下配置编码格式！--&gt;
+  &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
+  &lt;project.reporting.outputEncoding&gt;UTF-8&lt;/project.reporting.outputEncoding&gt;
+&lt;/properties&gt;
+
+&lt;dependencies&gt;
+  &lt;dependency&gt;
+    &lt;groupId&gt;junit&lt;/groupId&gt;
+    &lt;artifactId&gt;junit&lt;/artifactId&gt;
+    &lt;!--引用properties声明版本 --&gt;
+    &lt;version&gt;${junit.version}&lt;/version&gt;
+  &lt;/dependency&gt;
+&lt;/dependencies&gt;
+</code></pre>
+<h3 id="32依赖传递和冲突">3.2依赖传递和冲突</h3>
+<p><strong>依赖传递</strong>指的是当一个模块或库 A 依赖于另一个模块或库 B，而 B 又依赖于模块或库 C，那么 A 会间接依赖于 C。这种依赖传递结构可以形成一个依赖树。当我们引入一个库或框架时，构建工具（如 Maven、Gradle）会自动解析和加载其所有的直接和间接依赖，确保这些依赖都可用。</p>
+<p>依赖传递的作用是：</p>
+<ol>
+<li>减少重复依赖：当多个项目依赖同一个库时，Maven 可以自动下载并且只下载一次该库。这样可以减少项目的构建时间和磁盘空间。</li>
+<li>自动管理依赖: Maven 可以自动管理依赖项，使用依赖传递，简化了依赖项的管理，使项目构建更加可靠和一致。</li>
+<li>确保依赖版本正确性：通过依赖传递的依赖，之间都不会存在版本兼容性问题，确实依赖的版本正确性！</li>
+</ol>
+<p>依赖传递演示：</p>
+<p>项目中，需要导入jackson相关的依赖，通过之前导入经验，jackson需要导入三个依赖，分别为：</p>
+<figure data-type="image" tabindex="5"><img src="https://decade-qiu.github.io/post-images/1707143884894.png" alt="" loading="lazy"></figure>
+<p>通过查看网站介绍的依赖传递特性：data-bind中，依赖其他两个依赖</p>
+<figure data-type="image" tabindex="6"><img src="https://decade-qiu.github.io/post-images/1707143868758.png" alt="" loading="lazy"></figure>
+<p>最佳导入：直接可以导入data-bind，自动依赖传递需要的依赖</p>
+<pre><code class="language-xml">&lt;!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind --&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;com.fasterxml.jackson.core&lt;/groupId&gt;
+    &lt;artifactId&gt;jackson-databind&lt;/artifactId&gt;
+    &lt;version&gt;2.15.0&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+<p>依赖冲突演示：</p>
+<p>当直接引用或者间接引用出现了相同的jar包! 这时呢，一个项目就会出现相同的重复jar包，这就算作冲突！依赖冲突避免出现重复依赖，并且终止依赖传递！</p>
+<p>maven自动解决依赖冲突问题能力，会按照自己的原则，进行重复依赖选择。同时也提供了手动解决的冲突的方式，不过不推荐！</p>
+<p>解决依赖冲突（如何选择重复依赖）方式：</p>
+<ol>
+<li>
+<p>自动选择原则</p>
+<ul>
+<li>
+<p>短路优先原则（第一原则）</p>
+<p>A—&gt;B—&gt;C—&gt;D—&gt;E—&gt;X(version 0.0.1)</p>
+<p>A—&gt;F—&gt;X(version 0.0.2)</p>
+<p>则A依赖于X(version 0.0.2)。</p>
+</li>
+<li>
+<p>依赖路径长度相同情况下，则“先声明优先”（第二原则）</p>
+<p>A—&gt;E—&gt;X(version 0.0.1)</p>
+<p>A—&gt;F—&gt;X(version 0.0.2)</p>
+<p>在&lt;depencies&gt;&lt;/depencies&gt;中，先声明的，路径相同，会优先选择！</p>
+</li>
+</ul>
+</li>
+</ol>
+<p>小思考:</p>
+<pre><code class="language-xml">前提：
+   A 1.1 -&gt; B 1.1 -&gt; C 1.1 
+   F 2.2 -&gt; B 2.2 
+   
+pom声明：
+   F 2.2
+   A 1.1 
+   B 2.2 
+(C 1.1也不会被导入)
+</code></pre>
+<h3 id="33-依赖导入失败场景和解决方案">3.3 依赖导入失败场景和解决方案</h3>
+<p>在使用 Maven 构建项目时，可能会发生依赖项下载错误的情况，主要原因有以下几种：</p>
+<ol>
+<li>下载依赖时出现网络故障或仓库服务器宕机等原因，导致无法连接至 Maven 仓库，从而无法下载依赖。</li>
+<li>依赖项的版本号或配置文件中的版本号错误，或者依赖项没有正确定义，导致 Maven 下载的依赖项与实际需要的不一致，从而引发错误。</li>
+<li>本地 Maven 仓库或缓存被污染或损坏，导致 Maven 无法正确地使用现有的依赖项，并且也无法重新下载！</li>
+</ol>
+<p>解决方案：</p>
+<ol>
+<li>
+<p>检查网络连接和 Maven 仓库服务器状态。</p>
+</li>
+<li>
+<p>确保依赖项的版本号与项目对应的版本号匹配，并检查 POM 文件中的依赖项是否正确。</p>
+</li>
+<li>
+<p>清除本地 Maven 仓库缓存（lastUpdated 文件），因为只要存在lastupdated缓存文件，刷新也不会重新下载。本地仓库中，根据依赖的gav属性依次向下查找文件夹，最终删除内部的文件，刷新重新下载即可！</p>
+<p>例如： pom.xml依赖</p>
+<pre><code class="language-xml">&lt;dependency&gt;
+  &lt;groupId&gt;com.alibaba&lt;/groupId&gt;
+  &lt;artifactId&gt;druid&lt;/artifactId&gt;
+  &lt;version&gt;1.2.8&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+<p>脚本使用：</p>
+<p><a href="file/%E6%B8%85%E7%90%86maven%E9%94%99%E8%AF%AF%E7%BC%93%E5%AD%98_7g0qEFY8sn.bat" title="清理maven错误缓存.bat">清理maven错误缓存.bat</a></p>
+<pre><code class="language-xml">@echo off
+rem 这里写你的仓库路径
+set REPOSITORY_PATH=D:\Maven\repository
+rem 正在搜索...
+for /f &quot;delims=&quot; %%i in ('dir /b /s &quot;%REPOSITORY_PATH%\*lastUpdated*&quot;') do (
+    del /s /q %%i
+)
+rem 搜索完毕
+pause
+</code></pre>
+</li>
+</ol>
+<h3 id="34-扩展构建管理和插件配置">3.4 扩展构建管理和插件配置</h3>
+<p><strong>构建概念:</strong></p>
+<p>项目构建是指将源代码、依赖库和资源文件等转换成可执行或可部署的应用程序的过程，在这个过程中包括编译源代码、链接依赖库、打包和部署等多个步骤。</p>
+<figure data-type="image" tabindex="7"><img src="https://decade-qiu.github.io/post-images/1707143824697.png" alt="" loading="lazy"></figure>
+<p><strong>主动触发场景：</strong></p>
+<ul>
+<li>重新编译 : 编译不充分, 部分文件没有被编译!</li>
+<li>打包 : 独立部署到外部服务器软件,打包部署</li>
+<li>部署本地或者私服仓库 : maven工程加入到本地或者私服仓库,供其他工程使用</li>
+</ul>
+<p><strong>命令方式构建:</strong></p>
+<p>语法: mvn 构建命令  构建命令....</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>mvn clean</td>
+<td>清理编译或打包后的项目结构,删除target文件夹</td>
+</tr>
+<tr>
+<td>mvn compile</td>
+<td>编译项目，生成target文件</td>
+</tr>
+<tr>
+<td>mvn test</td>
+<td>执行测试源码 (测试)</td>
+</tr>
+<tr>
+<td>mvn site</td>
+<td>生成一个项目依赖信息的展示页面</td>
+</tr>
+<tr>
+<td>mvn package</td>
+<td>打包项目，生成war / jar 文件</td>
+</tr>
+<tr>
+<td>mvn install</td>
+<td>打包后上传到maven本地仓库(本地部署)</td>
+</tr>
+<tr>
+<td>mvn deploy</td>
+<td>只打包，上传到maven私服仓库(私服部署)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>可视化方式构建:</strong><br>
+<img src="https://decade-qiu.github.io/post-images/1707144098786.png" alt="" loading="lazy"></p>
+<p><strong>构建命令周期:</strong></p>
+<p>构建生命周期可以理解成是一组固定构建命令的有序集合，触发周期后的命令，会自动触发周期前的命令！也是一种简化构建的思路!</p>
+<ul>
+<li>
+<p>清理周期：主要是对项目编译生成文件进行清理</p>
+<p>包含命令：clean</p>
+</li>
+<li>
+<p>默认周期：定义了真正构件时所需要执行的所有步骤，它是生命周期中最核心的部分</p>
+<p>包含命令：compile - test - package - install / deploy</p>
+</li>
+<li>
+<p>报告周期</p>
+<p>包含命令：site</p>
+<p>打包: mvn clean package 本地仓库: mvn clean install</p>
+</li>
+</ul>
+<p><strong>最佳使用方案:</strong></p>
+<pre><code class="language-纯文本">打包: mvn clean package
+重新编译: mvn clean compile
+本地部署: mvn clean install 
+</code></pre>
+<p><strong>周期，命令和插件:</strong></p>
+<p>周期→包含若干命令→包含若干插件!</p>
+<p>使用周期命令构建，简化构建过程！</p>
+<p>最终进行构建的是插件！</p>
+<p>插件配置:</p>
+<pre><code class="language-xml">&lt;build&gt;
+   &lt;!-- jdk17 和 war包版本插件不匹配 --&gt;
+    &lt;plugins&gt;
+        &lt;plugin&gt;
+            &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+            &lt;artifactId&gt;maven-war-plugin&lt;/artifactId&gt;
+            &lt;version&gt;3.2.2&lt;/version&gt;
+        &lt;/plugin&gt;
+    &lt;/plugins&gt;
+&lt;/build&gt;
+</code></pre>
+<h2 id="4-maven继承和聚合特性">4 Maven继承和聚合特性</h2>
+<h3 id="41-maven工程继承关系">4.1 Maven工程继承关系</h3>
+<ol>
+<li>
+<p>继承概念</p>
+<p>Maven 继承是指在 Maven 的项目中，让一个项目从另一个项目中继承配置信息的机制。继承可以让我们在多个项目中共享同一配置信息，简化项目的管理和维护工作。</p>
+</li>
+<li>
+<p>继承作用</p>
+<p>作用：在父工程中统一管理项目中的依赖信息,进行统一版本管理!</p>
+<p>它的背景是：</p>
+<ul>
+<li>对一个比较大型的项目进行了模块拆分。</li>
+<li>一个 project 下面，创建了很多个 module。</li>
+<li>每一个 module 都需要配置自己的依赖信息。<br>
+它背后的需求是：</li>
+<li>多个模块要使用同一个框架，它们应该是同一个版本，所以整个项目中使用的框架版本需要统一管理。</li>
+<li>使用框架时所需要的 jar 包组合（或者说依赖信息组合）需要经过长期摸索和反复调试，最终确定一个可用组合。这个耗费很大精力总结出来的方案不应该在新的项目中重新摸索。<br>
+通过在父工程中为整个项目维护依赖信息的组合既保证了整个项目使用规范、准确的 jar 包；又能够将以往的经验沉淀下来，节约时间和精力。</li>
+</ul>
+</li>
+<li>
+<p>继承语法</p>
+<ul>
+<li>父工程</li>
+</ul>
+<pre><code class="language-xml">&lt;groupId&gt;com.atguigu.maven&lt;/groupId&gt;
+&lt;artifactId&gt;pro03-maven-parent&lt;/artifactId&gt;
+&lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+&lt;!-- 当前工程作为父工程，它要去管理子工程，所以打包方式必须是 pom --&gt;
+&lt;packaging&gt;pom&lt;/packaging&gt;
+</code></pre>
+</li>
+</ol>
+<ul>
+<li>子工程</li>
+</ul>
+<pre><code class="language-xml">    &lt;!-- 使用parent标签指定当前工程的父工程 --&gt;
+    &lt;parent&gt;
+      &lt;!-- 父工程的坐标 --&gt;
+      &lt;groupId&gt;com.atguigu.maven&lt;/groupId&gt;
+      &lt;artifactId&gt;pro03-maven-parent&lt;/artifactId&gt;
+      &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+    &lt;/parent&gt;
+    
+    &lt;!-- 子工程的坐标 --&gt;
+    &lt;!-- 如果子工程坐标中的groupId和version与父工程一致，那么可以省略 --&gt;
+    &lt;!-- &lt;groupId&gt;com.atguigu.maven&lt;/groupId&gt; --&gt;
+    &lt;artifactId&gt;pro04-maven-module&lt;/artifactId&gt;
+</code></pre>
+<ol start="4">
+<li>
+<p>父工程依赖统一管理</p>
+<ul>
+<li>
+<p>父工程声明版本</p>
+<pre><code class="language-xml">&lt;!-- 使用dependencyManagement标签配置对依赖的管理 --&gt;
+&lt;!-- 被管理的依赖并没有真正被引入到工程 --&gt;
+&lt;dependencyManagement&gt;
+  &lt;dependencies&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+      &lt;artifactId&gt;spring-core&lt;/artifactId&gt;
+      &lt;version&gt;4.0.0.RELEASE&lt;/version&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+      &lt;artifactId&gt;spring-beans&lt;/artifactId&gt;
+      &lt;version&gt;4.0.0.RELEASE&lt;/version&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+      &lt;artifactId&gt;spring-context&lt;/artifactId&gt;
+      &lt;version&gt;4.0.0.RELEASE&lt;/version&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+      &lt;artifactId&gt;spring-expression&lt;/artifactId&gt;
+      &lt;version&gt;4.0.0.RELEASE&lt;/version&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+      &lt;artifactId&gt;spring-aop&lt;/artifactId&gt;
+      &lt;version&gt;4.0.0.RELEASE&lt;/version&gt;
+    &lt;/dependency&gt;
+  &lt;/dependencies&gt;
+&lt;/dependencyManagement&gt;
+</code></pre>
+</li>
+<li>
+<p>子工程引用版本</p>
+<pre><code class="language-xml">&lt;!-- 子工程引用父工程中的依赖信息时，可以把版本号去掉。  --&gt;
+&lt;!-- 把版本号去掉就表示子工程中这个依赖的版本由父工程决定。 --&gt;
+&lt;!-- 具体来说是由父工程的dependencyManagement来决定。 --&gt;
+&lt;dependencies&gt;
+  &lt;dependency&gt;
+    &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-core&lt;/artifactId&gt;
+  &lt;/dependency&gt;
+  &lt;dependency&gt;
+    &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-beans&lt;/artifactId&gt;
+  &lt;/dependency&gt;
+  &lt;dependency&gt;
+    &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-context&lt;/artifactId&gt;
+  &lt;/dependency&gt;
+  &lt;dependency&gt;
+    &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-expression&lt;/artifactId&gt;
+  &lt;/dependency&gt;
+  &lt;dependency&gt;
+    &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-aop&lt;/artifactId&gt;
+  &lt;/dependency&gt;
+&lt;/dependencies&gt;
+</code></pre>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="42-maven工程聚合关系">4.2 Maven工程聚合关系</h3>
+<ol>
+<li>
+<p>聚合概念</p>
+<p>Maven 聚合是指将多个项目组织到一个父级项目中，通过触发父工程的构建,统一按顺序触发子工程构建的过程!!</p>
+</li>
+<li>
+<p>聚合作用</p>
+<ol>
+<li>统一管理子项目构建：通过聚合，可以将多个子项目组织在一起，方便管理和维护。</li>
+<li>优化构建顺序：通过聚合，可以对多个项目进行顺序控制，避免出现构建依赖混乱导致构建失败的情况。</li>
+</ol>
+</li>
+<li>
+<p>聚合语法</p>
+<p>父项目中包含的子项目列表。</p>
+<pre><code class="language-xml">&lt;project&gt;
+  &lt;groupId&gt;com.example&lt;/groupId&gt;
+  &lt;artifactId&gt;parent-project&lt;/artifactId&gt;
+  &lt;packaging&gt;pom&lt;/packaging&gt;
+  &lt;version&gt;1.0.0&lt;/version&gt;
+  &lt;modules&gt;
+    &lt;module&gt;child-project1&lt;/module&gt;
+    &lt;module&gt;child-project2&lt;/module&gt;
+  &lt;/modules&gt;
+&lt;/project&gt;
+</code></pre>
+</li>
+<li>
+<p>聚合演示</p>
+<p>通过触发父工程构建命令、引发所有子模块构建！产生反应堆！</p>
+</li>
+</ol>
+<h2 id="5-maven核心掌握总结">5 Maven核心掌握总结</h2>
+<table>
+<thead>
+<tr>
+<th>核心点</th>
+<th>掌握目标</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>安装</td>
+<td>maven安装、环境变量、maven配置文件修改</td>
+</tr>
+<tr>
+<td>工程创建</td>
+<td>gavp属性理解、JavaSE/EE工程创建、项目结构</td>
+</tr>
+<tr>
+<td>依赖管理</td>
+<td>依赖添加、依赖传递、版本提取、导入依赖错误解决</td>
+</tr>
+<tr>
+<td>构建管理</td>
+<td>构建过程、构建场景、构建周期等</td>
+</tr>
+<tr>
+<td>继承和聚合</td>
+<td>理解继承和聚合作用、继承语法和实践、聚合语法和实践</td>
+</tr>
+</tbody>
+</table>
+
+              </div>
+              <hr class="clear">
+              
+                <div class="next-post">
+                  <a class="purple-link" href="https://decade-qiu.github.io/post/leetcode-2024-02-05-ti-mu-fen-xiang/">
+                    <h3 class="post-title">
+                      下一篇：Leetcode 2024-02-05 题目分享
+                    </h3>
+                  </a>
+                </div>
+                
+            </div>
+          </div>
+      </div>
+
+      
+          <div id="gitalk-container"></div>
+      
+
+    
+    </div>
+    <div class="site-footer">
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/Decade-qiu" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        <a href="https://space.bilibili.com/98721375?spm_id_from=333.1007.0.0" target="_blank">
+          <i class="fab fa-bilibili"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.zhihu.com/people/chou-yu-80-33" target="_blank">
+          <i class="fab fa-zhihu"></i>
+        </a>
+      
+    
+  </div>
+  <div class="slogan">Stay hungry. Stay foolish.</div> |
+  <a href="https://github.com/Decade-qiu/gridea-theme-Eternal" target="_blank">Today is happy day again!</a> | <a href="https://github.com/Decade-qiu/gridea-theme-Eternal" target="_blank">Powered by Eternal</a> | <a href="https://decade-qiu.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+    <script src="https://decade-qiu.github.io/media/scripts/index.js"></script>
+
+
+    <script src='https://decade-qiu.github.io/media/scripts/valine.min.js'></script>
+    <script>
+        new Valine({
+            el: '#gitalk-container',
+            appId: 'b2xhAFZQq4FxBeHcVRgXNEbf-gzGzoHsz',
+            appKey: 'QqIty1r7mCD1MbFanHuyw57O',
+            placeholder: 'Write something...',
+        })
+    </script>
+
+
+
+  </body>
+</html>
+
+<script>
+    window.onload = function() {
+        let id = 1;
+        let post_content = document.querySelector('.content-card');
+        post_content.querySelectorAll('h1,h2,h3,h4,h5,h6').forEach(function (item) {
+            item.setAttribute('id', 'toc-' + id);
+            id++;
+        });
+        tocbot.init({
+            tocSelector: '.toc',
+            contentSelector: '.post-content',
+            headingSelector: 'h1,h2,h3,h4',
+            headingsOffset: 58,
+        });
+        // 检测页面滚动距离 用eventlistener
+        window.addEventListener('scroll', function () {
+            let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            let toc = document.querySelector('.toc');
+            let tocBtn = document.querySelector('.toc-body');
+            if (scrollTop > 250) {
+                tocBtn.classList.add('toc-body-fixed');
+                toc.classList.add('toc-fixed');
+            } else {
+                tocBtn.classList.remove('toc-body-fixed');
+                toc.classList.remove('toc-fixed');
+            }
+        });
+        document.querySelector('#floating-toc-btn').addEventListener('click', function () {
+            let toc = document.querySelector('.toc-body');
+            let main = document.querySelector('.main');
+            if (toc.classList.contains('hide')) {
+                main.classList.add('main-small');
+                toc.classList.remove('hide');
+            } else {
+                toc.classList.add('hide');
+                main.classList.remove('main-small');
+            }
+        });
+        window.addEventListener('resize', function() {
+            // 获取屏幕宽度
+            var screenWidth = window.innerWidth || document.documentElement.clientWidth;
+            // 设置 .content-card 的 max-width
+            var contentCard = document.querySelector('.content-card');
+            contentCard.style.maxWidth = screenWidth + 'px';
+        });
+        // 初始加载时执行一次，确保初始状态下也设置正确
+        window.dispatchEvent(new Event('resize'));
+    };
+</script>

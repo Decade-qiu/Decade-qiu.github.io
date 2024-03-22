@@ -1,0 +1,563 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>Leetcode 第 384 场周赛 | Decade</title>
+<meta name="description" content="Stay hungry. Stay foolish.">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.1/css/all.css" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://decade-qiu.github.io/favicon.ico?v=1711118819754">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://decade-qiu.github.io/styles/main.css">
+
+<script src="https://decade-qiu.github.io/media/scripts/vue.js"></script>
+<script src="https://decade-qiu.github.io/media/scripts/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.5.0/tocbot.min.js"></script>
+  </head>
+  <body>
+    <div class="carousel carousel-slider center index-cover" data-indicators="true">
+    <div class="bg-cover pd-header" style="background: url('') no-repeat center center fixed" data-link="https://decade-qiu.github.io/post/leetcode-di-384-chang-zhou-sai/">
+        <div class="container">
+            <div class="row">
+                <div class="col s10 offset-s1 m8 offset-m2 l8 offset-l2">
+                    <div class="brand">
+                        <div class="title center-align">
+                            Leetcode 第 384 场周赛
+                        </div>
+                        <div class="description center-align">
+                            <span id="subtitle">
+                                Day Day Learn, Day Day Up.
+                            </span><span class="typed-cursor">|</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
+<script>
+    window.onload = function () {
+        var typed = new Typed("#subtitle", {
+            strings: [ 
+                
+                    "从来没有真正的绝境, 只有心灵的迷途",
+                
+                    'Day Day Learn, Day Day Up.',
+
+            ],
+            startDelay: 300,
+            typeSpeed: 100,
+            loop: true,
+            backSpeed: 50,
+            showCursor: true
+        });
+        let cover = document.querySelector('.bg-cover');
+        cover.setAttribute('style', `background: url('${localStorage[cover.dataset.link]}') no-repeat center center fixed`);
+    }
+</script>
+
+
+    <div class="toc-body hide">  
+        <div class="toc"></div>
+    </div>
+    <div id="floating-toc-btn">
+        <i class="fas fa-list-ul bg-color"></i>
+    </div>
+    <div id="app" class="main">
+      <div class="site-header-container nav-transparent">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://decade-qiu.github.io">
+        <img class="avatar" src="https://decade-qiu.github.io/images/avatar.png?v=1711118819754" alt=""
+          width="32px" height="32px">
+      </a>
+      <a href="https://decade-qiu.github.io">
+        <h1 class="site-title">
+          Decade
+        </h1>
+      </a>
+    </div>
+    <div class="right">
+        <div class="menu">
+            <a href="/post/about" v-if="headSearchShow">
+                <i class="fa-solid fa-user"></i>&nbsp;个人
+            </a>
+            <a href="/archives" v-if="headSearchShow">
+                <i class="fa-solid fa-box-archive"></i>&nbsp;归档
+            </a>
+            <a href="/tags" v-if="headSearchShow">
+                <i class="fa-solid fa-tag"></i>&nbsp;标签
+            </a>
+            <a href="/life" v-if="headSearchShow">
+                <i class="fa-fw fas fa-heart"></i>&nbsp;生活
+            </a>
+            
+        </div>
+      <div class="gridea-search-div" v-if="headSearchShow">
+        <form id="gridea-search-form" action="https://decade-qiu.github.io/search/">
+          <input class="gridea-search-input" autocomplete="off" spellcheck="false" name="q" />
+        </form>
+      </div>
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }"
+          @click="menuClick()" v-if="menuSearchShow"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      <div class="gridea-search-div" v-if="menuSearchShow">
+        <form id="gridea-search-form" action="https://decade-qiu.github.io/search/">
+          <input class="gridea-search-input" autocomplete="off" spellcheck="false" name="q" />
+        </form>
+      </div>
+      
+        
+            <a href="/" class="menu purple-link">
+              首页
+            </a>
+            
+              
+        
+            <a href="/archives" class="menu purple-link">
+              归档
+            </a>
+            
+              
+        
+            <a href="/tags" class="menu purple-link">
+              标签
+            </a>
+            
+              
+        
+            <a href="/post/about" class="menu purple-link">
+              个人
+            </a>
+            
+              
+        
+            <a href="/life" class="menu purple-link">
+              生活
+            </a>
+            
+              
+              
+    </div>
+  </div>
+</transition>
+
+<script>
+    window.onscroll = function () {
+        var t = document.documentElement.scrollTop || document.body.scrollTop;
+        var header = document.querySelector('.site-header-container');
+        if (t > 0) {
+            header.classList.remove('nav-transparent');
+        } else {
+            header.classList.add('nav-transparent');
+        }
+    }
+</script>
+
+      <div class="content-body">
+        <div class="content-container content-card">
+            <div class="post-detail">
+              <div class="post-info post-detail-info">
+                <span><i class="icon-calendar-outline"></i> 2024-02-11-Sun</span>
+                
+                  <span>
+                    
+                        <i class="icon-pricetags-outline"></i>
+                      <a href="https://decade-qiu.github.io/tag/XOLh-PMW5/">
+                        回文串
+                      </a>
+                    
+                        <i class="icon-pricetags-outline"></i>
+                      <a href="https://decade-qiu.github.io/tag/mx3RwcMT_/">
+                        KMP
+                      </a>
+                    
+                        <i class="icon-pricetags-outline"></i>
+                      <a href="https://decade-qiu.github.io/tag/pQFRIW5gz/">
+                        贪心
+                      </a>
+                    
+                        <i class="icon-pricetags-outline"></i>
+                      <a href="https://decade-qiu.github.io/tag/nTFeAmnF3/">
+                        竞赛
+                      </a>
+                    
+                        <i class="icon-pricetags-outline"></i>
+                      <a href="https://decade-qiu.github.io/tag/F2kUQf7xN/">
+                        LeetCode
+                      </a>
+                    
+                  </span>
+                
+              </div>
+              
+                <div class="post-card-abstract">
+                    <p>修改矩阵：<code>模拟</code></p>
+<p>回文字符串最大数量：<code>贪心</code> <code>回文串构造</code></p>
+<p>匹配模式数组：<code>KMP</code></p>
+
+                  </div>
+                
+              <hr class="clear">
+              <div class="post-content">
+                
+<h2 id="100230-修改矩阵"><a href="https://leetcode.cn/contest/weekly-contest-384/problems/modify-the-matrix/">100230. 修改矩阵</a></h2>
+<p>给你一个下标从 <strong>0</strong> 开始、大小为 <code>m x n</code> 的整数矩阵 <code>matrix</code> ，新建一个下标从 <strong>0</strong> 开始、名为 <code>answer</code> 的矩阵。使 <code>answer</code> 与 <code>matrix</code> 相等，接着将其中每个值为 <code>-1</code> 的元素替换为所在列的 <strong>最大</strong> 元素。</p>
+<p>返回矩阵 <code>answer</code> 。</p>
+<p><strong>示例 1：</strong></p>
+<figure data-type="image" tabindex="1"><img src="https://assets.leetcode.com/uploads/2023/12/24/matrix1.png" alt="img" loading="lazy"></figure>
+<pre><code>输入：matrix = [[1,2,-1],[4,-1,6],[7,8,9]]
+输出：[[1,2,9],[4,8,6],[7,8,9]]
+解释：上图显示了发生替换的元素（蓝色区域）。
+- 将单元格 [1][1] 中的值替换为列 1 中的最大值 8 。
+- 将单元格 [0][2] 中的值替换为列 2 中的最大值 9 。
+</code></pre>
+<p><strong>示例 2：</strong></p>
+<figure data-type="image" tabindex="2"><img src="https://assets.leetcode.com/uploads/2023/12/24/matrix2.png" alt="img" loading="lazy"></figure>
+<pre><code>输入：matrix = [[3,-1],[5,2]]
+输出：[[3,2],[5,2]]
+解释：上图显示了发生替换的元素（蓝色区域）。
+</code></pre>
+<p><strong>提示：</strong></p>
+<ul>
+<li><code>m == matrix.length</code></li>
+<li><code>n == matrix[i].length</code></li>
+<li><code>2 &lt;= m, n &lt;= 50</code></li>
+<li><code>-1 &lt;= matrix[i][j] &lt;= 100</code></li>
+<li>测试用例中生成的输入满足每列至少包含一个非负整数。</li>
+</ul>
+<h3 id="思路">思路</h3>
+<p>​	三层循环暴力修改一下即可。</p>
+<h3 id="代码">代码</h3>
+<pre><code class="language-js">function modifiedMatrix(matrix: number[][]): number[][] {
+    for (let i = 0, n = matrix.length;i &lt; n;i++){
+        for (let j = 0, m = matrix[i].length;j &lt; m;j++){
+            if (matrix[i][j] === -1){
+                for (let k = 0;k &lt; n;k++){
+                    matrix[i][j] = Math.max(matrix[i][j], matrix[k][j]);
+                }
+            }
+        }
+    }
+    return matrix;
+};
+</code></pre>
+<h3 id="复杂度分析">复杂度分析</h3>
+<ul>
+<li>时间：O(<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi><mo>∗</mo><mi>m</mi><mo>∗</mo><mi>m</mi></mrow><annotation encoding="application/x-tex">n*m*m</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.46528em;vertical-align:0em;"></span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.46528em;vertical-align:0em;"></span><span class="mord mathdefault">m</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">m</span></span></span></span>)。</li>
+<li>空间：O(1)。</li>
+</ul>
+<h2 id="100219-回文字符串的最大数量"><a href="https://leetcode.cn/contest/weekly-contest-384/problems/maximum-palindromes-after-operations/">100219. 回文字符串的最大数量</a></h2>
+<p>给你一个下标从 <strong>0</strong> 开始的字符串数组 <code>words</code> ，数组的长度为 <code>n</code> ，且包含下标从 <strong>0</strong> 开始的若干字符串。</p>
+<p>你可以执行以下操作 <strong>任意</strong> 次数（<strong>包括零次</strong>）：</p>
+<ul>
+<li>选择整数<code>i</code>、<code>j</code>、<code>x</code>和<code>y</code>，满足<code>0 &lt;= i, j &lt; n</code>，<code>0 &lt;= x &lt; words[i].length</code>，<code>0 &lt;= y &lt; words[j].length</code>，<strong>交换</strong> 字符 <code>words[i][x]</code> 和 <code>words[j][y]</code> 。</li>
+</ul>
+<p>返回一个整数，表示在执行一些操作后，<code>words</code> 中可以包含的回文字符串的 <strong>最大</strong> 数量。</p>
+<p>**注意：**在操作过程中，<code>i</code> 和 <code>j</code> 可以相等。</p>
+<p><strong>示例 1：</strong></p>
+<pre><code>输入：words = [&quot;abbb&quot;,&quot;ba&quot;,&quot;aa&quot;]
+输出：3
+解释：在这个例子中，获得最多回文字符串的一种方式是：
+选择 i = 0, j = 1, x = 0, y = 0，交换 words[0][0] 和 words[1][0] 。words 变成了 [&quot;bbbb&quot;,&quot;aa&quot;,&quot;aa&quot;] 。
+words 中的所有字符串都是回文。
+因此，可实现的回文字符串的最大数量是 3 。
+</code></pre>
+<p><strong>示例 2：</strong></p>
+<pre><code>输入：words = [&quot;abc&quot;,&quot;ab&quot;]
+输出：2
+解释：在这个例子中，获得最多回文字符串的一种方式是： 
+选择 i = 0, j = 1, x = 1, y = 0，交换 words[0][1] 和 words[1][0] 。words 变成了 [&quot;aac&quot;,&quot;bb&quot;] 。
+选择 i = 0, j = 0, x = 1, y = 2，交换 words[0][1] 和 words[0][2] 。words 变成了 [&quot;aca&quot;,&quot;bb&quot;] 。
+两个字符串都是回文 。
+因此，可实现的回文字符串的最大数量是 2。
+</code></pre>
+<p><strong>示例 3：</strong></p>
+<pre><code>输入：words = [&quot;cd&quot;,&quot;ef&quot;,&quot;a&quot;]
+输出：1
+解释：在这个例子中，没有必要执行任何操作。
+words 中有一个回文 &quot;a&quot; 。
+可以证明，在执行任何次数操作后，无法得到更多回文。
+因此，答案是 1 。
+</code></pre>
+<p><strong>提示：</strong></p>
+<ul>
+<li><code>1 &lt;= words.length &lt;= 1000</code></li>
+<li><code>1 &lt;= words[i].length &lt;= 100</code></li>
+<li><code>words[i]</code> 仅由小写英文字母组成。</li>
+</ul>
+<h3 id="思路-2">思路</h3>
+<pre><code>1. 每次执行可以选择words[i]和words[j]中任意两个字符进行交换（i!=j）
+2. 每次执行可以选择words[i]中任意两个字符进行位置交换
+3. 由于操作可执行任意次，则**所有的字符都可以重新进行排列**。
+4. 这样只需要统计字符的数量，依次进行回文串构造就可以。
+5. 需要先对字符串进行排序，优先构造最短的回文串。
+</code></pre>
+<h3 id="代码-2">代码</h3>
+<pre><code class="language-c++">class Solution {
+   public:
+    int maxPalindromesAfterOperations(vector&lt;string&gt;&amp; words) {
+        int n = words.size(), ans = 0;
+        // 贪心：优先从长度较短的字符串开始构造
+        sort(words.begin(), words.end(), [](string&amp; a, string&amp; b) {
+            return a.size() &lt; b.size();
+        });
+        vector&lt;int&gt; cnt(26, 0);
+        for (int i = 0; i &lt; n; i++) {
+            for (int j = 0; j &lt; words[i].size(); j++) {
+                cnt[words[i][j] - 'a']++;
+            }
+        }
+        for (int i = 0; i &lt; n; i++) {
+            int s = words[i].size();
+            // 先构造成对的字符：每次消耗两个相同字符
+            for (int j = 0; j &lt; 26 &amp;&amp; s &gt;= 2; j++) {
+                int minv = min(s, cnt[j]);
+                if (minv % 2 == 1) minv--;
+                cnt[j] -= minv;
+                s -= minv;
+            }
+            // 如果还剩一个字符：优先消耗奇数个字符
+            for (int i = 0; i &lt; 26 &amp;&amp; s == 1; i++) {
+                if (cnt[i] % 2 == 1){
+                    cnt[i]--;
+                    s--;
+                }
+            }
+            // 如果还剩一个字符并且没有奇数个字符：随便选一个
+            for (int i = 0; i &lt; 26 &amp;&amp; s == 1; i++) {
+                if (cnt[i] &gt; 0){
+                    cnt[i]--;
+                    s--;
+                }
+            }
+            // 贪心构造：如果当前已经构造不出回文串，那么比它还长的肯定也构造不出
+            if (s == 0) ans++;
+            else break;
+        }
+        return ans;
+    }
+};
+</code></pre>
+<h3 id="复杂度分析-2">复杂度分析</h3>
+<ul>
+<li>时间：O(n*m)。</li>
+<li>空间：O(1)。</li>
+</ul>
+<h2 id="100186-匹配模式数组的子数组数目"><a href="https://leetcode.cn/contest/weekly-contest-384/problems/number-of-subarrays-that-match-a-pattern-i/">100186. 匹配模式数组的子数组数目</a></h2>
+<p>给你一个下标从 <strong>0</strong> 开始长度为 <code>n</code> 的整数数组 <code>nums</code> ，和一个下标从 <code>0</code> 开始长度为 <code>m</code> 的整数数组 <code>pattern</code> ，<code>pattern</code> 数组只包含整数 <code>-1</code> ，<code>0</code> 和 <code>1</code> 。</p>
+<p>大小为 <code>m + 1</code> 的子数组 <code>nums[i..j]</code> 如果对于每个元素 <code>pattern[k]</code> 都满足以下条件，那么我们说这个子数组匹配模式数组 <code>pattern</code> ：</p>
+<ul>
+<li>如果 <code>pattern[k] == 1</code> ，那么 <code>nums[i + k + 1] &gt; nums[i + k]</code></li>
+<li>如果 <code>pattern[k] == 0</code> ，那么 <code>nums[i + k + 1] == nums[i + k]</code></li>
+<li>如果 <code>pattern[k] == -1</code> ，那么 <code>nums[i + k + 1] &lt; nums[i + k]</code></li>
+</ul>
+<p>请你返回匹配 <code>pattern</code> 的 <code>nums</code> 子数组的 <strong>数目</strong> 。</p>
+<p><strong>示例 1：</strong></p>
+<pre><code>输入：nums = [1,2,3,4,5,6], pattern = [1,1]
+输出：4
+解释：模式 [1,1] 说明我们要找的子数组是长度为 3 且严格上升的。在数组 nums 中，子数组 [1,2,3] ，[2,3,4] ，[3,4,5] 和 [4,5,6] 都匹配这个模式。
+所以 nums 中总共有 4 个子数组匹配这个模式。
+</code></pre>
+<p><strong>示例 2：</strong></p>
+<pre><code>输入：nums = [1,4,4,1,3,5,5,3], pattern = [1,0,-1]
+输出：2
+解释：这里，模式数组 [1,0,-1] 说明我们需要找的子数组中，第一个元素小于第二个元素，第二个元素等于第三个元素，第三个元素大于第四个元素。在 nums 中，子数组 [1,4,4,1] 和 [3,5,5,3] 都匹配这个模式。
+所以 nums 中总共有 2 个子数组匹配这个模式。
+</code></pre>
+<p><strong>提示：</strong></p>
+<ul>
+<li><code>2 &lt;= n == nums.length &lt;= 10^6</code></li>
+<li><code>1 &lt;= nums[i] &lt;= 10^9</code></li>
+<li><code>1 &lt;= m == pattern.length &lt; n</code></li>
+<li><code>-1 &lt;= pattern[i] &lt;= 1</code></li>
+</ul>
+<h3 id="思路-3">思路</h3>
+<ol>
+<li>
+<p>首先我们可以根据题意将原数组都变成1，0，-1的形式</p>
+</li>
+<li>
+<p>下面就是找出与pattern相同的子数组=&gt;经典KMP匹配问题</p>
+<p>(有一说一，知识点和上周的重了)</p>
+</li>
+</ol>
+<h3 id="代码-3">代码</h3>
+<pre><code class="language-C++">class Solution {
+   public:
+    // 获取next数组
+    vector&lt;int&gt; calcLSP(vector&lt;int&gt;&amp; s) {
+        int n = s.size();
+        vector&lt;int&gt; next(n, 0);
+        for (int i = 1, j = 0; i &lt; n; i++) {
+            while (j &amp;&amp; s[i] != s[j]) j = next[j - 1];
+            if (s[i] == s[j]) j++;
+            next[i] = j;
+        }
+        return next;
+    }
+    int countMatchingSubarrays(vector&lt;int&gt;&amp; nums, vector&lt;int&gt;&amp; pattern) {
+        vector&lt;int&gt; next = calcLSP(pattern);
+        int n = nums.size(), m = pattern.size(), count = 0;
+        // 做一下转换
+        for (int i = 0; i &lt; n - 1; i++) {
+            if (nums[i + 1] &gt; nums[i]) nums[i] = 1;
+            else if (nums[i + 1] &lt; nums[i]) nums[i] = -1;
+            else nums[i] = 0;
+        }
+        // 进行匹配计数
+        for (int i = 0, j = 0; i &lt; n; i++) {
+            while (j &amp;&amp; nums[i] != pattern[j]) j = next[j - 1];
+            if (nums[i] == pattern[j]) j++;
+            if (j == m) {
+                count++;
+                j = next[j - 1];
+            }
+        }
+        return count;
+    }
+};
+</code></pre>
+<h3 id="复杂度分析-3">复杂度分析</h3>
+<ul>
+<li>时间：O(n+m)。</li>
+<li>空间：O(m)。</li>
+</ul>
+
+              </div>
+              <hr class="clear">
+              
+                <div class="next-post">
+                  <a class="purple-link" href="https://decade-qiu.github.io/post/maven-ru-men-he-jin-jie/">
+                    <h3 class="post-title">
+                      下一篇：Maven入门和进阶
+                    </h3>
+                  </a>
+                </div>
+                
+            </div>
+          </div>
+      </div>
+
+      
+          <div id="gitalk-container"></div>
+      
+
+    
+    </div>
+    <div class="site-footer">
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/Decade-qiu" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        <a href="https://space.bilibili.com/98721375?spm_id_from=333.1007.0.0" target="_blank">
+          <i class="fab fa-bilibili"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.zhihu.com/people/chou-yu-80-33" target="_blank">
+          <i class="fab fa-zhihu"></i>
+        </a>
+      
+    
+  </div>
+  <div class="slogan">Stay hungry. Stay foolish.</div> |
+  <a href="https://github.com/Decade-qiu/gridea-theme-Eternal" target="_blank">Today is happy day again!</a> | <a href="https://github.com/Decade-qiu/gridea-theme-Eternal" target="_blank">Powered by Eternal</a> | <a href="https://decade-qiu.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+    <script src="https://decade-qiu.github.io/media/scripts/index.js"></script>
+
+
+    <script src='https://decade-qiu.github.io/media/scripts/valine.min.js'></script>
+    <script>
+        new Valine({
+            el: '#gitalk-container',
+            appId: 'b2xhAFZQq4FxBeHcVRgXNEbf-gzGzoHsz',
+            appKey: 'QqIty1r7mCD1MbFanHuyw57O',
+            placeholder: 'Write something...',
+        })
+    </script>
+
+
+
+  </body>
+</html>
+
+<script>
+    window.onload = function() {
+        let id = 1;
+        let post_content = document.querySelector('.content-card');
+        post_content.querySelectorAll('h1,h2,h3,h4,h5,h6').forEach(function (item) {
+            item.setAttribute('id', 'toc-' + id);
+            id++;
+        });
+        tocbot.init({
+            tocSelector: '.toc',
+            contentSelector: '.post-content',
+            headingSelector: 'h1,h2,h3,h4',
+            headingsOffset: 58,
+        });
+        // 检测页面滚动距离 用eventlistener
+        window.addEventListener('scroll', function () {
+            let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            let toc = document.querySelector('.toc');
+            let tocBtn = document.querySelector('.toc-body');
+            if (scrollTop > 250) {
+                tocBtn.classList.add('toc-body-fixed');
+                toc.classList.add('toc-fixed');
+            } else {
+                tocBtn.classList.remove('toc-body-fixed');
+                toc.classList.remove('toc-fixed');
+            }
+        });
+        document.querySelector('#floating-toc-btn').addEventListener('click', function () {
+            let toc = document.querySelector('.toc-body');
+            let main = document.querySelector('.main');
+            if (toc.classList.contains('hide')) {
+                main.classList.add('main-small');
+                toc.classList.remove('hide');
+            } else {
+                toc.classList.add('hide');
+                main.classList.remove('main-small');
+            }
+        });
+        window.addEventListener('resize', function() {
+            // 获取屏幕宽度
+            var screenWidth = window.innerWidth || document.documentElement.clientWidth;
+            // 设置 .content-card 的 max-width
+            var contentCard = document.querySelector('.content-card');
+            contentCard.style.maxWidth = screenWidth + 'px';
+        });
+        // 初始加载时执行一次，确保初始状态下也设置正确
+        window.dispatchEvent(new Event('resize'));
+    };
+</script>

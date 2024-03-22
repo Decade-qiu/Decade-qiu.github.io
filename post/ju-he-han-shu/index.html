@@ -1,0 +1,539 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>聚合函数 | Decade</title>
+<meta name="description" content="Stay hungry. Stay foolish.">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.1/css/all.css" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://decade-qiu.github.io/favicon.ico?v=1711118819754">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://decade-qiu.github.io/styles/main.css">
+
+<script src="https://decade-qiu.github.io/media/scripts/vue.js"></script>
+<script src="https://decade-qiu.github.io/media/scripts/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.5.0/tocbot.min.js"></script>
+  </head>
+  <body>
+    <div class="carousel carousel-slider center index-cover" data-indicators="true">
+    <div class="bg-cover pd-header" style="background: url('') no-repeat center center fixed" data-link="https://decade-qiu.github.io/post/ju-he-han-shu/">
+        <div class="container">
+            <div class="row">
+                <div class="col s10 offset-s1 m8 offset-m2 l8 offset-l2">
+                    <div class="brand">
+                        <div class="title center-align">
+                            聚合函数
+                        </div>
+                        <div class="description center-align">
+                            <span id="subtitle">
+                                Day Day Learn, Day Day Up.
+                            </span><span class="typed-cursor">|</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
+<script>
+    window.onload = function () {
+        var typed = new Typed("#subtitle", {
+            strings: [ 
+                
+                    "从来没有真正的绝境, 只有心灵的迷途",
+                
+                    'Day Day Learn, Day Day Up.',
+
+            ],
+            startDelay: 300,
+            typeSpeed: 100,
+            loop: true,
+            backSpeed: 50,
+            showCursor: true
+        });
+        let cover = document.querySelector('.bg-cover');
+        cover.setAttribute('style', `background: url('${localStorage[cover.dataset.link]}') no-repeat center center fixed`);
+    }
+</script>
+
+
+    <div class="toc-body hide">  
+        <div class="toc"></div>
+    </div>
+    <div id="floating-toc-btn">
+        <i class="fas fa-list-ul bg-color"></i>
+    </div>
+    <div id="app" class="main">
+      <div class="site-header-container nav-transparent">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://decade-qiu.github.io">
+        <img class="avatar" src="https://decade-qiu.github.io/images/avatar.png?v=1711118819754" alt=""
+          width="32px" height="32px">
+      </a>
+      <a href="https://decade-qiu.github.io">
+        <h1 class="site-title">
+          Decade
+        </h1>
+      </a>
+    </div>
+    <div class="right">
+        <div class="menu">
+            <a href="/post/about" v-if="headSearchShow">
+                <i class="fa-solid fa-user"></i>&nbsp;个人
+            </a>
+            <a href="/archives" v-if="headSearchShow">
+                <i class="fa-solid fa-box-archive"></i>&nbsp;归档
+            </a>
+            <a href="/tags" v-if="headSearchShow">
+                <i class="fa-solid fa-tag"></i>&nbsp;标签
+            </a>
+            <a href="/life" v-if="headSearchShow">
+                <i class="fa-fw fas fa-heart"></i>&nbsp;生活
+            </a>
+            
+        </div>
+      <div class="gridea-search-div" v-if="headSearchShow">
+        <form id="gridea-search-form" action="https://decade-qiu.github.io/search/">
+          <input class="gridea-search-input" autocomplete="off" spellcheck="false" name="q" />
+        </form>
+      </div>
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }"
+          @click="menuClick()" v-if="menuSearchShow"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      <div class="gridea-search-div" v-if="menuSearchShow">
+        <form id="gridea-search-form" action="https://decade-qiu.github.io/search/">
+          <input class="gridea-search-input" autocomplete="off" spellcheck="false" name="q" />
+        </form>
+      </div>
+      
+        
+            <a href="/" class="menu purple-link">
+              首页
+            </a>
+            
+              
+        
+            <a href="/archives" class="menu purple-link">
+              归档
+            </a>
+            
+              
+        
+            <a href="/tags" class="menu purple-link">
+              标签
+            </a>
+            
+              
+        
+            <a href="/post/about" class="menu purple-link">
+              个人
+            </a>
+            
+              
+        
+            <a href="/life" class="menu purple-link">
+              生活
+            </a>
+            
+              
+              
+    </div>
+  </div>
+</transition>
+
+<script>
+    window.onscroll = function () {
+        var t = document.documentElement.scrollTop || document.body.scrollTop;
+        var header = document.querySelector('.site-header-container');
+        if (t > 0) {
+            header.classList.remove('nav-transparent');
+        } else {
+            header.classList.add('nav-transparent');
+        }
+    }
+</script>
+
+      <div class="content-body">
+        <div class="content-container content-card">
+            <div class="post-detail">
+              <div class="post-info post-detail-info">
+                <span><i class="icon-calendar-outline"></i> 2024-02-21-Wed</span>
+                
+                  <span>
+                    
+                        <i class="icon-pricetags-outline"></i>
+                      <a href="https://decade-qiu.github.io/tag/A-qMFeYi0/">
+                        SQL
+                      </a>
+                    
+                  </span>
+                
+              </div>
+              
+                <div class="post-card-abstract">
+                    <p><code>SQL执行顺序</code></p>
+
+                  </div>
+                
+              <hr class="clear">
+              <div class="post-content">
+                
+<h2 id="1-聚合函数介绍">1. 聚合函数介绍</h2>
+<ul>
+<li><strong>什么是聚合函数</strong></li>
+</ul>
+<p>聚合函数作用于一组数据，并对一组数据返回一个值。</p>
+<ul>
+<li>
+<p><strong>聚合函数类型</strong></p>
+<ul>
+<li><strong>AVG()</strong></li>
+<li><strong>SUM()</strong></li>
+<li><strong>MAX()</strong></li>
+<li><strong>MIN()</strong></li>
+<li>**COUNT() **</li>
+</ul>
+</li>
+<li>
+<p>聚合函数语法</p>
+</li>
+</ul>
+<figure data-type="image" tabindex="1"><img src="C:%5CUsers%5Cqiuzhongjun%5CDocuments%5CGridea%5Cpost-images%5C1554981029920.png" alt="1554981029920" loading="lazy"></figure>
+<ul>
+<li>聚合函数不能嵌套调用。比如不能出现类似“AVG(SUM(字段名称))”形式的调用。</li>
+</ul>
+<h3 id="11-avg和sum函数">1.1 AVG和SUM函数</h3>
+<p>可以对<strong>数值型数据</strong>使用AVG 和 SUM 函数。</p>
+<pre><code class="language-sql">SELECT AVG(salary), MAX(salary),MIN(salary), SUM(salary)
+FROM   employees
+WHERE  job_id LIKE '%REP%';
+</code></pre>
+<h3 id="12-min和max函数">1.2 MIN和MAX函数</h3>
+<p>可以对<strong>任意数据类型</strong>的数据使用 MIN 和 MAX 函数。</p>
+<pre><code class="language-sql">SELECT MIN(hire_date), MAX(hire_date)
+FROM	  employees;
+</code></pre>
+<h3 id="13-count函数">1.3 COUNT函数</h3>
+<ul>
+<li>COUNT(*)返回表中记录总数，适用于<strong>任意数据类型</strong>。</li>
+</ul>
+<pre><code class="language-sql">SELECT COUNT(*)
+FROM	  employees
+WHERE  department_id = 50;
+</code></pre>
+<ul>
+<li>COUNT(expr) 返回<strong>expr不为空</strong>的记录总数。</li>
+</ul>
+<pre><code class="language-sql">SELECT COUNT(commission_pct)
+FROM   employees
+WHERE  department_id = 50;
+</code></pre>
+<ul>
+<li>
+<p><strong>问题：用count(*)，count(1)，count(列名)谁好呢?</strong></p>
+<p>其实，对于MyISAM引擎的表是没有区别的。这种引擎内部有一计数器在维护着行数。</p>
+<p>Innodb引擎的表用count(*),count(1)直接读行数，复杂度是O(n)，因为innodb真的要去数一遍。但好于具体的count(列名)。</p>
+</li>
+<li>
+<p><strong>问题：能不能使用count(列名)替换count(*)?</strong></p>
+<p>不要使用 count(列名)来替代 <code>count(*)</code>，<code>count(*)</code>是 SQL92 定义的标准统计行数的语法，跟数据库无关，跟 NULL 和非 NULL 无关。</p>
+<p>说明：count(*)会统计值为 NULL 的行，而 count(列名)不会统计此列为 NULL 值的行。</p>
+</li>
+</ul>
+<h2 id="2-group-by">2. GROUP BY</h2>
+<h3 id="21-基本使用">2.1 基本使用</h3>
+<p><strong>可以使用GROUP BY子句将表中的数据分成若干组</strong></p>
+<pre><code class="language-sql">SELECT column, group_function(column)
+FROM table
+[WHERE	condition]
+[GROUP BY	group_by_expression]
+[ORDER BY	column];
+</code></pre>
+<blockquote>
+<p><strong>明确：WHERE一定放在FROM后面</strong></p>
+</blockquote>
+<p><strong>在SELECT列表中所有未包含在组函数中的列都应该包含在 GROUP BY子句中</strong></p>
+<pre><code class="language-sql">SELECT   department_id, AVG(salary)
+FROM     employees
+GROUP BY department_id ;
+</code></pre>
+<p>包含在 GROUP BY 子句中的列不必包含在SELECT 列表中</p>
+<pre><code class="language-sql">SELECT   AVG(salary)
+FROM     employees
+GROUP BY department_id ;
+</code></pre>
+<h3 id="22-使用多个列分组">2.2 使用多个列分组</h3>
+<pre><code class="language-sql">SELECT   department_id dept_id, job_id, SUM(salary)
+FROM     employees
+GROUP BY department_id, job_id ;
+</code></pre>
+<h3 id="23-group-by中使用with-rollup">2.3 GROUP BY中使用WITH ROLLUP</h3>
+<p>使用<code>WITH ROLLUP</code>关键字之后，在所有查询出的分组记录之后增加一条记录，该记录计算查询出的所有记录的总和，即统计记录数量。</p>
+<pre><code class="language-mysql">SELECT department_id,AVG(salary)
+FROM employees
+WHERE department_id &gt; 80
+GROUP BY department_id WITH ROLLUP;
+</code></pre>
+<blockquote>
+<p>注意：</p>
+<p>当使用ROLLUP时，不能同时使用ORDER BY子句进行结果排序，即ROLLUP和ORDER BY是互相排斥的。</p>
+</blockquote>
+<h2 id="3-having">3. HAVING</h2>
+<h3 id="31-基本使用">3.1 基本使用</h3>
+<p><strong>过滤分组：HAVING子句</strong></p>
+<ol>
+<li>行已经被分组。</li>
+<li>使用了聚合函数。</li>
+<li>满足HAVING 子句中条件的分组将被显示。</li>
+<li>HAVING 不能单独使用，必须要跟 GROUP BY 一起使用。</li>
+</ol>
+<figure data-type="image" tabindex="2"><img src="C:%5CUsers%5Cqiuzhongjun%5CDocuments%5CGridea%5Cpost-images%5C1554981808091.png" alt="1554981808091" loading="lazy"></figure>
+<pre><code class="language-sql">SELECT   department_id, MAX(salary)
+FROM     employees
+GROUP BY department_id
+HAVING   MAX(salary)&gt;10000 ;
+</code></pre>
+<ul>
+<li>**非法使用聚合函数 ： 不能在 WHERE 子句中使用聚合函数。**如下：</li>
+</ul>
+<pre><code class="language-sql">SELECT   department_id, AVG(salary)
+FROM     employees
+WHERE    AVG(salary) &gt; 8000
+GROUP BY department_id;
+</code></pre>
+<h3 id="32-where和having的对比">3.2 WHERE和HAVING的对比</h3>
+<p><strong>区别1：WHERE 可以直接使用表中的字段作为筛选条件，但不能使用分组中的计算函数作为筛选条件；HAVING 必须要与 GROUP BY 配合使用，可以把分组计算的函数和分组字段作为筛选条件。</strong></p>
+<p>这决定了，在需要对数据进行分组统计的时候，HAVING 可以完成 WHERE 不能完成的任务。这是因为，在查询语法结构中，WHERE 在 GROUP BY 之前，所以无法对分组结果进行筛选。HAVING 在 GROUP BY 之后，可以使用分组字段和分组中的计算函数，对分组的结果集进行筛选，这个功能是 WHERE 无法完成的。另外，WHERE排除的记录不再包括在分组中。</p>
+<p><strong>区别2：如果需要通过连接从关联表中获取需要的数据，WHERE 是先筛选后连接，而 HAVING 是先连接后筛选。</strong> 这一点，就决定了在关联查询中，WHERE 比 HAVING 更高效。因为 WHERE 可以先筛选，用一个筛选后的较小数据集和关联表进行连接，这样占用的资源比较少，执行效率也比较高。HAVING 则需要先把结果集准备好，也就是用未被筛选的数据集进行关联，然后对这个大的数据集进行筛选，这样占用的资源就比较多，执行效率也较低。</p>
+<p>小结如下：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>优点</th>
+<th>缺点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>WHERE</td>
+<td>先筛选数据再关联，执行效率高</td>
+<td>不能使用分组中的计算函数进行筛选</td>
+</tr>
+<tr>
+<td>HAVING</td>
+<td>可以使用分组中的计算函数</td>
+<td>在最后的结果集中进行筛选，执行效率较低</td>
+</tr>
+</tbody>
+</table>
+<p><strong>开发中的选择：</strong></p>
+<p>WHERE 和 HAVING 也不是互相排斥的，我们可以在一个查询里面同时使用 WHERE 和 HAVING。包含分组统计函数的条件用 HAVING，普通条件用 WHERE。这样，我们就既利用了 WHERE 条件的高效快速，又发挥了 HAVING 可以使用包含分组统计函数的查询条件的优点。当数据量特别大的时候，运行效率会有很大的差别。</p>
+<h2 id="4-select的执行过程">4. SELECT的执行过程</h2>
+<h3 id="41-查询的结构">4.1 查询的结构</h3>
+<pre><code class="language-mysql">#方式1：
+SELECT ...,....,...
+FROM ...,...,....
+WHERE 多表的连接条件
+AND 不包含组函数的过滤条件
+GROUP BY ...,...
+HAVING 包含组函数的过滤条件
+ORDER BY ... ASC/DESC
+LIMIT ...,...
+
+#方式2：
+SELECT ...,....,...
+FROM ... JOIN ... 
+ON 多表的连接条件
+JOIN ...
+ON ...
+WHERE 不包含组函数的过滤条件
+AND/OR 不包含组函数的过滤条件
+GROUP BY ...,...
+HAVING 包含组函数的过滤条件
+ORDER BY ... ASC/DESC
+LIMIT ...,...
+
+#其中：
+#（1）from：从哪些表中筛选
+#（2）on：关联多表查询时，去除笛卡尔积
+#（3）where：从表中筛选的条件
+#（4）group by：分组依据
+#（5）having：在统计结果中再次筛选
+#（6）order by：排序
+#（7）limit：分页
+</code></pre>
+<h3 id="42-select执行顺序">4.2 SELECT执行顺序</h3>
+<p>你需要记住 SELECT 查询时的两个顺序：</p>
+<p><strong>1. 关键字的顺序是不能颠倒的：</strong></p>
+<pre><code>SELECT ... FROM ... WHERE ... GROUP BY ... HAVING ... ORDER BY ... LIMIT...
+</code></pre>
+<p><strong>2.SELECT 语句的执行顺序</strong>（在 MySQL 和 Oracle 中，SELECT 执行顺序基本相同）：</p>
+<pre><code>FROM -&gt; WHERE -&gt; GROUP BY -&gt; HAVING -&gt; SELECT 的字段 -&gt; DISTINCT -&gt; ORDER BY -&gt; LIMIT
+</code></pre>
+<figure data-type="image" tabindex="3"><img src="C:%5CUsers%5Cqiuzhongjun%5CDocuments%5CGridea%5Cpost-images%5C1566872301088.png" alt="1566872301088" loading="lazy"></figure>
+<p>比如你写了一个 SQL 语句，那么它的关键字顺序和执行顺序是下面这样的：</p>
+<pre><code class="language-mysql">SELECT DISTINCT player_id, player_name, count(*) as num # 顺序 5
+FROM player JOIN team ON player.team_id = team.team_id # 顺序 1
+WHERE height &gt; 1.80 # 顺序 2
+GROUP BY player.team_id # 顺序 3
+HAVING num &gt; 2 # 顺序 4
+ORDER BY num DESC # 顺序 6
+LIMIT 2 # 顺序 7
+</code></pre>
+<p>在 SELECT 语句执行这些步骤的时候，每个步骤都会产生一个<code>虚拟表</code>，然后将这个虚拟表传入下一个步骤中作为输入。需要注意的是，这些步骤隐含在 SQL 的执行过程中，对于我们来说是不可见的。</p>
+<h3 id="43-sql-的执行原理">4.3 SQL 的执行原理</h3>
+<p>SELECT 是先执行 FROM 这一步的。在这个阶段，如果是多张表联查，还会经历下面的几个步骤：</p>
+<ol>
+<li>首先先通过 CROSS JOIN 求笛卡尔积，相当于得到虚拟表 vt（virtual table）1-1；</li>
+<li>通过 ON 进行筛选，在虚拟表 vt1-1 的基础上进行筛选，得到虚拟表 vt1-2；</li>
+<li>添加外部行。如果我们使用的是左连接、右链接或者全连接，就会涉及到外部行，也就是在虚拟表 vt1-2 的基础上增加外部行，得到虚拟表 vt1-3。</li>
+</ol>
+<p>当然如果我们操作的是两张以上的表，还会重复上面的步骤，直到所有表都被处理完为止。这个过程得到是我们的原始数据。</p>
+<p>当我们拿到了查询数据表的原始数据，也就是最终的虚拟表 <code>vt1</code>，就可以在此基础上再进行 <code>WHERE 阶段</code>。在这个阶段中，会根据 vt1 表的结果进行筛选过滤，得到虚拟表 <code>vt2</code>。</p>
+<p>然后进入第三步和第四步，也就是 <code>GROUP 和 HAVING 阶段</code>。在这个阶段中，实际上是在虚拟表 vt2 的基础上进行分组和分组过滤，得到中间的虚拟表 <code>vt3</code> 和 <code>vt4</code>。</p>
+<p>当我们完成了条件筛选部分之后，就可以筛选表中提取的字段，也就是进入到 <code>SELECT 和 DISTINCT 阶段</code>。</p>
+<p>首先在 SELECT 阶段会提取想要的字段，然后在 DISTINCT 阶段过滤掉重复的行，分别得到中间的虚拟表 <code>vt5-1</code> 和 <code>vt5-2</code>。</p>
+<p>当我们提取了想要的字段数据之后，就可以按照指定的字段进行排序，也就是 <code>ORDER BY 阶段</code>，得到虚拟表 <code>vt6</code>。</p>
+<p>最后在 vt6 的基础上，取出指定行的记录，也就是 <code>LIMIT 阶段</code>，得到最终的结果，对应的是虚拟表 <code>vt7</code>。</p>
+<p>当然我们在写 SELECT 语句的时候，不一定存在所有的关键字，相应的阶段就会省略。</p>
+<p>同时因为 SQL 是一门类似英语的结构化查询语言，所以我们在写 SELECT 语句的时候，还要注意相应的关键字顺序，<strong>所谓底层运行的原理，就是我们刚才讲到的执行顺序。</strong></p>
+
+              </div>
+              <hr class="clear">
+              
+                <div class="next-post">
+                  <a class="purple-link" href="https://decade-qiu.github.io/post/dan-xing-han-shu/">
+                    <h3 class="post-title">
+                      下一篇：单行函数
+                    </h3>
+                  </a>
+                </div>
+                
+            </div>
+          </div>
+      </div>
+
+      
+          <div id="gitalk-container"></div>
+      
+
+    
+    </div>
+    <div class="site-footer">
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/Decade-qiu" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        <a href="https://space.bilibili.com/98721375?spm_id_from=333.1007.0.0" target="_blank">
+          <i class="fab fa-bilibili"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.zhihu.com/people/chou-yu-80-33" target="_blank">
+          <i class="fab fa-zhihu"></i>
+        </a>
+      
+    
+  </div>
+  <div class="slogan">Stay hungry. Stay foolish.</div> |
+  <a href="https://github.com/Decade-qiu/gridea-theme-Eternal" target="_blank">Today is happy day again!</a> | <a href="https://github.com/Decade-qiu/gridea-theme-Eternal" target="_blank">Powered by Eternal</a> | <a href="https://decade-qiu.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+    <script src="https://decade-qiu.github.io/media/scripts/index.js"></script>
+
+
+    <script src='https://decade-qiu.github.io/media/scripts/valine.min.js'></script>
+    <script>
+        new Valine({
+            el: '#gitalk-container',
+            appId: 'b2xhAFZQq4FxBeHcVRgXNEbf-gzGzoHsz',
+            appKey: 'QqIty1r7mCD1MbFanHuyw57O',
+            placeholder: 'Write something...',
+        })
+    </script>
+
+
+
+  </body>
+</html>
+
+<script>
+    window.onload = function() {
+        let id = 1;
+        let post_content = document.querySelector('.content-card');
+        post_content.querySelectorAll('h1,h2,h3,h4,h5,h6').forEach(function (item) {
+            item.setAttribute('id', 'toc-' + id);
+            id++;
+        });
+        tocbot.init({
+            tocSelector: '.toc',
+            contentSelector: '.post-content',
+            headingSelector: 'h1,h2,h3,h4',
+            headingsOffset: 58,
+        });
+        // 检测页面滚动距离 用eventlistener
+        window.addEventListener('scroll', function () {
+            let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            let toc = document.querySelector('.toc');
+            let tocBtn = document.querySelector('.toc-body');
+            if (scrollTop > 250) {
+                tocBtn.classList.add('toc-body-fixed');
+                toc.classList.add('toc-fixed');
+            } else {
+                tocBtn.classList.remove('toc-body-fixed');
+                toc.classList.remove('toc-fixed');
+            }
+        });
+        document.querySelector('#floating-toc-btn').addEventListener('click', function () {
+            let toc = document.querySelector('.toc-body');
+            let main = document.querySelector('.main');
+            if (toc.classList.contains('hide')) {
+                main.classList.add('main-small');
+                toc.classList.remove('hide');
+            } else {
+                toc.classList.add('hide');
+                main.classList.remove('main-small');
+            }
+        });
+        window.addEventListener('resize', function() {
+            // 获取屏幕宽度
+            var screenWidth = window.innerWidth || document.documentElement.clientWidth;
+            // 设置 .content-card 的 max-width
+            var contentCard = document.querySelector('.content-card');
+            contentCard.style.maxWidth = screenWidth + 'px';
+        });
+        // 初始加载时执行一次，确保初始状态下也设置正确
+        window.dispatchEvent(new Event('resize'));
+    };
+</script>

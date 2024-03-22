@@ -1,0 +1,924 @@
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>Decade</title>
+<meta name="description" content="Stay hungry. Stay foolish.">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.1/css/all.css" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://decade-qiu.github.io/favicon.ico?v=1711118819754">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://decade-qiu.github.io/styles/main.css">
+
+<script src="https://decade-qiu.github.io/media/scripts/vue.js"></script>
+<script src="https://decade-qiu.github.io/media/scripts/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="carousel carousel-slider center index-cover" data-indicators="true">
+    <div class="bg-cover" style="background: url('https://decade-qiu.github.io/images/cover.jpg?v=1711118819754') no-repeat center center fixed">
+        <div class="container">
+            <div class="row">
+                <div class="col s10 offset-s1 m8 offset-m2 l8 offset-l2">
+                    <div class="brand">
+                        <div class="title center-align">
+                            Decade&#39;s Blog
+                        </div>
+                        <div class="description center-align">
+                            <span id="subtitle" data-subtitle="Never really desperate, only the lost of the soul.">Never really desperate, only the lost of the soul.</span><span class="typed-cursor">|</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="cover-btns">
+                <a href="#content" class="waves-effect waves-light btn">
+                    <i class="fa fa-angle-double-down"></i>开始阅读
+                </a>
+            </div>
+            <div class="cover-social-link">
+                
+                    
+                      <a href="https://github.com/Decade-qiu" target="_blank">
+                        <i class="fab fa-github"></i>
+                      </a>
+                    
+                  
+                    
+                  
+                    
+                  
+                    
+                  
+                    
+                      <a href="https://space.bilibili.com/98721375?spm_id_from=333.1007.0.0" target="_blank">
+                        <i class="fab fa-bilibili"></i>
+                      </a>
+                    
+                  
+                    
+                      <a href="https://www.zhihu.com/people/chou-yu-80-33" target="_blank">
+                        <i class="fab fa-zhihu"></i>
+                      </a>
+                    
+                  
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
+<script>
+    window.onload = function () {
+        var subtitle = document.querySelector("#subtitle");
+        var text = subtitle.dataset.subtitle;
+        var typed = new Typed("#subtitle", {
+            strings: [ 
+                
+                    "从来没有真正的绝境, 只有心灵的迷途",
+                
+                    text,
+                
+            ],
+            startDelay: 300,
+            typeSpeed: 100,
+            loop: true,
+            backSpeed: 50,
+            showCursor: true
+        });
+    }
+    document.addEventListener("DOMContentLoaded", (event) => {
+        let cover = document.querySelector('.bg-cover');
+        if (document.location.pathname !== '/'){
+            cover.classList.add('pd-header');
+            let btns = document.querySelector('.cover-btns');
+            let social = document.querySelector('.cover-social-link');
+            btns.classList.add('hide');
+            social.classList.add('hide');
+        }
+    });
+</script>
+
+
+    <div id="app" class="main">
+      <div class="site-header-container nav-transparent">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://decade-qiu.github.io">
+        <img class="avatar" src="https://decade-qiu.github.io/images/avatar.png?v=1711118819754" alt=""
+          width="32px" height="32px">
+      </a>
+      <a href="https://decade-qiu.github.io">
+        <h1 class="site-title">
+          Decade
+        </h1>
+      </a>
+    </div>
+    <div class="right">
+        <div class="menu">
+            <a href="/post/about" v-if="headSearchShow">
+                <i class="fa-solid fa-user"></i>&nbsp;个人
+            </a>
+            <a href="/archives" v-if="headSearchShow">
+                <i class="fa-solid fa-box-archive"></i>&nbsp;归档
+            </a>
+            <a href="/tags" v-if="headSearchShow">
+                <i class="fa-solid fa-tag"></i>&nbsp;标签
+            </a>
+            <a href="/life" v-if="headSearchShow">
+                <i class="fa-fw fas fa-heart"></i>&nbsp;生活
+            </a>
+            
+        </div>
+      <div class="gridea-search-div" v-if="headSearchShow">
+        <form id="gridea-search-form" action="https://decade-qiu.github.io/search/">
+          <input class="gridea-search-input" autocomplete="off" spellcheck="false" name="q" />
+        </form>
+      </div>
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }"
+          @click="menuClick()" v-if="menuSearchShow"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      <div class="gridea-search-div" v-if="menuSearchShow">
+        <form id="gridea-search-form" action="https://decade-qiu.github.io/search/">
+          <input class="gridea-search-input" autocomplete="off" spellcheck="false" name="q" />
+        </form>
+      </div>
+      
+        
+            <a href="/" class="menu purple-link">
+              首页
+            </a>
+            
+              
+        
+            <a href="/archives" class="menu purple-link">
+              归档
+            </a>
+            
+              
+        
+            <a href="/tags" class="menu purple-link">
+              标签
+            </a>
+            
+              
+        
+            <a href="/post/about" class="menu purple-link">
+              个人
+            </a>
+            
+              
+        
+            <a href="/life" class="menu purple-link">
+              生活
+            </a>
+            
+              
+              
+    </div>
+  </div>
+</transition>
+
+<script>
+    window.onscroll = function () {
+        var t = document.documentElement.scrollTop || document.body.scrollTop;
+        var header = document.querySelector('.site-header-container');
+        if (t > 0) {
+            header.classList.remove('nav-transparent');
+        } else {
+            header.classList.add('nav-transparent');
+        }
+    }
+</script>
+
+        <div class="content-container">
+          
+          
+
+<div class="archives-container">
+  
+    <h2 class="year">2024</h2>
+    
+      
+        <article class="post">
+          <a href="https://decade-qiu.github.io/post/springboot3-he-xin-yuan-li/">
+            <h2 class="post-title">
+              SpringBoot3 核心原理
+              <small>2024-03-22-Fri</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://decade-qiu.github.io/post/springboot3-ji-chu-te-xing/">
+            <h2 class="post-title">
+              SpringBoot3 基础特性
+              <small>2024-03-11-Mon</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://decade-qiu.github.io/post/springboot3-shu-ju-fang-wen/">
+            <h2 class="post-title">
+              SpringBoot3 数据访问
+              <small>2024-03-09-Sat</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://decade-qiu.github.io/post/web-kai-fa/">
+            <h2 class="post-title">
+              SpringBoot3 Web开发
+              <small>2024-03-08-Fri</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://decade-qiu.github.io/post/springboot3-kuai-su-ru-men/">
+            <h2 class="post-title">
+              SpringBoot3 快速入门
+              <small>2024-03-01-Fri</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://decade-qiu.github.io/post/jdbc-ji-chu/">
+            <h2 class="post-title">
+              JDBC基础
+              <small>2024-02-29-Thu</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://decade-qiu.github.io/post/xing-neng-fen-xi-gong-ju-de-shi-yong/">
+            <h2 class="post-title">
+              性能分析工具的使用
+              <small>2024-02-27-Tue</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://decade-qiu.github.io/post/suo-yin-de-chuang-jian-yu-she-ji-yuan-ze/">
+            <h2 class="post-title">
+              索引的创建与设计原则
+              <small>2024-02-25-Sun</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://decade-qiu.github.io/post/innodb-shu-ju-ku-wu-li-cun-chu-jie-gou/">
+            <h2 class="post-title">
+              InnoDB数据库物理存储结构
+              <small>2024-02-24-Sat</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://decade-qiu.github.io/post/suo-yin-de-shu-ju-jie-gou/">
+            <h2 class="post-title">
+              索引的数据结构
+              <small>2024-02-24-Sat</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://decade-qiu.github.io/post/leetcode-2024-02-24-ti-mu-fen-xiang/">
+            <h2 class="post-title">
+              leetCode 2024-02-24 题目分享
+              <small>2024-02-24-Sat</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://decade-qiu.github.io/post/cun-chu-yin-qing/">
+            <h2 class="post-title">
+              存储引擎
+              <small>2024-02-23-Fri</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://decade-qiu.github.io/post/shu-ju-ku-luo-ji-jia-gou/">
+            <h2 class="post-title">
+              数据库逻辑架构
+              <small>2024-02-23-Fri</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://decade-qiu.github.io/post/mysql-guan-li/">
+            <h2 class="post-title">
+              MySQL库表管理
+              <small>2024-02-23-Fri</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://decade-qiu.github.io/post/hong-fa-qi/">
+            <h2 class="post-title">
+              触发器
+              <small>2024-02-22-Thu</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://decade-qiu.github.io/post/bian-liang-liu-cheng-kong-zhi-yu-you-biao/">
+            <h2 class="post-title">
+              变量、流程控制与游标
+              <small>2024-02-22-Thu</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://decade-qiu.github.io/post/cun-chu-guo-cheng-yu-han-shu/">
+            <h2 class="post-title">
+              存储过程与函数
+              <small>2024-02-22-Thu</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://decade-qiu.github.io/post/shi-tu/">
+            <h2 class="post-title">
+              视图
+              <small>2024-02-22-Thu</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://decade-qiu.github.io/post/yue-shu/">
+            <h2 class="post-title">
+              约束
+              <small>2024-02-22-Thu</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://decade-qiu.github.io/post/mysql-shu-ju-lei-xing-jing-jiang/">
+            <h2 class="post-title">
+              MySQL数据类型精讲
+              <small>2024-02-22-Thu</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://decade-qiu.github.io/post/shu-ju-chu-li-zhi-zeng-shan-gai-dml-yu-ju/">
+            <h2 class="post-title">
+              数据处理之增删改-DML语句
+              <small>2024-02-21-Wed</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://decade-qiu.github.io/post/chuang-jian-he-guan-li-biao-ddl-yu-ju/">
+            <h2 class="post-title">
+              创建和管理表-DDL语句
+              <small>2024-02-21-Wed</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://decade-qiu.github.io/post/zi-cha-xun/">
+            <h2 class="post-title">
+              子查询
+              <small>2024-02-21-Wed</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://decade-qiu.github.io/post/ju-he-han-shu/">
+            <h2 class="post-title">
+              聚合函数
+              <small>2024-02-21-Wed</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://decade-qiu.github.io/post/dan-xing-han-shu/">
+            <h2 class="post-title">
+              单行函数
+              <small>2024-02-21-Wed</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://decade-qiu.github.io/post/duo-biao-cha-xun/">
+            <h2 class="post-title">
+              多表查询
+              <small>2024-02-21-Wed</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://decade-qiu.github.io/post/pai-xu-yu-fen-ye/">
+            <h2 class="post-title">
+              排序与分页
+              <small>2024-02-21-Wed</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://decade-qiu.github.io/post/yun-suan-fu/">
+            <h2 class="post-title">
+              运算符
+              <small>2024-02-21-Wed</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://decade-qiu.github.io/post/ji-ben-de-select-yu-ju/">
+            <h2 class="post-title">
+              基础SELECT使用-DQL语句
+              <small>2024-02-21-Wed</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://decade-qiu.github.io/post/shu-ju-ku-gai-shu/">
+            <h2 class="post-title">
+              数据库概述
+              <small>2024-02-20-Tue</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://decade-qiu.github.io/post/mybatis-plus-gao-ji-yong-fa-zui-you-hua-chi-jiu-ceng-kai-fa/">
+            <h2 class="post-title">
+              MyBatis-Plus高级用法：最优化持久层开发
+              <small>2024-02-18-Sun</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://decade-qiu.github.io/post/kuai-su-qi-dong-kuang-jia-springboot3-shi-zhan/">
+            <h2 class="post-title">
+              快速启动框架：SpringBoot3实战
+              <small>2024-02-17-Sat</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://decade-qiu.github.io/post/wu-kuang-jia-shi-zhan-ssm-zheng-he-yuan-li-he-shi-zhan/">
+            <h2 class="post-title">
+              SSM整合原理和实战
+              <small>2024-02-16-Fri</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://decade-qiu.github.io/post/springmvc-shi-zhan-gou-jian-gao-xiao-biao-shu-ceng-kuang-jia/">
+            <h2 class="post-title">
+              SpringMVC实战：构建高效表述层框架
+              <small>2024-02-15-Thu</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://decade-qiu.github.io/post/mybatis-shi-jian-ti-gao-chi-jiu-ceng-shu-ju-chu-li-xiao-lu/">
+            <h2 class="post-title">
+              MyBatis实践：提高持久层数据处理效率
+              <small>2024-02-13-Tue</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://decade-qiu.github.io/post/springframework-shi-zhan-zhi-nan/">
+            <h2 class="post-title">
+              SpringFramework实战指南
+              <small>2024-02-12-Mon</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://decade-qiu.github.io/post/leetcode-di-384-chang-zhou-sai/">
+            <h2 class="post-title">
+              Leetcode 第 384 场周赛
+              <small>2024-02-11-Sun</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://decade-qiu.github.io/post/maven-ru-men-he-jin-jie/">
+            <h2 class="post-title">
+              Maven入门和进阶
+              <small>2024-02-05-Mon</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://decade-qiu.github.io/post/leetcode-2024-02-05-ti-mu-fen-xiang/">
+            <h2 class="post-title">
+              Leetcode 2024-02-05 题目分享
+              <small>2024-02-05-Mon</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://decade-qiu.github.io/post/leetcode-di-383-chang-zhou-sai/">
+            <h2 class="post-title">
+              leetcode 第 383 场周赛
+              <small>2024-02-04-Sun</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://decade-qiu.github.io/post/leetcode-ti-mu-fen-xiang-2024-01-21/">
+            <h2 class="post-title">
+              leetcode 题目分享 2024-01-21
+              <small>2024-01-21-Sun</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://decade-qiu.github.io/post/aa/">
+            <h2 class="post-title">
+              vue3+TypeScript项目
+              <small>2024-01-16-Tue</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://decade-qiu.github.io/post/leetcode-ti-mu-fen-xiang-2024-01-16/">
+            <h2 class="post-title">
+              leetcode 题目分享
+              <small>2024-01-16-Tue</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://decade-qiu.github.io/post/css-bao-han-kuai/">
+            <h2 class="post-title">
+              CSS包含块
+              <small>2024-01-11-Thu</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://decade-qiu.github.io/post/css-shu-xing-ji-suan/">
+            <h2 class="post-title">
+              CSS属性计算
+              <small>2024-01-11-Thu</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://decade-qiu.github.io/post/liu-lan-qi-ye-mian-xuan-ran-liu-cheng/">
+            <h2 class="post-title">
+              浏览器页面渲染流程
+              <small>2024-01-11-Thu</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://decade-qiu.github.io/post/liu-lan-qi-shi-jian-xun-huan/">
+            <h2 class="post-title">
+              浏览器事件循环
+              <small>2024-01-11-Thu</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://decade-qiu.github.io/post/typescript/">
+            <h2 class="post-title">
+              TypeScript
+              <small>2024-01-05-Fri</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+        <article class="post">
+          <a href="https://decade-qiu.github.io/post/leetcode-ti-mu-fen-xiang/">
+            <h2 class="post-title">
+              Leetcode 题目分享
+              <small>2024-01-04-Thu</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+      
+    
+  
+    <h2 class="year">2023</h2>
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        <article class="post">
+          <a href="https://decade-qiu.github.io/post/web-ui-event/">
+            <h2 class="post-title">
+              Web-UI Event
+              <small>2023-12-27-Wed</small>
+            </h2>
+          </a>
+        </article>
+      
+    
+  
+</div>
+
+
+        </div>
+
+        
+
+      </div>
+      <div class="site-footer">
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/Decade-qiu" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        <a href="https://space.bilibili.com/98721375?spm_id_from=333.1007.0.0" target="_blank">
+          <i class="fab fa-bilibili"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.zhihu.com/people/chou-yu-80-33" target="_blank">
+          <i class="fab fa-zhihu"></i>
+        </a>
+      
+    
+  </div>
+  <div class="slogan">Stay hungry. Stay foolish.</div> |
+  <a href="https://github.com/Decade-qiu/gridea-theme-Eternal" target="_blank">Today is happy day again!</a> | <a href="https://github.com/Decade-qiu/gridea-theme-Eternal" target="_blank">Powered by Eternal</a> | <a href="https://decade-qiu.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+      <script src="https://decade-qiu.github.io/media/scripts/index.js"></script>
+
+
+    <script src='https://decade-qiu.github.io/media/scripts/valine.min.js'></script>
+    <script>
+        new Valine({
+            el: '#gitalk-container',
+            appId: 'b2xhAFZQq4FxBeHcVRgXNEbf-gzGzoHsz',
+            appKey: 'QqIty1r7mCD1MbFanHuyw57O',
+            placeholder: 'Write something...',
+        })
+    </script>
+
+
+
+    </div>
+  </body>
+</html>

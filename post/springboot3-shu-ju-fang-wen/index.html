@@ -1,0 +1,516 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>SpringBoot3 数据访问 | Decade</title>
+<meta name="description" content="Stay hungry. Stay foolish.">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.1/css/all.css" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://decade-qiu.github.io/favicon.ico?v=1711118819754">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://decade-qiu.github.io/styles/main.css">
+
+<script src="https://decade-qiu.github.io/media/scripts/vue.js"></script>
+<script src="https://decade-qiu.github.io/media/scripts/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.5.0/tocbot.min.js"></script>
+  </head>
+  <body>
+    <div class="carousel carousel-slider center index-cover" data-indicators="true">
+    <div class="bg-cover pd-header" style="background: url('') no-repeat center center fixed" data-link="https://decade-qiu.github.io/post/springboot3-shu-ju-fang-wen/">
+        <div class="container">
+            <div class="row">
+                <div class="col s10 offset-s1 m8 offset-m2 l8 offset-l2">
+                    <div class="brand">
+                        <div class="title center-align">
+                            SpringBoot3 数据访问
+                        </div>
+                        <div class="description center-align">
+                            <span id="subtitle">
+                                Day Day Learn, Day Day Up.
+                            </span><span class="typed-cursor">|</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
+<script>
+    window.onload = function () {
+        var typed = new Typed("#subtitle", {
+            strings: [ 
+                
+                    "从来没有真正的绝境, 只有心灵的迷途",
+                
+                    'Day Day Learn, Day Day Up.',
+
+            ],
+            startDelay: 300,
+            typeSpeed: 100,
+            loop: true,
+            backSpeed: 50,
+            showCursor: true
+        });
+        let cover = document.querySelector('.bg-cover');
+        cover.setAttribute('style', `background: url('${localStorage[cover.dataset.link]}') no-repeat center center fixed`);
+    }
+</script>
+
+
+    <div class="toc-body hide">  
+        <div class="toc"></div>
+    </div>
+    <div id="floating-toc-btn">
+        <i class="fas fa-list-ul bg-color"></i>
+    </div>
+    <div id="app" class="main">
+      <div class="site-header-container nav-transparent">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://decade-qiu.github.io">
+        <img class="avatar" src="https://decade-qiu.github.io/images/avatar.png?v=1711118819754" alt=""
+          width="32px" height="32px">
+      </a>
+      <a href="https://decade-qiu.github.io">
+        <h1 class="site-title">
+          Decade
+        </h1>
+      </a>
+    </div>
+    <div class="right">
+        <div class="menu">
+            <a href="/post/about" v-if="headSearchShow">
+                <i class="fa-solid fa-user"></i>&nbsp;个人
+            </a>
+            <a href="/archives" v-if="headSearchShow">
+                <i class="fa-solid fa-box-archive"></i>&nbsp;归档
+            </a>
+            <a href="/tags" v-if="headSearchShow">
+                <i class="fa-solid fa-tag"></i>&nbsp;标签
+            </a>
+            <a href="/life" v-if="headSearchShow">
+                <i class="fa-fw fas fa-heart"></i>&nbsp;生活
+            </a>
+            
+        </div>
+      <div class="gridea-search-div" v-if="headSearchShow">
+        <form id="gridea-search-form" action="https://decade-qiu.github.io/search/">
+          <input class="gridea-search-input" autocomplete="off" spellcheck="false" name="q" />
+        </form>
+      </div>
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }"
+          @click="menuClick()" v-if="menuSearchShow"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      <div class="gridea-search-div" v-if="menuSearchShow">
+        <form id="gridea-search-form" action="https://decade-qiu.github.io/search/">
+          <input class="gridea-search-input" autocomplete="off" spellcheck="false" name="q" />
+        </form>
+      </div>
+      
+        
+            <a href="/" class="menu purple-link">
+              首页
+            </a>
+            
+              
+        
+            <a href="/archives" class="menu purple-link">
+              归档
+            </a>
+            
+              
+        
+            <a href="/tags" class="menu purple-link">
+              标签
+            </a>
+            
+              
+        
+            <a href="/post/about" class="menu purple-link">
+              个人
+            </a>
+            
+              
+        
+            <a href="/life" class="menu purple-link">
+              生活
+            </a>
+            
+              
+              
+    </div>
+  </div>
+</transition>
+
+<script>
+    window.onscroll = function () {
+        var t = document.documentElement.scrollTop || document.body.scrollTop;
+        var header = document.querySelector('.site-header-container');
+        if (t > 0) {
+            header.classList.remove('nav-transparent');
+        } else {
+            header.classList.add('nav-transparent');
+        }
+    }
+</script>
+
+      <div class="content-body">
+        <div class="content-container content-card">
+            <div class="post-detail">
+              <div class="post-info post-detail-info">
+                <span><i class="icon-calendar-outline"></i> 2024-03-09-Sat</span>
+                
+                  <span>
+                    
+                        <i class="icon-pricetags-outline"></i>
+                      <a href="https://decade-qiu.github.io/tag/DIOv4mRMq/">
+                        SpringBoot3
+                      </a>
+                    
+                  </span>
+                
+              </div>
+              
+                <div class="post-card-abstract">
+                    <p><code>SSM场景整合</code></p>
+
+                  </div>
+                
+              <hr class="clear">
+              <div class="post-content">
+                
+<h1 id="整合ssm场景">整合SSM场景</h1>
+<p>SpringBoot 整合 <code>Spring</code>、<code>SpringMVC</code>、<code>MyBatis</code> 进行<strong>数据访问场景</strong>开发</p>
+<h2 id="1-创建ssm整合项目">1. 创建SSM整合项目</h2>
+<pre><code class="language-xml">&lt;!-- https://mvnrepository.com/artifact/org.mybatis.spring.boot/mybatis-spring-boot-starter --&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.mybatis.spring.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;mybatis-spring-boot-starter&lt;/artifactId&gt;
+    &lt;version&gt;3.0.1&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;mysql&lt;/groupId&gt;
+    &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
+    &lt;scope&gt;runtime&lt;/scope&gt;
+&lt;/dependency&gt;
+</code></pre>
+<h2 id="2-配置数据源">2. 配置数据源</h2>
+<pre><code class="language-properties">spring.datasource.url=jdbc:mysql://192.168.200.100:3306/demo
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.datasource.username=root
+spring.datasource.password=123456
+spring.datasource.type=com.zaxxer.hikari.HikariDataSource
+</code></pre>
+<p>安装MyBatisX 插件，帮我们生成Mapper接口的xml文件即可</p>
+<h2 id="3-配置mybatis">3. 配置MyBatis</h2>
+<pre><code class="language-properties">#指定mapper映射文件位置
+mybatis.mapper-locations=classpath:/mapper/*.xml
+#参数项调整
+mybatis.configuration.map-underscore-to-camel-case=true
+</code></pre>
+<h2 id="4-crud编写">4. CRUD编写</h2>
+<ul>
+<li>编写Bean</li>
+<li>编写Mapper</li>
+<li>使用<code>mybatisx</code>插件，快速生成MapperXML</li>
+<li>测试CRUD</li>
+</ul>
+<h2 id="5-自动配置原理">5. 自动配置原理</h2>
+<p><strong>SSM整合总结：</strong></p>
+<ol>
+<li><strong>导入</strong><code>mybatis-spring-boot-starter</code></li>
+<li>配置<strong>数据源</strong>信息</li>
+<li>配置mybatis的<code>mapper接口扫描</code>与<code>xml映射文件扫描</code></li>
+<li>编写bean，mapper，生成xml，编写sql 进行crud。</li>
+<li><strong>事务等操作依然和Spring中用法一样</strong></li>
+<li>效果：
+<ol>
+<li>所有sql写在xml中</li>
+<li>所有<code>mybatis配置</code>写在<code>application.properties</code>下面</li>
+</ol>
+</li>
+</ol>
+<ul>
+<li>
+<p><code>jdbc场景的自动配置</code>：</p>
+<ul>
+<li>
+<p><code>mybatis-spring-boot-starter</code>导入 <code>spring-boot-starter-jdbc</code></p>
+</li>
+<li>
+<p><code>Jdbc</code>场景的几个自动配置</p>
+<ul>
+<li>
+<p>org.springframework.boot.autoconfigure.jdbc.<strong>DataSourceAutoConfiguration</strong></p>
+<ul>
+<li><strong>数据源的自动配置</strong><br>
+- 所有和数据源有关的配置都绑定在<code>DataSourceProperties</code><br>
+- 默认使用 <code>HikariDataSource</code></li>
+</ul>
+</li>
+<li>
+<p>org.springframework.boot.autoconfigure.jdbc.<strong>JdbcTemplateAutoConfiguration</strong></p>
+<ul>
+<li>给容器中放了<code>JdbcTemplate</code>操作数据库</li>
+</ul>
+</li>
+<li>
+<p>org.springframework.boot.autoconfigure.jdbc.<strong>JndiDataSourceAutoConfiguration</strong></p>
+</li>
+<li>
+<p>org.springframework.boot.autoconfigure.jdbc.<strong>XADataSourceAutoConfiguration</strong></p>
+<ul>
+<li><strong>基于XA二阶提交协议的分布式事务数据源</strong></li>
+</ul>
+</li>
+<li>
+<p>org.springframework.boot.autoconfigure.jdbc.<strong>DataSourceTransactionManagerAutoConfiguration</strong></p>
+<ul>
+<li><strong>支持事务</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>具有的底层能力：数据源、</strong><code>JdbcTemplate</code>、<strong>事务</strong></p>
+</li>
+</ul>
+</li>
+<li>
+<p><code>MyBatisAutoConfiguration</code>：配置了MyBatis的整合流程</p>
+<ul>
+<li>
+<p><code>mybatis-spring-boot-starter</code>导入 <code>mybatis-spring-boot-autoconfigure（mybatis的自动配置包）</code>，</p>
+</li>
+<li>
+<p>默认加载两个自动配置类：</p>
+<ul>
+<li>
+<p>org.mybatis.spring.boot.autoconfigure.MybatisLanguageDriverAutoConfiguration</p>
+</li>
+<li>
+<p>org.mybatis.spring.boot.autoconfigure.<strong>MybatisAutoConfiguration</strong></p>
+<ul>
+<li><strong>必须在数据源配置好之后才配置</strong>
+<ul>
+<li>给容器中<code>SqlSessionFactory</code>组件。创建和数据库的一次会话</li>
+<li>给容器中<code>SqlSessionTemplate</code>组件。操作数据库</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>MyBatis的所有配置绑定在</strong><code>MybatisProperties</code></p>
+</li>
+<li>
+<p>每个<strong>Mapper接口</strong>的<strong>代理对象</strong>是怎么创建放到容器中。详见**@MapperScan**原理：</p>
+<ul>
+<li>利用<code>@Import(MapperScannerRegistrar.class)</code>批量给容器中注册组件。解析指定的包路径里面的每一个类，为每一个Mapper接口类，创建Bean定义信息，注册到容器中。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>如何分析哪个场景导入以后，开启了哪些自动配置类。</p>
+<p>找：<code>classpath:/META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports</code>文件中配置的所有值，就是要开启的自动配置类，但是每个类可能有条件注解，基于条件注解判断哪个自动配置类生效了。</p>
+</blockquote>
+<h2 id="6-快速定位生效的配置">6. 快速定位生效的配置</h2>
+<pre><code class="language-plain">#开启调试模式，详细打印开启了哪些自动配置
+debug=true
+# Positive（生效的自动配置）  Negative（不生效的自动配置）
+</code></pre>
+<h2 id="7-扩展整合其他数据源">7. 扩展：整合其他数据源</h2>
+<h3 id="1-druid-数据源">1. Druid 数据源</h3>
+<p>暂不支持 <code>SpringBoot3</code></p>
+<ul>
+<li>导入<code>druid-starter</code></li>
+<li>写配置</li>
+<li>分析自动配置了哪些东西，怎么用</li>
+</ul>
+<p>Druid官网：https://github.com/alibaba/druid</p>
+<pre><code class="language-properties">#数据源基本配置
+spring.datasource.url=jdbc:mysql://192.168.200.100:3306/demo
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.datasource.username=root
+spring.datasource.password=123456
+spring.datasource.type=com.alibaba.druid.pool.DruidDataSource
+
+# 配置StatFilter监控
+spring.datasource.druid.filter.stat.enabled=true
+spring.datasource.druid.filter.stat.db-type=mysql
+spring.datasource.druid.filter.stat.log-slow-sql=true
+spring.datasource.druid.filter.stat.slow-sql-millis=2000
+# 配置WallFilter防火墙
+spring.datasource.druid.filter.wall.enabled=true
+spring.datasource.druid.filter.wall.db-type=mysql
+spring.datasource.druid.filter.wall.config.delete-allow=false
+spring.datasource.druid.filter.wall.config.drop-table-allow=false
+# 配置监控页，内置监控页面的首页是 /druid/index.html
+spring.datasource.druid.stat-view-servlet.enabled=true
+spring.datasource.druid.stat-view-servlet.login-username=admin
+spring.datasource.druid.stat-view-servlet.login-password=admin
+spring.datasource.druid.stat-view-servlet.allow=*
+
+# 其他 Filter 配置不再演示
+# 目前为以下 Filter 提供了配置支持，请参考文档或者根据IDE提示（spring.datasource.druid.filter.*）进行配置。
+# StatFilter
+# WallFilter
+# ConfigFilter
+# EncodingConvertFilter
+# Slf4jLogFilter
+# Log4jFilter
+# Log4j2Filter
+# CommonsLogFilter
+</code></pre>
+<h2 id="附录示例数据库">附录：示例数据库</h2>
+<pre><code class="language-sql">CREATE TABLE `t_user`
+(
+    `id`         BIGINT(20)   NOT NULL AUTO_INCREMENT COMMENT '编号',
+    `login_name` VARCHAR(200) NULL DEFAULT NULL COMMENT '用户名称' COLLATE 'utf8_general_ci',
+    `nick_name`  VARCHAR(200) NULL DEFAULT NULL COMMENT '用户昵称' COLLATE 'utf8_general_ci',
+    `passwd`     VARCHAR(200) NULL DEFAULT NULL COMMENT '用户密码' COLLATE 'utf8_general_ci',
+    PRIMARY KEY (`id`)
+);
+insert into t_user(login_name, nick_name, passwd) VALUES ('zhangsan','张三','123456');
+</code></pre>
+
+              </div>
+              <hr class="clear">
+              
+                <div class="next-post">
+                  <a class="purple-link" href="https://decade-qiu.github.io/post/web-kai-fa/">
+                    <h3 class="post-title">
+                      下一篇：SpringBoot3 Web开发
+                    </h3>
+                  </a>
+                </div>
+                
+            </div>
+          </div>
+      </div>
+
+      
+          <div id="gitalk-container"></div>
+      
+
+    
+    </div>
+    <div class="site-footer">
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/Decade-qiu" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        <a href="https://space.bilibili.com/98721375?spm_id_from=333.1007.0.0" target="_blank">
+          <i class="fab fa-bilibili"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.zhihu.com/people/chou-yu-80-33" target="_blank">
+          <i class="fab fa-zhihu"></i>
+        </a>
+      
+    
+  </div>
+  <div class="slogan">Stay hungry. Stay foolish.</div> |
+  <a href="https://github.com/Decade-qiu/gridea-theme-Eternal" target="_blank">Today is happy day again!</a> | <a href="https://github.com/Decade-qiu/gridea-theme-Eternal" target="_blank">Powered by Eternal</a> | <a href="https://decade-qiu.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+    <script src="https://decade-qiu.github.io/media/scripts/index.js"></script>
+
+
+    <script src='https://decade-qiu.github.io/media/scripts/valine.min.js'></script>
+    <script>
+        new Valine({
+            el: '#gitalk-container',
+            appId: 'b2xhAFZQq4FxBeHcVRgXNEbf-gzGzoHsz',
+            appKey: 'QqIty1r7mCD1MbFanHuyw57O',
+            placeholder: 'Write something...',
+        })
+    </script>
+
+
+
+  </body>
+</html>
+
+<script>
+    window.onload = function() {
+        let id = 1;
+        let post_content = document.querySelector('.content-card');
+        post_content.querySelectorAll('h1,h2,h3,h4,h5,h6').forEach(function (item) {
+            item.setAttribute('id', 'toc-' + id);
+            id++;
+        });
+        tocbot.init({
+            tocSelector: '.toc',
+            contentSelector: '.post-content',
+            headingSelector: 'h1,h2,h3,h4',
+            headingsOffset: 58,
+        });
+        // 检测页面滚动距离 用eventlistener
+        window.addEventListener('scroll', function () {
+            let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            let toc = document.querySelector('.toc');
+            let tocBtn = document.querySelector('.toc-body');
+            if (scrollTop > 250) {
+                tocBtn.classList.add('toc-body-fixed');
+                toc.classList.add('toc-fixed');
+            } else {
+                tocBtn.classList.remove('toc-body-fixed');
+                toc.classList.remove('toc-fixed');
+            }
+        });
+        document.querySelector('#floating-toc-btn').addEventListener('click', function () {
+            let toc = document.querySelector('.toc-body');
+            let main = document.querySelector('.main');
+            if (toc.classList.contains('hide')) {
+                main.classList.add('main-small');
+                toc.classList.remove('hide');
+            } else {
+                toc.classList.add('hide');
+                main.classList.remove('main-small');
+            }
+        });
+        window.addEventListener('resize', function() {
+            // 获取屏幕宽度
+            var screenWidth = window.innerWidth || document.documentElement.clientWidth;
+            // 设置 .content-card 的 max-width
+            var contentCard = document.querySelector('.content-card');
+            contentCard.style.maxWidth = screenWidth + 'px';
+        });
+        // 初始加载时执行一次，确保初始状态下也设置正确
+        window.dispatchEvent(new Event('resize'));
+    };
+</script>

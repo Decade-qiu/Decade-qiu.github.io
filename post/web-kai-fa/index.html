@@ -1,0 +1,1879 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>SpringBoot3 Web开发 | Decade</title>
+<meta name="description" content="Stay hungry. Stay foolish.">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.1/css/all.css" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://decade-qiu.github.io/favicon.ico?v=1711118819754">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://decade-qiu.github.io/styles/main.css">
+
+<script src="https://decade-qiu.github.io/media/scripts/vue.js"></script>
+<script src="https://decade-qiu.github.io/media/scripts/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.5.0/tocbot.min.js"></script>
+  </head>
+  <body>
+    <div class="carousel carousel-slider center index-cover" data-indicators="true">
+    <div class="bg-cover pd-header" style="background: url('') no-repeat center center fixed" data-link="https://decade-qiu.github.io/post/web-kai-fa/">
+        <div class="container">
+            <div class="row">
+                <div class="col s10 offset-s1 m8 offset-m2 l8 offset-l2">
+                    <div class="brand">
+                        <div class="title center-align">
+                            SpringBoot3 Web开发
+                        </div>
+                        <div class="description center-align">
+                            <span id="subtitle">
+                                Day Day Learn, Day Day Up.
+                            </span><span class="typed-cursor">|</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
+<script>
+    window.onload = function () {
+        var typed = new Typed("#subtitle", {
+            strings: [ 
+                
+                    "从来没有真正的绝境, 只有心灵的迷途",
+                
+                    'Day Day Learn, Day Day Up.',
+
+            ],
+            startDelay: 300,
+            typeSpeed: 100,
+            loop: true,
+            backSpeed: 50,
+            showCursor: true
+        });
+        let cover = document.querySelector('.bg-cover');
+        cover.setAttribute('style', `background: url('${localStorage[cover.dataset.link]}') no-repeat center center fixed`);
+    }
+</script>
+
+
+    <div class="toc-body hide">  
+        <div class="toc"></div>
+    </div>
+    <div id="floating-toc-btn">
+        <i class="fas fa-list-ul bg-color"></i>
+    </div>
+    <div id="app" class="main">
+      <div class="site-header-container nav-transparent">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://decade-qiu.github.io">
+        <img class="avatar" src="https://decade-qiu.github.io/images/avatar.png?v=1711118819754" alt=""
+          width="32px" height="32px">
+      </a>
+      <a href="https://decade-qiu.github.io">
+        <h1 class="site-title">
+          Decade
+        </h1>
+      </a>
+    </div>
+    <div class="right">
+        <div class="menu">
+            <a href="/post/about" v-if="headSearchShow">
+                <i class="fa-solid fa-user"></i>&nbsp;个人
+            </a>
+            <a href="/archives" v-if="headSearchShow">
+                <i class="fa-solid fa-box-archive"></i>&nbsp;归档
+            </a>
+            <a href="/tags" v-if="headSearchShow">
+                <i class="fa-solid fa-tag"></i>&nbsp;标签
+            </a>
+            <a href="/life" v-if="headSearchShow">
+                <i class="fa-fw fas fa-heart"></i>&nbsp;生活
+            </a>
+            
+        </div>
+      <div class="gridea-search-div" v-if="headSearchShow">
+        <form id="gridea-search-form" action="https://decade-qiu.github.io/search/">
+          <input class="gridea-search-input" autocomplete="off" spellcheck="false" name="q" />
+        </form>
+      </div>
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }"
+          @click="menuClick()" v-if="menuSearchShow"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      <div class="gridea-search-div" v-if="menuSearchShow">
+        <form id="gridea-search-form" action="https://decade-qiu.github.io/search/">
+          <input class="gridea-search-input" autocomplete="off" spellcheck="false" name="q" />
+        </form>
+      </div>
+      
+        
+            <a href="/" class="menu purple-link">
+              首页
+            </a>
+            
+              
+        
+            <a href="/archives" class="menu purple-link">
+              归档
+            </a>
+            
+              
+        
+            <a href="/tags" class="menu purple-link">
+              标签
+            </a>
+            
+              
+        
+            <a href="/post/about" class="menu purple-link">
+              个人
+            </a>
+            
+              
+        
+            <a href="/life" class="menu purple-link">
+              生活
+            </a>
+            
+              
+              
+    </div>
+  </div>
+</transition>
+
+<script>
+    window.onscroll = function () {
+        var t = document.documentElement.scrollTop || document.body.scrollTop;
+        var header = document.querySelector('.site-header-container');
+        if (t > 0) {
+            header.classList.remove('nav-transparent');
+        } else {
+            header.classList.add('nav-transparent');
+        }
+    }
+</script>
+
+      <div class="content-body">
+        <div class="content-container content-card">
+            <div class="post-detail">
+              <div class="post-info post-detail-info">
+                <span><i class="icon-calendar-outline"></i> 2024-03-08-Fri</span>
+                
+                  <span>
+                    
+                        <i class="icon-pricetags-outline"></i>
+                      <a href="https://decade-qiu.github.io/tag/DIOv4mRMq/">
+                        SpringBoot3
+                      </a>
+                    
+                  </span>
+                
+              </div>
+              
+                <div class="post-card-abstract">
+                    <p><code>WebMvcAutoConfiguration原理</code></p>
+<p><code>常见场景配置</code></p>
+<p><code>Web新特性</code></p>
+
+                  </div>
+                
+              <hr class="clear">
+              <div class="post-content">
+                
+<h1 id="0-webmvcautoconfiguration原理">0. WebMvcAutoConfiguration原理</h1>
+<h2 id="1-生效条件">1. 生效条件</h2>
+<pre><code class="language-java">@AutoConfiguration(after = { DispatcherServletAutoConfiguration.class, TaskExecutionAutoConfiguration.class,
+		ValidationAutoConfiguration.class }) //在这些自动配置之后
+@ConditionalOnWebApplication(type = Type.SERVLET) //如果是web应用就生效，类型SERVLET、REACTIVE 响应式web
+@ConditionalOnClass({ Servlet.class, DispatcherServlet.class, WebMvcConfigurer.class })
+@ConditionalOnMissingBean(WebMvcConfigurationSupport.class) //容器中没有这个Bean，才生效。默认就是没有
+@AutoConfigureOrder(Ordered.HIGHEST_PRECEDENCE + 10)//优先级
+@ImportRuntimeHints(WebResourcesRuntimeHints.class)
+public class WebMvcAutoConfiguration { 
+}
+</code></pre>
+<h2 id="2-效果">2. 效果</h2>
+<ol>
+<li>
+<p>放了两个Filter：</p>
+<ol>
+<li><code>HiddenHttpMethodFilter</code>：页面表单提交Rest请求（GET、POST、PUT、DELETE）</li>
+<li><code>FormContentFilter</code>： 表单内容Filter，GET（数据放URL后面）、POST（数据放请求体）请求可以携带数据，PUT、DELETE 的请求体数据会被忽略</li>
+</ol>
+</li>
+<li>
+<p>给容器中放了<code>WebMvcConfigurer</code>组件；给SpringMVC添加各种定制功能</p>
+<ol>
+<li>所有的功能最终会和配置文件进行绑定</li>
+<li>WebMvcProperties： <code>spring.mvc</code>配置文件</li>
+<li>WebProperties： <code>spring.web</code>配置文件</li>
+</ol>
+</li>
+</ol>
+<pre><code class="language-java">@Configuration(proxyBeanMethods = false)
+@Import(EnableWebMvcConfiguration.class) //额外导入了其他配置
+@EnableConfigurationProperties({ WebMvcProperties.class, WebProperties.class })
+@Order(0)
+public static class WebMvcAutoConfigurationAdapter implements WebMvcConfigurer, ServletContextAware{
+
+}
+</code></pre>
+<h2 id="3-webmvcconfigurer接口">3. WebMvcConfigurer接口</h2>
+<p>提供了配置SpringMVC底层的所有组件入口</p>
+<figure data-type="image" tabindex="1"><img src="https://decade-qiu.github.io/post-images/1681093891854-26205c88-4c20-4b63-a2c3-02574778072f.png" alt="img" loading="lazy"></figure>
+<h2 id="4-静态资源规则源码">4. 静态资源规则源码</h2>
+<pre><code class="language-java">@Override
+public void addResourceHandlers(ResourceHandlerRegistry registry) {
+    if (!this.resourceProperties.isAddMappings()) {
+        logger.debug(&quot;Default resource handling disabled&quot;);
+        return;
+    }
+    addResourceHandler(registry, this.mvcProperties.getWebjarsPathPattern(),
+            &quot;classpath:/META-INF/resources/webjars/&quot;);
+    addResourceHandler(registry, this.mvcProperties.getStaticPathPattern(), (registration) -&gt; {
+        registration.addResourceLocations(this.resourceProperties.getStaticLocations());
+        if (this.servletContext != null) {
+            ServletContextResource resource = new ServletContextResource(this.servletContext, SERVLET_LOCATION);
+            registration.addResourceLocations(resource);
+        }
+    });
+}
+</code></pre>
+<ol>
+<li>
+<p>规则一：访问 <code>/webjars/**</code> 路径就去 <code>classpath:/META-INF/resources/webjars/</code>下找资源。</p>
+</li>
+<li>
+<p>规则二：访问 <code>/**</code> 路径就去 <code>静态资源默认的四个位置找资源</code></p>
+<ol>
+<li><code>classpath:/META-INF/resources/</code></li>
+<li><code>classpath:/resources/</code></li>
+<li><code>classpath:/static/</code></li>
+<li><code>classpath:/public/</code></li>
+</ol>
+</li>
+<li>
+<p>规则三：<strong>静态资源默认都有缓存规则的设置</strong></p>
+<ol>
+<li>
+<p>所有缓存的设置，直接通过<strong>配置文件</strong>： <code>spring.web</code></p>
+</li>
+<li>
+<p>cachePeriod： 缓存周期； 多久不用找服务器要新的。 默认没有，以s为单位</p>
+</li>
+<li>
+<p>cacheControl： HTTP缓存控制；</p>
+<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Caching#%E6%A6%82%E8%A7%88">https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Caching</a></p>
+</li>
+<li>
+<p>useLastModified：是否使用最后一次修改。配合HTTP Cache规则。</p>
+</li>
+</ol>
+</li>
+</ol>
+<p>如果浏览器访问了一个静态资源 <code>index.js</code>，如果服务这个资源没有发生变化，下次访问的时候就可以直接让浏览器用自己缓存中的东西，而不用给服务器发请求。</p>
+<pre><code class="language-java">registration.setCachePeriod(getSeconds(this.resourceProperties.getCache().getPeriod()));
+registration.setCacheControl(this.resourceProperties.getCache().getCachecontrol().toHttpCacheControl());
+registration.setUseLastModified(this.resourceProperties.getCache().isUseLastModified());
+</code></pre>
+<h2 id="5-enablewebmvcconfiguration-源码">5. EnableWebMvcConfiguration 源码</h2>
+<pre><code class="language-java">//SpringBoot 给容器中放 WebMvcConfigurationSupport 组件。
+//我们如果自己放了 WebMvcConfigurationSupport 组件，Boot的WebMvcAutoConfiguration都会失效。
+@Configuration(proxyBeanMethods = false)
+@EnableConfigurationProperties(WebProperties.class)
+public static class EnableWebMvcConfiguration extends DelegatingWebMvcConfiguration implements ResourceLoaderAware 
+{}
+</code></pre>
+<h2 id="6-为什么容器中放一个webmvcconfigurer就能配置底层行为">6. 为什么容器中放一个WebMvcConfigurer就能配置底层行为</h2>
+<ol>
+<li>
+<p>WebMvcAutoConfiguration 是一个自动配置类，它里面有一个 <code>EnableWebMvcConfiguration</code>。</p>
+</li>
+<li>
+<p><code>EnableWebMvcConfiguration</code> 继承 <code>DelegatingWebMvcConfiguration</code>。</p>
+</li>
+<li>
+<p><code>DelegatingWebMvcConfiguration</code>利用 DI 把容器中所有 <code>WebMvcConfigurer </code>注入进来。</p>
+<figure data-type="image" tabindex="2"><img src="https://decade-qiu.github.io/post-images/image-20240302225446475.png" alt="image-20240302225446475" loading="lazy"></figure>
+</li>
+<li>
+<p>这样无论哪一个<code>WebMvcConfigurer </code>里面配置的东西，都会被统一处理，放到一个公共的<code>WebMvcConfigurer </code>中，作为最终使用的配置类。</p>
+</li>
+</ol>
+<blockquote>
+<p>这里存在一个<strong>Bean注入顺序问题</strong>（<a href="https://blog.csdn.net/it_freshman/article/details/100031510">案例</a>）</p>
+<ol>
+<li>
+<p>DelegatingWebMvcConfiguration 继承了 WebMvcConfigurationSupport</p>
+</li>
+<li>
+<p>而 WebMvcAutoConfig 存在注解</p>
+<p>@ConditionalOnMissingBean({WebMvcConfigurationSupport.class})</p>
+</li>
+<li>
+<p>但如上面所说 WebMvcAutoConfig 加载后也会导入 DelegatingWebMvcConfiguration。</p>
+</li>
+</ol>
+<p>所以说<code>WebMvcAutoConfig</code>注入的时间比<code>WebMvcConfigurationSupport</code>早。</p>
+<p>判断<code>ConditionalOnMissingBean</code>时，<code>WebMvcConfigurationSupport</code>还没有注入。</p>
+<p>因此<code>WebMvcAutoConfig</code>能生效。</p>
+<p><strong>但如果我们手动添加了<code>@EnableWebMvc </code>注解，就会导致提前注入<code>WebMvcConfigurationSupport</code></strong></p>
+<p><strong>从而使<code>WebMvcAutoConfig</code>失效，没有默认的配置了，只剩下用户自己定义的配置。</strong></p>
+</blockquote>
+<h2 id="7-webmvcconfigurationsupport">7. WebMvcConfigurationSupport</h2>
+<p>提供了很多的默认设置。</p>
+<p>判断系统中是否有相应的类：如果有，就加入相应的<code>HttpMessageConverter</code></p>
+<pre><code class="language-java">jackson2Present = ClassUtils.isPresent(&quot;com.fasterxml.jackson.databind.ObjectMapper&quot;, classLoader) &amp;&amp;
+				ClassUtils.isPresent(&quot;com.fasterxml.jackson.core.JsonGenerator&quot;, classLoader);
+jackson2XmlPresent = ClassUtils.isPresent(&quot;com.fasterxml.jackson.dataformat.xml.XmlMapper&quot;, classLoader);
+jackson2SmilePresent = ClassUtils.isPresent(&quot;com.fasterxml.jackson.dataformat.smile.SmileFactory&quot;, classLoader);
+</code></pre>
+<h1 id="1-web场景">1. Web场景</h1>
+<h2 id="1-自动配置">1. 自动配置</h2>
+<p>1、整合web场景</p>
+<pre><code class="language-xml">&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+&lt;/dependency&gt;
+</code></pre>
+<p>2、引入了<code>autoconfigure</code>功能</p>
+<p>3、<code>@EnableAutoConfiguration</code>注解使用</p>
+<p><code>@Import(AutoConfigurationImportSelector.class)</code>批量导入组件</p>
+<p>4、加载 <code>META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports</code> 文件中配置的所有组件</p>
+<p>5、所有自动配置类如下</p>
+<pre><code class="language-plain">org.springframework.boot.autoconfigure.web.client.RestTemplateAutoConfiguration
+org.springframework.boot.autoconfigure.web.embedded.EmbeddedWebServerFactoryCustomizerAutoConfiguration
+====以下是响应式web场景和现在的没关系======
+org.springframework.boot.autoconfigure.web.reactive.HttpHandlerAutoConfiguration
+org.springframework.boot.autoconfigure.web.reactive.ReactiveMultipartAutoConfiguration
+org.springframework.boot.autoconfigure.web.reactive.ReactiveWebServerFactoryAutoConfiguration
+org.springframework.boot.autoconfigure.web.reactive.WebFluxAutoConfiguration
+org.springframework.boot.autoconfigure.web.reactive.WebSessionIdResolverAutoConfiguration
+org.springframework.boot.autoconfigure.web.reactive.error.ErrorWebFluxAutoConfiguration
+org.springframework.boot.autoconfigure.web.reactive.function.client.ClientHttpConnectorAutoConfiguration
+org.springframework.boot.autoconfigure.web.reactive.function.client.WebClientAutoConfiguration
+================以上没关系=================
+org.springframework.boot.autoconfigure.web.servlet.DispatcherServletAutoConfiguration
+org.springframework.boot.autoconfigure.web.servlet.ServletWebServerFactoryAutoConfiguration
+org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration
+org.springframework.boot.autoconfigure.web.servlet.HttpEncodingAutoConfiguration
+org.springframework.boot.autoconfigure.web.servlet.MultipartAutoConfiguration
+org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration
+</code></pre>
+<p>6、绑定了配置文件的一堆配置项</p>
+<ul>
+<li>1、SpringMVC的所有配置 <code>spring.mvc</code></li>
+<li>2、Web场景通用配置 <code>spring.web</code></li>
+<li>3、文件上传配置 <code>spring.servlet.multipart</code></li>
+<li>4、服务器的配置 <code>server</code>: 比如：编码方式</li>
+</ul>
+<h2 id="2-默认效果">2. 默认效果</h2>
+<p>默认配置：</p>
+<ol>
+<li>包含了 <code>ContentNegotiatingViewResolver</code> 和 <code>BeanNameViewResolver  </code>组件，方便视图解析。</li>
+<li>默认的静态资源处理机制：静态资源放在 static 文件夹下即可直接访问。</li>
+<li>自动注册了<code>Converter,GenericConverter,Formatter</code>组件，适配常见数据类型转换和格式化需求 。</li>
+<li>支持 <code>HttpMessageConverters</code>，可以方便返回json等数据类型。</li>
+<li>注册 <code>MessageCodesResolver</code>，方便国际化及错误消息处理。</li>
+<li>支持静态 index.html</li>
+<li>自动使用<code>ConfigurableWebBindingInitializer</code>，实现消息处理、数据绑定、类型转化、数据校验等功能</li>
+</ol>
+<p><strong>重要：</strong></p>
+<ul>
+<li>如果想保持 Springboot mvc 的默认配置，并且自定义更多的 mvc 配置，如：interceptors,formatters,view controllers 等。可以使用**@Configuration**注解添加一个WebMvcConfigurer类型的配置类，并不要标注@EnableWebMvc</li>
+<li>如果想保持 boot mvc 的默认配置，但要自定义核心组件实例，比如：RequestMappingHandlerMapping, RequestMappingHandlerAdapter, 或ExceptionHandlerExceptionResolver，给容器中放一个WebMvcRegistrations 组件即可。</li>
+<li>如果想全面接管 Spring MVC，@Configuration <em>标注一个配置类，并加上</em> @EnableWebMvc注解，实现 WebMvcConfigurer接口。</li>
+</ul>
+<h1 id="2-静态资源">2. 静态资源</h1>
+<h2 id="1-默认规则">1. 默认规则</h2>
+<h3 id="1-静态资源映射">1. 静态资源映射</h3>
+<p>静态资源映射规则在 WebMvcAutoConfiguration 中进行了定义：</p>
+<ol>
+<li>
+<p>/webjars/** 的所有路径资源都在 classpath:/META-INF/resources/webjars/</p>
+</li>
+<li>
+<p>/** 的所有路径资源都在 classpath:/META-INF/resources/、classpath:/resources/、classpath:/static/、classpath:/public/</p>
+</li>
+<li>
+<p>所有静态资源都定义了缓存规则。【浏览器访问过一次，就会缓存一段时间】，但此功能参数无默认值。</p>
+</li>
+<li>
+<ol>
+<li>period： 缓存间隔。 默认 0S；</li>
+<li>cacheControl：缓存控制。 默认无；</li>
+<li>useLastModified：是否使用lastModified头。 默认 false；</li>
+</ol>
+</li>
+</ol>
+<h3 id="2-静态资源缓存">2. 静态资源缓存</h3>
+<p>如前面所述</p>
+<h3 id="3-欢迎页">3. 欢迎页</h3>
+<p>欢迎页规则在 WebMvcAutoConfiguration 中进行了定义：</p>
+<ol>
+<li>在静态资源目录下找 index.html</li>
+<li>没有就在 templates下找index模板页</li>
+</ol>
+<h3 id="4-favicon">4. Favicon</h3>
+<p>在静态资源目录下找 favicon.ico</p>
+<h3 id="5-缓存实验">5. 缓存实验</h3>
+<pre><code class="language-properties">server.port=9000
+
+#1、spring.web：
+# 1.配置国际化的区域信息
+# 2.静态资源策略(开启、处理链、缓存)
+
+#开启静态资源映射规则
+spring.web.resources.add-mappings=true
+
+#设置缓存
+#spring.web.resources.cache.period=3600
+##缓存详细合并项控制，覆盖period配置：
+## 浏览器第一次请求服务器，服务器告诉浏览器此资源缓存7200秒，7200秒以内的所有此资源访问不用发给服务器请求，7200秒以后发请求给服务器
+spring.web.resources.cache.cachecontrol.max-age=7200
+#使用资源 last-modified 时间，来对比服务器和浏览器的资源是否相同没有变化。相同返回 304
+spring.web.resources.cache.use-last-modified=true
+</code></pre>
+<h2 id="2-自定义静态资源规则">2. 自定义静态资源规则</h2>
+<p>自定义静态资源路径、自定义缓存规则</p>
+<h3 id="1-配置方式">1. 配置方式</h3>
+<p><code>spring.mvc</code>： 静态资源访问前缀路径</p>
+<p><code>spring.web</code>：</p>
+<ul>
+<li>静态资源目录</li>
+<li>静态资源缓存策略</li>
+</ul>
+<pre><code class="language-properties">#1、spring.web：
+# 1.配置国际化的区域信息
+# 2.静态资源策略(开启、处理链、缓存)
+
+#开启静态资源映射规则
+spring.web.resources.add-mappings=true
+
+#设置缓存
+spring.web.resources.cache.period=3600
+##缓存详细合并项控制，覆盖period配置：
+## 浏览器第一次请求服务器，服务器告诉浏览器此资源缓存7200秒，7200秒以内的所有此资源访问不用发给服务器请求，7200秒以后发请求给服务器
+spring.web.resources.cache.cachecontrol.max-age=7200
+## 共享缓存
+spring.web.resources.cache.cachecontrol.cache-public=true
+#使用资源 last-modified 时间，来对比服务器和浏览器的资源是否相同没有变化。相同返回 304
+spring.web.resources.cache.use-last-modified=true
+
+#自定义静态资源文件夹位置（到项目本地最终查找的路径）
+spring.web.resources.static-locations=classpath:/a/,classpath:/b/,classpath:/static/
+
+#2、 spring.mvc
+## 2.1. 自定义webjars路径前缀
+spring.mvc.webjars-path-pattern=/wj/**
+## 2.2. 静态资源访问路径前缀 （对网页输入的路径进行转换）
+spring.mvc.static-path-pattern=/static/**
+</code></pre>
+<h3 id="2-代码方式">2. 代码方式</h3>
+<ul>
+<li>容器中只要有一个 WebMvcConfigurer 组件。配置的底层行为都会生效</li>
+<li>@EnableWebMvc //禁用boot的默认配置</li>
+</ul>
+<pre><code class="language-java">@Configuration //这是一个配置类
+public class MyConfig implements WebMvcConfigurer {
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        //保留以前规则
+        //自己写新的规则。
+        registry.addResourceHandler(&quot;/static/**&quot;)
+                .addResourceLocations(&quot;classpath:/a/&quot;,&quot;classpath:/b/&quot;)
+                .setCacheControl(CacheControl.maxAge(1180, TimeUnit.SECONDS));
+    }
+}
+</code></pre>
+<p>或者</p>
+<pre><code class="language-java">@Configuration //这是一个配置类,给容器中放一个 WebMvcConfigurer 组件，就能自定义底层
+public class MyConfig  /*implements WebMvcConfigurer*/ {
+    @Bean
+    public WebMvcConfigurer webMvcConfigurer(){
+        return new WebMvcConfigurer() {
+            @Override
+            public void addResourceHandlers(ResourceHandlerRegistry registry) {
+                registry.addResourceHandler(&quot;/static/**&quot;)
+                        .addResourceLocations(&quot;classpath:/a/&quot;, &quot;classpath:/b/&quot;)
+                        .setCacheControl(CacheControl.maxAge(1180, TimeUnit.SECONDS));
+            }
+        };
+    }
+}
+</code></pre>
+<h1 id="3-路径匹配">3. 路径匹配</h1>
+<p><strong>Spring5.3</strong> 之后加入了更多的请求路径匹配的实现策略；</p>
+<p>以前只支持 AntPathMatcher 策略, 现在提供了 <strong>PathPatternParser</strong> 策略。并且可以让我们指定到底使用那种策略。</p>
+<h2 id="1-ant风格路径用法">1. Ant风格路径用法</h2>
+<p>Ant 风格的路径模式语法具有以下规则：</p>
+<ul>
+<li>*：表示任意数量的字符。</li>
+<li>?：表示任意一个字符。</li>
+<li>**：表示任意数量的目录。</li>
+<li>{}：表示一个命名的模式占位符。</li>
+<li>[]：表示字符集合，例如[a-z]表示小写字母。</li>
+</ul>
+<p>例如：</p>
+<ul>
+<li>*.html 匹配任意名称，扩展名为.html的文件。</li>
+<li>/folder1/*/*.java 匹配在folder1目录下的任意两级目录下的.java文件。</li>
+<li>/folder2/**/*.jsp 匹配在folder2目录下任意目录深度的.jsp文件。</li>
+<li>/{type}/{id}.html 匹配任意文件名为{id}.html，在任意命名的{type}目录下的文件。</li>
+</ul>
+<p>注意：Ant 风格的路径模式语法中的特殊字符需要转义，如：</p>
+<ul>
+<li>要匹配文件路径中的星号，则需要转义为\*。</li>
+<li>要匹配文件路径中的问号，则需要转义为\?。</li>
+</ul>
+<h2 id="2-模式切换">2. 模式切换</h2>
+<h4 id="antpathmatcher-与-pathpatternparser">AntPathMatcher 与 PathPatternParser</h4>
+<ul>
+<li>PathPatternParser 在 jmh 基准测试下，有 6~8 倍吞吐量提升，降低 30%~40%空间分配率</li>
+<li>PathPatternParser 兼容 AntPathMatcher语法，并支持更多类型的路径模式</li>
+<li>PathPatternParser  &quot;**&quot; <strong>多段匹配的支持仅允许在模式末尾使用</strong></li>
+</ul>
+<pre><code class="language-java">@GetMapping(&quot;/a*/b?/{p1:[a-f]+}&quot;)
+public String hello(HttpServletRequest request, 
+                    @PathVariable(&quot;p1&quot;) String path) {
+    log.info(&quot;路径变量p1： {}&quot;, path);
+    //获取请求路径
+    String uri = request.getRequestURI();
+    return uri;
+}
+</code></pre>
+<p>总结：</p>
+<ul>
+<li>使用默认的路径匹配规则，是由 PathPatternParser  提供的</li>
+<li>如果路径中间需要有 **，替换成ant风格路径</li>
+</ul>
+<pre><code class="language-properties"># 改变路径匹配策略：
+# ant_path_matcher 老版策略；
+# path_pattern_parser 新版策略；
+spring.mvc.pathmatch.matching-strategy=ant_path_matcher
+</code></pre>
+<h1 id="4-内容协商">4. 内容协商</h1>
+<p>一套系统适配多端数据返回</p>
+<figure data-type="image" tabindex="3"><img src="https://decade-qiu.github.io/post-images/1681217799861-dde49224-a767-489b-80b7-7d8d503e33cf.png" alt="img" loading="lazy"></figure>
+<h2 id="1-多端内容适配">1.  多端内容适配</h2>
+<h3 id="1-默认规则-2">1. 默认规则</h3>
+<ol>
+<li>
+<p>基于<strong>请求头</strong>内容协商：（默认开启）</p>
+<ol>
+<li>
+<p>客户端向服务端发送请求，携带HTTP标准的<strong>Accept请求头</strong>。</p>
+</li>
+<li>
+<p><strong>Accept</strong>: <code>application/json</code>、<code>text/xml</code>、<code>text/yaml</code></p>
+</li>
+<li>
+<p>服务端根据客户端<strong>请求头期望的数据类型</strong>进行<strong>动态返回</strong></p>
+</li>
+</ol>
+</li>
+<li>
+<p>基于<strong>请求参数</strong>内容协商：（需要手动开启)</p>
+<ol>
+<li>
+<p>发送请求 GET /projects/spring-boot?format=json</p>
+</li>
+<li>
+<p>匹配到 @GetMapping(&quot;/projects/spring-boot&quot;)</p>
+</li>
+<li>
+<p>根据<strong>参数协商</strong>，优先返回 json 类型数据【<strong>需要开启参数匹配设置</strong>】</p>
+</li>
+<li>
+<p>发送请求 GET /projects/spring-boot?format=xml</p>
+<p>则会优先返回 xml 类型数据</p>
+</li>
+</ol>
+</li>
+</ol>
+<h3 id="2-效果演示">2. 效果演示</h3>
+<p>请求同一个接口，可以返回json和xml不同格式数据</p>
+<pre><code class="language-xml">&lt;dependency&gt;
+    &lt;groupId&gt;com.fasterxml.jackson.dataformat&lt;/groupId&gt;
+    &lt;artifactId&gt;jackson-dataformat-xml&lt;/artifactId&gt;
+&lt;/dependency&gt;
+</code></pre>
+<pre><code class="language-java">@JacksonXmlRootElement  // 可以写出为xml文档
+@Data
+public class Person {
+    private Long id;
+    private String userName;
+    private String email;
+    private Integer age;
+}
+</code></pre>
+<pre><code class="language-properties"># 开启基于请求参数的内容协商功能。 默认参数名：format。 默认此功能不开启
+spring.mvc.contentnegotiation.favor-parameter=true
+# 指定内容协商时使用的参数名。默认是 format
+spring.mvc.contentnegotiation.parameter-name=type
+</code></pre>
+<h3 id="3-配置协商规则与支持类型">3. 配置协商规则与支持类型</h3>
+<p>修改内容协商方式</p>
+<pre><code class="language-properties">#使用参数进行内容协商
+spring.mvc.contentnegotiation.favor-parameter=true  
+#自定义参数名，默认为format
+spring.mvc.contentnegotiation.parameter-name=type 
+</code></pre>
+<h2 id="2-自定义内容返回">2. 自定义内容返回</h2>
+<h3 id="1-增加yaml返回支持">1. 增加yaml返回支持</h3>
+<p>导入依赖</p>
+<pre><code class="language-xml">&lt;dependency&gt;
+    &lt;groupId&gt;com.fasterxml.jackson.dataformat&lt;/groupId&gt;
+    &lt;artifactId&gt;jackson-dataformat-yaml&lt;/artifactId&gt;
+&lt;/dependency&gt;
+</code></pre>
+<p>把对象写出成YAML</p>
+<pre><code class="language-java">public static void main(String[] args) throws JsonProcessingException {
+    Person person = new Person();
+    person.setId(1L);
+    person.setUserName(&quot;张三&quot;);
+    person.setEmail(&quot;aaa@qq.com&quot;);
+    person.setAge(18);
+
+    YAMLFactory factory = new YAMLFactory().disable(YAMLGenerator.Feature.WRITE_DOC_START_MARKER);
+    ObjectMapper mapper = new ObjectMapper(factory);
+
+    String s = mapper.writeValueAsString(person);
+    System.out.println(s);
+}
+</code></pre>
+<p>编写配置</p>
+<pre><code class="language-properties">#新增一种媒体类型
+spring.mvc.contentnegotiation.media-types.yaml=text/yaml
+</code></pre>
+<p>增加<code>HttpMessageConverter</code>组件，专门负责把对象写出为yaml格式</p>
+<pre><code class="language-java">@Bean
+public WebMvcConfigurer webMvcConfigurer(){
+    return new WebMvcConfigurer() {
+        @Override //配置一个能把对象转为yaml的messageConverter
+        public void configureMessageConverters(List&lt;HttpMessageConverter&lt;?&gt;&gt; converters) {
+            converters.add(new MyYamlHttpMessageConverter());
+        }
+    };
+}
+</code></pre>
+<h3 id="2-如何实现自定义messageconverter组件">2. 如何实现自定义MessageConverter组件</h3>
+<ul>
+<li>
+<p>配置媒体类型支持:</p>
+<ul>
+<li><code>spring.mvc.contentnegotiation.media-types.yaml=text/yaml</code></li>
+</ul>
+</li>
+<li>
+<p>编写对应的<code>HttpMessageConverter</code>，要告诉Boot这个支持的媒体类型</p>
+<ul>
+<li>按照3的示例</li>
+</ul>
+</li>
+<li>
+<p>把MessageConverter组件加入到底层</p>
+<ul>
+<li>容器中放一个<code>WebMvcConfigurer</code> 组件，并配置底层的<code>MessageConverter</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="3-httpmessageconverter的示例写法">3. HttpMessageConverter的示例写法</h3>
+<pre><code class="language-java">public class MyYamlHttpMessageConverter extends AbstractHttpMessageConverter&lt;Object&gt; {
+
+    private ObjectMapper objectMapper = null; //把对象转成yaml
+
+    public MyYamlHttpMessageConverter(){
+        //告诉SpringBoot这个MessageConverter支持哪种媒体类型  //媒体类型
+        super(new MediaType(&quot;text&quot;, &quot;yaml&quot;, Charset.forName(&quot;UTF-8&quot;)));
+        YAMLFactory factory = new YAMLFactory()
+                .disable(YAMLGenerator.Feature.WRITE_DOC_START_MARKER);
+        this.objectMapper = new ObjectMapper(factory);
+    }
+
+    @Override
+    protected boolean supports(Class&lt;?&gt; clazz) {
+        //只要是对象类型，不是基本类型
+        return true;
+    }
+
+    @Override  //@RequestBody 配置对象如何读入的
+    protected Object readInternal(Class&lt;?&gt; clazz, HttpInputMessage inputMessage) throws IOException, HttpMessageNotReadableException {
+        return null;
+    }
+
+    @Override //@ResponseBody 配置对象怎么写出去
+    protected void writeInternal(Object methodReturnValue, HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException {
+
+        //try-with写法，自动关流
+        try(OutputStream os = outputMessage.getBody()){
+            this.objectMapper.writeValue(os,methodReturnValue);
+        }
+
+    }
+}
+</code></pre>
+<h2 id="3-内容协商原理-httpmessageconverter">3. 内容协商原理-HttpMessageConverter</h2>
+<ul>
+<li><code>HttpMessageConverter</code> 怎么工作？合适工作？</li>
+<li>定制 <code>HttpMessageConverter</code> 来实现多端内容协商</li>
+<li>编写<code>WebMvcConfigurer</code>提供的<code>configureMessageConverters</code>底层，修改底层的<code>MessageConverter</code></li>
+</ul>
+<h3 id="1-responsebody由httpmessageconverter处理">1. @ResponseBody由HttpMessageConverter处理</h3>
+<p>标注了<code>@ResponseBody</code>的返回值 将会由支持它的 <code>HttpMessageConverter</code>写给浏览器</p>
+<ol>
+<li>
+<p>如果controller方法的返回值标注了 <code>@ResponseBody </code>注解</p>
+<ol>
+<li>
+<p>请求进来先来到<code>DispatcherServlet</code>的<code>doDispatch()</code>进行处理</p>
+</li>
+<li>
+<p>找到一个 <code>HandlerAdapter </code>适配器。利用适配器执行目标方法</p>
+</li>
+<li>
+<p><code>RequestMappingHandlerAdapter</code>来执行，调用<code>invokeHandlerMethod</code>来执行目标方法</p>
+</li>
+<li>
+<p>目标方法执行之前，准备好两个东西</p>
+<p><code>HandlerMethodArgumentResolver</code>：参数解析器，确定目标方法每个参数值</p>
+<p><code>HandlerMethodReturnValueHandler</code>：返回值处理器，确定目标方法的返回值改怎么处理</p>
+</li>
+</ol>
+</li>
+<li>
+<p><code>RequestMappingHandlerAdapter</code> 里面的<code>invokeAndHandle</code>真正执行目标方法</p>
+<ol>
+<li>目标方法执行完成，会返回<strong>返回值对象</strong></li>
+<li><strong>找到一个合适的返回值处理器</strong> <code>HandlerMethodReturnValueHandler</code></li>
+<li>最终找到<code>RequestResponseBodyMethodProcessor</code>能处理标注了 <code>@ResponseBody</code>注解的方法</li>
+<li><code>RequestResponseBodyMethodProcessor</code> 调用<code>writeWithMessageConverters </code>,利用<code>MessageConverter</code>把返回值写出去</li>
+</ol>
+</li>
+</ol>
+<blockquote>
+<p><strong>综上可知：<code>@ResponseBody</code>由<code>HttpMessageConverter</code>处理</strong></p>
+</blockquote>
+<ol>
+<li><code>HttpMessageConverter</code> 会先进行内容协商
+<ol>
+<li>遍历所有的<code>MessageConverter</code>看谁支持这种<strong>内容类型的数据</strong></li>
+<li>默认<code>MessageConverter</code>有以下<img src="https://decade-qiu.github.io/post-images/1681275459547-89d8d651-b52f-4d47-bff9-6db123624424.png" alt="img" loading="lazy"></li>
+<li>最终因为要<code>json</code>所以<code>MappingJackson2HttpMessageConverter</code>支持写出json</li>
+<li>jackson用<code>ObjectMapper</code>把对象写出去</li>
+</ol>
+</li>
+</ol>
+<h3 id="2-webmvcautoconfiguration提供几种默认httpmessageconverters">2. WebMvcAutoConfiguration提供几种默认HttpMessageConverters</h3>
+<ul>
+<li><code>EnableWebMvcConfiguration</code>通过 <code>addDefaultHttpMessageConverters</code>添加了默认的<code>MessageConverter</code>
+<ul>
+<li><code>ByteArrayHttpMessageConverter</code>： 支持字节数据读写</li>
+<li><code>StringHttpMessageConverter</code>： 支持字符串读写</li>
+<li><code>ResourceHttpMessageConverter</code>：支持资源读写</li>
+<li><code>ResourceRegionHttpMessageConverter</code>: 支持分区资源写出</li>
+<li><code>AllEncompassingFormHttpMessageConverter</code>：支持表单xml/json读写</li>
+<li><code>MappingJackson2HttpMessageConverter</code>： 支持请求响应体Json读写</li>
+</ul>
+</li>
+</ul>
+<p>系统提供默认的MessageConverter 功能有限，仅用于json或者普通返回数据。额外增加新的内容协商功能，必须增加新的<code>HttpMessageConverter</code></p>
+<h1 id="5-模板引擎">5. 模板引擎</h1>
+<ul>
+<li>由于 <strong>SpringBoot</strong> 使用了<strong>嵌入式 Servlet 容器</strong>。所以 <strong>JSP</strong> 默认是<strong>不能使用</strong>的。</li>
+<li>如果需要<strong>服务端页面渲染</strong>，优先考虑使用 模板引擎。</li>
+</ul>
+<figure data-type="image" tabindex="4"><img src="https://decade-qiu.github.io/post-images/1681354523290-b89d7e0d-b9aa-40f5-8d22-d3d09d02b136.png" alt="img" loading="lazy"></figure>
+<p>模板引擎页面默认放在 src/main/resources/templates</p>
+<p><strong>SpringBoot</strong> 包含以下模板引擎的自动配置</p>
+<ul>
+<li>FreeMarker</li>
+<li>Groovy</li>
+<li><strong>Thymeleaf</strong></li>
+<li>Mustache</li>
+</ul>
+<p><strong>Thymeleaf官网</strong>：https://www.thymeleaf.org/</p>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html xmlns:th=&quot;http://www.thymeleaf.org&quot;&gt;
+&lt;head&gt;
+	&lt;title&gt;Good Thymes Virtual Grocery&lt;/title&gt;
+	&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot; /&gt;
+	&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; media=&quot;all&quot; th:href=&quot;@{/css/gtvg.css}&quot; /&gt;
+&lt;/head&gt;
+&lt;body&gt;
+	&lt;p th:text=&quot;#{home.welcome}&quot;&gt;Welcome to our grocery store!&lt;/p&gt;
+&lt;/body
+&lt;/html&gt;
+</code></pre>
+<h2 id="1-thymeleaf整合">1. Thymeleaf整合</h2>
+<pre><code class="language-xml">&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-thymeleaf&lt;/artifactId&gt;
+&lt;/dependency&gt;
+</code></pre>
+<p>自动配置原理</p>
+<ol>
+<li>
+<p>开启了 org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration 自动配置</p>
+</li>
+<li>
+<p>属性绑定在 ThymeleafProperties 中，对应配置文件 spring.thymeleaf 内容</p>
+</li>
+<li>
+<p>所有的模板页面默认在 <code>classpath:/templates</code>文件夹下</p>
+</li>
+<li>
+<p>默认效果</p>
+<ol>
+<li>所有的模板页面在 <code>classpath:/templates/</code>下面找</li>
+<li>找后缀名为<code>.html</code>的页面</li>
+</ol>
+</li>
+</ol>
+<h2 id="2-基础语法">2. 基础语法</h2>
+<h3 id="1-核心用法">1. 核心用法</h3>
+<p><code>th:xxx</code><strong>：动态渲染指定的 html 标签属性值、或者th指令（遍历、判断等）</strong></p>
+<ul>
+<li>
+<p><code>th:text</code>：标签体内文本值渲染</p>
+<ul>
+<li><code>th:utext</code>：不会转义，显示为html原本的样子。</li>
+</ul>
+</li>
+<li>
+<p><code>th:属性</code>：标签指定属性渲染</p>
+</li>
+<li>
+<p><code>th:attr</code>：标签任意属性渲染</p>
+</li>
+<li>
+<p><code>th:if，th:each...</code>：其他th指令</p>
+</li>
+<li>
+<p>例如：</p>
+</li>
+</ul>
+<pre><code class="language-html">&lt;p th:text=&quot;${content}&quot;&gt;原内容&lt;/p&gt;
+&lt;a th:href=&quot;${url}&quot;&gt;登录&lt;/a&gt;
+&lt;img src=&quot;../../images/gtvglogo.png&quot; 
+     th:attr=&quot;src=@{/images/gtvglogo.png},title=#{logo},alt=#{logo}&quot; /&gt;
+</code></pre>
+<p><code>表达式</code><strong>：用来动态取值</strong></p>
+<ul>
+<li><code>${}</code><strong>：变量取值；使用model共享给页面的值都直接用${}</strong></li>
+<li><code>@{}</code>：url路径</li>
+<li><code>#{}</code>：国际化消息</li>
+<li><code>~{}</code>：片段引用</li>
+<li><code>*{}</code>：变量选择：需要配合th:object绑定对象</li>
+</ul>
+<p><strong>系统工具&amp;内置对象：</strong><a href="https://www.thymeleaf.org/doc/tutorials/3.1/usingthymeleaf.html#appendix-a-expression-basic-objects"><strong>详细文档</strong></a></p>
+<ul>
+<li><code>param</code>：请求参数对象</li>
+<li><code>session</code>：session对象</li>
+<li><code>application</code>：application对象</li>
+<li><code>#execInfo</code>：模板执行信息</li>
+<li><code>#messages</code>：国际化消息</li>
+<li><code>#uris</code>：uri/url工具</li>
+<li><code>#conversions</code>：类型转换工具</li>
+<li><code>#dates</code>：日期工具，是<code>java.util.Date</code>对象的工具类</li>
+<li><code>#calendars</code>：类似#dates，只不过是<code>java.util.Calendar</code>对象的工具类</li>
+<li><code>#temporals</code>： JDK8+ <code>**java.time**</code> API 工具类</li>
+<li><code>#numbers</code>：数字操作工具</li>
+<li><code>#strings</code>：字符串操作</li>
+<li><code>#objects</code>：对象操作</li>
+<li><code>#bools</code>：bool操作</li>
+<li><code>#arrays</code>：array工具</li>
+<li><code>#lists</code>：list工具</li>
+<li><code>#sets</code>：set工具</li>
+<li><code>#maps</code>：map工具</li>
+<li><code>#aggregates</code>：集合聚合工具（sum、avg）</li>
+<li><code>#ids</code>：id生成工具</li>
+</ul>
+<h3 id="2-语法示例">2. 语法示例</h3>
+<p><strong>表达式：</strong></p>
+<ul>
+<li>变量取值：${...}</li>
+<li>url 取值：@{...}</li>
+<li>国际化消息：#{...}</li>
+<li>变量选择：*{...}</li>
+<li>片段引用: ~{...}</li>
+</ul>
+<p><strong>常见：</strong></p>
+<ul>
+<li>文本： 'one text'，'another one!',...</li>
+<li>数字： 0,34,3.0,12.3,...</li>
+<li>布尔：true、false</li>
+<li>null: null</li>
+<li>变量名： one,sometext,main...</li>
+</ul>
+<p><strong>文本操作：</strong></p>
+<ul>
+<li>拼串： +</li>
+<li>文本替换：| The name is ${name} |</li>
+</ul>
+<p><strong>布尔操作：</strong></p>
+<ul>
+<li>二进制运算： and,or</li>
+<li>取反：!,not</li>
+</ul>
+<p><strong>比较运算：</strong></p>
+<ul>
+<li>比较：&gt;，&lt;，&lt;=，&gt;=（gt，lt，ge,le）</li>
+<li>等值运算：==,!=（eq，ne）</li>
+</ul>
+<p><strong>条件运算：</strong></p>
+<ul>
+<li>if-then： (if)?(then)</li>
+<li>if-then-else: (if)?(then):(else)</li>
+<li>default: (value)?:(defaultValue)</li>
+</ul>
+<p><strong>特殊语法：</strong></p>
+<ul>
+<li>无操作：_</li>
+</ul>
+<p><strong>所有以上都可以嵌套组合</strong></p>
+<pre><code class="language-plain">'User is of type ' + (${user.isAdmin()} ? 'Administrator' : (${user.type} ?: 'Unknown'))
+</code></pre>
+<h2 id="3-属性设置">3. 属性设置</h2>
+<ol>
+<li>th:href=&quot;@{/product/list}&quot;</li>
+<li>th:attr=&quot;class=${active}&quot;</li>
+<li>th:attr=&quot;src=@{/images/gtvglogo.png},title=${logo},alt=#{logo}&quot;</li>
+<li>th:checked=&quot;${user.active}&quot;</li>
+</ol>
+<pre><code class="language-html">&lt;p th:text=&quot;${content}&quot;&gt;原内容&lt;/p&gt;
+&lt;a th:href=&quot;${url}&quot;&gt;登录&lt;/a&gt;
+&lt;img src=&quot;../../images/gtvglogo.png&quot; 
+     th:attr=&quot;src=@{/images/gtvglogo.png},title=#{logo},alt=#{logo}&quot; /&gt;
+</code></pre>
+<h2 id="4-遍历">4. 遍历</h2>
+<p>语法：  <code>th:each=&quot;元素名,迭代状态 : ${集合}&quot;</code></p>
+<pre><code class="language-html">&lt;tr th:each=&quot;prod : ${prods}&quot;&gt;
+  &lt;td th:text=&quot;${prod.name}&quot;&gt;Onions&lt;/td&gt;
+  &lt;td th:text=&quot;${prod.price}&quot;&gt;2.41&lt;/td&gt;
+  &lt;td th:text=&quot;${prod.inStock}? #{true} : #{false}&quot;&gt;yes&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr th:each=&quot;prod,iterStat : ${prods}&quot; th:class=&quot;${iterStat.odd}? 'odd'&quot;&gt;
+  &lt;td th:text=&quot;${prod.name}&quot;&gt;Onions&lt;/td&gt;
+  &lt;td th:text=&quot;${prod.price}&quot;&gt;2.41&lt;/td&gt;
+  &lt;td th:text=&quot;${prod.inStock}? #{true} : #{false}&quot;&gt;yes&lt;/td&gt;
+&lt;/tr&gt;
+</code></pre>
+<p>iterStat 有以下属性：</p>
+<ul>
+<li>index：当前遍历元素的索引，从0开始</li>
+<li>count：当前遍历元素的索引，从1开始</li>
+<li>size：需要遍历元素的总数量</li>
+<li>current：当前正在遍历的元素对象</li>
+<li>even/odd：是否偶数/奇数行</li>
+<li>first：是否第一个元素</li>
+<li>last：是否最后一个元素</li>
+</ul>
+<h2 id="5-判断">5. 判断</h2>
+<h3 id="thif">th:if</h3>
+<pre><code class="language-html">&lt;a
+  href=&quot;comments.html&quot;
+  th:href=&quot;@{/product/comments(prodId=${prod.id})}&quot;
+  th:if=&quot;${not #lists.isEmpty(prod.comments)}&quot;
+  &gt;view&lt;/a
+</code></pre>
+<h3 id="thswitch">th:switch</h3>
+<pre><code class="language-html">&lt;div th:switch=&quot;${user.role}&quot;&gt;
+  &lt;p th:case=&quot;'admin'&quot;&gt;User is an administrator&lt;/p&gt;
+  &lt;p th:case=&quot;#{roles.manager}&quot;&gt;User is a manager&lt;/p&gt;
+  &lt;p th:case=&quot;*&quot;&gt;User is some other thing&lt;/p&gt;
+&lt;/div&gt;
+</code></pre>
+<h2 id="6-属性优先级">6. 属性优先级</h2>
+<ul>
+<li>片段</li>
+<li>遍历</li>
+<li>判断</li>
+</ul>
+<pre><code class="language-html">&lt;ul&gt;
+  &lt;li th:each=&quot;item : ${items}&quot; th:text=&quot;${item.description}&quot;&gt;Item description here...&lt;/li&gt;
+&lt;/ul&gt;
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Order</th>
+<th>Feature</th>
+<th>Attributes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>片段包含</td>
+<td>th:insert th:replace</td>
+</tr>
+<tr>
+<td>2</td>
+<td>遍历</td>
+<td>th:each</td>
+</tr>
+<tr>
+<td>3</td>
+<td>判断</td>
+<td>th:if th:unless th:switch th:case</td>
+</tr>
+<tr>
+<td>4</td>
+<td>定义本地变量</td>
+<td>th:object th:with</td>
+</tr>
+<tr>
+<td>5</td>
+<td>通用方式属性修改</td>
+<td>th:attr th:attrprepend th:attrappend</td>
+</tr>
+<tr>
+<td>6</td>
+<td>指定属性修改</td>
+<td>th:value th:href th:src ...</td>
+</tr>
+<tr>
+<td>7</td>
+<td>文本值</td>
+<td>th:text th:utext</td>
+</tr>
+<tr>
+<td>8</td>
+<td>片段指定</td>
+<td>th:fragment</td>
+</tr>
+<tr>
+<td>9</td>
+<td>片段移除</td>
+<td>th:remove</td>
+</tr>
+</tbody>
+</table>
+<h2 id="7-行内写法">7. 行内写法</h2>
+<pre><code>[[...]] or [(...)]
+&lt;p&gt;Hello, [[${session.user.name}]]!&lt;/p&gt;
+</code></pre>
+<h2 id="8-变量选择">8. 变量选择</h2>
+<pre><code class="language-html">&lt;div th:object=&quot;${session.user}&quot;&gt;
+  &lt;p&gt;Name: &lt;span th:text=&quot;*{firstName}&quot;&gt;Sebastian&lt;/span&gt;.&lt;/p&gt;
+  &lt;p&gt;Surname: &lt;span th:text=&quot;*{lastName}&quot;&gt;Pepper&lt;/span&gt;.&lt;/p&gt;
+  &lt;p&gt;Nationality: &lt;span th:text=&quot;*{nationality}&quot;&gt;Saturn&lt;/span&gt;.&lt;/p&gt;
+&lt;/div&gt;
+</code></pre>
+<p>等同于</p>
+<pre><code class="language-html">&lt;div&gt;
+  &lt;p&gt;Name: &lt;span th:text=&quot;${session.user.firstName}&quot;&gt;Sebastian&lt;/span&gt;.&lt;/p&gt;
+  &lt;p&gt;Surname: &lt;span th:text=&quot;${session.user.lastName}&quot;&gt;Pepper&lt;/span&gt;.&lt;/p&gt;
+  &lt;p&gt;Nationality: &lt;span th:text=&quot;${session.user.nationality}&quot;&gt;Saturn&lt;/span&gt;.&lt;/p&gt;
+&lt;/div
+</code></pre>
+<h2 id="9-模板布局">9. 模板布局</h2>
+<ul>
+<li>定义模板： <code>th:fragment</code></li>
+<li>引用模板：<code>~{templatename::selector}</code></li>
+<li>插入模板：<code>th:insert</code>、<code>th:replace</code></li>
+</ul>
+<pre><code class="language-html">&lt;footer th:fragment=&quot;copy&quot;&gt;&amp;copy; 2011 The Good Thymes Virtual Grocery&lt;/footer&gt;
+
+&lt;body&gt;
+  &lt;div th:insert=&quot;~{footer :: copy}&quot;&gt;&lt;/div&gt;
+  &lt;div th:replace=&quot;~{footer :: copy}&quot;&gt;&lt;/div&gt;
+&lt;/body&gt;
+&lt;body&gt;
+  结果：
+  &lt;body&gt;
+    &lt;div&gt;
+      &lt;footer&gt;&amp;copy; 2011 The Good Thymes Virtual Grocery&lt;/footer&gt;
+    &lt;/div&gt;
+
+    &lt;footer&gt;&amp;copy; 2011 The Good Thymes Virtual Grocery&lt;/footer&gt;
+  &lt;/body&gt;
+&lt;/body&gt;
+</code></pre>
+<h2 id="10-devtools">10. devtools</h2>
+<pre><code class="language-xml">      &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-devtools&lt;/artifactId&gt;
+      &lt;/dependency&gt;
+</code></pre>
+<p>修改页面后；<code>ctrl+F9</code>刷新效果；</p>
+<p>java代码的修改，如果<code>devtools</code>热启动了，可能会引起一些bug，难以排查</p>
+<h1 id="6-国际化">6. 国际化</h1>
+<p>国际化的自动配置参照<code>MessageSourceAutoConfiguration</code></p>
+<p><strong>实现步骤</strong>：</p>
+<ol>
+<li>
+<p>Spring Boot 在类路径根下查找messages资源绑定文件。文件名为：messages.properties</p>
+</li>
+<li>
+<p>多语言可以定义多个消息文件，命名为<code>messages_区域代码.properties</code>。如：</p>
+</li>
+<li>
+<ol>
+<li><code>messages.properties</code>：默认</li>
+<li><code>messages_zh_CN.properties</code>：中文环境</li>
+<li><code>messages_en_US.properties</code>：英语环境</li>
+</ol>
+</li>
+<li>
+<p>在<strong>程序中</strong>可以自动注入 <code>MessageSource</code>组件，获取国际化的配置项值</p>
+</li>
+<li>
+<p>在<strong>页面中</strong>可以使用表达式 <code> #{}</code>获取国际化的配置项值</p>
+</li>
+</ol>
+<pre><code class="language-java">@Autowired  //国际化取消息用的组件
+MessageSource messageSource;
+@GetMapping(&quot;/haha&quot;)
+public String haha(HttpServletRequest request){
+    Locale locale = request.getLocale();
+    //利用代码的方式获取国际化配置文件中指定的配置项的值
+    String login = messageSource.getMessage(&quot;login&quot;, null, locale);
+    return login;
+}
+</code></pre>
+<h1 id="7-错误处理">7. 错误处理</h1>
+<h2 id="1-默认机制">1. 默认机制</h2>
+<p><strong>错误处理的自动配置</strong>都在<code>ErrorMvcAutoConfiguration</code>中，两大核心机制：</p>
+<ul>
+<li>SpringBoot 会<strong>自适应</strong>处理错误，<strong>响应页面</strong>或<strong>JSON数据</strong></li>
+<li><strong>SpringMVC的错误处理机制</strong>依然保留，<strong>MVC处理不了</strong>，才会<strong>交给boot进行处理</strong></li>
+</ul>
+<figure data-type="image" tabindex="5"><img src="https://decade-qiu.github.io/post-images/1681723795095-828d2034-1e6c-4d98-8e47-573dd6b5463b.svg" alt="img" loading="lazy"></figure>
+<ul>
+<li>发生错误以后，转发给/error路径，SpringBoot在底层写好一个 BasicErrorController的组件，专门处理这个请求</li>
+</ul>
+<pre><code class="language-java">@RequestMapping(produces = MediaType.TEXT_HTML_VALUE) //返回HTML
+public ModelAndView errorHtml(HttpServletRequest request, HttpServletResponse response) {
+    HttpStatus status = getStatus(request);
+    Map&lt;String, Object&gt; model = Collections
+        .unmodifiableMap(getErrorAttributes(request, getErrorAttributeOptions(request, MediaType.TEXT_HTML)));
+    response.setStatus(status.value());
+    ModelAndView modelAndView = resolveErrorView(request, response, status, model);
+    return (modelAndView != null) ? modelAndView : new ModelAndView(&quot;error&quot;, model);
+}
+
+@RequestMapping  //返回 ResponseEntity, JSON
+public ResponseEntity&lt;Map&lt;String, Object&gt;&gt; error(HttpServletRequest request) {
+    HttpStatus status = getStatus(request);
+    if (status == HttpStatus.NO_CONTENT) {
+        return new ResponseEntity&lt;&gt;(status);
+    }
+    Map&lt;String, Object&gt; body = getErrorAttributes(request, getErrorAttributeOptions(request, MediaType.ALL));
+    return new ResponseEntity&lt;&gt;(body, status);
+}
+</code></pre>
+<ul>
+<li>错误页面是这么解析到的</li>
+</ul>
+<pre><code class="language-java">//1、解析错误的自定义视图地址
+ModelAndView modelAndView = resolveErrorView(request, response, status, model);
+//2、如果解析不到错误页面的地址，默认的错误页就是 error
+return (modelAndView != null) ? modelAndView : new ModelAndView(&quot;error&quot;, model);
+</code></pre>
+<p>容器中专门有一个错误视图解析器</p>
+<pre><code class="language-java">@Bean
+@ConditionalOnBean(DispatcherServlet.class)
+@ConditionalOnMissingBean(ErrorViewResolver.class)
+DefaultErrorViewResolver conventionErrorViewResolver() {
+    return new DefaultErrorViewResolver(this.applicationContext, this.resources);
+}
+</code></pre>
+<p>SpringBoot解析自定义错误页的默认规则</p>
+<pre><code class="language-java">@Override
+public ModelAndView resolveErrorView(HttpServletRequest request, HttpStatus status, Map&lt;String, Object&gt; model) {
+    ModelAndView modelAndView = resolve(String.valueOf(status.value()), model);
+    if (modelAndView == null &amp;&amp; SERIES_VIEWS.containsKey(status.series())) {
+        modelAndView = resolve(SERIES_VIEWS.get(status.series()), model);
+    }
+    return modelAndView;
+}
+
+private ModelAndView resolve(String viewName, Map&lt;String, Object&gt; model) {
+    String errorViewName = &quot;error/&quot; + viewName;
+    TemplateAvailabilityProvider provider = this.templateAvailabilityProviders.getProvider(errorViewName,
+                                                                                           this.applicationContext);
+    if (provider != null) {
+        return new ModelAndView(errorViewName, model);
+    }
+    return resolveResource(errorViewName, model);
+}
+
+private ModelAndView resolveResource(String viewName, Map&lt;String, Object&gt; model) {
+    for (String location : this.resources.getStaticLocations()) {
+        try {
+            Resource resource = this.applicationContext.getResource(location);
+            resource = resource.createRelative(viewName + &quot;.html&quot;);
+            if (resource.exists()) {
+                return new ModelAndView(new HtmlResourceView(resource), model);
+            }
+        }
+        catch (Exception ex) {
+        }
+    }
+    return null;
+}
+</code></pre>
+<p>容器中有一个默认的名为 error 的 view； 提供了默认白页功能</p>
+<pre><code class="language-java">@Bean(name = &quot;error&quot;)
+@ConditionalOnMissingBean(name = &quot;error&quot;)
+public View defaultErrorView() {
+    return this.defaultErrorView;
+}
+</code></pre>
+<p>封装了JSON格式的错误信息</p>
+<pre><code class="language-java">@Bean
+@ConditionalOnMissingBean(value = ErrorAttributes.class, search = SearchStrategy.CURRENT)
+public DefaultErrorAttributes errorAttributes() {
+    return new DefaultErrorAttributes();
+}
+</code></pre>
+<p>规则：</p>
+<ol>
+<li>
+<p><strong>解析一个错误页</strong></p>
+<ol>
+<li>
+<p>如果发生了错误码500、404、503、403 <strong>精确匹配</strong></p>
+<ol>
+<li>如果有模板引擎，默认在 <code>classpath:/templates/error/精确码.html</code></li>
+<li>如果没有模板引擎，在静态资源文件夹下找<code>精确码.html</code></li>
+</ol>
+</li>
+<li>
+<p>如果匹配不到<code>精确码.html</code>这些精确的错误页，就去找<code>5xx.html</code>，<code>4xx.html</code><strong>模糊匹配</strong></p>
+<ol>
+<li>如果有模板引擎，默认在 <code>classpath:/templates/error/5xx.html</code></li>
+<li>如果没有模板引擎，在静态资源文件夹下找<code>5xx.html</code></li>
+</ol>
+</li>
+<li>
+<p>如果模板引擎路径<code>templates</code>下有 <code>error.html</code>页面，就直接渲染</p>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="2-自定义错误响应">2. 自定义错误响应</h2>
+<h3 id="1-自定义json响应">1. 自定义json响应</h3>
+<p>使用@ControllerAdvice + @ExceptionHandler 进行统一异常处理</p>
+<h3 id="2-自定义页面响应">2. 自定义页面响应</h3>
+<p>根据boot的错误页面查找规则，自定义页面模板</p>
+<h2 id="3-最佳实战">3. 最佳实战</h2>
+<ul>
+<li>
+<p><strong>前后分离</strong></p>
+<ul>
+<li><code>@ControllerAdvice + @ExceptionHandler</code>进行统一异常处理。</li>
+</ul>
+</li>
+<li>
+<p><strong>服务端页面渲染</strong></p>
+<ul>
+<li>
+<p><strong>不可预知的一些，HTTP码表示的服务器或客户端错误</strong></p>
+<ul>
+<li>给<code>classpath:/templates/error/</code>下面，放常用精确的错误码页面。<code>500.html</code>，<code>404.html</code></li>
+<li>给<code>classpath:/templates/error/</code>下面，放通用模糊匹配的错误码页面。 <code>5xx.html</code>，<code>4xx.html</code></li>
+</ul>
+</li>
+<li>
+<p><strong>发生业务错误</strong></p>
+<ul>
+<li><strong>核心业务</strong>，每一种错误，都应该代码控制，<strong>跳转到自己定制的错误页</strong>。</li>
+<li><strong>通用业务</strong>，<code>classpath:/templates/error.html</code>页面，<strong>显示错误信息</strong>。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>页面，JSON，可用的Model数据如下</p>
+<figure data-type="image" tabindex="6"><img src="https://decade-qiu.github.io/post-images/1681724501227-077073b7-349d-414f-8916-a822eb86c772.png" alt="img" loading="lazy"></figure>
+<h1 id="8-嵌入式容器">8. 嵌入式容器</h1>
+<p><strong>Servlet容器</strong>：管理、运行<strong>Servlet组件</strong>（Servlet、Filter、Listener）的环境，一般指<strong>服务器</strong></p>
+<h2 id="1-自动配置原理">1. 自动配置原理</h2>
+<ul>
+<li>SpringBoot 默认嵌入Tomcat作为Servlet容器。</li>
+<li><strong>自动配置类</strong>是<code>ServletWebServerFactoryAutoConfiguration</code>，<code>EmbeddedWebServerFactoryCustomizerAutoConfiguration</code></li>
+<li>自动配置类开始分析功能。<code>xxxxAutoConfiguration</code></li>
+</ul>
+<pre><code class="language-java">@AutoConfiguration
+@AutoConfigureOrder(Ordered.HIGHEST_PRECEDENCE)
+@ConditionalOnClass(ServletRequest.class)
+@ConditionalOnWebApplication(type = Type.SERVLET)
+@EnableConfigurationProperties(ServerProperties.class)
+@Import({ ServletWebServerFactoryAutoConfiguration.BeanPostProcessorsRegistrar.class,
+		ServletWebServerFactoryConfiguration.EmbeddedTomcat.class,
+		ServletWebServerFactoryConfiguration.EmbeddedJetty.class,
+		ServletWebServerFactoryConfiguration.EmbeddedUndertow.class })
+public class ServletWebServerFactoryAutoConfiguration {
+    
+}
+</code></pre>
+<ol>
+<li>
+<p><code>ServletWebServerFactoryAutoConfiguration</code> 自动配置了嵌入式容器场景</p>
+</li>
+<li>
+<p>绑定了<code>ServerProperties</code>配置类，所有和服务器有关的配置 <code>server</code></p>
+</li>
+<li>
+<p><code>ServletWebServerFactoryAutoConfiguration</code> 导入了嵌入式的三大服务器 <code>Tomcat</code>、<code>Jetty</code>、<code>Undertow</code></p>
+<ol>
+<li>导入 <code>Tomcat</code>、<code>Jetty</code>、<code>Undertow</code> 都有条件注解。系统中有这个类才行（也就是导了包）</li>
+<li>默认<code>Tomcat</code>配置生效。给容器中放 TomcatServletWebServerFactory</li>
+<li>都给容器中 <code>ServletWebServerFactory</code>放了一个 <strong>web服务器工厂（造web服务器的）</strong></li>
+<li><strong>web服务器工厂都有一个功能，</strong><code>getWebServer</code>获取web服务器</li>
+<li>TomcatServletWebServerFactory 创建了 tomcat。</li>
+</ol>
+</li>
+<li>
+<p>ServletWebServerFactory 什么时候会创建 webServer出来。</p>
+</li>
+<li>
+<p><code>ServletWebServerApplicationContext</code>ioc容器，启动的时候会调用创建web服务器</p>
+</li>
+<li>
+<p>Spring **容器刷新（启动）**的时候，会预留一个时机，刷新子容器。<code>onRefresh()</code></p>
+</li>
+<li>
+<p>refresh() 容器刷新十二大步的刷新子容器会调用 <code>onRefresh()</code>；</p>
+</li>
+</ol>
+<p>Web场景的Spring容器启动，在onRefresh的时候，会调用创建web服务器的方法。</p>
+<p>Web服务器的创建是通过WebServerFactory搞定的。容器中又会根据导了什么包条件注解，启动相关的服务器配置，默认<code>EmbeddedTomcat</code>会给容器中放一个 <code>TomcatServletWebServerFactory</code>，导致项目启动，自动创建出Tomcat</p>
+<h2 id="2-自定义">2. 自定义</h2>
+<figure data-type="image" tabindex="7"><img src="https://decade-qiu.github.io/post-images/1681725850466-2ecf12f4-8b66-469f-9d5d-377a33923b3c.png" alt="img" loading="lazy"></figure>
+<p>切换服务器</p>
+<pre><code class="language-xml">&lt;properties&gt;
+    &lt;servlet-api.version&gt;3.1.0&lt;/servlet-api.version&gt;
+&lt;/properties&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+    &lt;exclusions&gt;
+        &lt;!-- Exclude the Tomcat dependency --&gt;
+        &lt;exclusion&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-tomcat&lt;/artifactId&gt;
+        &lt;/exclusion&gt;
+    &lt;/exclusions&gt;
+&lt;/dependency&gt;
+&lt;!-- Use Jetty instead --&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-jetty&lt;/artifactId&gt;
+&lt;/dependency&gt;
+</code></pre>
+<h2 id="3-最佳实践">3. 最佳实践</h2>
+<p><strong>用法：</strong></p>
+<ul>
+<li>修改<code>server</code>下的相关配置就可以修改<strong>服务器参数</strong></li>
+<li>通过给容器中放一个<code>ServletWebServerFactory</code>，来禁用掉SpringBoot默认放的服务器工厂，实现自定义嵌入<strong>任意服务器</strong>。</li>
+</ul>
+<h1 id="9-全面接管springmvc">9. 全面接管SpringMVC</h1>
+<ul>
+<li>
+<p>SpringBoot 默认配置好了 SpringMVC 的所有常用特性。</p>
+</li>
+<li>
+<p>如果我们需要全面接管SpringMVC的所有配置并<strong>禁用默认配置</strong>，仅需要编写一个<code>WebMvcConfigurer</code>配置类，并标注 <code>@EnableWebMvc</code> 即可</p>
+</li>
+<li>
+<p>全手动模式</p>
+<ul>
+<li><code>@EnableWebMvc</code> : 禁用默认配置</li>
+<li><code>WebMvcConfigurer</code>组件：定义MVC的底层行为</li>
+</ul>
+</li>
+</ul>
+<h2 id="1-webmvcautoconfiguration-到底自动配置了哪些规则">1. WebMvcAutoConfiguration 到底自动配置了哪些规则</h2>
+<p>SpringMVC自动配置场景给我们配置了如下所有<strong>默认行为</strong></p>
+<ol>
+<li>
+<p><code>WebMvcAutoConfiguration</code>web场景的自动配置类</p>
+<ol>
+<li>
+<p>支持RESTful的filter：HiddenHttpMethodFilter</p>
+</li>
+<li>
+<p>支持非POST请求，请求体携带数据：FormContentFilter</p>
+</li>
+<li>
+<p>导入<code>EnableWebMvcConfiguration</code>：</p>
+<ol>
+<li><code>RequestMappingHandlerAdapter</code></li>
+<li><code>WelcomePageHandlerMapping</code>： 欢迎页功能支持（模板引擎目录、静态资源目录放index.html），项目访问/就默认展示这个页面。</li>
+<li><code>RequestMappingHandlerMapping</code>：找每个请求由谁处理的映射关系</li>
+<li><code>ExceptionHandlerExceptionResolver</code>：默认的异常解析器</li>
+<li><code>LocaleResolver</code>：国际化解析器</li>
+<li><code>ThemeResolver</code>：主题解析器</li>
+<li><code>FlashMapManager</code>：临时数据共享</li>
+<li><code>FormattingConversionService</code>： 数据格式化 、类型转化</li>
+<li><code>Validator</code>： 数据校验<code>JSR303</code>提供的数据校验功能</li>
+<li><code>WebBindingInitializer</code>：请求参数的封装与绑定</li>
+<li><code>ContentNegotiationManager</code>：内容协商管理器</li>
+</ol>
+</li>
+<li>
+<p><code>WebMvcAutoConfigurationAdapter</code>配置生效，它是一个<code>WebMvcConfigurer</code>，定义mvc底层组件</p>
+<ol>
+<li>定义好 <code>WebMvcConfigurer</code> <strong>底层组件默认功能；所有功能详见列表</strong></li>
+<li>视图解析器：<code>InternalResourceViewResolver</code></li>
+<li>视图解析器：<code>BeanNameViewResolver</code>,**视图名（controller方法的返回值字符串）**就是组件名</li>
+<li>内容协商解析器：<code>ContentNegotiatingViewResolver</code></li>
+<li>请求上下文过滤器：<code>RequestContextFilter</code>: <strong>任意位置直接获取当前请求</strong></li>
+<li>静态资源链规则</li>
+<li><code>ProblemDetailsExceptionHandler</code>：错误详情</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>
+<p>SpringMVC内部场景异常被它捕获：</p>
+</li>
+<li>
+<p>定义了MVC默认的底层行为: <code>WebMvcConfigurer</code></p>
+</li>
+</ol>
+<h2 id="2-enablewebmvc-禁用默认行为">2. @EnableWebMvc 禁用默认行为</h2>
+<ol>
+<li>
+<p><code>@EnableWebMvc</code>给容器中导入<code>DelegatingWebMvcConfiguration</code>组件，他是 <code>WebMvcConfigurationSupport</code></p>
+</li>
+<li>
+<p><code>WebMvcAutoConfiguration</code>有一个核心的条件注解, <code>@ConditionalOnMissingBean(WebMvcConfigurationSupport.class)</code>，容器中没有<code>WebMvcConfigurationSupport</code>，<code>WebMvcAutoConfiguration</code>才生效.</p>
+</li>
+<li>
+<p>@EnableWebMvc 导入 <code>WebMvcConfigurationSupport</code> 导致 <code>WebMvcAutoConfiguration</code> 失效。导致禁用了默认行为</p>
+</li>
+</ol>
+<blockquote>
+<ul>
+<li>@EnableWebMVC 禁用了 Mvc的自动配置</li>
+<li>WebMvcConfigurer 定义SpringMVC底层组件的功能类</li>
+</ul>
+</blockquote>
+<h2 id="3-webmvcconfigurer-功能">3. WebMvcConfigurer 功能</h2>
+<p>定义扩展SpringMVC底层功能</p>
+<table>
+<thead>
+<tr>
+<th>提供方法</th>
+<th>核心参数</th>
+<th>功能</th>
+<th>默认</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>addFormatters</td>
+<td>FormatterRegistry</td>
+<td><strong>格式化器</strong>：支持属性上@NumberFormat和@DatetimeFormat的数据类型转换</td>
+<td>GenericConversionService</td>
+</tr>
+<tr>
+<td>getValidator</td>
+<td>无</td>
+<td><strong>数据校验</strong>：校验 Controller 上使用@Valid标注的参数合法性。需要导入starter-validator</td>
+<td>无</td>
+</tr>
+<tr>
+<td>addInterceptors</td>
+<td>InterceptorRegistry</td>
+<td><strong>拦截器</strong>：拦截收到的所有请求</td>
+<td>无</td>
+</tr>
+<tr>
+<td>configureContentNegotiation</td>
+<td>ContentNegotiationConfigurer</td>
+<td><strong>内容协商</strong>：支持多种数据格式返回。需要配合支持这种类型的HttpMessageConverter</td>
+<td>支持 json</td>
+</tr>
+<tr>
+<td>configureMessageConverters</td>
+<td>List&lt;HttpMessageConverter&lt;?&gt;&gt;</td>
+<td><strong>消息转换器</strong>：标注@ResponseBody的返回值会利用MessageConverter直接写出去</td>
+<td>8 个，支持byte，string,multipart,resource，json</td>
+</tr>
+<tr>
+<td>addViewControllers</td>
+<td>ViewControllerRegistry</td>
+<td><strong>视图映射</strong>：直接将请求路径与物理视图映射。用于无 java 业务逻辑的直接视图页渲染</td>
+<td>无 <a href="mvc:view-controller">mvc:view-controller</a></td>
+</tr>
+<tr>
+<td>configureViewResolvers</td>
+<td>ViewResolverRegistry</td>
+<td><strong>视图解析器</strong>：逻辑视图转为物理视图</td>
+<td>ViewResolverComposite</td>
+</tr>
+<tr>
+<td>addResourceHandlers</td>
+<td>ResourceHandlerRegistry</td>
+<td><strong>静态资源处理</strong>：静态资源路径映射、缓存控制</td>
+<td>ResourceHandlerRegistry</td>
+</tr>
+<tr>
+<td>configureDefaultServletHandling</td>
+<td>DefaultServletHandlerConfigurer</td>
+<td><strong>默认 Servlet</strong>：可以覆盖 Tomcat 的DefaultServlet。让DispatcherServlet拦截/</td>
+<td>无</td>
+</tr>
+<tr>
+<td>configurePathMatch</td>
+<td>PathMatchConfigurer</td>
+<td><strong>路径匹配</strong>：自定义 URL 路径匹配。可以自动为所有路径加上指定前缀，比如 /api</td>
+<td>无</td>
+</tr>
+<tr>
+<td>configureAsyncSupport</td>
+<td>AsyncSupportConfigurer</td>
+<td><strong>异步支持</strong>：</td>
+<td>TaskExecutionAutoConfiguration</td>
+</tr>
+<tr>
+<td>addCorsMappings</td>
+<td>CorsRegistry</td>
+<td><strong>跨域</strong>：</td>
+<td>无</td>
+</tr>
+<tr>
+<td>addArgumentResolvers</td>
+<td>List<HandlerMethodArgumentResolver></td>
+<td><strong>参数解析器</strong>：</td>
+<td>mvc 默认提供</td>
+</tr>
+<tr>
+<td>addReturnValueHandlers</td>
+<td>List<HandlerMethodReturnValueHandler></td>
+<td><strong>返回值解析器</strong>：</td>
+<td>mvc 默认提供</td>
+</tr>
+<tr>
+<td>configureHandlerExceptionResolvers</td>
+<td>List<HandlerExceptionResolver></td>
+<td><strong>异常处理器</strong>：</td>
+<td>默认 3 个 ExceptionHandlerExceptionResolver ResponseStatusExceptionResolver DefaultHandlerExceptionResolver</td>
+</tr>
+<tr>
+<td>getMessageCodesResolver</td>
+<td>无</td>
+<td><strong>消息码解析器</strong>：国际化使用</td>
+<td>无</td>
+</tr>
+</tbody>
+</table>
+<h1 id="10-最佳实践">10. 最佳实践</h1>
+<p>SpringBoot 已经默认配置好了<strong>Web开发</strong>场景常用功能。我们直接使用即可。</p>
+<h2 id="三种方式">三种方式</h2>
+<table>
+<thead>
+<tr>
+<th>方式</th>
+<th>用法</th>
+<th>效果</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>全自动</strong></td>
+<td>直接编写控制器逻辑</td>
+<td></td>
+<td>全部使用<strong>自动配置默认效果</strong></td>
+</tr>
+<tr>
+<td><strong>手自一体</strong></td>
+<td><code>@Configuration</code> +   配置<code>WebMvcConfigurer</code>+ 配置 <code>WebMvcRegistrations</code></td>
+<td><strong>不要标注</strong> <code>@EnableWebMvc</code></td>
+<td><strong>保留自动配置效果</strong> <strong>手动设置部分功能</strong> 定义MVC底层组件</td>
+</tr>
+<tr>
+<td><strong>全手动</strong></td>
+<td><code>@Configuration</code> +   配置<code>WebMvcConfigurer</code></td>
+<td><strong>标注</strong> <code>@EnableWebMvc</code></td>
+<td><strong>禁用自动配置效果</strong> <strong>全手动设置</strong></td>
+</tr>
+</tbody>
+</table>
+<h2 id="两种模式">两种模式</h2>
+<p>1、<code>前后分离模式</code>： @RestController 响应JSON数据</p>
+<p>2、<code>前后不分离模式</code>：@Controller + Thymeleaf模板引擎</p>
+<h1 id="11-web新特性">11. Web新特性</h1>
+<h2 id="1-problemdetails">1. Problemdetails</h2>
+<p>RFC 7807: https://www.rfc-editor.org/rfc/rfc7807</p>
+<p><strong>错误信息</strong>返回新格式</p>
+<p>原理</p>
+<pre><code class="language-java">@Configuration(proxyBeanMethods = false)
+//配置过一个属性 spring.mvc.problemdetails.enabled=true
+@ConditionalOnProperty(prefix = &quot;spring.mvc.problemdetails&quot;, name = &quot;enabled&quot;, havingValue = &quot;true&quot;)
+static class ProblemDetailsErrorHandlingConfiguration {
+
+    @Bean
+    @ConditionalOnMissingBean(ResponseEntityExceptionHandler.class)
+    ProblemDetailsExceptionHandler problemDetailsExceptionHandler() {
+        return new ProblemDetailsExceptionHandler();
+    }
+
+}
+</code></pre>
+<ol>
+<li><code>ProblemDetailsExceptionHandler </code>是一个 <code>@ControllerAdvice</code>集中处理系统异常</li>
+<li>处理以下异常。如果系统出现以下异常，会被SpringBoot支持以 <code>RFC 7807</code>规范方式返回错误数据</li>
+</ol>
+<pre><code class="language-java">@ExceptionHandler({
+    HttpRequestMethodNotSupportedException.class, //请求方式不支持
+    HttpMediaTypeNotSupportedException.class,
+    HttpMediaTypeNotAcceptableException.class,
+    MissingPathVariableException.class,
+    MissingServletRequestParameterException.class,
+    MissingServletRequestPartException.class,
+    ServletRequestBindingException.class,
+    MethodArgumentNotValidException.class,
+    NoHandlerFoundException.class,
+    AsyncRequestTimeoutException.class,
+    ErrorResponseException.class,
+    ConversionNotSupportedException.class,
+    TypeMismatchException.class,
+    HttpMessageNotReadableException.class,
+    HttpMessageNotWritableException.class,
+    BindException.class
+})
+</code></pre>
+<p>效果：</p>
+<p>默认响应错误的json。状态码 405</p>
+<pre><code class="language-json">{
+    &quot;timestamp&quot;: &quot;2023-04-18T11:13:05.515+00:00&quot;,
+    &quot;status&quot;: 405,
+    &quot;error&quot;: &quot;Method Not Allowed&quot;,
+    &quot;trace&quot;: &quot;org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'POST' is not supported\r\n\tat org.springframework.web.servlet.mvc.method.RequestMappingInfoHandlerMapping.handleNoMatch(RequestMappingInfoHandlerMapping.java:265)\r\n\tat org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.lookupHandlerMethod(AbstractHandlerMethodMapping.java:441)\r\n\tat org.springframework.web.servlet.handler.AbstractHandlerMethodMapping.getHandlerInternal(AbstractHandlerMethodMapping.java:382)\r\n\tat org.springframework.web.servlet.mvc.method.RequestMappingInfoHandlerMapping.getHandlerInternal(RequestMappingInfoHandlerMapping.java:126)\r\n\tat org.springframework.web.servlet.mvc.method.RequestMappingInfoHandlerMapping.getHandlerInternal(RequestMappingInfoHandlerMapping.java:68)\r\n\tat org.springframework.web.servlet.handler.AbstractHandlerMapping.getHandler(AbstractHandlerMapping.java:505)\r\n\tat org.springframework.web.servlet.DispatcherServlet.getHandler(DispatcherServlet.java:1275)\r\n\tat org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1057)\r\n\tat org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:974)\r\n\tat org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1011)\r\n\tat org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:914)\r\n\tat jakarta.servlet.http.HttpServlet.service(HttpServlet.java:563)\r\n\tat org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885)\r\n\tat jakarta.servlet.http.HttpServlet.service(HttpServlet.java:631)\r\n\tat org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:205)\r\n\tat org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)\r\n\tat org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)\r\n\tat org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)\r\n\tat org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)\r\n\tat org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)\r\n\tat org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n\tat org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)\r\n\tat org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)\r\n\tat org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)\r\n\tat org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n\tat org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)\r\n\tat org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)\r\n\tat org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)\r\n\tat org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116)\r\n\tat org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:174)\r\n\tat org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:149)\r\n\tat org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:166)\r\n\tat org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)\r\n\tat org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:493)\r\n\tat org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115)\r\n\tat org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)\r\n\tat org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)\r\n\tat org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:341)\r\n\tat org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:390)\r\n\tat org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)\r\n\tat org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:894)\r\n\tat org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741)\r\n\tat org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)\r\n\tat org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)\r\n\tat org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)\r\n\tat org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)\r\n\tat java.base/java.lang.Thread.run(Thread.java:833)\r\n&quot;,
+    &quot;message&quot;: &quot;Method 'POST' is not supported.&quot;,
+    &quot;path&quot;: &quot;/list&quot;
+}
+</code></pre>
+<p>开启ProblemDetails返回, 使用新的MediaType</p>
+<p><code>Content-Type: application/problem+json</code>+ 额外扩展返回</p>
+<pre><code class="language-json">{
+    &quot;type&quot;: &quot;about:blank&quot;,
+    &quot;title&quot;: &quot;Method Not Allowed&quot;,
+    &quot;status&quot;: 405,
+    &quot;detail&quot;: &quot;Method 'POST' is not supported.&quot;,
+    &quot;instance&quot;: &quot;/list&quot;
+}
+</code></pre>
+<h2 id="2-函数式web">2. 函数式Web</h2>
+<p><code>SpringMVC 5.2</code> 以后 允许我们使用<strong>函数式</strong>的方式，<strong>定义Web的请求处理流程</strong>。</p>
+<p>函数式接口</p>
+<p>Web请求处理的方式：</p>
+<ol>
+<li><code>@Controller + @RequestMapping</code>：<strong>耦合式</strong> （<strong>路由</strong>、<strong>业务</strong>耦合）</li>
+<li><strong>函数式Web</strong>：分离式（路由、业务分离）</li>
+</ol>
+<h3 id="1-场景">1. 场景</h3>
+<p>场景：User RESTful - CRUD</p>
+<ul>
+<li>GET /user/1  获取1号用户</li>
+<li>GET /users   获取所有用户</li>
+<li>POST /user  <strong>请求体</strong>携带JSON，新增一个用户</li>
+<li>PUT /user/1 <strong>请求体</strong>携带JSON，修改1号用户</li>
+<li>DELETE /user/1 <strong>删除</strong>1号用户</li>
+</ul>
+<h3 id="2-核心类">2. 核心类</h3>
+<ul>
+<li><strong>RouterFunction</strong></li>
+<li><strong>RequestPredicate</strong></li>
+<li><strong>ServerRequest</strong></li>
+<li><strong>ServerResponse</strong></li>
+</ul>
+<h3 id="3-示例">3. 示例</h3>
+<pre><code class="language-java">import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.MediaType;
+import org.springframework.web.servlet.function.RequestPredicate;
+import org.springframework.web.servlet.function.RouterFunction;
+import org.springframework.web.servlet.function.ServerResponse;
+
+import static org.springframework.web.servlet.function.RequestPredicates.accept;
+import static org.springframework.web.servlet.function.RouterFunctions.route;
+
+@Configuration(proxyBeanMethods = false)
+public class MyRoutingConfiguration {
+
+    private static final RequestPredicate ACCEPT_JSON = accept(MediaType.APPLICATION_JSON);
+
+    @Bean
+    public RouterFunction&lt;ServerResponse&gt; routerFunction(MyUserHandler userHandler) {
+        return route()
+                .GET(&quot;/{user}&quot;, ACCEPT_JSON, userHandler::getUser)
+                .GET(&quot;/{user}/customers&quot;, ACCEPT_JSON, userHandler::getUserCustomers)
+                .DELETE(&quot;/{user}&quot;, ACCEPT_JSON, userHandler::deleteUser)
+                .build();
+    }
+
+}
+</code></pre>
+<pre><code class="language-java">import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.function.ServerRequest;
+import org.springframework.web.servlet.function.ServerResponse;
+
+@Component
+public class MyUserHandler {
+
+    public ServerResponse getUser(ServerRequest request) {
+        ...
+        return ServerResponse.ok().build();
+    }
+
+    public ServerResponse getUserCustomers(ServerRequest request) {
+        ...
+        return ServerResponse.ok().build();
+    }
+
+    public ServerResponse deleteUser(ServerRequest request) {
+        ...
+        return ServerResponse.ok().build();
+    }
+
+}
+</code></pre>
+
+              </div>
+              <hr class="clear">
+              
+                <div class="next-post">
+                  <a class="purple-link" href="https://decade-qiu.github.io/post/springboot3-kuai-su-ru-men/">
+                    <h3 class="post-title">
+                      下一篇：SpringBoot3 快速入门
+                    </h3>
+                  </a>
+                </div>
+                
+            </div>
+          </div>
+      </div>
+
+      
+          <div id="gitalk-container"></div>
+      
+
+    
+    </div>
+    <div class="site-footer">
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/Decade-qiu" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        <a href="https://space.bilibili.com/98721375?spm_id_from=333.1007.0.0" target="_blank">
+          <i class="fab fa-bilibili"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.zhihu.com/people/chou-yu-80-33" target="_blank">
+          <i class="fab fa-zhihu"></i>
+        </a>
+      
+    
+  </div>
+  <div class="slogan">Stay hungry. Stay foolish.</div> |
+  <a href="https://github.com/Decade-qiu/gridea-theme-Eternal" target="_blank">Today is happy day again!</a> | <a href="https://github.com/Decade-qiu/gridea-theme-Eternal" target="_blank">Powered by Eternal</a> | <a href="https://decade-qiu.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+    <script src="https://decade-qiu.github.io/media/scripts/index.js"></script>
+
+
+    <script src='https://decade-qiu.github.io/media/scripts/valine.min.js'></script>
+    <script>
+        new Valine({
+            el: '#gitalk-container',
+            appId: 'b2xhAFZQq4FxBeHcVRgXNEbf-gzGzoHsz',
+            appKey: 'QqIty1r7mCD1MbFanHuyw57O',
+            placeholder: 'Write something...',
+        })
+    </script>
+
+
+
+  </body>
+</html>
+
+<script>
+    window.onload = function() {
+        let id = 1;
+        let post_content = document.querySelector('.content-card');
+        post_content.querySelectorAll('h1,h2,h3,h4,h5,h6').forEach(function (item) {
+            item.setAttribute('id', 'toc-' + id);
+            id++;
+        });
+        tocbot.init({
+            tocSelector: '.toc',
+            contentSelector: '.post-content',
+            headingSelector: 'h1,h2,h3,h4',
+            headingsOffset: 58,
+        });
+        // 检测页面滚动距离 用eventlistener
+        window.addEventListener('scroll', function () {
+            let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            let toc = document.querySelector('.toc');
+            let tocBtn = document.querySelector('.toc-body');
+            if (scrollTop > 250) {
+                tocBtn.classList.add('toc-body-fixed');
+                toc.classList.add('toc-fixed');
+            } else {
+                tocBtn.classList.remove('toc-body-fixed');
+                toc.classList.remove('toc-fixed');
+            }
+        });
+        document.querySelector('#floating-toc-btn').addEventListener('click', function () {
+            let toc = document.querySelector('.toc-body');
+            let main = document.querySelector('.main');
+            if (toc.classList.contains('hide')) {
+                main.classList.add('main-small');
+                toc.classList.remove('hide');
+            } else {
+                toc.classList.add('hide');
+                main.classList.remove('main-small');
+            }
+        });
+        window.addEventListener('resize', function() {
+            // 获取屏幕宽度
+            var screenWidth = window.innerWidth || document.documentElement.clientWidth;
+            // 设置 .content-card 的 max-width
+            var contentCard = document.querySelector('.content-card');
+            contentCard.style.maxWidth = screenWidth + 'px';
+        });
+        // 初始加载时执行一次，确保初始状态下也设置正确
+        window.dispatchEvent(new Event('resize'));
+    };
+</script>

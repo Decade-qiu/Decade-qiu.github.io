@@ -1,0 +1,445 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>Leetcode 2454. 下一个更大元素 IV | Decade</title>
+<meta name="description" content="Stay hungry. Stay foolish.">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.1/css/all.css" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://decade-qiu.github.io/favicon.ico?v=1711118819754">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://decade-qiu.github.io/styles/main.css">
+
+<script src="https://decade-qiu.github.io/media/scripts/vue.js"></script>
+<script src="https://decade-qiu.github.io/media/scripts/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.5.0/tocbot.min.js"></script>
+  </head>
+  <body>
+    <div class="carousel carousel-slider center index-cover" data-indicators="true">
+    <div class="bg-cover pd-header" style="background: url('') no-repeat center center fixed" data-link="https://decade-qiu.github.io/post/leetcode-2454-xia-yi-ge-geng-da-yuan-su-iv/">
+        <div class="container">
+            <div class="row">
+                <div class="col s10 offset-s1 m8 offset-m2 l8 offset-l2">
+                    <div class="brand">
+                        <div class="title center-align">
+                            Leetcode 2454. 下一个更大元素 IV
+                        </div>
+                        <div class="description center-align">
+                            <span id="subtitle">
+                                Day Day Learn, Day Day Up.
+                            </span><span class="typed-cursor">|</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
+<script>
+    window.onload = function () {
+        var typed = new Typed("#subtitle", {
+            strings: [ 
+                
+                    "从来没有真正的绝境, 只有心灵的迷途",
+                
+                    'Day Day Learn, Day Day Up.',
+
+            ],
+            startDelay: 300,
+            typeSpeed: 100,
+            loop: true,
+            backSpeed: 50,
+            showCursor: true
+        });
+        let cover = document.querySelector('.bg-cover');
+        cover.setAttribute('style', `background: url('${localStorage[cover.dataset.link]}') no-repeat center center fixed`);
+    }
+</script>
+
+
+    <div class="toc-body hide">  
+        <div class="toc"></div>
+    </div>
+    <div id="floating-toc-btn">
+        <i class="fas fa-list-ul bg-color"></i>
+    </div>
+    <div id="app" class="main">
+      <div class="site-header-container nav-transparent">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://decade-qiu.github.io">
+        <img class="avatar" src="https://decade-qiu.github.io/images/avatar.png?v=1711118819754" alt=""
+          width="32px" height="32px">
+      </a>
+      <a href="https://decade-qiu.github.io">
+        <h1 class="site-title">
+          Decade
+        </h1>
+      </a>
+    </div>
+    <div class="right">
+        <div class="menu">
+            <a href="/post/about" v-if="headSearchShow">
+                <i class="fa-solid fa-user"></i>&nbsp;个人
+            </a>
+            <a href="/archives" v-if="headSearchShow">
+                <i class="fa-solid fa-box-archive"></i>&nbsp;归档
+            </a>
+            <a href="/tags" v-if="headSearchShow">
+                <i class="fa-solid fa-tag"></i>&nbsp;标签
+            </a>
+            <a href="/life" v-if="headSearchShow">
+                <i class="fa-fw fas fa-heart"></i>&nbsp;生活
+            </a>
+            
+        </div>
+      <div class="gridea-search-div" v-if="headSearchShow">
+        <form id="gridea-search-form" action="https://decade-qiu.github.io/search/">
+          <input class="gridea-search-input" autocomplete="off" spellcheck="false" name="q" />
+        </form>
+      </div>
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }"
+          @click="menuClick()" v-if="menuSearchShow"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      <div class="gridea-search-div" v-if="menuSearchShow">
+        <form id="gridea-search-form" action="https://decade-qiu.github.io/search/">
+          <input class="gridea-search-input" autocomplete="off" spellcheck="false" name="q" />
+        </form>
+      </div>
+      
+        
+            <a href="/" class="menu purple-link">
+              首页
+            </a>
+            
+              
+        
+            <a href="/archives" class="menu purple-link">
+              归档
+            </a>
+            
+              
+        
+            <a href="/tags" class="menu purple-link">
+              标签
+            </a>
+            
+              
+        
+            <a href="/post/about" class="menu purple-link">
+              个人
+            </a>
+            
+              
+        
+            <a href="/life" class="menu purple-link">
+              生活
+            </a>
+            
+              
+              
+    </div>
+  </div>
+</transition>
+
+<script>
+    window.onscroll = function () {
+        var t = document.documentElement.scrollTop || document.body.scrollTop;
+        var header = document.querySelector('.site-header-container');
+        if (t > 0) {
+            header.classList.remove('nav-transparent');
+        } else {
+            header.classList.add('nav-transparent');
+        }
+    }
+</script>
+
+      <div class="content-body">
+        <div class="content-container content-card">
+            <div class="post-detail">
+              <div class="post-info post-detail-info">
+                <span><i class="icon-calendar-outline"></i> 2023-12-12-Tue</span>
+                
+                  <span>
+                    
+                        <i class="icon-pricetags-outline"></i>
+                      <a href="https://decade-qiu.github.io/tag/XvO2auUat/">
+                        题目分享
+                      </a>
+                    
+                        <i class="icon-pricetags-outline"></i>
+                      <a href="https://decade-qiu.github.io/tag/d7p-iel5V/">
+                        树状数组
+                      </a>
+                    
+                        <i class="icon-pricetags-outline"></i>
+                      <a href="https://decade-qiu.github.io/tag/F2kUQf7xN/">
+                        LeetCode
+                      </a>
+                    
+                  </span>
+                
+              </div>
+              
+                <div class="post-card-abstract">
+                    <p><a href="https://leetcode.cn/problems/next-greater-element-iv/">2454. 下一个更大元素 IV</a></p>
+
+                  </div>
+                
+              <hr class="clear">
+              <div class="post-content">
+                
+<h2 id="leetcode-2454-下一个更大元素-iv">Leetcode  <a href="https://leetcode.cn/problems/next-greater-element-iv/">2454. 下一个更大元素 IV</a></h2>
+<p>给你一个下标从 <strong>0</strong> 开始的非负整数数组 <code>nums</code> 。对于 <code>nums</code> 中每一个整数，你必须找到对应元素的 <strong>第二大</strong> 整数。</p>
+<p>如果 <code>nums[j]</code> 满足以下条件，那么我们称它为 <code>nums[i]</code> 的 <strong>第二大</strong> 整数：</p>
+<ul>
+<li><code>j &gt; i</code></li>
+<li><code>nums[j] &gt; nums[i]</code></li>
+<li>恰好存在 <strong>一个</strong> <code>k</code> 满足 <code>i &lt; k &lt; j</code> 且 <code>nums[k] &gt; nums[i]</code> 。</li>
+</ul>
+<p>如果不存在 <code>nums[j]</code> ，那么第二大整数为 <code>-1</code> 。</p>
+<ul>
+<li>比方说，数组 <code>[1, 2, 4, 3]</code> 中，<code>1</code> 的第二大整数是 <code>4</code> ，<code>2</code> 的第二大整数是 <code>3</code> ，<code>3</code> 和 <code>4</code> 的第二大整数是 <code>-1</code> 。</li>
+</ul>
+<p>请你返回一个整数数组 <code>answer</code> ，其中 <code>answer[i]</code>是 <code>nums[i]</code> 的第二大整数。</p>
+<p><strong>示例 1：</strong></p>
+<pre><code>输入：nums = [2,4,0,9,6]
+输出：[9,6,6,-1,-1]
+解释：
+下标为 0 处：2 的右边，4 是大于 2 的第一个整数，9 是第二个大于 2 的整数。
+下标为 1 处：4 的右边，9 是大于 4 的第一个整数，6 是第二个大于 4 的整数。
+下标为 2 处：0 的右边，9 是大于 0 的第一个整数，6 是第二个大于 0 的整数。
+下标为 3 处：右边不存在大于 9 的整数，所以第二大整数为 -1 。
+下标为 4 处：右边不存在大于 6 的整数，所以第二大整数为 -1 。
+所以我们返回 [9,6,6,-1,-1] 。
+</code></pre>
+<p><strong>示例 2：</strong></p>
+<pre><code>输入：nums = [3,3]
+输出：[-1,-1]
+解释：
+由于每个数右边都没有更大的数，所以我们返回 [-1,-1] 。
+</code></pre>
+<p><strong>提示：</strong></p>
+<ul>
+<li><code>1 &lt;= nums.length &lt;= 10^5</code></li>
+<li><code>0 &lt;= nums[i] &lt;= 10^9</code></li>
+</ul>
+<h3 id="思路">思路</h3>
+<p><s>一眼感觉就是单调栈的题目，但还是无脑树状数组</s></p>
+<ol>
+<li>首先看范围：1e9? ==&gt; 离散化一下。</li>
+<li>如果是求下一个更大的元素，那直接从后往前依次添加到树状数组；查询时取下标最小值即可（由于树状数组维护的是<strong>前缀</strong>信息，所以离散化时需要将大小翻转一下）。</li>
+</ol>
+<blockquote>
+<p>[2,4,0,9,6] ==&gt; mp[9:1, 6:2, 4:3, 2:4, 0:5]</p>
+<p>查询0时，已有数组a：[0, 3, 4, 0, 0, 0] （3，4分别是数字9和6在nums的下标）。</p>
+<p>0对应大小为5，所以比它大的肯定存储在数组a[1-4]位置上。</p>
+<p>利用树状数组求出这个a[1-4]中维护的下标最小值，得到结果：nums[3] = 9。</p>
+</blockquote>
+<ol start="3">
+<li>如果是求第二大的元素，那其实与上面类似，仍然用树状数组维护，但查询时每次要维护两个比当前元素大的值，且他们在nums中下标最小。最后取两个中下标较大的为答案。</li>
+</ol>
+<blockquote>
+<p>[2,4,0,9,6] ==&gt; mp[9:1, 6:2, 4:3, 2:4, 0:5]</p>
+<p>查询2时，已有数组a：[0, 3, 4, 1, 0, 2] （3，4，1，2分别是数字9，6，4，0在nums的下标）。</p>
+<p>2对应大小为4，所以比它大的肯定存储在数组a[1-3]位置上。</p>
+<p>则此时需要用树状数组维护a[1-3]中下标最小的和次小的：分别是1，3。</p>
+<p>所以最终nums[3]=9是nums[0]=2的第二大的值。</p>
+</blockquote>
+<ol start="4">
+<li>但有一个问题：如果有两个相同的数字呢？<code>树状数组同一个位置上要存储两个最小的下标</code></li>
+</ol>
+<blockquote>
+<p>[2,4,4,6,4,4] ==&gt; mp[6:1, 4:2, 2:3]</p>
+<p>查询2时，已有数组a：[0, 3, {1,2,4,5}, 0] （3，{1,2,4,5}分别是数字6，4在nums的下标）。</p>
+<p>2对应大小为3，所以比它大的肯定存储在数组a[1-2]位置上。</p>
+<p>则此时需要用树状数组维护a[1-2]中下标中最小的和次小的。</p>
+<p>即3 + {1,2,4,5} = {1,2,3,4,5} 中最小的和次小的</p>
+<p>所以最终nums[2]=4是nums[0]=2的第二大的值。</p>
+<p><code>可以发现对4维护的下标1，2，4，5中4和5都是无用的：因为如果一个数比4小，那么最后最终取最小和次小下标时，4和5是肯定不会选中的，所以每次只要维护两个最小值即可</code></p>
+</blockquote>
+<h3 id="代码">代码</h3>
+<pre><code class="language-C++">class Solution {
+public:
+    vector&lt;int&gt; secondGreaterElement(vector&lt;int&gt;&amp; nums) {
+        // 离散化
+        vector&lt;int&gt; tp = nums;
+        sort(tp.begin(), tp.end());
+        tp.erase(unique(tp.begin(), tp.end()), tp.end());
+        unordered_map&lt;int, int&gt; mp;
+        int n = nums.size(), m = tp.size();
+        for (int i = 0;i &lt; m;i++){
+            mp[tp[i]] = m-i;  // 大小翻转
+        }
+        // 树状数组模版
+        typedef pair&lt;int, int&gt; pii;
+        vector&lt;pii&gt; tr(m+1, pii(1e9, 1e9));
+        vector&lt;int&gt; ans(n, 0);
+        function&lt;void(int,int)&gt; upd = [&amp;](int dx, int val){
+            for (int i = dx;i &lt;= m;i += i&amp;-i){
+                // 因为nums下标是从后往前前遍历，后来的下标肯定比之前的小，所以直接更新即可。
+                tr[i].second = tr[i].first;
+                tr[i].first = val;
+            }
+        };
+        function&lt;int(int)&gt; qry = [&amp;](int dx){
+            int x = 1e9, y = 1e9;
+            for (int i = dx;i &gt; 0;i -= i&amp;-i){
+                // 每次取当前位置两个下标最小值和已经得到的进行对比
+                vector&lt;int&gt; cur = {x, y, tr[i].first, tr[i].second};
+                sort(cur.begin(), cur.end());
+                x = cur[0], y = cur[1];
+            }
+            return y == 1e9 ? -1 : nums[y];
+        };
+        for (int i = n-1;i &gt;= 0;i--){
+            ans[i] = qry(mp[nums[i]]-1);
+            upd(mp[nums[i]], i);
+        }      
+        return ans;
+    }
+};
+</code></pre>
+<h3 id="复杂度分析">复杂度分析</h3>
+<ul>
+<li>时间：O(<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi><mi>log</mi><mo>⁡</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">n\log n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">n</span></span></span></span>)。</li>
+<li>空间：O($$n$$)。</li>
+</ul>
+
+              </div>
+              <hr class="clear">
+              
+                <div class="next-post">
+                  <a class="purple-link" href="https://decade-qiu.github.io/post/leetcode-di-374-chang-zhou-sai/">
+                    <h3 class="post-title">
+                      下一篇：Leetcode 第 374 场周赛
+                    </h3>
+                  </a>
+                </div>
+                
+            </div>
+          </div>
+      </div>
+
+      
+          <div id="gitalk-container"></div>
+      
+
+    
+    </div>
+    <div class="site-footer">
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/Decade-qiu" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        <a href="https://space.bilibili.com/98721375?spm_id_from=333.1007.0.0" target="_blank">
+          <i class="fab fa-bilibili"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.zhihu.com/people/chou-yu-80-33" target="_blank">
+          <i class="fab fa-zhihu"></i>
+        </a>
+      
+    
+  </div>
+  <div class="slogan">Stay hungry. Stay foolish.</div> |
+  <a href="https://github.com/Decade-qiu/gridea-theme-Eternal" target="_blank">Today is happy day again!</a> | <a href="https://github.com/Decade-qiu/gridea-theme-Eternal" target="_blank">Powered by Eternal</a> | <a href="https://decade-qiu.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+    <script src="https://decade-qiu.github.io/media/scripts/index.js"></script>
+
+
+    <script src='https://decade-qiu.github.io/media/scripts/valine.min.js'></script>
+    <script>
+        new Valine({
+            el: '#gitalk-container',
+            appId: 'b2xhAFZQq4FxBeHcVRgXNEbf-gzGzoHsz',
+            appKey: 'QqIty1r7mCD1MbFanHuyw57O',
+            placeholder: 'Write something...',
+        })
+    </script>
+
+
+
+  </body>
+</html>
+
+<script>
+    window.onload = function() {
+        let id = 1;
+        let post_content = document.querySelector('.content-card');
+        post_content.querySelectorAll('h1,h2,h3,h4,h5,h6').forEach(function (item) {
+            item.setAttribute('id', 'toc-' + id);
+            id++;
+        });
+        tocbot.init({
+            tocSelector: '.toc',
+            contentSelector: '.post-content',
+            headingSelector: 'h1,h2,h3,h4',
+            headingsOffset: 58,
+        });
+        // 检测页面滚动距离 用eventlistener
+        window.addEventListener('scroll', function () {
+            let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            let toc = document.querySelector('.toc');
+            let tocBtn = document.querySelector('.toc-body');
+            if (scrollTop > 250) {
+                tocBtn.classList.add('toc-body-fixed');
+                toc.classList.add('toc-fixed');
+            } else {
+                tocBtn.classList.remove('toc-body-fixed');
+                toc.classList.remove('toc-fixed');
+            }
+        });
+        document.querySelector('#floating-toc-btn').addEventListener('click', function () {
+            let toc = document.querySelector('.toc-body');
+            let main = document.querySelector('.main');
+            if (toc.classList.contains('hide')) {
+                main.classList.add('main-small');
+                toc.classList.remove('hide');
+            } else {
+                toc.classList.add('hide');
+                main.classList.remove('main-small');
+            }
+        });
+        window.addEventListener('resize', function() {
+            // 获取屏幕宽度
+            var screenWidth = window.innerWidth || document.documentElement.clientWidth;
+            // 设置 .content-card 的 max-width
+            var contentCard = document.querySelector('.content-card');
+            contentCard.style.maxWidth = screenWidth + 'px';
+        });
+        // 初始加载时执行一次，确保初始状态下也设置正确
+        window.dispatchEvent(new Event('resize'));
+    };
+</script>

@@ -1,0 +1,1231 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>SpringBoot3 快速入门 | Decade</title>
+<meta name="description" content="Stay hungry. Stay foolish.">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.1/css/all.css" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://decade-qiu.github.io/favicon.ico?v=1711118819754">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://decade-qiu.github.io/styles/main.css">
+
+<script src="https://decade-qiu.github.io/media/scripts/vue.js"></script>
+<script src="https://decade-qiu.github.io/media/scripts/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.5.0/tocbot.min.js"></script>
+  </head>
+  <body>
+    <div class="carousel carousel-slider center index-cover" data-indicators="true">
+    <div class="bg-cover pd-header" style="background: url('') no-repeat center center fixed" data-link="https://decade-qiu.github.io/post/springboot3-kuai-su-ru-men/">
+        <div class="container">
+            <div class="row">
+                <div class="col s10 offset-s1 m8 offset-m2 l8 offset-l2">
+                    <div class="brand">
+                        <div class="title center-align">
+                            SpringBoot3 快速入门
+                        </div>
+                        <div class="description center-align">
+                            <span id="subtitle">
+                                Day Day Learn, Day Day Up.
+                            </span><span class="typed-cursor">|</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
+<script>
+    window.onload = function () {
+        var typed = new Typed("#subtitle", {
+            strings: [ 
+                
+                    "从来没有真正的绝境, 只有心灵的迷途",
+                
+                    'Day Day Learn, Day Day Up.',
+
+            ],
+            startDelay: 300,
+            typeSpeed: 100,
+            loop: true,
+            backSpeed: 50,
+            showCursor: true
+        });
+        let cover = document.querySelector('.bg-cover');
+        cover.setAttribute('style', `background: url('${localStorage[cover.dataset.link]}') no-repeat center center fixed`);
+    }
+</script>
+
+
+    <div class="toc-body hide">  
+        <div class="toc"></div>
+    </div>
+    <div id="floating-toc-btn">
+        <i class="fas fa-list-ul bg-color"></i>
+    </div>
+    <div id="app" class="main">
+      <div class="site-header-container nav-transparent">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://decade-qiu.github.io">
+        <img class="avatar" src="https://decade-qiu.github.io/images/avatar.png?v=1711118819754" alt=""
+          width="32px" height="32px">
+      </a>
+      <a href="https://decade-qiu.github.io">
+        <h1 class="site-title">
+          Decade
+        </h1>
+      </a>
+    </div>
+    <div class="right">
+        <div class="menu">
+            <a href="/post/about" v-if="headSearchShow">
+                <i class="fa-solid fa-user"></i>&nbsp;个人
+            </a>
+            <a href="/archives" v-if="headSearchShow">
+                <i class="fa-solid fa-box-archive"></i>&nbsp;归档
+            </a>
+            <a href="/tags" v-if="headSearchShow">
+                <i class="fa-solid fa-tag"></i>&nbsp;标签
+            </a>
+            <a href="/life" v-if="headSearchShow">
+                <i class="fa-fw fas fa-heart"></i>&nbsp;生活
+            </a>
+            
+        </div>
+      <div class="gridea-search-div" v-if="headSearchShow">
+        <form id="gridea-search-form" action="https://decade-qiu.github.io/search/">
+          <input class="gridea-search-input" autocomplete="off" spellcheck="false" name="q" />
+        </form>
+      </div>
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }"
+          @click="menuClick()" v-if="menuSearchShow"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      <div class="gridea-search-div" v-if="menuSearchShow">
+        <form id="gridea-search-form" action="https://decade-qiu.github.io/search/">
+          <input class="gridea-search-input" autocomplete="off" spellcheck="false" name="q" />
+        </form>
+      </div>
+      
+        
+            <a href="/" class="menu purple-link">
+              首页
+            </a>
+            
+              
+        
+            <a href="/archives" class="menu purple-link">
+              归档
+            </a>
+            
+              
+        
+            <a href="/tags" class="menu purple-link">
+              标签
+            </a>
+            
+              
+        
+            <a href="/post/about" class="menu purple-link">
+              个人
+            </a>
+            
+              
+        
+            <a href="/life" class="menu purple-link">
+              生活
+            </a>
+            
+              
+              
+    </div>
+  </div>
+</transition>
+
+<script>
+    window.onscroll = function () {
+        var t = document.documentElement.scrollTop || document.body.scrollTop;
+        var header = document.querySelector('.site-header-container');
+        if (t > 0) {
+            header.classList.remove('nav-transparent');
+        } else {
+            header.classList.add('nav-transparent');
+        }
+    }
+</script>
+
+      <div class="content-body">
+        <div class="content-container content-card">
+            <div class="post-detail">
+              <div class="post-info post-detail-info">
+                <span><i class="icon-calendar-outline"></i> 2024-03-01-Fri</span>
+                
+                  <span>
+                    
+                        <i class="icon-pricetags-outline"></i>
+                      <a href="https://decade-qiu.github.io/tag/DIOv4mRMq/">
+                        SpringBoot3
+                      </a>
+                    
+                  </span>
+                
+              </div>
+              
+                <div class="post-card-abstract">
+                    <p><code>SpringBoot简介</code> <code>开发流程</code></p>
+<p><code>特性小结</code> <code>自动配置机制分析</code></p>
+<p><code>核心技能</code></p>
+
+                  </div>
+                
+              <hr class="clear">
+              <div class="post-content">
+                
+<h1 id="1-简介">1、简介</h1>
+<h2 id="1-前置知识">1. 前置知识</h2>
+<ul>
+<li>Java17</li>
+<li>Spring、SpringMVC、MyBatis</li>
+<li>Maven、IDEA</li>
+</ul>
+<h2 id="2-环境要求">2. 环境要求</h2>
+<table>
+<thead>
+<tr>
+<th>环境&amp;工具</th>
+<th>版本（or later）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SpringBoot</td>
+<td>3.0.5+</td>
+</tr>
+<tr>
+<td>IDEA</td>
+<td>2021.2.1+</td>
+</tr>
+<tr>
+<td>Java</td>
+<td>17+</td>
+</tr>
+<tr>
+<td>Maven</td>
+<td>3.5+</td>
+</tr>
+<tr>
+<td>Tomcat</td>
+<td>10.0+</td>
+</tr>
+<tr>
+<td>Servlet</td>
+<td>5.0+</td>
+</tr>
+<tr>
+<td>GraalVM Community</td>
+<td>22.3+</td>
+</tr>
+<tr>
+<td>Native Build Tools</td>
+<td>0.9.19+</td>
+</tr>
+</tbody>
+</table>
+<h2 id="3-springboot是什么">3. SpringBoot是什么</h2>
+<p>SpringBoot 帮我们简单、快速地创建一个独立的、生产级别的 <strong>Spring 应用（说明：SpringBoot底层是Spring）</strong></p>
+<p>大多数 SpringBoot 应用只需要编写少量配置即可快速整合 Spring 平台以及第三方技术</p>
+<p><strong>特性：</strong></p>
+<ul>
+<li>
+<p>快速创建独立 Spring 应用</p>
+</li>
+<li>
+<p>SSM：导包、写配置、启动运行</p>
+</li>
+<li>
+<p>直接嵌入Tomcat、Jetty or Undertow（无需部署 war 包）【Servlet容器】</p>
+<ul>
+<li>linux  java tomcat mysql： war 放到 tomcat 的 webapps下</li>
+<li>jar： java环境；  java -jar</li>
+</ul>
+</li>
+<li>
+<p><strong>重点</strong>：提供可选的starter，简化应用<strong>整合</strong></p>
+<ul>
+<li>
+<p><strong>场景启动器</strong>（starter）：web、json、邮件、oss（对象存储）、异步、定时任务、缓存...</p>
+</li>
+<li>
+<p>为每一种场景准备了一个依赖； <strong>web-starter，mybatis-starter</strong></p>
+</li>
+</ul>
+</li>
+<li>
+<p>**重点：**按需自动配置 Spring 以及 第三方库</p>
+<ul>
+<li>如果这些场景我要使用（生效）。这个场景的所有配置都会自动配置好。</li>
+<li><strong>约定大于配置</strong>：每个场景都有很多默认配置。</li>
+<li>自定义：配置文件中修改几项就可以</li>
+</ul>
+</li>
+<li>
+<p>提供生产级特性：如 监控指标、健康检查、外部化配置等</p>
+<ul>
+<li>监控指标、健康检查（k8s）、外部化配置</li>
+</ul>
+</li>
+<li>
+<p>无代码生成、无xml</p>
+</li>
+</ul>
+<p>总结：简化开发，简化配置，简化整合，简化部署，简化监控，简化运维。</p>
+<h1 id="2-快速体验">2、快速体验</h1>
+<p>场景：浏览器发送**/hello**请求，返回&quot;<strong>Hello,Spring Boot 3!</strong>&quot;</p>
+<h2 id="1-开发流程">1. 开发流程</h2>
+<h3 id="1-创建项目">1. 创建项目</h3>
+<p>maven 项目</p>
+<pre><code class="language-xml">&lt;!--    所有springboot项目都必须继承自 spring-boot-starter-parent --&gt;
+    &lt;parent&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
+        &lt;version&gt;3.0.5&lt;/version&gt;
+    &lt;/parent&gt;
+</code></pre>
+<h3 id="2-导入场景">2. 导入场景</h3>
+<p>场景启动器</p>
+<pre><code class="language-xml">    &lt;dependencies&gt;
+&lt;!--        web开发的场景启动器 --&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+    &lt;/dependencies&gt;
+</code></pre>
+<h3 id="3-主程序">3. 主程序</h3>
+<pre><code class="language-java">@SpringBootApplication //这是一个SpringBoot应用
+public class MainApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(MainApplication.class,args);
+    }
+}
+</code></pre>
+<h3 id="4-业务">4. 业务</h3>
+<pre><code class="language-java">@RestController
+public class HelloController {
+
+    @GetMapping(&quot;/hello&quot;)
+    public String hello(){
+
+        return &quot;Hello,Spring Boot 3!&quot;;
+    }
+
+}
+</code></pre>
+<h3 id="5-测试">5. 测试</h3>
+<p>默认启动访问： localhost:8080</p>
+<h3 id="6-打包">6. 打包</h3>
+<pre><code class="language-xml">&lt;!--    SpringBoot应用打包插件--&gt;
+    &lt;build&gt;
+        &lt;plugins&gt;
+            &lt;plugin&gt;
+                &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+                &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
+            &lt;/plugin&gt;
+        &lt;/plugins&gt;
+    &lt;/build&gt;
+</code></pre>
+<p><code>mvn clean package</code>把项目打成可执行的jar包</p>
+<p><code>java -jar demo.jar</code>启动项目</p>
+<h2 id="2-特性小结">2. 特性小结</h2>
+<h3 id="1-简化整合">1. 简化整合</h3>
+<p>导入相关的场景，拥有相关的功能。场景启动器</p>
+<p>默认支持的所有场景：https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.build-systems.starters</p>
+<ul>
+<li>官方提供的场景：命名为：<code>spring-boot-starter-*</code></li>
+<li>第三方提供场景：命名为：<code>*-spring-boot-starter</code></li>
+</ul>
+<p>场景一导入，万物皆就绪</p>
+<h3 id="2-简化开发">2. 简化开发</h3>
+<p>无需编写任何配置，直接开发业务</p>
+<h3 id="3-简化配置">3. 简化配置</h3>
+<p><code>application.properties</code>：</p>
+<ul>
+<li>集中式管理配置。只需要修改这个文件就行 。</li>
+<li>配置基本都有默认值</li>
+<li>能写的所有配置都在： https://docs.spring.io/spring-boot/docs/current/reference/html/application-properties.html#appendix.application-properties</li>
+</ul>
+<h3 id="4-简化部署">4. 简化部署</h3>
+<p>打包为可执行的jar包。</p>
+<p>linux服务器上有java环境。</p>
+<h3 id="5-简化运维">5. 简化运维</h3>
+<p>修改配置（外部放一个application.properties文件）、监控、健康检查。</p>
+<blockquote>
+<p><strong>对于application.properties文件：</strong></p>
+<p>（1）默认是读取classpath下的application.properties文件。</p>
+<p>（2）jar包同级下的application.properties可以直接读取，启动命名不需要做调整。</p>
+<p>（3）jar包同级下的config/application.properties，可以直接读取，启动命令不需要调整。</p>
+<p>（4）jar包同级下的conf/application.properties，不可以直接读取，需要通过参数--</p>
+</blockquote>
+<h2 id="3-spring-initializr-创建">3. Spring Initializr 创建</h2>
+<h1 id="3-应用分析">3、应用分析</h1>
+<h2 id="1-依赖管理机制">1. 依赖管理机制</h2>
+<p>1、为什么导入<code>starter-web</code>所有相关依赖都导入进来？</p>
+<ul>
+<li>开发什么场景，导入什么<strong>场景启动器。</strong></li>
+<li><strong>maven依赖传递原则。A-B-C： A就拥有B和C</strong></li>
+<li>导入 场景启动器。 场景启动器 自动把这个场景的所有核心依赖全部导入进来</li>
+</ul>
+<p>2、为什么版本号都不用写？</p>
+<ul>
+<li>每个boot项目都有一个父项目<code>spring-boot-starter-parent</code></li>
+<li>parent的父项目是<code>spring-boot-dependencies</code></li>
+<li>父项目 <strong>版本仲裁中心</strong>，把所有常见的jar的依赖版本都声明好了。</li>
+<li>比如：<code>mysql-connector-j</code></li>
+</ul>
+<p>3、自定义版本号</p>
+<ul>
+<li>利用maven的就近原则</li>
+<li>直接在当前项目<code>properties</code>标签中声明父项目用的版本属性的key</li>
+<li>直接在<strong>导入依赖的时候声明版本</strong></li>
+</ul>
+<p>4、第三方的jar包</p>
+<ul>
+<li>boot父项目没有管理的需要自行声明好</li>
+</ul>
+<pre><code class="language-xml">&lt;!-- https://mvnrepository.com/artifact/com.alibaba/druid --&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;com.alibaba&lt;/groupId&gt;
+    &lt;artifactId&gt;druid&lt;/artifactId&gt;
+    &lt;version&gt;1.2.16&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+<h2 id="2-自动配置机制">2. 自动配置机制</h2>
+<h3 id="1-初步理解">1. 初步理解</h3>
+<ul>
+<li>
+<p><strong>自动配置</strong>的 Tomcat、SpringMVC 等</p>
+</li>
+<li>
+<p><strong>导入场景</strong>，容器中就会自动配置好这个场景的核心组件。</p>
+<ul>
+<li>以前：DispatcherServlet、ViewResolver、CharacterEncodingFilter....</li>
+<li>现在：自动配置好的这些组件</li>
+<li>验证：<strong>容器中有了什么组件，就具有什么功能</strong></li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-java">public static void main(String[] args) {
+
+    //java10： 局部变量类型的自动推断
+    var ioc = SpringApplication.run(MainApplication.class, args);
+
+    //1、获取容器中所有组件的名字
+    String[] names = ioc.getBeanDefinitionNames();
+    //2、挨个遍历：
+    // dispatcherServlet、beanNameViewResolver、characterEncodingFilter、multipartResolver
+    // SpringBoot把以前配置的核心组件现在都给我们自动配置好了。
+    for (String name : names) {
+        System.out.println(name);
+    }
+
+}
+</code></pre>
+<ul>
+<li>
+<p><strong>默认的包扫描规则</strong></p>
+<ul>
+<li><code>@SpringBootApplication</code> 标注的类就是主程序类</li>
+<li><strong>SpringBoot只会扫描主程序所在的包及其下面的子包，自动的component-scan功能</strong></li>
+</ul>
+</li>
+<li>
+<p><strong>自定义扫描路径</strong></p>
+<ul>
+<li>@SpringBootApplication(scanBasePackages = &quot;com.atguigu&quot;)</li>
+<li><code>@ComponentScan(&quot;com.atguigu&quot;)</code> 直接指定扫描的路径</li>
+</ul>
+</li>
+<li>
+<p><strong>配置默认值</strong></p>
+<ul>
+<li><strong>配置文件</strong>的所有配置项是和某个<strong>类的对象</strong>值进行一一绑定的。</li>
+<li>绑定了配置文件中每一项值的类称为：<strong>属性类</strong>。</li>
+<li>比如：
+<ul>
+<li><code>ServerProperties</code>绑定了所有Tomcat服务器有关的配置</li>
+<li><code>MultipartProperties</code>绑定了所有文件上传相关的配置</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>按需加载自动配置</p>
+<ul>
+<li>导入场景<code>spring-boot-starter-web</code></li>
+<li>场景启动器除了会导入相关功能依赖，导入一个<code>spring-boot-starter</code>，是所有<code>starter</code>的<code>starter</code>，基础核心starter</li>
+<li><code>spring-boot-starter</code>导入了一个包 <code>spring-boot-autoconfigure</code>。包里面都是各种场景的<code>AutoConfiguration</code><strong>自动配置类</strong></li>
+<li>虽然全场景的自动配置都在 <code>spring-boot-autoconfigure</code>这个包，但是不是全都开启的。导入哪个场景就开启哪个自动配置。</li>
+</ul>
+</li>
+</ul>
+<p>总结： 导入场景启动器、触发 <code>spring-boot-autoconfigure</code>这个包的自动配置生效、容器中就会具有相关场景的功能</p>
+<h3 id="2-完整流程">2. 完整流程</h3>
+<p>思考：</p>
+<p><strong>1、SpringBoot怎么实现导一个</strong><code>**starter**</code><strong>、写一些简单配置，应用就能跑起来，我们无需关心整合</strong></p>
+<p>2、为什么Tomcat的端口号可以配置在<code>application.properties</code>中，并且<code>Tomcat</code>能启动成功？</p>
+<p>3、导入场景后哪些<strong>自动配置能生效</strong>？</p>
+<figure data-type="image" tabindex="1"><img src="https://decade-qiu.github.io/post-images/1679970508234-3c6b8ecc-6372-4eb5-8c67-563054d1a72d-1709213296575.png" alt="img" loading="lazy"></figure>
+<p><em><strong>自动配置流程细节梳理：</strong></em></p>
+<p>1、导入<code>starter-web</code>：导入了web开发场景</p>
+<ul>
+<li>1、场景启动器导入了相关场景的所有依赖：<code>starter-json</code>、<code>starter-tomcat</code>、<code>springmvc</code></li>
+<li>2、每个场景启动器都引入了一个<code>spring-boot-starter</code>，核心场景启动器。</li>
+<li>3、<strong>核心场景启动器</strong>引入了<code>spring-boot-autoconfigure</code>包。</li>
+<li>4、<code>spring-boot-autoconfigure</code>里面囊括了所有场景的所有配置。</li>
+<li>5、只要这个包下的所有类都能生效，那么相当于SpringBoot官方写好的整合功能就生效了。</li>
+<li>6、SpringBoot默认却扫描不到 <code>spring-boot-autoconfigure</code>下写好的所有<strong>配置类</strong>。（这些<strong>配置类</strong>给我们做了整合操作），<strong>默认只扫描主程序所在的包</strong>。</li>
+</ul>
+<p>2、主程序：<code>@SpringBootApplication</code></p>
+<ul>
+<li>
+<p>1、<code>@SpringBootApplication</code>由三个注解组成<code>@SpringBootConfiguration</code>、<code>@EnableAutoConfiguratio</code>、<code>@ComponentScan</code></p>
+</li>
+<li>
+<p>2、SpringBoot默认只能扫描自己主程序所在的包及其下面的子包，扫描不到 <code>spring-boot-autoconfigure</code>包中官方写好的<strong>配置类</strong></p>
+</li>
+<li>
+<p>3、<code>@EnableAutoConfiguration</code>：SpringBoot <strong>开启自动配置的核心</strong>。</p>
+<ul>
+<li>是由<code>@Import(AutoConfigurationImportSelector.class)</code>提供功能：批量给容器中导入组件。</li>
+<li>SpringBoot启动会默认加载 142个配置类。</li>
+<li>这142个配置类来自于<code>spring-boot-autoconfigure</code>下<code>META-INF/spring/**org.springframework.boot.autoconfigure.AutoConfiguration**.imports</code>文件</li>
+<li>项目启动的时候利用 @Import 批量导入组件机制把 <code>autoconfigure</code> 包下的142 <code>xxxxAutoConfiguration</code>类导入进来（<strong>自动配置类</strong>）</li>
+</ul>
+</li>
+<li>
+<p>4、按需生效：</p>
+<ul>
+<li>并不是这<code>142</code>个自动配置类都能生效</li>
+<li>每一个自动配置类，都有条件注解<code>@ConditionalOnxxx</code>，只有条件成立，才能生效</li>
+</ul>
+</li>
+</ul>
+<p>3、<code>xxxxAutoConfiguration</code>自动配置类</p>
+<ul>
+<li><strong>1、给容器中使用@Bean 放一堆组件。</strong></li>
+<li>2、每个<strong>自动配置类</strong>都可能有这个注解<code>@EnableConfigurationProperties(**ServerProperties**.class)</code>，用来把配置文件中配的指定前缀的属性值封装到 <code>xxxProperties</code><strong>属性类</strong>中</li>
+<li>3、以Tomcat为例：把服务器的所有配置都是以<code>server</code>开头的。</li>
+<li>4、给<strong>容器</strong>中放的所有<strong>组件</strong>的一些<strong>核心参数</strong>，都来自于<code>**xxxProperties**</code><strong>。</strong><code>**xxxProperties**</code><strong>都是和配置文件绑定。</strong></li>
+<li><strong>只需要改配置文件的值，核心组件的底层参数都能修改</strong></li>
+</ul>
+<p>4、写业务，全程无需关心各种整合（底层这些整合写好了，而且也生效了）</p>
+<p><strong>核心流程总结：</strong></p>
+<p>1、导入<code>starter</code>，就会导入<code>autoconfigure</code>包。</p>
+<p>2、<code>autoconfigure</code> 包里面 有一个文件 <code>META-INF/spring/**org.springframework.boot.autoconfigure.AutoConfiguration**.imports</code>,里面指定的所有启动要加载的自动配置类</p>
+<p>3、@EnableAutoConfiguration 会自动的把上面文件里面写的所有<strong>自动配置类都导入进来。xxxAutoConfiguration 是有条件注解进行按需加载</strong></p>
+<p>4、<code>xxxAutoConfiguration</code>给容器中导入一堆组件，组件都是从 <code>xxxProperties</code>中提取属性值</p>
+<p>5、<code>xxxProperties</code>又是和<strong>配置文件</strong>进行了绑定</p>
+<p>**效果：**导入<code>starter</code>、修改配置文件，就能修改底层行为。</p>
+<h3 id="3-如何学好springboot">3. 如何学好SpringBoot</h3>
+<p>框架的框架、底层基于Spring，能调整每一个场景的底层行为。</p>
+<p>100%的项目一定会用到<strong>底层自定义</strong>。</p>
+<ol>
+<li>
+<p>理解<strong>自动配置原理</strong></p>
+<ol>
+<li><strong>导入starter</strong> <strong>--&gt; 生效xxxxAutoConfiguration --&gt;</strong> <strong>组件</strong> <strong>--&gt; xxxProperties --&gt;</strong> <strong>配置文件</strong></li>
+</ol>
+</li>
+<li>
+<p>理解<strong>其他框架底层</strong></p>
+<ol>
+<li>拦截器</li>
+</ol>
+</li>
+<li>
+<p>可以随时<strong>定制化任何组件</strong></p>
+<ol>
+<li><strong>配置文件</strong></li>
+<li><strong>自定义组件</strong></li>
+</ol>
+</li>
+</ol>
+<p>普通开发：导入starter，Controller、Service、Mapper、偶尔修改配置文件</p>
+<p><strong>高级开发</strong>：自定义组件、自定义配置、自定义starter</p>
+<p><code>核心</code>：</p>
+<ul>
+<li>这个场景自动配置导入了哪些组件，我们能不能Autowired进来使用</li>
+<li>能不能通过修改配置改变组件的一些默认参数</li>
+<li>需不需要自己完全定义这个组件</li>
+<li>场景定制化</li>
+</ul>
+<p><strong>最佳实战</strong>：</p>
+<ul>
+<li>
+<p><strong>选场景</strong>，导入到项目</p>
+<ul>
+<li>官方：starter</li>
+<li>第三方：去仓库搜</li>
+</ul>
+</li>
+<li>
+<p><strong>写配置，改配置文件关键项</strong></p>
+<ul>
+<li>数据库参数（连接地址、账号密码...）</li>
+</ul>
+</li>
+<li>
+<p>分析这个场景给我们导入了<strong>哪些能用的组件</strong></p>
+<ul>
+<li>
+<p><strong>自动装配</strong>这些组件进行后续使用</p>
+</li>
+<li>
+<p>不满意boot提供的自动配好的默认组件</p>
+<ul>
+<li>
+<p><strong>定制化</strong></p>
+</li>
+<li>
+<p>改配置</p>
+<ul>
+<li>自定义组件</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>整合redis：</p>
+<ul>
+<li>
+<p><a href="https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.build-systems.starters">选场景</a>：<code>spring-boot-starter-data-redis </code></p>
+<ul>
+<li><code>RedisAutoConfiguration</code> 就是这个场景的自动配置类</li>
+<li>直接在IDEA中全局搜索就能找到</li>
+</ul>
+</li>
+<li>
+<p>写配置：</p>
+<ul>
+<li>分析到这个场景的自动配置类开启了哪些属性绑定关系</li>
+<li><code>@EnableConfigurationProperties(RedisProperties.class)</code></li>
+<li>找到RedisProperties这个类查看所有属性配置</li>
+<li>修改redis相关的配置</li>
+</ul>
+</li>
+<li>
+<p>分析组件：</p>
+<ul>
+<li>分析到 <code>RedisAutoConfiguration</code>  给容器中放了 <code>StringRedisTemplate</code></li>
+<li>给业务代码中自动装配 <code>StringRedisTemplate</code></li>
+</ul>
+</li>
+<li>
+<p>定制化</p>
+<ul>
+<li>修改配置文件</li>
+<li>自定义组件，自己给容器中放一个 <code>StringRedisTemplate</code></li>
+</ul>
+</li>
+</ul>
+<h1 id="4-核心技能">4、核心技能</h1>
+<h2 id="1-常用注解">1. 常用注解</h2>
+<p>SpringBoot摒弃XML配置方式，改为<strong>全注解驱动</strong></p>
+<h3 id="1-组件注册">1. 组件注册</h3>
+<p><strong>@Configuration</strong>、<strong>@SpringBootConfiguration</strong></p>
+<p><strong>@Bean</strong>、<strong>@Scope</strong></p>
+<p><strong>@Controller、 @Service、@Repository、@Component</strong></p>
+<p><strong>@Import</strong></p>
+<p><strong>@ComponentScan</strong></p>
+<p>步骤：</p>
+<p><strong>1、@Configuration 编写一个配置类</strong></p>
+<p><strong>2、在配置类中，自定义方法给容器中注册组件。配合@Bean</strong></p>
+<p><strong>3、或使用@Import 导入第三方的组件</strong></p>
+<h3 id="2-条件注解">2. 条件注解</h3>
+<p>如果注解指定的<strong>条件成立</strong>，则触发指定行为</p>
+<p><em><strong>@ConditionalOnXxx</strong></em></p>
+<p><strong>@ConditionalOnClass：如果类路径中存在这个类，则触发指定行为</strong></p>
+<p><strong>@ConditionalOnMissingClass：如果类路径中不存在这个类，则触发指定行为</strong></p>
+<p><strong>@ConditionalOnBean：如果容器中存在这个Bean（组件），则触发指定行为</strong></p>
+<p><strong>@ConditionalOnMissingBean：如果容器中不存在这个Bean（组件），则触发指定行为</strong></p>
+<p>场景：</p>
+<ul>
+<li>如果存在<code>FastsqlException</code>这个类，给容器中放一个<code>Cat</code>组件，名cat01，</li>
+<li>否则，就给容器中放一个<code>Dog</code>组件，名dog01</li>
+<li>如果系统中有<code>dog01</code>这个组件，就给容器中放一个 User组件，名zhangsan</li>
+<li>否则，就放一个User，名叫lisi</li>
+</ul>
+<p><strong>@ConditionalOnBean（value=组件类型，name=组件名字）：判断容器中是否有这个类型的组件，并且名字是指定的值</strong></p>
+<p>@ConditionalOnRepositoryType (org.springframework.boot.autoconfigure.data)<br>
+@ConditionalOnDefaultWebSecurity (org.springframework.boot.autoconfigure.security)<br>
+@ConditionalOnSingleCandidate (org.springframework.boot.autoconfigure.condition)<br>
+@ConditionalOnWebApplication (org.springframework.boot.autoconfigure.condition)<br>
+@ConditionalOnWarDeployment (org.springframework.boot.autoconfigure.condition)<br>
+@ConditionalOnJndi (org.springframework.boot.autoconfigure.condition)<br>
+@ConditionalOnResource (org.springframework.boot.autoconfigure.condition)<br>
+@ConditionalOnExpression (org.springframework.boot.autoconfigure.condition)<br>
+<strong>@ConditionalOnClass</strong> (org.springframework.boot.autoconfigure.condition)<br>
+@ConditionalOnEnabledResourceChain (org.springframework.boot.autoconfigure.web)<br>
+<strong>@ConditionalOnMissingClass</strong> (org.springframework.boot.autoconfigure.condition)<br>
+@ConditionalOnNotWebApplication (org.springframework.boot.autoconfigure.condition)<br>
+@ConditionalOnProperty (org.springframework.boot.autoconfigure.condition)<br>
+@ConditionalOnCloudPlatform (org.springframework.boot.autoconfigure.condition)<br>
+<strong>@ConditionalOnBean</strong> (org.springframework.boot.autoconfigure.condition)<br>
+<strong>@ConditionalOnMissingBean</strong> (org.springframework.boot.autoconfigure.condition)<br>
+@ConditionalOnMissingFilterBean (org.springframework.boot.autoconfigure.web.servlet)<br>
+@Profile (org.springframework.context.annotation)<br>
+@ConditionalOnInitializedRestarter (org.springframework.boot.devtools.restart)<br>
+@ConditionalOnGraphQlSchema (org.springframework.boot.autoconfigure.graphql)<br>
+@ConditionalOnJava (org.springframework.boot.autoconfigure.condition)</p>
+<h3 id="3-属性绑定">3. 属性绑定</h3>
+<p><strong>@ConfigurationProperties： 声明组件的属性和配置文件哪些前缀开始项进行绑定</strong></p>
+<p><strong>@EnableConfigurationProperties：快速注册注解：</strong></p>
+<ul>
+<li>**场景：**SpringBoot默认只扫描自己主程序所在的包。如果导入第三方包，即使组件上标注了 @Component、@ConfigurationProperties 注解，也没用。因为组件都扫描不进来，此时使用这个注解就可以快速进行属性绑定并把组件注册进容器</li>
+</ul>
+<p>将容器中任意<strong>组件（Bean）的属性值</strong>和<strong>配置文件</strong>的配置项的值<strong>进行绑定</strong></p>
+<ul>
+<li><strong>1、给容器中注册组件（@Component、@Bean）</strong></li>
+<li><strong>2、使用@ConfigurationProperties 声明组件和配置文件的哪些配置项进行绑定</strong></li>
+</ul>
+<p>更多注解参照：<a href="https://www.bilibili.com/video/BV1gW411W7wy">Spring注解驱动开发</a>【1-26集】</p>
+<h2 id="2-yaml配置文件">2. YAML配置文件</h2>
+<p><strong>痛点</strong>：SpringBoot 集中化管理配置，<code>application.properties</code></p>
+<p><strong>问题</strong>：配置多以后难阅读和修改，<strong>层级结构辨识度不高</strong></p>
+<p>YAML 是 &quot;YAML Ain't a Markup Language&quot;（YAML 不是一种标记语言）。在开发的这种语言时，YAML 的意思其实是：&quot;Yet Another Markup Language&quot;（是另一种标记语言）。</p>
+<ul>
+<li>设计目标，就是<strong>方便人类读写</strong></li>
+<li><strong>层次分明</strong>，更适合做配置文件</li>
+<li>使用<code>.yaml</code>或 <code>.yml</code>作为文件后缀</li>
+</ul>
+<h3 id="1-基本语法">1. 基本语法</h3>
+<ul>
+<li><strong>大小写敏感</strong></li>
+<li>使用<strong>缩进表示层级关系，k: v，使用空格分割k,v</strong></li>
+<li>缩进时不允许使用Tab键，只允许<strong>使用空格</strong>。换行</li>
+<li>缩进的空格数目不重要，只要<strong>相同层级</strong>的元素<strong>左侧对齐</strong>即可</li>
+<li><strong># 表示注释</strong>，从这个字符一直到行尾，都会被解析器忽略。</li>
+</ul>
+<p>支持的写法：</p>
+<ul>
+<li><strong>对象</strong>：<strong>键值对</strong>的集合，如：映射（map）/ 哈希（hash） / 字典（dictionary）</li>
+<li><strong>数组</strong>：一组按次序排列的值，如：序列（sequence） / 列表（list）</li>
+<li><strong>纯量</strong>：单个的、不可再分的值，如：字符串、数字、bool、日期</li>
+</ul>
+<h3 id="2-示例">2. 示例</h3>
+<pre><code class="language-java">@Component
+@ConfigurationProperties(prefix = &quot;person&quot;) //和配置文件person前缀的所有配置进行绑定
+@Data //自动生成JavaBean属性的getter/setter
+//@NoArgsConstructor //自动生成无参构造器
+//@AllArgsConstructor //自动生成全参构造器
+public class Person {
+    private String name;
+    private Integer age;
+    private Date birthDay;
+    private Boolean like;
+    private Child child; //嵌套对象
+    private List&lt;Dog&gt; dogs; //数组（里面是对象）
+    private Map&lt;String,Cat&gt; cats; //表示Map
+}
+
+@Data
+public class Dog {
+    private String name;
+    private Integer age;
+}
+
+@Data
+public class Child {
+    private String name;
+    private Integer age;
+    private Date birthDay;
+    private List&lt;String&gt; text; //数组
+}
+
+@Data
+public class Cat {
+    private String name;
+    private Integer age;
+}
+</code></pre>
+<p>properties表示法</p>
+<pre><code class="language-properties">person.name=张三
+person.age=18
+person.birthDay=2010/10/12 12:12:12
+person.like=true
+person.child.name=李四
+person.child.age=12
+person.child.birthDay=2018/10/12
+person.child.text[0]=abc
+person.child.text[1]=def
+person.dogs[0].name=小黑
+person.dogs[0].age=3
+person.dogs[1].name=小白
+person.dogs[1].age=2
+person.cats.c1.name=小蓝
+person.cats.c1.age=3
+person.cats.c2.name=小灰
+person.cats.c2.age=2
+</code></pre>
+<p>yaml表示法</p>
+<pre><code class="language-yaml">person:
+  name: 张三
+  age: 18
+  birthDay: 2010/10/10 12:12:12
+  like: true
+  child:
+    name: 李四
+    age: 20
+    birthDay: 2018/10/10
+    text: [&quot;abc&quot;,&quot;def&quot;]
+  dogs:
+    - name: 小黑
+      age: 3
+    - name: 小白
+      age: 2
+  cats:
+    c1:
+      name: 小蓝
+      age: 3
+    c2: {name: 小绿,age: 2} #对象也可用{}表示
+</code></pre>
+<h3 id="3-细节">3. 细节</h3>
+<ul>
+<li>
+<p>birthDay 推荐写为 birth-day</p>
+</li>
+<li>
+<p><strong>文本</strong></p>
+<ul>
+<li><strong>单引号</strong>不会转义【'\n' 则为普通字符串显示】</li>
+<li><strong>双引号</strong>会转义【&quot;\n&quot; 会显示为<strong>换行符</strong>】</li>
+</ul>
+</li>
+<li>
+<p><strong>大文本</strong></p>
+<ul>
+<li><code>|</code>开头，大文本写在下层，<strong>保留文本格式</strong>，<strong>换行符正确显示</strong></li>
+<li><code>&gt;</code>开头，大文本写在下层，折叠换行符</li>
+</ul>
+</li>
+<li>
+<p><strong>多文档合并</strong></p>
+<ul>
+<li>使用<code>---</code>可以把多个yaml文档合并在一个文档中，每个文档区依然认为内容独立</li>
+</ul>
+</li>
+</ul>
+<h3 id="4-小技巧lombok">4. 小技巧：lombok</h3>
+<p>简化JavaBean 开发。自动生成构造器、getter/setter、自动生成Builder模式等</p>
+<pre><code class="language-java">&lt;dependency&gt;
+    &lt;groupId&gt;org.projectlombok&lt;/groupId&gt;
+    &lt;artifactId&gt;lombok&lt;/artifactId&gt;
+    &lt;scope&gt;compile&lt;/scope&gt;
+&lt;/dependency&gt;
+</code></pre>
+<p>使用<code>@Data</code>等注解</p>
+<h2 id="3-日志配置">3. 日志配置</h2>
+<blockquote>
+<p>规范：项目开发不要编写<code>System.out.println()</code>，应该用<strong>日志</strong>记录信息</p>
+</blockquote>
+<figure data-type="image" tabindex="2"><img src="https://decade-qiu.github.io/post-images/1680232037132-d2fa8085-3847-46f2-ac62-14a6188492aa.png" alt="img" loading="lazy"></figure>
+<p><strong>感兴趣日志框架关系与起源可参考</strong>：https://www.bilibili.com/video/BV1gW411W76m 视频 21~27集</p>
+<h3 id="1-简介-2">1.  简介</h3>
+<ol>
+<li>
+<p>Spring使用commons-logging作为内部日志，但底层日志实现是开放的。可对接其他日志框架。</p>
+</li>
+<li>
+<p>支持 jul，log4j2 logback。SpringBoot 提供了默认的控制台输出配置，也可以配置输出为文件。</p>
+</li>
+<li>
+<p>logback是默认使用的。</p>
+</li>
+<li>
+<p>虽然<strong>日志框架很多</strong>，但使用 SpringBoot 的<strong>默认配置就能工作的很好</strong>。</p>
+</li>
+</ol>
+<p><strong>SpringBoot怎么把日志默认配置好的</strong></p>
+<p>1、每个<code>starter</code>场景，都会导入一个核心场景<code>spring-boot-starter</code></p>
+<p>2、核心场景引入了日志的所用功能<code>spring-boot-starter-logging</code></p>
+<p>3、默认使用了<code>logback + slf4j</code> 组合作为默认底层日志</p>
+<p><strong>4、<code>日志是系统一启动就要用</code>，但<code>xxxAutoConfiguration</code>是系统启动好了以后放好的组件，系统启动完成后用的。</strong></p>
+<p>5、日志是利用<code>监听器机制</code>配置好的。<code>ApplicationListener</code>。</p>
+<p>6、日志所有的配置都可以通过修改配置文件实现。以<code>logging</code>开始的所有配置。</p>
+<h3 id="2-日志格式">2. 日志格式</h3>
+<pre><code class="language-shell">2023-03-31T13:56:17.511+08:00  INFO 4944 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2023-03-31T13:56:17.511+08:00  INFO 4944 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.7]
+</code></pre>
+<p>默认输出格式：</p>
+<ul>
+<li>时间和日期：毫秒级精度</li>
+<li>日志级别：ERROR, WARN, INFO, DEBUG, or TRACE.</li>
+<li>进程 ID</li>
+<li>---： 消息分割符</li>
+<li>线程名： 使用[]包含</li>
+<li>Logger名： 通常是产生日志的<strong>类名</strong></li>
+<li>消息： 日志记录的内容</li>
+</ul>
+<p>注意： logback 没有FATAL级别，对应的是ERROR</p>
+<p>默认值：参照：<code>spring-boot</code>包<code>additional-spring-configuration-metadata.json</code>文件</p>
+<p>默认输出格式值：<code>%clr(%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd'T'HH:mm:ss.SSSXXX}}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}</code></p>
+<p>可修改为：<code>'%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{15} ===&gt; %msg%n'</code></p>
+<h3 id="3-记录日志">3. 记录日志</h3>
+<pre><code class="language-java">Logger logger = LoggerFactory.getLogger(getClass());
+或者使用Lombok的@Slf4j注解
+</code></pre>
+<h3 id="4-日志级别">4. 日志级别</h3>
+<ul>
+<li>
+<p>由低到高：<code>ALL,TRACE, DEBUG, INFO, WARN, ERROR,FATAL,OFF</code>；</p>
+<ul>
+<li><strong>只会打印指定级别及以上级别的日志</strong></li>
+<li>ALL：打印所有日志</li>
+<li>TRACE：追踪框架详细流程日志，一般不使用</li>
+<li>DEBUG：开发调试细节日志</li>
+<li>INFO：关键、感兴趣信息日志</li>
+<li>WARN：警告但不是错误的信息日志，比如：版本过时</li>
+<li>ERROR：业务错误日志，比如出现各种异常</li>
+<li>FATAL：致命错误日志，比如jvm系统崩溃</li>
+<li>OFF：关闭所有日志记录</li>
+</ul>
+</li>
+<li>
+<p>不指定级别的所有类，都使用root指定的级别作为默认级别</p>
+</li>
+<li>
+<p>SpringBoot日志 <strong>默认级别是INFO</strong></p>
+</li>
+</ul>
+<p>在application.properties/yaml中配置logging.level.<logger-name>=<level>指定日志级别</p>
+<p>level可取值范围：<code>TRACE, DEBUG, INFO, WARN, ERROR, FATAL, or OFF</code>，定义在 <code>LogLevel</code>类中</p>
+<p>root 的logger-name叫root，可以配置logging.level.root=warn，代表所有未指定日志级别都使用 root 的 warn 级别</p>
+<pre><code>#默认所有日志没有精确指定级别就使用root的默认级别
+#logging.level.root=info
+
+#精确调整某个包下的日志级别
+#logging.level.com.atguigu.logging.controller=debug
+#logging.level.com.atguigu.logging.service=debug
+#logging.level.com.aaa=debug
+#logging.level.com.bbb=debug
+</code></pre>
+<h3 id="5-日志分组">5. 日志分组</h3>
+<p>比较有用的技巧是：</p>
+<p>将相关的logger分组在一起，统一配置。</p>
+<p>比如：Tomcat 相关的日志统一设置。</p>
+<pre><code class="language-java">logging.group.tomcat=org.apache.catalina,org.apache.coyote,org.apache.tomcat
+logging.level.tomcat=trace
+</code></pre>
+<p>SpringBoot 预定义两个组</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Loggers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>web</td>
+<td>org.springframework.core.codec, org.springframework.http, org.springframework.web, org.springframework.boot.actuate.endpoint.web, org.springframework.boot.web.servlet.ServletContextInitializerBeans</td>
+</tr>
+<tr>
+<td>sql</td>
+<td>org.springframework.jdbc.core, org.hibernate.SQL, org.jooq.tools.LoggerListener</td>
+</tr>
+</tbody>
+</table>
+<h3 id="6-文件输出">6. 文件输出</h3>
+<p>SpringBoot 默认只把日志写在控制台，如果想额外记录到文件，可以在application.properties中添加</p>
+<p>logging.file.name or logging.file.path。</p>
+<table>
+<thead>
+<tr>
+<th>logging.file.name</th>
+<th>logging.file.path</th>
+<th>示例</th>
+<th>效果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>未指定</td>
+<td>未指定</td>
+<td></td>
+<td>仅控制台输出</td>
+</tr>
+<tr>
+<td><strong>指定</strong></td>
+<td>未指定</td>
+<td>my.log</td>
+<td>写入指定文件</td>
+</tr>
+<tr>
+<td>未指定</td>
+<td><strong>指定</strong></td>
+<td>/var/log</td>
+<td>写入指定目录，文件名为spring.log</td>
+</tr>
+<tr>
+<td><strong>指定</strong></td>
+<td><strong>指定</strong></td>
+<td></td>
+<td>以logging.file.name为准</td>
+</tr>
+</tbody>
+</table>
+<h3 id="7-文件归档与滚动切割">7. 文件归档与滚动切割</h3>
+<p>归档：每天的日志单独存到一个文档中。</p>
+<p>切割：每个文件10MB，超过大小切割成另外一个文件。</p>
+<ol>
+<li>每天的日志应该独立分割出来存档。如果使用logback（SpringBoot 默认整合），可以通过application.properties/yaml文件指定日志滚动规则。</li>
+<li>如果是其他日志系统，需要自行配置（添加log4j2.xml或log4j2-spring.xml）</li>
+<li>支持的滚动规则设置如下</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>配置项</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>logging.logback.rollingpolicy.file-name-pattern</td>
+<td>日志存档的文件名格式（默认值：${LOG_FILE}.%d{yyyy-MM-dd}.%i.gz）</td>
+</tr>
+<tr>
+<td>logging.logback.rollingpolicy.clean-history-on-start</td>
+<td>应用启动时是否清除以前存档（默认值：false）</td>
+</tr>
+<tr>
+<td>logging.logback.rollingpolicy.max-file-size</td>
+<td>存档前，每个日志文件的最大大小（默认值：10MB）</td>
+</tr>
+<tr>
+<td>logging.logback.rollingpolicy.total-size-cap</td>
+<td>日志文件被删除之前，可以容纳的最大大小（默认值：0B）。设置1GB则磁盘存储超过 1GB 日志后就会删除旧日志文件</td>
+</tr>
+<tr>
+<td>logging.logback.rollingpolicy.max-history</td>
+<td>日志文件保存的最大天数(默认值：7).</td>
+</tr>
+</tbody>
+</table>
+<h3 id="8-自定义配置">8. 自定义配置</h3>
+<p>通常我们配置 application.properties 就够了。当然也可以自定义。比如：</p>
+<table>
+<thead>
+<tr>
+<th>日志系统</th>
+<th>自定义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Logback</td>
+<td>logback-spring.xml, logback-spring.groovy, logback.xml, or logback.groovy</td>
+</tr>
+<tr>
+<td>Log4j2</td>
+<td>log4j2-spring.xml or log4j2.xml</td>
+</tr>
+<tr>
+<td>JDK (Java Util Logging)</td>
+<td>logging.properties</td>
+</tr>
+</tbody>
+</table>
+<p>如果可能，我们建议您在日志配置中使用<code>-spring</code> 变量（例如，<code>logback-spring.xml</code> 而不是 <code>logback.xml</code>）。</p>
+<p>如果您使用标准配置文件，spring 无法完全控制日志初始化。</p>
+<p>最佳实战：自己要写配置，配置文件名加上 <code>xx-spring.xml</code></p>
+<h3 id="9-切换日志组合">9. 切换日志组合</h3>
+<pre><code class="language-xml">&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter&lt;/artifactId&gt;
+    &lt;exclusions&gt;
+        &lt;exclusion&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-logging&lt;/artifactId&gt;
+        &lt;/exclusion&gt;
+    &lt;/exclusions&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-log4j2&lt;/artifactId&gt;
+&lt;/dependency&gt;
+</code></pre>
+<p>log4j2支持yaml和json格式的配置文件</p>
+<table>
+<thead>
+<tr>
+<th>格式</th>
+<th>依赖</th>
+<th>文件名</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>YAML</td>
+<td>com.fasterxml.jackson.core:jackson-databind + com.fasterxml.jackson.dataformat:jackson-dataformat-yaml</td>
+<td>log4j2.yaml + log4j2.yml</td>
+</tr>
+<tr>
+<td>JSON</td>
+<td>com.fasterxml.jackson.core:jackson-databind</td>
+<td>log4j2.json + log4j2.jsn</td>
+</tr>
+</tbody>
+</table>
+<h3 id="10-最佳实战">10. 最佳实战</h3>
+<ol>
+<li>导入任何第三方框架，先排除它的日志包，因为Boot底层控制好了日志</li>
+<li>修改 <code>application.properties</code> 配置文件，就可以调整日志的所有行为。如果不够，可以编写日志框架自己的配置文件放在类路径下就行，比如<code>logback-spring.xml</code>，<code>log4j2-spring.xml</code></li>
+<li>如需对接<strong>专业日志系统</strong>，也只需要把 logback 记录的<strong>日志</strong>灌倒<strong>kafka</strong>之类的中间件，这和SpringBoot没关系，都是日志框架自己的配置，<strong>修改配置文件即可</strong></li>
+<li><strong>业务中使用slf4j-api记录日志。不要再 sout 了</strong></li>
+</ol>
+
+              </div>
+              <hr class="clear">
+              
+                <div class="next-post">
+                  <a class="purple-link" href="https://decade-qiu.github.io/post/jdbc-ji-chu/">
+                    <h3 class="post-title">
+                      下一篇：JDBC基础
+                    </h3>
+                  </a>
+                </div>
+                
+            </div>
+          </div>
+      </div>
+
+      
+          <div id="gitalk-container"></div>
+      
+
+    
+    </div>
+    <div class="site-footer">
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/Decade-qiu" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        <a href="https://space.bilibili.com/98721375?spm_id_from=333.1007.0.0" target="_blank">
+          <i class="fab fa-bilibili"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.zhihu.com/people/chou-yu-80-33" target="_blank">
+          <i class="fab fa-zhihu"></i>
+        </a>
+      
+    
+  </div>
+  <div class="slogan">Stay hungry. Stay foolish.</div> |
+  <a href="https://github.com/Decade-qiu/gridea-theme-Eternal" target="_blank">Today is happy day again!</a> | <a href="https://github.com/Decade-qiu/gridea-theme-Eternal" target="_blank">Powered by Eternal</a> | <a href="https://decade-qiu.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+    <script src="https://decade-qiu.github.io/media/scripts/index.js"></script>
+
+
+    <script src='https://decade-qiu.github.io/media/scripts/valine.min.js'></script>
+    <script>
+        new Valine({
+            el: '#gitalk-container',
+            appId: 'b2xhAFZQq4FxBeHcVRgXNEbf-gzGzoHsz',
+            appKey: 'QqIty1r7mCD1MbFanHuyw57O',
+            placeholder: 'Write something...',
+        })
+    </script>
+
+
+
+  </body>
+</html>
+
+<script>
+    window.onload = function() {
+        let id = 1;
+        let post_content = document.querySelector('.content-card');
+        post_content.querySelectorAll('h1,h2,h3,h4,h5,h6').forEach(function (item) {
+            item.setAttribute('id', 'toc-' + id);
+            id++;
+        });
+        tocbot.init({
+            tocSelector: '.toc',
+            contentSelector: '.post-content',
+            headingSelector: 'h1,h2,h3,h4',
+            headingsOffset: 58,
+        });
+        // 检测页面滚动距离 用eventlistener
+        window.addEventListener('scroll', function () {
+            let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            let toc = document.querySelector('.toc');
+            let tocBtn = document.querySelector('.toc-body');
+            if (scrollTop > 250) {
+                tocBtn.classList.add('toc-body-fixed');
+                toc.classList.add('toc-fixed');
+            } else {
+                tocBtn.classList.remove('toc-body-fixed');
+                toc.classList.remove('toc-fixed');
+            }
+        });
+        document.querySelector('#floating-toc-btn').addEventListener('click', function () {
+            let toc = document.querySelector('.toc-body');
+            let main = document.querySelector('.main');
+            if (toc.classList.contains('hide')) {
+                main.classList.add('main-small');
+                toc.classList.remove('hide');
+            } else {
+                toc.classList.add('hide');
+                main.classList.remove('main-small');
+            }
+        });
+        window.addEventListener('resize', function() {
+            // 获取屏幕宽度
+            var screenWidth = window.innerWidth || document.documentElement.clientWidth;
+            // 设置 .content-card 的 max-width
+            var contentCard = document.querySelector('.content-card');
+            contentCard.style.maxWidth = screenWidth + 'px';
+        });
+        // 初始加载时执行一次，确保初始状态下也设置正确
+        window.dispatchEvent(new Event('resize'));
+    };
+</script>

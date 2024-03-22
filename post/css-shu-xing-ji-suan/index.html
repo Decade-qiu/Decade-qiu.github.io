@@ -1,0 +1,495 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>CSS属性计算 | Decade</title>
+<meta name="description" content="Stay hungry. Stay foolish.">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.1/css/all.css" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://decade-qiu.github.io/favicon.ico?v=1711118819754">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://decade-qiu.github.io/styles/main.css">
+
+<script src="https://decade-qiu.github.io/media/scripts/vue.js"></script>
+<script src="https://decade-qiu.github.io/media/scripts/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.5.0/tocbot.min.js"></script>
+  </head>
+  <body>
+    <div class="carousel carousel-slider center index-cover" data-indicators="true">
+    <div class="bg-cover pd-header" style="background: url('') no-repeat center center fixed" data-link="https://decade-qiu.github.io/post/css-shu-xing-ji-suan/">
+        <div class="container">
+            <div class="row">
+                <div class="col s10 offset-s1 m8 offset-m2 l8 offset-l2">
+                    <div class="brand">
+                        <div class="title center-align">
+                            CSS属性计算
+                        </div>
+                        <div class="description center-align">
+                            <span id="subtitle">
+                                Day Day Learn, Day Day Up.
+                            </span><span class="typed-cursor">|</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
+<script>
+    window.onload = function () {
+        var typed = new Typed("#subtitle", {
+            strings: [ 
+                
+                    "从来没有真正的绝境, 只有心灵的迷途",
+                
+                    'Day Day Learn, Day Day Up.',
+
+            ],
+            startDelay: 300,
+            typeSpeed: 100,
+            loop: true,
+            backSpeed: 50,
+            showCursor: true
+        });
+        let cover = document.querySelector('.bg-cover');
+        cover.setAttribute('style', `background: url('${localStorage[cover.dataset.link]}') no-repeat center center fixed`);
+    }
+</script>
+
+
+    <div class="toc-body hide">  
+        <div class="toc"></div>
+    </div>
+    <div id="floating-toc-btn">
+        <i class="fas fa-list-ul bg-color"></i>
+    </div>
+    <div id="app" class="main">
+      <div class="site-header-container nav-transparent">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://decade-qiu.github.io">
+        <img class="avatar" src="https://decade-qiu.github.io/images/avatar.png?v=1711118819754" alt=""
+          width="32px" height="32px">
+      </a>
+      <a href="https://decade-qiu.github.io">
+        <h1 class="site-title">
+          Decade
+        </h1>
+      </a>
+    </div>
+    <div class="right">
+        <div class="menu">
+            <a href="/post/about" v-if="headSearchShow">
+                <i class="fa-solid fa-user"></i>&nbsp;个人
+            </a>
+            <a href="/archives" v-if="headSearchShow">
+                <i class="fa-solid fa-box-archive"></i>&nbsp;归档
+            </a>
+            <a href="/tags" v-if="headSearchShow">
+                <i class="fa-solid fa-tag"></i>&nbsp;标签
+            </a>
+            <a href="/life" v-if="headSearchShow">
+                <i class="fa-fw fas fa-heart"></i>&nbsp;生活
+            </a>
+            
+        </div>
+      <div class="gridea-search-div" v-if="headSearchShow">
+        <form id="gridea-search-form" action="https://decade-qiu.github.io/search/">
+          <input class="gridea-search-input" autocomplete="off" spellcheck="false" name="q" />
+        </form>
+      </div>
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }"
+          @click="menuClick()" v-if="menuSearchShow"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      <div class="gridea-search-div" v-if="menuSearchShow">
+        <form id="gridea-search-form" action="https://decade-qiu.github.io/search/">
+          <input class="gridea-search-input" autocomplete="off" spellcheck="false" name="q" />
+        </form>
+      </div>
+      
+        
+            <a href="/" class="menu purple-link">
+              首页
+            </a>
+            
+              
+        
+            <a href="/archives" class="menu purple-link">
+              归档
+            </a>
+            
+              
+        
+            <a href="/tags" class="menu purple-link">
+              标签
+            </a>
+            
+              
+        
+            <a href="/post/about" class="menu purple-link">
+              个人
+            </a>
+            
+              
+        
+            <a href="/life" class="menu purple-link">
+              生活
+            </a>
+            
+              
+              
+    </div>
+  </div>
+</transition>
+
+<script>
+    window.onscroll = function () {
+        var t = document.documentElement.scrollTop || document.body.scrollTop;
+        var header = document.querySelector('.site-header-container');
+        if (t > 0) {
+            header.classList.remove('nav-transparent');
+        } else {
+            header.classList.add('nav-transparent');
+        }
+    }
+</script>
+
+      <div class="content-body">
+        <div class="content-container content-card">
+            <div class="post-detail">
+              <div class="post-info post-detail-info">
+                <span><i class="icon-calendar-outline"></i> 2024-01-11-Thu</span>
+                
+                  <span>
+                    
+                        <i class="icon-pricetags-outline"></i>
+                      <a href="https://decade-qiu.github.io/tag/oBYaUIV9y/">
+                        Web
+                      </a>
+                    
+                  </span>
+                
+              </div>
+              
+                <div class="post-card-abstract">
+                    <p>浏览器渲染过程中，CSS渲染的结果如何确定？</p>
+
+                  </div>
+                
+              <hr class="clear">
+              <div class="post-content">
+                
+<h1 id="css-属性计算过程">CSS 属性计算过程</h1>
+<p>你是否了解 CSS 的属性计算过程呢？</p>
+<p>有的同学可能会讲，CSS属性我倒是知道，例如：</p>
+<pre><code class="language-css">p{
+  color : red;
+}
+</code></pre>
+<p>上面的 CSS 代码中，p 是元素选择器，color 就是其中的一个 CSS 属性。</p>
+<p>但是要说 CSS 属性的计算过程，还真的不是很清楚。</p>
+<p>没关系，通过此篇文章，能够让你彻底明白什么是 CSS 属性的计算流程。</p>
+<img src="https://xiejie-typora.oss-cn-chengdu.aliyuncs.com/2022-08-13-060434.png" alt="image-20220813140434032" style="zoom:50%;" />
+<p>首先，不知道你有没有考虑过这样的一个问题，假设在 HTML 中有这么一段代码：</p>
+<pre><code class="language-html">&lt;body&gt;
+  &lt;h1&gt;这是一个h1标题&lt;/h1&gt;
+&lt;/body&gt;
+</code></pre>
+<p>上面的代码也非常简单，就是在 body 中有一个 h1 标题而已，该 h1 标题呈现出来的外观是如下：</p>
+<img src="https://xiejie-typora.oss-cn-chengdu.aliyuncs.com/2022-08-13-060724.png" alt="image-20220813140724136" style="zoom:50%;" />
+<p>目前我们没有设置该 h1 的任何样式，但是却能看到该 h1 有一定的默认样式，例如有默认的字体大小、默认的颜色。</p>
+<p>那么问题来了，我们这个 h1 元素上面除了有默认字体大小、默认颜色等属性以外，究竟还有哪些属性呢？</p>
+<img src="https://xiejie-typora.oss-cn-chengdu.aliyuncs.com/2022-08-15-014216.png" alt="image-20220815094215982" style="zoom:30%;" />
+<p>答案是**该元素上面会有 CSS 所有的属性。**你可以打开浏览器的开发者面板，选择【元素】，切换到【计算样式】，之后勾选【全部显示】，此时你就能看到在此 h1 上面所有 CSS 属性对应的值。</p>
+<figure data-type="image" tabindex="1"><img src="https://xiejie-typora.oss-cn-chengdu.aliyuncs.com/2022-08-13-061516.png" alt="image-20220813141516153" loading="lazy"></figure>
+<p>换句话说，<strong>我们所书写的任何一个 HTML 元素，实际上都有完整的一整套 CSS 样式</strong>。这一点往往是让初学者比较意外的，因为我们平时在书写 CSS 样式时，往往只会书写必要的部分，例如前面的：</p>
+<pre><code class="language-css">p{
+  color : red;
+}
+</code></pre>
+<p>这往往会给我们造成一种错觉，认为该 p 元素上面就只有 color 属性。而真实的情况确是，任何一个 HTML 元素，都有一套完整的 CSS 样式，只不过你没有书写的样式，<strong>大概率可能</strong>会使用其默认值。例如上图中 h1 一个样式都没有设置，全部都用的默认值。</p>
+<p>但是注意，我这里强调的是“大概率可能”，难道还有我们“没有设置值，但是不使用默认值”的情况么？</p>
+<img src="https://xiejie-typora.oss-cn-chengdu.aliyuncs.com/2022-08-15-014459.png" alt="image-20220815094458940" style="zoom:25%;" />
+<p>嗯，确实有的，所以我才强调你要了解“CSS 属性的计算过程”。</p>
+<p>总的来讲，属性值的计算过程，分为如下这么 <em>4</em> 个步骤：</p>
+<ul>
+<li>确定声明值</li>
+<li>层叠冲突</li>
+<li>使用继承</li>
+<li>使用默认值</li>
+</ul>
+<h2 id="确定声明值">确定声明值</h2>
+<p>首先第一步，是确定声明值。所谓声明值就是作者自己所书写的 CSS 样式，例如前面的：</p>
+<pre><code class="language-css">p{
+  color : red;
+}
+</code></pre>
+<p>这里我们声明了 p 元素为红色，那么就会应用此属性设置。</p>
+<p>当然，除了作者样式表，一般浏览器还会存在“用户代理样式表”，简单来讲就是浏览器内置了一套样式表。</p>
+<figure data-type="image" tabindex="2"><img src="https://xiejie-typora.oss-cn-chengdu.aliyuncs.com/2022-08-13-063500.png" alt="image-20220813143500066" loading="lazy"></figure>
+<p>在上面的示例中，作者样式表中设置了 color 属性，而用户代理样式表（浏览器提供的样式表）中设置了诸如 display、margin-block-start、margin-block-end、margin-inline-start、margin-inline-end 等属性对应的值。</p>
+<p>这些值目前来讲也没有什么冲突，因此最终就会应用这些属性值。</p>
+<h2 id="层叠冲突">层叠冲突</h2>
+<p>在确定声明值时，可能出现一种情况，那就是声明的样式规则发生了冲突。</p>
+<p>此时会进入解决层叠冲突的流程。而这一步又可以细分为下面这三个步骤：</p>
+<ul>
+<li>比较源的重要性</li>
+<li>比较优先级</li>
+<li>比较次序</li>
+</ul>
+<p>来来来，我们一步一步来看。</p>
+<h3 id="比较源的重要性">比较源的重要性</h3>
+<p>当不同的 CSS 样式来源拥有相同的声明时，此时就会根据样式表来源的重要性来确定应用哪一条样式规则。</p>
+<p>那么问题来了，咱们的样式表的源究竟有几种呢？</p>
+<img src="https://xiejie-typora.oss-cn-chengdu.aliyuncs.com/2022-08-23-100047.png" alt="image-20220823180047075" style="zoom:40%;" />
+<p>整体来讲有三种来源：</p>
+<ul>
+<li>浏览器会有一个基本的样式表来给任何网页设置默认样式。这些样式统称<strong>用户代理样式</strong>。</li>
+<li>网页的作者可以定义文档的样式，这是最常见的样式表，称之为<strong>页面作者样式</strong>。</li>
+<li>浏览器的用户，可以使用自定义样式表定制使用体验，称之为<strong>用户样式</strong>。</li>
+</ul>
+<p>对应的重要性顺序依次为：页面作者样式 &gt; 用户样式 &gt; 用户代理样式</p>
+<p>更详细的来源重要性比较，可以参阅 <em>MDN</em>：<em>https://developer.mozilla.org/zh-CN/docs/Web/CSS/Cascade</em></p>
+<p>我们来看一个示例。</p>
+<p>例如现在有<strong>页面作者样式表</strong>和<strong>用户代理样式表</strong>中存在属性的冲突，那么会以作者样式表优先。</p>
+<pre><code class="language-css">p{
+  color : red;
+  display: inline-block;
+}
+</code></pre>
+<figure data-type="image" tabindex="3"><img src="https://xiejie-typora.oss-cn-chengdu.aliyuncs.com/2022-08-13-064222.png" alt="image-20220813144222152" loading="lazy"></figure>
+<p>可以明显的看到，作者样式表和用户代理样式表中同时存在的 display 属性的设置，最终作者样式表干掉了用户代理样式表中冲突的属性。这就是第一步，根据不同源的重要性来决定应用哪一个源的样式。</p>
+<h3 id="比较优先级">比较优先级</h3>
+<p>那么接下来，如果是在在同一个源中有样式声明冲突怎么办呢？此时就会进行样式声明的优先级比较。</p>
+<p>例如：</p>
+<pre><code class="language-html">&lt;div class=&quot;test&quot;&gt;
+  &lt;h1&gt;test&lt;/h1&gt;
+&lt;/div&gt;
+</code></pre>
+<pre><code class="language-css">.test h1{
+  font-size: 50px;
+}
+
+h1 {
+  font-size: 20px;
+}
+</code></pre>
+<p>在上面的代码中，同属于<strong>页面作者样式</strong>，源的重要性是相同的，此时会以选择器的权重来比较重要性。</p>
+<p>很明显，上面的选择器的权重要大于下面的选择器，因此最终标题呈现为 <em>50px</em>。</p>
+<img src="https://xiejie-typora.oss-cn-chengdu.aliyuncs.com/2021-09-16-071546.png" alt="image-20210916151546500" style="zoom: 40%;" />
+<p>可以看到，落败的作者样式在 <em>Elements&gt;Styles</em> 中会被划掉。</p>
+<p>有关选择器权重的计算方式，不清楚的同学，可以进入此传送门：<em>https://developer.mozilla.org/en-US/docs/Web/CSS/Specificity</em></p>
+<h3 id="比较次序">比较次序</h3>
+<p>经历了上面两个步骤，大多数的样式声明能够被确定下来。但是还剩下最后一种情况，那就是样式声明既是同源，权重也相同。</p>
+<p>此时就会进入第三个步骤，比较样式声明的次序。</p>
+<p>举个例子：</p>
+<pre><code class="language-css">h1 {
+  font-size: 50px;
+}
+
+h1 {
+  font-size: 20px;
+}
+</code></pre>
+<p>在上面的代码中，同样都是<strong>页面作者样式</strong>，<strong>选择器的权重也相同</strong>，此时位于下面的样式声明会层叠掉上面的那一条样式声明，最终会应用 <em>20px</em> 这一条属性值。</p>
+<figure data-type="image" tabindex="4"><img src="https://xiejie-typora.oss-cn-chengdu.aliyuncs.com/2022-08-23-103928.png" alt="image-20220823183928330" loading="lazy"></figure>
+<p>至此，样式声明中存在冲突的所有情况，就全部被解决了。</p>
+<h2 id="使用继承">使用继承</h2>
+<p>层叠冲突这一步完成后，解决了相同元素被声明了多条样式规则究竟应用哪一条样式规则的问题。</p>
+<p>那么如果没有声明的属性呢？此时就使用默认值么？</p>
+<p><em>No、No、No</em>，别急，此时还有第三个步骤，那就是使用继承而来的值。</p>
+<p>例如：</p>
+<pre><code class="language-html">&lt;div&gt;
+  &lt;p&gt;Lorem ipsum dolor sit amet.&lt;/p&gt;
+&lt;/div&gt;
+</code></pre>
+<pre><code class="language-css">div {
+  color: red;
+}
+</code></pre>
+<p>在上面的代码中，我们针对 div 设置了 color 属性值为红色，而针对 p 元素我们没有声明任何的属性，但是由于 color 是可以继承的，因此 p 元素从最近的 div 身上继承到了 color 属性的值。</p>
+<figure data-type="image" tabindex="5"><img src="https://xiejie-typora.oss-cn-chengdu.aliyuncs.com/2022-08-13-065102.png" alt="image-20220813145102293" loading="lazy"></figure>
+<p>这里有两个点需要同学们注意一下。</p>
+<p>首先第一个是我强调了是<strong>最近的</strong> div 元素，看下面的例子：</p>
+<pre><code class="language-html">&lt;div class=&quot;test&quot;&gt;
+  &lt;div&gt;
+    &lt;p&gt;Lorem ipsum dolor sit amet.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<pre><code class="language-css">div {
+  color: red;
+}
+.test{
+  color: blue;
+}
+</code></pre>
+<figure data-type="image" tabindex="6"><img src="https://xiejie-typora.oss-cn-chengdu.aliyuncs.com/2022-08-13-065653.png" alt="image-20220813145652726" loading="lazy"></figure>
+<p>因为这里并不涉及到选中 p 元素声明 color 值，而是从父元素上面继承到 color 对应的值，因此这里是<strong>谁近就听谁</strong>的，初学者往往会产生混淆，又去比较权重，但是这里根本不会涉及到权重比较，因为压根儿就没有选中到 p 元素。</p>
+<p>第二个就是哪些属性能够继承？</p>
+<p>关于这一点的话，大家可以在 MDN 上面很轻松的查阅到。例如我们以 text-align 为例，如下图所示：</p>
+<figure data-type="image" tabindex="7"><img src="https://xiejie-typora.oss-cn-chengdu.aliyuncs.com/2022-08-13-070148.png" alt="image-20220813150147885" loading="lazy"></figure>
+<h2 id="使用默认值">使用默认值</h2>
+<p>好了，目前走到这一步，如果属性值都还不能确定下来，那么就只能是使用默认值了。</p>
+<p>如下图所示：</p>
+<figure data-type="image" tabindex="8"><img src="https://xiejie-typora.oss-cn-chengdu.aliyuncs.com/2022-08-13-070825.png" alt="image-20220813150824752" loading="lazy"></figure>
+<p>前面我们也说过，一个 HTML 元素要在浏览器中渲染出来，必须具备所有的 CSS 属性值，但是绝大部分我们是不会去设置的，用户代理样式表里面也不会去设置，也无法从继承拿到，因此最终都是用默认值。</p>
+<p>好了，这就是关于 CSS 属性计算过程的所有知识了。</p>
+<img src="https://xiejie-typora.oss-cn-chengdu.aliyuncs.com/2022-08-14-154655.png" alt="image-20220814234654914" style="zoom:33%;" />
+<h2 id="一道面试题">一道面试题</h2>
+<p>好了，学习了今天的内容，让我来用一道面试题测试测试大家的理解程度。</p>
+<p>下面的代码，最终渲染出来的效果，a 元素是什么颜色？p 元素又是什么颜色？</p>
+<pre><code class="language-html">&lt;div&gt;
+  &lt;a href=&quot;&quot;&gt;test&lt;/a&gt;
+  &lt;p&gt;test&lt;/p&gt;
+&lt;/div&gt;
+</code></pre>
+<pre><code class="language-css">div {
+  color: red;
+}
+</code></pre>
+<p>大家能说出为什么会呈现这样的结果么？</p>
+<p>解答如下：</p>
+<figure data-type="image" tabindex="9"><img src="https://xiejie-typora.oss-cn-chengdu.aliyuncs.com/2022-08-13-071941.png" alt="image-20220813151941113" loading="lazy"></figure>
+<p>实际上原因很简单，因为 a 元素在用户代理样式表中已经设置了 color 属性对应的值，因此会应用此声明值。而在 p 元素中无论是作者样式表还是用户代理样式表，都没有对此属性进行声明，然而由于 color 属性是可以继承的，因此最终 p 元素的 color 属性值通过继承来自于父元素。</p>
+<p>你答对了么？-）</p>
+<hr>
+<p>-<em>EOF</em>-</p>
+
+              </div>
+              <hr class="clear">
+              
+                <div class="next-post">
+                  <a class="purple-link" href="https://decade-qiu.github.io/post/liu-lan-qi-ye-mian-xuan-ran-liu-cheng/">
+                    <h3 class="post-title">
+                      下一篇：浏览器页面渲染流程
+                    </h3>
+                  </a>
+                </div>
+                
+            </div>
+          </div>
+      </div>
+
+      
+          <div id="gitalk-container"></div>
+      
+
+    
+    </div>
+    <div class="site-footer">
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/Decade-qiu" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        <a href="https://space.bilibili.com/98721375?spm_id_from=333.1007.0.0" target="_blank">
+          <i class="fab fa-bilibili"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.zhihu.com/people/chou-yu-80-33" target="_blank">
+          <i class="fab fa-zhihu"></i>
+        </a>
+      
+    
+  </div>
+  <div class="slogan">Stay hungry. Stay foolish.</div> |
+  <a href="https://github.com/Decade-qiu/gridea-theme-Eternal" target="_blank">Today is happy day again!</a> | <a href="https://github.com/Decade-qiu/gridea-theme-Eternal" target="_blank">Powered by Eternal</a> | <a href="https://decade-qiu.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+    <script src="https://decade-qiu.github.io/media/scripts/index.js"></script>
+
+
+    <script src='https://decade-qiu.github.io/media/scripts/valine.min.js'></script>
+    <script>
+        new Valine({
+            el: '#gitalk-container',
+            appId: 'b2xhAFZQq4FxBeHcVRgXNEbf-gzGzoHsz',
+            appKey: 'QqIty1r7mCD1MbFanHuyw57O',
+            placeholder: 'Write something...',
+        })
+    </script>
+
+
+
+  </body>
+</html>
+
+<script>
+    window.onload = function() {
+        let id = 1;
+        let post_content = document.querySelector('.content-card');
+        post_content.querySelectorAll('h1,h2,h3,h4,h5,h6').forEach(function (item) {
+            item.setAttribute('id', 'toc-' + id);
+            id++;
+        });
+        tocbot.init({
+            tocSelector: '.toc',
+            contentSelector: '.post-content',
+            headingSelector: 'h1,h2,h3,h4',
+            headingsOffset: 58,
+        });
+        // 检测页面滚动距离 用eventlistener
+        window.addEventListener('scroll', function () {
+            let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            let toc = document.querySelector('.toc');
+            let tocBtn = document.querySelector('.toc-body');
+            if (scrollTop > 250) {
+                tocBtn.classList.add('toc-body-fixed');
+                toc.classList.add('toc-fixed');
+            } else {
+                tocBtn.classList.remove('toc-body-fixed');
+                toc.classList.remove('toc-fixed');
+            }
+        });
+        document.querySelector('#floating-toc-btn').addEventListener('click', function () {
+            let toc = document.querySelector('.toc-body');
+            let main = document.querySelector('.main');
+            if (toc.classList.contains('hide')) {
+                main.classList.add('main-small');
+                toc.classList.remove('hide');
+            } else {
+                toc.classList.add('hide');
+                main.classList.remove('main-small');
+            }
+        });
+        window.addEventListener('resize', function() {
+            // 获取屏幕宽度
+            var screenWidth = window.innerWidth || document.documentElement.clientWidth;
+            // 设置 .content-card 的 max-width
+            var contentCard = document.querySelector('.content-card');
+            contentCard.style.maxWidth = screenWidth + 'px';
+        });
+        // 初始加载时执行一次，确保初始状态下也设置正确
+        window.dispatchEvent(new Event('resize'));
+    };
+</script>

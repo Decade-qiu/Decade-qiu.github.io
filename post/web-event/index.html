@@ -1,0 +1,461 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>Web-Event | Decade</title>
+<meta name="description" content="Stay hungry. Stay foolish.">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.1/css/all.css" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://decade-qiu.github.io/favicon.ico?v=1711118819754">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://decade-qiu.github.io/styles/main.css">
+
+<script src="https://decade-qiu.github.io/media/scripts/vue.js"></script>
+<script src="https://decade-qiu.github.io/media/scripts/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.5.0/tocbot.min.js"></script>
+  </head>
+  <body>
+    <div class="carousel carousel-slider center index-cover" data-indicators="true">
+    <div class="bg-cover pd-header" style="background: url('') no-repeat center center fixed" data-link="https://decade-qiu.github.io/post/web-event/">
+        <div class="container">
+            <div class="row">
+                <div class="col s10 offset-s1 m8 offset-m2 l8 offset-l2">
+                    <div class="brand">
+                        <div class="title center-align">
+                            Web-Event
+                        </div>
+                        <div class="description center-align">
+                            <span id="subtitle">
+                                Day Day Learn, Day Day Up.
+                            </span><span class="typed-cursor">|</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
+<script>
+    window.onload = function () {
+        var typed = new Typed("#subtitle", {
+            strings: [ 
+                
+                    "从来没有真正的绝境, 只有心灵的迷途",
+                
+                    'Day Day Learn, Day Day Up.',
+
+            ],
+            startDelay: 300,
+            typeSpeed: 100,
+            loop: true,
+            backSpeed: 50,
+            showCursor: true
+        });
+        let cover = document.querySelector('.bg-cover');
+        cover.setAttribute('style', `background: url('${localStorage[cover.dataset.link]}') no-repeat center center fixed`);
+    }
+</script>
+
+
+    <div class="toc-body hide">  
+        <div class="toc"></div>
+    </div>
+    <div id="floating-toc-btn">
+        <i class="fas fa-list-ul bg-color"></i>
+    </div>
+    <div id="app" class="main">
+      <div class="site-header-container nav-transparent">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://decade-qiu.github.io">
+        <img class="avatar" src="https://decade-qiu.github.io/images/avatar.png?v=1711118819754" alt=""
+          width="32px" height="32px">
+      </a>
+      <a href="https://decade-qiu.github.io">
+        <h1 class="site-title">
+          Decade
+        </h1>
+      </a>
+    </div>
+    <div class="right">
+        <div class="menu">
+            <a href="/post/about" v-if="headSearchShow">
+                <i class="fa-solid fa-user"></i>&nbsp;个人
+            </a>
+            <a href="/archives" v-if="headSearchShow">
+                <i class="fa-solid fa-box-archive"></i>&nbsp;归档
+            </a>
+            <a href="/tags" v-if="headSearchShow">
+                <i class="fa-solid fa-tag"></i>&nbsp;标签
+            </a>
+            <a href="/life" v-if="headSearchShow">
+                <i class="fa-fw fas fa-heart"></i>&nbsp;生活
+            </a>
+            
+        </div>
+      <div class="gridea-search-div" v-if="headSearchShow">
+        <form id="gridea-search-form" action="https://decade-qiu.github.io/search/">
+          <input class="gridea-search-input" autocomplete="off" spellcheck="false" name="q" />
+        </form>
+      </div>
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }"
+          @click="menuClick()" v-if="menuSearchShow"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      <div class="gridea-search-div" v-if="menuSearchShow">
+        <form id="gridea-search-form" action="https://decade-qiu.github.io/search/">
+          <input class="gridea-search-input" autocomplete="off" spellcheck="false" name="q" />
+        </form>
+      </div>
+      
+        
+            <a href="/" class="menu purple-link">
+              首页
+            </a>
+            
+              
+        
+            <a href="/archives" class="menu purple-link">
+              归档
+            </a>
+            
+              
+        
+            <a href="/tags" class="menu purple-link">
+              标签
+            </a>
+            
+              
+        
+            <a href="/post/about" class="menu purple-link">
+              个人
+            </a>
+            
+              
+        
+            <a href="/life" class="menu purple-link">
+              生活
+            </a>
+            
+              
+              
+    </div>
+  </div>
+</transition>
+
+<script>
+    window.onscroll = function () {
+        var t = document.documentElement.scrollTop || document.body.scrollTop;
+        var header = document.querySelector('.site-header-container');
+        if (t > 0) {
+            header.classList.remove('nav-transparent');
+        } else {
+            header.classList.add('nav-transparent');
+        }
+    }
+</script>
+
+      <div class="content-body">
+        <div class="content-container content-card">
+            <div class="post-detail">
+              <div class="post-info post-detail-info">
+                <span><i class="icon-calendar-outline"></i> 2023-12-27-Wed</span>
+                
+                  <span>
+                    
+                        <i class="icon-pricetags-outline"></i>
+                      <a href="https://decade-qiu.github.io/tag/oBYaUIV9y/">
+                        Web
+                      </a>
+                    
+                  </span>
+                
+              </div>
+              
+              <hr class="clear">
+              <div class="post-content">
+                <h2 id="事件简介">事件简介</h2>
+<ol>
+<li>HTML 特性（attribute）：<code>onclick=&quot;...&quot;</code>。</li>
+<li>DOM 属性（property）：<code>elem.onclick = function</code>。</li>
+<li>方法（method）：<code>elem.addEventListener(event, handler[, phase])</code> 用于添加，<code>removeEventListener</code> 用于移除。</li>
+</ol>
+<p>HTML 特性很少使用，因为 HTML 标签中的 JavaScript 看起来有些奇怪且陌生。而且也不能在里面写太多代码。</p>
+<p>DOM 属性用起来还可以，但我们无法为特定事件分配多个处理程序。在许多场景中，这种限制并不严重。</p>
+<p>最后一种方式是最灵活的，但也是写起来最长的。有少数事件只能使用这种方式。例如 <code>transtionend</code> 和 <code>DOMContentLoaded</code>（上文中讲到了）。<code>addEventListener</code> 也支持对象作为事件处理程序。在这种情况下，如果发生事件，则会调用 <code>handleEvent</code> 方法。</p>
+<p>无论你如何分类处理程序 —— 它都会将获得一个事件对象作为第一个参数。该对象包含有关所发生事件的详细信息。</p>
+<h2 id="冒泡">冒泡</h2>
+<p>冒泡（bubbling）原理很简单。</p>
+<p>当一个事件发生在一个元素上，它会首先运行在该元素上的处理程序，然后运行其父元素上的处理程序，然后一直向上到其他祖先上的处理程序。</p>
+<p><strong>event.target</strong></p>
+<p>父元素上的处理程序始终可以获取事件实际发生位置的详细信息。</p>
+<p><strong>引发事件的那个嵌套层级最深的元素被称为目标元素,可以通过 <code>event.target</code> 访问。</strong></p>
+<p>注意与 <code>this</code>（=<code>event.currentTarget</code>）之间的区别：</p>
+<ul>
+<li><code>event.target</code> —— 是引发事件的“目标”元素，它在冒泡过程中不会发生变化。</li>
+<li><code>this</code> —— 是“当前”元素，其中有一个当前正在运行的处理程序。</li>
+</ul>
+<h2 id="事件委托">事件委托</h2>
+<p>捕获和冒泡允许我们实现最强大的事件处理模式之一，即 <strong>事件委托</strong> 模式。</p>
+<p>这个想法是，如果我们有许多以类似方式处理的元素，那么就不必为每个元素分配一个处理程序 —— 而是将单个处理程序放在它们的共同祖先上。</p>
+<p>在处理程序中，我们获取 <code>event.target</code> 以查看事件实际发生的位置并进行处理。</p>
+<p>该表格有 9 个单元格（cell），但可以有 99 个或 9999 个单元格，这都不重要。</p>
+<p><strong>我们的任务是在点击时高亮显示被点击的单元格 <code>&lt;td&gt;</code>。</strong></p>
+<p>与其为每个 <code>&lt;td&gt;</code>（可能有很多）分配一个 <code>onclick</code> 处理程序 —— 我们可以在 <code>&lt;table&gt;</code> 元素上设置一个“捕获所有”的处理程序。</p>
+<pre><code class="language-javascript">let selectedTd;
+
+table.onclick = function(event) {
+  let target = event.target; // 在哪里点击的？
+
+  if (target.tagName != 'TD') return; // 不在 TD 上？那么我们就不会在意
+
+  highlight(target); // 高亮显示它
+};
+
+function highlight(td) {
+  if (selectedTd) { // 移除现有的高亮显示，如果有的话
+    selectedTd.classList.remove('highlight');
+  }
+  selectedTd = td;
+  selectedTd.classList.add('highlight'); // 高亮显示新的 td
+}
+</code></pre>
+<p>我们还可以使用事件委托将“行为（behavior）”以 <strong>声明方式</strong> 添加到具有特殊特性（attribute）和类的元素中。</p>
+<p>行为模式分为两个部分：</p>
+<ol>
+<li>我们将自定义特性添加到描述其行为的元素。</li>
+<li>用文档范围级的处理程序追踪事件，如果事件发生在具有特定特性的元素上 —— 则执行行为（action）。</li>
+</ol>
+<p><strong>行为：计数器</strong></p>
+<p>例如，这里的特性 <code>data-counter</code> 给按钮添加了一个“点击增加”的行为。</p>
+<pre><code class="language-markup">Counter: &lt;input type=&quot;button&quot; value=&quot;1&quot; data-counter&gt;
+One more counter: &lt;input type=&quot;button&quot; value=&quot;2&quot; data-counter&gt;
+
+&lt;script&gt;
+  document.addEventListener('click', function(event) {
+
+    if (event.target.dataset.counter != undefined) { // 如果这个特性存在...
+      event.target.value++;
+    }
+
+  });
+&lt;/script&gt;
+</code></pre>
+<p>如果我们点击按钮 —— 它的值就会增加。但不仅仅是按钮，一般的方法在这里也很重要。</p>
+<p>我们可以根据需要使用 <code>data-counter</code> 特性，多少都可以。我们可以随时向 HTML 添加新的特性。使用事件委托，我们属于对 HTML 进行了“扩展”，添加了描述新行为的特性。</p>
+<p><strong>行为：切换器</strong></p>
+<p>再举一个例子。点击一个具有 <code>data-toggle-id</code> 特性的元素将显示/隐藏具有给定 <code>id</code> 的元素：</p>
+<pre><code class="language-html">&lt;button data-toggle-id=&quot;subscribe-mail&quot;&gt;
+  Show the subscription form
+&lt;/button&gt;
+
+&lt;form id=&quot;subscribe-mail&quot; hidden&gt;
+  Your mail: &lt;input type=&quot;email&quot;&gt;
+&lt;/form&gt;
+
+&lt;script&gt;
+  document.addEventListener('click', function(event) {
+    let id = event.target.dataset.toggleId;
+    if (!id) return;
+
+    let elem = document.getElementById(id);
+
+    elem.hidden = !elem.hidden;
+  });
+&lt;/script&gt;
+</code></pre>
+<blockquote>
+<p>自定义数据属性：data-*</p>
+<p>这种方式通过访问一个元素的dataset属性来存取data-*自定义属性的值。</p>
+<p>使用这种方法时，不是使用完整的属性名，如data-id来存取数据，应该去掉data-前缀。</p>
+<p>还有一点特别注意的是：data-属性名如果包含了连字符，例如 data-id-and-class，连字符将被去掉，并转换为驼峰式的命名，前面的属性应该写成idAndClass。</p>
+</blockquote>
+<h2 id="浏览器默认行为">浏览器默认行为</h2>
+<p><strong>阻止浏览器行为</strong></p>
+<p>有两种方式来告诉浏览器我们不希望它执行默认行为：</p>
+<ul>
+<li>主流的方式是使用 <code>event</code> 对象。有一个 <code>event.preventDefault()</code> 方法。</li>
+<li>如果处理程序是使用 <code>on&lt;event&gt;</code>（而不是 <code>addEventListener</code>）分配的，那返回 <code>false</code> 也同样有效。</li>
+</ul>
+<pre><code class="language-markup">&lt;a href=&quot;/&quot; onclick=&quot;return false&quot;&gt;Click here&lt;/a&gt;
+or
+&lt;a href=&quot;/&quot; onclick=&quot;event.preventDefault()&quot;&gt;here&lt;/a&gt;
+</code></pre>
+<h2 id="创建自定义事件">创建自定义事件</h2>
+<p><strong>事件构造器</strong></p>
+<p>内建事件类形成一个层次结构（hierarchy），类似于 DOM 元素类。根是内建的 <a href="http://www.w3.org/TR/dom/#event">Event</a> 类。</p>
+<p>我们可以像这样创建 <code>Event</code> 对象：</p>
+<pre><code class="language-javascript">let event = new Event(type[, options]);
+</code></pre>
+<p>参数：</p>
+<ul>
+<li>
+<p><strong>type</strong> —— 事件类型，可以是像这样 <code>&quot;click&quot;</code> 的字符串，或者我们自己的像这样 <code>&quot;my-event&quot;</code> 的参数。</p>
+</li>
+<li>
+<p><strong>options</strong> —— 具有两个可选属性的对象：</p>
+<ul>
+<li><code>bubbles: true/false</code> —— 如果为 <code>true</code>，那么事件会冒泡。</li>
+<li><code>cancelable: true/false</code> —— 如果为 <code>true</code>，那么“默认行为”就会被阻止。稍后我们会看到对于自定义事件，它意味着什么。</li>
+</ul>
+<p>默认情况下，以上两者都为 false：<code>{bubbles: false, cancelable: false}</code>。</p>
+</li>
+</ul>
+<p><strong>dispatchEvent</strong></p>
+<p>事件对象被创建后，我们应该使用 <code>elem.dispatchEvent(event)</code> 调用在元素上“运行”它。</p>
+<p><strong>自定义事件</strong></p>
+<p>对于我们自己的全新事件类型，例如 <code>&quot;hello&quot;</code>，我们应该使用 <code>new CustomEvent</code>。从技术上讲，<a href="https://dom.spec.whatwg.org/#customevent">CustomEvent</a> 和 <code>Event</code> 一样。除了一点不同。</p>
+<p>在第二个参数（对象）中，我们可以为我们想要与事件一起传递的任何自定义信息添加一个附加的属性 <code>detail</code>。</p>
+<pre><code class="language-html">&lt;h1 id=&quot;elem&quot;&gt;Hello for John!&lt;/h1&gt;
+
+&lt;script&gt;
+  // 事件附带给处理程序的其他详细信息
+  elem.addEventListener(&quot;hello&quot;, function(event) {
+    alert(event.detail.name);
+  });
+
+  elem.dispatchEvent(new CustomEvent(&quot;hello&quot;, {
+    detail: { name: &quot;John&quot; }
+  }));
+&lt;/script&gt;
+</code></pre>
+<p><strong>事件中的事件是同步的</strong></p>
+<p>通常事件是在队列中处理的。也就是说：如果浏览器正在处理 <code>onclick</code>，这时发生了一个新的事件，例如鼠标移动了，那么它的处理程序会被排入队列，相应的 <code>mousemove</code> 处理程序将在 <code>onclick</code> 事件处理完成后被调用。</p>
+<p>值得注意的例外情况就是，一个事件是在另一个事件中发起的。例如使用 <code>dispatchEvent</code>。这类事件将会被立即处理，即在新的事件处理程序被调用之后，恢复到当前的事件处理程序。</p>
+
+              </div>
+              <hr class="clear">
+              
+                <div class="next-post">
+                  <a class="purple-link" href="https://decade-qiu.github.io/post/2023-12-26-ti-mu-fen-xiang/">
+                    <h3 class="post-title">
+                      下一篇：2023-12-26 题目分享
+                    </h3>
+                  </a>
+                </div>
+                
+            </div>
+          </div>
+      </div>
+
+      
+          <div id="gitalk-container"></div>
+      
+
+    
+    </div>
+    <div class="site-footer">
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/Decade-qiu" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        <a href="https://space.bilibili.com/98721375?spm_id_from=333.1007.0.0" target="_blank">
+          <i class="fab fa-bilibili"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.zhihu.com/people/chou-yu-80-33" target="_blank">
+          <i class="fab fa-zhihu"></i>
+        </a>
+      
+    
+  </div>
+  <div class="slogan">Stay hungry. Stay foolish.</div> |
+  <a href="https://github.com/Decade-qiu/gridea-theme-Eternal" target="_blank">Today is happy day again!</a> | <a href="https://github.com/Decade-qiu/gridea-theme-Eternal" target="_blank">Powered by Eternal</a> | <a href="https://decade-qiu.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+    <script src="https://decade-qiu.github.io/media/scripts/index.js"></script>
+
+
+    <script src='https://decade-qiu.github.io/media/scripts/valine.min.js'></script>
+    <script>
+        new Valine({
+            el: '#gitalk-container',
+            appId: 'b2xhAFZQq4FxBeHcVRgXNEbf-gzGzoHsz',
+            appKey: 'QqIty1r7mCD1MbFanHuyw57O',
+            placeholder: 'Write something...',
+        })
+    </script>
+
+
+
+  </body>
+</html>
+
+<script>
+    window.onload = function() {
+        let id = 1;
+        let post_content = document.querySelector('.content-card');
+        post_content.querySelectorAll('h1,h2,h3,h4,h5,h6').forEach(function (item) {
+            item.setAttribute('id', 'toc-' + id);
+            id++;
+        });
+        tocbot.init({
+            tocSelector: '.toc',
+            contentSelector: '.post-content',
+            headingSelector: 'h1,h2,h3,h4',
+            headingsOffset: 58,
+        });
+        // 检测页面滚动距离 用eventlistener
+        window.addEventListener('scroll', function () {
+            let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            let toc = document.querySelector('.toc');
+            let tocBtn = document.querySelector('.toc-body');
+            if (scrollTop > 250) {
+                tocBtn.classList.add('toc-body-fixed');
+                toc.classList.add('toc-fixed');
+            } else {
+                tocBtn.classList.remove('toc-body-fixed');
+                toc.classList.remove('toc-fixed');
+            }
+        });
+        document.querySelector('#floating-toc-btn').addEventListener('click', function () {
+            let toc = document.querySelector('.toc-body');
+            let main = document.querySelector('.main');
+            if (toc.classList.contains('hide')) {
+                main.classList.add('main-small');
+                toc.classList.remove('hide');
+            } else {
+                toc.classList.add('hide');
+                main.classList.remove('main-small');
+            }
+        });
+        window.addEventListener('resize', function() {
+            // 获取屏幕宽度
+            var screenWidth = window.innerWidth || document.documentElement.clientWidth;
+            // 设置 .content-card 的 max-width
+            var contentCard = document.querySelector('.content-card');
+            contentCard.style.maxWidth = screenWidth + 'px';
+        });
+        // 初始加载时执行一次，确保初始状态下也设置正确
+        window.dispatchEvent(new Event('resize'));
+    };
+</script>

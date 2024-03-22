@@ -1,0 +1,1515 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>SSM整合原理和实战 | Decade</title>
+<meta name="description" content="Stay hungry. Stay foolish.">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.1/css/all.css" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://decade-qiu.github.io/favicon.ico?v=1711118819754">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://decade-qiu.github.io/styles/main.css">
+
+<script src="https://decade-qiu.github.io/media/scripts/vue.js"></script>
+<script src="https://decade-qiu.github.io/media/scripts/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.5.0/tocbot.min.js"></script>
+  </head>
+  <body>
+    <div class="carousel carousel-slider center index-cover" data-indicators="true">
+    <div class="bg-cover pd-header" style="background: url('') no-repeat center center fixed" data-link="https://decade-qiu.github.io/post/wu-kuang-jia-shi-zhan-ssm-zheng-he-yuan-li-he-shi-zhan/">
+        <div class="container">
+            <div class="row">
+                <div class="col s10 offset-s1 m8 offset-m2 l8 offset-l2">
+                    <div class="brand">
+                        <div class="title center-align">
+                            SSM整合原理和实战
+                        </div>
+                        <div class="description center-align">
+                            <span id="subtitle">
+                                Day Day Learn, Day Day Up.
+                            </span><span class="typed-cursor">|</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
+<script>
+    window.onload = function () {
+        var typed = new Typed("#subtitle", {
+            strings: [ 
+                
+                    "从来没有真正的绝境, 只有心灵的迷途",
+                
+                    'Day Day Learn, Day Day Up.',
+
+            ],
+            startDelay: 300,
+            typeSpeed: 100,
+            loop: true,
+            backSpeed: 50,
+            showCursor: true
+        });
+        let cover = document.querySelector('.bg-cover');
+        cover.setAttribute('style', `background: url('${localStorage[cover.dataset.link]}') no-repeat center center fixed`);
+    }
+</script>
+
+
+    <div class="toc-body hide">  
+        <div class="toc"></div>
+    </div>
+    <div id="floating-toc-btn">
+        <i class="fas fa-list-ul bg-color"></i>
+    </div>
+    <div id="app" class="main">
+      <div class="site-header-container nav-transparent">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://decade-qiu.github.io">
+        <img class="avatar" src="https://decade-qiu.github.io/images/avatar.png?v=1711118819754" alt=""
+          width="32px" height="32px">
+      </a>
+      <a href="https://decade-qiu.github.io">
+        <h1 class="site-title">
+          Decade
+        </h1>
+      </a>
+    </div>
+    <div class="right">
+        <div class="menu">
+            <a href="/post/about" v-if="headSearchShow">
+                <i class="fa-solid fa-user"></i>&nbsp;个人
+            </a>
+            <a href="/archives" v-if="headSearchShow">
+                <i class="fa-solid fa-box-archive"></i>&nbsp;归档
+            </a>
+            <a href="/tags" v-if="headSearchShow">
+                <i class="fa-solid fa-tag"></i>&nbsp;标签
+            </a>
+            <a href="/life" v-if="headSearchShow">
+                <i class="fa-fw fas fa-heart"></i>&nbsp;生活
+            </a>
+            
+        </div>
+      <div class="gridea-search-div" v-if="headSearchShow">
+        <form id="gridea-search-form" action="https://decade-qiu.github.io/search/">
+          <input class="gridea-search-input" autocomplete="off" spellcheck="false" name="q" />
+        </form>
+      </div>
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }"
+          @click="menuClick()" v-if="menuSearchShow"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      <div class="gridea-search-div" v-if="menuSearchShow">
+        <form id="gridea-search-form" action="https://decade-qiu.github.io/search/">
+          <input class="gridea-search-input" autocomplete="off" spellcheck="false" name="q" />
+        </form>
+      </div>
+      
+        
+            <a href="/" class="menu purple-link">
+              首页
+            </a>
+            
+              
+        
+            <a href="/archives" class="menu purple-link">
+              归档
+            </a>
+            
+              
+        
+            <a href="/tags" class="menu purple-link">
+              标签
+            </a>
+            
+              
+        
+            <a href="/post/about" class="menu purple-link">
+              个人
+            </a>
+            
+              
+        
+            <a href="/life" class="menu purple-link">
+              生活
+            </a>
+            
+              
+              
+    </div>
+  </div>
+</transition>
+
+<script>
+    window.onscroll = function () {
+        var t = document.documentElement.scrollTop || document.body.scrollTop;
+        var header = document.querySelector('.site-header-container');
+        if (t > 0) {
+            header.classList.remove('nav-transparent');
+        } else {
+            header.classList.add('nav-transparent');
+        }
+    }
+</script>
+
+      <div class="content-body">
+        <div class="content-container content-card">
+            <div class="post-detail">
+              <div class="post-info post-detail-info">
+                <span><i class="icon-calendar-outline"></i> 2024-02-16-Fri</span>
+                
+                  <span>
+                    
+                        <i class="icon-pricetags-outline"></i>
+                      <a href="https://decade-qiu.github.io/tag/QQu-1bPsq/">
+                        SSM框架
+                      </a>
+                    
+                  </span>
+                
+              </div>
+              
+                <div class="post-card-abstract">
+                    <p><code>SSM</code> 整合Spring，SpringMVC，MyBatis</p>
+<p>前后端分离项目测试</p>
+
+                  </div>
+                
+              <hr class="clear">
+              <div class="post-content">
+                
+<h2 id="一-ssm整合理解">一、SSM整合理解</h2>
+<h3 id="11-什么是ssm整合">1.1 什么是SSM整合？</h3>
+<p><strong>微观</strong>：将学习的Spring SpringMVC Mybatis框架应用到项目中!</p>
+<ul>
+<li>SpringMVC框架负责控制层</li>
+<li>Spring 框架负责整体和业务层的声明式事务管理</li>
+<li>MyBatis框架负责数据库访问层</li>
+</ul>
+<p><strong>宏观</strong>：Spring接管一切（将框架核心组件交给Spring进行IoC管理），代码更加简洁。</p>
+<ul>
+<li>SpringMVC管理表述层、SpringMVC相关组件</li>
+<li>Spring管理业务层、持久层、以及数据库相关（DataSource,MyBatis）的组件</li>
+<li>使用IoC的方式管理一切所需组件</li>
+</ul>
+<p><strong>实施</strong>：通过编写配置文件，实现SpringIoC容器接管一切组件。</p>
+<h3 id="12-ssm整合核心问题明确">1.2 SSM整合核心问题明确</h3>
+<h4 id="121-第一问ssm整合需要几个ioc容器">1.2.1 第一问：SSM整合需要几个IoC容器？</h4>
+<p>两个容器</p>
+<p>本质上说，整合就是将三层架构和框架核心API组件交给SpringIoC容器管理！</p>
+<p>一个容器可能就够了，但是我们常见的操作是创建两个IoC容器（web容器和root容器），组件分类管理！</p>
+<p>这种做法有以下好处和目的：</p>
+<ol>
+<li>分离关注点：通过初始化两个容器，可以将各个层次的关注点进行分离。这种分离使得各个层次的组件能够更好地聚焦于各自的责任和功能。</li>
+<li>解耦合：各个层次组件分离装配不同的IoC容器，这样可以进行解耦。这种解耦合使得各个模块可以独立操作和测试，提高了代码的可维护性和可测试性。</li>
+<li>灵活配置：通过使用两个容器，可以为每个容器提供各自的配置，以满足不同层次和组件的特定需求。每个配置文件也更加清晰和灵活。</li>
+</ol>
+<p>总的来说，初始化两个容器在SSM整合中可以实现关注点分离、解耦合、灵活配置等好处。它们各自负责不同的层次和功能，并通过合适的集成方式协同工作，提供一个高效、可维护和可扩展的应用程序架构！</p>
+<h4 id="122-第二问每个ioc容器对应哪些类型组件">1.2.2 第二问：每个IoC容器对应哪些类型组件？</h4>
+<figure data-type="image" tabindex="1"><img src="C:%5CUsers%5Cqiuzhongjun%5CDocuments%5CGridea%5Cpost-images%5Cimage_5AumuliVMq.png" alt="" loading="lazy"></figure>
+<p>总结：</p>
+<table>
+<thead>
+<tr>
+<th>容器名</th>
+<th>盛放组件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>web容器</td>
+<td>web相关组件（controller,springmvc核心组件）</td>
+</tr>
+<tr>
+<td>root容器</td>
+<td>业务和持久层相关组件（service,aop,tx,dataSource,mybatis,mapper等）</td>
+</tr>
+</tbody>
+</table>
+<h4 id="123-第三问ioc容器之间关系和调用方向">1.2.3 第三问：IoC容器之间关系和调用方向？</h4>
+<p>情况1：两个无关联IoC容器之间的组件无法注入！</p>
+<p>情况2：子IoC容器可以单向的注入父IoC容器的组件！</p>
+<p>结论：web容器是root容器的子容器。</p>
+<ul>
+<li>父容器：root容器，盛放service、mapper、mybatis等相关组件</li>
+<li>子容器：web容器，盛放controller、web相关组件</li>
+</ul>
+<p>源码体现：</p>
+<p>FrameworkServlet  655行！</p>
+<pre><code class="language-java">protected WebApplicationContext createWebApplicationContext(@Nullable ApplicationContext parent) {
+    Class&lt;?&gt; contextClass = getContextClass();
+    if (!ConfigurableWebApplicationContext.class.isAssignableFrom(contextClass)) {
+      throw new ApplicationContextException(
+          &quot;Fatal initialization error in servlet with name '&quot; + getServletName() +
+          &quot;': custom WebApplicationContext class [&quot; + contextClass.getName() +
+          &quot;] is not of type ConfigurableWebApplicationContext&quot;);
+    }
+    ConfigurableWebApplicationContext wac =
+        (ConfigurableWebApplicationContext) BeanUtils.instantiateClass(contextClass);
+
+    wac.setEnvironment(getEnvironment());
+    //wac 就是web ioc容器
+    //parent 就是root ioc容器
+    //web容器设置root容器为父容器，所以web容器可以引用root容器
+    wac.setParent(parent);
+    String configLocation = getContextConfigLocation();
+    if (configLocation != null) {
+      wac.setConfigLocation(configLocation);
+    }
+    configureAndRefreshWebApplicationContext(wac);
+
+    return wac;
+  }
+</code></pre>
+<p>调用流程图解：</p>
+<figure data-type="image" tabindex="2"><img src="C:%5CUsers%5Cqiuzhongjun%5CDocuments%5CGridea%5Cpost-images%5Cimage_YVCAmV3Jcl.png" alt="" loading="lazy"></figure>
+<h4 id="124-第四问具体多少配置类以及对应容器关系">1.2.4 第四问：具体多少配置类以及对应容器关系？</h4>
+<p>配置类的数量不是固定的，但是至少要两个，为了方便编写，我们可以三层架构每层对应一个配置类，分别指定两个容器加载即可！</p>
+<figure data-type="image" tabindex="3"><img src="C:%5CUsers%5Cqiuzhongjun%5CDocuments%5CGridea%5Cpost-images%5Cimage_jfq5s1X9ET.png" alt="" loading="lazy"></figure>
+<p>建议配置文件：</p>
+<table>
+<thead>
+<tr>
+<th>配置名</th>
+<th>对应内容</th>
+<th>对应容器</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>WebJavaConfig</td>
+<td>controller,springmvc相关</td>
+<td>web容器</td>
+</tr>
+<tr>
+<td>ServiceJavaConfig</td>
+<td>service,aop,tx相关</td>
+<td>root容器</td>
+</tr>
+<tr>
+<td>MapperJavaConfig</td>
+<td>mapper,datasource,mybatis相关</td>
+<td>root容器</td>
+</tr>
+</tbody>
+</table>
+<h4 id="125-第五问ioc初始化方式和配置位置">1.2.5 第五问：IoC初始化方式和配置位置？</h4>
+<p>在web项目下，我们可以选择web.xml和配置类方式进行ioc配置，推荐配置类。</p>
+<p>对于使用基于 web 的 Spring 配置的应用程序，建议这样做，如以下示例所示：</p>
+<pre><code class="language-java">public class MyWebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
+
+  //指定root容器对应的配置类
+  //root容器的配置类
+  @Override
+  protected Class&lt;?&gt;[] getRootConfigClasses() {
+    return new Class&lt;?&gt;[] { ServiceJavaConfig.class,MapperJavaConfig.class };
+  }
+  
+  //指定web容器对应的配置类 webioc容器的配置类
+  @Override
+  protected Class&lt;?&gt;[] getServletConfigClasses() {
+    return new Class&lt;?&gt;[] { WebJavaConfig.class };
+  }
+  
+  //指定dispatcherServlet处理路径，通常为 / 
+  @Override
+  protected String[] getServletMappings() {
+    return new String[] { &quot;/&quot; };
+  }
+}
+</code></pre>
+<h2 id="二-ssm整合配置实战">二、SSM整合配置实战</h2>
+<h3 id="21-依赖整合和添加">2.1 依赖整合和添加</h3>
+<ol>
+<li>
+<p>数据库准备</p>
+<p>依然沿用mybatis数据库测试脚本！</p>
+<pre><code class="language-sql">CREATE DATABASE `mybatis-example`;
+
+USE `mybatis-example`;
+
+CREATE TABLE `t_emp`(
+  emp_id INT AUTO_INCREMENT,
+  emp_name CHAR(100),
+  emp_salary DOUBLE(10,5),
+  PRIMARY KEY(emp_id)
+);
+
+INSERT INTO `t_emp`(emp_name,emp_salary) VALUES(&quot;tom&quot;,200.33);
+INSERT INTO `t_emp`(emp_name,emp_salary) VALUES(&quot;jerry&quot;,666.66);
+INSERT INTO `t_emp`(emp_name,emp_salary) VALUES(&quot;andy&quot;,777.77);
+</code></pre>
+</li>
+<li>
+<p>准备项目</p>
+<p>转成web项目</p>
+</li>
+<li>
+<p>依赖导入</p>
+<p>pom.xml</p>
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+
+&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;  
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;  
+    &lt;groupId&gt;com.atguigu&lt;/groupId&gt;  
+    &lt;artifactId&gt;part04-ssm-integration&lt;/artifactId&gt;  
+    &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;  
+    &lt;packaging&gt;war&lt;/packaging&gt;
+    &lt;properties&gt;
+        &lt;spring.version&gt;6.0.6&lt;/spring.version&gt;
+        &lt;jakarta.annotation-api.version&gt;2.1.1&lt;/jakarta.annotation-api.version&gt;
+        &lt;jakarta.jakartaee-web-api.version&gt;9.1.0&lt;/jakarta.jakartaee-web-api.version&gt;
+        &lt;jackson-databind.version&gt;2.15.0&lt;/jackson-databind.version&gt;
+        &lt;hibernate-validator.version&gt;8.0.0.Final&lt;/hibernate-validator.version&gt;
+        &lt;mybatis.version&gt;3.5.11&lt;/mybatis.version&gt;
+        &lt;mysql.version&gt;8.0.25&lt;/mysql.version&gt;
+        &lt;pagehelper.version&gt;5.1.11&lt;/pagehelper.version&gt;
+        &lt;druid.version&gt;1.2.8&lt;/druid.version&gt;
+        &lt;mybatis-spring.version&gt;3.0.2&lt;/mybatis-spring.version&gt;
+        &lt;jakarta.servlet.jsp.jstl-api.version&gt;3.0.0&lt;/jakarta.servlet.jsp.jstl-api.version&gt;
+        &lt;logback.version&gt;1.2.3&lt;/logback.version&gt;
+        &lt;lombok.version&gt;1.18.26&lt;/lombok.version&gt;
+        &lt;maven.compiler.source&gt;17&lt;/maven.compiler.source&gt;
+        &lt;maven.compiler.target&gt;17&lt;/maven.compiler.target&gt;  
+        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt; 
+    &lt;/properties&gt;
+    &lt;!--
+     需要依赖清单分析:
+        spring
+          ioc/di
+            spring-context / 6.0.6
+            jakarta.annotation-api / 2.1.1  jsr250
+          aop
+            spring-aspects / 6.0.6
+          tx
+            spring-tx  / 6.0.6
+            spring-jdbc / 6.0.6
+
+        springmvc
+           spring-webmvc 6.0.6
+           jakarta.jakartaee-web-api 9.1.0
+           jackson-databind 2.15.0
+           hibernate-validator / hibernate-validator-annotation-processor 8.0.0.Final
+
+        mybatis
+           mybatis  / 3.5.11
+           mysql    / 8.0.25
+           pagehelper / 5.1.11
+
+        整合需要
+           加载spring容器 spring-web / 6.0.6
+           整合mybatis   mybatis-spring x x
+           数据库连接池    druid / x
+           lombok        lombok / 1.18.26
+           logback       logback/ 1.2.3
+  --&gt;
+
+    &lt;dependencies&gt;
+        &lt;!--spring pom.xml依赖--&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-context&lt;/artifactId&gt;
+            &lt;version&gt;${spring.version}&lt;/version&gt;
+        &lt;/dependency&gt;
+
+        &lt;dependency&gt;
+            &lt;groupId&gt;jakarta.annotation&lt;/groupId&gt;
+            &lt;artifactId&gt;jakarta.annotation-api&lt;/artifactId&gt;
+            &lt;version&gt;${jakarta.annotation-api.version}&lt;/version&gt;
+        &lt;/dependency&gt;
+
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-aop&lt;/artifactId&gt;
+            &lt;version&gt;${spring.version}&lt;/version&gt;
+        &lt;/dependency&gt;
+
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-aspects&lt;/artifactId&gt;
+            &lt;version&gt;${spring.version}&lt;/version&gt;
+        &lt;/dependency&gt;
+
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-tx&lt;/artifactId&gt;
+            &lt;version&gt;${spring.version}&lt;/version&gt;
+        &lt;/dependency&gt;
+
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-jdbc&lt;/artifactId&gt;
+            &lt;version&gt;${spring.version}&lt;/version&gt;
+        &lt;/dependency&gt;
+        &lt;!--
+       springmvc
+           spring-webmvc 6.0.6
+           jakarta.jakartaee-web-api 9.1.0
+           jackson-databind 2.15.0
+           hibernate-validator / hibernate-validator-annotation-processor 8.0.0.Final
+    --&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-webmvc&lt;/artifactId&gt;
+            &lt;version&gt;${spring.version}&lt;/version&gt;
+        &lt;/dependency&gt;
+
+        &lt;dependency&gt;
+            &lt;groupId&gt;jakarta.platform&lt;/groupId&gt;
+            &lt;artifactId&gt;jakarta.jakartaee-web-api&lt;/artifactId&gt;
+            &lt;version&gt;${jakarta.jakartaee-web-api.version}&lt;/version&gt;
+            &lt;scope&gt;provided&lt;/scope&gt;
+        &lt;/dependency&gt;
+
+        &lt;!-- jsp需要依赖! jstl--&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;jakarta.servlet.jsp.jstl&lt;/groupId&gt;
+            &lt;artifactId&gt;jakarta.servlet.jsp.jstl-api&lt;/artifactId&gt;
+            &lt;version&gt;${jakarta.servlet.jsp.jstl-api.version}&lt;/version&gt;
+        &lt;/dependency&gt;
+
+        &lt;dependency&gt;
+            &lt;groupId&gt;com.fasterxml.jackson.core&lt;/groupId&gt;
+            &lt;artifactId&gt;jackson-databind&lt;/artifactId&gt;
+            &lt;version&gt;${jackson-databind.version}&lt;/version&gt;
+        &lt;/dependency&gt;
+        &lt;!-- https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator --&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.hibernate.validator&lt;/groupId&gt;
+            &lt;artifactId&gt;hibernate-validator&lt;/artifactId&gt;
+            &lt;version&gt;${hibernate-validator.version}&lt;/version&gt;
+        &lt;/dependency&gt;
+        &lt;!-- https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator-annotation-processor --&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.hibernate.validator&lt;/groupId&gt;
+            &lt;artifactId&gt;hibernate-validator-annotation-processor&lt;/artifactId&gt;
+            &lt;version&gt;${hibernate-validator.version}&lt;/version&gt;
+        &lt;/dependency&gt;
+        &lt;!--
+      mybatis
+           mybatis  / 3.5.11
+           mysql    / 8.0.25
+           pagehelper / 5.1.11
+    --&gt;
+        &lt;!-- mybatis依赖 --&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.mybatis&lt;/groupId&gt;
+            &lt;artifactId&gt;mybatis&lt;/artifactId&gt;
+            &lt;version&gt;${mybatis.version}&lt;/version&gt;
+        &lt;/dependency&gt;
+
+        &lt;!-- MySQL驱动 mybatis底层依赖jdbc驱动实现,本次不需要导入连接池,mybatis自带! --&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;mysql&lt;/groupId&gt;
+            &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
+            &lt;version&gt;${mysql.version}&lt;/version&gt;
+        &lt;/dependency&gt;
+
+        &lt;dependency&gt;
+            &lt;groupId&gt;com.github.pagehelper&lt;/groupId&gt;
+            &lt;artifactId&gt;pagehelper&lt;/artifactId&gt;
+            &lt;version&gt;${pagehelper.version}&lt;/version&gt;
+        &lt;/dependency&gt;
+
+        &lt;!-- 整合第三方特殊依赖 --&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-web&lt;/artifactId&gt;
+            &lt;version&gt;${spring.version}&lt;/version&gt;
+        &lt;/dependency&gt;
+
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.mybatis&lt;/groupId&gt;
+            &lt;artifactId&gt;mybatis-spring&lt;/artifactId&gt;
+            &lt;version&gt;${mybatis-spring.version}&lt;/version&gt;
+        &lt;/dependency&gt;
+
+        &lt;!-- 日志 ， 会自动传递slf4j门面--&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;ch.qos.logback&lt;/groupId&gt;
+            &lt;artifactId&gt;logback-classic&lt;/artifactId&gt;
+            &lt;version&gt;${logback.version}&lt;/version&gt;
+        &lt;/dependency&gt;
+
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.projectlombok&lt;/groupId&gt;
+            &lt;artifactId&gt;lombok&lt;/artifactId&gt;
+            &lt;version&gt;${lombok.version}&lt;/version&gt;
+        &lt;/dependency&gt;
+
+        &lt;dependency&gt;
+            &lt;groupId&gt;com.alibaba&lt;/groupId&gt;
+            &lt;artifactId&gt;druid&lt;/artifactId&gt;
+            &lt;version&gt;${druid.version}&lt;/version&gt;
+        &lt;/dependency&gt;
+
+    &lt;/dependencies&gt;
+
+&lt;/project&gt;
+</code></pre>
+</li>
+<li>
+<p>实体类添加</p>
+<p>com.atguigu.pojo</p>
+<pre><code class="language-java">@Data
+public class Employee {
+
+    private Integer empId;
+    private String empName;
+    private Double empSalary;
+}
+</code></pre>
+</li>
+<li>
+<p>logback配置</p>
+<p>位置：resources/logback.xml</p>
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;configuration debug=&quot;true&quot;&gt;
+    &lt;!-- 指定日志输出的位置，ConsoleAppender表示输出到控制台 --&gt;
+    &lt;appender name=&quot;STDOUT&quot;
+              class=&quot;ch.qos.logback.core.ConsoleAppender&quot;&gt;
+        &lt;encoder&gt;
+            &lt;!-- 日志输出的格式 --&gt;
+            &lt;!-- 按照顺序分别是：时间、日志级别、线程名称、打印日志的类、日志主体内容、换行 --&gt;
+            &lt;pattern&gt;[%d{HH:mm:ss.SSS}] [%-5level] [%thread] [%logger] [%msg]%n&lt;/pattern&gt;
+            &lt;charset&gt;UTF-8&lt;/charset&gt;
+        &lt;/encoder&gt;
+    &lt;/appender&gt;
+
+    &lt;!-- 设置全局日志级别。日志级别按顺序分别是：TRACE、DEBUG、INFO、WARN、ERROR --&gt;
+    &lt;!-- 指定任何一个日志级别都只打印当前级别和后面级别的日志。 --&gt;
+    &lt;root level=&quot;DEBUG&quot;&gt;
+        &lt;!-- 指定打印日志的appender，这里通过“STDOUT”引用了前面配置的appender --&gt;
+        &lt;appender-ref ref=&quot;STDOUT&quot; /&gt;
+    &lt;/root&gt;
+
+    &lt;!-- 根据特殊需求指定局部日志级别，可也是包名或全类名。 --&gt;
+    &lt;logger name=&quot;com.atguigu.mybatis&quot; level=&quot;DEBUG&quot; /&gt;
+
+&lt;/configuration&gt;
+</code></pre>
+</li>
+</ol>
+<h3 id="22-控制层配置编写springmvc整合">2.2 控制层配置编写(SpringMVC整合)</h3>
+<blockquote>
+<p>主要配置controller,springmvc相关组件配置 </p>
+</blockquote>
+<p>位置：WebJavaConfig.java(命名随意)</p>
+<pre><code class="language-java">/**
+ * projectName: com.atguigu.config
+ * 
+ * 1.实现Springmvc组件声明标准化接口WebMvcConfigurer 提供了各种组件对应的方法
+ * 2.添加配置类注解@Configuration
+ * 3.添加mvc复合功能开关@EnableWebMvc
+ * 4.添加controller层扫描注解
+ * 5.开启默认处理器,支持静态资源处理
+ */
+@Configuration
+@EnableWebMvc
+@ComponentScan(&quot;com.atguigu.controller&quot;)
+public class WebJavaConfig implements WebMvcConfigurer {
+
+    //开启静态资源
+    @Override
+    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+        configurer.enable(); 
+    }
+}
+</code></pre>
+<h3 id="23-业务层配置编写aop-tx整合">2.3 业务层配置编写(AOP / TX整合）</h3>
+<blockquote>
+<p>主要配置service,注解aop和声明事务相关配置</p>
+</blockquote>
+<p>位置：ServiceJavaConfig.java(命名随意)</p>
+<pre><code class="language-java">/**
+ * projectName: com.atguigu.config
+ * 
+ * 1. 声明@Configuration注解,代表配置类
+ * 2. 声明@EnableTransactionManagement注解,开启事务注解支持
+ * 3. 声明@EnableAspectJAutoProxy注解,开启aspect aop注解支持
+ * 4. 声明@ComponentScan(&quot;com.atguigu.service&quot;)注解,进行业务组件扫描
+ * 5. 声明transactionManager(DataSource dataSource)方法,指定具体的事务管理器
+ */
+@EnableTransactionManagement
+@EnableAspectJAutoProxy
+@Configuration
+@ComponentScan(&quot;com.atguigu.service&quot;)
+public class ServiceJavaConfig {
+    
+    @Bean
+    public DataSourceTransactionManager transactionManager(DataSource dataSource){
+        DataSourceTransactionManager transactionManager = new DataSourceTransactionManager();
+        transactionManager.setDataSource(dataSource);
+        return transactionManager;
+    }
+    
+}
+</code></pre>
+<h3 id="24-持久层配置编写mybatis整合">2.4 持久层配置编写(MyBatis整合)</h3>
+<blockquote>
+<p>主要配置mapper代理对象，连接池和mybatis核心组件配置</p>
+</blockquote>
+<ol>
+<li>
+<p>mybatis整合思路</p>
+<p>mybatis核心api使用回顾：</p>
+<pre><code class="language-java">//1.读取外部配置文件
+InputStream ips = Resources.getResourceAsStream(&quot;mybatis-config.xml&quot;);
+
+//2.创建sqlSessionFactory
+SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(ips);
+
+//3.创建sqlSession
+SqlSession sqlSession = sqlSessionFactory.openSession();
+//4.获取mapper代理对象
+EmpMapper empMapper = sqlSession.getMapper(EmpMapper.class);
+//5.数据库方法调用
+int rows = empMapper.deleteEmpById(1);
+System.out.println(&quot;rows = &quot; + rows);
+//6.提交和回滚
+sqlSession.commit();
+sqlSession.close();
+</code></pre>
+<p>mybatis核心api介绍回顾：</p>
+<ul>
+<li>
+<p>SqlSessionFactoryBuilder</p>
+<p>这个类可以被实例化、使用和丢弃，一旦创建了 SqlSessionFactory，就不再需要它了。 <br>
+因此 SqlSessionFactoryBuilder 实例的最佳作用域是方法作用域（也就是局部方法变量）。 无需ioc容器管理！</p>
+</li>
+<li>
+<p>SqlSessionFactory</p>
+<p>一旦被创建就应该在应用的运行期间一直存在，没有任何理由丢弃它或重新创建另一个实例。 使用 SqlSessionFactory 的最佳实践是在应用运行期间不要重复创建多次，因此 SqlSessionFactory 的最佳作用域是应用作用域。 <strong>需要ioc容器管理！</strong></p>
+</li>
+<li>
+<p>SqlSession</p>
+<p>每个线程都应该有它自己的 SqlSession 实例。SqlSession 的实例不是线程安全的，因此是不能被共享的，所以它的最佳的作用域是请求或方法作用域。 无需ioc容器管理！</p>
+</li>
+<li>
+<p>Mapper映射器实例</p>
+<p>映射器是一些绑定映射语句的接口。映射器接口的实例是从 SqlSession 中获得的。虽然从技术层面上来讲，任何映射器实例的最大作用域与请求它们的 SqlSession 相同。但方法作用域才是映射器实例的最合适的作用域。</p>
+<p>从作用域的角度来说，映射器实例不应该交给ioc容器管理！</p>
+<p>但是从使用的角度来说，业务类（service）需要注入mapper接口，<strong>所以mapper应该交给ioc容器管理！</strong></p>
+<figure data-type="image" tabindex="4"><img src="C:%5CUsers%5Cqiuzhongjun%5CDocuments%5CGridea%5Cpost-images%5Cimage_KVWgY5q5vQ.png" alt="" loading="lazy"></figure>
+</li>
+<li>
+<p>总结</p>
+<ul>
+<li>将SqlSessionFactory实例存储到IoC容器</li>
+<li>将Mapper实例存储到IoC容器</li>
+</ul>
+</li>
+</ul>
+<p>例如，自己实现sqlSessionFactory加入ioc容器：</p>
+<pre><code class="language-java">@Bean
+public SqlSessionFactory sqlSessionFactory(){
+   //1.读取外部配置文件
+  InputStream ips = Resources.getResourceAsStream(&quot;mybatis-config.xml&quot;);
+  
+  //2.创建sqlSessionFactory
+  SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(ips);
+  
+  return sqlSessionFactory;
+}
+</code></pre>
+<p>过程比较繁琐，为了提高整合效率，mybatis提供了提供封装SqlSessionFactory和Mapper实例化的逻辑的FactoryBean组件，我们只需要声明和指定少量的配置即可！</p>
+<p>SqlSessionFactoryBean源码展示(mybatis提供)：</p>
+<pre><code class="language-java">package org.mybatis.spring;
+
+public class SqlSessionFactoryBean
+    implements FactoryBean&lt;SqlSessionFactory&gt;, InitializingBean, ApplicationListener&lt;ContextRefreshedEvent&gt; {
+    
+       //封装了实例化流程
+       public SqlSessionFactory getObject() throws Exception {
+          if (this.sqlSessionFactory == null) {
+            //实例化对象逻辑
+            afterPropertiesSet();
+          }
+          //返回对象逻辑
+          return this.sqlSessionFactory;
+       }
+   
+} 
+</code></pre>
+<p>mybatis整合思路总结：</p>
+<ul>
+<li>需要将SqlSessionFactory和Mapper实例加入到IoC容器</li>
+<li>使用mybatis整合包提供的FactoryBean快速整合</li>
+</ul>
+</li>
+<li>
+<p><strong>准备外部配置文件</strong></p>
+<blockquote>
+<p>数据库连接信息<br>
+位置：resources/jdbc.properties</p>
+</blockquote>
+<pre><code class="language-.properties">jdbc.user=root
+jdbc.password=root
+jdbc.url=jdbc:mysql:///mybatis-example
+jdbc.driver=com.mysql.cj.jdbc.Driver
+</code></pre>
+</li>
+<li>
+<p><strong>整合方式2（完全配置类 去掉mybatis-config.xml）</strong></p>
+<ol>
+<li>
+<p>介绍</p>
+<p>不在保留mybatis的外部配置文件（xml）, 所有配置信息（settings、插件、别名等）全部在声明SqlSessionFactoryBean的代码中指定！数据库信息依然使用DruidDataSource实例替代！</p>
+<figure data-type="image" tabindex="5"><img src="C:%5CUsers%5Cqiuzhongjun%5CDocuments%5CGridea%5Cpost-images%5Cimage_A4CC0V4UCR.png" alt="" loading="lazy"></figure>
+<p>优势：全部配置类，避免了XML文件解析效率低问题！</p>
+</li>
+<li>
+<p>mapper配置类</p>
+<pre><code class="language-java">/**
+ * projectName: com.atguigu.config
+ *
+ * description: 持久层配置和Druid和Mybatis配置 使用一个配置文件
+ */
+@Configuration
+@ComponentScan(&quot;org.example.mapper&quot;)
+public class MapperJavaConfigNew {
+
+    /**
+     * 配置SqlSessionFactoryBean,指定连接池对象和外部配置文件即可
+     * @param dataSource 需要注入连接池对象
+     * @return 工厂Bean
+     */
+    @Bean
+    public SqlSessionFactoryBean sqlSessionFactoryBean(DataSource dataSource){
+        //实例化SqlSessionFactory工厂
+        SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
+
+        //设置连接池
+        sqlSessionFactoryBean.setDataSource(dataSource);
+
+        //settings [包裹到一个configuration对象,切记别倒错包]
+        org.apache.ibatis.session.Configuration configuration = new org.apache.ibatis.session.Configuration();
+        configuration.setMapUnderscoreToCamelCase(true);
+        configuration.setLogImpl(Slf4jImpl.class);
+        configuration.setAutoMappingBehavior(AutoMappingBehavior.FULL);
+        sqlSessionFactoryBean.setConfiguration(configuration);
+
+        //typeAliases
+        sqlSessionFactoryBean.setTypeAliasesPackage(&quot;com.atguigu.pojo&quot;);
+
+        //分页插件配置
+        PageInterceptor pageInterceptor = new PageInterceptor();
+
+        Properties properties = new Properties();
+        properties.setProperty(&quot;helperDialect&quot;,&quot;mysql&quot;);
+        pageInterceptor.setProperties(properties);
+        sqlSessionFactoryBean.addPlugins(pageInterceptor);
+
+        return sqlSessionFactoryBean;
+    }
+
+    /**
+     * 配置Mapper实例扫描工厂,配置 &lt;mapper &lt;package 对应接口和mapperxml文件所在的包
+     * @return
+     */
+    @Bean
+    public MapperScannerConfigurer mapperScannerConfigurer(){
+        MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
+        //设置mapper接口和xml文件所在的共同包
+        mapperScannerConfigurer.setBasePackage(&quot;com.atguigu.mapper&quot;);
+        return mapperScannerConfigurer;
+    }
+
+}
+</code></pre>
+</li>
+</ol>
+</li>
+</ol>
+<h3 id="25-容器初始化配置类">2.5 容器初始化配置类</h3>
+<pre><code class="language-java">public class MyWebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
+
+  //指定root容器对应的配置类
+  @Override
+  protected Class&lt;?&gt;[] getRootConfigClasses() {
+    return new Class&lt;?&gt;[] {MapperJavaConfig.class, ServiceJavaConfig.class, DataSourceJavaConfig.class };
+  }
+  
+  //指定web容器对应的配置类
+  @Override
+  protected Class&lt;?&gt;[] getServletConfigClasses() {
+    return new Class&lt;?&gt;[] { WebJavaConfig.class };
+  }
+  
+  //指定dispatcherServlet处理路径，通常为 / 
+  @Override
+  protected String[] getServletMappings() {
+    return new String[] { &quot;/&quot; };
+  }
+}
+</code></pre>
+<h3 id="26-整合测试">2.6 整合测试</h3>
+<ol>
+<li>
+<p>需求</p>
+<p>查询所有员工信息,返回对应json数据！</p>
+</li>
+<li>
+<p>controller</p>
+<pre><code class="language-java">@Slf4j
+@RestController
+@RequestMapping(&quot;/employee&quot;)
+public class EmployeeController {
+
+    @Autowired
+    private EmployeeService employeeService;
+
+    @GetMapping(&quot;list&quot;)
+    public List&lt;Employee&gt; retList(){
+        List&lt;Employee&gt; employees = employeeService.findAll();
+        log.info(&quot;员工数据:{}&quot;,employees);
+        return employees;
+    }
+}
+</code></pre>
+</li>
+<li>
+<p>service </p>
+<pre><code class="language-java">@Service
+public class EmployeeServiceImpl implements EmployeeService {
+
+    @Autowired
+    private EmployeeMapper employeeMapper;
+
+    /**
+     * 查询所有员工信息
+     */
+    @Override
+    public List&lt;Employee&gt; findAll() {
+        List&lt;Employee&gt; employeeList =  employeeMapper.queryAll();
+        return employeeList;
+    }
+}
+
+</code></pre>
+</li>
+<li>
+<p>mapper</p>
+<p>mapper接口  包：com.atguigu.mapper </p>
+<pre><code class="language-java">public interface EmployeeMapper {
+     List&lt;Employee&gt; queryAll();
+}
+</code></pre>
+<p>mapper XML 文件位置： resources/mappers</p>
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
+&lt;!DOCTYPE mapper
+        PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;
+        &quot;https://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;
+&lt;!-- namespace等于mapper接口类的全限定名,这样实现对应 --&gt;
+&lt;mapper namespace=&quot;com.atguigu.mapper.EmployeeMapper&quot;&gt;
+
+    &lt;select id=&quot;queryAll&quot; resultType=&quot;employee&quot;&gt;
+        &lt;!-- #{empId}代表动态传入的参数,并且进行赋值!后面详细讲解 --&gt;
+        select emp_id empId,emp_name empName, emp_salary empSalary from t_emp
+    &lt;/select&gt;
+
+&lt;/mapper&gt;
+</code></pre>
+</li>
+</ol>
+<h2 id="三-任务列表案例前端程序搭建和运行">三、《任务列表案例》前端程序搭建和运行</h2>
+<h3 id="31-整合案例介绍和接口分析">3.1 整合案例介绍和接口分析</h3>
+<h4 id="311-案例功能预览">3.1.1 案例功能预览</h4>
+<figure data-type="image" tabindex="6"><img src="C:%5CUsers%5Cqiuzhongjun%5CDocuments%5CGridea%5Cpost-images%5Cimage_HyVUgkSLm9.png" alt="" loading="lazy"></figure>
+<h4 id="312接口分析">3.1.2接口分析</h4>
+<ol>
+<li>
+<p>学习计划分页查询</p>
+<pre><code class="language-java">/* 
+需求说明
+    查询全部数据页数据
+请求uri
+    schedule/{pageSize}/{currentPage}
+请求方式 
+    get   
+响应的json
+    {
+        &quot;code&quot;:200,
+        &quot;flag&quot;:true,
+        &quot;data&quot;:{
+            //本页数据
+            data:
+            [
+            {id:1,title:'学习java',completed:true},
+            {id:2,title:'学习html',completed:true},
+            {id:3,title:'学习css',completed:true},
+            {id:4,title:'学习js',completed:true},
+            {id:5,title:'学习vue',completed:true}
+            ], 
+            //分页参数
+            pageSize:5, // 每页数据条数 页大小
+            total:0 ,   // 总记录数
+            currentPage:1 // 当前页码
+        }
+    }
+*/
+</code></pre>
+</li>
+<li>
+<p>学习计划删除</p>
+<pre><code class="language-java">/* 
+需求说明
+    根据id删除日程
+请求uri
+    schedule/{id}
+请求方式 
+    delete
+响应的json
+    {
+        &quot;code&quot;:200,
+        &quot;flag&quot;:true,
+        &quot;data&quot;:null
+    }
+*/
+</code></pre>
+</li>
+<li>
+<p>学习计划保存</p>
+<pre><code class="language-java">/* 
+需求说明
+    增加日程
+请求uri
+    schedule
+请求方式 
+    post
+请求体中的JSON
+    {
+        title: '',
+        completed: false
+    }
+响应的json
+    {
+        &quot;code&quot;:200,
+        &quot;flag&quot;:true,
+        &quot;data&quot;:null
+    }
+*/
+</code></pre>
+</li>
+<li>
+<p>学习计划修改</p>
+<pre><code class="language-java">/* 
+需求说明
+    根据id修改数据
+请求uri
+    schedule
+请求方式 
+    put
+请求体中的JSON
+    {
+        id: 1,
+        title: '',
+        completed: false
+    }
+响应的json
+    {
+        &quot;code&quot;:200,
+        &quot;flag&quot;:true,
+        &quot;data&quot;:null
+    }
+*/
+</code></pre>
+</li>
+</ol>
+<h3 id="32-前端工程导入">3.2 前端工程导入</h3>
+<h4 id="321-前端环境搭建">3.2.1 前端环境搭建</h4>
+<blockquote>
+<p>Node.js 是前端程序运行的服务器，类似Java程序运行的服务器Tomcat                                 Npm 是前端依赖包管理工具，类似maven依赖管理工具软件</p>
+</blockquote>
+<ol>
+<li>
+<p>node安装</p>
+<p>课程node版本：16.16.0</p>
+<p><a href="https://nodejs.org/download/release/v16.16.0/">https://nodejs.org/download/release/v16.16.0/</a></p>
+<p><strong>node安装和测试：</strong></p>
+<ol>
+<li>
+<p>打开官网 <a href="https://nodejs.org/en/" title="https://nodejs.org/en/">https://nodejs.org/en/</a> 下载对应操作系统的 LTS 版本。（16.16.0）</p>
+<p><a href="file/node-v16.16.0-x64_NU23iPcrzB.msi" title=" node-v16.16.0-x64.msi">node-v16.16.0-x64.msi</a></p>
+</li>
+<li>
+<p>双击安装包进行安装，安装过程中遵循默认选项即可。安装完成后，可以在命令行终端输入 <code>node -v</code> 和 <code>npm -v</code> 查看 Node.js 和 npm 的版本号。</p>
+</li>
+</ol>
+</li>
+<li>
+<p>npm使用 （maven）</p>
+<blockquote>
+<p>NPM全称Node Package Manager，是Node.js包管理工具，相当于后端的Maven。</p>
+<ol>
+<li>
+<p>配置阿里镜像</p>
+<pre><code class="language-java">npm config set registry https://registry.npmjs.org/
+</code></pre>
+</li>
+<li>
+<p>更新npm版本<br>
+node16.16.0对应的npm版本过低！需要升级！</p>
+<pre><code class="language-java">npm install -g npm@9.6.6
+</code></pre>
+</li>
+<li>
+<p>npm依赖下载命令</p>
+<pre><code class="language-java">npm install 依赖名 / npm install 依赖名@版本
+</code></pre>
+</li>
+</ol>
+</blockquote>
+</li>
+<li>
+<p>安装vscode </p>
+<p><a href="file/VSCodeUserSetup-x64-1.74.0_byHx-Ntjau.exe" title=" VSCodeUserSetup-x64-1.74.0.exe">VSCodeUserSetup-x64-1.74.0.exe</a></p>
+</li>
+</ol>
+<h4 id="322-导入前端程序">3.2.2 导入前端程序</h4>
+<h3 id="33-启动测试">3.3 启动测试</h3>
+<pre><code class="language-java">npm install //安装依赖
+npm run dev //运行测试
+</code></pre>
+<h2 id="四-任务列表案例后端程序实现和测试">四、《任务列表案例》后端程序实现和测试</h2>
+<h3 id="41-准备工作">4.1  准备工作</h3>
+<ol>
+<li>
+<p>准备数据库脚本</p>
+<pre><code class="language-sql">CREATE TABLE schedule (
+  id INT NOT NULL AUTO_INCREMENT,
+  title VARCHAR(255) NOT NULL,
+  completed BOOLEAN NOT NULL,
+  PRIMARY KEY (id)
+);
+
+INSERT INTO schedule (title, completed)
+VALUES
+    ('学习java', true),
+    ('学习Python', false),
+    ('学习C++', true),
+    ('学习JavaScript', false),
+    ('学习HTML5', true),
+    ('学习CSS3', false),
+    ('学习Vue.js', true),
+    ('学习React', false),
+    ('学习Angular', true),
+    ('学习Node.js', false),
+    ('学习Express', true),
+    ('学习Koa', false),
+    ('学习MongoDB', true),
+    ('学习MySQL', false),
+    ('学习Redis', true),
+    ('学习Git', false),
+    ('学习Docker', true),
+    ('学习Kubernetes', false),
+    ('学习AWS', true),
+    ('学习Azure', false);
+
+</code></pre>
+</li>
+<li>
+<p>准备pojo</p>
+<p>包：com.atguigu.pojo</p>
+<pre><code class="language-java">@Data
+public class Schedule {
+
+    private Integer id;
+    private String title;
+    private Boolean completed;
+}
+
+</code></pre>
+</li>
+<li>
+<p>准备</p>
+<p>包：com.atguigu.utils</p>
+<pre><code class="language-java">@Data
+public class R {
+
+    private int code = 200; //200成功状态码
+    private boolean flag = true; //返回状态
+    private Object data;  //返回具体数据
+    public static R ok(Object data){
+        R r = new R();
+        r.data = data;
+        return r;
+    }
+
+    public static R  fail(Object data){
+        R r = new R();
+        r.code = 500; //错误码
+        r.flag = false; //错误状态
+        r.data = data;
+        return r;
+    }
+}
+</code></pre>
+</li>
+<li>
+<p>准备 PageBean</p>
+<p>包：com.atguigu.utils</p>
+<pre><code class="language-java">@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class PageBean&lt;T&gt; {
+    private int currentPage;   // 当前页码
+    private int pageSize;      // 每页显示的数据量
+    private long total;    // 总数据条数
+    private List&lt;T&gt; data;      // 当前页的数据集合
+}
+</code></pre>
+</li>
+</ol>
+<h3 id="42-功能实现">4.2 功能实现</h3>
+<ol>
+<li>
+<p>分页查询</p>
+<ol>
+<li>
+<p>controller</p>
+<pre><code class="language-java">/*
+    @CrossOrigin 注释在带注释的控制器方法上启用跨源请求
+ */
+@CrossOrigin
+@RequestMapping(&quot;schedule&quot;)
+@RestController
+public class ScheduleController
+{
+
+    @Autowired
+    private ScheduleService scheduleService;
+
+    @GetMapping(&quot;/{pageSize}/{currentPage}&quot;)
+    public R showList(@PathVariable(name = &quot;pageSize&quot;) int pageSize, @PathVariable(name = &quot;currentPage&quot;) int currentPage){
+        PageBean&lt;Schedule&gt; pageBean = scheduleService.findByPage(pageSize,currentPage);
+        return  R.ok(pageBean);
+    }
+}    
+</code></pre>
+</li>
+<li>
+<p>service</p>
+<pre><code class="language-java">@Slf4j
+@Service
+public class ScheduleServiceImpl  implements ScheduleService {
+
+    @Autowired
+    private ScheduleMapper scheduleMapper;
+
+    /**
+     * 分页数据查询,返回分页pageBean
+     *
+     * @param pageSize
+     * @param currentPage
+     * @return
+     */
+    @Override
+    public PageBean&lt;Schedule&gt; findByPage(int pageSize, int currentPage) {
+        //1.设置分页参数
+        PageHelper.startPage(currentPage,pageSize);
+        //2.数据库查询
+        List&lt;Schedule&gt; list = scheduleMapper.queryPage();
+        //3.结果获取
+        PageInfo&lt;Schedule&gt; pageInfo = new PageInfo&lt;&gt;(list);
+        //4.pageBean封装
+        PageBean&lt;Schedule&gt; pageBean = new PageBean&lt;&gt;(pageInfo.getPageNum(),pageInfo.getPageSize(),pageInfo.getTotal(),pageInfo.getList());
+
+        log.info(&quot;分页查询结果:{}&quot;,pageBean);
+
+        return pageBean;
+    }
+
+}
+</code></pre>
+</li>
+<li>
+<p>mapper</p>
+<p>mapper接口</p>
+<pre><code class="language-java">public interface ScheduleMapper {
+
+    List&lt;Schedule&gt; queryPage();
+}    
+</code></pre>
+<p>mapperxml文件</p>
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
+&lt;!DOCTYPE mapper
+        PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;
+        &quot;https://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;
+&lt;!-- namespace等于mapper接口类的全限定名,这样实现对应 --&gt;
+&lt;mapper namespace=&quot;com.atguigu.mapper.ScheduleMapper&quot;&gt;
+
+    &lt;select id=&quot;queryPage&quot; resultType=&quot;schedule&quot;&gt;
+        select * from schedule
+    &lt;/select&gt;
+&lt;/mapper&gt;    
+</code></pre>
+</li>
+</ol>
+</li>
+<li>
+<p>计划添加</p>
+<ol>
+<li>
+<p>controller</p>
+<pre><code class="language-java">@PostMapping
+public R saveSchedule(@RequestBody Schedule schedule){
+    scheduleService.saveSchedule(schedule);
+    return R.ok(null);
+}
+</code></pre>
+</li>
+<li>
+<p>service</p>
+<pre><code class="language-java">/**
+ * 保存学习计划
+ *
+ * @param schedule
+ */
+@Override
+public void saveSchedule(Schedule schedule) {
+    scheduleMapper.insert(schedule);
+}
+</code></pre>
+</li>
+<li>
+<p>mapper</p>
+<p>mapper接口</p>
+<pre><code class="language-java">void insert(Schedule schedule);
+</code></pre>
+<p>mapperxml文件</p>
+<pre><code class="language-xml">&lt;insert id=&quot;insert&quot;&gt;
+    insert into schedule (title, completed)
+    values
+    (#{title}, #{completed});
+&lt;/insert&gt;
+</code></pre>
+</li>
+</ol>
+</li>
+<li>
+<p>计划删除</p>
+<ol>
+<li>
+<p>controller</p>
+<pre><code class="language-java">@DeleteMapping(&quot;/{id}&quot;)
+public R removeSchedule(@PathVariable Integer id){
+    scheduleService.removeById(id);
+    return R.ok(null);   }
+</code></pre>
+</li>
+<li>
+<p>service</p>
+<pre><code class="language-java">/**
+ * 移除学习计划
+ *
+ * @param id
+ */
+@Override
+public void removeById(Integer id) {
+    scheduleMapper.delete(id);
+}
+</code></pre>
+</li>
+<li>
+<p>mapper<br>
+mapper接口</p>
+<pre><code class="language-java">void delete(Integer id);
+</code></pre>
+<p>mapperxml文件</p>
+<pre><code class="language-xml">&lt;delete id=&quot;delete&quot;&gt;
+    delete from schedule where id = #{id}
+&lt;/delete&gt;
+</code></pre>
+</li>
+</ol>
+</li>
+<li>
+<p>计划修改</p>
+<ol>
+<li>
+<p>controller</p>
+<pre><code class="language-java">@PutMapping
+    public R changeSchedule(@RequestBody Schedule schedule){
+    scheduleService.updateSchedule(schedule);
+    return R.ok(null);
+}
+</code></pre>
+</li>
+<li>
+<p>service</p>
+<pre><code class="language-java">/**
+ * 更新学习计划
+ *
+ * @param schedule
+ */
+@Override
+public void updateSchedule(Schedule schedule) {
+    scheduleMapper.update(schedule);
+}
+</code></pre>
+</li>
+<li>
+<p>mapper<br>
+mapper接口</p>
+<pre><code class="language-java">void update(Schedule schedule);
+</code></pre>
+<p>mapperxml文件</p>
+<pre><code class="language-xml">&lt;update id=&quot;update&quot;&gt;
+    update schedule set title = #{title} , completed = #{completed}
+         where id = #{id}
+&lt;/update&gt;
+</code></pre>
+</li>
+</ol>
+</li>
+</ol>
+<h3 id="43-前后联调">4.3 前后联调</h3>
+<ol>
+<li>
+<p>后台项目根路径设计</p>
+</li>
+<li>
+<p>启动测试即可</p>
+</li>
+</ol>
+
+              </div>
+              <hr class="clear">
+              
+                <div class="next-post">
+                  <a class="purple-link" href="https://decade-qiu.github.io/post/springmvc-shi-zhan-gou-jian-gao-xiao-biao-shu-ceng-kuang-jia/">
+                    <h3 class="post-title">
+                      下一篇：SpringMVC实战：构建高效表述层框架
+                    </h3>
+                  </a>
+                </div>
+                
+            </div>
+          </div>
+      </div>
+
+      
+          <div id="gitalk-container"></div>
+      
+
+    
+    </div>
+    <div class="site-footer">
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/Decade-qiu" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        <a href="https://space.bilibili.com/98721375?spm_id_from=333.1007.0.0" target="_blank">
+          <i class="fab fa-bilibili"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.zhihu.com/people/chou-yu-80-33" target="_blank">
+          <i class="fab fa-zhihu"></i>
+        </a>
+      
+    
+  </div>
+  <div class="slogan">Stay hungry. Stay foolish.</div> |
+  <a href="https://github.com/Decade-qiu/gridea-theme-Eternal" target="_blank">Today is happy day again!</a> | <a href="https://github.com/Decade-qiu/gridea-theme-Eternal" target="_blank">Powered by Eternal</a> | <a href="https://decade-qiu.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+    <script src="https://decade-qiu.github.io/media/scripts/index.js"></script>
+
+
+    <script src='https://decade-qiu.github.io/media/scripts/valine.min.js'></script>
+    <script>
+        new Valine({
+            el: '#gitalk-container',
+            appId: 'b2xhAFZQq4FxBeHcVRgXNEbf-gzGzoHsz',
+            appKey: 'QqIty1r7mCD1MbFanHuyw57O',
+            placeholder: 'Write something...',
+        })
+    </script>
+
+
+
+  </body>
+</html>
+
+<script>
+    window.onload = function() {
+        let id = 1;
+        let post_content = document.querySelector('.content-card');
+        post_content.querySelectorAll('h1,h2,h3,h4,h5,h6').forEach(function (item) {
+            item.setAttribute('id', 'toc-' + id);
+            id++;
+        });
+        tocbot.init({
+            tocSelector: '.toc',
+            contentSelector: '.post-content',
+            headingSelector: 'h1,h2,h3,h4',
+            headingsOffset: 58,
+        });
+        // 检测页面滚动距离 用eventlistener
+        window.addEventListener('scroll', function () {
+            let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            let toc = document.querySelector('.toc');
+            let tocBtn = document.querySelector('.toc-body');
+            if (scrollTop > 250) {
+                tocBtn.classList.add('toc-body-fixed');
+                toc.classList.add('toc-fixed');
+            } else {
+                tocBtn.classList.remove('toc-body-fixed');
+                toc.classList.remove('toc-fixed');
+            }
+        });
+        document.querySelector('#floating-toc-btn').addEventListener('click', function () {
+            let toc = document.querySelector('.toc-body');
+            let main = document.querySelector('.main');
+            if (toc.classList.contains('hide')) {
+                main.classList.add('main-small');
+                toc.classList.remove('hide');
+            } else {
+                toc.classList.add('hide');
+                main.classList.remove('main-small');
+            }
+        });
+        window.addEventListener('resize', function() {
+            // 获取屏幕宽度
+            var screenWidth = window.innerWidth || document.documentElement.clientWidth;
+            // 设置 .content-card 的 max-width
+            var contentCard = document.querySelector('.content-card');
+            contentCard.style.maxWidth = screenWidth + 'px';
+        });
+        // 初始加载时执行一次，确保初始状态下也设置正确
+        window.dispatchEvent(new Event('resize'));
+    };
+</script>

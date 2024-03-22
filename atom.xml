@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://decade-qiu.github.io</id>
+    <title>Decade</title>
+    <updated>2024-03-22T14:48:21.984Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://decade-qiu.github.io"/>
+    <link rel="self" href="https://decade-qiu.github.io/atom.xml"/>
+    <subtitle>Stay hungry. Stay foolish.</subtitle>
+    <logo>https://decade-qiu.github.io/images/avatar.png</logo>
+    <icon>https://decade-qiu.github.io/favicon.ico</icon>
+    <rights>All rights reserved 2024, Decade</rights>
+    <entry>
+        <title type="html"><![CDATA[SpringBoot3 核心原理]]></title>
+        <id>https://decade-qiu.github.io/post/springboot3-he-xin-yuan-li/</id>
+        <link href="https://decade-qiu.github.io/post/springboot3-he-xin-yuan-li/">
+        </link>
+        <updated>2024-03-22T14:45:24.000Z</updated>
+        <summary type="html"><![CDATA[<p><code>事件和监听器</code><br>
+<code>自动配置原理</code><br>
+<code>自定义Starter</code></p>
+]]></summary>
+        <content type="html"><![CDATA[<p><code>事件和监听器</code><br>
+<code>自动配置原理</code><br>
+<code>自定义Starter</code></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[SpringBoot3 基础特性]]></title>
+        <id>https://decade-qiu.github.io/post/springboot3-ji-chu-te-xing/</id>
+        <link href="https://decade-qiu.github.io/post/springboot3-ji-chu-te-xing/">
+        </link>
+        <updated>2024-03-11T13:44:45.000Z</updated>
+        <summary type="html"><![CDATA[<p><code>profiles配置</code></p>
+<p><code>外部化配置</code></p>
+<p><code>单元测试</code></p>
+]]></summary>
+        <content type="html"><![CDATA[<p><code>profiles配置</code></p>
+<p><code>外部化配置</code></p>
+<p><code>单元测试</code></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[SpringBoot3 数据访问]]></title>
+        <id>https://decade-qiu.github.io/post/springboot3-shu-ju-fang-wen/</id>
+        <link href="https://decade-qiu.github.io/post/springboot3-shu-ju-fang-wen/">
+        </link>
+        <updated>2024-03-09T14:50:28.000Z</updated>
+        <summary type="html"><![CDATA[<p><code>SSM场景整合</code></p>
+]]></summary>
+        <content type="html"><![CDATA[<p><code>SSM场景整合</code></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[SpringBoot3 Web开发]]></title>
+        <id>https://decade-qiu.github.io/post/web-kai-fa/</id>
+        <link href="https://decade-qiu.github.io/post/web-kai-fa/">
+        </link>
+        <updated>2024-03-08T13:53:49.000Z</updated>
+        <summary type="html"><![CDATA[<p><code>WebMvcAutoConfiguration原理</code></p>
+<p><code>常见场景配置</code></p>
+<p><code>Web新特性</code></p>
+]]></summary>
+        <content type="html"><![CDATA[<p><code>WebMvcAutoConfiguration原理</code></p>
+<p><code>常见场景配置</code></p>
+<p><code>Web新特性</code></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[SpringBoot3 快速入门]]></title>
+        <id>https://decade-qiu.github.io/post/springboot3-kuai-su-ru-men/</id>
+        <link href="https://decade-qiu.github.io/post/springboot3-kuai-su-ru-men/">
+        </link>
+        <updated>2024-03-01T14:26:59.000Z</updated>
+        <summary type="html"><![CDATA[<p><code>SpringBoot简介</code> <code>开发流程</code></p>
+<p><code>特性小结</code> <code>自动配置机制分析</code></p>
+<p><code>核心技能</code></p>
+]]></summary>
+        <content type="html"><![CDATA[<p><code>SpringBoot简介</code> <code>开发流程</code></p>
+<p><code>特性小结</code> <code>自动配置机制分析</code></p>
+<p><code>核心技能</code></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[JDBC基础]]></title>
+        <id>https://decade-qiu.github.io/post/jdbc-ji-chu/</id>
+        <link href="https://decade-qiu.github.io/post/jdbc-ji-chu/">
+        </link>
+        <updated>2024-02-29T02:58:55.000Z</updated>
+        <summary type="html"><![CDATA[<p><code>JDBC基础使用</code></p>
+]]></summary>
+        <content type="html"><![CDATA[<p><code>JDBC基础使用</code></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[性能分析工具的使用]]></title>
+        <id>https://decade-qiu.github.io/post/xing-neng-fen-xi-gong-ju-de-shi-yong/</id>
+        <link href="https://decade-qiu.github.io/post/xing-neng-fen-xi-gong-ju-de-shi-yong/">
+        </link>
+        <updated>2024-02-27T01:05:02.000Z</updated>
+        <summary type="html"><![CDATA[<p><code>系统性能参数</code> <code>慢SQL查询日志</code></p>
+<p><code>SHOW PROFILE</code> <code>EXPLAIN</code></p>
+<p><code>Trace</code> <code>Sys schema视图</code></p>
+]]></summary>
+        <content type="html"><![CDATA[<p><code>系统性能参数</code> <code>慢SQL查询日志</code></p>
+<p><code>SHOW PROFILE</code> <code>EXPLAIN</code></p>
+<p><code>Trace</code> <code>Sys schema视图</code></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[索引的创建与设计原则]]></title>
+        <id>https://decade-qiu.github.io/post/suo-yin-de-chuang-jian-yu-she-ji-yuan-ze/</id>
+        <link href="https://decade-qiu.github.io/post/suo-yin-de-chuang-jian-yu-she-ji-yuan-ze/">
+        </link>
+        <updated>2024-02-25T09:00:33.000Z</updated>
+        <summary type="html"><![CDATA[<p><code>索引分类</code><br>
+<code>MySql 8.0 新增索引</code><br>
+<code>索引设计原则</code></p>
+]]></summary>
+        <content type="html"><![CDATA[<p><code>索引分类</code><br>
+<code>MySql 8.0 新增索引</code><br>
+<code>索引设计原则</code></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[InnoDB数据库物理存储结构]]></title>
+        <id>https://decade-qiu.github.io/post/innodb-shu-ju-ku-wu-li-cun-chu-jie-gou/</id>
+        <link href="https://decade-qiu.github.io/post/innodb-shu-ju-ku-wu-li-cun-chu-jie-gou/">
+        </link>
+        <updated>2024-02-24T13:32:42.000Z</updated>
+        <summary type="html"><![CDATA[<p><code>数据库物理存储结构</code></p>
+<p><code>页的内部结构</code> <code>InnoDB行格式</code></p>
+<p><code>区和段</code> <code>表空间</code></p>
+]]></summary>
+        <content type="html"><![CDATA[<p><code>数据库物理存储结构</code></p>
+<p><code>页的内部结构</code> <code>InnoDB行格式</code></p>
+<p><code>区和段</code> <code>表空间</code></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[索引的数据结构]]></title>
+        <id>https://decade-qiu.github.io/post/suo-yin-de-shu-ju-jie-gou/</id>
+        <link href="https://decade-qiu.github.io/post/suo-yin-de-shu-ju-jie-gou/">
+        </link>
+        <updated>2024-02-24T05:11:52.000Z</updated>
+        <summary type="html"><![CDATA[<p><code>索引的概念</code> <code>索引使用优缺点</code></p>
+<p><code>B+树结构</code> <code>其它索引结构</code></p>
+]]></summary>
+        <content type="html"><![CDATA[<p><code>索引的概念</code> <code>索引使用优缺点</code></p>
+<p><code>B+树结构</code> <code>其它索引结构</code></p>
+]]></content>
+    </entry>
+</feed>

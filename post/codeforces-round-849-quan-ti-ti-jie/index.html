@@ -1,0 +1,638 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>Codeforces Round #849 全题题解 | Decade</title>
+<meta name="description" content="Stay hungry. Stay foolish.">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.1/css/all.css" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://decade-qiu.github.io/favicon.ico?v=1711118819754">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://decade-qiu.github.io/styles/main.css">
+
+<script src="https://decade-qiu.github.io/media/scripts/vue.js"></script>
+<script src="https://decade-qiu.github.io/media/scripts/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.5.0/tocbot.min.js"></script>
+  </head>
+  <body>
+    <div class="carousel carousel-slider center index-cover" data-indicators="true">
+    <div class="bg-cover pd-header" style="background: url('') no-repeat center center fixed" data-link="https://decade-qiu.github.io/post/codeforces-round-849-quan-ti-ti-jie/">
+        <div class="container">
+            <div class="row">
+                <div class="col s10 offset-s1 m8 offset-m2 l8 offset-l2">
+                    <div class="brand">
+                        <div class="title center-align">
+                            Codeforces Round #849 全题题解
+                        </div>
+                        <div class="description center-align">
+                            <span id="subtitle">
+                                Day Day Learn, Day Day Up.
+                            </span><span class="typed-cursor">|</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
+<script>
+    window.onload = function () {
+        var typed = new Typed("#subtitle", {
+            strings: [ 
+                
+                    "从来没有真正的绝境, 只有心灵的迷途",
+                
+                    'Day Day Learn, Day Day Up.',
+
+            ],
+            startDelay: 300,
+            typeSpeed: 100,
+            loop: true,
+            backSpeed: 50,
+            showCursor: true
+        });
+        let cover = document.querySelector('.bg-cover');
+        cover.setAttribute('style', `background: url('${localStorage[cover.dataset.link]}') no-repeat center center fixed`);
+    }
+</script>
+
+
+    <div class="toc-body hide">  
+        <div class="toc"></div>
+    </div>
+    <div id="floating-toc-btn">
+        <i class="fas fa-list-ul bg-color"></i>
+    </div>
+    <div id="app" class="main">
+      <div class="site-header-container nav-transparent">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://decade-qiu.github.io">
+        <img class="avatar" src="https://decade-qiu.github.io/images/avatar.png?v=1711118819754" alt=""
+          width="32px" height="32px">
+      </a>
+      <a href="https://decade-qiu.github.io">
+        <h1 class="site-title">
+          Decade
+        </h1>
+      </a>
+    </div>
+    <div class="right">
+        <div class="menu">
+            <a href="/post/about" v-if="headSearchShow">
+                <i class="fa-solid fa-user"></i>&nbsp;个人
+            </a>
+            <a href="/archives" v-if="headSearchShow">
+                <i class="fa-solid fa-box-archive"></i>&nbsp;归档
+            </a>
+            <a href="/tags" v-if="headSearchShow">
+                <i class="fa-solid fa-tag"></i>&nbsp;标签
+            </a>
+            <a href="/life" v-if="headSearchShow">
+                <i class="fa-fw fas fa-heart"></i>&nbsp;生活
+            </a>
+            
+        </div>
+      <div class="gridea-search-div" v-if="headSearchShow">
+        <form id="gridea-search-form" action="https://decade-qiu.github.io/search/">
+          <input class="gridea-search-input" autocomplete="off" spellcheck="false" name="q" />
+        </form>
+      </div>
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }"
+          @click="menuClick()" v-if="menuSearchShow"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      <div class="gridea-search-div" v-if="menuSearchShow">
+        <form id="gridea-search-form" action="https://decade-qiu.github.io/search/">
+          <input class="gridea-search-input" autocomplete="off" spellcheck="false" name="q" />
+        </form>
+      </div>
+      
+        
+            <a href="/" class="menu purple-link">
+              首页
+            </a>
+            
+              
+        
+            <a href="/archives" class="menu purple-link">
+              归档
+            </a>
+            
+              
+        
+            <a href="/tags" class="menu purple-link">
+              标签
+            </a>
+            
+              
+        
+            <a href="/post/about" class="menu purple-link">
+              个人
+            </a>
+            
+              
+        
+            <a href="/life" class="menu purple-link">
+              生活
+            </a>
+            
+              
+              
+    </div>
+  </div>
+</transition>
+
+<script>
+    window.onscroll = function () {
+        var t = document.documentElement.scrollTop || document.body.scrollTop;
+        var header = document.querySelector('.site-header-container');
+        if (t > 0) {
+            header.classList.remove('nav-transparent');
+        } else {
+            header.classList.add('nav-transparent');
+        }
+    }
+</script>
+
+      <div class="content-body">
+        <div class="content-container content-card">
+            <div class="post-detail">
+              <div class="post-info post-detail-info">
+                <span><i class="icon-calendar-outline"></i> 2023-02-09-Thu</span>
+                
+                  <span>
+                    
+                        <i class="icon-pricetags-outline"></i>
+                      <a href="https://decade-qiu.github.io/tag/R4IAG0U4d/">
+                        DP
+                      </a>
+                    
+                        <i class="icon-pricetags-outline"></i>
+                      <a href="https://decade-qiu.github.io/tag/M3jGa6EF9/">
+                        二分
+                      </a>
+                    
+                        <i class="icon-pricetags-outline"></i>
+                      <a href="https://decade-qiu.github.io/tag/2CsPNHBH_/">
+                        前缀和
+                      </a>
+                    
+                        <i class="icon-pricetags-outline"></i>
+                      <a href="https://decade-qiu.github.io/tag/d7p-iel5V/">
+                        树状数组
+                      </a>
+                    
+                        <i class="icon-pricetags-outline"></i>
+                      <a href="https://decade-qiu.github.io/tag/CRDgA15G4/">
+                        线段树
+                      </a>
+                    
+                        <i class="icon-pricetags-outline"></i>
+                      <a href="https://decade-qiu.github.io/tag/ZFabRpDwN/">
+                        CF
+                      </a>
+                    
+                        <i class="icon-pricetags-outline"></i>
+                      <a href="https://decade-qiu.github.io/tag/8kKiiOO0t/">
+                        数组
+                      </a>
+                    
+                        <i class="icon-pricetags-outline"></i>
+                      <a href="https://decade-qiu.github.io/tag/11a3eLQs3/">
+                        字符串
+                      </a>
+                    
+                        <i class="icon-pricetags-outline"></i>
+                      <a href="https://decade-qiu.github.io/tag/nTFeAmnF3/">
+                        竞赛
+                      </a>
+                    
+                  </span>
+                
+              </div>
+              
+                <div class="post-card-abstract">
+                    <p>A. Codeforces Checking<br>
+B. Following Directions<br>
+C. Prepend and Append<br>
+D. Distinct Split<br>
+E. Negatives and Positives<br>
+F. Range Update Point Query<br>
+G1. Teleporters (Easy Version)<br>
+G2. Teleporters (Hard Version)</p>
+
+                  </div>
+                
+              <hr class="clear">
+              <div class="post-content">
+                
+<h2 id="a-codeforces-checking">A - Codeforces Checking</h2>
+<blockquote>
+<p><a href="https://codeforces.com/contest/1791/problem/A">A - Codeforces Checking</a></p>
+<p>就是给你一个字符，判断它是不是在单词“codeforces”里。</p>
+</blockquote>
+<h3 id="思路">思路</h3>
+<p>暴力</p>
+<ul>
+<li>时间复杂度：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>n</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span></li>
+<li>空间复杂度：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mn>1</mn><mo>)</mo></mrow><annotation encoding="application/x-tex">O(1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></li>
+</ul>
+<h3 id="代码">代码</h3>
+<pre><code class="language-python">def solve():
+    x = input()
+    print(&quot;yes&quot; if x in &quot;codeforces&quot; else &quot;no&quot;)
+</code></pre>
+<h2 id="b-following-directions">B - Following Directions</h2>
+<blockquote>
+<p><a href="https://codeforces.com/contest/1791/problem/B">B - Following Directions</a></p>
+<p>给你一个字符串表示移动方向，看移动过程中有没有经过点（1， 1）。</p>
+</blockquote>
+<h3 id="思路-2">思路</h3>
+<p>数据量很小，直接模拟；到了点（1， 1）就return true。</p>
+<ul>
+<li>时间复杂度：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>n</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span></li>
+<li>空间复杂度：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mn>1</mn><mo>)</mo></mrow><annotation encoding="application/x-tex">O(1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></li>
+</ul>
+<h3 id="代码-2">代码</h3>
+<pre><code class="language-python">def solve():
+    n = int(input())
+    s = input()
+    x, y = 0, 0
+    for i in range(n):
+        c = s[i]
+        if c == 'U': y += 1
+        if c == 'D': y -= 1
+        if c == 'L': x -= 1
+        if c == 'R': x += 1
+        if x == 1 and y == 1:
+            print(&quot;yes&quot;)
+            return
+    print(&quot;no&quot;)
+</code></pre>
+<h2 id="c-prepend-and-append">C. Prepend and Append</h2>
+<blockquote>
+<p><a href="https://codeforces.com/contest/1791/problem/C">C - Prepend and Append</a></p>
+<p>有一个操作每次可以将字符串头部和尾部加上0、1或1、0。给你一个字符串，返回可以经过任意次操作可得到它的最短字符串。</p>
+</blockquote>
+<h3 id="思路-3">思路</h3>
+<p>反向思考，每次操作删去首尾0、1。直到首尾为0、0或1、1或字符串为空。</p>
+<ul>
+<li>时间复杂度：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>n</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span></li>
+<li>空间复杂度：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mn>1</mn><mo>)</mo></mrow><annotation encoding="application/x-tex">O(1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></li>
+</ul>
+<h3 id="代码-3">代码</h3>
+<pre><code class="language-python">def solve():
+    n = int(input())
+    s = input()
+    t = 0
+    while t &lt; n//2 and s[t]+s[n-t-1] in '010': t += 1
+    print(n-t*2)    
+</code></pre>
+<h2 id="d-distinct-split">D. Distinct Split</h2>
+<blockquote>
+<p><a href="https://codeforces.com/contest/1791/problem/D">D - Distinct Split</a></p>
+<p>让我们把一个字符串x的f(x)函数表示为该字符串包含的不同字符的数量。例如f(abc)=3, f(bbbb)=1和f(babacaba)=3。</p>
+<p>给定一个字符串ss，把它分成两个非空字符串a和b，使f(a)+f(b)为最大可能值。换句话说，找出f(a)+f(b)的最大可能值，使a+b=ss。</p>
+</blockquote>
+<h3 id="思路-4">思路</h3>
+<p>枚举分割点，分别维护两边不同字符的数量。</p>
+<p>考虑到Set比较耗时，可以用两个数组来记录出现不同字符的数目：增加后字符数量为1就+1，删除后字符数量为0就-1。</p>
+<ul>
+<li>时间复杂度：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>n</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span></li>
+<li>空间复杂度：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mn>1</mn><mo>)</mo></mrow><annotation encoding="application/x-tex">O(1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord">1</span><span class="mclose">)</span></span></span></span></li>
+</ul>
+<h3 id="代码-4">代码</h3>
+<pre><code class="language-python">def solve():
+    n = int(input())
+    s = input()
+    a, b, c1, c2, ans = [0]*26, [0]*26, 0, 0, 0
+    for x in s:
+        i = ord(x)-ord('a')
+        b[i] += 1
+        if b[i] == 1: c2 += 1
+    for x in s:
+        i = ord(x)-ord('a')
+        a[i] += 1
+        if a[i] == 1: c1 += 1
+        b[i] -= 1
+        if b[i] == 0: c2 -= 1
+        ans = max(ans, c1+c2)
+    print(ans)
+</code></pre>
+<h2 id="e-negatives-and-positives">E. Negatives and Positives</h2>
+<blockquote>
+<p><a href="https://codeforces.com/contest/1791/problem/E">E - Negatives and Positives</a></p>
+<p>给定一个由n个元素组成的数组a，求该数组在执行以下任意次数的操作后可能具有的最大和。</p>
+<p>选择2个相邻的元素，翻转它们的符号。换句话说，选择一个索引i，使1≤i≤n-1，并指定ai=-ai，ai+1=-ai+1。</p>
+</blockquote>
+<h3 id="思路-5">思路</h3>
+<p>一眼看去像是贪心，但不敢贪😅；这题动态规划思路很好像，还是老老实实DP。</p>
+<p>对于每个数而言，只有两种可能情况：翻转和不翻转（和背包问题很像，可以看看这篇文章<a href="https://decade-qiu.github.io/post/dong-tai-gui-hua/">这篇文章</a>）。</p>
+<p>于是定义<code>dp[i][0]:不翻转第i个数可以得到的最大值 dp[i][1]翻转第i个数可以得到的最大值:</code></p>
+<p>递推：不反转就直接把第i个数和前面可以得到的最大值相加；否则第i个数和第i-1个数也要翻转。</p>
+<p><code>dp[i-1][0]</code>表示i-1个数没有翻转，此时<code>dp[i-1][0]-a[i-1]</code>就是前i-2个数最大值，再减去<code>a[i-1]和a[i]</code>就行。</p>
+<p><code>dp[i-1][1]</code>表示i-1个数没有翻转，此时<code>dp[i-1][0]+a[i-1]</code>就是前i-2个数最大值，再减去<code>-a[i-1]和a[i]</code>就行。（因为此时啊<code>a[i-1]</code>翻转过了，变成了<code>-a[i-1]</code>）</p>
+<ul>
+<li>时间复杂度：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>n</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span></li>
+<li>空间复杂度：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>n</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span></li>
+</ul>
+<h3 id="代码-5">代码</h3>
+<pre><code class="language-python">def solve(): 
+    n = int(input())
+    a = list(map(int, input().split()))
+    dp = [[0]*2 for i in range(n+1)]
+    dp[1][0], dp[1][1] = a[0], int(-1e18)
+    for i in range(2, n+1):
+        dp[i][0] = max(dp[i-1][0], dp[i-1][1])+a[i-1]
+        dp[i][1] = max(dp[i-1][0]-2*a[i-2], dp[i-1][1]+2*a[i-2])-a[i-1]
+    print(max(dp[n][0], dp[n][1]))
+</code></pre>
+<h3 id="tips">Tips</h3>
+<blockquote>
+<p><code>dp[1][0], dp[1][1] = a[0], int(-1e18)</code> 初始化要思考下。</p>
+<p>单独翻转第一个数是不可能的，所以要设置为无穷小。（比可能的最小值小就行了，一开始写成-1e9，怒wa）</p>
+</blockquote>
+<h2 id="f-range-update-point-query">F. Range Update Point Query</h2>
+<blockquote>
+<p><a href="https://codeforces.com/contest/1791/problem/F">F - Range Update Point Query</a></p>
+<p>给定一个数组a1,a2,......,an，你需要处理两类共计q的更新和查询。</p>
+<p>1 l r - 对于每个有l≤i≤r的索引i，将ai的值更新为ai的各个位数上的数字之和。<br>
+2 x  - 输出a[x]。</p>
+</blockquote>
+<h3 id="思路-6">思路</h3>
+<p>看到题干，一眼线段树。但这题只涉及区间修改和单点查询，用树状数组更简单。两种数据结构详见<a href="https://decade-qiu.github.io/post/gao-ji-shu-ju-jie-gou/">数据结构</a></p>
+<p>还要注意所有可能的数最多更新三次就不会变了。</p>
+<ul>
+<li>时间复杂度：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>n</mi><mi>log</mi><mo>⁡</mo><mi>n</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">O(n \log n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span></li>
+<li>空间复杂度：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>n</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span></li>
+</ul>
+<h3 id="代码-6">代码</h3>
+<pre><code class="language-java">static int n, m, a[] = new int[N], tr[] = new int[N];
+static void add(int x, int v){
+    for (int i = x;i &lt;= n;i += i&amp;-i) tr[i] += v;
+}
+static int sum(int x){
+    int res = 0;
+    for (int i = x;i &gt; 0;i -= i&amp;-i) res += tr[i];
+    return res;
+}
+static int get(int t, int cnt){
+    while (cnt != 0 &amp;&amp; t &gt; 9){
+        int tp = 0;
+        while (t != 0){
+            tp += t%10;
+            t /= 10;
+        } t = tp;
+        cnt--;
+    }return t;
+}
+static void solve() throws Exception{
+    n = ni(); m = ni();
+    Arrays.fill(a, 0); Arrays.fill(tr, 0);
+    for (int i = 1;i &lt;= n;i++) a[i] = ni();
+    for (int i = 0;i &lt; m;i++){
+        int op = ni();
+        if (op == 1){
+            int l = ni(), r = ni();
+            add(l, 1); add(r+1, -1);
+        }else{
+            int t = ni();
+            out.println(get(a[t], sum(t)));
+        }
+    }
+}
+</code></pre>
+<h3 id="tips-2">Tips</h3>
+<blockquote>
+<p>多组测试用例的题目，对于全局变量一定要<code>初始化</code>！！！</p>
+<p>即<code>Arrays.fill(a, 0); Arrays.fill(tr, 0);</code>，不然会死的很惨。</p>
+</blockquote>
+<h2 id="g1-teleporters-easy-version">G1. Teleporters (Easy Version)</h2>
+<blockquote>
+<p><a href="https://codeforces.com/contest/1791/problem/G1">G1 - Teleporters (Easy Version)</a></p>
+<p>考虑到数线上的点0,1,...,n。在每一个点1,2,...,n上有一个传送器。在i点，你可以做以下事情。</p>
+<ul>
+<li>
+<p>向左移动一个单位：花费1枚硬币。</p>
+</li>
+<li>
+<p>向右移动一个单位：需要花费1个硬币。</p>
+</li>
+<li>
+<p>在第i点使用一个传送器，如果它存在的话：它需要花费ai硬币。结果，你会被传送到0点。</p>
+</li>
+<li>
+<p>一旦你使用了一个传送器，你就不能再使用它了。</p>
+</li>
+</ul>
+<p>你有c硬币，你从0点开始。你最多可以使用多少个传送器？</p>
+</blockquote>
+<h3 id="思路-7">思路</h3>
+<p>可以发现，每次到一个点传送后都回到原点。即到达每个点使用传送器的总消耗是独立的，等于 到该点的花费+该店使用传送的花费。</p>
+<p>即预处理所有点的花费，从小到大排序，看最多能支持几次。（其实可以前缀和+二分，但懒😅）</p>
+<ul>
+<li>时间复杂度：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>n</mi><mi>log</mi><mo>⁡</mo><mi>n</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">O(n \log n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span></li>
+<li>空间复杂度：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>n</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span></li>
+</ul>
+<h3 id="代码-7">代码</h3>
+<pre><code class="language-python">def solve(): 
+    n, m = list(map(int, input().split()))
+    a = list(map(int, input().split()))
+    cost = [i+1+a[i] for i in range(n)]
+    cost.sort()
+    ans, s = 0, 0
+    for i in cost:
+        s += i
+        if s &lt;= m:
+            ans += 1
+        else: break
+    print(ans)
+</code></pre>
+<h2 id="g2-teleporters-hard-version">G2. Teleporters (Hard Version)</h2>
+<blockquote>
+<p><a href="https://codeforces.com/contest/1791/problem/G2">G2 - Teleporters (Hard Version)</a></p>
+<p>与EASY版本不同的是使用传送后，可以回到点0，也可以回到点n+1。</p>
+</blockquote>
+<h3 id="思路-8">思路</h3>
+<p>与EASY版本一样，如果我们不考虑第一个去的点，问题对每个点来说仍然是独立的，但这一次门户的成本是<code>min(a[i]+i,a[i]+n+1-i)</code>（因为我们可以从0点或n+1点来到一个门户）。因此，我们再次按成本对传送门进行排序。但是这一次，我们需要确保第一个拿下的传送门是从0点去的，所以我们将遍历所有的点，并检查如果我们把它作为第一个传送门，我们能拿下的最大传送门数量。</p>
+<p>这里就需要用二分找到每次可以去的点的最大值。（与常规二分不同，需要单独对当前遍历到的点处理）</p>
+<ul>
+<li>时间复杂度：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>n</mi><mi>log</mi><mo>⁡</mo><mi>n</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">O(n \log n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span></li>
+<li>空间复杂度：<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>n</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">O(n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span></li>
+</ul>
+<h3 id="代码-8">代码</h3>
+<pre><code class="language-python">static int n, c;
+static long a[] = new long[N], cost[][] = new long[N][2];
+static void solve() throws Exception{
+    n = ni(); c = ni();
+    Arrays.fill(a, 0);
+    for (int i = 1;i &lt;= n;i++) cost[i] = new long[]{0, 0};
+    for (int i = 1;i &lt;= n;i++) a[i] = ni();
+    for (int i = 1;i &lt;= n;i++){
+        cost[i][0] = min(i+a[i], n-i+1+a[i]);
+        cost[i][1] = i;
+    }
+    Arrays.sort(cost, 1, n+1, (x,y)-&gt;Long.compare(x[0], y[0]));
+    for (int i = 1;i &lt;= n;i++) cost[i][0] += cost[i-1][0];
+    int ans = 0;
+    for (int i = 1;i &lt;= n;i++){
+        int l = 1, r = n, dx = i;
+        long first = cost[i][1]+a[(int)cost[i][1]];
+        if (first &gt; c) continue;
+        while (l &lt;= r){
+            int m = l+r &gt;&gt; 1;
+            long cur = cost[m][0];
+            if (m &lt; dx) cur += first;
+            else cur += first-cost[dx][0]+cost[dx-1][0];
+            if (cur &lt;= c) l = m+1;
+            else r = m-1;
+        }
+        ans = max(ans, r&lt;dx?r+1:r);
+    }out.println(ans);
+}
+</code></pre>
+<h3 id="欢迎加我好友一起来讨论算法题目">欢迎加我好友一起来讨论算法题目😎</h3>
+<blockquote>
+<p>本文作者：Decade<br>
+作者博客：<a href="https://decade.net.cn/"><strong>https://decade.net.cn/</strong></a><br>
+联系方式：<a href="https://github.com/Decade-qiu"><strong>Github</strong></a>  <strong>QQ</strong>：3237550600<br>
+转载要求： 转载请在文首显眼出表明本文链接且在留言区告知我并附上你转载到哪里的链接。</p>
+</blockquote>
+
+              </div>
+              <hr class="clear">
+              
+                <div class="next-post">
+                  <a class="purple-link" href="https://decade-qiu.github.io/post/di-80-chang-bei-sai/">
+                    <h3 class="post-title">
+                      下一篇：第80场杯赛
+                    </h3>
+                  </a>
+                </div>
+                
+            </div>
+          </div>
+      </div>
+
+      
+          <div id="gitalk-container"></div>
+      
+
+    
+    </div>
+    <div class="site-footer">
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/Decade-qiu" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        <a href="https://space.bilibili.com/98721375?spm_id_from=333.1007.0.0" target="_blank">
+          <i class="fab fa-bilibili"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.zhihu.com/people/chou-yu-80-33" target="_blank">
+          <i class="fab fa-zhihu"></i>
+        </a>
+      
+    
+  </div>
+  <div class="slogan">Stay hungry. Stay foolish.</div> |
+  <a href="https://github.com/Decade-qiu/gridea-theme-Eternal" target="_blank">Today is happy day again!</a> | <a href="https://github.com/Decade-qiu/gridea-theme-Eternal" target="_blank">Powered by Eternal</a> | <a href="https://decade-qiu.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+    <script src="https://decade-qiu.github.io/media/scripts/index.js"></script>
+
+
+    <script src='https://decade-qiu.github.io/media/scripts/valine.min.js'></script>
+    <script>
+        new Valine({
+            el: '#gitalk-container',
+            appId: 'b2xhAFZQq4FxBeHcVRgXNEbf-gzGzoHsz',
+            appKey: 'QqIty1r7mCD1MbFanHuyw57O',
+            placeholder: 'Write something...',
+        })
+    </script>
+
+
+
+  </body>
+</html>
+
+<script>
+    window.onload = function() {
+        let id = 1;
+        let post_content = document.querySelector('.content-card');
+        post_content.querySelectorAll('h1,h2,h3,h4,h5,h6').forEach(function (item) {
+            item.setAttribute('id', 'toc-' + id);
+            id++;
+        });
+        tocbot.init({
+            tocSelector: '.toc',
+            contentSelector: '.post-content',
+            headingSelector: 'h1,h2,h3,h4',
+            headingsOffset: 58,
+        });
+        // 检测页面滚动距离 用eventlistener
+        window.addEventListener('scroll', function () {
+            let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            let toc = document.querySelector('.toc');
+            let tocBtn = document.querySelector('.toc-body');
+            if (scrollTop > 250) {
+                tocBtn.classList.add('toc-body-fixed');
+                toc.classList.add('toc-fixed');
+            } else {
+                tocBtn.classList.remove('toc-body-fixed');
+                toc.classList.remove('toc-fixed');
+            }
+        });
+        document.querySelector('#floating-toc-btn').addEventListener('click', function () {
+            let toc = document.querySelector('.toc-body');
+            let main = document.querySelector('.main');
+            if (toc.classList.contains('hide')) {
+                main.classList.add('main-small');
+                toc.classList.remove('hide');
+            } else {
+                toc.classList.add('hide');
+                main.classList.remove('main-small');
+            }
+        });
+        window.addEventListener('resize', function() {
+            // 获取屏幕宽度
+            var screenWidth = window.innerWidth || document.documentElement.clientWidth;
+            // 设置 .content-card 的 max-width
+            var contentCard = document.querySelector('.content-card');
+            contentCard.style.maxWidth = screenWidth + 'px';
+        });
+        // 初始加载时执行一次，确保初始状态下也设置正确
+        window.dispatchEvent(new Event('resize'));
+    };
+</script>

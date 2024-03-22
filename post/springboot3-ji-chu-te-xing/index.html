@@ -1,0 +1,790 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>SpringBoot3 基础特性 | Decade</title>
+<meta name="description" content="Stay hungry. Stay foolish.">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.1/css/all.css" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://decade-qiu.github.io/favicon.ico?v=1711118819754">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://decade-qiu.github.io/styles/main.css">
+
+<script src="https://decade-qiu.github.io/media/scripts/vue.js"></script>
+<script src="https://decade-qiu.github.io/media/scripts/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.5.0/tocbot.min.js"></script>
+  </head>
+  <body>
+    <div class="carousel carousel-slider center index-cover" data-indicators="true">
+    <div class="bg-cover pd-header" style="background: url('') no-repeat center center fixed" data-link="https://decade-qiu.github.io/post/springboot3-ji-chu-te-xing/">
+        <div class="container">
+            <div class="row">
+                <div class="col s10 offset-s1 m8 offset-m2 l8 offset-l2">
+                    <div class="brand">
+                        <div class="title center-align">
+                            SpringBoot3 基础特性
+                        </div>
+                        <div class="description center-align">
+                            <span id="subtitle">
+                                Day Day Learn, Day Day Up.
+                            </span><span class="typed-cursor">|</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
+<script>
+    window.onload = function () {
+        var typed = new Typed("#subtitle", {
+            strings: [ 
+                
+                    "从来没有真正的绝境, 只有心灵的迷途",
+                
+                    'Day Day Learn, Day Day Up.',
+
+            ],
+            startDelay: 300,
+            typeSpeed: 100,
+            loop: true,
+            backSpeed: 50,
+            showCursor: true
+        });
+        let cover = document.querySelector('.bg-cover');
+        cover.setAttribute('style', `background: url('${localStorage[cover.dataset.link]}') no-repeat center center fixed`);
+    }
+</script>
+
+
+    <div class="toc-body hide">  
+        <div class="toc"></div>
+    </div>
+    <div id="floating-toc-btn">
+        <i class="fas fa-list-ul bg-color"></i>
+    </div>
+    <div id="app" class="main">
+      <div class="site-header-container nav-transparent">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://decade-qiu.github.io">
+        <img class="avatar" src="https://decade-qiu.github.io/images/avatar.png?v=1711118819754" alt=""
+          width="32px" height="32px">
+      </a>
+      <a href="https://decade-qiu.github.io">
+        <h1 class="site-title">
+          Decade
+        </h1>
+      </a>
+    </div>
+    <div class="right">
+        <div class="menu">
+            <a href="/post/about" v-if="headSearchShow">
+                <i class="fa-solid fa-user"></i>&nbsp;个人
+            </a>
+            <a href="/archives" v-if="headSearchShow">
+                <i class="fa-solid fa-box-archive"></i>&nbsp;归档
+            </a>
+            <a href="/tags" v-if="headSearchShow">
+                <i class="fa-solid fa-tag"></i>&nbsp;标签
+            </a>
+            <a href="/life" v-if="headSearchShow">
+                <i class="fa-fw fas fa-heart"></i>&nbsp;生活
+            </a>
+            
+        </div>
+      <div class="gridea-search-div" v-if="headSearchShow">
+        <form id="gridea-search-form" action="https://decade-qiu.github.io/search/">
+          <input class="gridea-search-input" autocomplete="off" spellcheck="false" name="q" />
+        </form>
+      </div>
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }"
+          @click="menuClick()" v-if="menuSearchShow"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      <div class="gridea-search-div" v-if="menuSearchShow">
+        <form id="gridea-search-form" action="https://decade-qiu.github.io/search/">
+          <input class="gridea-search-input" autocomplete="off" spellcheck="false" name="q" />
+        </form>
+      </div>
+      
+        
+            <a href="/" class="menu purple-link">
+              首页
+            </a>
+            
+              
+        
+            <a href="/archives" class="menu purple-link">
+              归档
+            </a>
+            
+              
+        
+            <a href="/tags" class="menu purple-link">
+              标签
+            </a>
+            
+              
+        
+            <a href="/post/about" class="menu purple-link">
+              个人
+            </a>
+            
+              
+        
+            <a href="/life" class="menu purple-link">
+              生活
+            </a>
+            
+              
+              
+    </div>
+  </div>
+</transition>
+
+<script>
+    window.onscroll = function () {
+        var t = document.documentElement.scrollTop || document.body.scrollTop;
+        var header = document.querySelector('.site-header-container');
+        if (t > 0) {
+            header.classList.remove('nav-transparent');
+        } else {
+            header.classList.add('nav-transparent');
+        }
+    }
+</script>
+
+      <div class="content-body">
+        <div class="content-container content-card">
+            <div class="post-detail">
+              <div class="post-info post-detail-info">
+                <span><i class="icon-calendar-outline"></i> 2024-03-11-Mon</span>
+                
+                  <span>
+                    
+                        <i class="icon-pricetags-outline"></i>
+                      <a href="https://decade-qiu.github.io/tag/DIOv4mRMq/">
+                        SpringBoot3
+                      </a>
+                    
+                  </span>
+                
+              </div>
+              
+                <div class="post-card-abstract">
+                    <p><code>profiles配置</code></p>
+<p><code>外部化配置</code></p>
+<p><code>单元测试</code></p>
+
+                  </div>
+                
+              <hr class="clear">
+              <div class="post-content">
+                
+<h1 id="1-springapplication">1. SpringApplication</h1>
+<h2 id="11-自定义-banner">1.1. 自定义 banner</h2>
+<ol>
+<li>类路径添加banner.txt或设置spring.banner.location就可以定制 banner</li>
+<li>推荐网站：<a href="https://www.bootschool.net/ascii">Spring Boot banner 在线生成工具，制作下载英文 banner.txt，修改替换 banner.txt 文字实现自定义，个性化启动 banner-bootschool.net</a></li>
+</ol>
+<figure data-type="image" tabindex="1"><img src="https://decade-qiu.github.io/post-images/image-20240309224337960.png" alt="image-20240309224337960" loading="lazy"></figure>
+<h2 id="12-自定义-springapplication">1.2. 自定义 SpringApplication</h2>
+<pre><code class="language-java">import org.springframework.boot.Banner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class MyApplication {
+
+    public static void main(String[] args) {
+        SpringApplication application = new SpringApplication(MyApplication.class);
+        application.setBannerMode(Banner.Mode.OFF);
+        application.run(args);
+    }
+
+}
+</code></pre>
+<p>注意，配置文件优先级高于程序化调整的优先级。</p>
+<pre><code>spring.banner.location=classpath:banner.txt
+#spring.main.banner-mode=off
+
+# 激活指定的一个或多个环境
+spring.profiles.active=dev
+
+# 导入指定的配置
+spring.config.import=classpath:/aaaa.properties
+# 导入配置优先级低于配置文件的优先级
+</code></pre>
+<h2 id="13-fluentbuilder-api">1.3. FluentBuilder API</h2>
+<pre><code class="language-java">new SpringApplicationBuilder()
+    .sources(Parent.class)
+    .child(Application.class)
+    .bannerMode(Banner.Mode.OFF)
+    .run(args);
+</code></pre>
+<h1 id="2-profiles">2. Profiles</h1>
+<p>环境隔离能力；快速切换开发、测试、生产环境</p>
+<ol>
+<li><strong>标识环境</strong>：指定哪些组件、配置在哪个环境生效</li>
+<li><strong>切换环境</strong>：这个环境对应的所有组件和配置就应该生效</li>
+</ol>
+<h2 id="21-使用">2.1. 使用</h2>
+<h3 id="211-指定环境">2.1.1 指定环境</h3>
+<ul>
+<li>Spring Profiles 提供一种<strong>隔离配置</strong>的方式，使其仅在<strong>特定环境</strong>生效；</li>
+<li>任何@Component, @Configuration 或 @ConfigurationProperties 可以使用 @Profile 标记，来指定何时被加载。【<strong>容器中的组件</strong>都可以被 <code>@Profile</code>标记】</li>
+</ul>
+<h3 id="212-环境激活">2.1.2 环境激活</h3>
+<ol>
+<li>配置激活指定环境； 配置文件</li>
+</ol>
+<pre><code class="language-properties">spring.profiles.active=production,hsqldb
+</code></pre>
+<ol>
+<li>
+<p>也可以使用命令行激活。--spring.profiles.active=dev,hsqldb</p>
+</li>
+<li>
+<p>还可以配置<strong>默认环境</strong>； 不标注@Profile 的组件永远都存在。</p>
+<ol>
+<li>以前默认环境叫default</li>
+<li><code>spring.profiles.default=test</code></li>
+</ol>
+</li>
+<li>
+<p>推荐使用激活方式激活指定环境</p>
+</li>
+</ol>
+<h3 id="213-环境包含">2.1.3 环境包含</h3>
+<ol>
+<li>spring.profiles.active 和spring.profiles.default 只能用到 <strong>无 profile 的文件</strong>中，如果在application-dev.yaml中编写就是<strong>无效的</strong></li>
+<li>也可以额外添加生效文件，而不是激活替换。比如：</li>
+</ol>
+<pre><code class="language-properties">spring.profiles.include[0]=common
+spring.profiles.include[1]=local
+</code></pre>
+<p>最佳实战：</p>
+<ul>
+<li>
+<p><strong>生效的环境</strong> = <strong>激活的环境/默认环境</strong>  + <strong>包含的环境</strong></p>
+</li>
+<li>
+<p>项目里面这么用</p>
+<ul>
+<li>基础的配置<code>mybatis</code>、<code>log</code>、<code>xxx</code>：写到<strong>包含环境中</strong></li>
+<li>需要动态切换变化的 <code>db</code>、<code>redis</code>：写到<strong>激活的环境中</strong></li>
+</ul>
+</li>
+</ul>
+<h2 id="22-profile-分组">2.2. Profile 分组</h2>
+<p>创建prod组，指定包含db和mq配置</p>
+<pre><code class="language-plain">spring.profiles.group.prod[0]=db
+spring.profiles.group.prod[1]=mq
+</code></pre>
+<p>使用--spring.profiles.active=prod ，就会激活db，mq配置文件</p>
+<h2 id="23-profile-配置文件">2.3. Profile 配置文件</h2>
+<ul>
+<li>
+<p><code>application-{profile}.properties</code>可以作为<strong>指定环境的配置文件</strong>。</p>
+</li>
+<li>
+<p>激活这个环境，<strong>配置</strong>就会生效。最终生效的所有<strong>配置</strong>是</p>
+<ul>
+<li><code>application.properties</code>：主配置文件，任意时候都生效</li>
+<li><code>application-{profile}.properties</code>：指定环境配置文件，激活指定环境生效</li>
+</ul>
+</li>
+</ul>
+<p>profile优先级 &gt; application</p>
+<h1 id="3-外部化配置">3. 外部化配置</h1>
+<p><strong>场景</strong>：线上应用如何<strong>快速修改配置</strong>，并应<strong>用最新配置</strong>？</p>
+<ul>
+<li>SpringBoot 使用  <strong>配置优先级</strong> + <strong>外部配置</strong>  简化配置更新、简化运维。</li>
+<li>只需要给<code>jar</code>应用所在的文件夹放一个<code>application.properties</code>最新配置文件，重启项目就能自动应用最新配置</li>
+</ul>
+<h2 id="31-配置优先级">3.1. 配置优先级</h2>
+<p>Spring Boot 允许将<strong>配置外部化</strong>，以便可以在不同的环境中使用相同的应用程序代码。</p>
+<p>我们可以使用各种<strong>外部配置源</strong>，包括Java Properties文件、YAML文件、环境变量和命令行参数。</p>
+<p>@Value可以获取值，也可以用@ConfigurationProperties将所有属性绑定到java object中</p>
+<p>以下是 SpringBoot 属性源加载顺序。<strong>后面的会覆盖前面的值</strong>。由低到高，高优先级配置覆盖低优先级</p>
+<ol>
+<li><strong>默认属性</strong>（通过<code>SpringApplication.setDefaultProperties</code>指定的）</li>
+<li>@PropertySource指定加载的配置（需要写在@Configuration类上才可生效）</li>
+<li><strong>配置文件</strong>（application.properties/yml等）</li>
+<li>RandomValuePropertySource支持的random.*配置（如：@Value(&quot;${random.int}&quot;)）</li>
+<li>OS 环境变量</li>
+<li>Java 系统属性（System.getProperties()）</li>
+<li>JNDI 属性（来自java:comp/env）</li>
+<li>ServletContext 初始化参数</li>
+<li>ServletConfig 初始化参数</li>
+<li>SPRING_APPLICATION_JSON属性（内置在环境变量或系统属性中的 JSON）</li>
+<li><strong>命令行参数</strong></li>
+<li>测试属性。(@SpringBootTest进行测试时指定的属性)</li>
+<li>测试类@TestPropertySource注解</li>
+<li>Devtools 设置的全局属性。($HOME/.config/spring-boot)</li>
+</ol>
+<blockquote>
+<p>结论：配置可以写到很多位置，常见的优先级顺序：</p>
+<ul>
+<li><code>命令行</code>&gt; <code>配置文件</code>&gt; <code>springapplication配置</code></li>
+</ul>
+</blockquote>
+<p>配置文件优先级如下：(<strong>后面覆盖前面</strong>)</p>
+<ol>
+<li>jar 包内的application.properties/yml</li>
+<li>jar 包内的application-{profile}.properties/yml</li>
+<li>jar 包外的application.properties/yml</li>
+<li>jar 包外的application-{profile}.properties/yml</li>
+</ol>
+<h2 id="32-外部配置">3.2. 外部配置</h2>
+<p>SpringBoot 应用启动时会自动寻找application.properties和application.yaml位置，进行加载。顺序如下：（<strong>后面覆盖前面</strong>）</p>
+<ol>
+<li>
+<p>类路径: 内部</p>
+</li>
+<li>
+<ol>
+<li>类根路径</li>
+<li>类下/config包</li>
+</ol>
+</li>
+<li>
+<p>当前路径（项目所在的位置）</p>
+</li>
+<li>
+<ol>
+<li>当前路径</li>
+<li>当前下/config子目录</li>
+<li>/config目录的直接子目录</li>
+</ol>
+</li>
+</ol>
+<p>最终效果：优先级由高到低，前面覆盖后面</p>
+<ul>
+<li>
+<p>命令行 &gt; 包外config直接子目录 &gt; 包外config目录 &gt; 包外根目录 &gt; 包内目录</p>
+</li>
+<li>
+<p>同级比较：</p>
+<ul>
+<li>profile配置 &gt; 默认配置</li>
+<li>properties配置 &gt; yaml配置</li>
+</ul>
+</li>
+</ul>
+<figure data-type="image" tabindex="2"><img src="https://decade-qiu.github.io/post-images/1682073869709-2cba18c8-55bd-4bf1-a9df-ac784e30d89a.svg" alt="img" loading="lazy"></figure>
+<p>规律：最外层的最优先。</p>
+<ul>
+<li>命令行 &gt; 所有</li>
+<li>包外 &gt; 包内</li>
+<li>config目录 &gt; 根目录</li>
+<li>profile &gt; application</li>
+</ul>
+<p>配置不同就都生效（互补），配置相同高优先级覆盖低优先级</p>
+<h2 id="33-导入配置">3.3. 导入配置</h2>
+<p>使用spring.config.import可以导入额外配置</p>
+<pre><code class="language-plain">spring.config.import=my.properties
+my.property=value
+</code></pre>
+<p>无论以上写法的先后顺序，my.properties的值总是优先于直接在文件中编写的my.property。</p>
+<h2 id="34-属性占位符">3.4. 属性占位符</h2>
+<p>配置文件中可以使用 ${name:default}形式取出之前配置过的值。</p>
+<pre><code class="language-properties">app.name=MyApp
+app.description=${app.name} is a Spring Boot application written by ${username:Unknown}
+</code></pre>
+<h1 id="4-单元测试-junit5">4. 单元测试-JUnit5</h1>
+<h2 id="41-整合">4.1. 整合</h2>
+<p>SpringBoot 提供一系列测试工具集及注解方便我们进行测试。</p>
+<p>spring-boot-test提供核心测试能力，spring-boot-test-autoconfigure 提供测试的一些自动配置。</p>
+<p>我们只需要导入spring-boot-starter-test 即可整合测试</p>
+<pre><code class="language-plain">&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;
+    &lt;scope&gt;test&lt;/scope&gt;
+&lt;/dependency&gt;
+</code></pre>
+<p>spring-boot-starter-test 默认提供了以下库供我们测试使用</p>
+<ul>
+<li><a href="https://junit.org/junit5/">JUnit 5</a></li>
+<li><a href="https://docs.spring.io/spring-framework/docs/6.0.4/reference/html/testing.html#integration-testing">Spring Test</a></li>
+<li><a href="https://assertj.github.io/doc/">AssertJ</a></li>
+<li><a href="https://github.com/hamcrest/JavaHamcrest">Hamcrest</a></li>
+<li><a href="https://site.mockito.org/">Mockito</a></li>
+<li><a href="https://github.com/skyscreamer/JSONassert">JSONassert</a></li>
+<li><a href="https://github.com/jayway/JsonPath">JsonPath</a></li>
+</ul>
+<h2 id="42-测试">4.2. 测试</h2>
+<h3 id="420-组件测试">4.2.0 组件测试</h3>
+<p>直接<code>@Autowired</code>容器中的组件进行测试</p>
+<h3 id="421-注解">4.2.1 注解</h3>
+<p>JUnit5的注解与JUnit4的注解有所变化</p>
+<p>https://junit.org/junit5/docs/current/user-guide/#writing-tests-annotations</p>
+<ul>
+<li>**@Test 😗*表示方法是测试方法。但是与JUnit4的@Test不同，他的职责非常单一不能声明任何属性，拓展的测试将会由Jupiter提供额外测试</li>
+<li>**@ParameterizedTest 😗*表示方法是参数化测试，下方会有详细介绍</li>
+<li>**@RepeatedTest 😗*表示方法可重复执行，下方会有详细介绍</li>
+<li>**@DisplayName 😗*为测试类或者测试方法设置展示名称</li>
+<li>**@BeforeEach 😗*表示在每个单元测试之前执行</li>
+<li>**@AfterEach 😗*表示在每个单元测试之后执行</li>
+<li>**@BeforeAll 😗*表示在所有单元测试之前执行</li>
+<li>**@AfterAll 😗*表示在所有单元测试之后执行</li>
+<li>**@Tag 😗*表示单元测试类别，类似于JUnit4中的@Categories</li>
+<li>**@Disabled 😗*表示测试类或测试方法不执行，类似于JUnit4中的@Ignore</li>
+<li>**@Timeout 😗*表示测试方法运行如果超过了指定时间将会返回错误</li>
+<li>**@ExtendWith 😗*为测试类或测试方法提供扩展类引用</li>
+</ul>
+<pre><code class="language-java">import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
+
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+
+class StandardTests {
+
+    @BeforeAll
+    static void initAll() {
+    }
+
+    @BeforeEach
+    void init() {
+    }
+
+    @DisplayName(&quot;😱&quot;)
+    @Test
+    void succeedingTest() {
+    }
+
+    @Test
+    void failingTest() {
+        fail(&quot;a failing test&quot;);
+    }
+
+    @Test
+    @Disabled(&quot;for demonstration purposes&quot;)
+    void skippedTest() {
+        // not executed
+    }
+
+    @Test
+    void abortedTest() {
+        assumeTrue(&quot;abc&quot;.contains(&quot;Z&quot;));
+        fail(&quot;test should have been aborted&quot;);
+    }
+
+    @AfterEach
+    void tearDown() {
+    }
+
+    @AfterAll
+    static void tearDownAll() {
+    }
+
+}
+</code></pre>
+<h3 id="422-断言">4.2.2 断言</h3>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>assertEquals</td>
+<td>判断两个对象或两个原始类型是否相等</td>
+</tr>
+<tr>
+<td>assertNotEquals</td>
+<td>判断两个对象或两个原始类型是否不相等</td>
+</tr>
+<tr>
+<td>assertSame</td>
+<td>判断两个对象引用是否指向同一个对象</td>
+</tr>
+<tr>
+<td>assertNotSame</td>
+<td>判断两个对象引用是否指向不同的对象</td>
+</tr>
+<tr>
+<td>assertTrue</td>
+<td>判断给定的布尔值是否为 true</td>
+</tr>
+<tr>
+<td>assertFalse</td>
+<td>判断给定的布尔值是否为 false</td>
+</tr>
+<tr>
+<td>assertNull</td>
+<td>判断给定的对象引用是否为 null</td>
+</tr>
+<tr>
+<td>assertNotNull</td>
+<td>判断给定的对象引用是否不为 null</td>
+</tr>
+<tr>
+<td>assertArrayEquals</td>
+<td>数组断言</td>
+</tr>
+<tr>
+<td>assertAll</td>
+<td>组合断言</td>
+</tr>
+<tr>
+<td>assertThrows</td>
+<td>异常断言</td>
+</tr>
+<tr>
+<td>assertTimeout</td>
+<td>超时断言</td>
+</tr>
+<tr>
+<td>fail</td>
+<td>快速失败</td>
+</tr>
+</tbody>
+</table>
+<h3 id="423-嵌套测试">4.2.3 嵌套测试</h3>
+<p>JUnit 5 可以通过 Java 中的内部类和@Nested 注解实现嵌套测试，从而可以更好的把相关的测试方法组织在一起。在内部类中可以使用@BeforeEach 和@AfterEach 注解，而且嵌套的层次没有限制。</p>
+<pre><code class="language-java">@DisplayName(&quot;A stack&quot;)
+class TestingAStackDemo {
+
+    Stack&lt;Object&gt; stack;
+
+    @Test
+    @DisplayName(&quot;is instantiated with new Stack()&quot;)
+    void isInstantiatedWithNew() {
+        new Stack&lt;&gt;();
+    }
+
+    @Nested
+    @DisplayName(&quot;when new&quot;)
+    class WhenNew {
+
+        @BeforeEach
+        void createNewStack() {
+            stack = new Stack&lt;&gt;();
+        }
+
+        @Test
+        @DisplayName(&quot;is empty&quot;)
+        void isEmpty() {
+            assertTrue(stack.isEmpty());
+        }
+
+        @Test
+        @DisplayName(&quot;throws EmptyStackException when popped&quot;)
+        void throwsExceptionWhenPopped() {
+            assertThrows(EmptyStackException.class, stack::pop);
+        }
+
+        @Test
+        @DisplayName(&quot;throws EmptyStackException when peeked&quot;)
+        void throwsExceptionWhenPeeked() {
+            assertThrows(EmptyStackException.class, stack::peek);
+        }
+
+        @Nested
+        @DisplayName(&quot;after pushing an element&quot;)
+        class AfterPushing {
+
+            String anElement = &quot;an element&quot;;
+
+            @BeforeEach
+            void pushAnElement() {
+                stack.push(anElement);
+            }
+
+            @Test
+            @DisplayName(&quot;it is no longer empty&quot;)
+            void isNotEmpty() {
+                assertFalse(stack.isEmpty());
+            }
+
+            @Test
+            @DisplayName(&quot;returns the element when popped and is empty&quot;)
+            void returnElementWhenPopped() {
+                assertEquals(anElement, stack.pop());
+                assertTrue(stack.isEmpty());
+            }
+
+            @Test
+            @DisplayName(&quot;returns the element when peeked but remains not empty&quot;)
+            void returnElementWhenPeeked() {
+                assertEquals(anElement, stack.peek());
+                assertFalse(stack.isEmpty());
+            }
+        }
+    }
+}
+</code></pre>
+<h3 id="424-参数化测试">4.2.4 参数化测试</h3>
+<p>参数化测试是JUnit5很重要的一个新特性，它使得用不同的参数多次运行测试成为了可能，也为我们的单元测试带来许多便利。</p>
+<p>利用**@ValueSource**等注解，指定入参，我们将可以使用不同的参数进行多次单元测试，而不需要每新增一个参数就新增一个单元测试，省去了很多冗余代码。</p>
+<p><strong>@ValueSource</strong>: 为参数化测试指定入参来源，支持八大基础类以及String类型,Class类型</p>
+<p><strong>@NullSource</strong>: 表示为参数化测试提供一个null的入参</p>
+<p><strong>@EnumSource</strong>: 表示为参数化测试提供一个枚举入参</p>
+<p><strong>@CsvFileSource</strong>：表示读取指定CSV文件内容作为参数化测试入参</p>
+<p><strong>@MethodSource</strong>：表示读取指定方法的返回值作为参数化测试入参(注意方法返回需要是一个流)</p>
+<pre><code class="language-java">@ParameterizedTest
+@ValueSource(strings = {&quot;one&quot;, &quot;two&quot;, &quot;three&quot;})
+@DisplayName(&quot;参数化测试1&quot;)
+public void parameterizedTest1(String string) {
+    System.out.println(string);
+    Assertions.assertTrue(StringUtils.isNotBlank(string));
+}
+
+@ParameterizedTest
+@MethodSource(&quot;method&quot;)    //指定方法名
+@DisplayName(&quot;方法来源参数&quot;)
+public void testWithExplicitLocalMethodSource(String name) {
+    System.out.println(name);
+    Assertions.assertNotNull(name);
+}
+
+static Stream&lt;String&gt; method() {
+    return Stream.of(&quot;apple&quot;, &quot;banana&quot;);
+}
+</code></pre>
+
+              </div>
+              <hr class="clear">
+              
+                <div class="next-post">
+                  <a class="purple-link" href="https://decade-qiu.github.io/post/springboot3-shu-ju-fang-wen/">
+                    <h3 class="post-title">
+                      下一篇：SpringBoot3 数据访问
+                    </h3>
+                  </a>
+                </div>
+                
+            </div>
+          </div>
+      </div>
+
+      
+          <div id="gitalk-container"></div>
+      
+
+    
+    </div>
+    <div class="site-footer">
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/Decade-qiu" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        <a href="https://space.bilibili.com/98721375?spm_id_from=333.1007.0.0" target="_blank">
+          <i class="fab fa-bilibili"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.zhihu.com/people/chou-yu-80-33" target="_blank">
+          <i class="fab fa-zhihu"></i>
+        </a>
+      
+    
+  </div>
+  <div class="slogan">Stay hungry. Stay foolish.</div> |
+  <a href="https://github.com/Decade-qiu/gridea-theme-Eternal" target="_blank">Today is happy day again!</a> | <a href="https://github.com/Decade-qiu/gridea-theme-Eternal" target="_blank">Powered by Eternal</a> | <a href="https://decade-qiu.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+    <script src="https://decade-qiu.github.io/media/scripts/index.js"></script>
+
+
+    <script src='https://decade-qiu.github.io/media/scripts/valine.min.js'></script>
+    <script>
+        new Valine({
+            el: '#gitalk-container',
+            appId: 'b2xhAFZQq4FxBeHcVRgXNEbf-gzGzoHsz',
+            appKey: 'QqIty1r7mCD1MbFanHuyw57O',
+            placeholder: 'Write something...',
+        })
+    </script>
+
+
+
+  </body>
+</html>
+
+<script>
+    window.onload = function() {
+        let id = 1;
+        let post_content = document.querySelector('.content-card');
+        post_content.querySelectorAll('h1,h2,h3,h4,h5,h6').forEach(function (item) {
+            item.setAttribute('id', 'toc-' + id);
+            id++;
+        });
+        tocbot.init({
+            tocSelector: '.toc',
+            contentSelector: '.post-content',
+            headingSelector: 'h1,h2,h3,h4',
+            headingsOffset: 58,
+        });
+        // 检测页面滚动距离 用eventlistener
+        window.addEventListener('scroll', function () {
+            let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            let toc = document.querySelector('.toc');
+            let tocBtn = document.querySelector('.toc-body');
+            if (scrollTop > 250) {
+                tocBtn.classList.add('toc-body-fixed');
+                toc.classList.add('toc-fixed');
+            } else {
+                tocBtn.classList.remove('toc-body-fixed');
+                toc.classList.remove('toc-fixed');
+            }
+        });
+        document.querySelector('#floating-toc-btn').addEventListener('click', function () {
+            let toc = document.querySelector('.toc-body');
+            let main = document.querySelector('.main');
+            if (toc.classList.contains('hide')) {
+                main.classList.add('main-small');
+                toc.classList.remove('hide');
+            } else {
+                toc.classList.add('hide');
+                main.classList.remove('main-small');
+            }
+        });
+        window.addEventListener('resize', function() {
+            // 获取屏幕宽度
+            var screenWidth = window.innerWidth || document.documentElement.clientWidth;
+            // 设置 .content-card 的 max-width
+            var contentCard = document.querySelector('.content-card');
+            contentCard.style.maxWidth = screenWidth + 'px';
+        });
+        // 初始加载时执行一次，确保初始状态下也设置正确
+        window.dispatchEvent(new Event('resize'));
+    };
+</script>

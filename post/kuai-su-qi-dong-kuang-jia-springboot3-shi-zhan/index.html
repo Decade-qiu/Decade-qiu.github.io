@@ -1,0 +1,1402 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>快速启动框架：SpringBoot3实战 | Decade</title>
+<meta name="description" content="Stay hungry. Stay foolish.">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.1/css/all.css" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://decade-qiu.github.io/favicon.ico?v=1711118819754">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://decade-qiu.github.io/styles/main.css">
+
+<script src="https://decade-qiu.github.io/media/scripts/vue.js"></script>
+<script src="https://decade-qiu.github.io/media/scripts/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.5.0/tocbot.min.js"></script>
+  </head>
+  <body>
+    <div class="carousel carousel-slider center index-cover" data-indicators="true">
+    <div class="bg-cover pd-header" style="background: url('') no-repeat center center fixed" data-link="https://decade-qiu.github.io/post/kuai-su-qi-dong-kuang-jia-springboot3-shi-zhan/">
+        <div class="container">
+            <div class="row">
+                <div class="col s10 offset-s1 m8 offset-m2 l8 offset-l2">
+                    <div class="brand">
+                        <div class="title center-align">
+                            快速启动框架：SpringBoot3实战
+                        </div>
+                        <div class="description center-align">
+                            <span id="subtitle">
+                                Day Day Learn, Day Day Up.
+                            </span><span class="typed-cursor">|</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
+<script>
+    window.onload = function () {
+        var typed = new Typed("#subtitle", {
+            strings: [ 
+                
+                    "从来没有真正的绝境, 只有心灵的迷途",
+                
+                    'Day Day Learn, Day Day Up.',
+
+            ],
+            startDelay: 300,
+            typeSpeed: 100,
+            loop: true,
+            backSpeed: 50,
+            showCursor: true
+        });
+        let cover = document.querySelector('.bg-cover');
+        cover.setAttribute('style', `background: url('${localStorage[cover.dataset.link]}') no-repeat center center fixed`);
+    }
+</script>
+
+
+    <div class="toc-body hide">  
+        <div class="toc"></div>
+    </div>
+    <div id="floating-toc-btn">
+        <i class="fas fa-list-ul bg-color"></i>
+    </div>
+    <div id="app" class="main">
+      <div class="site-header-container nav-transparent">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://decade-qiu.github.io">
+        <img class="avatar" src="https://decade-qiu.github.io/images/avatar.png?v=1711118819754" alt=""
+          width="32px" height="32px">
+      </a>
+      <a href="https://decade-qiu.github.io">
+        <h1 class="site-title">
+          Decade
+        </h1>
+      </a>
+    </div>
+    <div class="right">
+        <div class="menu">
+            <a href="/post/about" v-if="headSearchShow">
+                <i class="fa-solid fa-user"></i>&nbsp;个人
+            </a>
+            <a href="/archives" v-if="headSearchShow">
+                <i class="fa-solid fa-box-archive"></i>&nbsp;归档
+            </a>
+            <a href="/tags" v-if="headSearchShow">
+                <i class="fa-solid fa-tag"></i>&nbsp;标签
+            </a>
+            <a href="/life" v-if="headSearchShow">
+                <i class="fa-fw fas fa-heart"></i>&nbsp;生活
+            </a>
+            
+        </div>
+      <div class="gridea-search-div" v-if="headSearchShow">
+        <form id="gridea-search-form" action="https://decade-qiu.github.io/search/">
+          <input class="gridea-search-input" autocomplete="off" spellcheck="false" name="q" />
+        </form>
+      </div>
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }"
+          @click="menuClick()" v-if="menuSearchShow"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      <div class="gridea-search-div" v-if="menuSearchShow">
+        <form id="gridea-search-form" action="https://decade-qiu.github.io/search/">
+          <input class="gridea-search-input" autocomplete="off" spellcheck="false" name="q" />
+        </form>
+      </div>
+      
+        
+            <a href="/" class="menu purple-link">
+              首页
+            </a>
+            
+              
+        
+            <a href="/archives" class="menu purple-link">
+              归档
+            </a>
+            
+              
+        
+            <a href="/tags" class="menu purple-link">
+              标签
+            </a>
+            
+              
+        
+            <a href="/post/about" class="menu purple-link">
+              个人
+            </a>
+            
+              
+        
+            <a href="/life" class="menu purple-link">
+              生活
+            </a>
+            
+              
+              
+    </div>
+  </div>
+</transition>
+
+<script>
+    window.onscroll = function () {
+        var t = document.documentElement.scrollTop || document.body.scrollTop;
+        var header = document.querySelector('.site-header-container');
+        if (t > 0) {
+            header.classList.remove('nav-transparent');
+        } else {
+            header.classList.add('nav-transparent');
+        }
+    }
+</script>
+
+      <div class="content-body">
+        <div class="content-container content-card">
+            <div class="post-detail">
+              <div class="post-info post-detail-info">
+                <span><i class="icon-calendar-outline"></i> 2024-02-17-Sat</span>
+                
+                  <span>
+                    
+                        <i class="icon-pricetags-outline"></i>
+                      <a href="https://decade-qiu.github.io/tag/DIOv4mRMq/">
+                        SpringBoot3
+                      </a>
+                    
+                  </span>
+                
+              </div>
+              
+                <div class="post-card-abstract">
+                    <p>SpringBoot <code>配置</code> <code>打包运行</code></p>
+
+                  </div>
+                
+              <hr class="clear">
+              <div class="post-content">
+                
+<h2 id="一-springboot3介绍">一、SpringBoot3介绍</h2>
+<h3 id="11-springboot3简介">1.1 SpringBoot3简介</h3>
+<blockquote>
+<p>课程使用SpringBoot版本：3.0.5</p>
+</blockquote>
+<p><a href="https://docs.spring.io/spring-boot/docs/current/reference/html/getting-started.html#getting-started.introducing-spring-boot">https://docs.spring.io/spring-boot/docs/current/reference/html/getting-started.html#getting-started.introducing-spring-boot</a></p>
+<p>到目前为止，你已经学习了多种配置Spring程序的方式。但是无论使用XML、注解、Java配置类还是他们的混合用法，你都会觉得配置文件过于复杂和繁琐，让人头疼！</p>
+<p>SpringBoot 帮我们简单、快速地创建一个独立的、生产级别的 <strong>Spring 应用（说明：SpringBoot底层是Spring）</strong>，大多数 SpringBoot 应用只需要编写少量配置即可快速整合 Spring 平台以及第三方技术！</p>
+<p>SpringBoot的主要目标是：</p>
+<ul>
+<li>为所有 Spring 开发提供更快速、可广泛访问的入门体验。</li>
+<li>开箱即用，设置合理的默认值，但是也可以根据需求进行适当的调整。</li>
+<li>提供一系列大型项目通用的非功能性程序（如嵌入式服务器、安全性、指标、运行检查等）。</li>
+<li>约定大于配置，基本不需要主动编写配置类、也不需要 XML 配置文件。</li>
+</ul>
+<p><strong>总结：简化开发，简化配置，简化整合，简化部署，简化监控，简化运维。</strong></p>
+<h3 id="12-系统要求">1.2 系统要求</h3>
+<table>
+<thead>
+<tr>
+<th>技术&amp;工具</th>
+<th>版本（or later）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>maven</td>
+<td>3.6.3 or later 3.6.3 或更高版本</td>
+</tr>
+<tr>
+<td>Tomcat</td>
+<td>10.0+</td>
+</tr>
+<tr>
+<td>Servlet</td>
+<td>9.0+</td>
+</tr>
+<tr>
+<td>JDK</td>
+<td>17+</td>
+</tr>
+</tbody>
+</table>
+<h3 id="13-快速入门">1.3 快速入门</h3>
+<blockquote>
+<p>场景：浏览器发送 <strong>/hello</strong>请求，返回&quot;<strong>Hello,Spring Boot 3!</strong>&quot;</p>
+</blockquote>
+<ol>
+<li>
+<p>开发步骤</p>
+<ol>
+<li><strong>创建Maven工程</strong></li>
+<li><strong>添加依赖(springboot父工程依赖 , web启动器依赖)</strong></li>
+<li><strong>编写启动引导类(springboot项目运行的入口)</strong></li>
+<li><strong>编写处理器Controller</strong></li>
+<li><strong>启动项目</strong></li>
+</ol>
+</li>
+<li>
+<p>创建项目</p>
+</li>
+<li>
+<p>添加依赖</p>
+<p>3.1 添加父工程坐标</p>
+<p>SpringBoot可以帮我们方便的管理项目依赖 , 在Spring Boot提供了一个名为<strong>spring-boot-starter-parent</strong>的工程，里面已经对各种常用依赖的版本进行了管理，我们的项目需要以这个项目为父工程，这样我们就不用操心依赖的版本问题了，需要什么依赖，直接引入坐标(不需要添加版本)即可！</p>
+<pre><code class="language-xml">&lt;!--所有springboot项目都必须继承自 spring-boot-starter-parent--&gt;
+&lt;parent&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
+    &lt;version&gt;3.0.5&lt;/version&gt;
+&lt;/parent&gt;
+</code></pre>
+<p>3.2 添加web启动器</p>
+<p>为了让Spring Boot帮我们完成各种自动配置，我们必须引入Spring Boot提供的<strong>自动配置依赖</strong>，我们称为<strong>启动器</strong>。因为我们是web项目，这里我们引入web启动器，在 pom.xml 文件中加入如下依赖：</p>
+<pre><code class="language-xml">&lt;dependencies&gt;
+&lt;!--web开发的场景启动器--&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+&lt;/dependencies&gt;
+</code></pre>
+</li>
+<li>
+<p>创建启动类</p>
+<p>创建package：com.atguigu</p>
+<p>创建启动类：MainApplication</p>
+<pre><code class="language-java">package com.atguigu;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+/**
+ * @SpringBootApplication是一个特殊的注解，用于标识一个Spring Boot应用程序的入口类。它的主要作用是将三个常用注解组合在一起，简化了配置的过程。
+ *
+ * 具体而言，@SpringBootApplication注解包含以下三个注解的功能：
+ *     @Configuration：将该类标识为应用程序的配置类。它允许使用Java代码定义和配置Bean。
+ *     @EnableAutoConfiguration：启用Spring Boot的自动配置机制。它根据项目的依赖项自动配置Spring应用程序的行为。自动配置根据类路径、注解和配置属性等条件来决定要使用的功能和配置。
+ *     @ComponentScan：自动扫描并加载应用程序中的组件，如控制器、服务、存储库等。它默认扫描@SpringBootApplication注解所在类的包及其子包中的组件。
+ *
+ * 使用@SpringBootApplication注解，可以将上述三个注解的功能集中在一个注解上，简化了配置文件的编写和组件的加载和扫描过程。它是Spring Boot应用程序的入口点，标识了应用程序的主类，
+ * 并告诉Spring Boot在启动时应如何配置和加载应用程序。
+ */
+@SpringBootApplication
+public class MainApplication {
+
+    //SpringApplication.run() 方法是启动 Spring Boot 应用程序的关键步骤。它创建应用程序上下文、
+    // 自动配置应用程序、启动应用程序，并处理命令行参数，使应用程序能够运行和提供所需的功能
+    public static void main(String[] args) {
+        SpringApplication.run(MainApplication.class,args);
+    }
+}
+</code></pre>
+</li>
+<li>
+<p>编写处理器Controller</p>
+<p>创建package：com.atguigu.controller</p>
+<p>创建类：HelloController</p>
+<p>注意： IoC和DI注解需要在启动类的同包或者子包下方可生效！无需指定，约束俗称。</p>
+<pre><code class="language-java">package com.atguigu.controller;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class HelloController {
+
+    @GetMapping(&quot;/hello&quot;)
+    public String hello(){
+        return &quot;Hello,Spring Boot 3!&quot;;
+    }
+
+}
+</code></pre>
+</li>
+<li>
+<p>启动测试</p>
+</li>
+</ol>
+<h3 id="14-入门总结">1.4 入门总结</h3>
+<ol>
+<li>
+<p>为什么依赖不需要写版本？</p>
+<ul>
+<li>每个boot项目都有一个父项目<code>spring-boot-starter-parent</code></li>
+<li>parent的父项目是<code>spring-boot-dependencies</code></li>
+<li>父项目 <strong>版本仲裁中心</strong>，把所有常见的jar的依赖版本都声明好了。</li>
+<li>比如：<code>mysql-connector-j</code><img src="C:%5CUsers%5Cqiuzhongjun%5CDocuments%5CGridea%5Cpost-images%5C1679294529375-4ee1cd26-8ebc-4abf-bff9-f8775e10c927.png" alt="" loading="lazy"></li>
+</ul>
+</li>
+<li>
+<p>启动器(Starter)是何方神圣？</p>
+<p>Spring Boot提供了一种叫做Starter的概念，它是一组预定义的依赖项集合，旨在简化Spring应用程序的配置和构建过程。Starter包含了一组相关的依赖项，以便在启动应用程序时自动引入所需的库、配置和功能。</p>
+<p>主要作用如下：</p>
+<ol>
+<li>
+<p>简化依赖管理：Spring Boot Starter通过捆绑和管理一组相关的依赖项，减少了手动解析和配置依赖项的工作。只需引入一个相关的Starter依赖，即可获取应用程序所需的全部依赖。</p>
+</li>
+<li>
+<p>自动配置：Spring Boot Starter在应用程序启动时自动配置所需的组件和功能。通过根据类路径和其他设置的自动检测，Starter可以自动配置Spring Bean、数据源、消息传递等常见组件，从而使应用程序的配置变得简单和维护成本降低。</p>
+</li>
+<li>
+<p>提供约定优于配置：Spring Boot Starter遵循“约定优于配置”的原则，通过提供一组默认设置和约定，减少了手动配置的需要。它定义了标准的配置文件命名约定、默认属性值、日志配置等，使得开发者可以更专注于业务逻辑而不是繁琐的配置细节。</p>
+</li>
+<li>
+<p>快速启动和开发应用程序：Spring Boot Starter使得从零开始构建一个完整的Spring Boot应用程序变得容易。它提供了主要领域（如Web开发、数据访问、安全性、消息传递等）的Starter，帮助开发者快速搭建一个具备特定功能的应用程序原型。</p>
+</li>
+<li>
+<p>模块化和可扩展性：Spring Boot Starter的组织结构使得应用程序的不同模块可以进行分离和解耦。每个模块可以有自己的Starter和依赖项，使得应用程序的不同部分可以按需进行开发和扩展。</p>
+<p>Spring Boot提供了许多预定义的Starter，例如spring-boot-starter-web用于构建Web应用程序，spring-boot-starter-data-jpa用于使用JPA进行数据库访问，spring-boot-starter-security用于安全认证和授权等等。</p>
+</li>
+</ol>
+<p>使用Starter非常简单，只需要在项目的构建文件（例如Maven的pom.xml）中添加所需的Starter依赖，Spring Boot会自动处理依赖管理和配置。</p>
+<blockquote>
+<p><a href="https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.build-systems.starters" title="https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.build-systems.starters">spring boot提供的全部启动器地址</a></p>
+</blockquote>
+<p>命名规范：</p>
+<ul>
+<li>官方提供的场景：命名为：<code>spring-boot-starter-*</code></li>
+<li>第三方提供场景：命名为：<code>*-spring-boot-starter</code></li>
+</ul>
+</li>
+<li>
+<p>@SpringBootApplication注解</p>
+<p>@SpringBootApplication添加到启动类上，是一个组合注解，他的功效有具体的子注解实现！</p>
+<pre><code class="language-java">@SpringBootConfiguration
+@EnableAutoConfiguration
+@ComponentScan
+public @interface SpringBootApplication {}
+</code></pre>
+<p>@SpringBootApplication注解是Spring Boot框架中的核心注解，它的主要作用是简化和加速Spring Boot应用程序的配置和启动过程。</p>
+<p>具体而言，@SpringBootApplication注解起到以下几个主要作用：</p>
+<ol>
+<li>自动配置：@SpringBootApplication注解包含了@EnableAutoConfiguration注解，用于启用Spring Boot的自动配置机制。自动配置会根据应用程序的依赖项和类路径，自动配置各种常见的Spring配置和功能，减少开发者的手动配置工作。它通过智能地分析类路径、加载配置和条件判断，为应用程序提供适当的默认配置。</li>
+<li>组件扫描：@SpringBootApplication注解包含了@ComponentScan注解，用于自动扫描并加载应用程序中的组件，例如控制器（Controllers）、服务（Services）、存储库（Repositories）等。它默认会扫描@SpringBootApplication注解所在类的包及其子包中的组件，并将它们纳入Spring Boot应用程序的上下文中，使它们可被自动注入和使用。</li>
+<li>声明配置类：@SpringBootApplication注解本身就是一个组合注解，它包含了@Configuration注解，将被标注的类声明为配置类。配置类可以包含Spring框架相关的配置、Bean定义，以及其他的自定义配置。通过@SpringBootApplication注解，开发者可以将配置类与启动类合并在一起，使得配置和启动可以同时发生。</li>
+</ol>
+</li>
+</ol>
+<h2 id="二-springboot3配置文件">二、SpringBoot3配置文件</h2>
+<h3 id="21-统一配置管理概述">2.1 统一配置管理概述</h3>
+<p>SpringBoot工程下，进行统一的配置管理，你想设置的任何参数（端口号、项目根路径、数据库连接信息等等)都集中到一个固定位置和命名的配置文件（<code>application.properties</code>或<code>application.yml</code>）中！</p>
+<p>配置文件应该放置在Spring Boot工程的<code>src/main/resources</code>目录下。这是因为<code>src/main/resources</code>目录是Spring Boot默认的类路径（classpath），配置文件会被自动加载并可供应用程序访问。</p>
+<figure data-type="image" tabindex="1"><img src="C:%5CUsers%5Cqiuzhongjun%5CDocuments%5CGridea%5Cpost-images%5Cimage_1uKcSzeU-n.png" alt="" loading="lazy"></figure>
+<p>功能配置参数说明：</p>
+<p><a href="https://docs.spring.io/spring-boot/docs/current/reference/html/application-properties.html#appendix.application-properties" title="https://docs.spring.io/spring-boot/docs/current/reference/html/application-properties.html#appendix.application-properties">https://docs.spring.io/spring-boot/docs/current/reference/html/application-properties.html#appendix.application-properties</a></p>
+<p>细节总结：</p>
+<ul>
+<li>集中式管理配置。统一在一个文件完成程序功能参数设置和自定义参数声明 。</li>
+<li>位置：resources文件夹下，命名application，后缀.properties/.yaml/.yml 。</li>
+<li>如果同时存在application.properties | application.yml(.yaml) , properties的优先级更高。</li>
+<li>配置基本都有默认值。</li>
+</ul>
+<h3 id="22-属性配置文件使用">2.2 属性配置文件使用</h3>
+<p><strong>.properties</strong></p>
+<ol>
+<li>
+<p>配置文件</p>
+<p>在 resource 文件夹下面新建 application.properties 配置文件</p>
+<pre><code class="language-.properties"># application.properties 为统一配置文件
+# 内部包含: 固定功能的key,自定义的key
+# 此处的配置信息,我们都可以在程序中@Value等注解读取
+
+# 固定的key
+# 启动端口号
+server.port=80 
+
+# 自定义
+spring.jdbc.datasource.driverClassName=com.mysql.cj.jdbc.driver
+spring.jdbc.datasource.url=jdbc:mysql:///springboot_01
+spring.jdbc.datasource.username=root
+spring.jdbc.datasource.password=root
+</code></pre>
+</li>
+<li>
+<p>读取配置文件</p>
+<pre><code class="language-java">package com.atguigu.properties;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+@Component
+public class DataSourceProperties {
+
+    @Value(&quot;${spring.jdbc.datasource.driverClassName}&quot;)
+    private String driverClassName;
+
+    @Value(&quot;${spring.jdbc.datasource.url}&quot;)
+    private String url;
+
+    @Value(&quot;${spring.jdbc.datasource.username}&quot;)
+    private String username;
+
+    @Value(&quot;${spring.jdbc.datasource.password}&quot;)
+    private String password;
+}
+</code></pre>
+</li>
+<li>
+<p>测试效果</p>
+<p>在controller注入，输出进行测试</p>
+<pre><code class="language-java">@Autowired
+private DataSourceProperties dataSourceProperties ;
+
+@RequestMapping(path = &quot;/hello&quot;)
+public String sayHello() {
+  System.out.println(dataSourceProperties);
+  return &quot;Hello Spring Boot ! &quot; ;
+}
+</code></pre>
+</li>
+</ol>
+<p><strong>.yaml</strong></p>
+<ol>
+<li>
+<p>yaml格式介绍</p>
+<p>YAML（YAML Ain’t Markup Language）是一种基于层次结构的数据序列化格式，旨在提供一种易读、人类友好的数据表示方式。</p>
+<p>与<code>.properties</code>文件相比，YAML格式有以下优势：</p>
+<ol>
+<li>层次结构：YAML文件使用缩进和冒号来表示层次结构，使得数据之间的关系更加清晰和直观。这样可以更容易理解和维护复杂的配置，特别适用于深层次嵌套的配置情况。</li>
+<li>自我描述性：YAML文件具有自我描述性，字段和值之间使用冒号分隔，并使用缩进表示层级关系。这使得配置文件更易于阅读和理解，并且可以减少冗余的标点符号和引号。</li>
+<li>注释支持：YAML格式支持注释，可以在配置文件中添加说明性的注释，使配置更具可读性和可维护性。相比之下，<code>.properties</code>文件不支持注释，无法提供类似的解释和说明。</li>
+<li>多行文本：YAML格式支持多行文本的表示，可以更方便地表示长文本或数据块。相比之下，<code>.properties</code>文件需要使用转义符或将长文本拆分为多行。</li>
+<li>类型支持：YAML格式天然支持复杂的数据类型，如列表、映射等。这使得在配置文件中表示嵌套结构或数据集合更加容易，而不需要进行额外的解析或转换。</li>
+<li>更好的可读性：由于YAML格式的特点，它更容易被人类读懂和解释。它减少了配置文件中需要的特殊字符和语法，让配置更加清晰明了，从而减少了错误和歧义。</li>
+</ol>
+</li>
+<li>
+<p>yaml语法说明</p>
+<ol>
+<li>
+<p>数据结构用树形结构呈现，通过缩进来表示层级，</p>
+</li>
+<li>
+<p>连续的项目（集合）通过减号 ” - ” 来表示</p>
+</li>
+<li>
+<p>键值结构里面的key/value对用冒号 ” : ” 来分隔。</p>
+</li>
+<li>
+<p>YAML配置文件的扩展名是yaml 或 yml</p>
+</li>
+<li>
+<p>例如：</p>
+<pre><code class="language-yaml"># YAML配置文件示例
+app_name: 我的应用程序
+version: 1.0.0
+author: 张三
+
+database:
+  host: localhost
+  port: 5432
+  username: admin
+  password: password123
+
+features:
+  - 登录
+  - 注册
+  - 仪表盘
+
+settings:
+  analytics: true
+  theme: dark
+</code></pre>
+</li>
+</ol>
+</li>
+<li>
+<p>配置文件</p>
+<pre><code class="language-yaml">spring:
+  jdbc:
+    datasource:
+      driverClassName: com.mysql.jdbc.Driver
+      url: jdbc:mysql:///springboot_02
+      username: root
+      password: root
+      
+server:
+  port: 80
+</code></pre>
+</li>
+<li>
+<p>读取配置文件</p>
+<blockquote>
+<p>读取方式和properties一致</p>
+</blockquote>
+</li>
+<li>
+<p>测试效果</p>
+<p>在controller注入，输出进行测试</p>
+<pre><code class="language-java">@Autowired
+private DataSourceProperties dataSourceProperties ;
+
+@RequestMapping(path = &quot;/hello&quot;)
+public String sayHello() {
+  System.out.println(dataSourceProperties);
+  return &quot;Hello Spring Boot ! &quot; ;
+}
+</code></pre>
+</li>
+</ol>
+<h3 id="24-批量配置文件注入">2.4 批量配置文件注入</h3>
+<blockquote>
+<p> <strong>@ConfigurationProperties</strong>是SpringBoot提供的重要注解, 他可以将一些配置属性批量注入到bean对象。</p>
+</blockquote>
+<ol>
+<li>
+<p>创建类，添加属性和注解</p>
+<p>在类上通过@ConfigurationProperties注解声明该类要读取属性配置</p>
+<p>prefix=&quot;spring.jdbc.datasource&quot; 读取属性文件中前缀为spring.jdbc.datasource的值。前缀和属性名称和配置文件中的key必须要保持一致才可以注入成功</p>
+<pre><code class="language-java">import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
+
+@Component
+@Data
+@ConfigurationProperties(prefix = &quot;spring.jdbc.datasource&quot;)
+public class DataSourceConfigurationProperties {
+
+    private String driverClassName;
+    private String url;
+    private String username;
+    private String password;
+
+}
+</code></pre>
+</li>
+<li>
+<p>测试效果</p>
+<pre><code class="language-java">@RestController
+public class HelloController {
+
+    @Autowired
+    private DataSourceProperties dataSourceProperties;
+
+    @Autowired
+    private DataSourceConfigurationProperties dataSourceConfigurationProperties;
+
+    @GetMapping(&quot;/hello&quot;)
+    public String hello(){
+        System.out.println(&quot;dataSourceProperties = &quot; + dataSourceProperties);
+        System.out.println(&quot;dataSourceConfigurationProperties = &quot; + dataSourceConfigurationProperties);
+        return &quot;Hello,Spring Boot 3!&quot;;
+    }
+}
+</code></pre>
+</li>
+</ol>
+<h3 id="25-多环境配置和使用">2.5 多环境配置和使用</h3>
+<ol>
+<li>
+<p>需求</p>
+<p>在Spring Boot中，可以使用多环境配置来根据不同的运行环境（如开发、测试、生产）加载不同的配置。SpringBoot支持多环境配置让应用程序在不同的环境中使用不同的配置参数，例如数据库连接信息、日志级别、缓存配置等。</p>
+<p>以下是实现Spring Boot多环境配置的常见方法：</p>
+<ol>
+<li>属性文件分离：将应用程序的配置参数分离到不同的属性文件中，每个环境对应一个属性文件。例如，可以创建<code>application-dev.properties</code>、<code>application-prod.properties</code>和<code>application-test.properties</code>等文件。在这些文件中，可以定义各自环境的配置参数，如数据库连接信息、端口号等。然后，在<code>application.properties</code>中通过<code>spring.profiles.active</code>属性指定当前使用的环境。Spring Boot会根据该属性来加载对应环境的属性文件，覆盖默认的配置。</li>
+<li>YAML配置文件：与属性文件类似，可以将配置参数分离到不同的YAML文件中，每个环境对应一个文件。例如，可以创建<code>application-dev.yml</code>、<code>application-prod.yml</code>和<code>application-test.yml</code>等文件。在这些文件中，可以使用YAML语法定义各自环境的配置参数。同样，通过<code>spring.profiles.active</code>属性指定当前的环境，Spring Boot会加载相应的YAML文件。</li>
+<li>命令行参数(动态)：可以通过命令行参数来指定当前的环境。例如，可以使用<code>--spring.profiles.active=dev</code>来指定使用开发环境的配置。<br>
+通过上述方法，Spring Boot会根据当前指定的环境来加载相应的配置文件或参数，从而实现多环境配置。这样可以简化在不同环境之间的配置切换，并且确保应用程序在不同环境中具有正确的配置。</li>
+</ol>
+</li>
+<li>
+<p>多环境配置（基于方式b实践）</p>
+<blockquote>
+<p>创建开发、测试、生产三个环境的配置文件<br>
+application-dev.yml（开发）</p>
+</blockquote>
+<pre><code class="language-yaml">spring:
+  jdbc:
+    datasource:
+      driverClassName: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql:///dev
+      username: root
+      password: root
+</code></pre>
+<p>application-test.yml（测试）</p>
+<pre><code class="language-yaml">spring:
+  jdbc:
+    datasource:
+      driverClassName: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql:///test
+      username: root
+      password: root
+</code></pre>
+<p>application-prod.yml（生产）</p>
+<pre><code class="language-yaml">spring:
+  jdbc:
+    datasource:
+      driverClassName: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql:///prod
+      username: root
+      password: root
+</code></pre>
+</li>
+<li>
+<p>环境激活</p>
+<pre><code class="language-yaml">spring:
+  profiles:
+    active: dev,test //激活多个外部配置文件
+</code></pre>
+<p><strong>注意 :</strong></p>
+<p>如果设置了spring.profiles.active，并且和application有重叠属性，以active设置优先。</p>
+<p>如果设置了spring.profiles.active，和application无重叠属性，application设置依然生效！</p>
+</li>
+</ol>
+<h2 id="三-springboot3整合springmvc">三、SpringBoot3整合SpringMVC</h2>
+<h3 id="31-实现过程">3.1 实现过程</h3>
+<ol>
+<li>
+<p>创建程序</p>
+</li>
+<li>
+<p>引入依赖</p>
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot;
+         xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+         xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+
+    &lt;parent&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
+        &lt;version&gt;3.0.5&lt;/version&gt;
+    &lt;/parent&gt;
+
+    &lt;groupId&gt;com.atguigu&lt;/groupId&gt;
+    &lt;artifactId&gt;springboot-starter-springmvc-03&lt;/artifactId&gt;
+    &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+
+    &lt;properties&gt;
+        &lt;maven.compiler.source&gt;17&lt;/maven.compiler.source&gt;
+        &lt;maven.compiler.target&gt;17&lt;/maven.compiler.target&gt;
+        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
+    &lt;/properties&gt;
+
+    &lt;dependencies&gt;
+        &lt;!--        web开发的场景启动器 --&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+    &lt;/dependencies&gt;
+
+&lt;/project&gt;
+</code></pre>
+</li>
+<li>
+<p>创建启动类</p>
+<pre><code class="language-java">@SpringBootApplication
+public class MainApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(MainApplication.class,args);
+    }
+}
+
+</code></pre>
+</li>
+<li>
+<p>创建实体类</p>
+<pre><code class="language-java">@Data
+@Component
+public class User {
+    private String username ;
+    private String password ;
+    private Integer age ;
+    private String sex ;
+}
+</code></pre>
+</li>
+<li>
+<p>编写Controller</p>
+<pre><code class="language-java">import com.atguigu.pojo.User;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+@Controller
+@RequestMapping(&quot;/user&quot;)
+public class UserController {
+
+    @GetMapping(&quot;/getUser&quot;)
+    @ResponseBody
+    public User getUser(){
+        
+        User user = new User();
+        user.setUsername(&quot;杨过&quot;);
+        user.setPassword(&quot;123456&quot;);
+        user.setAge(18);
+        user.setSex(&quot;男&quot;);
+        return user;
+    }
+}
+</code></pre>
+</li>
+<li>
+<p>访问测试</p>
+</li>
+</ol>
+<h3 id="32-web相关配置">3.2 web相关配置</h3>
+<p>位置：application.yml</p>
+<pre><code class="language-yaml"># web相关的配置
+# https://docs.spring.io/spring-boot/docs/current/reference/html/application-properties.html#appendix.application-properties.server
+server:
+  # 端口号设置
+  port: 80
+  # 项目根路径
+  servlet:
+    context-path: /boot
+</code></pre>
+<p>当涉及Spring Boot的Web应用程序配置时，以下是五个重要的配置参数：</p>
+<ol>
+<li><code>server.port</code>: 指定应用程序的HTTP服务器端口号。默认情况下，Spring Boot使用8080作为默认端口。您可以通过在配置文件中设置<code>server.port</code>来更改端口号。</li>
+<li><code>server.servlet.context-path</code>: 设置应用程序的上下文路径。这是应用程序在URL中的基本路径。默认情况下，上下文路径为空。您可以通过在配置文件中设置<code>server.servlet.context-path</code>属性来指定自定义的上下文路径。</li>
+<li><code>spring.mvc.view.prefix</code>和<code>spring.mvc.view.suffix</code>: 这两个属性用于配置视图解析器的前缀和后缀。视图解析器用于解析控制器返回的视图名称，并将其映射到实际的视图页面。<code>spring.mvc.view.prefix</code>定义视图的前缀，<code>spring.mvc.view.suffix</code>定义视图的后缀。</li>
+<li><code>spring.resources.static-locations</code>: 配置静态资源的位置。静态资源可以是CSS、JavaScript、图像等。默认情况下，Spring Boot会将静态资源放在<code>classpath:/static</code>目录下。您可以通过在配置文件中设置<code>spring.resources.static-locations</code>属性来自定义静态资源的位置。</li>
+<li><code>spring.http.encoding.charset</code>和<code>spring.http.encoding.enabled</code>: 这两个属性用于配置HTTP请求和响应的字符编码。<code>spring.http.encoding.charset</code>定义字符编码的名称（例如UTF-8），<code>spring.http.encoding.enabled</code>用于启用或禁用字符编码的自动配置。</li>
+</ol>
+<p>这些是在Spring Boot的配置文件中与Web应用程序相关的一些重要配置参数。根据您的需求，您可以在配置文件中设置这些参数来定制和配置您的Web应用程序</p>
+<h3 id="33-静态资源处理">3.3 静态资源处理</h3>
+<blockquote>
+<p>在WEB开发中我们需要引入一些静态资源 , 例如 : HTML , CSS , JS , 图片等 , 如果是普通的项目静态资源可以放在项目的webapp目录下。现在使用Spring Boot做开发 , 项目中没有webapp目录 , 我们的项目是一个jar工程，那么就没有webapp，我们的静态资源该放哪里呢？</p>
+</blockquote>
+<ol>
+<li>
+<p>默认路径</p>
+<p>在springboot中就定义了静态资源的默认查找路径：</p>
+<pre><code class="language-java">public static class Resources {
+        private static final String[] CLASSPATH_RESOURCE_LOCATIONS = new String[]{&quot;classpath:/META-INF/resources/&quot;, &quot;classpath:/resources/&quot;, &quot;classpath:/static/&quot;, &quot;classpath:/public/&quot;};
+        private String[] staticLocations;
+        private boolean addMappings;
+        private boolean customized;
+        private final Chain chain;
+        private final Cache cache;
+
+        public Resources() {
+            this.staticLocations = CLASSPATH_RESOURCE_LOCATIONS;
+            this.addMappings = true;
+            this.customized = false;
+            this.chain = new Chain();
+            this.cache = new Cache();
+        }
+</code></pre>
+<p><strong>默认的静态资源路径为：</strong></p>
+</li>
+</ol>
+<p><strong>· classpath:/META-INF/resources/</strong></p>
+<p><strong>· classpath:/resources/</strong></p>
+<p><strong>· classpath:/static/</strong></p>
+<p><strong>· classpath:/public/</strong></p>
+<p>我们只要静态资源放在这些目录中任何一个，SpringMVC都会帮我们处理。 我们习惯会把静态资源放在classpath:/static/ 目录下。</p>
+<ol start="2">
+<li>
+<p>覆盖路径</p>
+<pre><code class="language-yaml"># web相关的配置
+# https://docs.spring.io/spring-boot/docs/current/reference/html/application-properties.html#appendix.application-properties.server
+server:
+  # 端口号设置
+  port: 80
+  # 项目根路径
+  servlet:
+    context-path: /boot
+spring:
+  web:
+    resources:
+      # 配置静态资源地址,如果设置,会覆盖默认值
+      static-locations: classpath:/webapp
+</code></pre>
+</li>
+</ol>
+<h3 id="34-自定义拦截器">3.4 自定义拦截器</h3>
+<ol>
+<li>
+<p>拦截器声明</p>
+<pre><code class="language-java">import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
+
+@Component
+public class MyInterceptor implements HandlerInterceptor {
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        System.out.println(&quot;MyInterceptor拦截器的preHandle方法执行....&quot;);
+        return true;
+    }
+
+    @Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+        System.out.println(&quot;MyInterceptor拦截器的postHandle方法执行....&quot;);
+    }
+
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+        System.out.println(&quot;MyInterceptor拦截器的afterCompletion方法执行....&quot;);
+    }
+}
+</code></pre>
+</li>
+<li>
+<p>拦截器配置</p>
+<p>正常使用配置类，只要保证，<strong>配置类要在启动类的同包或者子包方可生效！</strong></p>
+<pre><code class="language-java">import com.atguigu.interceptor.MyInterceptor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+@Configuration
+public class MvcConfig implements WebMvcConfigurer {
+
+    @Autowired
+    private MyInterceptor myInterceptor ;
+
+    /**
+     * /**  拦截当前目录及子目录下的所有路径 /user/**   /user/findAll  /user/order/findAll
+     * /*   拦截当前目录下的以及子路径   /user/*     /user/findAll
+     * @param registry
+     */
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(myInterceptor).addPathPatterns(&quot;/**&quot;);
+    }
+}
+</code></pre>
+</li>
+<li>
+<p>拦截器效果测试</p>
+</li>
+</ol>
+<h2 id="四-springboot3整合druid数据源">四、SpringBoot3整合Druid数据源</h2>
+<ol>
+<li>
+<p>创建程序</p>
+</li>
+<li>
+<p>引入依赖</p>
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot;
+         xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+         xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+
+    &lt;parent&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
+        &lt;version&gt;3.0.5&lt;/version&gt;
+    &lt;/parent&gt;
+    &lt;groupId&gt;com.atguigu&lt;/groupId&gt;
+    &lt;artifactId&gt;springboot-starter-druid-04&lt;/artifactId&gt;
+    &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+
+    &lt;properties&gt;
+        &lt;maven.compiler.source&gt;17&lt;/maven.compiler.source&gt;
+        &lt;maven.compiler.target&gt;17&lt;/maven.compiler.target&gt;
+        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
+    &lt;/properties&gt;
+    &lt;dependencies&gt;
+        &lt;!--  web开发的场景启动器 --&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+
+        &lt;!-- 数据库相关配置启动器 jdbctemplate 事务相关--&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-jdbc&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+
+        &lt;!-- druid启动器的依赖  --&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;com.alibaba&lt;/groupId&gt;
+            &lt;artifactId&gt;druid-spring-boot-3-starter&lt;/artifactId&gt;
+            &lt;version&gt;1.2.20&lt;/version&gt;
+        &lt;/dependency&gt;
+
+        &lt;!-- 驱动类--&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;mysql&lt;/groupId&gt;
+            &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
+            &lt;version&gt;8.0.28&lt;/version&gt;
+        &lt;/dependency&gt;
+
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.projectlombok&lt;/groupId&gt;
+            &lt;artifactId&gt;lombok&lt;/artifactId&gt;
+            &lt;version&gt;1.18.28&lt;/version&gt;
+        &lt;/dependency&gt;
+
+    &lt;/dependencies&gt;
+
+    &lt;!--    SpringBoot应用打包插件--&gt;
+    &lt;build&gt;
+        &lt;plugins&gt;
+            &lt;plugin&gt;
+                &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+                &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
+            &lt;/plugin&gt;
+        &lt;/plugins&gt;
+    &lt;/build&gt;
+
+&lt;/project&gt;
+</code></pre>
+</li>
+<li>
+<p>启动类</p>
+</li>
+<li>
+<p>配置文件编写</p>
+<blockquote>
+<p>添加druid连接池的基本配置</p>
+</blockquote>
+<pre><code class="language-yaml">spring:
+  datasource:
+    # 连接池类型 
+    type: com.alibaba.druid.pool.DruidDataSource
+
+    # Druid的其他属性配置 springboot3整合情况下,数据库连接信息必须在Druid属性下!
+    druid:
+      url: jdbc:mysql://localhost:3306/day01
+      username: root
+      password: root
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      # 初始化时建立物理连接的个数
+      initial-size: 5
+      # 连接池的最小空闲数量
+      min-idle: 5
+      # 连接池最大连接数量
+      max-active: 20
+      # 获取连接时最大等待时间，单位毫秒
+      max-wait: 60000
+      # 申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效。
+      test-while-idle: true
+      # 既作为检测的间隔时间又作为testWhileIdel执行的依据
+      time-between-eviction-runs-millis: 60000
+      # 销毁线程时检测当前连接的最后活动时间和当前时间差大于该值时，关闭当前连接(配置连接在池中的最小生存时间)
+      min-evictable-idle-time-millis: 30000
+      # 用来检测数据库连接是否有效的sql 必须是一个查询语句(oracle中为 select 1 from dual)
+      validation-query: select 1
+      # 申请连接时会执行validationQuery检测连接是否有效,开启会降低性能,默认为true
+      test-on-borrow: false
+      # 归还连接时会执行validationQuery检测连接是否有效,开启会降低性能,默认为true
+      test-on-return: false
+      # 是否缓存preparedStatement, 也就是PSCache,PSCache对支持游标的数据库性能提升巨大，比如说oracle,在mysql下建议关闭。
+      pool-prepared-statements: false
+      # 要启用PSCache，必须配置大于0，当大于0时，poolPreparedStatements自动触发修改为true。在Druid中，不会存在Oracle下PSCache占用内存过多的问题，可以把这个数值配置大一些，比如说100
+      max-pool-prepared-statement-per-connection-size: -1
+      # 合并多个DruidDataSource的监控数据
+      use-global-data-source-stat: true
+
+logging:
+  level:
+    root: debug
+</code></pre>
+</li>
+<li>
+<p>编写Controller</p>
+<pre><code class="language-java">@Slf4j
+@Controller
+@RequestMapping(&quot;/user&quot;)
+public class UserController {
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    @GetMapping(&quot;/getUser&quot;)
+    @ResponseBody
+    public User getUser(){
+        String sql = &quot;select * from users where id = ? ; &quot;;
+        User user = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper&lt;&gt;(User.class), 1);
+        log.info(&quot;查询的user数据为:{}&quot;,user.toString());
+        return user;
+    }
+    
+}
+</code></pre>
+</li>
+<li>
+<p>启动测试</p>
+</li>
+</ol>
+<h2 id="五-springboot3整合mybatis">五、SpringBoot3整合Mybatis</h2>
+<h3 id="51-mybatis整合步骤">5.1 MyBatis整合步骤</h3>
+<ol>
+<li>导入依赖：在您的Spring Boot项目的构建文件（如pom.xml）中添加MyBatis和数据库驱动的相关依赖。例如，如果使用MySQL数据库，您需要添加MyBatis和MySQL驱动的依赖。</li>
+<li>配置数据源：在<code>application.properties</code>或<code>application.yml</code>中配置数据库连接信息，包括数据库URL、用户名、密码、mybatis的功能配置等。</li>
+<li>创建实体类：创建与数据库表对应的实体类。</li>
+<li>创建Mapper接口：创建与数据库表交互的Mapper接口。</li>
+<li>创建Mapper接口SQL实现： 可以使用mapperxml文件或者注解方式</li>
+<li>创建程序启动类</li>
+<li>注解扫描：在Spring Boot的主应用类上添加<code>@MapperScan</code>注解，用于扫描和注册Mapper接口。</li>
+<li>使用Mapper接口：在需要使用数据库操作的地方，通过依赖注入或直接实例化Mapper接口，并调用其中的方法进行数据库操作。</li>
+</ol>
+<h3 id="52-mybatis整合实践">5.2 Mybatis整合实践</h3>
+<ol>
+<li>
+<p>创建项目</p>
+</li>
+<li>
+<p>导入依赖</p>
+<pre><code class="language-xml">&lt;parent&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
+    &lt;version&gt;3.0.5&lt;/version&gt;
+&lt;/parent&gt;
+
+&lt;dependencies&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+	
+	// MyBatis    
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.mybatis.spring.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;mybatis-spring-boot-starter&lt;/artifactId&gt;
+        &lt;version&gt;3.0.1&lt;/version&gt;
+    &lt;/dependency&gt;
+
+    &lt;!-- 数据库相关配置启动器 --&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-jdbc&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+
+    &lt;!-- druid启动器的依赖  --&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;com.alibaba&lt;/groupId&gt;
+        &lt;artifactId&gt;druid-spring-boot-3-starter&lt;/artifactId&gt;
+        &lt;version&gt;1.2.18&lt;/version&gt;
+    &lt;/dependency&gt;
+
+    &lt;!-- 驱动类--&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;mysql&lt;/groupId&gt;
+        &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
+        &lt;version&gt;8.0.28&lt;/version&gt;
+    &lt;/dependency&gt;
+
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.projectlombok&lt;/groupId&gt;
+        &lt;artifactId&gt;lombok&lt;/artifactId&gt;
+        &lt;version&gt;1.18.28&lt;/version&gt;
+    &lt;/dependency&gt;
+
+&lt;/dependencies&gt;
+</code></pre>
+</li>
+<li>
+<p>配置文件</p>
+<pre><code class="language-yaml">server:
+  port: 80
+  servlet:
+    context-path: /
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      url: jdbc:mysql:///day01
+      username: root
+      password: root
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      
+mybatis:
+  configuration:  # setting配置
+    auto-mapping-behavior: full
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+  type-aliases-package: com.atguigu.pojo # 配置别名
+  mapper-locations: classpath:/mapper/*.xml # mapperxml位置
+</code></pre>
+</li>
+<li>
+<p>实体类准备</p>
+</li>
+<li>
+<p>Mapper接口准备</p>
+<pre><code class="language-java">public interface UserMapper {
+    List&lt;User&gt; queryAll();
+}
+</code></pre>
+</li>
+<li>
+<p>Mapper接口实现（XML）</p>
+<p>位置：resources/mapper/UserMapper.xml</p>
+<pre><code class="language-java">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
+&lt;!DOCTYPE mapper
+        PUBLIC &quot;-//mybatis.org//DTD Mapper 3.0//EN&quot;
+        &quot;https://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;
+&lt;!-- namespace = 接口的全限定符 --&gt;
+&lt;mapper namespace=&quot;com.atguigu.mapper.UserMapper&quot;&gt;
+
+    &lt;select id=&quot;queryAll&quot; resultType=&quot;user&quot;&gt;
+        select * from users
+    &lt;/select&gt;
+
+&lt;/mapper&gt;
+</code></pre>
+</li>
+<li>
+<p>编写三层架构代码</p>
+<pre><code class="language-java">@Slf4j
+@Controller
+@RequestMapping(&quot;/user&quot;)
+public class UserController {
+        @Autowired
+    private UserService userService;
+
+    @GetMapping(&quot;/list&quot;)
+    @ResponseBody
+    public List&lt;User&gt; getUser(){
+        List&lt;User&gt; userList = userService.findList();
+        log.info(&quot;查询的user数据为:{}&quot;,userList);
+        return userList;
+    }
+
+}
+</code></pre>
+<pre><code class="language-java">@Slf4j
+@Service
+public class UserService {
+
+    @Autowired
+    private UserMapper userMapper;
+
+    public List&lt;User&gt; findList(){
+        List&lt;User&gt; users = userMapper.queryAll();
+        log.info(&quot;查询全部数据:{}&quot;,users);
+        return users;
+    }
+}
+</code></pre>
+</li>
+<li>
+<p>启动类和接口扫描</p>
+<pre><code class="language-java">@MapperScan(&quot;com.atguigu.mapper&quot;) //mapper接口扫描配置
+@SpringBootApplication
+public class MainApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(MainApplication.class,args);
+    }
+}
+
+</code></pre>
+</li>
+<li>
+<p>启动测试</p>
+</li>
+</ol>
+<h3 id="53-声明式事务整合配置">5.3 声明式事务整合配置</h3>
+<p>依赖导入:</p>
+<pre><code class="language-xml"> &lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-jdbc&lt;/artifactId&gt;
+&lt;/dependency&gt;
+</code></pre>
+<p>注：SpringBoot项目会自动配置一个 DataSourceTransactionManager，所以我们只需在方法（或者类）加上 @Transactional 注解，就自动纳入 Spring 的事务管理了</p>
+<pre><code class="language-java">@Transactional
+public void update(){
+    User user = new User();
+    user.setId(1);
+    user.setPassword(&quot;test2&quot;);
+    user.setAccount(&quot;test2&quot;);
+    userMapper.update(user);
+}
+</code></pre>
+<h3 id="54-aop整合配置">5.4 AOP整合配置</h3>
+<p>依赖导入:</p>
+<pre><code class="language-xml">&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-aop&lt;/artifactId&gt;
+&lt;/dependency&gt;
+</code></pre>
+<p>直接使用aop注解即可: </p>
+<pre><code class="language-java">@Component
+@Aspect
+public class LogAdvice {
+
+    @Before(&quot;execution(* com..service.*.*(..))&quot;)
+    public void before(JoinPoint joinPoint){
+        System.out.println(&quot;LogAdvice.before&quot;);
+        System.out.println(&quot;joinPoint = &quot; + joinPoint);
+    }
+
+}
+</code></pre>
+<h2 id="六-springboot3项目打包和运行">六、SpringBoot3项目打包和运行</h2>
+<h3 id="61-添加打包插件">6.1 添加打包插件</h3>
+<blockquote>
+<p>在Spring Boot项目中添加<code>spring-boot-maven-plugin</code>插件是为了支持将项目打包成可执行的可运行jar包。如果不添加<code>spring-boot-maven-plugin</code>插件配置，使用常规的<code>java -jar</code>命令来运行打包后的Spring Boot项目是无法找到应用程序的入口点，因此导致无法运行。</p>
+</blockquote>
+<pre><code class="language-xml">&lt;!--    SpringBoot应用打包插件--&gt;
+&lt;build&gt;
+    &lt;plugins&gt;
+        &lt;plugin&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
+        &lt;/plugin&gt;
+    &lt;/plugins&gt;
+&lt;/build&gt;
+</code></pre>
+<h3 id="62-执行打包">6.2 执行打包</h3>
+<p>在idea点击package进行打包</p>
+<p>可以在编译的target文件中查看jar包</p>
+<h3 id="63-命令启动和参数说明">6.3 命令启动和参数说明</h3>
+<p><code>java -jar</code>命令用于在Java环境中执行可执行的JAR文件。下面是关于<code>java -jar</code>命令的说明：</p>
+<pre><code class="language-xml">命令格式：java -jar  [选项] [参数] &lt;jar文件名&gt;
+</code></pre>
+<ol>
+<li><code>-D&lt;name&gt;=&lt;value&gt;</code>：设置系统属性，可以通过<code>System.getProperty()</code>方法在应用程序中获取该属性值。例如：<code>java -jar -Dserver.port=8080 myapp.jar</code>。</li>
+<li><code>-X</code>：设置JVM参数，例如内存大小、垃圾回收策略等。常用的选项包括：
+<ul>
+<li><code>-Xmx&lt;size&gt;</code>：设置JVM的最大堆内存大小，例如 <code>-Xmx512m</code> 表示设置最大堆内存为512MB。</li>
+<li><code>-Xms&lt;size&gt;</code>：设置JVM的初始堆内存大小，例如 <code>-Xms256m</code> 表示设置初始堆内存为256MB。</li>
+</ul>
+</li>
+<li><code>-Dspring.profiles.active=&lt;profile&gt;</code>：指定Spring Boot的激活配置文件，可以通过<code>application-&lt;profile&gt;.properties</code>或<code>application-&lt;profile&gt;.yml</code>文件来加载相应的配置。例如：<code>java -jar -Dspring.profiles.active=dev myapp.jar</code>。</li>
+</ol>
+<p>启动和测试：</p>
+<figure data-type="image" tabindex="2"><img src="C:%5CUsers%5Cqiuzhongjun%5CDocuments%5CGridea%5Cpost-images%5Cimage_sH3S3fZ9Cy.png" alt="" loading="lazy"></figure>
+<p>注意： -D 参数必须要在jar之前！否者不生效！</p>
+
+              </div>
+              <hr class="clear">
+              
+                <div class="next-post">
+                  <a class="purple-link" href="https://decade-qiu.github.io/post/wu-kuang-jia-shi-zhan-ssm-zheng-he-yuan-li-he-shi-zhan/">
+                    <h3 class="post-title">
+                      下一篇：SSM整合原理和实战
+                    </h3>
+                  </a>
+                </div>
+                
+            </div>
+          </div>
+      </div>
+
+      
+          <div id="gitalk-container"></div>
+      
+
+    
+    </div>
+    <div class="site-footer">
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/Decade-qiu" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        <a href="https://space.bilibili.com/98721375?spm_id_from=333.1007.0.0" target="_blank">
+          <i class="fab fa-bilibili"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.zhihu.com/people/chou-yu-80-33" target="_blank">
+          <i class="fab fa-zhihu"></i>
+        </a>
+      
+    
+  </div>
+  <div class="slogan">Stay hungry. Stay foolish.</div> |
+  <a href="https://github.com/Decade-qiu/gridea-theme-Eternal" target="_blank">Today is happy day again!</a> | <a href="https://github.com/Decade-qiu/gridea-theme-Eternal" target="_blank">Powered by Eternal</a> | <a href="https://decade-qiu.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+    <script src="https://decade-qiu.github.io/media/scripts/index.js"></script>
+
+
+    <script src='https://decade-qiu.github.io/media/scripts/valine.min.js'></script>
+    <script>
+        new Valine({
+            el: '#gitalk-container',
+            appId: 'b2xhAFZQq4FxBeHcVRgXNEbf-gzGzoHsz',
+            appKey: 'QqIty1r7mCD1MbFanHuyw57O',
+            placeholder: 'Write something...',
+        })
+    </script>
+
+
+
+  </body>
+</html>
+
+<script>
+    window.onload = function() {
+        let id = 1;
+        let post_content = document.querySelector('.content-card');
+        post_content.querySelectorAll('h1,h2,h3,h4,h5,h6').forEach(function (item) {
+            item.setAttribute('id', 'toc-' + id);
+            id++;
+        });
+        tocbot.init({
+            tocSelector: '.toc',
+            contentSelector: '.post-content',
+            headingSelector: 'h1,h2,h3,h4',
+            headingsOffset: 58,
+        });
+        // 检测页面滚动距离 用eventlistener
+        window.addEventListener('scroll', function () {
+            let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            let toc = document.querySelector('.toc');
+            let tocBtn = document.querySelector('.toc-body');
+            if (scrollTop > 250) {
+                tocBtn.classList.add('toc-body-fixed');
+                toc.classList.add('toc-fixed');
+            } else {
+                tocBtn.classList.remove('toc-body-fixed');
+                toc.classList.remove('toc-fixed');
+            }
+        });
+        document.querySelector('#floating-toc-btn').addEventListener('click', function () {
+            let toc = document.querySelector('.toc-body');
+            let main = document.querySelector('.main');
+            if (toc.classList.contains('hide')) {
+                main.classList.add('main-small');
+                toc.classList.remove('hide');
+            } else {
+                toc.classList.add('hide');
+                main.classList.remove('main-small');
+            }
+        });
+        window.addEventListener('resize', function() {
+            // 获取屏幕宽度
+            var screenWidth = window.innerWidth || document.documentElement.clientWidth;
+            // 设置 .content-card 的 max-width
+            var contentCard = document.querySelector('.content-card');
+            contentCard.style.maxWidth = screenWidth + 'px';
+        });
+        // 初始加载时执行一次，确保初始状态下也设置正确
+        window.dispatchEvent(new Event('resize'));
+    };
+</script>

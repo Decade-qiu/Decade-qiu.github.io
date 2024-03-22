@@ -1,0 +1,359 @@
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>Decade</title>
+<meta name="description" content="Stay hungry. Stay foolish.">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.1/css/all.css" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://decade-qiu.github.io/favicon.ico?v=1711118819754">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://decade-qiu.github.io/styles/main.css">
+
+<script src="https://decade-qiu.github.io/media/scripts/vue.js"></script>
+<script src="https://decade-qiu.github.io/media/scripts/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="carousel carousel-slider center index-cover" data-indicators="true">
+    <div class="bg-cover" style="background: url('https://decade-qiu.github.io/images/cover.jpg?v=1711118819754') no-repeat center center fixed">
+        <div class="container">
+            <div class="row">
+                <div class="col s10 offset-s1 m8 offset-m2 l8 offset-l2">
+                    <div class="brand">
+                        <div class="title center-align">
+                            Decade&#39;s Blog
+                        </div>
+                        <div class="description center-align">
+                            <span id="subtitle" data-subtitle="Never really desperate, only the lost of the soul.">Never really desperate, only the lost of the soul.</span><span class="typed-cursor">|</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="cover-btns">
+                <a href="#content" class="waves-effect waves-light btn">
+                    <i class="fa fa-angle-double-down"></i>开始阅读
+                </a>
+            </div>
+            <div class="cover-social-link">
+                
+                    
+                      <a href="https://github.com/Decade-qiu" target="_blank">
+                        <i class="fab fa-github"></i>
+                      </a>
+                    
+                  
+                    
+                  
+                    
+                  
+                    
+                  
+                    
+                      <a href="https://space.bilibili.com/98721375?spm_id_from=333.1007.0.0" target="_blank">
+                        <i class="fab fa-bilibili"></i>
+                      </a>
+                    
+                  
+                    
+                      <a href="https://www.zhihu.com/people/chou-yu-80-33" target="_blank">
+                        <i class="fab fa-zhihu"></i>
+                      </a>
+                    
+                  
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
+<script>
+    window.onload = function () {
+        var subtitle = document.querySelector("#subtitle");
+        var text = subtitle.dataset.subtitle;
+        var typed = new Typed("#subtitle", {
+            strings: [ 
+                
+                    "从来没有真正的绝境, 只有心灵的迷途",
+                
+                    text,
+                
+            ],
+            startDelay: 300,
+            typeSpeed: 100,
+            loop: true,
+            backSpeed: 50,
+            showCursor: true
+        });
+    }
+    document.addEventListener("DOMContentLoaded", (event) => {
+        let cover = document.querySelector('.bg-cover');
+        if (document.location.pathname !== '/'){
+            cover.classList.add('pd-header');
+            let btns = document.querySelector('.cover-btns');
+            let social = document.querySelector('.cover-social-link');
+            btns.classList.add('hide');
+            social.classList.add('hide');
+        }
+    });
+</script>
+
+
+    <div id="app" class="main">
+      <div class="site-header-container nav-transparent">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://decade-qiu.github.io">
+        <img class="avatar" src="https://decade-qiu.github.io/images/avatar.png?v=1711118819754" alt=""
+          width="32px" height="32px">
+      </a>
+      <a href="https://decade-qiu.github.io">
+        <h1 class="site-title">
+          Decade
+        </h1>
+      </a>
+    </div>
+    <div class="right">
+        <div class="menu">
+            <a href="/post/about" v-if="headSearchShow">
+                <i class="fa-solid fa-user"></i>&nbsp;个人
+            </a>
+            <a href="/archives" v-if="headSearchShow">
+                <i class="fa-solid fa-box-archive"></i>&nbsp;归档
+            </a>
+            <a href="/tags" v-if="headSearchShow">
+                <i class="fa-solid fa-tag"></i>&nbsp;标签
+            </a>
+            <a href="/life" v-if="headSearchShow">
+                <i class="fa-fw fas fa-heart"></i>&nbsp;生活
+            </a>
+            
+        </div>
+      <div class="gridea-search-div" v-if="headSearchShow">
+        <form id="gridea-search-form" action="https://decade-qiu.github.io/search/">
+          <input class="gridea-search-input" autocomplete="off" spellcheck="false" name="q" />
+        </form>
+      </div>
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }"
+          @click="menuClick()" v-if="menuSearchShow"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      <div class="gridea-search-div" v-if="menuSearchShow">
+        <form id="gridea-search-form" action="https://decade-qiu.github.io/search/">
+          <input class="gridea-search-input" autocomplete="off" spellcheck="false" name="q" />
+        </form>
+      </div>
+      
+        
+            <a href="/" class="menu purple-link">
+              首页
+            </a>
+            
+              
+        
+            <a href="/archives" class="menu purple-link">
+              归档
+            </a>
+            
+              
+        
+            <a href="/tags" class="menu purple-link">
+              标签
+            </a>
+            
+              
+        
+            <a href="/post/about" class="menu purple-link">
+              个人
+            </a>
+            
+              
+        
+            <a href="/life" class="menu purple-link">
+              生活
+            </a>
+            
+              
+              
+    </div>
+  </div>
+</transition>
+
+<script>
+    window.onscroll = function () {
+        var t = document.documentElement.scrollTop || document.body.scrollTop;
+        var header = document.querySelector('.site-header-container');
+        if (t > 0) {
+            header.classList.remove('nav-transparent');
+        } else {
+            header.classList.add('nav-transparent');
+        }
+    }
+</script>
+
+        <div class="content-container">
+          
+          <div class="tags-container">
+            
+              <a class="tag" href="https://decade-qiu.github.io/tag/DIOv4mRMq/">SpringBoot3</a>
+            
+              <a class="tag" href="https://decade-qiu.github.io/tag/sxrJ_RxH6/">JDBC</a>
+            
+              <a class="tag" href="https://decade-qiu.github.io/tag/1-zNm4L0h/">Database</a>
+            
+              <a class="tag" href="https://decade-qiu.github.io/tag/M3jGa6EF9/">二分</a>
+            
+              <a class="tag" href="https://decade-qiu.github.io/tag/F2kUQf7xN/">LeetCode</a>
+            
+              <a class="tag" href="https://decade-qiu.github.io/tag/A-qMFeYi0/">SQL</a>
+            
+              <a class="tag" href="https://decade-qiu.github.io/tag/hUiLI89oW/">MyBatis</a>
+            
+              <a class="tag" href="https://decade-qiu.github.io/tag/QQu-1bPsq/">SSM框架</a>
+            
+              <a class="tag" href="https://decade-qiu.github.io/tag/PzDyJl3At/">SpringMVC</a>
+            
+              <a class="tag" href="https://decade-qiu.github.io/tag/ECn51EiDG/">Spring</a>
+            
+              <a class="tag" href="https://decade-qiu.github.io/tag/XOLh-PMW5/">回文串</a>
+            
+              <a class="tag" href="https://decade-qiu.github.io/tag/mx3RwcMT_/">KMP</a>
+            
+              <a class="tag" href="https://decade-qiu.github.io/tag/pQFRIW5gz/">贪心</a>
+            
+              <a class="tag" href="https://decade-qiu.github.io/tag/nTFeAmnF3/">竞赛</a>
+            
+              <a class="tag" href="https://decade-qiu.github.io/tag/YE_ohUf94/">Maven</a>
+            
+              <a class="tag" href="https://decade-qiu.github.io/tag/R4IAG0U4d/">DP</a>
+            
+              <a class="tag" href="https://decade-qiu.github.io/tag/eSZUAEcuc/">模拟</a>
+            
+              <a class="tag" href="https://decade-qiu.github.io/tag/11a3eLQs3/">字符串</a>
+            
+              <a class="tag" href="https://decade-qiu.github.io/tag/eVpg6IEpN/">TypeScript</a>
+            
+              <a class="tag" href="https://decade-qiu.github.io/tag/F7EiEcPWX/">Vue3</a>
+            
+              <a class="tag" href="https://decade-qiu.github.io/tag/XvO2auUat/">题目分享</a>
+            
+              <a class="tag" href="https://decade-qiu.github.io/tag/oBYaUIV9y/">Web</a>
+            
+              <a class="tag" href="https://decade-qiu.github.io/tag/jioa60t_Z/">二进制枚举</a>
+            
+              <a class="tag" href="https://decade-qiu.github.io/tag/f0QSIZi_u/">访问加速</a>
+            
+              <a class="tag" href="https://decade-qiu.github.io/tag/EI4u1kOvT/">JavaScript</a>
+            
+              <a class="tag" href="https://decade-qiu.github.io/tag/wRgrybOGs/">单调栈</a>
+            
+              <a class="tag" href="https://decade-qiu.github.io/tag/k68-Qkbyx/">分治</a>
+            
+              <a class="tag" href="https://decade-qiu.github.io/tag/d7p-iel5V/">树状数组</a>
+            
+              <a class="tag" href="https://decade-qiu.github.io/tag/SzMky9qMV/">计算机网络</a>
+            
+              <a class="tag" href="https://decade-qiu.github.io/tag/ZFabRpDwN/">CF</a>
+            
+              <a class="tag" href="https://decade-qiu.github.io/tag/qhOnCMXNw/">双指针</a>
+            
+              <a class="tag" href="https://decade-qiu.github.io/tag/nLUblwFtN/">Linux</a>
+            
+              <a class="tag" href="https://decade-qiu.github.io/tag/ctlJYo-Im/">优先队列</a>
+            
+              <a class="tag" href="https://decade-qiu.github.io/tag/NBlyL2VLF/">BFS</a>
+            
+              <a class="tag" href="https://decade-qiu.github.io/tag/2CsPNHBH_/">前缀和</a>
+            
+              <a class="tag" href="https://decade-qiu.github.io/tag/Cspg4-iDV/">差分</a>
+            
+              <a class="tag" href="https://decade-qiu.github.io/tag/zBmi7-c62/">鸽巢原理</a>
+            
+              <a class="tag" href="https://decade-qiu.github.io/tag/Y26isEeml/">AcWing</a>
+            
+              <a class="tag" href="https://decade-qiu.github.io/tag/hThkMgWnc/">AtCoder</a>
+            
+              <a class="tag" href="https://decade-qiu.github.io/tag/8kKiiOO0t/">数组</a>
+            
+              <a class="tag" href="https://decade-qiu.github.io/tag/ULuigyxHZ/">子序列</a>
+            
+              <a class="tag" href="https://decade-qiu.github.io/tag/q13ED54Ld/">分类讨论</a>
+            
+              <a class="tag" href="https://decade-qiu.github.io/tag/CRDgA15G4/">线段树</a>
+            
+              <a class="tag" href="https://decade-qiu.github.io/tag/UQgbyag2t/">数据结构</a>
+            
+              <a class="tag" href="https://decade-qiu.github.io/tag/B1Yna-tVg/">算法</a>
+            
+              <a class="tag" href="https://decade-qiu.github.io/tag/w0vJRlzrU/">算法模板</a>
+            
+              <a class="tag" href="https://decade-qiu.github.io/tag/jLDM3D_7r/">Gridea</a>
+            
+          </div>
+
+        </div>
+
+        
+
+      </div>
+      <div class="site-footer">
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/Decade-qiu" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        <a href="https://space.bilibili.com/98721375?spm_id_from=333.1007.0.0" target="_blank">
+          <i class="fab fa-bilibili"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.zhihu.com/people/chou-yu-80-33" target="_blank">
+          <i class="fab fa-zhihu"></i>
+        </a>
+      
+    
+  </div>
+  <div class="slogan">Stay hungry. Stay foolish.</div> |
+  <a href="https://github.com/Decade-qiu/gridea-theme-Eternal" target="_blank">Today is happy day again!</a> | <a href="https://github.com/Decade-qiu/gridea-theme-Eternal" target="_blank">Powered by Eternal</a> | <a href="https://decade-qiu.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+      <script src="https://decade-qiu.github.io/media/scripts/index.js"></script>
+
+
+    <script src='https://decade-qiu.github.io/media/scripts/valine.min.js'></script>
+    <script>
+        new Valine({
+            el: '#gitalk-container',
+            appId: 'b2xhAFZQq4FxBeHcVRgXNEbf-gzGzoHsz',
+            appKey: 'QqIty1r7mCD1MbFanHuyw57O',
+            placeholder: 'Write something...',
+        })
+    </script>
+
+
+
+    </div>
+  </body>
+</html>

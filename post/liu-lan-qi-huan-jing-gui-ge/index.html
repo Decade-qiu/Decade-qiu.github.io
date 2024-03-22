@@ -1,0 +1,514 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>Web-Document | Decade</title>
+<meta name="description" content="Stay hungry. Stay foolish.">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.1/css/all.css" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://decade-qiu.github.io/favicon.ico?v=1711118819754">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://decade-qiu.github.io/styles/main.css">
+
+<script src="https://decade-qiu.github.io/media/scripts/vue.js"></script>
+<script src="https://decade-qiu.github.io/media/scripts/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.5.0/tocbot.min.js"></script>
+  </head>
+  <body>
+    <div class="carousel carousel-slider center index-cover" data-indicators="true">
+    <div class="bg-cover pd-header" style="background: url('') no-repeat center center fixed" data-link="https://decade-qiu.github.io/post/liu-lan-qi-huan-jing-gui-ge/">
+        <div class="container">
+            <div class="row">
+                <div class="col s10 offset-s1 m8 offset-m2 l8 offset-l2">
+                    <div class="brand">
+                        <div class="title center-align">
+                            Web-Document
+                        </div>
+                        <div class="description center-align">
+                            <span id="subtitle">
+                                Day Day Learn, Day Day Up.
+                            </span><span class="typed-cursor">|</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
+<script>
+    window.onload = function () {
+        var typed = new Typed("#subtitle", {
+            strings: [ 
+                
+                    "从来没有真正的绝境, 只有心灵的迷途",
+                
+                    'Day Day Learn, Day Day Up.',
+
+            ],
+            startDelay: 300,
+            typeSpeed: 100,
+            loop: true,
+            backSpeed: 50,
+            showCursor: true
+        });
+        let cover = document.querySelector('.bg-cover');
+        cover.setAttribute('style', `background: url('${localStorage[cover.dataset.link]}') no-repeat center center fixed`);
+    }
+</script>
+
+
+    <div class="toc-body hide">  
+        <div class="toc"></div>
+    </div>
+    <div id="floating-toc-btn">
+        <i class="fas fa-list-ul bg-color"></i>
+    </div>
+    <div id="app" class="main">
+      <div class="site-header-container nav-transparent">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://decade-qiu.github.io">
+        <img class="avatar" src="https://decade-qiu.github.io/images/avatar.png?v=1711118819754" alt=""
+          width="32px" height="32px">
+      </a>
+      <a href="https://decade-qiu.github.io">
+        <h1 class="site-title">
+          Decade
+        </h1>
+      </a>
+    </div>
+    <div class="right">
+        <div class="menu">
+            <a href="/post/about" v-if="headSearchShow">
+                <i class="fa-solid fa-user"></i>&nbsp;个人
+            </a>
+            <a href="/archives" v-if="headSearchShow">
+                <i class="fa-solid fa-box-archive"></i>&nbsp;归档
+            </a>
+            <a href="/tags" v-if="headSearchShow">
+                <i class="fa-solid fa-tag"></i>&nbsp;标签
+            </a>
+            <a href="/life" v-if="headSearchShow">
+                <i class="fa-fw fas fa-heart"></i>&nbsp;生活
+            </a>
+            
+        </div>
+      <div class="gridea-search-div" v-if="headSearchShow">
+        <form id="gridea-search-form" action="https://decade-qiu.github.io/search/">
+          <input class="gridea-search-input" autocomplete="off" spellcheck="false" name="q" />
+        </form>
+      </div>
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }"
+          @click="menuClick()" v-if="menuSearchShow"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      <div class="gridea-search-div" v-if="menuSearchShow">
+        <form id="gridea-search-form" action="https://decade-qiu.github.io/search/">
+          <input class="gridea-search-input" autocomplete="off" spellcheck="false" name="q" />
+        </form>
+      </div>
+      
+        
+            <a href="/" class="menu purple-link">
+              首页
+            </a>
+            
+              
+        
+            <a href="/archives" class="menu purple-link">
+              归档
+            </a>
+            
+              
+        
+            <a href="/tags" class="menu purple-link">
+              标签
+            </a>
+            
+              
+        
+            <a href="/post/about" class="menu purple-link">
+              个人
+            </a>
+            
+              
+        
+            <a href="/life" class="menu purple-link">
+              生活
+            </a>
+            
+              
+              
+    </div>
+  </div>
+</transition>
+
+<script>
+    window.onscroll = function () {
+        var t = document.documentElement.scrollTop || document.body.scrollTop;
+        var header = document.querySelector('.site-header-container');
+        if (t > 0) {
+            header.classList.remove('nav-transparent');
+        } else {
+            header.classList.add('nav-transparent');
+        }
+    }
+</script>
+
+      <div class="content-body">
+        <div class="content-container content-card">
+            <div class="post-detail">
+              <div class="post-info post-detail-info">
+                <span><i class="icon-calendar-outline"></i> 2023-12-24-Sun</span>
+                
+                  <span>
+                    
+                        <i class="icon-pricetags-outline"></i>
+                      <a href="https://decade-qiu.github.io/tag/oBYaUIV9y/">
+                        Web
+                      </a>
+                    
+                  </span>
+                
+              </div>
+              
+              <hr class="clear">
+              <div class="post-content">
+                <p><svg xmlns="http://www.w3.org/2000/svg" width="367" height="308" viewBox="0 0 367 308"><defs><style>@import url(https://fonts.googleapis.com/css?family=Open+Sans:bold,italic,bolditalic%7CPT+Mono);@font-face{font-family:'PT Mono';font-weight:700;font-style:normal;src:local('PT MonoBold'),url(/font/PTMonoBold.woff2) format('woff2'),url(/font/PTMonoBold.woff) format('woff'),url(/font/PTMonoBold.ttf) format('truetype')}</style></defs><g id="combined" fill="none" fill-rule="evenodd" stroke="none" stroke-width="1"><g id="windowObjects.svg"><path id="Rectangle-1" fill="#FBF2EC" stroke="#DBAF88" stroke-width="2" d="M136 10h78v28h-78z"/><text id="window" fill="#643B0C" font-family="PTMono-Regular, PT Mono" font-size="14" font-weight="normal"><tspan x="152" y="28">window</tspan></text><path id="Rectangle-2" fill="#EEF6F1" stroke="#91C2A3" stroke-width="2" d="M18 80h78v26H18z"/><path id="Rectangle-2" fill="#FEF1F0" stroke="#D35155" stroke-width="2" d="M255 118h83v26h-83z"/><path id="Rectangle-2" fill="#C9DCEA" stroke="#C9DCEA" stroke-width="2" d="M110 270h132v26H110z"/><text id="document" fill="#37664B" font-family="PTMono-Regular, PT Mono" font-size="14" font-weight="normal"><tspan x="26" y="97">document</tspan></text><path id="Rectangle-2" fill="#FEF1F0" stroke="#D35155" stroke-width="2" d="M255 80h83v26h-83z"/><text id="Object" fill="#A7333A" font-family="PTMono-Regular, PT Mono" font-size="14" font-weight="normal"><tspan x="271" y="97">Object</tspan></text><path id="Rectangle-2" fill="#C9DCEA" stroke="#C9DCEA" stroke-width="2" d="M134 80h85v26h-85z"/><text id="navigator" fill="#166388" font-family="PTMono-Regular, PT Mono" font-size="14" font-weight="normal"><tspan x="138" y="97">navigator</tspan></text><path id="Rectangle-2" fill="#C9DCEA" stroke="#C9DCEA" stroke-width="2" d="M134 118h85v26h-85z"/><text id="screen" fill="#166388" font-family="PTMono-Regular, PT Mono" font-size="14" font-weight="normal"><tspan x="151" y="135">screen</tspan></text><path id="Rectangle-2" fill="#C9DCEA" stroke="#C9DCEA" stroke-width="2" d="M134 156h85v26h-85z"/><text id="location" fill="#166388" font-family="PTMono-Regular, PT Mono" font-size="14" font-weight="normal"><tspan x="142" y="173">location</tspan></text><path id="Rectangle-2" fill="#C9DCEA" stroke="#C9DCEA" stroke-width="2" d="M134 194h85v26h-85z"/><text id="frames" fill="#166388" font-family="PTMono-Regular, PT Mono" font-size="14" font-weight="normal"><tspan x="151" y="211">frames</tspan></text><path id="Rectangle-2" fill="#C9DCEA" stroke="#C9DCEA" stroke-width="2" d="M134 232h85v26h-85z"/><text id="history" fill="#166388" font-family="PTMono-Regular, PT Mono" font-size="14" font-weight="normal"><tspan x="147" y="249">history</tspan></text><text id="Array" fill="#A7333A" font-family="PTMono-Regular, PT Mono" font-size="14" font-weight="normal"><tspan x="275" y="135">Array</tspan></text><path id="Rectangle-3" fill="#FEF1F0" stroke="#D35155" stroke-width="2" d="M255 156h83v26h-83z"/><text id="Function" fill="#A7333A" font-family="PTMono-Regular, PT Mono" font-size="14" font-weight="normal"><tspan x="264" y="173">Function</tspan></text><text id="XMLHttpRequest" fill="#166388" font-family="PTMono-Regular, PT Mono" font-size="14" font-weight="normal"><tspan x="117" y="287">XMLHttpRequest</tspan></text><text id="BOM" fill="#1C85B5" font-family="PTMono-Regular, PT Mono" font-size="14" font-weight="normal"><tspan x="135" y="73">BOM</tspan></text><text id="JavaScript" fill="#D35155" font-family="PTMono-Regular, PT Mono" font-size="14" font-weight="normal"><tspan x="271" y="73">JavaScript</tspan></text><text id="DOM" fill="#478964" font-family="PTMono-Regular, PT Mono" font-size="14" font-weight="normal"><tspan x="17" y="73">DOM</tspan></text><path id="Line" fill="#C06334" fill-rule="nonzero" d="M177.5 40.5v18h6l-7 14-7-14h6v-18h2z"/><path id="Line-2" fill="#C06334" fill-rule="nonzero" d="M132.75 40.108l1.142 1.642-.82.57-34.508 24.005 3.426 4.926L86.5 73.5l7.495-13.741 3.426 4.924 34.508-24.004.82-.571z"/><text id="…" fill="#37664B" font-family="PTMono-Regular, PT Mono" font-size="24" font-weight="normal"><tspan x="50" y="122">…</tspan></text><text id="…-2" fill="#A7333A" font-family="PTMono-Regular, PT Mono" font-size="24" font-weight="normal"><tspan x="287" y="201">…</tspan></text><path id="Line" fill="#C06334" fill-rule="nonzero" d="M217.226 39.097l.827.562 38.443 26.152 3.376-4.96 7.638 13.663-15.513-2.087 3.374-4.962-38.443-26.152-.827-.563 1.125-1.653z"/></g></g></svg></p>
+<h2 id="文档对象模型dom">文档对象模型（DOM）</h2>
+<p>文档对象模型（Document Object Model），简称 DOM，将所有页面内容表示为可以修改的对象。</p>
+<p><code>document</code> 对象是页面的主要“入口点”。我们可以使用它来更改或创建页面上的任何内容。</p>
+<pre><code class="language-javascript">// 将背景颜色修改为红色
+document.body.style.background = &quot;red&quot;;
+
+// 在 1 秒后将其修改回来
+setTimeout(() =&gt; document.body.style.background = &quot;&quot;, 1000);
+</code></pre>
+<h2 id="浏览器对象模型bom">浏览器对象模型（BOM）</h2>
+<p>浏览器对象模型（Browser Object Model），简称 BOM，表示由浏览器（主机环境）提供的用于处理文档（document）之外的所有内容的其他对象。</p>
+<ul>
+<li><a href="https://developer.mozilla.org/zh/docs/Web/API/Window/navigator">navigator</a> 对象提供了有关浏览器和操作系统的背景信息。navigator 有许多属性，但是最广为人知的两个属性是：<code>navigator.userAgent</code> —— 关于当前浏览器，<code>navigator.platform</code> —— 关于平台（有助于区分 Windows/Linux/Mac 等）。</li>
+<li><a href="https://developer.mozilla.org/zh/docs/Web/API/Window/location">location</a> 对象允许我们读取当前 URL，并且可以将浏览器重定向到新的 URL。</li>
+</ul>
+<p>这是我们可以如何使用 <code>location</code> 对象的方法：</p>
+<pre><code class="language-javascript">alert(location.href); // 显示当前 URL
+if (confirm(&quot;Go to Wikipedia?&quot;)) {
+  location.href = &quot;https://wikipedia.org&quot;; // 将浏览器重定向到另一个 URL
+}
+</code></pre>
+<p>函数 <code>alert/confirm/prompt</code> 也是 BOM 的一部分：它们与文档（document）没有直接关系，但它代表了与用户通信的纯浏览器方法。</p>
+<h2 id="dom-遍历">DOM 遍历</h2>
+<p><svg xmlns="http://www.w3.org/2000/svg" width="420" height="388" viewBox="0 0 420 388"><defs><style>@import url(https://fonts.googleapis.com/css?family=Open+Sans:bold,italic,bolditalic%7CPT+Mono);@font-face{font-family:'PT Mono';font-weight:700;font-style:normal;src:local('PT MonoBold'),url(/font/PTMonoBold.woff2) format('woff2'),url(/font/PTMonoBold.woff) format('woff'),url(/font/PTMonoBold.ttf) format('truetype')}</style></defs><g id="dom" fill="none" fill-rule="evenodd" stroke="none" stroke-width="1"><g id="dom-links.svg"><path id="Rectangle-9" fill="#FBF2EC" stroke="#DBAF88" stroke-width="2" d="M150 20h117v28H150z"/><path id="Rectangle-7" fill="#FBF2EC" stroke="#DBAF88" stroke-width="2" d="M151 154h117v28H151z"/><path id="Rectangle-8" fill="#FBF2EC" stroke="#DBAF88" stroke-width="2" d="M117 87h198v28H117z"/><text id="document" fill="#AF6E24" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal"><tspan x="179.7" y="38">document</tspan></text><text id="document.documentEle" fill="#AF6E24" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal"><tspan x="129.6" y="105">document.documentElement </tspan></text><text id="Type-something" fill="#AF6E24" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal"><tspan x="324.9" y="105">&lt;HTML&gt;</tspan></text><text id="document.body--" fill="#AF6E24" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal"><tspan x="164.2" y="173">document.body </tspan></text><text id="(if-inside-body)" fill="#AF6E24" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal"><tspan x="283.9" y="173">(if inside body)</tspan></text><path id="Line" fill="#C06334" fill-rule="nonzero" d="M209.5 119.71l.872 1.55 6.75 12 .49.871-1.743.98-.49-.87-4.879-8.674v23.785h-2v-23.785l-4.878 8.673-.49.872-1.744-.98.49-.872 6.75-12 .872-1.55z"/><path id="Line-2" fill="#C06334" fill-rule="nonzero" d="M209.5 52.71l.872 1.55 6.75 12 .49.871-1.743.98-.49-.87-4.879-8.674v21.528h-2V58.567l-4.878 8.673-.49.872-1.744-.98.49-.872 6.75-12 .872-1.55z"/><path id="Line" stroke="#AF6E24" stroke-linecap="square" stroke-width="2" d="M2.5 191H415"/><text id="parentNode" fill="#AF6E24" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal"><tspan x="172" y="248">parentNode</tspan></text><path id="Rectangle-6" fill="#FBF2EC" stroke="#DBAF88" stroke-width="2" d="M169 289h80v28h-80z"/><text id="&lt;DIV&gt;" fill="#AF6E24" font-family="OpenSans-Regular, Open Sans" font-size="12" font-weight="normal"><tspan x="192.192" y="308">&lt;DIV&gt;</tspan></text><path id="Line" fill="#C06334" fill-rule="nonzero" d="M208.5 254.21l.872 1.55 6.75 12 .49.871-1.743.98-.49-.87-4.88-8.676.001 8.185v16.25h-2v-16.25l-.001-8.182-4.877 8.672-.49.872-1.744-.98.49-.872 6.75-12 .872-1.55z"/><path id="Line-Copy" fill="#C06334" fill-rule="nonzero" d="M209.5 226.5v4h-2v-4h2zm0-6v4h-2v-4h2zm0-6v4h-2v-4h2zm-1-14.29l.872 1.55 6.75 12 .49.871-1.743.98-.49-.87-4.88-8.676.001.435h-2l-.001-.432-4.877 8.672-.49.872-1.744-.98.49-.872 6.75-12 .872-1.55zm1 8.29v4h-2v-4h2z"/><path id="Line" fill="#C06334" fill-rule="nonzero" d="M356.369 294.388l.871.49 12 6.75 1.55.872-1.55.872-12 6.75-.871.49-.98-1.743.87-.49 8.673-4.879H254.5v-2h110.432l-8.672-4.878-.872-.49.98-1.744z"/><text id="nextSibling" fill="#AF6E24" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal"><tspan x="264" y="288">nextSibling</tspan></text><path id="Line" fill="#C06334" fill-rule="nonzero" d="M61.631 294.388l.98 1.743-.87.49-8.674 4.879H165.5v2H53.067l8.673 4.878.872.49-.98 1.744-.872-.49-12-6.75-1.55-.872 1.55-.872 12-6.75.871-.49z"/><text id="previousSibling" fill="#AF6E24" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal"><tspan x="50" y="288">previousSibling</tspan></text><path id="Line" fill="#C06334" fill-rule="nonzero" d="M162.822 324.123l1.055 1.7-.85.527-48.476 30.089-6.917 4.292 9.941-.428 1-.043.085 1.998-.999.043-13.755.594-1.776.076.857-1.557 6.636-12.064.482-.876 1.752.964-.482.876-4.797 8.718 6.918-4.293 48.477-30.089.85-.527z"/><path id="Line-3" fill="#C06334" fill-rule="nonzero" d="M257.214 324.115l.835.55 46.157 30.354 6.78 4.46-4.565-8.841-.459-.889 1.777-.918.459.889 6.317 12.233.816 1.58-1.774-.123-13.735-.954-.997-.07.138-1.995.998.07 9.926.689-6.78-4.46-46.156-30.354-.836-.55 1.099-1.671z"/><text id="childNodes" fill="#AF6E24" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal"><tspan x="170" y="343">childNodes</tspan></text><text id="firstChild--" fill="#AF6E24" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal"><tspan x="64" y="379">firstChild </tspan></text><text id="Type-something" fill="#AF6E24" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal"><tspan x="279" y="379">lastChild</tspan></text></g></g></svg></p>
+<h2 id="纯元素导航">纯元素导航</h2>
+<p>上面列出的导航（navigation）属性引用 <strong>所有</strong> 节点。例如，在 <code>childNodes</code> 中我们可以看到文本节点，元素节点，甚至包括注释节点（如果它们存在的话）。</p>
+<p>但是对于很多任务来说，我们并不想要文本节点或注释节点。我们希望操纵的是代表标签的和形成页面结构的元素节点。</p>
+<p>所以，让我们看看更多只考虑 <strong>元素节点</strong> 的导航链接（navigation link）：</p>
+<p><svg xmlns="http://www.w3.org/2000/svg" width="440" height="316" viewBox="0 0 440 316"><defs><style>@import url(https://fonts.googleapis.com/css?family=Open+Sans:bold,italic,bolditalic%7CPT+Mono);@font-face{font-family:'PT Mono';font-weight:700;font-style:normal;src:local('PT MonoBold'),url(/font/PTMonoBold.woff2) format('woff2'),url(/font/PTMonoBold.woff) format('woff'),url(/font/PTMonoBold.ttf) format('truetype')}</style></defs><g id="dom" fill="none" fill-rule="evenodd" stroke="none" stroke-width="1"><g id="dom-links-elements.svg"><path id="Rectangle-8" fill="#FBF2EC" stroke="#DBAF88" stroke-width="2" d="M129 10h198v28H129z"/><text id="document.documentEle" fill="#AF6E24" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal"><tspan x="142.6" y="29">document.documentElement </tspan></text><text id="Type-something" fill="#AF6E24" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal"><tspan x="336.9" y="29">&lt;HTML&gt;</tspan></text><path id="Rectangle-7" fill="#FBF2EC" stroke="#DBAF88" stroke-width="2" d="M163 78h117v28H163z"/><text id="document.body--" fill="#AF6E24" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal"><tspan x="174.2" y="95">document.body </tspan></text><text id="(if-inside-body)" fill="#AF6E24" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal"><tspan x="300.9" y="95">(if inside body)</tspan></text><path id="Line-5" stroke="#AF6E24" stroke-linecap="square" stroke-width="2" d="M14.5 115H427"/><text id="parentElement" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal"><tspan x="175" y="172" fill="#AF6E24">parent</tspan> <tspan x="218.2" y="172" fill="#C06334">Element</tspan></text><path id="Rectangle-6" fill="#FBF2EC" stroke="#DBAF88" stroke-width="2" d="M180 213h80v28h-80z"/><text id="&lt;DIV&gt;" fill="#AF6E24" font-family="OpenSans-Regular, Open Sans" font-size="12" font-weight="normal"><tspan x="204.192" y="232">&lt;DIV&gt;</tspan></text><path id="Line-6" fill="#C06334" fill-rule="nonzero" d="M220.5 178.71l.872 1.55 6.75 12 .49.871-1.743.98-.49-.87-4.879-8.674V208.5h-2v-23.933l-4.878 8.673-.49.872-1.744-.98.49-.872 6.75-12 .872-1.55z"/><path id="Line-7" fill="#C06334" fill-rule="nonzero" d="M415.369 218.388l.871.49 12 6.75 1.55.872-1.55.872-12 6.75-.871.49-.98-1.743.87-.49 8.673-4.879H266.5v-2h157.432l-8.672-4.878-.872-.49.98-1.744z"/><text id="nextElementSibling" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal"><tspan x="276" y="212" fill="#AF6E24">next</tspan> <tspan x="304.8" y="212" fill="#C06334">Element</tspan> <tspan x="355.2" y="212" fill="#AF6E24">Sibling</tspan></text><path id="Line-8" fill="#C06334" fill-rule="nonzero" d="M23.631 218.388l.98 1.743-.87.49-8.674 4.879H169v2H15.067l8.673 4.878.872.49-.98 1.744-.872-.49-12-6.75-1.55-.872 1.55-.872 12-6.75.871-.49z"/><text id="previousElementSibli" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal"><tspan x="6" y="212" fill="#AF6E24">previous</tspan> <tspan x="63.6" y="212" fill="#C06334">Element</tspan> <tspan x="114" y="212" fill="#AF6E24">Sibling</tspan></text><path id="Line" fill="#C06334" fill-rule="nonzero" d="M174.822 248.123l1.055 1.7-.85.527-48.476 30.089-6.917 4.292 9.941-.428 1-.043.085 1.998-.999.043-13.755.594-1.776.076.857-1.557 6.636-12.064.482-.876 1.752.964-.482.876-4.797 8.718 6.918-4.293 48.477-30.089.85-.527z"/><path id="Line-3" fill="#C06334" fill-rule="nonzero" d="M269.214 248.115l.835.55 46.157 30.354 6.78 4.46-4.565-8.841-.459-.889 1.777-.918.459.889 6.317 12.233.816 1.58-1.774-.123-13.735-.954-.997-.07.138-1.995.998.07 9.926.689-6.78-4.46-46.156-30.354-.836-.55 1.099-1.671z"/><text id="children" fill="#C06334" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal"><tspan x="188" y="273">children</tspan></text><text id="firstElementChild--" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal"><tspan x="43" y="307" fill="#AF6E24">first</tspan> <tspan x="79" y="307" fill="#C06334">Element</tspan> <tspan x="129.4" y="307" fill="#AF6E24">Child </tspan></text><text id="lastElementChild" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal"><tspan x="273" y="307" fill="#AF6E24">last</tspan> <tspan x="301.8" y="307" fill="#C06334">Element</tspan> <tspan x="352.2" y="307" fill="#AF6E24">Child</tspan></text><path id="Line-Copy-2" fill="#C06334" fill-rule="nonzero" d="M222.5 151.5v4h-2v-4h2zm0-6v4h-2v-4h2zm0-6v4h-2v-4h2zm-1-14.29l.872 1.55 6.75 12 .49.871-1.743.98-.49-.87-4.88-8.676.001.435h-2l-.001-.432-4.877 8.672-.49.872-1.744-.98.49-.872 6.75-12 .872-1.55zm1 8.29v4h-2v-4h2z"/><path id="Line-2-Copy" fill="#C06334" fill-rule="nonzero" d="M221.5 44.71l.872 1.55 6.75 12 .49.871-1.743.98-.49-.87-4.879-8.674v21.528h-2V50.567l-4.878 8.673-.49.872-1.744-.98.49-.872 6.75-12 .872-1.55z"/></g></g></svg></p>
+<p>这些链接和我们在上面提到过的类似，只是在词中间加了 <code>Element</code>：</p>
+<ul>
+<li><code>children</code> —— 仅那些作为元素节点的子代的节点。</li>
+<li><code>firstElementChild</code>，<code>lastElementChild</code> —— 第一个和最后一个子元素。</li>
+<li><code>previousElementSibling</code>，<code>nextElementSibling</code> —— 兄弟元素。</li>
+<li><code>parentElement</code> —— 父元素。</li>
+</ul>
+<h2 id="指定元素搜索">指定元素搜索</h2>
+<p><strong>document.getElementById</strong></p>
+<pre><code class="language-html">&lt;div id=&quot;elem&quot;&gt;
+  &lt;div id=&quot;elem-content&quot;&gt;Element&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+  // 获取该元素
+  let elem = document.getElementById('elem');
+
+  // 将该元素背景改为红色
+  elem.style.background = 'red';
+&lt;/script&gt;
+</code></pre>
+<p><strong>querySelectorAll</strong></p>
+<p>到目前为止，最通用的方法是 <code>elem.querySelectorAll(css)</code>，它返回 <code>elem</code> 中与给定 CSS 选择器匹配的所有元素。</p>
+<p>在这里，我们查找所有为最后一个子元素的 <code>&lt;li&gt;</code> 元素：</p>
+<pre><code class="language-html">&lt;ul&gt;
+  &lt;li&gt;The&lt;/li&gt;
+  &lt;li&gt;test&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ul&gt;
+  &lt;li&gt;has&lt;/li&gt;
+  &lt;li&gt;passed&lt;/li&gt;
+&lt;/ul&gt;
+&lt;script&gt;
+  let elements = document.querySelectorAll('ul &gt; li:last-child');
+
+  for (let elem of elements) {
+    alert(elem.innerHTML); // &quot;test&quot;, &quot;passed&quot;
+  }
+&lt;/script&gt;
+</code></pre>
+<p><strong>querySelector</strong></p>
+<p><code>elem.querySelector(css)</code> 调用会返回给定 CSS 选择器的第一个元素。</p>
+<p><strong>matches</strong></p>
+<pre><code class="language-html">&lt;a href=&quot;http://example.com/file.zip&quot;&gt;...&lt;/a&gt;
+&lt;a href=&quot;http://ya.ru&quot;&gt;...&lt;/a&gt;
+
+&lt;script&gt;
+  // 不一定是 document.body.children，还可以是任何集合
+  for (let elem of document.body.children) {
+    if (elem.matches('a[href$=&quot;zip&quot;]')) {
+      alert(&quot;The archive reference: &quot; + elem.href );
+    }
+  }
+&lt;/script&gt;
+</code></pre>
+<p><strong>closest</strong></p>
+<p>元素的祖先（ancestor）是：父级，父级的父级，它的父级等。祖先们一起组成了从元素到顶端的父级链。</p>
+<p><code>elem.closest(css)</code> 方法会查找与 CSS 选择器匹配的最近的祖先。<code>elem</code> 自己也会被搜索。</p>
+<p>换句话说，方法 <code>closest</code> 在元素中得到了提升，并检查每个父级。如果它与选择器匹配，则停止搜索并返回该祖先。</p>
+<pre><code class="language-html">&lt;h1&gt;Contents&lt;/h1&gt;
+
+&lt;div class=&quot;contents&quot;&gt;
+  &lt;ul class=&quot;book&quot;&gt;
+    &lt;li class=&quot;chapter&quot;&gt;Chapter 1&lt;/li&gt;
+    &lt;li class=&quot;chapter&quot;&gt;Chapter 2&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+  let chapter = document.querySelector('.chapter'); // LI
+
+  alert(chapter.closest('.book')); // UL
+  alert(chapter.closest('.contents')); // DIV
+
+  alert(chapter.closest('h1')); // null（因为 h1 不是祖先）
+&lt;/script&gt;
+</code></pre>
+<p><strong>实时的集合</strong></p>
+<p>所有的 <code>&quot;getElementsBy*&quot;</code> 方法都会返回一个 <strong>实时的（live）</strong> 集合。这样的集合始终反映的是文档的当前状态，并且在文档发生更改时会“自动更新”。</p>
+<pre><code class="language-html">&lt;div&gt;First div&lt;/div&gt;
+
+&lt;script&gt;
+  let divs = document.getElementsByTagName('div');
+  alert(divs.length); // 1
+&lt;/script&gt;
+
+&lt;div&gt;Second div&lt;/div&gt;
+
+&lt;script&gt;
+  alert(divs.length); // 2
+&lt;/script&gt;
+</code></pre>
+<p>相反，<code>querySelectorAll</code> 返回的是一个 <strong>静态的</strong> 集合。就像元素的固定数组。</p>
+<pre><code class="language-html">&lt;div&gt;First div&lt;/div&gt;
+
+&lt;script&gt;
+  let divs = document.querySelectorAll('div');
+  alert(divs.length); // 1
+&lt;/script&gt;
+
+&lt;div&gt;Second div&lt;/div&gt;
+
+&lt;script&gt;
+  alert(divs.length); // 1
+&lt;/script&gt;
+</code></pre>
+<p>现在我们可以很容易地看到不同之处。在文档中出现新的 <code>div</code> 后，静态集合并没有增加。</p>
+<h2 id="节点属性">节点属性</h2>
+<p>不同的 DOM 节点可能有不同的属性。例如，标签 <code>&lt;a&gt;</code> 相对应的元素节点具有链接相关的（link-related）属性，标签 <code>&lt;input&gt;</code> 相对应的元素节点具有与输入相关的属性，等。文本节点与元素节点不同。但是所有这些标签对应的 DOM 节点之间也存在共有的属性和方法，因为所有类型的 DOM 节点都形成了一个单一层次的结构（single hierarchy）。</p>
+<p>每个 DOM 节点都属于相应的内建类。</p>
+<p><svg xmlns="http://www.w3.org/2000/svg" width="552" height="403" viewBox="0 0 552 403"><defs><style>@import url(https://fonts.googleapis.com/css?family=Open+Sans:bold,italic,bolditalic%7CPT+Mono);@font-face{font-family:'PT Mono';font-weight:700;font-style:normal;src:local('PT MonoBold'),url(/font/PTMonoBold.woff2) format('woff2'),url(/font/PTMonoBold.woff) format('woff'),url(/font/PTMonoBold.ttf) format('truetype')}</style></defs><g id="dom" fill="none" fill-rule="evenodd" stroke="none" stroke-width="1"><g id="dom-class-hierarchy.svg"><path id="Rectangle-9" fill="#FBF2EC" stroke="#DBAF88" stroke-width="2" d="M181 6h118v28H181z"/><path id="Rectangle-8" fill="#FBF2EC" stroke="#DBAF88" stroke-width="2" d="M181 74h118v28H181z"/><text id="EventTarget" fill="#AF6E24" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal"><tspan x="200.9" y="24">EventTarget</tspan></text><text id="Node" fill="#AF6E24" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal"><tspan x="225.6" y="91">Node </tspan></text><path id="Line-2" fill="#C06334" fill-rule="nonzero" d="M240.5 39.5l7 14h-6v17h-2v-17h-6l7-14z"/><path id="Rectangle-8-Copy" fill="#FBF2EC" stroke="#DBAF88" stroke-width="2" d="M181 144h118v28H181z"/><text id="Element" fill="#AF6E24" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal"><tspan x="214.8" y="161">Element </tspan></text><path id="Line-2-Copy" fill="#C06334" fill-rule="nonzero" d="M240.5 109.5l7 14h-6v17h-2v-17h-6l7-14z"/><path id="Rectangle-8-Copy-4" fill="#FBF2EC" stroke="#DBAF88" stroke-width="2" d="M181 230h118v28H181z"/><text id="HTMLElement" fill="#AF6E24" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal"><tspan x="200.4" y="247">HTMLElement </tspan></text><path id="Line-2-Copy-4" fill="#C06334" fill-rule="nonzero" d="M240.5 195.5l7 14h-6v17h-2v-17h-6l7-14zM72.5 158.5l7.273 13.86-5.999.117L74 183.98l.02 1-2 .04-.02-1-.226-11.503-5.998.118L72.5 158.5z"/><path id="Rectangle-8-Copy-6" fill="#FBF2EC" stroke="#DBAF88" stroke-width="2" d="M171 300h138v28H171z"/><text id="HTMLBodyElement" fill="#AF6E24" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal"><tspan x="186" y="317">HTMLBodyElement </tspan></text><path id="Line-2-Copy-6" fill="#C06334" fill-rule="nonzero" d="M240.5 265.5l7 14h-6v17h-2v-17h-6l7-14z"/><path id="Rectangle-8-Copy-7" fill="#FBF2EC" stroke="#DBAF88" stroke-width="2" d="M1 300h138v28H1z"/><text id="HTMLInputElement" fill="#AF6E24" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal"><tspan x="13.4" y="317">HTMLInputElement </tspan></text><path id="Line-2-Copy-7" fill="#C06334" fill-rule="nonzero" d="M159 261l-6.753 14.12-3.685-4.736-29.448 22.905-.79.614-1.227-1.578.79-.614 29.448-22.906-3.684-4.735L159 261z"/><path id="Rectangle-8-Copy-8" fill="#FBF2EC" stroke="#DBAF88" stroke-width="2" d="M339 300h138v28H339z"/><text id="HTMLAnchorElement" fill="#AF6E24" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal"><tspan x="348.3" y="317">HTMLAnchorElement </tspan></text><path id="Line-2-Copy-8" fill="#C06334" fill-rule="nonzero" d="M312 261l15.305 3.28-3.749 4.684 29.069 23.255.78.625-1.249 1.562-.78-.625-29.069-23.254-3.748 4.685L312 261z"/><path id="Rectangle-8-Copy-2" fill="#FBF2EC" stroke="#DBAF88" stroke-width="2" d="M22 126h98v28H22z"/><text id="Document" fill="#AF6E24" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal"><tspan x="42.2" y="144">Document </tspan></text><path id="Rectangle-8-Copy-2" fill="#FBF2EC" stroke="#DBAF88" stroke-width="2" d="M22 192h98v28H22z"/><text id="HTMLDocument" fill="#AF6E24" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal"><tspan x="27.8" y="210">HTMLDocument </tspan></text><path id="Line-2-Copy-2" fill="#C06334" fill-rule="nonzero" d="M168 90l-8.862 12.902-2.905-5.251-34.749 19.224-.875.484-.968-1.75.875-.484 34.749-19.224-2.904-5.25L168 90z"/><path id="Rectangle-8-Copy-3" fill="#FBF2EC" stroke="#DBAF88" stroke-width="2" d="M369 126h118v28H369z"/><text id="CharacterData" fill="#AF6E24" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal"><tspan x="381.2" y="144">CharacterData </tspan></text><path id="Line-2-Copy-3" fill="#C06334" fill-rule="nonzero" d="M314 91l15.648.379-2.813 5.299 36.634 19.439.883.468-.937 1.767-.884-.469-36.633-19.439-2.812 5.301L314 91zM458 159l13.93 7.138-4.836 3.552 9.712 13.218.592.806-1.612 1.184-.592-.806-9.712-13.218-4.834 3.553L458 159zM400 158l-1.376 15.592-5.11-3.146-8.662 14.078-.524.852-1.704-1.048.524-.852 8.663-14.078-5.11-3.143L400 158z"/><text id="Document-as-a-whole" fill="#C06334" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal"><tspan x="6.6" y="235">Document as a whole</tspan></text><text id="&lt;input-type=&quot;…&quot;&gt;" fill="#C06334" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal"><tspan x="13.4" y="341">&lt;input type=&quot;…&quot;&gt;</tspan></text><text id="&lt;body&gt;" fill="#C06334" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal"><tspan x="220.4" y="341">&lt;body&gt;</tspan></text><text id="&lt;a-href=&quot;…&quot;&gt;" fill="#C06334" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal"><tspan x="365.8" y="341">&lt;a href=&quot;…&quot;&gt;</tspan></text><text id="&lt;div&gt;...&lt;/div&gt;" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal"><tspan x="192.6" y="188" fill="#AF6E24">&lt;</tspan> <tspan x="199.8" y="188" fill="#C06334">div</tspan> <tspan x="221.4" y="188" fill="#AF6E24">&gt;</tspan> <tspan x="228.6" y="188" fill="#DBAF88">...</tspan> <tspan x="250.2" y="188" fill="#AF6E24">&lt;/</tspan> <tspan x="264.6" y="188" fill="#C06334">div</tspan> <tspan x="286.2" y="188" fill="#AF6E24">&gt;</tspan></text><path id="Rectangle-8-Copy-3" fill="#FBF2EC" stroke="#DBAF88" stroke-width="2" d="M449 192h78v28h-78z"/><text id="Comment" fill="#AF6E24" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal"><tspan x="463.8" y="210">Comment </tspan></text><text id="&lt;!--comment--&gt;" fill="#C06334" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal"><tspan x="442.6" y="237">&lt;!--comment--&gt;</tspan></text><path id="Rectangle-8-Copy-3" fill="#FBF2EC" stroke="#DBAF88" stroke-width="2" d="M342 192h78v28h-78z"/><text id="Text" fill="#AF6E24" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal"><tspan x="365.6" y="210">Text </tspan></text><text id="&quot;Hello&quot;" fill="#C06334" font-family="PTMono-Regular, PT Mono" font-size="12" font-weight="normal"><tspan x="356.8" y="237">&quot;Hello&quot;</tspan></text></g></g></svg></p>
+<h2 id="修改document">修改Document</h2>
+<pre><code class="language-html">&lt;style&gt;
+.alert {
+  padding: 15px;
+  border: 1px solid #d6e9c6;
+  border-radius: 4px;
+  color: #3c763d;
+  background-color: #dff0d8;
+}
+&lt;/style&gt;
+
+&lt;script&gt;
+  let div = document.createElement('div');
+  div.className = &quot;alert&quot;;
+  div.innerHTML = &quot;&lt;strong&gt;Hi there!&lt;/strong&gt; You've read an important message.&quot;;
+
+  document.body.append(div);
+&lt;/script&gt;
+</code></pre>
+<h2 id="样式和类">样式和类</h2>
+<ul>
+<li><code>className</code> —— 字符串值，可以很好地管理整个类的集合。</li>
+<li><code>classList</code> —— 具有 <code>add/remove/toggle/contains</code> 方法的对象，可以很好地支持单个类。</li>
+</ul>
+<p>要改变样式：</p>
+<ul>
+<li><code>style</code> 属性是具有驼峰（camelCased）样式的对象。对其进行读取和修改与修改 <code>&quot;style&quot;</code> 特性（attribute）中的各个属性具有相同的效果。要了解如何应用 <code>important</code> 和其他特殊内容 —— 在 <a href="https://developer.mozilla.org/zh/docs/Web/API/CSSStyleDeclaration">MDN</a> 中有一个方法列表。</li>
+<li><code>style.cssText</code> 属性对应于整个 <code>&quot;style&quot;</code> 特性（attribute），即完整的样式字符串。</li>
+</ul>
+<p>要读取已解析的（resolved）样式（对于所有类，在应用所有 CSS 并计算最终值之后）：</p>
+<ul>
+<li><code>getComputedStyle(elem, [pseudo])</code> 返回与 <code>style</code> 对象类似的，且包含了所有类的对象。只读。</li>
+</ul>
+<h2 id="window-大小和滚动">Window 大小和滚动</h2>
+<p>几何：</p>
+<ul>
+<li>
+<p>文档可见部分的 width/height（内容区域的 width/height）：<code>document.documentElement.clientWidth/clientHeight</code></p>
+</li>
+<li>
+<p>整个文档的 width/height，其中包括滚动出去的部分：</p>
+<pre><code class="language-javascript">let scrollHeight = Math.max(
+  document.body.scrollHeight, document.documentElement.scrollHeight,
+  document.body.offsetHeight, document.documentElement.offsetHeight,
+  document.body.clientHeight, document.documentElement.clientHeight
+);
+</code></pre>
+</li>
+</ul>
+<p>滚动：</p>
+<ul>
+<li>读取当前的滚动：<code>window.pageYOffset/pageXOffset</code>。</li>
+<li>更改当前的滚动：
+<ul>
+<li><code>window.scrollTo(pageX,pageY)</code> —— 绝对坐标，</li>
+<li><code>window.scrollBy(x,y)</code> —— 相对当前位置进行滚动，</li>
+<li><code>elem.scrollIntoView(top)</code> —— 滚动以使 <code>elem</code> 可见（<code>elem</code> 与窗口的顶部/底部对齐）</li>
+</ul>
+</li>
+</ul>
+
+              </div>
+              <hr class="clear">
+              
+                <div class="next-post">
+                  <a class="purple-link" href="https://decade-qiu.github.io/post/javascript-mo-kuai/">
+                    <h3 class="post-title">
+                      下一篇：JavaScript 模块
+                    </h3>
+                  </a>
+                </div>
+                
+            </div>
+          </div>
+      </div>
+
+      
+          <div id="gitalk-container"></div>
+      
+
+    
+    </div>
+    <div class="site-footer">
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/Decade-qiu" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        <a href="https://space.bilibili.com/98721375?spm_id_from=333.1007.0.0" target="_blank">
+          <i class="fab fa-bilibili"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.zhihu.com/people/chou-yu-80-33" target="_blank">
+          <i class="fab fa-zhihu"></i>
+        </a>
+      
+    
+  </div>
+  <div class="slogan">Stay hungry. Stay foolish.</div> |
+  <a href="https://github.com/Decade-qiu/gridea-theme-Eternal" target="_blank">Today is happy day again!</a> | <a href="https://github.com/Decade-qiu/gridea-theme-Eternal" target="_blank">Powered by Eternal</a> | <a href="https://decade-qiu.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+    <script src="https://decade-qiu.github.io/media/scripts/index.js"></script>
+
+
+    <script src='https://decade-qiu.github.io/media/scripts/valine.min.js'></script>
+    <script>
+        new Valine({
+            el: '#gitalk-container',
+            appId: 'b2xhAFZQq4FxBeHcVRgXNEbf-gzGzoHsz',
+            appKey: 'QqIty1r7mCD1MbFanHuyw57O',
+            placeholder: 'Write something...',
+        })
+    </script>
+
+
+
+  </body>
+</html>
+
+<script>
+    window.onload = function() {
+        let id = 1;
+        let post_content = document.querySelector('.content-card');
+        post_content.querySelectorAll('h1,h2,h3,h4,h5,h6').forEach(function (item) {
+            item.setAttribute('id', 'toc-' + id);
+            id++;
+        });
+        tocbot.init({
+            tocSelector: '.toc',
+            contentSelector: '.post-content',
+            headingSelector: 'h1,h2,h3,h4',
+            headingsOffset: 58,
+        });
+        // 检测页面滚动距离 用eventlistener
+        window.addEventListener('scroll', function () {
+            let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            let toc = document.querySelector('.toc');
+            let tocBtn = document.querySelector('.toc-body');
+            if (scrollTop > 250) {
+                tocBtn.classList.add('toc-body-fixed');
+                toc.classList.add('toc-fixed');
+            } else {
+                tocBtn.classList.remove('toc-body-fixed');
+                toc.classList.remove('toc-fixed');
+            }
+        });
+        document.querySelector('#floating-toc-btn').addEventListener('click', function () {
+            let toc = document.querySelector('.toc-body');
+            let main = document.querySelector('.main');
+            if (toc.classList.contains('hide')) {
+                main.classList.add('main-small');
+                toc.classList.remove('hide');
+            } else {
+                toc.classList.add('hide');
+                main.classList.remove('main-small');
+            }
+        });
+        window.addEventListener('resize', function() {
+            // 获取屏幕宽度
+            var screenWidth = window.innerWidth || document.documentElement.clientWidth;
+            // 设置 .content-card 的 max-width
+            var contentCard = document.querySelector('.content-card');
+            contentCard.style.maxWidth = screenWidth + 'px';
+        });
+        // 初始加载时执行一次，确保初始状态下也设置正确
+        window.dispatchEvent(new Event('resize'));
+    };
+</script>

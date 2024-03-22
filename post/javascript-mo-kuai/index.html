@@ -1,0 +1,470 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>JavaScript 模块 | Decade</title>
+<meta name="description" content="Stay hungry. Stay foolish.">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.1/css/all.css" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://decade-qiu.github.io/favicon.ico?v=1711118819754">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://decade-qiu.github.io/styles/main.css">
+
+<script src="https://decade-qiu.github.io/media/scripts/vue.js"></script>
+<script src="https://decade-qiu.github.io/media/scripts/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.5.0/tocbot.min.js"></script>
+  </head>
+  <body>
+    <div class="carousel carousel-slider center index-cover" data-indicators="true">
+    <div class="bg-cover pd-header" style="background: url('') no-repeat center center fixed" data-link="https://decade-qiu.github.io/post/javascript-mo-kuai/">
+        <div class="container">
+            <div class="row">
+                <div class="col s10 offset-s1 m8 offset-m2 l8 offset-l2">
+                    <div class="brand">
+                        <div class="title center-align">
+                            JavaScript 模块
+                        </div>
+                        <div class="description center-align">
+                            <span id="subtitle">
+                                Day Day Learn, Day Day Up.
+                            </span><span class="typed-cursor">|</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11"></script>
+<script>
+    window.onload = function () {
+        var typed = new Typed("#subtitle", {
+            strings: [ 
+                
+                    "从来没有真正的绝境, 只有心灵的迷途",
+                
+                    'Day Day Learn, Day Day Up.',
+
+            ],
+            startDelay: 300,
+            typeSpeed: 100,
+            loop: true,
+            backSpeed: 50,
+            showCursor: true
+        });
+        let cover = document.querySelector('.bg-cover');
+        cover.setAttribute('style', `background: url('${localStorage[cover.dataset.link]}') no-repeat center center fixed`);
+    }
+</script>
+
+
+    <div class="toc-body hide">  
+        <div class="toc"></div>
+    </div>
+    <div id="floating-toc-btn">
+        <i class="fas fa-list-ul bg-color"></i>
+    </div>
+    <div id="app" class="main">
+      <div class="site-header-container nav-transparent">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://decade-qiu.github.io">
+        <img class="avatar" src="https://decade-qiu.github.io/images/avatar.png?v=1711118819754" alt=""
+          width="32px" height="32px">
+      </a>
+      <a href="https://decade-qiu.github.io">
+        <h1 class="site-title">
+          Decade
+        </h1>
+      </a>
+    </div>
+    <div class="right">
+        <div class="menu">
+            <a href="/post/about" v-if="headSearchShow">
+                <i class="fa-solid fa-user"></i>&nbsp;个人
+            </a>
+            <a href="/archives" v-if="headSearchShow">
+                <i class="fa-solid fa-box-archive"></i>&nbsp;归档
+            </a>
+            <a href="/tags" v-if="headSearchShow">
+                <i class="fa-solid fa-tag"></i>&nbsp;标签
+            </a>
+            <a href="/life" v-if="headSearchShow">
+                <i class="fa-fw fas fa-heart"></i>&nbsp;生活
+            </a>
+            
+        </div>
+      <div class="gridea-search-div" v-if="headSearchShow">
+        <form id="gridea-search-form" action="https://decade-qiu.github.io/search/">
+          <input class="gridea-search-input" autocomplete="off" spellcheck="false" name="q" />
+        </form>
+      </div>
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }"
+          @click="menuClick()" v-if="menuSearchShow"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      <div class="gridea-search-div" v-if="menuSearchShow">
+        <form id="gridea-search-form" action="https://decade-qiu.github.io/search/">
+          <input class="gridea-search-input" autocomplete="off" spellcheck="false" name="q" />
+        </form>
+      </div>
+      
+        
+            <a href="/" class="menu purple-link">
+              首页
+            </a>
+            
+              
+        
+            <a href="/archives" class="menu purple-link">
+              归档
+            </a>
+            
+              
+        
+            <a href="/tags" class="menu purple-link">
+              标签
+            </a>
+            
+              
+        
+            <a href="/post/about" class="menu purple-link">
+              个人
+            </a>
+            
+              
+        
+            <a href="/life" class="menu purple-link">
+              生活
+            </a>
+            
+              
+              
+    </div>
+  </div>
+</transition>
+
+<script>
+    window.onscroll = function () {
+        var t = document.documentElement.scrollTop || document.body.scrollTop;
+        var header = document.querySelector('.site-header-container');
+        if (t > 0) {
+            header.classList.remove('nav-transparent');
+        } else {
+            header.classList.add('nav-transparent');
+        }
+    }
+</script>
+
+      <div class="content-body">
+        <div class="content-container content-card">
+            <div class="post-detail">
+              <div class="post-info post-detail-info">
+                <span><i class="icon-calendar-outline"></i> 2023-12-22-Fri</span>
+                
+                  <span>
+                    
+                        <i class="icon-pricetags-outline"></i>
+                      <a href="https://decade-qiu.github.io/tag/EI4u1kOvT/">
+                        JavaScript
+                      </a>
+                    
+                  </span>
+                
+              </div>
+              
+              <hr class="clear">
+              <div class="post-content">
+                <h2 id="模块概念">模块概念</h2>
+<p>一个模块（module）就是一个文件。一个脚本就是一个模块。就这么简单。</p>
+<p>模块可以相互加载，并可以使用特殊的指令 <code>export</code> 和 <code>import</code> 来交换功能，从另一个模块调用一个模块的函数：</p>
+<ul>
+<li><code>export</code> 关键字标记了可以从当前模块外部访问的变量和函数。</li>
+<li><code>import</code> 关键字允许从其他模块导入功能。</li>
+</ul>
+<p><strong>模块特点</strong></p>
+<ul>
+<li>始终使用 “use strict”</li>
+<li>模块级作用域</li>
+</ul>
+<p>每个模块都有自己的顶级作用域（top-level scope）。换句话说，一个模块中的顶级作用域变量和函数在其他脚本中是不可见的。</p>
+<p>只能通过export和import来实现。</p>
+<ul>
+<li>
+<p>模块代码仅在第一次导入时被解析</p>
+</li>
+<li>
+<p>模块代码仅在第一次导入时被解析</p>
+</li>
+<li>
+<p>import.meta</p>
+<p>包含关于当前模块的信息。</p>
+<p>它的内容取决于其所在的环境。在浏览器环境中，它包含当前脚本的 URL，或者如果它是在 HTML 中的话，则包含当前页面的 URL。</p>
+</li>
+</ul>
+<p><strong>浏览器特定功能</strong></p>
+<ul>
+<li>模块脚本是延迟的</li>
+</ul>
+<p>模块脚本 <strong>总是</strong> 被延迟的</p>
+<ul>
+<li>下载外部模块脚本 <code>&lt;script type=&quot;module&quot; src=&quot;...&quot;&gt;</code> 不会阻塞 HTML 的处理，它们会与其他资源并行加载。</li>
+<li>模块脚本会等到 HTML 文档完全准备就绪（即使它们很小并且比 HTML 加载速度更快），然后才会运行。</li>
+<li>保持脚本的相对顺序：在文档中排在前面的脚本先执行。</li>
+</ul>
+<p>例如：</p>
+<pre><code class="language-javascript">&lt;script type=&quot;module&quot;&gt;
+  alert(typeof button); // object：脚本可以“看见”下面的 button
+  // 因为模块是被延迟的（deferred，所以模块脚本会在整个页面加载完成后才运行
+&lt;/script&gt;
+
+相较于下面这个常规脚本：
+
+&lt;script&gt;
+  alert(typeof button); // button 为 undefined，脚本看不到下面的元素
+  // 常规脚本会立即运行，常规脚本的运行是在在处理页面的其余部分之前进行的
+&lt;/script&gt;
+
+&lt;button id=&quot;button&quot;&gt;Button&lt;/button&gt;
+</code></pre>
+<h2 id="导出和导入">导出和导入</h2>
+<p><strong>在声明前导出</strong></p>
+<pre><code class="language-javascript">// 导出数组
+export let months = ['Jan', 'Feb', 'Mar','Apr', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+// 导出 const 声明的变量
+export const MODULES_BECAME_STANDARD_YEAR = 2015;
+
+// 导出类
+export class User {
+  constructor(name) {
+    this.name = name;
+  }
+}
+</code></pre>
+<blockquote>
+<p>导出 class/function 后没有分号</p>
+</blockquote>
+<p><strong>导出与声明分开</strong></p>
+<pre><code class="language-javascript">// 📁 say.js
+function sayHi(user) {
+  alert(`Hello, ${user}!`);
+}
+
+function sayBye(user) {
+  alert(`Bye, ${user}!`);
+}
+
+export {sayHi, sayBye}; // 导出变量列表
+</code></pre>
+<p>也可以把 <code>export</code> 放在函数上面。</p>
+<p><strong>Import*</strong></p>
+<p>通常，我们把要导入的东西列在花括号 <code>import {...}</code> 中，就像这样：</p>
+<pre><code class="language-javascript">// 📁 main.js
+import {sayHi, sayBye} from './say.js';
+
+sayHi('John'); // Hello, John!
+sayBye('John'); // Bye, John!
+</code></pre>
+<p>但是如果有很多要导入的内容，我们可以使用 <code>import * as &lt;obj&gt;</code> 将所有内容导入为一个对象，例如：</p>
+<pre><code class="language-javascript">// 📁 main.js
+import * as say from './say.js';
+
+say.sayHi('John');
+say.sayBye('John');
+</code></pre>
+<blockquote>
+<p>import和export都可以使用as来重命名</p>
+</blockquote>
+<p><strong>Export default</strong></p>
+<p>在实际中，主要有两种模块。</p>
+<ul>
+<li>包含库或函数包的模块，像上面的 <code>say.js</code>。</li>
+<li>声明单个实体的模块，例如模块 <code>user.js</code> 仅导出 <code>class User</code>。</li>
+</ul>
+<p>将 <code>export default</code> 放在要导出的实体前：</p>
+<pre><code class="language-javascript">// 📁 user.js
+export default class User { // 只需要添加 &quot;default&quot; 即可
+  constructor(name) {
+    this.name = name;
+  }
+}
+
+// 📁 main.js
+import User from './user.js'; // 不需要花括号 {User}，只需要写成 User 即可
+
+new User('John');
+</code></pre>
+<p>每个文件应该只有一个 <code>export default</code>：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">命名的导出</th>
+<th style="text-align:left">默认的导出</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>export class User {...}</code></td>
+<td style="text-align:left"><code>export default class User {...}</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>import {User} from ...</code></td>
+<td style="text-align:left"><code>import User from ...</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="动态导入">动态导入</h2>
+<p><strong>import() 表达式</strong></p>
+<p><code>import(module)</code> 表达式加载模块并返回一个 promise，该 promise resolve 为一个包含其所有导出的模块对象。我们可以在代码中的任意位置调用这个表达式。</p>
+<pre><code class="language-JavaScript">&lt;!doctype html&gt;
+&lt;script&gt;
+  async function load() {
+    let say = await import('./say.js');
+    say.hi(); // Hello!
+    say.bye(); // Bye!
+    say.default(); // Module loaded (export default)!
+  }
+&lt;/script&gt;
+&lt;button onclick=&quot;load()&quot;&gt;Click me&lt;/button&gt;
+</code></pre>
+<blockquote>
+<p>动态导入在常规脚本中工作时，它们不需要 <code>script type=&quot;module&quot;</code>.</p>
+<p><code>import()</code> 看起来像一个函数调用，但它只是一种特殊语法，只是恰好使用了括号</p>
+</blockquote>
+
+              </div>
+              <hr class="clear">
+              
+                <div class="next-post">
+                  <a class="purple-link" href="https://decade-qiu.github.io/post/leetcode-2023-12-22-ti-mu-fen-xiang/">
+                    <h3 class="post-title">
+                      下一篇：Leetcode 2023-12-22 题目分享
+                    </h3>
+                  </a>
+                </div>
+                
+            </div>
+          </div>
+      </div>
+
+      
+          <div id="gitalk-container"></div>
+      
+
+    
+    </div>
+    <div class="site-footer">
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/Decade-qiu" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        <a href="https://space.bilibili.com/98721375?spm_id_from=333.1007.0.0" target="_blank">
+          <i class="fab fa-bilibili"></i>
+        </a>
+      
+    
+      
+        <a href="https://www.zhihu.com/people/chou-yu-80-33" target="_blank">
+          <i class="fab fa-zhihu"></i>
+        </a>
+      
+    
+  </div>
+  <div class="slogan">Stay hungry. Stay foolish.</div> |
+  <a href="https://github.com/Decade-qiu/gridea-theme-Eternal" target="_blank">Today is happy day again!</a> | <a href="https://github.com/Decade-qiu/gridea-theme-Eternal" target="_blank">Powered by Eternal</a> | <a href="https://decade-qiu.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+    <script src="https://decade-qiu.github.io/media/scripts/index.js"></script>
+
+
+    <script src='https://decade-qiu.github.io/media/scripts/valine.min.js'></script>
+    <script>
+        new Valine({
+            el: '#gitalk-container',
+            appId: 'b2xhAFZQq4FxBeHcVRgXNEbf-gzGzoHsz',
+            appKey: 'QqIty1r7mCD1MbFanHuyw57O',
+            placeholder: 'Write something...',
+        })
+    </script>
+
+
+
+  </body>
+</html>
+
+<script>
+    window.onload = function() {
+        let id = 1;
+        let post_content = document.querySelector('.content-card');
+        post_content.querySelectorAll('h1,h2,h3,h4,h5,h6').forEach(function (item) {
+            item.setAttribute('id', 'toc-' + id);
+            id++;
+        });
+        tocbot.init({
+            tocSelector: '.toc',
+            contentSelector: '.post-content',
+            headingSelector: 'h1,h2,h3,h4',
+            headingsOffset: 58,
+        });
+        // 检测页面滚动距离 用eventlistener
+        window.addEventListener('scroll', function () {
+            let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            let toc = document.querySelector('.toc');
+            let tocBtn = document.querySelector('.toc-body');
+            if (scrollTop > 250) {
+                tocBtn.classList.add('toc-body-fixed');
+                toc.classList.add('toc-fixed');
+            } else {
+                tocBtn.classList.remove('toc-body-fixed');
+                toc.classList.remove('toc-fixed');
+            }
+        });
+        document.querySelector('#floating-toc-btn').addEventListener('click', function () {
+            let toc = document.querySelector('.toc-body');
+            let main = document.querySelector('.main');
+            if (toc.classList.contains('hide')) {
+                main.classList.add('main-small');
+                toc.classList.remove('hide');
+            } else {
+                toc.classList.add('hide');
+                main.classList.remove('main-small');
+            }
+        });
+        window.addEventListener('resize', function() {
+            // 获取屏幕宽度
+            var screenWidth = window.innerWidth || document.documentElement.clientWidth;
+            // 设置 .content-card 的 max-width
+            var contentCard = document.querySelector('.content-card');
+            contentCard.style.maxWidth = screenWidth + 'px';
+        });
+        // 初始加载时执行一次，确保初始状态下也设置正确
+        window.dispatchEvent(new Event('resize'));
+    };
+</script>
