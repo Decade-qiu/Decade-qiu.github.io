@@ -372,7 +372,7 @@
             
                 <span class="meta-info-item post-update-date">
                     <i class="icon fa-solid fa-arrows-rotate"></i>&nbsp;
-                    <span class="datetime" data-updated="Sun Apr 20 2025 00:24:55 GMT+0800">2025-04-20 00:24:55</span>
+                    <span class="datetime" data-updated="Sun Apr 20 2025 00:27:21 GMT+0800">2025-04-20 00:27:21</span>
                 </span>
             
         
@@ -440,24 +440,7 @@
 <p>我们可以通过观察了解数据库整体的运行状态，通过性能分析工具可以让我们了解执行慢的SQL都有哪些，查看具体的SQL执行计划，甚至是SQL执行中的每一步的成本代价，这样才能定位问题所在，找到了问题，再采取相应的行动。</p>
 <h2 id="2-查看系统性能参数"><a href="#2-查看系统性能参数" class="headerlink" title="2. 查看系统性能参数"></a>2. 查看系统性能参数</h2><p>在MySQL中，可以使用 <code>SHOW STATUS</code> 语句查询一些MySQL数据库服务器的<code>性能参数、执行频率</code>。</p>
 <p>SHOW STATUS语句语法如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SHOW [GLOBAL|SESSION] STATUS LIKE &#x27;参数&#x27;;</span><br></pre></td></tr></table></figure>
-
-<p>一些常用的性能参数如下：</p>
-<ul>
-<li>Connections：连接MySQL服务器的次数。 </li>
-<li>Uptime：MySQL服务器的上线时间。 </li>
-<li>Slow_queries：慢查询的次数。 </li>
-<li>Innodb_rows_read：Select查询返回的行数 </li>
-<li>Innodb_rows_inserted：执行INSERT操作插入的行数 </li>
-<li>Innodb_rows_updated：执行UPDATE操作更新的 行数 </li>
-<li>Innodb_rows_deleted：执行DELETE操作删除的行数 </li>
-<li>Com_select：查询操作的次数。 </li>
-<li>Com_insert：插入操作的次数。对于批量插入的 INSERT 操作，只累加一次。 </li>
-<li>Com_update：更新操作 的次数。 </li>
-<li>Com_delete：删除操作的次数。</li>
-</ul>
-<p>若查询MySQL服务器的连接次数，则可以执行如下语句:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SHOW STATUS LIKE &#x27;Connections&#x27;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">SHOW [GLOBAL|SESSION] STATUS LIKE &#x27;参数&#x27;;</span><br><span class="line">```git </span><br><span class="line"></span><br><span class="line">一些常用的性能参数如下：</span><br><span class="line"></span><br><span class="line">* Connections：连接MySQL服务器的次数。 </span><br><span class="line">* Uptime：MySQL服务器的上线时间。 </span><br><span class="line">* Slow_queries：慢查询的次数。 </span><br><span class="line">* Innodb_rows_read：Select查询返回的行数 </span><br><span class="line">* Innodb_rows_inserted：执行INSERT操作插入的行数 </span><br><span class="line">* Innodb_rows_updated：执行UPDATE操作更新的 行数 </span><br><span class="line">* Innodb_rows_deleted：执行DELETE操作删除的行数 </span><br><span class="line">* Com_select：查询操作的次数。 </span><br><span class="line">* Com_insert：插入操作的次数。对于批量插入的 INSERT 操作，只累加一次。 </span><br><span class="line">* Com_update：更新操作 的次数。 </span><br><span class="line">* Com_delete：删除操作的次数。</span><br><span class="line"></span><br><span class="line">若查询MySQL服务器的连接次数，则可以执行如下语句:</span><br><span class="line"></span><br><span class="line">```mysql</span><br><span class="line">SHOW STATUS LIKE &#x27;Connections&#x27;;</span><br></pre></td></tr></table></figure>
 
 <p>若查询服务器工作时间，则可以执行如下语句:</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SHOW STATUS LIKE &#x27;Uptime&#x27;;</span><br></pre></td></tr></table></figure>
