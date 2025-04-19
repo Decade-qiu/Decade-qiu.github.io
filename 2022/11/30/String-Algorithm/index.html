@@ -9,7 +9,7 @@
     
     <title>
         
-            Hello World |
+            String Algorithm |
         
         Decade
     </title>
@@ -338,7 +338,7 @@
             <div class="post-content-bottom border-box">
                 
                     <div class="post-title">
-                        Hello World
+                        String Algorithm
                     </div>
                 
 
@@ -366,30 +366,48 @@
         
             <span class="meta-info-item post-create-date">
                 <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
-                <span class="datetime">2025-04-18 21:50:07</span>
+                <span class="datetime">2022-11-30 21:27:20</span>
             </span>
 
             
                 <span class="meta-info-item post-update-date">
                     <i class="icon fa-solid fa-arrows-rotate"></i>&nbsp;
-                    <span class="datetime" data-updated="Sat Apr 19 2025 16:42:36 GMT+0800">2025-04-19 16:42:36</span>
+                    <span class="datetime" data-updated="Sat Apr 19 2025 20:03:16 GMT+0800">2025-04-19 20:03:16</span>
                 </span>
             
         
 
         
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/algorithm-learning/">algorithm learning</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
 
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/algorithm-template/">algorithm template</a></li>
+                        
+                    
+                </ul>
+            </span>
         
 
         
         
             <span class="meta-info-item post-wordcount">
-                <i class="icon fas fa-file-word"></i>&nbsp;<span>75 Words</span>
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>631 Words</span>
             </span>
         
         
             <span class="meta-info-item post-min2read">
-                <i class="icon fas fa-clock"></i>&nbsp;<span>1 Mins</span>
+                <i class="icon fas fa-clock"></i>&nbsp;<span>3 Mins</span>
             </span>
         
         
@@ -411,20 +429,20 @@
                     
 
                     
-                         <p>Welcome to <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/" >Hexo<i class="fas fa-external-link-alt"></i></a>! This is your very first post. Check <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/" >documentation<i class="fas fa-external-link-alt"></i></a> for more info. If you get any problems when using Hexo, you can find the answer in <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html" >troubleshooting<i class="fas fa-external-link-alt"></i></a> or you can ask me on <a class="link"   target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues" >GitHub<i class="fas fa-external-link-alt"></i></a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+                         <p>常见的字符串算法以及模板，包含了 KMP、Trie、AC自动机，字符串哈希等。</p>
+<span id="more"></span>
 
-<p>More info: <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html" >Writing<i class="fas fa-external-link-alt"></i></a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<h2 id="字符串哈希"><a href="#字符串哈希" class="headerlink" title="字符串哈希"></a>字符串哈希</h2><div class="keep-tabs" id="keep-tabs-1745064206652">
+            <div class="tabs-nav"><div class="tab active" data-href="keep-tabs-1745064206652-1">java</div><div class="tab" data-href="keep-tabs-1745064206652-2">c++</div></div><div class="tabs-content"><div class="tab-pane active" id="keep-tabs-1745064206652-1"><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 大M取一个比较大的素数 1e9+7 4294967291 大P取一个比较小的素数 171 131</span></span><br><span class="line"><span class="type">long</span> <span class="variable">M</span> <span class="operator">=</span> <span class="number">0x60000005</span>, P = <span class="number">171</span>;</span><br><span class="line"><span class="type">long</span>[] p, h;</span><br><span class="line">p[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>;i &lt;= n;i++)&#123;</span><br><span class="line">    h[i] = (h[i-<span class="number">1</span>]*P+(s.charAt(i-<span class="number">1</span>)-<span class="string">&#x27;a&#x27;</span>+<span class="number">1</span>))%M;</span><br><span class="line">    p[i] = p[i-<span class="number">1</span>]*P%M;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">long</span> <span class="title function_">get</span><span class="params">(<span class="type">int</span> l, <span class="type">int</span> r)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (h[r]-h[l-<span class="number">1</span>]*p[r-l+<span class="number">1</span>]%M+M)%M;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div><div class="tab-pane" id="keep-tabs-1745064206652-2"><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">mt19937 <span class="title">rng</span><span class="params">(chrono::steady_clock::now().time_since_epoch().count())</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">rnd</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">uniform_int_distribution</span>&lt;<span class="type">int</span>&gt;(x, y)(rng);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ll MOD = <span class="number">1e18</span> + <span class="built_in">rnd</span>(<span class="number">0</span>, <span class="number">1e9</span>), BASE = <span class="number">233</span> + <span class="built_in">rnd</span>(<span class="number">0</span>, <span class="number">1e3</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">HashString</span> &#123;</span><br><span class="line">    vector&lt;<span class="type">__int128_t</span>&gt; P, H;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">HashString</span>(string &amp;s) &#123;</span><br><span class="line">        <span class="type">int</span> n = s.<span class="built_in">size</span>();</span><br><span class="line">        P.<span class="built_in">resize</span>(n + <span class="number">1</span>);</span><br><span class="line">        P[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">        H.<span class="built_in">resize</span>(n + <span class="number">1</span>);</span><br><span class="line">        H[<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i++) &#123;</span><br><span class="line">            P[i] = P[i - <span class="number">1</span>] * BASE % MOD;</span><br><span class="line">            H[i] = (H[i - <span class="number">1</span>] * BASE + s[i - <span class="number">1</span>]) % MOD;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function">ll <span class="title">query</span><span class="params">(<span class="type">int</span> l, <span class="type">int</span> r)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> (H[r] - H[l - <span class="number">1</span>] * P[r - l + <span class="number">1</span>] % MOD + MOD) % MOD;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></div></div>
+          </div>
 
-<p>More info: <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/server.html" >Server<i class="fas fa-external-link-alt"></i></a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html" >Generating<i class="fas fa-external-link-alt"></i></a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html" >Deployment<i class="fas fa-external-link-alt"></i></a></p>
+<hr>
+<h2 id="字典树"><a href="#字典树" class="headerlink" title="字典树"></a>字典树</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Node</span>&#123;</span><br><span class="line"> Node[] r = <span class="keyword">new</span> <span class="title class_">Node</span>[<span class="number">26</span>];</span><br><span class="line"> <span class="type">boolean</span> <span class="variable">isEnd</span> <span class="operator">=</span> <span class="literal">false</span>; <span class="comment">// 判断是不是一个字符串末尾</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">static</span> <span class="type">Node</span> <span class="variable">root</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Node</span>();</span><br><span class="line"><span class="keyword">static</span> <span class="title function_">add</span><span class="params">(String ss)</span>&#123;</span><br><span class="line"> <span class="type">Node</span> <span class="variable">cur</span> <span class="operator">=</span> root;</span><br><span class="line"> <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">k</span> <span class="operator">=</span> <span class="number">0</span>;k &lt; ss.length();k++)&#123;</span><br><span class="line">     <span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> ss.charAt(k)-<span class="string">&#x27;a&#x27;</span>;</span><br><span class="line">     <span class="keyword">if</span> (cur.r[x] == <span class="literal">null</span>) cur.r[x] = <span class="keyword">new</span> <span class="title class_">Node</span>();</span><br><span class="line">     cur = cur.r[x];</span><br><span class="line"> &#125;</span><br><span class="line"> cur.isEnd = <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">qurey</span><span class="params">(String ss)</span>&#123;</span><br><span class="line"> <span class="type">Node</span> <span class="variable">cur</span> <span class="operator">=</span> root;</span><br><span class="line"> <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">k</span> <span class="operator">=</span> <span class="number">0</span>;k &lt; ss.length();k++)&#123;</span><br><span class="line">     <span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> ss.charAt(k)-<span class="string">&#x27;a&#x27;</span>;</span><br><span class="line">     <span class="keyword">if</span> (cur.r[x] == <span class="literal">null</span>) <span class="keyword">return</span> <span class="literal">false</span>; <span class="comment">//下一个字符没有出现 直接false</span></span><br><span class="line">     cur = cur.r[x];</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="keyword">return</span> cur.isEnd; <span class="comment">//字符都在 判断是不是结束了</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<hr>
+<h2 id="KMP"><a href="#KMP" class="headerlink" title="KMP"></a>KMP</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//两个字符串的下标都从 1 开始</span></span><br><span class="line"><span class="comment">// 求ne过程,是p[]自己和自己匹配的过程； 起始i = 2,要注意</span></span><br><span class="line"><span class="keyword">for</span>( <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">2</span>, j = <span class="number">0</span>; i &lt;=n; i++)&#123;</span><br><span class="line">    <span class="keyword">while</span>( j &amp;&amp; p[i] != p[j + <span class="number">1</span>])   j = ne[j];</span><br><span class="line">    <span class="keyword">if</span>( p[i] == p[j + <span class="number">1</span>]) j ++;</span><br><span class="line">    <span class="comment">// 这里不用管是否匹配成功，ne[i]的值都要记录下来</span></span><br><span class="line">    ne[i] = j;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// kmp匹配过程 </span></span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>, j = <span class="number">0</span> ; i &lt;= m; i++)&#123;</span><br><span class="line">    <span class="comment">// j 表示是否退回起点</span></span><br><span class="line">    <span class="keyword">while</span>( j &amp;&amp; s[i] != p[ j + <span class="number">1</span>])  j = ne[j];</span><br><span class="line">    <span class="keyword">if</span> ( s[i] == p [ j + <span class="number">1</span> ])    j++;</span><br><span class="line">    <span class="keyword">if</span>( j == n)&#123;</span><br><span class="line">        <span class="comment">// 匹配成功，这里的 i - n 是第一个匹配元素的下标，本应该是 i - n + 1， 由于数组是从1开始计数，所以为 i - n</span></span><br><span class="line">        printf(<span class="string">&quot;%d &quot;</span> , i - n );</span><br><span class="line">        <span class="comment">// 匹配成功后找下一个匹配</span></span><br><span class="line">        j = ne[j];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fail = <span class="keyword">new</span> <span class="title class_">int</span>[m];</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>, j = <span class="number">0</span>; i &lt; m; ++i) &#123;</span><br><span class="line">    <span class="keyword">while</span> (j != <span class="number">0</span> &amp;&amp; e.charAt(j) != e.charAt(i)) j = fail[j - <span class="number">1</span>];</span><br><span class="line">    <span class="keyword">if</span> (e.charAt(j) == e.charAt(i)) ++j;</span><br><span class="line">    fail[i] = j;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
                     
                 </div>
 
@@ -434,11 +452,11 @@
     <div class="copyright-info-content border-box">
         <div class="copyright-info-top border-box">
             <div class="copyright-post-title border-box text-ellipsis">
-                Hello World
+                String Algorithm
             </div>
 
             <div class="copyright-post-link border-box text-ellipsis">
-                2025/04/18/hello-world/
+                2022/11/30/String-Algorithm/
             </div>
         </div>
 
@@ -454,7 +472,7 @@
                 <div class="type">
                     Published
                 </div>
-                <div class="content">2025-04-18 21:50</div>
+                <div class="content">2022-11-30 21:27</div>
             </div>
 
 
@@ -486,6 +504,14 @@
 
                 <div class="post-bottom-tags-and-share border-box">
                     <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/algorithm-template/">algorithm template</a>
+                                    </li>
+                                
+                            </ul>
                         
                     </div>
                     <div>
@@ -534,22 +560,22 @@
                 
                     <div class="post-nav border-box">
                         
-                        
-                            <div class="next-post">
-                                <a class="next"
-                                   rel="next"
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
                                    href="/2024/02/21/SQL-%E5%AD%90%E6%9F%A5%E8%AF%A2/"
                                    title="SQL 子查询"
                                 >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
                                     <span class="title flex-center">
                                         <span class="post-nav-title-item text-ellipsis">SQL 子查询</span>
-                                        <span class="post-nav-item">Next posts</span>
-                                    </span>
-                                    <span class="right arrow-icon flex-center">
-                                        <i class="fas fa-chevron-right"></i>
+                                        <span class="post-nav-item">Prev posts</span>
                                     </span>
                                 </a>
                             </div>
+                        
                         
                     </div>
                 
@@ -648,7 +674,7 @@
             <div class="pc-post-toc right-toc">
                 <div class="post-toc-wrap border-box">
     <div class="post-toc border-box">
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Quick-Start"><span class="nav-text">Quick Start</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-new-post"><span class="nav-text">Create a new post</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Run-server"><span class="nav-text">Run server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generate-static-files"><span class="nav-text">Generate static files</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deploy-to-remote-sites"><span class="nav-text">Deploy to remote sites</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%93%88%E5%B8%8C"><span class="nav-text">字符串哈希</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%97%E5%85%B8%E6%A0%91"><span class="nav-text">字典树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#KMP"><span class="nav-text">KMP</span></a></li></ol>
     </div>
 </div>
 
@@ -851,7 +877,7 @@
             <div class="tablet-post-toc">
                 <div class="post-toc-wrap border-box">
     <div class="post-toc border-box">
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Quick-Start"><span class="nav-text">Quick Start</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-new-post"><span class="nav-text">Create a new post</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Run-server"><span class="nav-text">Run server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generate-static-files"><span class="nav-text">Generate static files</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deploy-to-remote-sites"><span class="nav-text">Deploy to remote sites</span></a></li></ol></li></ol>
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%93%88%E5%B8%8C"><span class="nav-text">字符串哈希</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%97%E5%85%B8%E6%A0%91"><span class="nav-text">字典树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#KMP"><span class="nav-text">KMP</span></a></li></ol>
     </div>
 </div>
 
