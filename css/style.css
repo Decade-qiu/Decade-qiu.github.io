@@ -4779,6 +4779,18 @@ figure.highlight .shrink-line:hover::before {
 .page-template-container .page-template-bottom .page-content h6:first-child {
   margin-top: 0;
 }
+.page-template-container .photo-album-box {
+  column-count: 3;
+  column-gap: 0.8rem;
+}
+.page-template-container .photo-album-box img.photo {
+  display: block;
+  width: 100%;
+  margin-bottom: 0.8rem;
+  background: var(--background-color-2);
+  border-radius: 0.6rem;
+  cursor: zoom-in;
+}
 .page-template-container .tools-nav-box {
   display: flex;
   justify-content: space-between;
