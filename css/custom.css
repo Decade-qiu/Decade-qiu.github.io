@@ -1,0 +1,34 @@
+@font-face {
+    font-family: 'NumberFallback';
+    /* 本例用系统自带 Arial，你也可以改成其他任何字体 */
+    src: local('Times New Roman');
+    /* 仅对 U+0030–U+0039（即 0–9）生效 */
+    unicode-range: U+0030-0039;
+}
+
+:root {
+    /* page */
+    --page-content-max-width: 1200px;
+
+    /* card hover */
+    --home-post-hover-scale: 1.02;
+
+    /* font */
+    /* --base-font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', SimHei, sans-serif; */
+    /* --base-font-family: 'Georgia', "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif; */
+    --base-font-family: 'NumberFallback', 'Georgia', Helvetica, Tahoma, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
+    --base-font-size: 18px;
+
+    /* color */
+    --text-color-3: #191b1f;
+}
+
+img[lazyload] {
+    position: relative;
+    box-sizing: border-box;
+    width: 0rem !important;
+    height: 0rem !important;
+    box-shadow: none !important;
+    cursor: not-allowed;
+    pointer-events: none;
+}
