@@ -1,0 +1,2064 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="blog, decade, lucky">
+    <meta name="description" content="Decade&#39;s lucky blog">
+    <meta name="author" content="Zhongjun Qiu">
+    
+    <title>
+        
+            SQL 函数基础 |
+        
+        Decade
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/images/logo.ico">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/fontawesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/regular.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/solid.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/brands.min.css">
+    
+        
+            
+        
+            
+                
+<link rel="stylesheet" href="/css/custom.css">
+
+            
+        
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"decade.net.cn","root":"/","language":"en","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"Decade","author":"Zhongjun Qiu","avatar":"/images/avatar.ico","logo":"/images/avatar.ico","favicon":"/images/logo.ico"},"menu":{"home":"/ || fa-solid fa-home","archives":"/archives || fa-solid fa-box-archive","tags":"/tags || fa-solid fa-tags","categories":"/categories || fa-solid fa-layer-group","more":{"icon":"fa-solid fa-circle-user","children":[{"tool":"/tools || fa-solid fa-tools"},{"life":"/photos || fa-solid fa-image"},{"me":"/about || fa-solid fa-user-graduate"},{"Git":"/HTML/index.html || fa-solid fa-user"}]}},"first_screen":{"enable":true,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"The Steadfast Determination of An Ordinary Soul.","hitokoto":false},"social_contact":{"enable":true,"links":{"github":"https://github.com/Decade-qiu","weixin":"img | /images/social/weixin.jpg","qq":null,"weibo":null,"zhihu":null,"twitter":null,"x":null,"facebook":null,"email":"qiuyu6021@gmail.com"}},"scroll":{"progress_bar":true,"percent":true,"hide_header":false},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"created || fa-solid fa-history","post_datetime_format":"ago"},"post":{"author_badge":{"enable":true,"level_badge":false,"custom_badge":"元婴开发者"},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":true,"img_link":"/images/post/payment.jpg","text":null,"icon":null},"created_datetime_icon":"fa-solid fa-calendar-plus","updated_datetime_icon":"fa-solid fa-arrows-rotate"},"code_block":{"tools":{"enable":true,"style":"mac"},"highlight_theme":"obsidian"},"toc":{"enable":true,"number":false,"expand_all":false,"init_open":false,"layout":"right"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":false,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":true,"use":"waline","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.39"},"waline":{"server_url":"https://waline-vercel-two-rho.vercel.app/","reaction":true,"version":"3.3.2"},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":false},"lazyload":{"enable":true},"cdn":{"enable":true,"provider":"cdnjs"},"pjax":{"enable":true},"footer":{"since":2020,"word_count":true,"site_deploy":{"enable":true,"provider":"github","url":"https://github.com"},"record":{"enable":false,"list":[{"code":null,"link":null}]}},"inject":{"enable":true,"css":[null,"/css/custom.css"],"js":[null,"/js/custom_code_block.js"]},"root":"","source_data":{"photos":[{"url":"/images/post/【哲风壁纸】日本动漫-电锯人.webp","name":"电锯人"},{"url":"/images/post/Quicker_20250428_193139.webp","name":"kowayia"},{"url":"/images/post/Quicker_20250428_233349.webp","name":"世界地图"},{"url":"/images/post/tmpFE1E.tmp.webp","name":"施红"},{"url":"/images/post/result-1745849388402.webp","name":"仇忠骏.动漫版"},{"url":"/images/photos/猫猫困了PNG.png","name":"猫猫困了PNG"},{"url":"/images/photos/宁静的暴雨天.png","name":"宁静的暴雨天"},{"url":"/images/photos/我在扬州好想你.png","name":"我在扬州好想你"},{"url":"/images/photos/信鸽.png","name":"信鸽"},{"url":"/images/photos/啤酒烧烤.png","name":"啤酒烧烤"},{"url":"/images/photos/随手拍.png","name":"随手拍"},{"url":"/images/photos/糖油混合炸弹.png","name":"糖油混合炸弹"},{"url":"/images/photos/香香的.png","name":"香香的"},{"url":"/images/photos/蝎子莱莱.png","name":"蝎子莱莱"},{"url":"/images/post/指C为python.png","name":"指C为python"},{"url":"/images/photos/YangZhou_Station.png","name":"YangZhou Station"}],"tools":[{"category":"AIGC","anchorId":"QUlHQw0"},{"name":"ChatGPT","link":"https://chat.openai.com/","description":"OpenAI 旗下 AI 聊天对话工具","image":"/images/tools/chatgpt.svg"},{"name":"Gemini","link":"https://gemini.google.com/app","description":"Google 旗下 AI 聊天对话工具","image":"/images/tools/gemini.svg"},{"name":"Copilot","link":"https://copilot.microsoft.com/","description":"Microsoft 旗下 AI 聊天对话工具","image":"/images/tools/copilot.png"},{"name":"Deepseek","link":"https://chat.deepseek.com/","description":"Deepseek 旗下 AI 聊天对话工具","image":"/images/tools/deepseek.jpg"},{"name":"Qwen","link":"https://chat.qwen.ai/","description":"Alibaba 旗下 AI 聊天对话工具","image":"/images/tools/tongyiqianwen.svg"},{"name":"即梦AI","link":"https://jimeng.jianying.com/ai-tool/home","description":"Dreamina 图像生成工具","image":"/images/tools/dream.png"},{"name":"komiko","link":"https://komiko.app/home","description":"Komiko 动漫化AI工具","image":"/images/tools/komiko.webp"},{"name":"InsMind","link":"https://www.insmind.com/zh-cn/workspace/","description":"AI图片编辑工具","image":"/images/tools/insmind.svg"},{"name":"Raphael","link":"https://raphael.app/zh","description":"AI图片生成工具","image":"/images/tools/rap.png"},{"name":"腾讯元宝","link":"https://yuanbao.tencent.com/chat/","description":"Tencent 旗下 AI 聊天对话工具","image":"/images/tools/tencent.jpg"},{"name":"豆包","link":"https://www.doubao.com/chat/","description":"字节跳动 图片生成工具","image":"/images/tools/dn.jpg"},{"category":"Airport","anchorId":"QWlycG9ydA12"},{"name":"独角兽","link":"https://91unicorn.cloud/","description":"十分稳定","image":"/images/tools/dujiaoshou.ico"},{"name":"极速机场","link":"https://xn--mes358acgm99l.com/","description":"便宜好用","image":"/images/tools/jisu.ico"},{"name":"iKuuu","link":"https://ikuuu.org/user","description":"以备不时之需","image":"/images/tools/ikuu.ico"},{"category":"File Converter","anchorId":"RmlsZSUyMENvbnZlcnRlcg16"},{"name":"Online Image Tool","link":"https://www.onlineimagetool.com/zh/","description":"在线压缩和转换图片","image":"/images/tools/oit.png"},{"name":"Vector Magic","link":"https://zh.vectormagic.com/","description":"文件矢量化","image":"/images/tools/apple-touch-icon-180_97956a9f5fbf6a767de100280d78c1f8.png"},{"name":"TinyPNG","link":"https://tinypng.com/","description":"Smart AVIF, WebP, PNG and JPEG Compression for Faster Websites","image":"/images/tools/tiny.ico"},{"name":"踏得","link":"https://techbrood.com/tool","description":"HTML5在线工具","image":"/images/tools/td.ico"},{"name":"UU在线工具","link":"https://uutool.cn/base64/","description":"base64工具包","image":"/images/tools/uu.png"},{"name":"I Love PDF","link":"https://www.ilovepdf.com/","description":"PDF工具包","image":"/images/tools/ilovepdf.svg"},{"category":"Free GPT API","anchorId":"RnJlZSUyMEdQVCUyMEFQSQ23"},{"name":"Gemini API","link":"https://ai.google.dev/gemini-api/docs/quickstart?lang=python","description":"Google Gemini API","image":"/images/tools/touchicon-180-new.png"},{"name":"SiliconCloud","link":"https://cloud.siliconflow.cn/models","description":"各种模型API"},{"name":"Cloudflare Workers AI","link":"https://developers.cloudflare.com/workers-ai/configuration/open-ai-compatibility/","description":"OpenAI compatible API endpoints","image":"/images/tools/logo.p_ySeMR1.svg"},{"name":"算了么","link":"https://api.suanli.cn/","description":"共享算力API","image":"/images/tools/suanlm.svg"},{"category":"Resource Explorer","anchorId":"UmVzb3VyY2UlMjBFeHBsb3Jlcg28"},{"name":"Free for Developers","link":"https://free-for.dev/","description":"A list of SaaS, PaaS and IaaS offerings that have free tiers of interest to devops and infradev","image":"/images/tools/freefd.webp"},{"name":"zlibrary","link":"https://zh.z-library.sk/","description":"在线图书馆","image":"/images/tools/logo.zlibrary.svg"},{"name":"PicX","link":"https://picx.xpoet.cn/","description":"基于Github的图床","image":"/images/tools/logo.ffee4291.png"},{"name":"HaoWallpaper","link":"https://haowallpaper.com/","description":"哲风壁纸","image":"/images/tools/haowall.ico"},{"name":"Awesome","link":"https://wallhaven.cc/","description":"WallHaven","image":"/images/tools/wallheaven.ico"},{"name":"WallHere","link":"https://wallhere.com/","description":"WallHere"},{"name":"SnapAny","link":"https://snapany.com/zh","description":"万能视频图片解析下载"},{"name":"ØMagnet","link":"https://0cili.org/","description":"种子下载"},{"name":"twitter","link":"https://snapvid.net/zh-cn/twitter-downloader","description":"推特视频下载器","image":"/images/tools/apple-touch-icon.png"},{"name":"youtube","link":"https://www.y2mate.com/en949","description":"Youtube视频下载器","image":"/images/tools/y2mate.webp"},{"name":"Icons8","link":"https://icons8.com/icons","description":"免费图标下载","image":"/images/tools/logo-icons8.svg"},{"name":"全能emoji","link":"https://www.emojiall.com/zh-hans","description":"emoji制作","image":"/images/tools/emoji.ico"},{"name":"emojidb","link":"https://emojidb.org/","description":"免费表情包下载","image":"/images/tools/emojidb.png"},{"name":"Flaticon","link":"https://www.flaticon.com/","description":"免费图标下载","image":"/images/tools/logo-flaticon.svg"},{"name":"IconFinder","link":"https://www.iconfinder.com/","description":"免费图标下载","image":"/images/tools/logo-iconfinder.svg"}]},"version":"4.2.5"}
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"}
+    KEEP.language_code_block = {"copy":"Copy code","copied":"Copied","fold":"Fold code block","folded":"Folded"}
+    KEEP.language_copy_copyright = {"copy":"Copy copyright info","copied":"Copied","title":"Original post title","author":"Original post author","link":"Original post link"}
+  </script>
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <i class="pjax-progress-icon fas fa-circle-notch fa-spin"></i>
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left flex-start border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/avatar.ico">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               Decade
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc border-box">
+                <ul class="menu-list border-box">
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-home"></i>
+                                
+                                HOME
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/archives">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-box-archive"></i>
+                                
+                                ARCHIVES
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/tags">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-tags"></i>
+                                
+                                TAGS
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/categories">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-layer-group"></i>
+                                
+                                CATEGORIES
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box has-sub-menu">
+                            <a class="menu-text-color border-box" href="javascript:void(0);">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-circle-user"></i>
+                                
+                                MORE
+                                
+                                    <i class="menu-text-color collapse-icon fa-solid fa-angle-down"></i>
+                                
+                            </a>
+                            
+                                <ul class="sub-menu-list border-box">
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" href="/tools">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-solid fa-tools"></i>
+                                                
+                                                TOOL
+                                            </a>
+                                        </li>
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" href="/photos">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-solid fa-image"></i>
+                                                
+                                                LIFE
+                                            </a>
+                                        </li>
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" href="/about">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-solid fa-user-graduate"></i>
+                                                
+                                                ME
+                                            </a>
+                                        </li>
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" href="/html/">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-solid fa-user"></i>
+                                                
+                                                GIT
+                                            </a>
+                                        </li>
+                                    
+                                </ul>
+                            
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="menu-text-color fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile border-box flex-start">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list border-box">
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-home"></i>
+                                </span>
+                            
+                            HOME
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/archives">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-box-archive"></i>
+                                </span>
+                            
+                            ARCHIVES
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/tags">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-tags"></i>
+                                </span>
+                            
+                            TAGS
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/categories">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-layer-group"></i>
+                                </span>
+                            
+                            CATEGORIES
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box has-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="javascript:void(0);">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-circle-user"></i>
+                                </span>
+                            
+                            MORE
+                        </a>
+                        
+                            <i class="right-side collapse-icon fa-solid fa-angle-left"></i>
+                        
+                    </label>
+                    
+                        <ul class="drawer-sub-menu-list border-box">
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" href="/tools">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-solid fa-tools"></i>
+                                            </span>
+                                        
+                                        TOOL
+                                    </a>
+                                </li>
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" href="/photos">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-solid fa-image"></i>
+                                            </span>
+                                        
+                                        LIFE
+                                    </a>
+                                </li>
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" href="/about">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-solid fa-user-graduate"></i>
+                                            </span>
+                                        
+                                        ME
+                                    </a>
+                                </li>
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" href="/html/">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-solid fa-user"></i>
+                                            </span>
+                                        
+                                        GIT
+                                    </a>
+                                </li>
+                            
+                        </ul>
+                    
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        SQL 函数基础
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/avatar.ico">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">Zhongjun Qiu</span>
+                                
+                                    <span class="author-badge">元婴开发者</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2024-02-21 16:37:23</span>
+            </span>
+
+            
+                <span class="meta-info-item post-update-date">
+                    <i class="icon fa-solid fa-arrows-rotate"></i>&nbsp;
+                    <span class="datetime" data-updated="Thu May 15 2025 23:39:44 GMT+0800">2025-05-15 23:39:44</span>
+                </span>
+            
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/Database/">Database</a></li>
+                        
+                    
+                            <li class="category-item">&nbsp;<i class="icon fas fa-angle-right"></i>&nbsp;<a href="/categories/Database/SQL/">SQL</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/SQL-Function/">SQL,Function</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>4.3k Words</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>17 Mins</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <p>SQL函数基础知识,
+包括函数的定义、分类、内置函数的使用方法和示例等。</p>
+<span id="more"></span>
+<h2 id="函数的理解">1. 函数的理解</h2>
+<h3 id="什么是函数">1.1 什么是函数</h3>
+<p>函数在计算机语言的使用中贯穿始终，函数的作用是什么呢？它可以把我们经常使用的代码封装起来，需要的时候直接调用即可。这样既<code>提高了代码效率</code>，又<code>提高了可维护性</code>。在
+SQL
+中我们也可以使用函数对检索出来的数据进行函数操作。使用这些函数，可以极大地<code>提高用户对数据库的管理效率</code>。</p>
+<p>从函数定义的角度出发，我们可以将函数分成<code>内置函数</code>和<code>自定义函数</code>。在
+SQL
+语言中，同样也包括了内置函数和自定义函数。内置函数是系统内置的通用函数，而自定义函数是我们根据自己的需要编写的，本章及下一章讲解的是
+SQL 的内置函数。</p>
+<h3 id="不同dbms函数的差异">1.2 不同DBMS函数的差异</h3>
+<p>我们在使用 SQL
+语言的时候，不是直接和这门语言打交道，而是通过它使用不同的数据库软件，即
+DBMS。<strong>DBMS
+之间的差异性很大，远大于同一个语言不同版本之间的差异。</strong>实际上，只有很少的函数是被
+DBMS 同时支持的。比如，大多数 DBMS 使用（||）或者（+）来做拼接符，而在
+MySQL 中的字符串拼接函数为concat()。大部分 DBMS
+会有自己特定的函数，这就意味着<strong>采用 SQL
+函数的代码可移植性是很差的</strong>，因此在使用函数的时候需要特别注意。</p>
+<h3 id="mysql的内置函数及分类">1.3 MySQL的内置函数及分类</h3>
+<p>MySQL提供了丰富的内置函数，这些函数使得数据的维护与管理更加方便，能够更好地提供数据的分析与统计功能，在一定程度上提高了开发人员进行数据分析与统计的效率。</p>
+<p>MySQL提供的内置函数从<code>实现的功能角度</code>可以分为数值函数、字符串函数、日期和时间函数、流程控制函数、加密与解密函数、获取MySQL信息函数、聚合函数等。这里，我将这些丰富的内置函数再分为两类：<code>单行函数</code>、<code>聚合函数（或分组函数）</code>。</p>
+<p><strong>单行函数</strong></p>
+<ul>
+<li>操作数据对象</li>
+<li>接受参数返回一个结果</li>
+<li><strong>只对一行进行变换</strong></li>
+<li><strong>每行返回一个结果</strong></li>
+<li>可以嵌套</li>
+<li>参数可以是一列或一个值</li>
+</ul>
+<h2 id="数值函数">2. 数值函数</h2>
+<h3 id="基本函数">2.1 基本函数</h3>
+<table>
+<colgroup>
+<col style="width: 24%">
+<col style="width: 75%">
+</colgroup>
+<thead>
+<tr>
+<th>函数</th>
+<th>用法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ABS(x)</td>
+<td>返回x的绝对值</td>
+</tr>
+<tr>
+<td>SIGN(X)</td>
+<td>返回X的符号。正数返回1，负数返回-1，0返回0</td>
+</tr>
+<tr>
+<td>PI()</td>
+<td>返回圆周率的值</td>
+</tr>
+<tr>
+<td>CEIL(x)，CEILING(x)</td>
+<td>返回大于或等于某个值的最小整数</td>
+</tr>
+<tr>
+<td>FLOOR(x)</td>
+<td>返回小于或等于某个值的最大整数</td>
+</tr>
+<tr>
+<td>LEAST(e1,e2,e3…)</td>
+<td>返回列表中的最小值</td>
+</tr>
+<tr>
+<td>GREATEST(e1,e2,e3…)</td>
+<td>返回列表中的最大值</td>
+</tr>
+<tr>
+<td>MOD(x,y)</td>
+<td>返回X除以Y后的余数</td>
+</tr>
+<tr>
+<td>RAND()</td>
+<td>返回0~1的随机值</td>
+</tr>
+<tr>
+<td>RAND(x)</td>
+<td>返回0~1的随机值，其中x的值用作种子值，相同的X值会产生相同的随机数</td>
+</tr>
+<tr>
+<td>ROUND(x)</td>
+<td>返回一个对x的值进行四舍五入后，最接近于X的整数</td>
+</tr>
+<tr>
+<td>ROUND(x,y)</td>
+<td>返回一个对x的值进行四舍五入后最接近X的值，并保留到小数点后面Y位</td>
+</tr>
+<tr>
+<td>TRUNCATE(x,y)</td>
+<td>返回数字x截断为y位小数的结果</td>
+</tr>
+<tr>
+<td>SQRT(x)</td>
+<td>返回x的平方根。当X的值为负数时，返回NULL</td>
+</tr>
+</tbody>
+</table>
+<h3 id="角度与弧度互换函数">2.2 角度与弧度互换函数</h3>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>用法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RADIANS(x)</td>
+<td>将角度转化为弧度，其中，参数x为角度值</td>
+</tr>
+<tr>
+<td>DEGREES(x)</td>
+<td>将弧度转化为角度，其中，参数x为弧度值</td>
+</tr>
+</tbody>
+</table>
+<h3 id="三角函数">2.3 三角函数</h3>
+<table>
+<colgroup>
+<col style="width: 14%">
+<col style="width: 85%">
+</colgroup>
+<thead>
+<tr>
+<th>函数</th>
+<th>用法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SIN(x)</td>
+<td>返回x的正弦值，其中，参数x为弧度值</td>
+</tr>
+<tr>
+<td>ASIN(x)</td>
+<td>返回x的反正弦值，即获取正弦为x的值。如果x的值不在-1到1之间，则返回NULL</td>
+</tr>
+<tr>
+<td>COS(x)</td>
+<td>返回x的余弦值，其中，参数x为弧度值</td>
+</tr>
+<tr>
+<td>ACOS(x)</td>
+<td>返回x的反余弦值，即获取余弦为x的值。如果x的值不在-1到1之间，则返回NULL</td>
+</tr>
+<tr>
+<td>TAN(x)</td>
+<td>返回x的正切值，其中，参数x为弧度值</td>
+</tr>
+<tr>
+<td>ATAN(x)</td>
+<td>返回x的反正切值，即返回正切值为x的值</td>
+</tr>
+<tr>
+<td>ATAN2(m,n)</td>
+<td>返回两个参数的反正切值</td>
+</tr>
+<tr>
+<td>COT(x)</td>
+<td>返回x的余切值，其中，X为弧度值</td>
+</tr>
+</tbody>
+</table>
+<h3 id="指数与对数">2.4 指数与对数</h3>
+<table>
+<colgroup>
+<col style="width: 27%">
+<col style="width: 72%">
+</colgroup>
+<thead>
+<tr>
+<th>函数</th>
+<th>用法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POW(x,y)，POWER(X,Y)</td>
+<td>返回x的y次方</td>
+</tr>
+<tr>
+<td>EXP(X)</td>
+<td>返回e的X次方，其中e是一个常数，2.718281828459045</td>
+</tr>
+<tr>
+<td>LN(X)，LOG(X)</td>
+<td>返回以e为底的X的对数，当X &lt;= 0 时，返回的结果为NULL</td>
+</tr>
+<tr>
+<td>LOG10(X)</td>
+<td>返回以10为底的X的对数，当X &lt;= 0 时，返回的结果为NULL</td>
+</tr>
+<tr>
+<td>LOG2(X)</td>
+<td>返回以2为底的X的对数，当X &lt;= 0 时，返回NULL</td>
+</tr>
+</tbody>
+</table>
+<h3 id="进制间的转换">2.5 进制间的转换</h3>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>用法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BIN(x)</td>
+<td>返回x的二进制编码</td>
+</tr>
+<tr>
+<td>HEX(x)</td>
+<td>返回x的十六进制编码</td>
+</tr>
+<tr>
+<td>OCT(x)</td>
+<td>返回x的八进制编码</td>
+</tr>
+<tr>
+<td>CONV(x,f1,f2)</td>
+<td>返回f1进制数变成f2进制数</td>
+</tr>
+</tbody>
+</table>
+<h2 id="字符串函数">3. 字符串函数</h2>
+<table>
+<colgroup>
+<col style="width: 35%">
+<col style="width: 64%">
+</colgroup>
+<thead>
+<tr>
+<th>函数</th>
+<th>用法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ASCII(S)</td>
+<td>返回字符串S中的第一个字符的ASCII码值</td>
+</tr>
+<tr>
+<td>CHAR_LENGTH(s)</td>
+<td>返回字符串s的字符数。作用与CHARACTER_LENGTH(s)相同</td>
+</tr>
+<tr>
+<td>LENGTH(s)</td>
+<td>返回字符串s的字节数，和字符集有关</td>
+</tr>
+<tr>
+<td>CONCAT(s1,s2,……,sn)</td>
+<td>连接s1,s2,……,sn为一个字符串</td>
+</tr>
+<tr>
+<td>CONCAT_WS(x, s1,s2,……,sn)</td>
+<td>同CONCAT(s1,s2,…)函数，但是每个字符串之间要加上x</td>
+</tr>
+<tr>
+<td>INSERT(str, idx, len, replacestr)</td>
+<td>将字符串str从第idx位置开始，len个字符长的子串替换为字符串replacestr</td>
+</tr>
+<tr>
+<td>REPLACE(str, a, b)</td>
+<td>用字符串b替换字符串str中所有出现的字符串a</td>
+</tr>
+<tr>
+<td>UPPER(s) 或 UCASE(s)</td>
+<td>将字符串s的所有字母转成大写字母</td>
+</tr>
+<tr>
+<td>LOWER(s) 或LCASE(s)</td>
+<td>将字符串s的所有字母转成小写字母</td>
+</tr>
+<tr>
+<td>LEFT(str,n)</td>
+<td>返回字符串str最左边的n个字符</td>
+</tr>
+<tr>
+<td>RIGHT(str,n)</td>
+<td>返回字符串str最右边的n个字符</td>
+</tr>
+<tr>
+<td>LPAD(str, len, pad)</td>
+<td>用字符串pad对str最左边进行填充，直到str的长度为len个字符</td>
+</tr>
+<tr>
+<td>RPAD(str ,len, pad)</td>
+<td>用字符串pad对str最右边进行填充，直到str的长度为len个字符</td>
+</tr>
+<tr>
+<td>LTRIM(s)</td>
+<td>去掉字符串s左侧的空格</td>
+</tr>
+<tr>
+<td>RTRIM(s)</td>
+<td>去掉字符串s右侧的空格</td>
+</tr>
+<tr>
+<td>TRIM(s)</td>
+<td>去掉字符串s开始与结尾的空格</td>
+</tr>
+<tr>
+<td>TRIM(s1 FROM s)</td>
+<td>去掉字符串s开始与结尾的s1</td>
+</tr>
+<tr>
+<td>TRIM(LEADING s1 FROM s)</td>
+<td>去掉字符串s开始处的s1</td>
+</tr>
+<tr>
+<td>TRIM(TRAILING s1 FROM s)</td>
+<td>去掉字符串s结尾处的s1</td>
+</tr>
+<tr>
+<td>REPEAT(str, n)</td>
+<td>返回str重复n次的结果</td>
+</tr>
+<tr>
+<td>SPACE(n)</td>
+<td>返回n个空格</td>
+</tr>
+<tr>
+<td>STRCMP(s1,s2)</td>
+<td>比较字符串s1,s2的ASCII码值的大小</td>
+</tr>
+<tr>
+<td>SUBSTR(s,index,len)</td>
+<td>返回从字符串s的index位置其len个字符，作用与SUBSTRING(s,n,len)、MID(s,n,len)相同</td>
+</tr>
+<tr>
+<td>LOCATE(substr,str)</td>
+<td>返回字符串substr在字符串str中首次出现的位置，作用于POSITION(substr
+IN str)、INSTR(str,substr)相同。未找到，返回0</td>
+</tr>
+<tr>
+<td>ELT(m,s1,s2,…,sn)</td>
+<td>返回指定位置的字符串，如果m=1，则返回s1，如果m=2，则返回s2，如果m=n，则返回sn</td>
+</tr>
+<tr>
+<td>FIELD(s,s1,s2,…,sn)</td>
+<td>返回字符串s在字符串列表中第一次出现的位置</td>
+</tr>
+<tr>
+<td>FIND_IN_SET(s1,s2)</td>
+<td>返回字符串s1在字符串s2中出现的位置。其中，字符串s2是一个以逗号分隔的字符串</td>
+</tr>
+<tr>
+<td>REVERSE(s)</td>
+<td>返回s反转后的字符串</td>
+</tr>
+<tr>
+<td>NULLIF(value1,value2)</td>
+<td>比较两个字符串，如果value1与value2相等，则返回NULL，否则返回value1</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>注意：MySQL中，字符串的位置是从1开始的。</p>
+</blockquote>
+<h2 id="日期和时间函数">4. 日期和时间函数</h2>
+<h3 id="获取日期时间">4.1 获取日期、时间</h3>
+<table>
+<colgroup>
+<col style="width: 66%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr>
+<th>函数</th>
+<th>用法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>CURDATE()</strong> ，CURRENT_DATE()</td>
+<td>返回当前日期，只包含年、月、日</td>
+</tr>
+<tr>
+<td><strong>CURTIME()</strong> ， CURRENT_TIME()</td>
+<td>返回当前时间，只包含时、分、秒</td>
+</tr>
+<tr>
+<td><strong>NOW()</strong> / SYSDATE() / CURRENT_TIMESTAMP() /
+LOCALTIME() / LOCALTIMESTAMP()</td>
+<td>返回当前系统日期和时间</td>
+</tr>
+<tr>
+<td>UTC_DATE()</td>
+<td>返回UTC（世界标准时间）日期</td>
+</tr>
+<tr>
+<td>UTC_TIME()</td>
+<td>返回UTC（世界标准时间）时间</td>
+</tr>
+</tbody>
+</table>
+<h3 id="日期与时间戳的转换">4.2 日期与时间戳的转换</h3>
+<table>
+<colgroup>
+<col style="width: 28%">
+<col style="width: 71%">
+</colgroup>
+<thead>
+<tr>
+<th>函数</th>
+<th>用法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>UNIX_TIMESTAMP()</td>
+<td>以UNIX时间戳的形式返回当前时间。SELECT UNIX_TIMESTAMP()
+-&gt;1634348884</td>
+</tr>
+<tr>
+<td>UNIX_TIMESTAMP(date)</td>
+<td>将时间date以UNIX时间戳的形式返回。</td>
+</tr>
+<tr>
+<td>FROM_UNIXTIME(timestamp)</td>
+<td>将UNIX时间戳的时间转换为普通格式的时间</td>
+</tr>
+</tbody>
+</table>
+<h3 id="获取月份星期星期数天数等函数">4.3
+获取月份、星期、星期数、天数等函数</h3>
+<table>
+<colgroup>
+<col style="width: 45%">
+<col style="width: 54%">
+</colgroup>
+<thead>
+<tr>
+<th>函数</th>
+<th>用法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>YEAR(date) / MONTH(date) / DAY(date)</td>
+<td>返回具体的日期值</td>
+</tr>
+<tr>
+<td>HOUR(time) / MINUTE(time) / SECOND(time)</td>
+<td>返回具体的时间值</td>
+</tr>
+<tr>
+<td>MONTHNAME(date)</td>
+<td>返回月份：January，…</td>
+</tr>
+<tr>
+<td>DAYNAME(date)</td>
+<td>返回星期几：MONDAY，TUESDAY…..SUNDAY</td>
+</tr>
+<tr>
+<td>WEEKDAY(date)</td>
+<td>返回周几，注意，周1是0，周2是1，。。。周日是6</td>
+</tr>
+<tr>
+<td>QUARTER(date)</td>
+<td>返回日期对应的季度，范围为1～4</td>
+</tr>
+<tr>
+<td>WEEK(date) ， WEEKOFYEAR(date)</td>
+<td>返回一年中的第几周</td>
+</tr>
+<tr>
+<td>DAYOFYEAR(date)</td>
+<td>返回日期是一年中的第几天</td>
+</tr>
+<tr>
+<td>DAYOFMONTH(date)</td>
+<td>返回日期位于所在月份的第几天</td>
+</tr>
+<tr>
+<td>DAYOFWEEK(date)</td>
+<td>返回周几，注意：周日是1，周一是2，。。。周六是7</td>
+</tr>
+</tbody>
+</table>
+<h3 id="日期的操作函数">4.4 日期的操作函数</h3>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>用法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EXTRACT(type FROM date)</td>
+<td>返回指定日期中特定的部分，type指定返回的值</td>
+</tr>
+</tbody>
+</table>
+<p>EXTRACT(type FROM date)函数中type的取值与含义：</p>
+<figure>
+<img lazyload="" alt="image-20211012142639469" data-src="image-20211012142639469.png">
+<figcaption aria-hidden="true">image-20211012142639469</figcaption>
+</figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT EXTRACT(MINUTE FROM NOW()),EXTRACT( WEEK FROM NOW()),</span><br><span class="line">EXTRACT( QUARTER FROM NOW()),EXTRACT( MINUTE_SECOND FROM NOW())</span><br><span class="line">FROM DUAL;</span><br></pre></td></tr></table></figure>
+<h3 id="时间和秒钟转换的函数">4.5 时间和秒钟转换的函数</h3>
+<table>
+<colgroup>
+<col style="width: 25%">
+<col style="width: 75%">
+</colgroup>
+<thead>
+<tr>
+<th>函数</th>
+<th>用法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TIME_TO_SEC(time)</td>
+<td>将 time
+转化为秒并返回结果值。转化的公式为：<code>小时*3600+分钟*60+秒</code></td>
+</tr>
+<tr>
+<td>SEC_TO_TIME(seconds)</td>
+<td>将 seconds 描述转化为包含小时、分钟和秒的时间</td>
+</tr>
+</tbody>
+</table>
+<h3 id="计算日期和时间的函数">4.6 计算日期和时间的函数</h3>
+<p><strong>第1组：</strong></p>
+<table>
+<colgroup>
+<col style="width: 56%">
+<col style="width: 43%">
+</colgroup>
+<thead>
+<tr>
+<th>函数</th>
+<th>用法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DATE_ADD(datetime, INTERVAL expr type)，ADDDATE(date,INTERVAL expr
+type)</td>
+<td>返回与给定日期时间相差INTERVAL时间段的日期时间</td>
+</tr>
+<tr>
+<td>DATE_SUB(date,INTERVAL expr type)，SUBDATE(date,INTERVAL expr
+type)</td>
+<td>返回与date相差INTERVAL时间间隔的日期</td>
+</tr>
+</tbody>
+</table>
+<p>上述函数中type的取值：</p>
+<figure>
+<img lazyload="" alt="image-20211012143203355" data-src="image-20211012143203355.png">
+<figcaption aria-hidden="true">image-20211012143203355</figcaption>
+</figure>
+<p>举例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">SELECT DATE_ADD(NOW(), INTERVAL 1 DAY) AS col1,DATE_ADD('2021-10-21 23:32:12',INTERVAL 1 SECOND) AS col2,</span><br><span class="line">ADDDATE('2021-10-21 23:32:12',INTERVAL 1 SECOND) AS col3,</span><br><span class="line">DATE_ADD('2021-10-21 23:32:12',INTERVAL '1_1' MINUTE_SECOND) AS col4,</span><br><span class="line">DATE_ADD(NOW(), INTERVAL -1 YEAR) AS col5, #可以是负数</span><br><span class="line">DATE_ADD(NOW(), INTERVAL '1_1' YEAR_MONTH) AS col6 #需要单引号</span><br><span class="line">FROM DUAL;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SELECT DATE_SUB('2021-01-21',INTERVAL 31 DAY) AS col1,</span><br><span class="line">SUBDATE('2021-01-21',INTERVAL 31 DAY) AS col2,</span><br><span class="line">DATE_SUB('2021-01-21 02:01:01',INTERVAL '1 1' DAY_HOUR) AS col3</span><br><span class="line">FROM DUAL;</span><br></pre></td></tr></table></figure>
+<p><strong>第2组：</strong></p>
+<table>
+<colgroup>
+<col style="width: 31%">
+<col style="width: 68%">
+</colgroup>
+<thead>
+<tr>
+<th>函数</th>
+<th>用法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ADDTIME(time1,time2)</td>
+<td>返回time1加上time2的时间。当time2为一个数字时，代表的是<code>秒</code>，可以为负数</td>
+</tr>
+<tr>
+<td>SUBTIME(time1,time2)</td>
+<td>返回time1减去time2后的时间。当time2为一个数字时，代表的是<code>秒</code>，可以为负数</td>
+</tr>
+<tr>
+<td>DATEDIFF(date1,date2)</td>
+<td>返回date1 - date2的日期间隔天数</td>
+</tr>
+<tr>
+<td>TIMEDIFF(time1, time2)</td>
+<td>返回time1 - time2的时间间隔</td>
+</tr>
+<tr>
+<td>FROM_DAYS(N)</td>
+<td>返回从0000年1月1日起，N天以后的日期</td>
+</tr>
+<tr>
+<td>TO_DAYS(date)</td>
+<td>返回日期date距离0000年1月1日的天数</td>
+</tr>
+<tr>
+<td>LAST_DAY(date)</td>
+<td>返回date所在月份的最后一天的日期</td>
+</tr>
+<tr>
+<td>MAKEDATE(year,n)</td>
+<td>针对给定年份与所在年份中的天数返回一个日期</td>
+</tr>
+<tr>
+<td>MAKETIME(hour,minute,second)</td>
+<td>将给定的小时、分钟和秒组合成时间并返回</td>
+</tr>
+<tr>
+<td>PERIOD_ADD(time,n)</td>
+<td>返回time加上n后的时间</td>
+</tr>
+</tbody>
+</table>
+<p>举例：查询 7 天内的新增用户数有多少？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT COUNT(*) as num FROM new_user WHERE TO_DAYS(NOW())-TO_DAYS(regist_time)&lt;=7</span><br></pre></td></tr></table></figure>
+<h3 id="日期的格式化与解析">4.7 日期的格式化与解析</h3>
+<table>
+<colgroup>
+<col style="width: 44%">
+<col style="width: 56%">
+</colgroup>
+<thead>
+<tr>
+<th>函数</th>
+<th>用法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DATE_FORMAT(date,fmt)</td>
+<td>按照字符串fmt格式化日期date值</td>
+</tr>
+<tr>
+<td>TIME_FORMAT(time,fmt)</td>
+<td>按照字符串fmt格式化时间time值</td>
+</tr>
+<tr>
+<td>GET_FORMAT(date_type,format_type)</td>
+<td>返回日期字符串的显示格式</td>
+</tr>
+<tr>
+<td>STR_TO_DATE(str, fmt)</td>
+<td>按照字符串fmt对str进行解析，解析为一个日期</td>
+</tr>
+</tbody>
+</table>
+<p>上述<code>非GET_FORMAT</code>函数中fmt参数常用的格式符：</p>
+<table>
+<colgroup>
+<col style="width: 4%">
+<col style="width: 45%">
+<col style="width: 4%">
+<col style="width: 45%">
+</colgroup>
+<thead>
+<tr>
+<th>格式符</th>
+<th>说明</th>
+<th>格式符</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>%Y</td>
+<td>4位数字表示年份</td>
+<td>%y</td>
+<td>表示两位数字表示年份</td>
+</tr>
+<tr>
+<td>%M</td>
+<td>月名表示月份（January,….）</td>
+<td>%m</td>
+<td>两位数字表示月份（01,02,03。。。）</td>
+</tr>
+<tr>
+<td>%b</td>
+<td>缩写的月名（Jan.，Feb.，….）</td>
+<td>%c</td>
+<td>数字表示月份（1,2,3,…）</td>
+</tr>
+<tr>
+<td>%D</td>
+<td>英文后缀表示月中的天数（1st,2nd,3rd,…）</td>
+<td>%d</td>
+<td>两位数字表示月中的天数(01,02…)</td>
+</tr>
+<tr>
+<td>%e</td>
+<td>数字形式表示月中的天数（1,2,3,4,5…..）</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>%H</td>
+<td>两位数字表示小数，24小时制（01,02..）</td>
+<td>%h和%I</td>
+<td>两位数字表示小时，12小时制（01,02..）</td>
+</tr>
+<tr>
+<td>%k</td>
+<td>数字形式的小时，24小时制(1,2,3)</td>
+<td>%l</td>
+<td>数字形式表示小时，12小时制（1,2,3,4….）</td>
+</tr>
+<tr>
+<td>%i</td>
+<td>两位数字表示分钟（00,01,02）</td>
+<td>%S和%s</td>
+<td>两位数字表示秒(00,01,02…)</td>
+</tr>
+<tr>
+<td>%W</td>
+<td>一周中的星期名称（Sunday…）</td>
+<td>%a</td>
+<td>一周中的星期缩写（Sun.，Mon.,Tues.，..）</td>
+</tr>
+<tr>
+<td>%w</td>
+<td>以数字表示周中的天数(0=Sunday,1=Monday….)</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>%j</td>
+<td>以3位数字表示年中的天数(001,002…)</td>
+<td>%U</td>
+<td>以数字表示年中的第几周，（1,2,3。。）其中Sunday为周中第一天</td>
+</tr>
+<tr>
+<td>%u</td>
+<td>以数字表示年中的第几周，（1,2,3。。）其中Monday为周中第一天</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>%T</td>
+<td>24小时制</td>
+<td>%r</td>
+<td>12小时制</td>
+</tr>
+<tr>
+<td>%p</td>
+<td>AM或PM</td>
+<td>%%</td>
+<td>表示%</td>
+</tr>
+</tbody>
+</table>
+<p>GET_FORMAT函数中date_type和format_type参数取值如下：</p>
+<figure>
+<img lazyload="" alt="image-20211012145231321" data-src="image-20211012145231321.png">
+<figcaption aria-hidden="true">image-20211012145231321</figcaption>
+</figure>
+<h2 id="流程控制函数">5. 流程控制函数</h2>
+<p>流程处理函数可以根据不同的条件，执行不同的处理流程，可以在SQL语句中实现不同的条件选择。MySQL中的流程处理函数主要包括IF()、IFNULL()和CASE()函数。</p>
+<table>
+<colgroup>
+<col style="width: 56%">
+<col style="width: 43%">
+</colgroup>
+<thead>
+<tr>
+<th>函数</th>
+<th>用法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IF(value,value1,value2)</td>
+<td>如果value的值为TRUE，返回value1，否则返回value2</td>
+</tr>
+<tr>
+<td>IFNULL(value1, value2)</td>
+<td>如果value1不为NULL，返回value1，否则返回value2</td>
+</tr>
+<tr>
+<td>CASE WHEN 条件1 THEN 结果1 WHEN 条件2 THEN 结果2 …. [ELSE resultn]
+END</td>
+<td>相当于Java的if…else if…else…</td>
+</tr>
+<tr>
+<td>CASE expr WHEN 常量值1 THEN 值1 WHEN 常量值1 THEN 值1 …. [ELSE 值n]
+END</td>
+<td>相当于Java的switch…case…</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">SELECT last_name, job_id, salary,</span><br><span class="line">       CASE job_id WHEN 'IT_PROG'  THEN  1.10*salary</span><br><span class="line">                   WHEN 'ST_CLERK' THEN  1.15*salary</span><br><span class="line">                   WHEN 'SA_REP'   THEN  1.20*salary</span><br><span class="line">       			   ELSE      salary END     "REVISED_SALARY"</span><br><span class="line">FROM   employees;</span><br></pre></td></tr></table></figure>
+<h2 id="加密与解密函数">6. 加密与解密函数</h2>
+<p>加密与解密函数主要用于对数据库中的数据进行加密和解密处理，以防止数据被他人窃取。这些函数在保证数据库安全时非常有用。</p>
+<table>
+<colgroup>
+<col style="width: 31%">
+<col style="width: 68%">
+</colgroup>
+<thead>
+<tr>
+<th>函数</th>
+<th>用法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PASSWORD(str)</td>
+<td>返回字符串str的加密版本，41位长的字符串。加密结果<code>不可逆</code>，常用于用户的密码加密</td>
+</tr>
+<tr>
+<td>MD5(str)</td>
+<td>返回字符串str的md5加密后的值，也是一种加密方式。若参数为NULL，则会返回NULL</td>
+</tr>
+<tr>
+<td>SHA(str)</td>
+<td>从原明文密码str计算并返回加密后的密码字符串，当参数为NULL时，返回NULL。<code>SHA加密算法比MD5更加安全</code>。</td>
+</tr>
+<tr>
+<td>ENCODE(value,password_seed)</td>
+<td>返回使用password_seed作为加密密码加密value</td>
+</tr>
+<tr>
+<td>DECODE(value,password_seed)</td>
+<td>返回使用password_seed作为加密密码解密value</td>
+</tr>
+</tbody>
+</table>
+<p>可以看到，ENCODE(value,password_seed)函数与DECODE(value,password_seed)函数互为反函数。</p>
+<h2 id="mysql信息函数">7. MySQL信息函数</h2>
+<p>MySQL中内置了一些可以查询MySQL信息的函数，这些函数主要用于帮助数据库开发或运维人员更好地对数据库进行维护工作。</p>
+<table>
+<colgroup>
+<col style="width: 48%">
+<col style="width: 51%">
+</colgroup>
+<thead>
+<tr>
+<th>函数</th>
+<th>用法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VERSION()</td>
+<td>返回当前MySQL的版本号</td>
+</tr>
+<tr>
+<td>CONNECTION_ID()</td>
+<td>返回当前MySQL服务器的连接数</td>
+</tr>
+<tr>
+<td>DATABASE()，SCHEMA()</td>
+<td>返回MySQL命令行当前所在的数据库</td>
+</tr>
+<tr>
+<td>USER()，CURRENT_USER()、SYSTEM_USER()，SESSION_USER()</td>
+<td>返回当前连接MySQL的用户名，返回结果格式为“主机名@用户名”</td>
+</tr>
+<tr>
+<td>CHARSET(value)</td>
+<td>返回字符串value自变量的字符集</td>
+</tr>
+<tr>
+<td>COLLATION(value)</td>
+<td>返回字符串value的比较规则</td>
+</tr>
+</tbody>
+</table>
+<p>举例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT CHARSET('ABC');</span><br><span class="line">+----------------+</span><br><span class="line">| CHARSET('ABC') |</span><br><span class="line">+----------------+</span><br><span class="line">| utf8mb4        |</span><br><span class="line">+----------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<h2 id="其他函数">8. 其他函数</h2>
+<p>MySQL中有些函数无法对其进行具体的分类，但是这些函数在MySQL的开发和运维过程中也是不容忽视的。</p>
+<table>
+<colgroup>
+<col style="width: 33%">
+<col style="width: 66%">
+</colgroup>
+<thead>
+<tr>
+<th>函数</th>
+<th>用法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FORMAT(value,n)</td>
+<td>返回对数字value进行格式化后的结果数据。n表示<code>四舍五入</code>后保留到小数点后n位</td>
+</tr>
+<tr>
+<td>CONV(value,from,to)</td>
+<td>将value的值进行不同进制之间的转换</td>
+</tr>
+<tr>
+<td>INET_ATON(ipvalue)</td>
+<td>将以点分隔的IP地址转化为一个数字</td>
+</tr>
+<tr>
+<td>INET_NTOA(value)</td>
+<td>将数字形式的IP地址转化为以点分隔的IP地址</td>
+</tr>
+<tr>
+<td>BENCHMARK(n,expr)</td>
+<td>将表达式expr重复执行n次。用于测试MySQL处理expr表达式所耗费的时间</td>
+</tr>
+<tr>
+<td>CONVERT(value USING char_code)</td>
+<td>将value所使用的字符编码修改为char_code</td>
+</tr>
+</tbody>
+</table>
+<p>举例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 如果n的值小于或者等于0，则只保留整数部分</span><br><span class="line">mysql&gt; SELECT FORMAT(123.123, 2), FORMAT(123.523, 0), FORMAT(123.123, -2); </span><br><span class="line">+--------------------+--------------------+---------------------+</span><br><span class="line">| FORMAT(123.123, 2) | FORMAT(123.523, 0) | FORMAT(123.123, -2) |</span><br><span class="line">+--------------------+--------------------+---------------------+</span><br><span class="line">| 123.12             | 124                | 123                 |</span><br><span class="line">+--------------------+--------------------+---------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT INET_ATON('192.168.1.100');</span><br><span class="line">+----------------------------+</span><br><span class="line">| INET_ATON('192.168.1.100') |</span><br><span class="line">+----------------------------+</span><br><span class="line">|                 3232235876 |</span><br><span class="line">+----------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line"># 以“192.168.1.100”为例，计算方式为192乘以256的3次方，加上168乘以256的2次方，加上1乘以256，再加上100。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT INET_NTOA(3232235876);</span><br><span class="line">+-----------------------+</span><br><span class="line">| INET_NTOA(3232235876) |</span><br><span class="line">+-----------------------+</span><br><span class="line">| 192.168.1.100         |</span><br><span class="line">+-----------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT BENCHMARK(1000000, MD5('mysql')); </span><br><span class="line">+----------------------------------+</span><br><span class="line">| BENCHMARK(1000000, MD5('mysql')) |</span><br><span class="line">+----------------------------------+</span><br><span class="line">|                                0 |</span><br><span class="line">+----------------------------------+</span><br><span class="line">1 row in set (0.20 sec)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT CHARSET('mysql'), CHARSET(CONVERT('mysql' USING 'utf8'));</span><br><span class="line">+------------------+----------------------------------------+</span><br><span class="line">| CHARSET('mysql') | CHARSET(CONVERT('mysql' USING 'utf8')) |</span><br><span class="line">+------------------+----------------------------------------+</span><br><span class="line">| utf8mb4          | utf8                                   |</span><br><span class="line">+------------------+----------------------------------------+</span><br><span class="line">1 row in set, 1 warning (0.00 sec)</span><br><span class="line">​```xxxxxxxxxx mysql&gt; SELECT CHARSET('mysql'), CHARSET(CONVERT('mysql' USING 'utf8'));+------------------+----------------------------------------+| CHARSET('mysql') | CHARSET(CONVERT('mysql' USING 'utf8')) |+------------------+----------------------------------------+| utf8mb4          | utf8                                   |+------------------+----------------------------------------+1 row in set, 1 warning (0.00 sec)mysql</span><br></pre></td></tr></table></figure>
+
+                    
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                SQL 函数基础
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                2024/02/21/SQL-函数基础/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    Author
+                </div>
+                <div class="content">Zhongjun Qiu</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    Published
+                </div>
+                <div class="content">2024-02-21 16:37</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    License
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="Copy copyright info" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/SQL-Function/">SQL,Function</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="Share to WeChat"
+            data-tooltip-img-tip="Scan by WeChat"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to WeiBo"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+                    
+
+<div class="reward-author-container border-box flex-center">
+    <div class="reward-btn border-box flex-center tooltip tooltip-img"
+            data-tooltip-img-url="/images/post/payment.jpg"
+            data-tooltip-img-trigger="click"
+            data-tooltip-img-style="top: -6px;"
+    >
+        <i class="fa-solid fa-gift"></i>&nbsp;REWARD AUTHOR
+    </div>
+</div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/2024/02/21/SQL-%E8%81%9A%E5%90%88%E5%87%BD%E6%95%B0/"
+                                   title="SQL 聚合函数"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">SQL 聚合函数</span>
+                                        <span class="post-nav-item">Prev posts</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/2024/02/21/SQL-%E6%8E%92%E5%BA%8F%E4%B8%8E%E5%88%86%E9%A1%B5/"
+                                   title="SQL 排序与分页"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">SQL 排序与分页</span>
+                                        <span class="post-nav-item">Next posts</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+    <div class="comments-container border-box">
+        <div id="comments-anchor" class="comment-area-title border-box">
+            <i class="fas fa-comments"></i>&nbsp;Comments
+        </div>
+        <div class="comment-plugin-fail border-box">
+    <span class="fail-tip">Comment plugin failed to load</span>
+    <button class="reload keep-button">Click to reload</button>
+</div>
+<div class="comment-plugin-loading flex-center border-box">
+    <i class="loading-icon fa-solid fa-spinner fa-spin"></i>
+    <span class="load-tip">Loading comment plugin</span>
+</div>
+<script data-pjax>
+  window.KeepCommentPlugin = {}
+  window.KeepCommentPlugin.hideLoading = () => {
+    const cplDom = document.querySelector('.comments-container .comment-plugin-loading')
+    cplDom.style.display = 'none'
+  }
+  window.KeepCommentPlugin.loadFailHandle = () => {
+    window.KeepCommentPlugin.hideLoading()
+    const cpfDom = document.querySelector('.comments-container .comment-plugin-fail')
+    cpfDom.style.display = 'flex'
+    cpfDom.querySelector('.reload').addEventListener('click', () => {
+      window.location.reload()
+    })
+  }
+</script>
+
+        
+            
+
+    <div class="waline-comment-container">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/waline/3.3.2/waline.css"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/waline/3.3.2/waline-meta.css"/>
+        <div id="waline-comment"></div>
+        <script data-pjax>
+          window.KeepCommentPlugin.walineOptions = JSON.parse('{}'.replace(/&#34;/g, '"'))
+          window.KeepCommentPlugin.walineOptions.el = '#waline-comment'
+          window.KeepCommentPlugin.walineOptions.comment = '.post-comments-count'
+          window.KeepCommentPlugin.walineOptions.serverURL = 'https://waline-vercel-two-rho.vercel.app/'
+          window.KeepCommentPlugin.walineOptions.lang = 'en' || 'zh-CN'
+          window.KeepCommentPlugin.walineOptions.reaction = 'true' === 'true'
+        </script>
+
+        
+
+        
+            <script data-pjax
+                    async
+                    type="module"
+            >
+              import { init } from 'https://cdnjs.cloudflare.com/ajax/libs/waline/3.3.2/waline.js'
+              window.KeepCommentPlugin.initWaline = () => {
+                if (init) {
+                  init(window.KeepCommentPlugin.walineOptions)
+                  window.KeepCommentPlugin.hideLoading()
+                } else {
+                  setTimeout(() => {
+                    window.KeepCommentPlugin.initWaline()
+                  }, 1000)
+                }
+              }
+
+              if ('true' === 'true') {
+                setTimeout(() => {
+                  window.KeepCommentPlugin.initWaline()
+                }, 1200)
+              } else {
+                window.addEventListener('DOMContentLoaded', window.KeepCommentPlugin.initWaline)
+              }
+            </script>
+        
+    </div>
+
+
+        
+    </div>
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc right-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E7%9A%84%E7%90%86%E8%A7%A3"><span class="nav-text">1. 函数的理解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%87%BD%E6%95%B0"><span class="nav-text">1.1 什么是函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8D%E5%90%8Cdbms%E5%87%BD%E6%95%B0%E7%9A%84%E5%B7%AE%E5%BC%82"><span class="nav-text">1.2 不同DBMS函数的差异</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql%E7%9A%84%E5%86%85%E7%BD%AE%E5%87%BD%E6%95%B0%E5%8F%8A%E5%88%86%E7%B1%BB"><span class="nav-text">1.3 MySQL的内置函数及分类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E5%80%BC%E5%87%BD%E6%95%B0"><span class="nav-text">2. 数值函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E5%87%BD%E6%95%B0"><span class="nav-text">2.1 基本函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%92%E5%BA%A6%E4%B8%8E%E5%BC%A7%E5%BA%A6%E4%BA%92%E6%8D%A2%E5%87%BD%E6%95%B0"><span class="nav-text">2.2 角度与弧度互换函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E8%A7%92%E5%87%BD%E6%95%B0"><span class="nav-text">2.3 三角函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%87%E6%95%B0%E4%B8%8E%E5%AF%B9%E6%95%B0"><span class="nav-text">2.4 指数与对数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9B%E5%88%B6%E9%97%B4%E7%9A%84%E8%BD%AC%E6%8D%A2"><span class="nav-text">2.5 进制间的转换</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%87%BD%E6%95%B0"><span class="nav-text">3. 字符串函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%97%A5%E6%9C%9F%E5%92%8C%E6%97%B6%E9%97%B4%E5%87%BD%E6%95%B0"><span class="nav-text">4. 日期和时间函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E6%97%A5%E6%9C%9F%E6%97%B6%E9%97%B4"><span class="nav-text">4.1 获取日期、时间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%A5%E6%9C%9F%E4%B8%8E%E6%97%B6%E9%97%B4%E6%88%B3%E7%9A%84%E8%BD%AC%E6%8D%A2"><span class="nav-text">4.2 日期与时间戳的转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E6%9C%88%E4%BB%BD%E6%98%9F%E6%9C%9F%E6%98%9F%E6%9C%9F%E6%95%B0%E5%A4%A9%E6%95%B0%E7%AD%89%E5%87%BD%E6%95%B0"><span class="nav-text">4.3
+获取月份、星期、星期数、天数等函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%A5%E6%9C%9F%E7%9A%84%E6%93%8D%E4%BD%9C%E5%87%BD%E6%95%B0"><span class="nav-text">4.4 日期的操作函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%B6%E9%97%B4%E5%92%8C%E7%A7%92%E9%92%9F%E8%BD%AC%E6%8D%A2%E7%9A%84%E5%87%BD%E6%95%B0"><span class="nav-text">4.5 时间和秒钟转换的函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%97%A5%E6%9C%9F%E5%92%8C%E6%97%B6%E9%97%B4%E7%9A%84%E5%87%BD%E6%95%B0"><span class="nav-text">4.6 计算日期和时间的函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%A5%E6%9C%9F%E7%9A%84%E6%A0%BC%E5%BC%8F%E5%8C%96%E4%B8%8E%E8%A7%A3%E6%9E%90"><span class="nav-text">4.7 日期的格式化与解析</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6%E5%87%BD%E6%95%B0"><span class="nav-text">5. 流程控制函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A0%E5%AF%86%E4%B8%8E%E8%A7%A3%E5%AF%86%E5%87%BD%E6%95%B0"><span class="nav-text">6. 加密与解密函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mysql%E4%BF%A1%E6%81%AF%E5%87%BD%E6%95%B0"><span class="nav-text">7. MySQL信息函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E5%87%BD%E6%95%B0"><span class="nav-text">8. 其他函数</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="copyright-info info-item">
+    &copy;&nbsp;<span>2020</span>&nbsp;-&nbsp;2025
+    
+            &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">Zhongjun Qiu</a>
+        
+    </div>
+
+    <div class="theme-info info-item">
+        Powered by&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;&&nbsp;Theme&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+    </div>
+
+    
+        
+        <div class="deploy-info info-item">
+            
+                <a target="_blank" rel="nofollow" href="https://github.com">
+            
+            This site is deployed on <span class="tooltip" data-tooltip-content="GitHub Pages"><img src="/images/brands/github.png"></span>
+            
+                </a>
+            
+        </div>
+    
+
+    
+        <div class="count-info info-item">
+            
+                <span class="count-item border-box word">
+                    <span class="item-type border-box">Total words</span>
+                    <span class="item-value border-box word">341.8k</span>
+                </span>
+            
+
+            
+
+            
+                <span class="count-item border-box pv">
+                    <span class="item-type border-box">Page View</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+    
+
+    
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+            <li class="tools-item flex-center go-to-comments">
+                <i class="fas fa-comment"></i>
+                <span class="post-comments-count"></span>
+            </li>
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <!-- toggle mode -->
+        
+            <li class="tools-item tool-toggle-theme-mode flex-center">
+                <i class="fas fa-moon"></i>
+            </li>
+        
+
+        <!-- rss -->
+        
+
+        <!-- to bottom -->
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+            <li class="tools-item go-to-comments-tablet flex-center">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E7%9A%84%E7%90%86%E8%A7%A3"><span class="nav-text">1. 函数的理解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%87%BD%E6%95%B0"><span class="nav-text">1.1 什么是函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8D%E5%90%8Cdbms%E5%87%BD%E6%95%B0%E7%9A%84%E5%B7%AE%E5%BC%82"><span class="nav-text">1.2 不同DBMS函数的差异</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql%E7%9A%84%E5%86%85%E7%BD%AE%E5%87%BD%E6%95%B0%E5%8F%8A%E5%88%86%E7%B1%BB"><span class="nav-text">1.3 MySQL的内置函数及分类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E5%80%BC%E5%87%BD%E6%95%B0"><span class="nav-text">2. 数值函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E5%87%BD%E6%95%B0"><span class="nav-text">2.1 基本函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%92%E5%BA%A6%E4%B8%8E%E5%BC%A7%E5%BA%A6%E4%BA%92%E6%8D%A2%E5%87%BD%E6%95%B0"><span class="nav-text">2.2 角度与弧度互换函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E8%A7%92%E5%87%BD%E6%95%B0"><span class="nav-text">2.3 三角函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%87%E6%95%B0%E4%B8%8E%E5%AF%B9%E6%95%B0"><span class="nav-text">2.4 指数与对数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9B%E5%88%B6%E9%97%B4%E7%9A%84%E8%BD%AC%E6%8D%A2"><span class="nav-text">2.5 进制间的转换</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%87%BD%E6%95%B0"><span class="nav-text">3. 字符串函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%97%A5%E6%9C%9F%E5%92%8C%E6%97%B6%E9%97%B4%E5%87%BD%E6%95%B0"><span class="nav-text">4. 日期和时间函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E6%97%A5%E6%9C%9F%E6%97%B6%E9%97%B4"><span class="nav-text">4.1 获取日期、时间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%A5%E6%9C%9F%E4%B8%8E%E6%97%B6%E9%97%B4%E6%88%B3%E7%9A%84%E8%BD%AC%E6%8D%A2"><span class="nav-text">4.2 日期与时间戳的转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E6%9C%88%E4%BB%BD%E6%98%9F%E6%9C%9F%E6%98%9F%E6%9C%9F%E6%95%B0%E5%A4%A9%E6%95%B0%E7%AD%89%E5%87%BD%E6%95%B0"><span class="nav-text">4.3
+获取月份、星期、星期数、天数等函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%A5%E6%9C%9F%E7%9A%84%E6%93%8D%E4%BD%9C%E5%87%BD%E6%95%B0"><span class="nav-text">4.4 日期的操作函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%B6%E9%97%B4%E5%92%8C%E7%A7%92%E9%92%9F%E8%BD%AC%E6%8D%A2%E7%9A%84%E5%87%BD%E6%95%B0"><span class="nav-text">4.5 时间和秒钟转换的函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%97%A5%E6%9C%9F%E5%92%8C%E6%97%B6%E9%97%B4%E7%9A%84%E5%87%BD%E6%95%B0"><span class="nav-text">4.6 计算日期和时间的函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%A5%E6%9C%9F%E7%9A%84%E6%A0%BC%E5%BC%8F%E5%8C%96%E4%B8%8E%E8%A7%A3%E6%9E%90"><span class="nav-text">4.7 日期的格式化与解析</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6%E5%87%BD%E6%95%B0"><span class="nav-text">5. 流程控制函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A0%E5%AF%86%E4%B8%8E%E8%A7%A3%E5%AF%86%E5%87%BD%E6%95%B0"><span class="nav-text">6. 加密与解密函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mysql%E4%BF%A1%E6%81%AF%E5%87%BD%E6%95%B0"><span class="nav-text">7. MySQL信息函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E5%87%BD%E6%95%B0"><span class="nav-text">8. 其他函数</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+
+
+<!-- common js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/utils.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/header-shrink.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/back2top.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/toggle-theme.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/code-block.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/main.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/libs/anime.min.js"></script>
+
+<!-- local search -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/local-search.min.js"></script>
+
+
+<!-- lazyload -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/lazyload.min.js"></script>
+
+
+<div class="pjax">
+    <!-- home page -->
+    
+
+    <!-- post page -->
+    
+        <!-- post-helper -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/post-helper.min.js"></script>
+
+        <!-- toc -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/toc.min.js"></script>
+        
+
+        <!-- copyright-info -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/copyright-info.min.js"></script>
+        
+
+        <!-- share -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/share.min.js"></script>
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/libs/pjax.min.js"></script>
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax'
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            KEEP.utils.pjaxProgressBarStart()
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            KEEP.utils.pjaxProgressBarEnd()
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'))
+            KEEP.initExecute()
+        });
+    });
+</script>
+
+
+
+
+    
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/custom_code_block.js" data-pjax></script>
+
+        
+    
+
+</body>
+</html>

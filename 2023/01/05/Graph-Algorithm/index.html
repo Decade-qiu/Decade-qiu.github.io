@@ -1,0 +1,1681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="blog, decade, lucky">
+    <meta name="description" content="Decade&#39;s lucky blog">
+    <meta name="author" content="Zhongjun Qiu">
+    
+    <title>
+        
+            Graph Algorithm |
+        
+        Decade
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/images/logo.ico">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/fontawesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/regular.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/solid.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/brands.min.css">
+    
+        
+            
+        
+            
+                
+<link rel="stylesheet" href="/css/custom.css">
+
+            
+        
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"decade.net.cn","root":"/","language":"en","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"Decade","author":"Zhongjun Qiu","avatar":"/images/avatar.ico","logo":"/images/avatar.ico","favicon":"/images/logo.ico"},"menu":{"home":"/ || fa-solid fa-home","archives":"/archives || fa-solid fa-box-archive","tags":"/tags || fa-solid fa-tags","categories":"/categories || fa-solid fa-layer-group","more":{"icon":"fa-solid fa-circle-user","children":[{"tool":"/tools || fa-solid fa-tools"},{"life":"/photos || fa-solid fa-image"},{"me":"/about || fa-solid fa-user-graduate"},{"Git":"/HTML/index.html || fa-solid fa-user"}]}},"first_screen":{"enable":true,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"The Steadfast Determination of An Ordinary Soul.","hitokoto":false},"social_contact":{"enable":true,"links":{"github":"https://github.com/Decade-qiu","weixin":"img | /images/social/weixin.jpg","qq":null,"weibo":null,"zhihu":null,"twitter":null,"x":null,"facebook":null,"email":"qiuyu6021@gmail.com"}},"scroll":{"progress_bar":true,"percent":true,"hide_header":false},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"created || fa-solid fa-history","post_datetime_format":"ago"},"post":{"author_badge":{"enable":true,"level_badge":false,"custom_badge":"元婴开发者"},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":true,"img_link":"/images/post/payment.jpg","text":null,"icon":null},"created_datetime_icon":"fa-solid fa-calendar-plus","updated_datetime_icon":"fa-solid fa-arrows-rotate"},"code_block":{"tools":{"enable":true,"style":"mac"},"highlight_theme":"obsidian"},"toc":{"enable":true,"number":false,"expand_all":false,"init_open":false,"layout":"right"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":false,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":true,"use":"waline","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.39"},"waline":{"server_url":"https://waline-vercel-two-rho.vercel.app/","reaction":true,"version":"3.3.2"},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":false},"lazyload":{"enable":true},"cdn":{"enable":true,"provider":"cdnjs"},"pjax":{"enable":true},"footer":{"since":2020,"word_count":true,"site_deploy":{"enable":true,"provider":"github","url":"https://github.com"},"record":{"enable":false,"list":[{"code":null,"link":null}]}},"inject":{"enable":true,"css":[null,"/css/custom.css"],"js":[null,"/js/custom_code_block.js"]},"root":"","source_data":{"photos":[{"url":"/images/post/【哲风壁纸】日本动漫-电锯人.webp","name":"电锯人"},{"url":"/images/post/Quicker_20250428_193139.webp","name":"kowayia"},{"url":"/images/post/Quicker_20250428_233349.webp","name":"世界地图"},{"url":"/images/post/tmpFE1E.tmp.webp","name":"施红"},{"url":"/images/post/result-1745849388402.webp","name":"仇忠骏.动漫版"},{"url":"/images/photos/猫猫困了PNG.png","name":"猫猫困了PNG"},{"url":"/images/photos/宁静的暴雨天.png","name":"宁静的暴雨天"},{"url":"/images/photos/我在扬州好想你.png","name":"我在扬州好想你"},{"url":"/images/photos/信鸽.png","name":"信鸽"},{"url":"/images/photos/啤酒烧烤.png","name":"啤酒烧烤"},{"url":"/images/photos/随手拍.png","name":"随手拍"},{"url":"/images/photos/糖油混合炸弹.png","name":"糖油混合炸弹"},{"url":"/images/photos/香香的.png","name":"香香的"},{"url":"/images/photos/蝎子莱莱.png","name":"蝎子莱莱"},{"url":"/images/post/指C为python.png","name":"指C为python"},{"url":"/images/photos/YangZhou_Station.png","name":"YangZhou Station"}],"tools":[{"category":"AIGC","anchorId":"QUlHQw0"},{"name":"ChatGPT","link":"https://chat.openai.com/","description":"OpenAI 旗下 AI 聊天对话工具","image":"/images/tools/chatgpt.svg"},{"name":"Gemini","link":"https://gemini.google.com/app","description":"Google 旗下 AI 聊天对话工具","image":"/images/tools/gemini.svg"},{"name":"Copilot","link":"https://copilot.microsoft.com/","description":"Microsoft 旗下 AI 聊天对话工具","image":"/images/tools/copilot.png"},{"name":"Deepseek","link":"https://chat.deepseek.com/","description":"Deepseek 旗下 AI 聊天对话工具","image":"/images/tools/deepseek.jpg"},{"name":"Qwen","link":"https://chat.qwen.ai/","description":"Alibaba 旗下 AI 聊天对话工具","image":"/images/tools/tongyiqianwen.svg"},{"name":"即梦AI","link":"https://jimeng.jianying.com/ai-tool/home","description":"Dreamina 图像生成工具","image":"/images/tools/dream.png"},{"name":"komiko","link":"https://komiko.app/home","description":"Komiko 动漫化AI工具","image":"/images/tools/komiko.webp"},{"name":"InsMind","link":"https://www.insmind.com/zh-cn/workspace/","description":"AI图片编辑工具","image":"/images/tools/insmind.svg"},{"name":"Raphael","link":"https://raphael.app/zh","description":"AI图片生成工具","image":"/images/tools/rap.png"},{"name":"腾讯元宝","link":"https://yuanbao.tencent.com/chat/","description":"Tencent 旗下 AI 聊天对话工具","image":"/images/tools/tencent.jpg"},{"name":"豆包","link":"https://www.doubao.com/chat/","description":"字节跳动 图片生成工具","image":"/images/tools/dn.jpg"},{"category":"Airport","anchorId":"QWlycG9ydA12"},{"name":"独角兽","link":"https://91unicorn.cloud/","description":"十分稳定","image":"/images/tools/dujiaoshou.ico"},{"name":"极速机场","link":"https://xn--mes358acgm99l.com/","description":"便宜好用","image":"/images/tools/jisu.ico"},{"name":"iKuuu","link":"https://ikuuu.org/user","description":"以备不时之需","image":"/images/tools/ikuu.ico"},{"category":"File Converter","anchorId":"RmlsZSUyMENvbnZlcnRlcg16"},{"name":"Online Image Tool","link":"https://www.onlineimagetool.com/zh/","description":"在线压缩和转换图片","image":"/images/tools/oit.png"},{"name":"Vector Magic","link":"https://zh.vectormagic.com/","description":"文件矢量化","image":"/images/tools/apple-touch-icon-180_97956a9f5fbf6a767de100280d78c1f8.png"},{"name":"TinyPNG","link":"https://tinypng.com/","description":"Smart AVIF, WebP, PNG and JPEG Compression for Faster Websites","image":"/images/tools/tiny.ico"},{"name":"踏得","link":"https://techbrood.com/tool","description":"HTML5在线工具","image":"/images/tools/td.ico"},{"name":"UU在线工具","link":"https://uutool.cn/base64/","description":"base64工具包","image":"/images/tools/uu.png"},{"name":"I Love PDF","link":"https://www.ilovepdf.com/","description":"PDF工具包","image":"/images/tools/ilovepdf.svg"},{"category":"Free GPT API","anchorId":"RnJlZSUyMEdQVCUyMEFQSQ23"},{"name":"Gemini API","link":"https://ai.google.dev/gemini-api/docs/quickstart?lang=python","description":"Google Gemini API","image":"/images/tools/touchicon-180-new.png"},{"name":"SiliconCloud","link":"https://cloud.siliconflow.cn/models","description":"各种模型API"},{"name":"Cloudflare Workers AI","link":"https://developers.cloudflare.com/workers-ai/configuration/open-ai-compatibility/","description":"OpenAI compatible API endpoints","image":"/images/tools/logo.p_ySeMR1.svg"},{"name":"算了么","link":"https://api.suanli.cn/","description":"共享算力API","image":"/images/tools/suanlm.svg"},{"category":"Resource Explorer","anchorId":"UmVzb3VyY2UlMjBFeHBsb3Jlcg28"},{"name":"Free for Developers","link":"https://free-for.dev/","description":"A list of SaaS, PaaS and IaaS offerings that have free tiers of interest to devops and infradev","image":"/images/tools/freefd.webp"},{"name":"zlibrary","link":"https://zh.z-library.sk/","description":"在线图书馆","image":"/images/tools/logo.zlibrary.svg"},{"name":"PicX","link":"https://picx.xpoet.cn/","description":"基于Github的图床","image":"/images/tools/logo.ffee4291.png"},{"name":"HaoWallpaper","link":"https://haowallpaper.com/","description":"哲风壁纸","image":"/images/tools/haowall.ico"},{"name":"Awesome","link":"https://wallhaven.cc/","description":"WallHaven","image":"/images/tools/wallheaven.ico"},{"name":"WallHere","link":"https://wallhere.com/","description":"WallHere"},{"name":"SnapAny","link":"https://snapany.com/zh","description":"万能视频图片解析下载"},{"name":"ØMagnet","link":"https://0cili.org/","description":"种子下载"},{"name":"twitter","link":"https://snapvid.net/zh-cn/twitter-downloader","description":"推特视频下载器","image":"/images/tools/apple-touch-icon.png"},{"name":"youtube","link":"https://www.y2mate.com/en949","description":"Youtube视频下载器","image":"/images/tools/y2mate.webp"},{"name":"Icons8","link":"https://icons8.com/icons","description":"免费图标下载","image":"/images/tools/logo-icons8.svg"},{"name":"全能emoji","link":"https://www.emojiall.com/zh-hans","description":"emoji制作","image":"/images/tools/emoji.ico"},{"name":"emojidb","link":"https://emojidb.org/","description":"免费表情包下载","image":"/images/tools/emojidb.png"},{"name":"Flaticon","link":"https://www.flaticon.com/","description":"免费图标下载","image":"/images/tools/logo-flaticon.svg"},{"name":"IconFinder","link":"https://www.iconfinder.com/","description":"免费图标下载","image":"/images/tools/logo-iconfinder.svg"}]},"version":"4.2.5"}
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"}
+    KEEP.language_code_block = {"copy":"Copy code","copied":"Copied","fold":"Fold code block","folded":"Folded"}
+    KEEP.language_copy_copyright = {"copy":"Copy copyright info","copied":"Copied","title":"Original post title","author":"Original post author","link":"Original post link"}
+  </script>
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <i class="pjax-progress-icon fas fa-circle-notch fa-spin"></i>
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left flex-start border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/avatar.ico">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               Decade
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc border-box">
+                <ul class="menu-list border-box">
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-home"></i>
+                                
+                                HOME
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/archives">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-box-archive"></i>
+                                
+                                ARCHIVES
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/tags">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-tags"></i>
+                                
+                                TAGS
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/categories">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-layer-group"></i>
+                                
+                                CATEGORIES
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box has-sub-menu">
+                            <a class="menu-text-color border-box" href="javascript:void(0);">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-circle-user"></i>
+                                
+                                MORE
+                                
+                                    <i class="menu-text-color collapse-icon fa-solid fa-angle-down"></i>
+                                
+                            </a>
+                            
+                                <ul class="sub-menu-list border-box">
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" href="/tools">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-solid fa-tools"></i>
+                                                
+                                                TOOL
+                                            </a>
+                                        </li>
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" href="/photos">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-solid fa-image"></i>
+                                                
+                                                LIFE
+                                            </a>
+                                        </li>
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" href="/about">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-solid fa-user-graduate"></i>
+                                                
+                                                ME
+                                            </a>
+                                        </li>
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" href="/html/">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-solid fa-user"></i>
+                                                
+                                                GIT
+                                            </a>
+                                        </li>
+                                    
+                                </ul>
+                            
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="menu-text-color fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile border-box flex-start">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list border-box">
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-home"></i>
+                                </span>
+                            
+                            HOME
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/archives">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-box-archive"></i>
+                                </span>
+                            
+                            ARCHIVES
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/tags">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-tags"></i>
+                                </span>
+                            
+                            TAGS
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/categories">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-layer-group"></i>
+                                </span>
+                            
+                            CATEGORIES
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box has-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="javascript:void(0);">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-circle-user"></i>
+                                </span>
+                            
+                            MORE
+                        </a>
+                        
+                            <i class="right-side collapse-icon fa-solid fa-angle-left"></i>
+                        
+                    </label>
+                    
+                        <ul class="drawer-sub-menu-list border-box">
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" href="/tools">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-solid fa-tools"></i>
+                                            </span>
+                                        
+                                        TOOL
+                                    </a>
+                                </li>
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" href="/photos">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-solid fa-image"></i>
+                                            </span>
+                                        
+                                        LIFE
+                                    </a>
+                                </li>
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" href="/about">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-solid fa-user-graduate"></i>
+                                            </span>
+                                        
+                                        ME
+                                    </a>
+                                </li>
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" href="/html/">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-solid fa-user"></i>
+                                            </span>
+                                        
+                                        GIT
+                                    </a>
+                                </li>
+                            
+                        </ul>
+                    
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+                <div class="post-content-top border-box"
+                     style="height: 460px"
+                >
+                    <div class="cover-post-title">
+                        Graph Algorithm
+                    </div>
+                    <img class="post-cover" src="/images/post/Quicker_20250428_193139.webp"
+                         onerror="this.style.display='none'"
+                    >
+                </div>
+            
+
+            <div class="post-content-bottom border-box has-cover">
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/avatar.ico">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">Zhongjun Qiu</span>
+                                
+                                    <span class="author-badge">元婴开发者</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2023-01-05 21:16:44</span>
+            </span>
+
+            
+                <span class="meta-info-item post-update-date">
+                    <i class="icon fa-solid fa-arrows-rotate"></i>&nbsp;
+                    <span class="datetime" data-updated="Sun Jun 01 2025 18:39:12 GMT+0800">2025-06-01 18:39:12</span>
+                </span>
+            
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/Algorithm/">Algorithm</a></li>
+                        
+                    
+                            <li class="category-item">&nbsp;<i class="icon fas fa-angle-right"></i>&nbsp;<a href="/categories/Algorithm/Template/">Template</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/Template/">Template</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/Graph/">Graph</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>9.5k Words</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>42 Mins</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <p>图论的常见算法与应用，涵盖图的存储结构、图的遍历、拓扑排序、最小生成树（Kruskal
+和
+Prim）、最短路径算法（Floyd、Dijkstra、Bellman-Ford、SPFA、Johnson）等。还涉及分层图、差分约束、二分图、欧拉图及树相关算法，如
+LCA、树的直径、重构树和树链剖分等。</p>
+<span id="more"></span>
+<h2 id="存储结构">存储结构</h2>
+<ul>
+<li>邻接矩阵</li>
+</ul>
+<p>无脑存</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span>[][] g = <span class="keyword">new</span> <span class="title class_">int</span>[n][m];</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>;i &lt; n;i++)</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>;j &lt; m;j++)</span><br><span class="line">  ...</span><br></pre></td></tr></table></figure>
+<ul>
+<li>邻接表</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt;[] g = <span class="keyword">new</span> <span class="title class_">List</span>[; <span class="comment">//List&lt;int[]&gt;[] g;可以存边权等附加信息。</span></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>;i &lt; n; i++) g[i] = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;(); <span class="comment">//千万别忘</span></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>;i &lt; n;i++){</span><br><span class="line"> <span class="keyword">for</span> (<span class="type">int</span> v : g[i]) ...</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<ul>
+<li>链式前向星</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">E</span>{</span><br><span class="line">    <span class="comment">// 边的终点 下一条边在edge中的编号 边的权值</span></span><br><span class="line">    <span class="type">int</span> to, ne, wt;</span><br><span class="line">    E(<span class="type">int</span> t, <span class="type">int</span> n, <span class="type">int</span> w){to = t;ne = n;wt = w;}</span><br><span class="line">    E(<span class="type">int</span> t, <span class="type">int</span> n){to = t;ne = n;}</span><br><span class="line">}</span><br><span class="line">E[] edge = <span class="keyword">new</span> <span class="title class_">E</span>[m]; <span class="comment">//如果是无向图 new E[m*2]要开两倍</span></span><br><span class="line"><span class="type">int</span>[] hd = <span class="keyword">new</span> <span class="title class_">int</span>[n]; <span class="comment">//hd[i]：顶点i为起点的第一条边</span></span><br><span class="line"><span class="keyword">void</span> <span class="title function_">add</span><span class="params">(<span class="type">int</span> u, <span class="type">int</span> v, <span class="type">int</span> idx)</span>{</span><br><span class="line">    edge[idx] = <span class="keyword">new</span> <span class="title class_">E</span>(v, hd[v]);<span class="comment">// 存边u-&gt;v</span></span><br><span class="line">    hd[u] = idx;</span><br><span class="line">}</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> hd[v];i != <span class="number">0</span>;i = edge[i].ne){</span><br><span class="line"><span class="type">int</span> <span class="variable">u</span> <span class="operator">=</span> edge[i].to;</span><br><span class="line">...</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="图的遍历">图的遍历</h2>
+<ul>
+<li>没啥好说的 与树遍历差别在于图遍历需要 visited[]数组
+考虑到图可能不连通，需要对每一个点进行扫描</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>;i &lt; n;i++){</span><br><span class="line">    <span class="keyword">if</span> (!vis[i]) DFS(i) <span class="comment">//或BFS(i)</span></span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<p>DFS</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> <span class="title function_">dfs</span><span class="params">(<span class="type">int</span> u)</span> {</span><br><span class="line">    vis[u] = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> head[u]; i; i = e[i].x) {</span><br><span class="line">        <span class="keyword">if</span> (!vis[e[i].t]) {</span><br><span class="line">            dfs(v);</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<p>BFS</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> <span class="title function_">bfs</span><span class="params">(<span class="type">int</span> u)</span> {</span><br><span class="line">    Q.push(u);</span><br><span class="line">    vis[u] = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (!Q.empty()) {</span><br><span class="line">        u = Q.front();Q.pop();</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> head[u]; i; i = e[i].next) {</span><br><span class="line">            <span class="keyword">if</span> (!vis[e[i].to]) {</span><br><span class="line">                Q.push(e[i].to);</span><br><span class="line">                vis[e[i].to] = <span class="number">1</span>;</span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="拓扑排序">拓扑排序</h2>
+<p>前提：有向无环图（DAG）</p>
+<p>核心：维护入度为 0 的顶点集合</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt;[] g = <span class="keyword">new</span> <span class="title class_">List</span>[N];</span><br><span class="line"><span class="type">int</span>[] indeg = <span class="keyword">new</span> <span class="title class_">int</span>[N]; <span class="comment">//入度</span></span><br><span class="line">List&lt;Integerres; <span class="comment">//拓扑排序结果</span></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>;i &lt; m;i++){</span><br><span class="line">    <span class="type">int</span> u, v;</span><br><span class="line">    indeg[v]++;</span><br><span class="line">    g[u].add(v);</span><br><span class="line">}</span><br><span class="line">Deque&lt;Integerq = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;&gt;();</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>;i &lt;= n;i++) <span class="keyword">if</span> (indeg[i] == <span class="number">0</span>) q.offerLast(i);</span><br><span class="line"><span class="keyword">while</span> (!q.isEmpty()){</span><br><span class="line">    <span class="type">int</span> <span class="variable">u</span> <span class="operator">=</span> q.pollFirst();</span><br><span class="line">    res.add(u);</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> v : g[u]){</span><br><span class="line">        <span class="keyword">if</span> (--indeg[v] == <span class="number">0</span>) q.offerLast(v);</span><br><span class="line">    }</span><br><span class="line">}</span><br><span class="line"><span class="keyword">if</span> (res.size() == n) <span class="comment">// DAG 可以拓扑排序</span></span><br><span class="line"><span class="keyword">else</span> <span class="comment">// 无法拓扑排序</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>求字典序最大/最小的拓扑排序
+将算法中的队列替换成最大堆/最小堆实现的优先队列即可,此时总的时间复杂度为
+<span class="math inline"><em>O</em>(<em>E</em> + <em>V</em>log <em>V</em>)</span>
+。</li>
+</ul>
+<hr>
+<h2 id="最小生成树">最小生成树</h2>
+<h3 id="kruskal优先使用">Kruskal（优先使用）</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">kruskal</span><span class="params">(<span class="type">int</span> n, <span class="type">int</span>[][] edges)</span>{</span><br><span class="line">    <span class="comment">//用堆代替边集数组排序</span></span><br><span class="line">    PriorityQueue&lt;<span class="type">int</span>[]g = <span class="keyword">new</span> <span class="title class_">PriorityQueue</span>&lt;&gt;((o1, o2) -o1[<span class="number">2</span>] - o2[<span class="number">2</span>]);</span><br><span class="line">    Collections.addAll(g, edges);</span><br><span class="line">    <span class="type">int</span> <span class="variable">ans</span> <span class="operator">=</span> <span class="number">0</span>, cnt = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (cnt != n-<span class="number">1</span>){</span><br><span class="line">        <span class="type">int</span>[] e = g.poll();</span><br><span class="line">        <span class="type">int</span> <span class="variable">v</span> <span class="operator">=</span> find(e[<span class="number">0</span>]), u = find(e[<span class="number">1</span>]);</span><br><span class="line">        <span class="keyword">if</span> ( v != u ){</span><br><span class="line">            union(u, v);</span><br><span class="line">            ans += e[<span class="number">2</span>];</span><br><span class="line">            cnt++;</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">return</span> ans; <span class="comment">//最小总权值</span></span><br><span class="line">}</span><br><span class="line"><span class="comment">// ...省略并查集操作</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><span class="math inline"><em>O</em>(<em>m</em>log <em>m</em>)</span></li>
+</ul>
+<h3 id="prim">Prim</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">primHeap</span><span class="params">(<span class="type">int</span> n, <span class="type">int</span>[][] edges)</span> {</span><br><span class="line">    <span class="type">int</span> <span class="variable">res</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="comment">//邻接表存图（适用边较少，稀疏图） &lt;顶点v,[]{顶点u, 距离}&gt;</span></span><br><span class="line">    List&lt;List&lt;<span class="type">int</span>[]&gt;g = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>;i &lt; n;i++) g.add(<span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;());</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span>[] e : edges){</span><br><span class="line">        g.get(e[<span class="number">0</span>]).add(<span class="keyword">new</span> <span class="title class_">int</span>[]{e[<span class="number">1</span>], e[<span class="number">2</span>]});</span><br><span class="line">        g.get(e[<span class="number">1</span>]).add(<span class="keyword">new</span> <span class="title class_">int</span>[]{e[<span class="number">0</span>], e[<span class="number">2</span>]});</span><br><span class="line">    }</span><br><span class="line">    <span class="type">int</span>[] vis = <span class="keyword">new</span> <span class="title class_">int</span>[n];</span><br><span class="line">    PriorityQueue&lt;<span class="type">int</span>[]q = <span class="keyword">new</span> <span class="title class_">PriorityQueue</span>&lt;&gt;((o1,o2)-&gt;o1[<span class="number">1</span>]-o2[<span class="number">1</span>]);</span><br><span class="line">    q.offer(<span class="keyword">new</span> <span class="title class_">int</span>[]{<span class="number">0</span>,<span class="number">0</span>}); <span class="comment">//从第0个节点开始构造</span></span><br><span class="line">    <span class="keyword">while</span> (n <span class="number">0</span>){</span><br><span class="line">        <span class="type">int</span>[] cur = q.poll();</span><br><span class="line">        <span class="keyword">if</span> (vis[cur[<span class="number">0</span>]] == <span class="number">1</span>) <span class="keyword">continue</span>;</span><br><span class="line">        vis[cur[<span class="number">0</span>]] = <span class="number">1</span>;</span><br><span class="line">        res += cur[<span class="number">1</span>];</span><br><span class="line">        --n;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span>[] p : g.get(cur[<span class="number">0</span>])){</span><br><span class="line">            q.offer(<span class="keyword">new</span> <span class="title class_">int</span>[]{p[<span class="number">0</span>], p[<span class="number">1</span>]});</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<ul>
+<li><span class="math inline"><em>O</em>((<em>m</em> + <em>n</em>)log <em>n</em>)</span></li>
+</ul>
+<hr>
+<h2 id="最短路">最短路</h2>
+<ul>
+<li><p>性质
+对于边权为正的图，任意两个结点之间的最短路，不会经过重复的结点。</p>
+<p>对于边权为正的图，任意两个结点之间的最短路，不会经过重复的边。</p>
+<p>对于边权为正的图，任意两个结点之间的最短路，任意一条的结点数 <span class="math inline"> &lt;  = <em>n</em></span>，边数 <span class="math inline"> &lt;  = <em>n</em> − 1</span>。</p></li>
+</ul>
+<h3 id="floyd">Floyd</h3>
+<p>求任意两个结点之间的最短路的。</p>
+<p>适用于任何图，不管有向无向，边权正负，但是最短路必须存在。（==不能有个负环==）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (k = <span class="number">1</span>; k &lt;= n; k++) {</span><br><span class="line">    <span class="keyword">for</span> (x = <span class="number">1</span>; x &lt;= n; x++) {</span><br><span class="line">        <span class="keyword">for</span> (y = <span class="number">1</span>; y &lt;= n; y++) {</span><br><span class="line">                f[x][y] = min(f[x][y], f[x][k] + f[k][y]); <span class="comment">//每次以k为中转点（动态规划）</span></span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>f[x][k]+f[k][y]</code>==可能会爆 int==。</p>
+</blockquote>
+<h3 id="dijkstra">Dijkstra</h3>
+<p>对于边 <span class="math inline">(<em>u</em>, <em>v</em>)</span>
+，松弛操作对应下面的式子： <span class="math inline">dis (<em>v</em>) = min (dis (<em>v</em>), dis (<em>u</em>) + <em>w</em>(<em>u</em>, <em>v</em>))</span>
+。</p>
+<p><strong>非负权图</strong> 上单源最短路径的算法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span>[] dijkstra (<span class="type">int</span> n, <span class="type">int</span> k){</span><br><span class="line">  <span class="type">int</span>[] vis = <span class="keyword">new</span> <span class="title class_">int</span>[n+<span class="number">1</span>], dis = <span class="keyword">new</span> <span class="title class_">int</span>[n+<span class="number">1</span>];</span><br><span class="line">  Arrays.fill(dis,<span class="number">0x3f3f3f3f</span>);</span><br><span class="line">  dis[k] = <span class="number">0</span>; <span class="comment">//k为源点</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">t</span> <span class="operator">=</span> <span class="number">1</span>;t &lt;= n;t++){</span><br><span class="line">      <span class="type">int</span> <span class="variable">minidx</span> <span class="operator">=</span> -<span class="number">1</span>;</span><br><span class="line">      <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>;i &lt;= n;i++){</span><br><span class="line">          <span class="keyword">if</span> (vis[i]==<span class="number">0</span> &amp;&amp; (minidx==-<span class="number">1</span>||dis[i]&lt;dis[minidx])) minidx = i;</span><br><span class="line">      }</span><br><span class="line">      vis[minidx] = <span class="number">1</span>;</span><br><span class="line">      <span class="keyword">for</span> (<span class="type">int</span>[] e : g[minidx]){</span><br><span class="line">          <span class="type">int</span> <span class="variable">v</span> <span class="operator">=</span> e[<span class="number">0</span>], w = e[<span class="number">1</span>];</span><br><span class="line">          dis[v] = Math.min(dis[v], dis[minidx]+w);</span><br><span class="line">      }</span><br><span class="line">  }</span><br><span class="line">  <span class="keyword">return</span> dis;</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">vector&lt;<span class="type">int</span>&gt; <span class="title function_">dis</span><span class="params">(n, <span class="number">0</span>)</span>, vis(n, <span class="number">0</span>);</span><br><span class="line">function&lt;<span class="keyword">void</span>(<span class="type">int</span>)&gt; dijkstra = [&amp;](<span class="type">int</span> u){</span><br><span class="line">    dis.assign(n, <span class="number">1e9</span>), vis.assign(n, <span class="number">0</span>);</span><br><span class="line">    priority_queue&lt;pair&lt;<span class="type">int</span>, <span class="type">int</span>&gt;, vector&lt;pair&lt;<span class="type">int</span>, <span class="type">int</span>&gt;&gt;, greater&lt;pair&lt;<span class="type">int</span>, <span class="type">int</span>&gt;&gt;&gt; pq;</span><br><span class="line">    pq.push({<span class="number">0</span>, u});</span><br><span class="line">    dis[u] = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (pq.size()){</span><br><span class="line">        <span class="type">int</span> <span class="variable">cur</span> <span class="operator">=</span> pq.top().second; pq.pop(); </span><br><span class="line">        <span class="keyword">if</span> (vis[cur] == <span class="number">1</span>) <span class="keyword">continue</span>;</span><br><span class="line">        <span class="keyword">for</span> (vector&lt;<span class="type">int</span>&gt;&amp; e : g[cur]){</span><br><span class="line">            <span class="type">int</span> <span class="variable">v</span> <span class="operator">=</span> e[<span class="number">0</span>], w = e[<span class="number">1</span>];</span><br><span class="line">            <span class="keyword">if</span> (dis[v] &gt; dis[cur]+w){</span><br><span class="line">                dis[v] = dis[cur]+w;</span><br><span class="line">                pq.push({dis[v], v});</span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">};</span><br></pre></td></tr></table></figure>
+<p>时间复杂度</p>
+<ul>
+<li><p>暴力：<span class="math inline"><em>O</em>(<em>n</em><sup>2</sup> + <em>m</em>) = <em>O</em>(<em>n</em><sup>2</sup>)</span></p></li>
+<li><p>优先队列：<span class="math inline"><em>O</em>(<em>m</em>log <em>m</em>)</span>
+在稀疏图中，<span class="math inline"><em>m</em> = <em>O</em>(<em>n</em>)</span>，优先队列；</p>
+<p>在稠密图中，<span class="math inline"><em>m</em> = <em>O</em>(<em>n</em><sup>2</sup>)</span>，暴力。</p></li>
+</ul>
+<h3 id="bellman-ford">Bellman-Ford</h3>
+<p>Bellman-Ford
+算法所做的，就是不断尝试对图上每一条边进行松弛。我们每进行一轮循环，就对图上所有的边都尝试进行一次松弛操作，当一次循环中没有成功的松弛操作时，算法停止。
+在最短路存在的情况下，由于一次松弛操作会使最短路的边数至少<span class="math inline">+1</span> ，而最短路的边数最多为<span class="math inline"><em>n</em> − 1</span> ，因此整个算法最多执行<span class="math inline"><em>n</em> − 1</span>
+轮松弛操作。故总时间复杂度为<span class="math inline"><em>O</em>(<em>m</em><em>n</em>)</span> 。
+但还有一种情况，如果从<span class="math inline"><em>S</em></span>
+点出发，抵达一个负环时，松弛操作会无休止地进行下去。因此如果第 <span class="math inline"><em>n</em></span>轮循环时仍然存在能松弛的边，说明从
+<span class="math inline"><em>S</em></span>点出发，能够抵达一个负环。</p>
+<p>需要注意的是，以 点为源点跑 Bellman-Ford
+算法时，如果没有给出存在负环的结果，只能说明从 <span class="math inline"><em>S</em></span>点出发不能抵达一个负环，而不能说明图上不存在负环。
+因此如果需要判断整个图上是否存在负环，最严谨的做法是建立一个超级源点，向图上每个节点连一条权值为
+0 的边，然后以超级源点为起点执行 Bellman-Ford 算法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span>[] bellman(<span class="type">int</span> n, <span class="type">int</span> k){</span><br><span class="line">    <span class="type">int</span>[] dis = <span class="keyword">new</span> <span class="title class_">int</span>[n+<span class="number">1</span>];</span><br><span class="line">    Arrays.fill(dis, <span class="number">0x3f3f3f3f</span>)</span><br><span class="line">    dis[k] = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">t</span> <span class="operator">=</span> <span class="number">1</span> ; t &lt;= n-<span class="number">1</span>;t++){</span><br><span class="line">        <span class="type">int</span> <span class="variable">flag</span> <span class="operator">=</span> <span class="number">1</span>;<span class="comment">// 如果此次循环没有边更新 说明松弛提前结束</span></span><br><span class="line">        <span class="comment">//对每条边进行遍历更新</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span>[] e : g){</span><br><span class="line">            <span class="type">int</span> <span class="variable">u</span> <span class="operator">=</span> e[<span class="number">0</span>], v = e[<span class="number">1</span>], w = e[<span class="number">2</span>];</span><br><span class="line">            <span class="keyword">if</span> (dis[v] dis[u]+w) {</span><br><span class="line">                dis[v] = dis[u]+w;</span><br><span class="line">                flag = <span class="number">0</span>;</span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">        <span class="keyword">if</span> (flag == <span class="number">1</span>) <span class="keyword">break</span>;</span><br><span class="line">    }</span><br><span class="line">    <span class="type">boolean</span> <span class="variable">exist</span> <span class="operator">=</span> <span class="literal">true</span>;<span class="comment">//判断是否有负环</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span>[] e : g){</span><br><span class="line">        <span class="type">int</span> <span class="variable">u</span> <span class="operator">=</span> e[<span class="number">0</span>], v = e[<span class="number">1</span>], w = e[<span class="number">2</span>];</span><br><span class="line">        <span class="keyword">if</span> (dis[v] dis[u]+w) {</span><br><span class="line">            exist = <span class="literal">false</span>;<span class="keyword">break</span>;</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">return</span> exist ? dis:<span class="keyword">new</span> <span class="title class_">int</span>[]{};</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<h3 id="spfa">SPFA</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span>[] spfa(<span class="type">int</span> n, <span class="type">int</span> k) {</span><br><span class="line">	<span class="type">boolean</span> <span class="variable">exist</span> <span class="operator">=</span> <span class="literal">true</span>;</span><br><span class="line">	<span class="type">int</span>[] cnt = <span class="keyword">new</span> <span class="title class_">int</span>[n+<span class="number">1</span>];<span class="comment">//用于判断负环(一个节点至多加入队列n-1次 反之存在负环)</span></span><br><span class="line"><span class="comment">//vis判断该节点是否在队列中（访问过后出队列 vis[i]=0）</span></span><br><span class="line"><span class="comment">//跟其他算法不同（其他算法大都表示有没有访问过该元素）</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>;i &lt;= n;i++) h[i] = INF;</span><br><span class="line">    Deque&lt;Integerq = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;&gt;();</span><br><span class="line">    q.offerLast(k);cnt[k]++;vis[k] = <span class="number">1</span>;h[k] = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (!q.isEmpty() &amp;&amp; !exist){</span><br><span class="line">        <span class="type">int</span> <span class="variable">v</span> <span class="operator">=</span> q.pollFirst();vis[v] = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> hd[v];i != <span class="number">0</span>;i = edge[i].ne){</span><br><span class="line">            <span class="type">int</span> <span class="variable">u</span> <span class="operator">=</span> edge[i].to, w = edge[i].wt;</span><br><span class="line">            <span class="keyword">if</span> (h[u] &lt; h[v]+w){</span><br><span class="line">                h[u] = h[v]+w;</span><br><span class="line">                <span class="keyword">if</span> (vis[u] == <span class="number">1</span>) <span class="keyword">continue</span>;</span><br><span class="line">                q.offerLast(u);cnt[u]++;vis[u]=<span class="number">1</span>;</span><br><span class="line">                <span class="keyword">if</span> (cnt[u]==n+<span class="number">1</span>) exist = <span class="literal">true</span>;</span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">	<span class="keyword">return</span> exist?dis:<span class="keyword">new</span> <span class="title class_">int</span>[]{};</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<h3 id="johnson-全源最短路径">Johnson 全源最短路径</h3>
+<p>我们新建一个虚拟节点（在这里我们就设它的编号为 0
+）。从这个点向其他所有点连一条边权为 0 的边。 接下来用
+Bellman-Ford(SPFA) 算法求出从 0 号点到其他所有点的最短路，记为 <span class="math inline"><em>h</em><sub><em>i</em></sub></span> 。
+假如存在一条从 <span class="math inline"><em>u</em></span> 点到 <span class="math inline"><em>v</em></span> 点，边权为 <span class="math inline"><em>w</em></span> 的边，则我们将该边的边权重新设置为
+<span class="math inline"><em>w</em> + <em>h</em><sub><em>u</em></sub> − <em>h</em><sub><em>v</em></sub></span>
+。 接下来以每个点为起点，跑 <span class="math inline"><em>n</em></span>
+轮 Dijkstra 算法即可求出任意两点间的最短路了。 一开始的 Bellman-Ford
+算法并不是时间上的瓶颈，若使用 priority_queue 实现 Dijkstra 算法，
+该算法的时间复杂度是 <span class="math inline"><em>O</em>(<em>n</em><em>m</em>log <em>m</em>)</span>
+。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span>{</span><br><span class="line">    <span class="keyword">static</span> <span class="type">int</span> n, m, N = <span class="number">5010</span>, M = <span class="number">9010</span>, INF = <span class="number">0x3f3f3f3f</span>;</span><br><span class="line">    <span class="keyword">static</span> E[] edge = <span class="keyword">new</span> <span class="title class_">E</span>[M];<span class="comment">// 链式前向星存图</span></span><br><span class="line">    <span class="keyword">static</span> <span class="type">int</span>[] hd = <span class="keyword">new</span> <span class="title class_">int</span>[N], vis = <span class="keyword">new</span> <span class="title class_">int</span>[N];</span><br><span class="line">    <span class="keyword">static</span> <span class="type">int</span>[] dis = <span class="keyword">new</span> <span class="title class_">int</span>[N],h = <span class="keyword">new</span> <span class="title class_">int</span>[N];</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException {</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>;i &lt;= m;i++) add(i, u, v, w);</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>;i &lt;= n;i++) add(m+i, <span class="number">0</span>, i, <span class="number">0</span>); <span class="comment">//超级源点0 到其他点距离都为0</span></span><br><span class="line">        <span class="type">int</span> <span class="variable">tp</span> <span class="operator">=</span> SPFA(<span class="number">0</span>); <span class="comment">//此时图里一共有n+1个点 要松弛n次（不是n-1）</span></span><br><span class="line">        <span class="keyword">if</span> (tp == -<span class="number">1</span>){</span><br><span class="line">            System.out.println(-<span class="number">1</span>); <span class="keyword">return</span>; <span class="comment">//有负环 寄</span></span><br><span class="line">        }</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i= <span class="number">1</span>;i &lt;= n;i++)</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">k</span> <span class="operator">=</span> hd[i];k !=<span class="number">0</span>;k = edge[k].ne)</span><br><span class="line">            edge[k].wt += h[i]-h[edge[k].to]; <span class="comment">//w+h[u]-h[v] 更新权值</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>;i &lt;= n;i++){</span><br><span class="line">            dijkstra(i);<span class="comment">// 每个点跑一遍最短路</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">k</span> <span class="operator">=</span> <span class="number">1</span>;k &lt;= n;k++){</span><br><span class="line">                <span class="keyword">if</span> (dis[k] == INF) System.out.println(INF);</span><br><span class="line">                <span class="comment">//把之前加的权值减去就是实际最短路长度</span></span><br><span class="line">                <span class="keyword">else</span> System.out.println(dis[k]-h[i]+h[k]);</span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">dijkstra</span><span class="params">(<span class="type">int</span> k)</span> {...}</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">SPFA</span><span class="params">(<span class="type">int</span> k)</span> {...}</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<h3 id="最短路-1">0-1 最短路</h3>
+<p>0-1BFS 用来解决：<strong>边权值为 0 或
+1</strong>，或者能够转化为这种边权值的最短路问题，时间复杂度 O( NM
+)。</p>
+<p>主要操作：用 deque，从 0 边扩展到的点 push 到队首，反之则到队尾。
+==不需要 vis[]数组==</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span>[] dis = <span class="keyword">new</span> <span class="title class_">int</span>[n*m];</span><br><span class="line">Arrays.fill(dis, <span class="number">1</span> &lt;&lt; <span class="number">30</span>);</span><br><span class="line">Deque&lt;<span class="type">int</span>[]pq = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;&gt;();</span><br><span class="line">pq.add(<span class="keyword">new</span> <span class="title class_">int</span>[]{<span class="number">0</span>, <span class="number">0</span>}); dis[<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">while</span> (!pq.isEmpty()){</span><br><span class="line">    <span class="type">int</span>[] cur = pq.pollFirst();</span><br><span class="line">    <span class="type">int</span> <span class="variable">u</span> <span class="operator">=</span> cur[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> v : g[u]){</span><br><span class="line">        <span class="type">int</span> <span class="variable">p</span> <span class="operator">=</span> grid[x][y], nd = dis[u]+p;</span><br><span class="line">        <span class="keyword">if</span> (nd &lt; dis[v]){</span><br><span class="line">            dis[v] = nd;</span><br><span class="line">            <span class="keyword">if</span> (p == <span class="number">0</span>) pq.offerFirst(<span class="keyword">new</span> <span class="title class_">int</span>[]{nd, v}); <span class="comment">//边为0 加入队首</span></span><br><span class="line">            <span class="keyword">else</span> pq.offerLast(<span class="keyword">new</span> <span class="title class_">int</span>[]{nd, v}); <span class="comment">//边为1 加入队尾</span></span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<h3 id="不同方法的比较">不同方法的比较</h3>
+<table>
+<colgroup>
+<col style="width: 15%">
+<col style="width: 17%">
+<col style="width: 23%">
+<col style="width: 20%">
+<col style="width: 23%">
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">Bellman-Ford</th>
+<th style="text-align: left;">最短路算法</th>
+<th style="text-align: left;">Floyd</th>
+<th style="text-align: left;">Dijkstra</th>
+<th style="text-align: left;">Johnson</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">单源最短路</td>
+<td style="text-align: left;">最短路类型</td>
+<td style="text-align: left;">每对结点间的最短路</td>
+<td style="text-align: left;">单源最短路</td>
+<td style="text-align: left;">每对结点间的最短路</td>
+</tr>
+<tr>
+<td style="text-align: left;">任意图</td>
+<td style="text-align: left;">作用于</td>
+<td style="text-align: left;">任意图</td>
+<td style="text-align: left;">非负权图</td>
+<td style="text-align: left;">任意图</td>
+</tr>
+<tr>
+<td style="text-align: left;">能</td>
+<td style="text-align: left;">能否检测负环？</td>
+<td style="text-align: left;">能</td>
+<td style="text-align: left;">不能</td>
+<td style="text-align: left;">能</td>
+</tr>
+<tr>
+<td style="text-align: left;">中/小</td>
+<td style="text-align: left;">作用图的大小</td>
+<td style="text-align: left;">小</td>
+<td style="text-align: left;">大/中</td>
+<td style="text-align: left;">大/中</td>
+</tr>
+<tr>
+<td style="text-align: left;"><span class="math inline"><em>O</em>(<em>N</em><em>M</em>)</span></td>
+<td style="text-align: left;">时间复杂度</td>
+<td style="text-align: left;"><span class="math inline"><em>O</em>(<em>N</em><sup>3</sup>)</span></td>
+<td style="text-align: left;"><span class="math inline"><em>O</em>((<em>M</em> + <em>N</em>)log <em>M</em>)</span></td>
+<td style="text-align: left;"><span class="math inline"><em>O</em>(<em>N</em><em>M</em>log <em>M</em>)</span></td>
+</tr>
+</tbody>
+</table>
+<p>注：表中的 Dijkstra 算法在计算复杂度时均用
+<code>priority_queue</code> 实现。</p>
+<h3 id="分层图最短路">分层图最短路</h3>
+<p>分层图最短路，如：有 <span class="math inline"><em>k</em></span>
+次零代价通过一条路径，求总的最小花费。对于这种题目，我们可以采 用 DP
+相关的思想，设 <span class="math inline">dis<sub><em>i</em>, <em>j</em></sub></span>
+表示当前从起点 <span class="math inline"><em>i</em></span>
+号结点，使用了 <span class="math inline"><em>j</em></span>
+次免费通行权限后的最短路径。 显然，dis 数组可以这么转移:</p>
+<p><span class="math display">dis<sub><em>i</em>, <em>j</em></sub> = min {min {dis<sub><em>f</em><em>r</em><em>o</em><em>m</em>, <em>j</em> − 1</sub>}, min {dis<sub><em>f</em><em>r</em><em>o</em><em>m</em>, <em>j</em></sub> + <em>w</em>}}</span></p>
+<p>其中， from 表示 <span class="math inline"><em>i</em></span>
+的父亲节点， <span class="math inline"><em>w</em></span>
+表示当前所走的边的边权。当 <span class="math inline"><em>j</em> − 1 ≥ <em>k</em></span> 时， <span class="math inline">dis<sub><em>f</em><em>r</em><em>o</em><em>m</em>, <em>j</em></sub> = ∞</span>
+。 事实上，这个 DP 就相当于把每个结点拆分成了 <span class="math inline"><em>k</em> + 1</span>
+个结点，每个新结点代表使用不同多次免费
+通行后到达的原图结点。换句话说，就是每个结点 <span class="math inline"><em>u</em><sub><em>i</em></sub></span> 表示使用
+<span class="math inline"><em>i</em></span> 次免费通行权限后到达 <span class="math inline"><em>u</em></span> 结点。</p>
+<p><a class="link" target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P4568">P4568 [JLOI2011]
+飞行路线 - 洛谷 | 计算机科学教育新生态<i class="fas fa-external-link-alt"></i></a></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="type">int</span> test, N = <span class="number">10010</span>, M = (<span class="type">int</span>)<span class="number">1e9</span>+<span class="number">7</span>;</span><br><span class="line"><span class="keyword">static</span> <span class="type">int</span> n, m, k;</span><br><span class="line"><span class="keyword">static</span> List&lt;<span class="type">int</span>[]&gt;[] g = <span class="keyword">new</span> <span class="title class_">List</span>[N];</span><br><span class="line"><span class="keyword">static</span> <span class="type">int</span>[][] dis = <span class="keyword">new</span> <span class="title class_">int</span>[N][<span class="number">11</span>], vis = <span class="keyword">new</span> <span class="title class_">int</span>[N][<span class="number">11</span>];</span><br><span class="line"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">solve</span><span class="params">()</span> <span class="keyword">throws</span> Exception {</span><br><span class="line">    n = ni(); m = ni(); k = ni();</span><br><span class="line">    <span class="type">int</span> <span class="variable">s</span> <span class="operator">=</span> ni(), t = ni();</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>;i &lt; n;i++){</span><br><span class="line">        g[i] = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">        Arrays.fill(dis[i], M);</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>;i &lt;= m;i++){</span><br><span class="line">        <span class="type">int</span> <span class="variable">u</span> <span class="operator">=</span> ni(), v = ni(), w = ni();</span><br><span class="line">        g[u].add(<span class="keyword">new</span> <span class="title class_">int</span>[]{v, w});</span><br><span class="line">        g[v].add(<span class="keyword">new</span> <span class="title class_">int</span>[]{u, w});</span><br><span class="line">    }</span><br><span class="line">    PriorityQueue&lt;<span class="type">int</span>[]pq = <span class="keyword">new</span> <span class="title class_">PriorityQueue</span>&lt;&gt;((x, y)-&gt;</span><br><span class="line">        x[<span class="number">2</span>]==y[<span class="number">2</span>] ? x[<span class="number">1</span>]-y[<span class="number">1</span>] : x[<span class="number">2</span>]-y[<span class="number">2</span>]</span><br><span class="line">    );</span><br><span class="line">    pq.add(<span class="keyword">new</span> <span class="title class_">int</span>[]{s, <span class="number">0</span>, <span class="number">0</span>}); dis[s][<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (!pq.isEmpty()){</span><br><span class="line">        <span class="type">int</span>[] cur = pq.poll();</span><br><span class="line">        <span class="type">int</span> <span class="variable">u</span> <span class="operator">=</span> cur[<span class="number">0</span>], c = cur[<span class="number">1</span>], d = cur[<span class="number">2</span>];</span><br><span class="line">        <span class="keyword">if</span> (vis[u][c] == <span class="number">1</span>) <span class="keyword">continue</span>;</span><br><span class="line">        vis[u][c] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span>[] ne : g[u]){</span><br><span class="line">            <span class="type">int</span> <span class="variable">v</span> <span class="operator">=</span> ne[<span class="number">0</span>], w = ne[<span class="number">1</span>];</span><br><span class="line">            <span class="keyword">if</span> (dis[v][c] d+w){</span><br><span class="line">                dis[v][c] = d+w;</span><br><span class="line">                pq.add(<span class="keyword">new</span> <span class="title class_">int</span>[]{v, c, dis[v][c]});</span><br><span class="line">            }</span><br><span class="line">            <span class="keyword">if</span> (c+<span class="number">1</span> &lt;= k &amp;&amp; dis[v][c+<span class="number">1</span>] d){</span><br><span class="line">                dis[v][c+<span class="number">1</span>] = d;</span><br><span class="line">                pq.add(<span class="keyword">new</span> <span class="title class_">int</span>[]{v, c+<span class="number">1</span>, dis[v][c+<span class="number">1</span>]});</span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">    <span class="type">int</span> <span class="variable">ans</span> <span class="operator">=</span> M;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>;i &lt;= k;i++) ans = min(ans, dis[t][i]);</span><br><span class="line">    pw.println(ans);</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="差分约束不等式">差分约束（不等式）</h2>
+<p>差分约束系统 是一种特殊的 <span class="math inline"><em>n</em></span>
+元一次不等式组，它包含 <span class="math inline"><em>n</em></span>
+个变量 <span class="math inline"><em>x</em><sub>1</sub>, <em>x</em><sub>2</sub>, …, <em>x</em><sub><em>n</em></sub></span>
+以及 <span class="math inline"><em>m</em></span>
+个约束条件，每个约束条件是由两个其中的变量做差构成的，形如 <span class="math inline"><em>x</em><sub><em>i</em></sub> − <em>x</em><sub><em>j</em></sub> ≤ <em>c</em><sub><em>k</em></sub></span>
+，其中<span class="math inline">1 ≤ <em>i</em>, <em>j</em> ≤ <em>n</em>, <em>i</em> ≠ <em>j</em>, 1 ≤ <em>k</em> ≤ <em>m</em></span>
+并且 <span class="math inline"><em>c</em><sub><em>k</em></sub></span>
+是常数（可以是非负数，也可以是负数）。</p>
+<p>我们要解决的问题是: 求解 <span class="math inline"><em>x</em><sub>1</sub> = <em>a</em><sub>1</sub>, <em>x</em><sub>2</sub> = <em>a</em><sub>2</sub>, …, <em>x</em><sub><em>n</em></sub> = <em>a</em><sub><em>n</em></sub></span>
+，使得所有约束条件得到满足，否则无解。</p>
+<p>差分约束系统中的每个约束条件 <span class="math inline"><em>x</em><sub><em>i</em></sub> − <em>x</em><sub><em>j</em></sub> ≤ <em>c</em><sub><em>k</em></sub></span>
+都可以变形成 <span class="math inline"><em>x</em><sub><em>i</em></sub> ≤ <em>x</em><sub><em>j</em></sub> + <em>c</em><sub><em>k</em></sub></span>
+，这与单源最短路中 的三角形不等式 <span class="math inline">dist [<em>y</em>] ≤ dist [<em>x</em>] + <em>z</em></span>
+非常相似。因此，我们可以把每个变量 <span class="math inline"><em>x</em><sub><em>i</em></sub></span> 看做图中的一
+个结点，对于每个约束条件 <span class="math inline"><em>x</em><sub><em>i</em></sub> − <em>x</em><sub><em>j</em></sub> ≤ <em>c</em><sub><em>k</em></sub></span>
+，从结点 <span class="math inline"><em>j</em></span> 向结点 <span class="math inline"><em>i</em></span> 连一条长度为 <span class="math inline"><em>c</em><sub><em>k</em></sub></span>
+的有向边。</p>
+<p>注意到，如果 <span class="math inline">{<em>a</em><sub>1</sub>, <em>a</em><sub>2</sub>, …, <em>a</em><sub><em>n</em></sub>}</span>
+是该差分约束系统的一组解，那么对于任意的常数 <span class="math inline"><em>d</em></span> ， <span class="math inline">{<em>a</em><sub>1</sub> + <em>d</em>, <em>a</em><sub>2</sub> + <em>d</em>, …, <em>a</em><sub><em>n</em></sub> + <em>d</em>}</span>
+显然也是该差分约束系统的一组解，因为这样做差后 <span class="math inline"><em>d</em></span> 刚好被消掉。</p>
+<p>设 <span class="math inline">dist [0] = 0</span>
+并向每一个点连一条权重为 0
+边，跑单源最短路，若图中存在负环，则给定的差分约束系统无解；否则， <span class="math inline"><em>x</em><sub><em>i</em></sub> = dist [<em>i</em>]</span>
+为该差分约束系统的一组解。即建立超级源点<span class="math inline">0</span>后跑 SPFA.</p>
+<ul>
+<li><p>判断是否有解</p>
+<p><a class="link" target="_blank" rel="noopener" href="https://oi-wiki.org/graph/diff-constraints/#luogu-p1993-k">小 K
+的农场<i class="fas fa-external-link-alt"></i></a></p>
+<p>题目大意: 求解差分约束系统，有 <span class="math inline"><em>m</em></span> 条约束条件，每条都为形如 <span class="math inline"><em>x</em><sub><em>a</em></sub> − <em>x</em><sub><em>b</em></sub> ≥ <em>c</em><sub><em>k</em></sub></span>
+， <span class="math inline"><em>x</em><sub><em>a</em></sub> − <em>x</em><sub><em>b</em></sub> ≤ <em>c</em><sub><em>k</em></sub></span>
+或 <span class="math inline"><em>x</em><sub><em>a</em></sub> = <em>x</em><sub><em>b</em></sub></span>
+的形式，判断该差分约束系统有没有解。</p>
+<table>
+<colgroup>
+<col style="width: 25%">
+<col style="width: 43%">
+<col style="width: 31%">
+</colgroup>
+<thead>
+<tr>
+<th>题意</th>
+<th>转化</th>
+<th>连边</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="math inline"><em>x</em><sub><em>a</em></sub> − <em>x</em><sub><em>b</em></sub> ≥ <em>c</em><sub><em>k</em></sub></span></td>
+<td><span class="math inline"><em>x</em><sub><em>b</em></sub> − <em>x</em><sub><em>a</em></sub> ≤ −<em>c</em></span></td>
+<td><code>add(a, b, -c);</code></td>
+</tr>
+<tr>
+<td><span class="math inline"><em>x</em><sub><em>a</em></sub> − <em>x</em><sub><em>b</em></sub> ≤ <em>c</em><sub><em>k</em></sub></span></td>
+<td><span class="math inline"><em>x</em><sub><em>a</em></sub> − <em>x</em><sub><em>b</em></sub> ≤ <em>c</em><sub><em>k</em></sub></span></td>
+<td><code>add(b, a, c);</code></td>
+</tr>
+<tr>
+<td><span class="math inline"><em>x</em><sub><em>a</em></sub> = <em>x</em><sub><em>b</em></sub></span></td>
+<td><span class="math inline"><em>x</em><sub><em>a</em></sub> − <em>x</em><sub><em>b</em></sub> ≤ 0, <em>x</em><sub><em>b</em></sub> − <em>x</em><sub><em>a</em></sub> ≤ 0</span></td>
+<td><code>add(b, a, 0), add(a, b, 0);</code></td>
+</tr>
+</tbody>
+</table></li>
+<li><p>求最值解
+差分约束问题可以转化为最短路或最长路问题，所以两种转化也就形成了两种不同的连边方法。</p></li>
+</ul>
+<ol type="1">
+<li>连边后求最短路 将 <span class="math inline"><em>x</em><sub><em>j</em></sub> − <em>x</em><sub><em>i</em></sub> ≤ <em>k</em></span>
+形式不动，即从 <span class="math inline"><em>i</em></span> 到 <span class="math inline"><em>j</em></span> 连一条边权为 <span class="math inline"><em>k</em></span>
+的边。==加入超级源点后求最短路，得到 <span class="math inline"><em>x</em><sub><em>i</em></sub> ≤ 0</span> 所有
+<span class="math inline"><em>x</em></span> 最大解==。</li>
+<li>连边后求最长路 将 <span class="math inline"><em>x</em><sub><em>j</em></sub> − <em>x</em><sub><em>i</em></sub> ≤ <em>k</em></span>
+变形为 <span class="math inline"><em>x</em><sub><em>i</em></sub> − <em>x</em><sub><em>j</em></sub> ≥ −<em>k</em></span>
+，即从 <span class="math inline"><em>j</em></span> 到 <span class="math inline"><em>i</em></span> 连一条边权为 <span class="math inline">−<em>k</em></span> 的边。==加入超级源点后求最长
+路，得到 <span class="math inline"><em>x</em><sub><em>i</em></sub> ≥ 0</span> 所有
+<span class="math inline"><em>x</em></span> 最小解==。</li>
+</ol>
+<ul>
+<li><p>最长路
+最长路问题即为在给定的图中，计算从源点到所有顶点的最长路。保证图中没有正环。</p>
+<p>其中一种实现方法为若 <span class="math inline"><em>d</em><sub><em>u</em></sub> + <em>w</em> &gt; <em>d</em><sub><em>v</em></sub></span>，则将
+<span class="math inline"><em>d</em><sub><em>v</em></sub></span> 更新为
+<span class="math inline"><em>d</em><sub><em>u</em></sub> + <em>w</em></span>（实际上就是把最短路中的大于号改成小于号），并在初始化时将
+<span class="math inline"><em>d</em><em>i</em><em>s</em></span>数组全部初始化为一个极小值（<span class="math inline">−<em>I</em><em>N</em><em>F</em></span>），其余部分和用
+SPFA 求最短路一样。</p>
+<p><a class="link" target="_blank" rel="noopener" href="https://loj.ac/p/2436">分糖果<i class="fas fa-external-link-alt"></i></a></p></li>
+</ul>
+<hr>
+<h2 id="二分图">二分图</h2>
+<ul>
+<li><p>定义 节点由两个集合组成，且两个集合内部没有边的图。</p></li>
+<li><p>性质
+如果两个集合中的点分别染成黑色和白色，可以发现二分图中的每一条边都一定是连接一个黑色点和一个白色点。</p>
+<p><strong>二分图不存在长度为奇数的环</strong></p></li>
+<li><p>二分图判断
+染色法：首先将任意的一个顶点染成红色，再把这个点相邻的顶点染成蓝色，如果按照这种染色方式可以将所有的顶点全部着色，并且相邻的顶点的颜色不同，那么该图就是一个二分图。</p></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">solve</span><span class="params">()</span> {</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>;i &lt;= n;i++){<span class="comment">// 可能图不连通 要对每个点都判断一遍</span></span><br><span class="line">        <span class="keyword">if</span> (color[i] == <span class="number">0</span>) {</span><br><span class="line">            <span class="keyword">if</span> (!dfs(i, <span class="number">1</span>)) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">}</span><br><span class="line"><span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">dfs</span><span class="params">(<span class="type">int</span> v, <span class="type">int</span> c)</span>{ <span class="comment">// 0-未染色 1-白色 -1-黑色</span></span><br><span class="line">    color[v] = c;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> u : g[v]){</span><br><span class="line">    <span class="keyword">if</span> (color[u] == c) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">if</span> (color[u] == <span class="number">0</span> &amp;&amp; !dfs(u, -c)) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<ul>
+<li>二分图最大匹配 求一个二分图中最大匹配的边数</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="type">int</span>[] match = <span class="keyword">new</span> <span class="title class_">int</span>[N]; <span class="comment">//match[u] = v 表示右集合中u点匹配的是左集合中的v点</span></span><br><span class="line"><span class="keyword">static</span> <span class="type">int</span>[] vis = <span class="keyword">new</span> <span class="title class_">int</span>[N];</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception{</span><br><span class="line">    <span class="comment">// 对左集合中每个点进行匹配</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>;i &lt;= n;i++) {</span><br><span class="line">        Arrays.fill(vis, <span class="number">0</span>); <span class="comment">//每一次寻找中 每个点只能访问一次</span></span><br><span class="line">        <span class="keyword">if</span> (find(i)) ++ans;</span><br><span class="line">    }</span><br><span class="line">    System.out.println(ans);</span><br><span class="line">}</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">find</span><span class="params">(<span class="type">int</span> u)</span> {</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> v : g[u]) {</span><br><span class="line">    <span class="keyword">if</span> (vis[v]==<span class="number">1</span>) <span class="keyword">continue</span>;</span><br><span class="line">        vis[v] = <span class="number">1</span>;</span><br><span class="line">        <span class="comment">// 右集合中的点v没有匹配 || v匹配的左集合中的点match[v]可以再找到一个新的匹配</span></span><br><span class="line">            <span class="comment">// 就可以让v成为u的匹配</span></span><br><span class="line">        <span class="keyword">if</span> (match[v]==<span class="number">0</span> || find(match[v])) {</span><br><span class="line">        match[v] = u;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>最小路径覆盖
+<strong>定义</strong>：通俗点将，就是在一个有向图中，找出最少的路径，使得这些路径经过了所有的点。</p>
+<p>最小路径覆盖分为<strong>最小不相交路径覆盖</strong>和<strong>最小可相交路径覆盖</strong>。</p>
+<p><strong>最小不相交路径覆盖</strong>：每一条路径经过的顶点各不相同。如图，其最小路径覆盖数为
+3。即 1-&gt;3&gt;4，2，5。</p>
+<p><strong>最小可相交路径覆盖</strong>：每一条路径经过的顶点可以相同。如果其最小路径覆盖数为
+2。即 1-&gt;3-&gt;4，2-&gt;3&gt;5。</p>
+<p>特别的，每个点自己也可以称为是路径覆盖，只不过路径的长度是
+0。</p></li>
+</ul>
+<p>König 定理: 一个二分图中的最大匹配数等于这个图中的最小点覆盖数</p>
+<p><strong>最小路径覆盖数</strong> <strong>=</strong>
+<strong>图中节点数</strong> <strong>-</strong>
+<strong>最小点覆盖数</strong></p>
+<p>（如果是最小可相交路径覆盖，只要求出原图的传递闭包，再新建一个图进行计算即可）</p>
+<p><a class="link" target="_blank" rel="noopener" href="https://www.acwing.com/problem/content/2551/">2549. 估计人数
+- AcWing 题库<i class="fas fa-external-link-alt"></i></a></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="type">int</span>[][] a = <span class="keyword">new</span> <span class="title class_">int</span>[<span class="number">22</span>][<span class="number">22</span>];</span><br><span class="line"><span class="keyword">static</span> <span class="type">int</span>[] v = <span class="keyword">new</span> <span class="title class_">int</span>[<span class="number">210</span>], match = <span class="keyword">new</span> <span class="title class_">int</span>[<span class="number">210</span>];</span><br><span class="line"><span class="keyword">static</span> <span class="type">boolean</span>[][] g = <span class="keyword">new</span> <span class="title class_">boolean</span>[<span class="number">210</span>][<span class="number">210</span>];</span><br><span class="line"><span class="comment">// 二分图求最大匹配</span></span><br><span class="line"><span class="keyword">static</span> <span class="type">boolean</span> <span class="title function_">find</span><span class="params">(<span class="type">int</span> u)</span>{</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>;i &lt;= cnt;i++){</span><br><span class="line">        <span class="keyword">if</span> (!g[u][i] || v[i]==<span class="number">1</span>) <span class="keyword">continue</span>;</span><br><span class="line">        v[i] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span> (match[i]==<span class="number">0</span> || find(match[i])){</span><br><span class="line">            match[i] = u;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        }</span><br><span class="line">    }<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">}</span><br><span class="line"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">solve</span><span class="params">()</span> <span class="keyword">throws</span> IOException{</span><br><span class="line">    io = in.readLine().split(<span class="string">" "</span>);</span><br><span class="line">    n = ni(io[<span class="number">0</span>]); m = ni(io[<span class="number">1</span>]);</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>;i &lt; n;i++){</span><br><span class="line">        <span class="type">char</span>[] c = in.readLine().toCharArray();</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>;j &lt; m;j++){</span><br><span class="line">            <span class="keyword">if</span> (c[j] == <span class="string">'1'</span>) a[i][j] = ++cnt;</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">    <span class="comment">// 按题目意思建图（无向图邻接矩阵）</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>;i &lt; n;i++){</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span>;j &lt; m;j++){</span><br><span class="line">            <span class="keyword">if</span> (a[i][j]*a[i][j+<span class="number">1</span>] != <span class="number">0</span>) g[a[i][j]][a[i][j+<span class="number">1</span>]] = <span class="literal">true</span>;</span><br><span class="line">            <span class="keyword">if</span> (a[i][j]*a[i+<span class="number">1</span>][j] != <span class="number">0</span>) g[a[i][j]][a[i+<span class="number">1</span>][j]] = <span class="literal">true</span>;</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">    <span class="comment">// 这题求可相交，所以先跑以便Floyd求传递闭包。</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>;i &lt;= cnt;i++){</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">1</span>;j &lt;= cnt;j++){</span><br><span class="line">            <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">k</span> <span class="operator">=</span> <span class="number">1</span>;k &lt;= cnt;k++){</span><br><span class="line">                g[i][j] |= g[i][k] &amp; g[k][j];</span><br><span class="line">            }</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">    <span class="comment">// 求最大匹配</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>;i &lt;= cnt;i++){</span><br><span class="line">        Arrays.fill(v, <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">if</span> (find(i)) res++;</span><br><span class="line">    }</span><br><span class="line">    <span class="comment">// 最小路径覆盖 = 节点数量 - 最小点覆盖</span></span><br><span class="line">    out.println(cnt-res);</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="欧拉图">欧拉图</h2>
+<ol type="1">
+<li>定义</li>
+</ol>
+<ul>
+<li><strong>欧拉回路</strong>：通过图中每条边恰好一次的回路</li>
+<li><strong>欧拉通路</strong>：通过图中每条边恰好一次的通路</li>
+<li><strong>欧拉图</strong>：具有欧拉回路的图</li>
+<li><strong>半欧拉图</strong>：具有欧拉通路但不具有欧拉回路的图</li>
+</ul>
+<ol start="2" type="1">
+<li>判断</li>
+</ol>
+<p><strong>无向图是欧拉图当且仅当</strong>：</p>
+<ul>
+<li>非零度顶点是连通的</li>
+<li>顶点的度数都是偶数 <strong>无向图是半欧拉图当且仅当</strong>：</li>
+<li>非零度顶点是连通的</li>
+<li>恰有 2 个奇度顶点 <strong>有向图是欧拉图当且仅当</strong>：</li>
+<li>非零度顶点是强连通的</li>
+<li>每个顶点的入度和出度相等
+<strong>有向图是半欧拉图当且仅当</strong>：</li>
+<li>非零度顶点是弱连通的</li>
+<li>仅有一个顶点的出度与入度之差为 1</li>
+<li>仅有一个顶点的出度与入度之差为 -1</li>
+<li>其他顶点的入度和出度相等</li>
+</ul>
+<ol start="3" type="1">
+<li>求解</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="type">int</span> n, m, idx;</span><br><span class="line"><span class="keyword">static</span> <span class="type">int</span>[] deg = <span class="keyword">new</span> <span class="title class_">int</span>[<span class="number">501</span>], ans = <span class="keyword">new</span> <span class="title class_">int</span>[<span class="number">5001</span>];</span><br><span class="line"><span class="keyword">static</span> Deque&lt;Integer&gt;[] g = <span class="keyword">new</span> <span class="title class_">Deque</span>[<span class="number">501</span>];</span><br><span class="line"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">dfs</span><span class="params">(<span class="type">int</span> u)</span>{</span><br><span class="line">    Deque&lt;Integercur = g[u];</span><br><span class="line">    <span class="keyword">while</span> (!cur.isEmpty()){</span><br><span class="line">        <span class="type">int</span> <span class="variable">v</span> <span class="operator">=</span> cur.pollFirst();</span><br><span class="line">        g[v].remove(u);</span><br><span class="line">        dfs(v);</span><br><span class="line">    }</span><br><span class="line">    <span class="comment">// 存路径</span></span><br><span class="line">    ans[idx++] = u;</span><br><span class="line">}</span><br><span class="line"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">solve</span><span class="params">()</span> <span class="keyword">throws</span> IOException{</span><br><span class="line">    m = ni();</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>;i &lt;= <span class="number">500</span>;i++) g[i] = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;&gt;();</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>;i &lt;= m;i++){</span><br><span class="line">        <span class="type">int</span> <span class="variable">u</span> <span class="operator">=</span> ni(), v = ni();</span><br><span class="line">        <span class="comment">// 无向图直接++；有向图起点--，终点++</span></span><br><span class="line">        deg[u]++; deg[v]++;</span><br><span class="line">        g[u].offerFirst(v); g[v].offerFirst(u);</span><br><span class="line">        n = max(n, max(u, v));</span><br><span class="line">    }</span><br><span class="line">    <span class="type">int</span> <span class="variable">start</span> <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> n;i &gt;= <span class="number">1</span>;i--){</span><br><span class="line">        <span class="comment">// 如果有奇数度，则为半欧拉图，dfs起点必须从奇数度的那个节点开始</span></span><br><span class="line">        <span class="comment">// 如果是有向图，dfs起点必须从度为-1的那个节点开始</span></span><br><span class="line">        <span class="keyword">if</span> (deg[i]%<span class="number">2</span>==<span class="number">1</span>) start = i;</span><br><span class="line">        <span class="comment">// 求字典序最小/最大的欧拉路，需要对边按题目要求进行排序</span></span><br><span class="line">        Collections.sort((List&lt;Integer&gt;)g[i]);</span><br><span class="line">    }</span><br><span class="line">    dfs(start);</span><br><span class="line">    <span class="comment">// 路径倒着遍历</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> idx-<span class="number">1</span>;i &gt;= <span class="number">0</span>;i--) out.println(ans[i]);</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<h2 id="树相关">树相关</h2>
+<hr>
+<h3 id="lca">LCA</h3>
+<p>LCA（Least Common Ancestors），是指在有根树中，找出某两个结点 u 和 v
+最近的公共祖先。</p>
+<ul>
+<li><p>核心：<strong>倍增</strong> 首先我们要记录各个点的深度和他们<span class="math inline">2<sup><em>j</em></sup></span>级的的祖先，用数组<span class="math inline"><em>d</em><em>e</em><em>e</em><em>p</em>[<em>i</em>]</span>表示每个节点的深度，<span class="math inline"><em>f</em>[<em>i</em>][<em>j</em>]</span>表示节点<span class="math inline"><em>i</em></span>的<span class="math inline">2<sup><em>j</em></sup></span>级祖先。（例如上图 17
+的 1 级祖先是 14， 2 级是 10， 4 级是 3， 以此来推）</p>
+<p><code>fa[u][i] = fa[fa[u][i-1]][i-1]</code>：<span class="math inline"><em>f</em>[<em>i</em>][<em>j</em>]</span> 就是<span class="math inline"><em>i</em></span>的<span class="math inline">2<sup><em>j</em></sup></span>级祖先，那<span class="math inline"><em>f</em>[<em>i</em>][<em>j</em> − 1]</span>就是<span class="math inline"><em>i</em></span>的<span class="math inline">2<sup><em>j</em> − 1</sup></span> 级祖先。 又因为
+<span class="math inline">2<sup><em>j</em> − 1</sup> + 2<sup><em>j</em> − 1</sup> = 2<sup><em>j</em></sup></span>，所以<span class="math inline"><em>i</em></span>的 <span class="math inline">2<sup><em>j</em> − 1</sup></span> 级祖先的<span class="math inline">2<sup><em>j</em> − 1</sup></span>级祖先 就是<span class="math inline"><em>i</em></span>的<span class="math inline">2<sup><em>j</em></sup></span> 级祖先。</p></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">dfs</span><span class="params">(<span class="type">int</span> u, <span class="type">int</span> f)</span> { <span class="comment">//u当前节点 f为父节点 搜索从根节点开始即dfs(root, 0)</span></span><br><span class="line">    deep[u] = deep[f]+<span class="number">1</span>;</span><br><span class="line">    fa[u][<span class="number">0</span>] = f; <span class="comment">//u的2^0级祖先 即 u的1级祖先是其父节点</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>;(<span class="number">1</span> &lt;&lt; i) &lt;= deep[u];i++){</span><br><span class="line">    	fa[u][i] = fa[fa[u][i-<span class="number">1</span>]][i-<span class="number">1</span>];</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> v : g[u]) <span class="keyword">if</span> (v != f) dfs(v, u); <span class="comment">//父节点不再访问</span></span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="type">int</span> <span class="title function_">LCA</span><span class="params">(<span class="type">int</span> u, <span class="type">int</span> v)</span> {</span><br><span class="line">    <span class="keyword">if</span> (deep[u] deep[v]) {<span class="type">int</span> <span class="variable">tp</span> <span class="operator">=</span> v;v = u;u = tp;} <span class="comment">//让v的深度始终是大于u的</span></span><br><span class="line">    <span class="type">int</span> <span class="variable">dis</span> <span class="operator">=</span> deep[v]-deep[u]; <span class="comment">//深度差</span></span><br><span class="line">    <span class="comment">//将u的深度变得与v相同</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>;(<span class="number">1</span>&lt;&lt;i) &lt;= dis;i++){</span><br><span class="line">        <span class="comment">//快速加的意思 任意正整数都可以表示为几个2的幂次的和</span></span><br><span class="line">        <span class="keyword">if</span> (((dis&gt;&gt;i) &amp; <span class="number">1</span>) == <span class="number">1</span>) v = fa[v][i];</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">if</span> (u == v) <span class="keyword">return</span> u;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">19</span>;i &gt;= <span class="number">0</span>;i--){</span><br><span class="line">        <span class="keyword">if</span> (fa[u][i] != fa[v][i]){</span><br><span class="line">            u = fa[u][i];</span><br><span class="line">            v = fa[v][i];</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">return</span> fa[u][<span class="number">0</span>];</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<p><strong>用欧拉序列转化为 RMQ 问题</strong></p>
+<p>定义</p>
+<p>对一棵树进行
+DFS，无论是第一次访问还是回溯，每次到达一个结点时都将编号记录下来，可以得
+到一个长度为 <span class="math inline">2<em>n</em> − 1</span>
+的序列，这个序列被称作这棵树的欧拉序列。</p>
+<p>在下文中，把结点 <span class="math inline"><em>u</em></span>
+在欧拉序列中第一次出现的位置编号记为 <span class="math inline">pos (<em>u</em>)</span> （也称作节点 <span class="math inline"><em>u</em></span> 的欧拉 序)，把欧拉序列本身记作
+<span class="math inline"><em>E</em>[1...2<em>n</em> − 1]</span> 。</p>
+<p>过程</p>
+<p>有了欧拉序列， LCA 问题可以在线性时间内转化为 RMQ 问题，即 <span class="math inline">pos (<em>L</em><em>C</em><em>A</em>(<em>u</em>, <em>v</em>)) = min {pos (<em>k</em>) ∣ <em>k</em> ∈ <em>E</em>[pos (<em>u</em>)..pos (<em>v</em>)]}</span>
+。</p>
+<p>这个等式不难理解: 从 <span class="math inline"><em>u</em></span> 走到
+<span class="math inline"><em>v</em></span> 的过程中一定会经过 <span class="math inline"><em>L</em><em>C</em><em>A</em>(<em>u</em>, <em>v</em>)</span>
+，但不会经过 <span class="math inline"><em>L</em><em>C</em><em>A</em>(<em>u</em>, <em>v</em>)</span>
+的祖先。 因此，从 <span class="math inline"><em>u</em></span> 走到 <span class="math inline"><em>v</em></span> 的过程中经过的欧拉序最小的结点就是
+<span class="math inline"><em>L</em><em>C</em><em>A</em>(<em>u</em>, <em>v</em>)</span>
+。</p>
+<p>用 DFS 计算欧拉序列的时间复杂度是 <span class="math inline"><em>O</em>(<em>n</em>)</span> ，且欧拉序列的长度也是
+<span class="math inline"><em>O</em>(<em>n</em>)</span> ，所以 LCA
+问题可以在 <span class="math inline"><em>O</em>(<em>n</em>)</span>
+的时间内转化成等规模的 RMQ 问题。</p>
+<hr>
+<h3 id="树的直径">树的直径</h3>
+<p><strong>树上任意两节点之间最长的简单路径即为树的「直径」。</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="type">int</span> n, m, ans;</span><br><span class="line"><span class="keyword">static</span> List&lt;Integer&gt;[] g;</span><br><span class="line"><span class="keyword">static</span> <span class="type">int</span>[] d1, d2; <span class="comment">// d1[i]存储节点i到叶子节点的最大距离 d2[i]存储节点i到叶子节点的第二大距离</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">solve</span><span class="params">()</span> <span class="keyword">throws</span> Exception{</span><br><span class="line">    dfs(<span class="number">1</span>, <span class="number">0</span>);</span><br><span class="line">    out.println(ans);</span><br><span class="line">}</span><br><span class="line"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">dfs</span><span class="params">(<span class="type">int</span> u, <span class="type">int</span> f)</span>{</span><br><span class="line">    d1[u] = d2[u] = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> v : g[u]){</span><br><span class="line">        <span class="keyword">if</span> (v == f) <span class="keyword">continue</span>;</span><br><span class="line">        dfs(v, u);</span><br><span class="line">        <span class="type">int</span> <span class="variable">t</span> <span class="operator">=</span> d1[v]+<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span> (t d1[u]){</span><br><span class="line">            d2[u] = d1[u]; d1[u] = t;</span><br><span class="line">        }<span class="keyword">else</span> <span class="keyword">if</span> (t d2[u]){</span><br><span class="line">            d2[u] = t;</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">    ans = max(ans, d1[u]+d2[u]);</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<h3 id="kruskal-重构树">Kruskal 重构树</h3>
+<p>设 <span class="math inline"><em>f</em><sub><em>i</em></sub></span>
+为 <span class="math inline"><em>i</em></span> 所在联通块的根。
+算法流程和 Kruskal 最小生成树的过程非常类似:</p>
+<ol type="1">
+<li>将所有边按边权从小到大排序</li>
+<li>顺序遍历每条边 <span class="math inline">(<em>u</em>, <em>v</em>, <em>w</em>)</span> ，若
+<span class="math inline"><em>u</em>, <em>v</em></span>
+已经联通跳过，否则建立一个新点 <span class="math inline"><em>x</em></span> ，让 <span class="math inline"><em>x</em></span> 作为 <span class="math inline"><em>f</em><sub><em>u</em></sub></span> 与 <span class="math inline"><em>f</em><sub><em>v</em></sub></span> 的父亲（即连
+<span class="math inline"><em>x</em> ⇒ <em>f</em><sub><em>u</em></sub></span>
+和 时间复杂度 <span class="math inline"><em>O</em>(<em>m</em>log <em>m</em> + <em>n</em>log <em>n</em>)</span>
+。 最后，以最后一个建立的新点作为 <span class="math inline"><em>r</em><em>t</em></span>
+，就是一颗重构树了（下面是一个无向图联通变成重构树的例子，排序后第 <span class="math inline"><em>i</em></span> 条边的编 号是 <span class="math inline"><em>n</em> + <em>i</em></span>
+，点权是红色，蓝色是新点，黑色是原来的点）。</li>
+</ol>
+<p>这棵树有如下性质：</p>
+<ul>
+<li><p>原树若有 <span class="math inline"><em>n</em></span>
+个节点，那么新树有 <span class="math inline">2<em>n</em> − 1</span>
+个节点，根是 <span class="math inline">2<em>n</em> − 1</span>
+。因为建的新点就是合并两个点的次数，合并 <span class="math inline"><em>n</em> − 1</span> 次。最
+后一次合并作为根，凑成了整个树。</p></li>
+<li><p>所有原来的点就是叶子节点。因为建新图过程中我们没有让原来的点当父亲。</p></li>
+<li><p>对于任意的 <span class="math inline"><em>x</em></span> 点，
+它的祖先链从下往上点权都是非严格递增的。因为每次合并的时候，只有 <span class="math inline"> ≤ <em>w</em></span> 的边都构造好了，所以此时 <span class="math inline"><em>f</em><sub><em>u</em></sub></span> 的点权也
+<span class="math inline"> ≤ <em>w</em><sub>。
+</sub></span>因此重构树的点权是一个大根堆。跟上一个性质的等价的。</p></li>
+<li><p>对于一个 <span class="math inline"><em>x</em></span> 和一个值
+<span class="math inline"><em>v</em></span> 。从 <span class="math inline"><em>x</em></span> 出发只经过 <span class="math inline"> ≤ <em>v</em></span> 的边能到达的点集 <span class="math inline"> = <em>x</em></span> 的祖先节点中深度最小的点权
+<span class="math inline"> ≤ <em>v</em></span> 的点 <span class="math inline"><em>z</em></span> 的子树中的
+原来的点集。（证明：这颗子树外的点显然不行，因为再往上点权 <span class="math inline"> &gt; <em>v</em></span> ，说明再往上其他的点使通过
+<span class="math inline"> &gt; <em>v</em></span> 的边才和 <span class="math inline"><em>x</em></span> 点连上
+的，所以不行；这颗子树内的点显然可以，因为这是一个大根堆，所以子树内的点都可以用
+<span class="math inline"> ≤ <em>v</em></span> 的边互相可达，他们在新树
+上的路径，经过的所有编号就是原树上经过的所有边。</p></li>
+<li><p>对于任意 <span class="math inline"><em>x</em>, <em>y</em></span>
+，其最小瓶颈边权 (使其最大边最小的路径的最大边) 为 <span class="math inline"><em>x</em>, <em>y</em></span> 在新树上的 LCA 点权。
+<span class="math inline"><em>x</em>, <em>y</em></span> 在经过 LCA
+这条边 后恰好联通，由于从小到大顺序执行，说明这条边是路径上最大的边。
+如果求最大生成树，反着排序，那么偏序关系都反转，就不赘述了。</p></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>;i &lt; m;i++){</span><br><span class="line">    <span class="type">int</span> <span class="variable">u</span> <span class="operator">=</span> ni(), v = ni(), w = ni();</span><br><span class="line">    e[i][<span class="number">0</span>] = u; e[i][<span class="number">1</span>] = v; e[i][<span class="number">2</span>] = w;</span><br><span class="line">}Arrays.sort(e, <span class="number">0</span>, m, (x, y)-&gt;y[<span class="number">2</span>]-x[<span class="number">2</span>]);</span><br><span class="line"><span class="type">int</span> <span class="variable">cur</span> <span class="operator">=</span> n;</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>;i &lt; m;i++){</span><br><span class="line">    <span class="type">int</span> <span class="variable">u</span> <span class="operator">=</span> e[i][<span class="number">0</span>], v= e[i][<span class="number">1</span>], w = e[i][<span class="number">2</span>];</span><br><span class="line">    <span class="type">int</span> <span class="variable">x</span> <span class="operator">=</span> find(u), y = find(v);</span><br><span class="line">    <span class="keyword">if</span> (x != y){</span><br><span class="line">        ++cur;</span><br><span class="line">        fa[x] = fa[y] = cur;</span><br><span class="line">        g[cur].add(x); g[cur].add(y);</span><br><span class="line">        val[cur] = w;</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="树上差分">树上差分</h3>
+<p>树上差分有什么作用？举个例子，如果题目要求对树上的一段路径进行操作，并询问某个点或某条边被经过的次数，树上差分就可以派上用场了。这就是树上差分的基本操作。
+树上差分，就是利用差分的性质，对路径上的重要节点进行修改（而不是暴力全改），作为其差分数组的值，最后在求值时，利用
+dfs 遍历求出差分数组的前缀和，就可以达到降低复杂度的目的。</p>
+<p><strong>点差分</strong></p>
+<p>设将两点 u,v 之间路径上的所有点权增加 x，o=LCA(u,v),o 的父亲节点为
+p，则操作如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">diff[u]+=x,diff[v]+=x,diff[o]-=x,diff[p]-=x;</span><br></pre></td></tr></table></figure>
+<p>这样，只要 dfs
+一遍，遍历时统计以每个节点为根的树的节点的权值和，就是当前节点的最终权值！
+<del>是不是很厉害</del></p>
+<p>就是差分的思想，这里就不多说了。 <strong>边差分</strong></p>
+<p>思想一样，讲一下操作。</p>
+<p>设将两点 u,v 之间路径上的所有边权增加
+x，o=LCA(u,v)，<strong>以每条边两端深度较大的节点存储该边的差分数组</strong>，则操作如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">diff[u]+=x,diff[v]+=x,diff[o]-=2*x;</span><br></pre></td></tr></table></figure>
+<p>同样地，只要 dfs
+一遍，遍历时统计以每个节点为根的树的节点的权值和，就是当前节点到父亲节点的边的最终权值了！</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">cal</span><span class="params">(<span class="type">int</span> u, <span class="type">int</span> fa)</span> <span class="keyword">throws</span> Exception{</span><br><span class="line">    dep[u] = dep[fa]+<span class="number">1</span>;</span><br><span class="line">    f[u][<span class="number">0</span>] = fa;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>;(<span class="number">1</span>&lt;&lt;i) &lt;= dep[u];i++) f[u][i] = f[f[u][i-<span class="number">1</span>]][i-<span class="number">1</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span>[] t : g[u]){</span><br><span class="line">        <span class="type">int</span> <span class="variable">v</span> <span class="operator">=</span> t[<span class="number">0</span>], idx = t[<span class="number">1</span>];</span><br><span class="line">        <span class="keyword">if</span> (v == fa) <span class="keyword">continue</span>;</span><br><span class="line">        cal(v, u);</span><br><span class="line">        e[v] = idx; <span class="comment">//以深度更大的点代表这条边</span></span><br><span class="line">    }</span><br><span class="line">}</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>;i &lt; n;i++){</span><br><span class="line">    <span class="type">int</span> <span class="variable">u</span> <span class="operator">=</span> ni(), v = ni();</span><br><span class="line">    <span class="comment">//建图把边的编号记录下来</span></span><br><span class="line">    g[u].add(<span class="keyword">new</span> <span class="title class_">int</span>[]{v, i});</span><br><span class="line">    g[v].add(<span class="keyword">new</span> <span class="title class_">int</span>[]{u, i});</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="树链剖分">树链剖分</h3>
+<p><strong>先来回顾两个问题：</strong></p>
+<ol type="1">
+<li><p>将树从 x 到 y 结点最短路径上所有节点的值都加上 z</p>
+<p>这也是个模板题了吧</p>
+<p>我们很容易想到，树上差分可以以
+O(n+m)的优秀复杂度解决这个问题</p></li>
+<li><p>求树从 x 到 y 结点最短路径上所有节点的值之和</p>
+<p>lca 大水题，我们又很容易地想到，dfs O(n)预处理每个节点的
+dis（即到根节点的最短路径长度）</p>
+<p>然后对于每个询问，求出 x,y 两点的 lca，利用 lca 的性质 distance
+(x,y)=dis(x)+dis(y)-2*dis(lca) 求出结果</p>
+<p>时间复杂度 O(mlogn+n)</p></li>
+</ol>
+<p><strong>现在来思考一个 bug：</strong></p>
+<p>如果刚才的两个问题结合起来，成为一道题的两种操作呢？</p>
+<p>刚才的方法显然就不够优秀了（每次询问之前要跑 dfs 更新 dis）</p>
+<hr>
+<p>树剖是通过轻重边剖分将树分割成多条链，然后利用数据结构来维护这些链（本质上是一种优化暴力）</p>
+<p><strong>首先明确概念：</strong></p>
+<ul>
+<li>重儿子：父亲节点的所有儿子中子树结点数目最多（size
+最大）的结点；</li>
+<li>轻儿子：父亲节点中除了重儿子以外的儿子；</li>
+<li>重边：父亲结点和重儿子连成的边；</li>
+<li>轻边：父亲节点和轻儿子连成的边；</li>
+<li>重链：由多条重边连接而成的路径；</li>
+<li>轻链：由多条轻边连接而成的路径；</li>
+</ul>
+<p>比如上面这幅图中，用黑线连接的结点都是重结点，其余均是轻结点，</p>
+<p>2-11 就是重链，2-5
+就是轻链，用红点标记的就是该结点所在重链的起点，也就是下文提到的 top
+结点，</p>
+<p>还有每条边的值其实是进行 dfs 时的执行序号。</p>
+<p><strong>变量声明：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="type">int</span> n, m, root, time = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">static</span> <span class="type">long</span>[] f = <span class="keyword">new</span> <span class="title class_">long</span>[N&lt;&lt;<span class="number">2</span>], lazy = <span class="keyword">new</span> <span class="title class_">long</span>[N&lt;&lt;<span class="number">2</span>];</span><br><span class="line"><span class="keyword">static</span> <span class="type">int</span>[] siz = <span class="keyword">new</span> <span class="title class_">int</span>[N], dep = <span class="keyword">new</span> <span class="title class_">int</span>[N], son = <span class="keyword">new</span> <span class="title class_">int</span>[N];</span><br><span class="line"><span class="keyword">static</span> <span class="type">int</span>[] dfn = <span class="keyword">new</span> <span class="title class_">int</span>[N], top = <span class="keyword">new</span> <span class="title class_">int</span>[N], faz = <span class="keyword">new</span> <span class="title class_">int</span>[N];</span><br><span class="line"><span class="keyword">static</span> <span class="type">long</span>[] w = <span class="keyword">new</span> <span class="title class_">long</span>[N], rk = <span class="keyword">new</span> <span class="title class_">long</span>[N];</span><br><span class="line"><span class="keyword">static</span> List&lt;Integer&gt;[] g = <span class="keyword">new</span> <span class="title class_">List</span>[N];</span><br></pre></td></tr></table></figure>
+<p>time 时间戳</p>
+<p>root 根节点</p>
+<p>f[u] 保存结点 u 的父亲节点</p>
+<p>d[u] 保存结点 u 的深度值</p>
+<p>size[u] 保存以 u 为根的子树节点个数</p>
+<p>son[u] 保存重儿子</p>
+<p>top[u] 保存当前节点所在链的顶端节点</p>
+<p>dfn[u] 保存树中每个节点剖分以后的新编号（DFS 序）</p>
+<p>rk[u] 保存当前 dfs 标号在树中所对应的节点的权值</p>
+<p><strong>树链剖分的实现</strong></p>
+<p><strong>1，对于一个点我们首先求出它所在的子树大小,找到它的重儿子（即处理出
+size,son 数组），</strong></p>
+<p>解释:比如说点 1，它有三个儿子 2，3，4</p>
+<p>2 所在子树的大小是 5</p>
+<p>3 所在子树的大小是 2</p>
+<p>4 所在子树的大小是 6</p>
+<p>那么 1 的重儿子是 4</p>
+<p><em>ps:如果一个点的多个儿子所在子树大小相等且最大</em></p>
+<p><em>那随便找一个当做它的重儿子就好了</em></p>
+<p><em>叶节点没有重儿子，非叶节点有且只有一个重儿子</em></p>
+<p><strong>2，在 dfs 过程中顺便记录其父亲以及深度（即处理出 f,d
+数组），操作 1,2 可以通过一遍 dfs 完成</strong></p>
+<p>dfs 跑完大概是这样的，大家可以手动模拟一下</p>
+<p><strong>3，第二遍 dfs，然后连接重链，同时标记每一个节点的 dfs
+序，并且为了用数据结构来维护重链，我们在 dfs 时保证一条重链上各个节点
+dfs 序连续（即处理出数组 top,dfn,rk）</strong></p>
+<p>dfs 跑完大概是这样的，大家可以手动模拟一下</p>
+<p><strong>4，两遍 dfs 就是树链剖分的主要处理，通过 dfs
+我们已经保证一条重链上各个节点 dfs
+序连续，那么可以想到，我们可以通过数据结构（以线段树为例）来维护一条重链的信息</strong></p>
+<p>回顾上文的那个题目，修改和查询操作原理是类似的，以查询操作为例，其实就是个
+LCA，不过这里使用了 top 来进行加速，因为 top
+可以直接跳转到该重链的起始结点，轻链没有起始结点之说，他们的 top
+就是自己。需要注意的是，每次循环只能跳一次，并且让结点深的那个来跳到 top
+的位置，避免两个一起跳从而插肩而过。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">while (top[u] != top[v]){</span><br><span class="line">    if (dep[top[u]] &lt; dep[top[v]]) {int tp = u;u = v;v = tp;}</span><br><span class="line">    upd(1, 1, n, dfn[top[u]], dfn[u], val);</span><br><span class="line">    u = faz[top[u]];</span><br><span class="line">}</span><br><span class="line">if (dep[u] dep[v]) {int tp = u;u = v;v = tp;}</span><br><span class="line">upd(1, 1, n, dfn[u], dfn[v], val);</span><br></pre></td></tr></table></figure>
+<p><strong>5，树链剖分的时间复杂度</strong></p>
+<p>树链剖分的两个性质：</p>
+<p>1，如果(u,v)是一条轻边，那么 size(v)&lt;size(u)/2；</p>
+<p>2，从根结点到任意结点的路所经过的轻重链的个数必定都小于 logn；</p>
+<p>可以证明，树链剖分的时间复杂度为</p>
+<p><a class="link" target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P3384">P3384
+【模板】重链剖分/树链剖分 - 洛谷 | 计算机科学教育新生态<i class="fas fa-external-link-alt"></i></a></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> {</span><br><span class="line">    <span class="keyword">static</span> String ss, io[];</span><br><span class="line">    <span class="keyword">static</span> <span class="type">int</span> test, N = <span class="number">100010</span>, M = <span class="number">1000000007</span>;</span><br><span class="line">    <span class="keyword">static</span> <span class="type">int</span> n, m, root, time = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">static</span> <span class="type">long</span>[] f = <span class="keyword">new</span> <span class="title class_">long</span>[N&lt;&lt;<span class="number">2</span>], lazy = <span class="keyword">new</span> <span class="title class_">long</span>[N&lt;&lt;<span class="number">2</span>];</span><br><span class="line">    <span class="keyword">static</span> <span class="type">int</span>[] siz = <span class="keyword">new</span> <span class="title class_">int</span>[N], dep = <span class="keyword">new</span> <span class="title class_">int</span>[N], son = <span class="keyword">new</span> <span class="title class_">int</span>[N];</span><br><span class="line">    <span class="keyword">static</span> <span class="type">int</span>[] dfn = <span class="keyword">new</span> <span class="title class_">int</span>[N], top = <span class="keyword">new</span> <span class="title class_">int</span>[N], faz = <span class="keyword">new</span> <span class="title class_">int</span>[N];</span><br><span class="line">    <span class="keyword">static</span> <span class="type">long</span>[] w = <span class="keyword">new</span> <span class="title class_">long</span>[N], rk = <span class="keyword">new</span> <span class="title class_">long</span>[N];</span><br><span class="line">    <span class="keyword">static</span> List&lt;Integer&gt;[] g = <span class="keyword">new</span> <span class="title class_">List</span>[N];</span><br><span class="line">    <span class="comment">//===================================线段树==============================================</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">up</span><span class="params">(<span class="type">int</span> k)</span>{</span><br><span class="line">        f[k] = f[k*<span class="number">2</span>]+f[k*<span class="number">2</span>+<span class="number">1</span>]; f[k] %= M;</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">down</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span> l, <span class="type">int</span> m, <span class="type">int</span> r)</span>{</span><br><span class="line">        <span class="keyword">if</span> (lazy[k] == <span class="number">0</span>) <span class="keyword">return</span>;</span><br><span class="line">        f[k*<span class="number">2</span>] += lazy[k]*(m-l+<span class="number">1</span>); f[k*<span class="number">2</span>] %= M;</span><br><span class="line">        f[k*<span class="number">2</span>+<span class="number">1</span>] += lazy[k]*(r-m); f[k*<span class="number">2</span>+<span class="number">1</span>] %= M;</span><br><span class="line">        lazy[k*<span class="number">2</span>] += lazy[k]; lazy[k*<span class="number">2</span>] %= M;</span><br><span class="line">        lazy[k*<span class="number">2</span>+<span class="number">1</span>] += lazy[k]; lazy[k*<span class="number">2</span>+<span class="number">1</span>] %= M;</span><br><span class="line">        lazy[k] = <span class="number">0</span>;</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">build</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span> l, <span class="type">int</span> r)</span>{</span><br><span class="line">        <span class="keyword">if</span> (l == r){</span><br><span class="line">            f[k] = rk[l]%M;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        }</span><br><span class="line">        <span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> l+r &gt;<span class="number">1</span>;</span><br><span class="line">        build(k*<span class="number">2</span>, l, mid);</span><br><span class="line">        build(k*<span class="number">2</span>+<span class="number">1</span>, mid+<span class="number">1</span>, r);</span><br><span class="line">        up(k);</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">upd</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span> l, <span class="type">int</span> r, <span class="type">int</span> s, <span class="type">int</span> t, <span class="type">long</span> val)</span>{</span><br><span class="line">        <span class="keyword">if</span> (s &lt;= l &amp;&amp; r &lt;= t){</span><br><span class="line">            f[k] += (r-l+<span class="number">1</span>)*val; f[k] %= M;</span><br><span class="line">            lazy[k] += val; lazy[k] %= M;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        }</span><br><span class="line">        <span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> l+r &gt;<span class="number">1</span>;</span><br><span class="line">        down(k, l, mid, r);</span><br><span class="line">        <span class="keyword">if</span> (s &lt;= mid) upd(k*<span class="number">2</span>, l, mid, s, t, val);</span><br><span class="line">        <span class="keyword">if</span> (t mid) upd(k*<span class="number">2</span>+<span class="number">1</span>, mid+<span class="number">1</span>, r, s, t, val);</span><br><span class="line">        up(k);</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">static</span> <span class="type">long</span> <span class="title function_">qry</span><span class="params">(<span class="type">int</span> k, <span class="type">int</span> l, <span class="type">int</span> r, <span class="type">int</span> s, <span class="type">int</span> t)</span>{</span><br><span class="line">        <span class="keyword">if</span> (s &lt;= l &amp;&amp; r &lt;= t) <span class="keyword">return</span> f[k];</span><br><span class="line">        <span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> l+r &gt;<span class="number">1</span>;</span><br><span class="line">        <span class="type">long</span> <span class="variable">res</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        down(k, l, mid, r);</span><br><span class="line">        <span class="keyword">if</span> (s &lt;= mid) res = (res+qry(k*<span class="number">2</span>, l, mid, s, t))%M;</span><br><span class="line">        <span class="keyword">if</span> (t mid) res = (res+qry(k*<span class="number">2</span>+<span class="number">1</span>, mid+<span class="number">1</span>, r, s, t))%M;</span><br><span class="line">        up(k);</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">dfs</span><span class="params">(<span class="type">int</span> u, <span class="type">int</span> fa, <span class="type">int</span> depth)</span>{</span><br><span class="line">        dep[u] = depth; faz[u] = fa;</span><br><span class="line">        siz[u] = <span class="number">1</span>; son[u] = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> v : g[u]){</span><br><span class="line">            <span class="keyword">if</span> (v == fa) <span class="keyword">continue</span>;</span><br><span class="line">            dfs(v, u, depth+<span class="number">1</span>);</span><br><span class="line">            siz[u] += siz[v];</span><br><span class="line">            <span class="keyword">if</span> (siz[v] siz[son[u]]) son[u] = v;</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">dfs1</span><span class="params">(<span class="type">int</span> u, <span class="type">int</span> topf)</span>{</span><br><span class="line">        dfn[u] = ++time; rk[time] = w[u];</span><br><span class="line">        top[u] = topf;</span><br><span class="line">        <span class="keyword">if</span> (son[u] == <span class="number">0</span>) <span class="keyword">return</span>;</span><br><span class="line">        dfs1(son[u], topf);</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> v : g[u]){</span><br><span class="line">            <span class="keyword">if</span> (v == faz[u] || v == son[u]) <span class="keyword">continue</span>;</span><br><span class="line">            dfs1(v, v);</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">    <span class="comment">//================================查询和更新任意两个节点==================================</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">upd2</span><span class="params">(<span class="type">int</span> u, <span class="type">int</span> v, <span class="type">long</span> val)</span>{</span><br><span class="line">        <span class="keyword">while</span> (top[u] != top[v]){</span><br><span class="line">            <span class="keyword">if</span> (dep[top[u]] &lt; dep[top[v]]) {<span class="type">int</span> <span class="variable">tp</span> <span class="operator">=</span> u;u = v;v = tp;}</span><br><span class="line">            upd(<span class="number">1</span>, <span class="number">1</span>, n, dfn[top[u]], dfn[u], val);</span><br><span class="line">            u = faz[top[u]];</span><br><span class="line">        }</span><br><span class="line">        <span class="keyword">if</span> (dep[u] dep[v]) {<span class="type">int</span> <span class="variable">tp</span> <span class="operator">=</span> u;u = v;v = tp;}</span><br><span class="line">        upd(<span class="number">1</span>, <span class="number">1</span>, n, dfn[u], dfn[v], val);</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">qry2</span><span class="params">(<span class="type">int</span> u, <span class="type">int</span> v)</span>{</span><br><span class="line">        <span class="type">long</span> <span class="variable">res</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> (top[u] != top[v]){</span><br><span class="line">            <span class="keyword">if</span> (dep[top[u]] &lt; dep[top[v]]) {<span class="type">int</span> <span class="variable">tp</span> <span class="operator">=</span> u;u = v;v = tp;}</span><br><span class="line">            res = (res+qry(<span class="number">1</span>, <span class="number">1</span>, n, dfn[top[u]], dfn[u]))%M;</span><br><span class="line">            u = faz[top[u]];</span><br><span class="line">        }</span><br><span class="line">        <span class="keyword">if</span> (dep[u] dep[v]) {<span class="type">int</span> <span class="variable">tp</span> <span class="operator">=</span> u;u = v;v = tp;}</span><br><span class="line">        res = (res+qry(<span class="number">1</span>, <span class="number">1</span>, n, dfn[u], dfn[v]))%M;</span><br><span class="line">        out.println(res);</span><br><span class="line">    }</span><br><span class="line">    <span class="comment">//================================查询和更新一个子树==================================</span></span><br><span class="line">    <span class="comment">//此时不涉及树链剖分，跑一遍dfs序，建立线段树即可。</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">upd1</span><span class="params">(<span class="type">int</span> u, <span class="type">long</span> val)</span>{</span><br><span class="line">        upd(<span class="number">1</span>, <span class="number">1</span>, n, dfn[u], dfn[u]+siz[u]-<span class="number">1</span>, val);</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">qry1</span><span class="params">(<span class="type">int</span> u)</span>{</span><br><span class="line">        out.println(qry(<span class="number">1</span>, <span class="number">1</span>, n, dfn[u], dfn[u]+siz[u]-<span class="number">1</span>));</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">solve</span><span class="params">()</span> <span class="keyword">throws</span> Exception{</span><br><span class="line">        n = ni(); m = ni(); root = ni(); M = ni();</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>;i &lt;= n;i++){</span><br><span class="line">            g[i] = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;&gt;();</span><br><span class="line">            w[i] = ni();</span><br><span class="line">        }</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">2</span>;i &lt;= n;i++){</span><br><span class="line">            <span class="type">int</span> <span class="variable">u</span> <span class="operator">=</span> ni(), v = ni();</span><br><span class="line">            g[u].add(v); g[v].add(u);</span><br><span class="line">        }</span><br><span class="line">        dfs(root, <span class="number">0</span>, <span class="number">1</span>);</span><br><span class="line">        dfs1(root, root);</span><br><span class="line">        build(<span class="number">1</span>, <span class="number">1</span>, n);</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>;i &lt;= m;i++){</span><br><span class="line">            <span class="type">int</span> <span class="variable">op</span> <span class="operator">=</span> ni();</span><br><span class="line">            <span class="keyword">if</span> (op == <span class="number">1</span>) upd2(ni(), ni(), nl()%M);</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (op == <span class="number">2</span>) qry2(ni(), ni());</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (op == <span class="number">3</span>) upd1(ni(), nl()%M);</span><br><span class="line">            <span class="keyword">else</span> qry1(ni());</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+
+                    
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                Graph Algorithm
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                2023/01/05/Graph-Algorithm/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    Author
+                </div>
+                <div class="content">Zhongjun Qiu</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    Published
+                </div>
+                <div class="content">2023-01-05 21:16</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    License
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="Copy copyright info" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/Template/">Template</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/Graph/">Graph</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="Share to WeChat"
+            data-tooltip-img-tip="Scan by WeChat"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to WeiBo"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+                    
+
+<div class="reward-author-container border-box flex-center">
+    <div class="reward-btn border-box flex-center tooltip tooltip-img"
+            data-tooltip-img-url="/images/post/payment.jpg"
+            data-tooltip-img-trigger="click"
+            data-tooltip-img-style="top: -6px;"
+    >
+        <i class="fa-solid fa-gift"></i>&nbsp;REWARD AUTHOR
+    </div>
+</div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/2023/02/05/Leetcode-97%E5%9C%BA%E5%8F%8C%E5%91%A8%E8%B5%9B/"
+                                   title="Leetcode 97场双周赛"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">Leetcode 97场双周赛</span>
+                                        <span class="post-nav-item">Prev posts</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/2022/12/31/Data-Structure-Algorithm/"
+                                   title="Data Structure Algorithm"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">Data Structure Algorithm</span>
+                                        <span class="post-nav-item">Next posts</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+    <div class="comments-container border-box">
+        <div id="comments-anchor" class="comment-area-title border-box">
+            <i class="fas fa-comments"></i>&nbsp;Comments
+        </div>
+        <div class="comment-plugin-fail border-box">
+    <span class="fail-tip">Comment plugin failed to load</span>
+    <button class="reload keep-button">Click to reload</button>
+</div>
+<div class="comment-plugin-loading flex-center border-box">
+    <i class="loading-icon fa-solid fa-spinner fa-spin"></i>
+    <span class="load-tip">Loading comment plugin</span>
+</div>
+<script data-pjax>
+  window.KeepCommentPlugin = {}
+  window.KeepCommentPlugin.hideLoading = () => {
+    const cplDom = document.querySelector('.comments-container .comment-plugin-loading')
+    cplDom.style.display = 'none'
+  }
+  window.KeepCommentPlugin.loadFailHandle = () => {
+    window.KeepCommentPlugin.hideLoading()
+    const cpfDom = document.querySelector('.comments-container .comment-plugin-fail')
+    cpfDom.style.display = 'flex'
+    cpfDom.querySelector('.reload').addEventListener('click', () => {
+      window.location.reload()
+    })
+  }
+</script>
+
+        
+            
+
+    <div class="waline-comment-container">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/waline/3.3.2/waline.css"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/waline/3.3.2/waline-meta.css"/>
+        <div id="waline-comment"></div>
+        <script data-pjax>
+          window.KeepCommentPlugin.walineOptions = JSON.parse('{}'.replace(/&#34;/g, '"'))
+          window.KeepCommentPlugin.walineOptions.el = '#waline-comment'
+          window.KeepCommentPlugin.walineOptions.comment = '.post-comments-count'
+          window.KeepCommentPlugin.walineOptions.serverURL = 'https://waline-vercel-two-rho.vercel.app/'
+          window.KeepCommentPlugin.walineOptions.lang = 'en' || 'zh-CN'
+          window.KeepCommentPlugin.walineOptions.reaction = 'true' === 'true'
+        </script>
+
+        
+
+        
+            <script data-pjax
+                    async
+                    type="module"
+            >
+              import { init } from 'https://cdnjs.cloudflare.com/ajax/libs/waline/3.3.2/waline.js'
+              window.KeepCommentPlugin.initWaline = () => {
+                if (init) {
+                  init(window.KeepCommentPlugin.walineOptions)
+                  window.KeepCommentPlugin.hideLoading()
+                } else {
+                  setTimeout(() => {
+                    window.KeepCommentPlugin.initWaline()
+                  }, 1000)
+                }
+              }
+
+              if ('true' === 'true') {
+                setTimeout(() => {
+                  window.KeepCommentPlugin.initWaline()
+                }, 1200)
+              } else {
+                window.addEventListener('DOMContentLoaded', window.KeepCommentPlugin.initWaline)
+              }
+            </script>
+        
+    </div>
+
+
+        
+    </div>
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc right-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84"><span class="nav-text">存储结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%BE%E7%9A%84%E9%81%8D%E5%8E%86"><span class="nav-text">图的遍历</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8B%93%E6%89%91%E6%8E%92%E5%BA%8F"><span class="nav-text">拓扑排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91"><span class="nav-text">最小生成树</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#kruskal%E4%BC%98%E5%85%88%E4%BD%BF%E7%94%A8"><span class="nav-text">Kruskal（优先使用）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#prim"><span class="nav-text">Prim</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E7%9F%AD%E8%B7%AF"><span class="nav-text">最短路</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#floyd"><span class="nav-text">Floyd</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dijkstra"><span class="nav-text">Dijkstra</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bellman-ford"><span class="nav-text">Bellman-Ford</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#spfa"><span class="nav-text">SPFA</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#johnson-%E5%85%A8%E6%BA%90%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84"><span class="nav-text">Johnson 全源最短路径</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%80%E7%9F%AD%E8%B7%AF-1"><span class="nav-text">0-1 最短路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8D%E5%90%8C%E6%96%B9%E6%B3%95%E7%9A%84%E6%AF%94%E8%BE%83"><span class="nav-text">不同方法的比较</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E5%B1%82%E5%9B%BE%E6%9C%80%E7%9F%AD%E8%B7%AF"><span class="nav-text">分层图最短路</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B7%AE%E5%88%86%E7%BA%A6%E6%9D%9F%E4%B8%8D%E7%AD%89%E5%BC%8F"><span class="nav-text">差分约束（不等式）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E5%88%86%E5%9B%BE"><span class="nav-text">二分图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AC%A7%E6%8B%89%E5%9B%BE"><span class="nav-text">欧拉图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%91%E7%9B%B8%E5%85%B3"><span class="nav-text">树相关</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#lca"><span class="nav-text">LCA</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%91%E7%9A%84%E7%9B%B4%E5%BE%84"><span class="nav-text">树的直径</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#kruskal-%E9%87%8D%E6%9E%84%E6%A0%91"><span class="nav-text">Kruskal 重构树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%91%E4%B8%8A%E5%B7%AE%E5%88%86"><span class="nav-text">树上差分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%91%E9%93%BE%E5%89%96%E5%88%86"><span class="nav-text">树链剖分</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="copyright-info info-item">
+    &copy;&nbsp;<span>2020</span>&nbsp;-&nbsp;2025
+    
+            &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">Zhongjun Qiu</a>
+        
+    </div>
+
+    <div class="theme-info info-item">
+        Powered by&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;&&nbsp;Theme&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+    </div>
+
+    
+        
+        <div class="deploy-info info-item">
+            
+                <a target="_blank" rel="nofollow" href="https://github.com">
+            
+            This site is deployed on <span class="tooltip" data-tooltip-content="GitHub Pages"><img src="/images/brands/github.png"></span>
+            
+                </a>
+            
+        </div>
+    
+
+    
+        <div class="count-info info-item">
+            
+                <span class="count-item border-box word">
+                    <span class="item-type border-box">Total words</span>
+                    <span class="item-value border-box word">341.8k</span>
+                </span>
+            
+
+            
+
+            
+                <span class="count-item border-box pv">
+                    <span class="item-type border-box">Page View</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+    
+
+    
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+            <li class="tools-item flex-center go-to-comments">
+                <i class="fas fa-comment"></i>
+                <span class="post-comments-count"></span>
+            </li>
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <!-- toggle mode -->
+        
+            <li class="tools-item tool-toggle-theme-mode flex-center">
+                <i class="fas fa-moon"></i>
+            </li>
+        
+
+        <!-- rss -->
+        
+
+        <!-- to bottom -->
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+            <li class="tools-item go-to-comments-tablet flex-center">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84"><span class="nav-text">存储结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%BE%E7%9A%84%E9%81%8D%E5%8E%86"><span class="nav-text">图的遍历</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8B%93%E6%89%91%E6%8E%92%E5%BA%8F"><span class="nav-text">拓扑排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91"><span class="nav-text">最小生成树</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#kruskal%E4%BC%98%E5%85%88%E4%BD%BF%E7%94%A8"><span class="nav-text">Kruskal（优先使用）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#prim"><span class="nav-text">Prim</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E7%9F%AD%E8%B7%AF"><span class="nav-text">最短路</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#floyd"><span class="nav-text">Floyd</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dijkstra"><span class="nav-text">Dijkstra</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bellman-ford"><span class="nav-text">Bellman-Ford</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#spfa"><span class="nav-text">SPFA</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#johnson-%E5%85%A8%E6%BA%90%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84"><span class="nav-text">Johnson 全源最短路径</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%80%E7%9F%AD%E8%B7%AF-1"><span class="nav-text">0-1 最短路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8D%E5%90%8C%E6%96%B9%E6%B3%95%E7%9A%84%E6%AF%94%E8%BE%83"><span class="nav-text">不同方法的比较</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E5%B1%82%E5%9B%BE%E6%9C%80%E7%9F%AD%E8%B7%AF"><span class="nav-text">分层图最短路</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B7%AE%E5%88%86%E7%BA%A6%E6%9D%9F%E4%B8%8D%E7%AD%89%E5%BC%8F"><span class="nav-text">差分约束（不等式）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E5%88%86%E5%9B%BE"><span class="nav-text">二分图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AC%A7%E6%8B%89%E5%9B%BE"><span class="nav-text">欧拉图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%91%E7%9B%B8%E5%85%B3"><span class="nav-text">树相关</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#lca"><span class="nav-text">LCA</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%91%E7%9A%84%E7%9B%B4%E5%BE%84"><span class="nav-text">树的直径</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#kruskal-%E9%87%8D%E6%9E%84%E6%A0%91"><span class="nav-text">Kruskal 重构树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%91%E4%B8%8A%E5%B7%AE%E5%88%86"><span class="nav-text">树上差分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%91%E9%93%BE%E5%89%96%E5%88%86"><span class="nav-text">树链剖分</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+
+
+<!-- common js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/utils.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/header-shrink.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/back2top.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/toggle-theme.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/code-block.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/main.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/libs/anime.min.js"></script>
+
+<!-- local search -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/local-search.min.js"></script>
+
+
+<!-- lazyload -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/lazyload.min.js"></script>
+
+
+<div class="pjax">
+    <!-- home page -->
+    
+
+    <!-- post page -->
+    
+        <!-- post-helper -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/post-helper.min.js"></script>
+
+        <!-- toc -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/toc.min.js"></script>
+        
+
+        <!-- copyright-info -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/copyright-info.min.js"></script>
+        
+
+        <!-- share -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/share.min.js"></script>
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/libs/pjax.min.js"></script>
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax'
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            KEEP.utils.pjaxProgressBarStart()
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            KEEP.utils.pjaxProgressBarEnd()
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'))
+            KEEP.initExecute()
+        });
+    });
+</script>
+
+
+
+
+    
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/custom_code_block.js" data-pjax></script>
+
+        
+    
+
+</body>
+</html>

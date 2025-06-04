@@ -1,0 +1,1647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="blog, decade, lucky">
+    <meta name="description" content="Decade&#39;s lucky blog">
+    <meta name="author" content="Zhongjun Qiu">
+    
+    <title>
+        
+            数据库索引设计 |
+        
+        Decade
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/images/logo.ico">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/fontawesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/regular.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/solid.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/brands.min.css">
+    
+        
+            
+        
+            
+                
+<link rel="stylesheet" href="/css/custom.css">
+
+            
+        
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"decade.net.cn","root":"/","language":"en","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"Decade","author":"Zhongjun Qiu","avatar":"/images/avatar.ico","logo":"/images/avatar.ico","favicon":"/images/logo.ico"},"menu":{"home":"/ || fa-solid fa-home","archives":"/archives || fa-solid fa-box-archive","tags":"/tags || fa-solid fa-tags","categories":"/categories || fa-solid fa-layer-group","more":{"icon":"fa-solid fa-circle-user","children":[{"tool":"/tools || fa-solid fa-tools"},{"life":"/photos || fa-solid fa-image"},{"me":"/about || fa-solid fa-user-graduate"},{"Git":"/HTML/index.html || fa-solid fa-user"}]}},"first_screen":{"enable":true,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"The Steadfast Determination of An Ordinary Soul.","hitokoto":false},"social_contact":{"enable":true,"links":{"github":"https://github.com/Decade-qiu","weixin":"img | /images/social/weixin.jpg","qq":null,"weibo":null,"zhihu":null,"twitter":null,"x":null,"facebook":null,"email":"qiuyu6021@gmail.com"}},"scroll":{"progress_bar":true,"percent":true,"hide_header":false},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"created || fa-solid fa-history","post_datetime_format":"ago"},"post":{"author_badge":{"enable":true,"level_badge":false,"custom_badge":"元婴开发者"},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":true,"img_link":"/images/post/payment.jpg","text":null,"icon":null},"created_datetime_icon":"fa-solid fa-calendar-plus","updated_datetime_icon":"fa-solid fa-arrows-rotate"},"code_block":{"tools":{"enable":true,"style":"mac"},"highlight_theme":"obsidian"},"toc":{"enable":true,"number":false,"expand_all":false,"init_open":false,"layout":"right"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":false,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":true,"use":"waline","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.39"},"waline":{"server_url":"https://waline-vercel-two-rho.vercel.app/","reaction":true,"version":"3.3.2"},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":false},"lazyload":{"enable":true},"cdn":{"enable":true,"provider":"cdnjs"},"pjax":{"enable":true},"footer":{"since":2020,"word_count":true,"site_deploy":{"enable":true,"provider":"github","url":"https://github.com"},"record":{"enable":false,"list":[{"code":null,"link":null}]}},"inject":{"enable":true,"css":[null,"/css/custom.css"],"js":[null,"/js/custom_code_block.js"]},"root":"","source_data":{"photos":[{"url":"/images/post/【哲风壁纸】日本动漫-电锯人.webp","name":"电锯人"},{"url":"/images/post/Quicker_20250428_193139.webp","name":"kowayia"},{"url":"/images/post/Quicker_20250428_233349.webp","name":"世界地图"},{"url":"/images/post/tmpFE1E.tmp.webp","name":"施红"},{"url":"/images/post/result-1745849388402.webp","name":"仇忠骏.动漫版"},{"url":"/images/photos/猫猫困了PNG.png","name":"猫猫困了PNG"},{"url":"/images/photos/宁静的暴雨天.png","name":"宁静的暴雨天"},{"url":"/images/photos/我在扬州好想你.png","name":"我在扬州好想你"},{"url":"/images/photos/信鸽.png","name":"信鸽"},{"url":"/images/photos/啤酒烧烤.png","name":"啤酒烧烤"},{"url":"/images/photos/随手拍.png","name":"随手拍"},{"url":"/images/photos/糖油混合炸弹.png","name":"糖油混合炸弹"},{"url":"/images/photos/香香的.png","name":"香香的"},{"url":"/images/photos/蝎子莱莱.png","name":"蝎子莱莱"},{"url":"/images/post/指C为python.png","name":"指C为python"},{"url":"/images/photos/YangZhou_Station.png","name":"YangZhou Station"}],"tools":[{"category":"AIGC","anchorId":"QUlHQw0"},{"name":"ChatGPT","link":"https://chat.openai.com/","description":"OpenAI 旗下 AI 聊天对话工具","image":"/images/tools/chatgpt.svg"},{"name":"Gemini","link":"https://gemini.google.com/app","description":"Google 旗下 AI 聊天对话工具","image":"/images/tools/gemini.svg"},{"name":"Copilot","link":"https://copilot.microsoft.com/","description":"Microsoft 旗下 AI 聊天对话工具","image":"/images/tools/copilot.png"},{"name":"Deepseek","link":"https://chat.deepseek.com/","description":"Deepseek 旗下 AI 聊天对话工具","image":"/images/tools/deepseek.jpg"},{"name":"Qwen","link":"https://chat.qwen.ai/","description":"Alibaba 旗下 AI 聊天对话工具","image":"/images/tools/tongyiqianwen.svg"},{"name":"即梦AI","link":"https://jimeng.jianying.com/ai-tool/home","description":"Dreamina 图像生成工具","image":"/images/tools/dream.png"},{"name":"komiko","link":"https://komiko.app/home","description":"Komiko 动漫化AI工具","image":"/images/tools/komiko.webp"},{"name":"InsMind","link":"https://www.insmind.com/zh-cn/workspace/","description":"AI图片编辑工具","image":"/images/tools/insmind.svg"},{"name":"Raphael","link":"https://raphael.app/zh","description":"AI图片生成工具","image":"/images/tools/rap.png"},{"name":"腾讯元宝","link":"https://yuanbao.tencent.com/chat/","description":"Tencent 旗下 AI 聊天对话工具","image":"/images/tools/tencent.jpg"},{"name":"豆包","link":"https://www.doubao.com/chat/","description":"字节跳动 图片生成工具","image":"/images/tools/dn.jpg"},{"category":"Airport","anchorId":"QWlycG9ydA12"},{"name":"独角兽","link":"https://91unicorn.cloud/","description":"十分稳定","image":"/images/tools/dujiaoshou.ico"},{"name":"极速机场","link":"https://xn--mes358acgm99l.com/","description":"便宜好用","image":"/images/tools/jisu.ico"},{"name":"iKuuu","link":"https://ikuuu.org/user","description":"以备不时之需","image":"/images/tools/ikuu.ico"},{"category":"File Converter","anchorId":"RmlsZSUyMENvbnZlcnRlcg16"},{"name":"Online Image Tool","link":"https://www.onlineimagetool.com/zh/","description":"在线压缩和转换图片","image":"/images/tools/oit.png"},{"name":"Vector Magic","link":"https://zh.vectormagic.com/","description":"文件矢量化","image":"/images/tools/apple-touch-icon-180_97956a9f5fbf6a767de100280d78c1f8.png"},{"name":"TinyPNG","link":"https://tinypng.com/","description":"Smart AVIF, WebP, PNG and JPEG Compression for Faster Websites","image":"/images/tools/tiny.ico"},{"name":"踏得","link":"https://techbrood.com/tool","description":"HTML5在线工具","image":"/images/tools/td.ico"},{"name":"UU在线工具","link":"https://uutool.cn/base64/","description":"base64工具包","image":"/images/tools/uu.png"},{"name":"I Love PDF","link":"https://www.ilovepdf.com/","description":"PDF工具包","image":"/images/tools/ilovepdf.svg"},{"category":"Free GPT API","anchorId":"RnJlZSUyMEdQVCUyMEFQSQ23"},{"name":"Gemini API","link":"https://ai.google.dev/gemini-api/docs/quickstart?lang=python","description":"Google Gemini API","image":"/images/tools/touchicon-180-new.png"},{"name":"SiliconCloud","link":"https://cloud.siliconflow.cn/models","description":"各种模型API"},{"name":"Cloudflare Workers AI","link":"https://developers.cloudflare.com/workers-ai/configuration/open-ai-compatibility/","description":"OpenAI compatible API endpoints","image":"/images/tools/logo.p_ySeMR1.svg"},{"name":"算了么","link":"https://api.suanli.cn/","description":"共享算力API","image":"/images/tools/suanlm.svg"},{"category":"Resource Explorer","anchorId":"UmVzb3VyY2UlMjBFeHBsb3Jlcg28"},{"name":"Free for Developers","link":"https://free-for.dev/","description":"A list of SaaS, PaaS and IaaS offerings that have free tiers of interest to devops and infradev","image":"/images/tools/freefd.webp"},{"name":"zlibrary","link":"https://zh.z-library.sk/","description":"在线图书馆","image":"/images/tools/logo.zlibrary.svg"},{"name":"PicX","link":"https://picx.xpoet.cn/","description":"基于Github的图床","image":"/images/tools/logo.ffee4291.png"},{"name":"HaoWallpaper","link":"https://haowallpaper.com/","description":"哲风壁纸","image":"/images/tools/haowall.ico"},{"name":"Awesome","link":"https://wallhaven.cc/","description":"WallHaven","image":"/images/tools/wallheaven.ico"},{"name":"WallHere","link":"https://wallhere.com/","description":"WallHere"},{"name":"SnapAny","link":"https://snapany.com/zh","description":"万能视频图片解析下载"},{"name":"ØMagnet","link":"https://0cili.org/","description":"种子下载"},{"name":"twitter","link":"https://snapvid.net/zh-cn/twitter-downloader","description":"推特视频下载器","image":"/images/tools/apple-touch-icon.png"},{"name":"youtube","link":"https://www.y2mate.com/en949","description":"Youtube视频下载器","image":"/images/tools/y2mate.webp"},{"name":"Icons8","link":"https://icons8.com/icons","description":"免费图标下载","image":"/images/tools/logo-icons8.svg"},{"name":"全能emoji","link":"https://www.emojiall.com/zh-hans","description":"emoji制作","image":"/images/tools/emoji.ico"},{"name":"emojidb","link":"https://emojidb.org/","description":"免费表情包下载","image":"/images/tools/emojidb.png"},{"name":"Flaticon","link":"https://www.flaticon.com/","description":"免费图标下载","image":"/images/tools/logo-flaticon.svg"},{"name":"IconFinder","link":"https://www.iconfinder.com/","description":"免费图标下载","image":"/images/tools/logo-iconfinder.svg"}]},"version":"4.2.5"}
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"}
+    KEEP.language_code_block = {"copy":"Copy code","copied":"Copied","fold":"Fold code block","folded":"Folded"}
+    KEEP.language_copy_copyright = {"copy":"Copy copyright info","copied":"Copied","title":"Original post title","author":"Original post author","link":"Original post link"}
+  </script>
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <i class="pjax-progress-icon fas fa-circle-notch fa-spin"></i>
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left flex-start border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/avatar.ico">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               Decade
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc border-box">
+                <ul class="menu-list border-box">
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-home"></i>
+                                
+                                HOME
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/archives">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-box-archive"></i>
+                                
+                                ARCHIVES
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/tags">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-tags"></i>
+                                
+                                TAGS
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/categories">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-layer-group"></i>
+                                
+                                CATEGORIES
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box has-sub-menu">
+                            <a class="menu-text-color border-box" href="javascript:void(0);">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-circle-user"></i>
+                                
+                                MORE
+                                
+                                    <i class="menu-text-color collapse-icon fa-solid fa-angle-down"></i>
+                                
+                            </a>
+                            
+                                <ul class="sub-menu-list border-box">
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" href="/tools">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-solid fa-tools"></i>
+                                                
+                                                TOOL
+                                            </a>
+                                        </li>
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" href="/photos">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-solid fa-image"></i>
+                                                
+                                                LIFE
+                                            </a>
+                                        </li>
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" href="/about">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-solid fa-user-graduate"></i>
+                                                
+                                                ME
+                                            </a>
+                                        </li>
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" href="/html/">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-solid fa-user"></i>
+                                                
+                                                GIT
+                                            </a>
+                                        </li>
+                                    
+                                </ul>
+                            
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="menu-text-color fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile border-box flex-start">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list border-box">
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-home"></i>
+                                </span>
+                            
+                            HOME
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/archives">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-box-archive"></i>
+                                </span>
+                            
+                            ARCHIVES
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/tags">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-tags"></i>
+                                </span>
+                            
+                            TAGS
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/categories">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-layer-group"></i>
+                                </span>
+                            
+                            CATEGORIES
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box has-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="javascript:void(0);">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-circle-user"></i>
+                                </span>
+                            
+                            MORE
+                        </a>
+                        
+                            <i class="right-side collapse-icon fa-solid fa-angle-left"></i>
+                        
+                    </label>
+                    
+                        <ul class="drawer-sub-menu-list border-box">
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" href="/tools">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-solid fa-tools"></i>
+                                            </span>
+                                        
+                                        TOOL
+                                    </a>
+                                </li>
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" href="/photos">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-solid fa-image"></i>
+                                            </span>
+                                        
+                                        LIFE
+                                    </a>
+                                </li>
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" href="/about">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-solid fa-user-graduate"></i>
+                                            </span>
+                                        
+                                        ME
+                                    </a>
+                                </li>
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" href="/html/">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-solid fa-user"></i>
+                                            </span>
+                                        
+                                        GIT
+                                    </a>
+                                </li>
+                            
+                        </ul>
+                    
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        数据库索引设计
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/avatar.ico">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">Zhongjun Qiu</span>
+                                
+                                    <span class="author-badge">元婴开发者</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2024-06-25 17:00:33</span>
+            </span>
+
+            
+                <span class="meta-info-item post-update-date">
+                    <i class="icon fa-solid fa-arrows-rotate"></i>&nbsp;
+                    <span class="datetime" data-updated="Thu May 15 2025 23:39:44 GMT+0800">2025-05-15 23:39:44</span>
+                </span>
+            
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/Database/">Database</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/DB-Index/">DB-Index</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>9k Words</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>34 Mins</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <p>索引是数据库性能优化的重要手段，不同类型的索引适用于不同的查询场景。MySQL
+8.0
+引入了如隐藏索引、降序索引等新特性，增强了索引的灵活性与可维护性。在实际设计中，应遵循最左前缀原则、选择性高优先、覆盖索引优先等原则，以最大程度发挥索引的性能优势。</p>
+<span id="more"></span>
+<h2 id="索引的声明与使用">1. 索引的声明与使用</h2>
+<h3 id="索引的分类">1.1 索引的分类</h3>
+<ul>
+<li>从<code>功能逻辑</code>上说，索引主要有 4
+种，分别是普通索引、唯一索引、主键索引、全文索引。</li>
+<li>按照<code>物理实现方式</code>，索引可以分为 2
+种：聚簇索引和非聚簇索引。</li>
+<li>按照<code>作用字段个数</code>进行划分，分成单列索引和联合索引。</li>
+</ul>
+<p><strong>1. 普通索引</strong></p>
+<p>在创建普通索引时，不附加任何限制条件，只是用于提高查询效率。这类索引可以<strong>创建在任何数据类型</strong>中，其值是否唯一和非空，要由字段本身的完整性约束条件决定。建立索而以后，可以通过索引进行查询。例如，在表
+student 的字段 name
+上建立一个普通索引，查询记录时就可以根据该索引进行查询。|</p>
+<p><strong>2. 唯一性索引</strong></p>
+<p>使用<strong>UNIQUE</strong>参数
+可以设置索引为唯一性索引，在创建唯一性索引时，限制该索引的值必须是唯一的，但允许有空值。在一张数据表里
+<strong>可以有多个</strong> 唯一索引。</p>
+<p>例如，在表 student 的字段 email 中创建唯一性索引，那么字段 email
+的值就必须是唯一的。通过唯一性索引，可以更快速地确定某条记录。</p>
+<p><strong>3. 主键索引</strong></p>
+<p>主键索引就是一种
+<strong>特殊的唯一性索引</strong>，在唯一索引的基础上增加了不为空的约束，也就是
+NOT NULL+UNIQUE，一张表里 <strong>最多只有一个主键索引</strong>。</p>
+<blockquote>
+<p>这是由主键索引的物理实现方式决定的，因为数据存储在文件中只能按照一种顺序进行存储。</p>
+</blockquote>
+<p><strong>4. 单列索引</strong></p>
+<p>在表中的单个字段上创建索引。单列素引只根据该字段进行素引。单列索引可以是普通素引，也可以是唯一性素引，还可以是全文索引。只要保证该索引只对应一个字段即可。一个表可以有多个单列索引。</p>
+<p><strong>5. 多列 (组合、联合) 索引</strong></p>
+<p>多列索引是在表的多个字段组合上创建一个索引。该索引指向创建时对应的多个字段，可以通过这几个字段进行查询，但是只有查询条件中使用了这些字段中的第一个字段时才会被使用。例如，在表中的字段
+id、name 和 gender 上建立一个多列索引
+idx_id_name-gender，只有在查询条件中使用了字段 id
+时该索引才会被使用。使用组合索引时遵循<strong>最左前缀集合</strong>。</p>
+<p><strong>6. 全文检索</strong></p>
+<p>全文索引 (也称全文检索)
+是目前<strong>搜索引擎</strong>使用的一种关键技术。它能够利用【<strong>分词技术</strong>】等多种算法智能分析出文本文字中关键词的频率和重要性，然后按照一定的算法规则智能地耖选出我们想要的搜索结果。全文索引非常适合大型数据集，对于小的数据集，它的用处比较小。</p>
+<p>使用参数 FULLTEXT
+可以设置索引为全文索引。在定义索引的列上支持值的全文查找，允许在这些索引列中插入重复值和空值。全文索引只能创建在
+CHAR 、VARCHAR 或 TEXT
+类型及其系列类型的字段上，<strong>查询数据量较大的字符串类型的字段时，使用全文索引可以提高查询速度</strong>。例如，表
+student 的字段 information 是 TEXT
+类型，该字段包含了很多文字信息。在字段 information
+上建立全文索引后，可以提高查询字段 information 的速度。</p>
+<p>全文索引典型的有两种类型：自然语言的全文索引 和 布尔全文索引。</p>
+<ul>
+<li>自然语言搜索引擎将计算每一个文档对象和查询的相关度。这里，相关度是基于匹配的关键词的个数，以及关键词在文档中出现的次数。在整个索引中出现次数越少的词语，匹配时的相关度就越高。相反，非常常见的单词将不会被搜索，如果一个词语的在超过
+<span class="math inline">50%</span>
+的记录中都出现了，那么自然语言的搜索将不会搜索这类词语。</li>
+</ul>
+<p>MySQL 数据库从 3.23.23 版开始支持全文索引，但 MySQL5.6.4 以前只有
+Myisam 支持，5.6.4 版本以后 innodb
+才支持，但是官方版本不支持中文分词，需要第三方分词插件。在 5.7.6
+版本，MySQL 内置了 ngram
+全文解析器，用来支持亚洲语种的分词。测试或使用全文索引时，要先看一下自己的
+MYSQL 版本、存储引擎和数据类型是否支持全文索引。</p>
+<p>随着大数据时代的到来，关系型数据库应对全文索引的需求已力不从心，逐渐被
+solr、ElasticSearch 等专门的搜索引擎所替代。</p>
+<p><strong>7. 补充：空间索引</strong></p>
+<p>使用参数 SPATIAL
+可以设置索引为空间索引。空间索引只能建立在空间数据类型上，这样可以提高系统获取空间数据的效率。MySQL
+中的空间数据类型包括 GEOMETRY、POINT、LINESTRING 和 POLYGON 等。目前只有
+MyISAM
+存储引擎支持空间检索，而且索引的字段不能为空值。对于初学者来说，这类索引很少会用到。</p>
+<p><strong>小结：不同的存储引擎支持的索引类型也不一样 </strong></p>
+<p>InnoDB ：支持 B-tree、Full-text 等索引，不支持 Hash 索引；</p>
+<p>MyISAM ： 支持 B-tree、Full-text 等索引，不支持 Hash 索引；</p>
+<p>Memory ：支持 B-tree、Hash 等 索引，不支持 Full-text 索引；</p>
+<p>NDB ：支持 Hash 索引，不支持 B-tree、Full-text 等索引；</p>
+<p>Archive ：不支 持 B-tree、Hash、Full-text 等索引；</p>
+<h3 id="创建索引">1.2 创建索引</h3>
+<p>MySQL 支持多种方法在单个或多个列上创建索引：在创建表的定义语句 CREATE
+TABLE 中指定索引列，使用 ALTER TABLE 语句在存在的表上创建索引，或者使用
+CREATE INDEX 语句在已存在的表上添加索引。</p>
+<h4 id="创建表的时候创建索引">1. 创建表的时候创建索引</h4>
+<p>使用 CREATE TABLE
+创建表时，除了可以定义列的数据类型外，还可以定义主键约束、外键约束或者唯一性约束，而不论创建哪种约束，在定义约束的同时相当于在指定列上创建了一个索引。</p>
+<p>举例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE dept(</span><br><span class="line">dept_id INT PRIMARY KEY AUTO_INCREMENT,</span><br><span class="line">dept_name VARCHAR(20)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">CREATE TABLE emp(</span><br><span class="line">emp_id INT PRIMARY KEY AUTO_INCREMENT,</span><br><span class="line">emp_name VARCHAR(20) UNIQUE,</span><br><span class="line">dept_id INT,</span><br><span class="line">CONSTRAINT emp_dept_id_fk FOREIGN KEY(dept_id) REFERENCES dept(dept_id)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>但是，如果显式创建表时创建索引的话，基本语法格式如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE table_name [col_name data_type]</span><br><span class="line">[UNIQUE | FULLTEXT | SPATIAL] [INDEX | KEY] [index_name] (col_name [length]) [ASC |</span><br><span class="line">DESC]</span><br></pre></td></tr></table></figure>
+<ul>
+<li>UNIQUE 、 FULLTEXT 和 SPATIAL
+为可选参数，分别表示唯一索引、全文索引和空间索引；</li>
+<li>INDEX 与 KEY 为同义词，两者的作用相同，用来指定创建索引；</li>
+<li>index_name 指定索引的名称，为可选参数，如果不指定，那么 MySQL 默认
+col_name 为索引名；</li>
+<li>col_name
+为需要创建索引的字段列，该列必须从数据表中定义的多个列中选择；</li>
+<li>length
+为可选参数，表示索引的长度，只有字符串类型的字段才能指定索引长度；</li>
+<li>ASC 或 DESC 指定升序或者降序的索引值存储。</li>
+</ul>
+<p><strong>1. 创建普通索引</strong></p>
+<p>在 book 表中的 year_publication 字段上建立普通索引，SQL
+语句如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE book(</span><br><span class="line">    book_id INT ,</span><br><span class="line">    book_name VARCHAR(100),</span><br><span class="line">    authors VARCHAR(100),</span><br><span class="line">    info VARCHAR(100) ,</span><br><span class="line">    comment VARCHAR(100),</span><br><span class="line">    year_publication YEAR,</span><br><span class="line">    INDEX year_pu(year_publication)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p><strong>2. 创建唯一索引</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE test1(</span><br><span class="line">    id INT NOT NULL,</span><br><span class="line">    name varchar(30) NOT NULL,</span><br><span class="line">    UNIQUE INDEX uk_idx_id(id)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>该语句执行完毕之后，使用 SHOW CREATE TABLE 查看表结构：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SHOW INDEX FROM test1 \G</span><br></pre></td></tr></table></figure>
+<p><strong>3. 主键索引</strong></p>
+<p>设定为主键后数据库会自动建立索引，innodb 为聚簇索引，语法：</p>
+<ul>
+<li>随表一起建索引：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE student (</span><br><span class="line">    id INT(10) UNSIGNED AUTO_INCREMENT ,</span><br><span class="line">    student_no VARCHAR(200),</span><br><span class="line">    student_name VARCHAR(200),</span><br><span class="line">    PRIMARY KEY(id)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>删除主键索引：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE student</span><br><span class="line">drop PRIMARY KEY;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>修改主键索引：必须先删除掉(drop)原索引，再新建(add)索引</li>
+</ul>
+<p><strong>4. 创建单列索引</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE test2(</span><br><span class="line">id INT NOT NULL,</span><br><span class="line">name CHAR(50) NULL,</span><br><span class="line">INDEX single_idx_name(name(20))</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p><strong>5. 创建组合索引</strong></p>
+<p>举例：创建表 test3，在表中的 id、name 和 age 字段上建立组合索引，SQL
+语句如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE test3(</span><br><span class="line">    id INT(11) NOT NULL,</span><br><span class="line">    name CHAR(30) NOT NULL,</span><br><span class="line">    age INT(11) NOT NULL,</span><br><span class="line">    info VARCHAR(255),</span><br><span class="line">    INDEX multi_idx(id,name,age)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>在 test3 表中，查询 id 和 name 字段，使用 EXPLAIN
+语句查看索引的使用情况：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EXPLAIN SELECT * FROM test3 WHERE id=1 AND name='songhongkang' \G</span><br></pre></td></tr></table></figure>
+<p>可以看到，查询 id 和 name 字段时，使用了名称为 MultiIdx
+的索引，如果查询 (name, age) 组合或者单独查询 name 和 age
+字段，会发现结果中 possible_keys 和 key 值为 NULL, 并没有使用在 t3
+表中创建的索引进行查询。</p>
+<p><strong>6. 创建全文索引</strong></p>
+<p>FULLTEXT 全文索引可以用于全文检索，并且只为 <code>CHAR</code>
+、<code>VARCHAR</code> 和 <code>TEXT</code>
+列创建索引。索引总是对整个列进行，不支持局部 (前缀) 索引。</p>
+<p>举例 1：创建表 test4，在表中的 info 字段上建立全文索引，SQL
+语句如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE test4(</span><br><span class="line">id INT NOT NULL,</span><br><span class="line">name CHAR(30) NOT NULL,</span><br><span class="line">age INT NOT NULL,</span><br><span class="line">info VARCHAR(255),</span><br><span class="line">FULLTEXT INDEX futxt_idx_info(info)</span><br><span class="line">) ENGINE=MyISAM;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>在 MySQL5.7 及之后版本中可以不指定最后的 ENGINE 了，因为在此版本中
+InnoDB 支持全文索引</p>
+</blockquote>
+<p>举例 2：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE `papers` (</span><br><span class="line">`id` int(10) unsigned NOT NULL AUTO_INCREMENT,</span><br><span class="line">`title` varchar(200) DEFAULT NULL,</span><br><span class="line">`content` text,</span><br><span class="line">PRIMARY KEY (`id`),</span><br><span class="line">FULLTEXT KEY `title` (`title`,`content`)</span><br><span class="line">) ENGINE=MyISAM DEFAULT CHARSET=utf8;</span><br></pre></td></tr></table></figure>
+<p>不同于 like 方式的的查询：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM papers WHERE content LIKE ‘%查询字符串%’;</span><br></pre></td></tr></table></figure>
+<p>全文索引用 match+against 方式查询：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM papers WHERE MATCH(title,content) AGAINST (‘查询字符串’);</span><br></pre></td></tr></table></figure>
+<p>明显的提高查询效率。</p>
+<blockquote>
+<p>注意点</p>
+<ol type="1">
+<li>使用全文索引前，搞清楚版本支持情况；</li>
+<li>全文索引比 like + % 快 N 倍，但是可能存在精度问题；</li>
+<li>如果需要全文索引的是大量数据，建议先添加数据，再创建索引。</li>
+</ol>
+</blockquote>
+<p><strong>7. 创建空间索引</strong></p>
+<p>空间索引创建中，要求空间类型的字段必须为 非空 。</p>
+<p>举例：创建表 test5，在空间类型为 GEOMETRY 的字段上创建空间索引，SQL
+语句如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE test5(</span><br><span class="line">    geo GEOMETRY NOT NULL,</span><br><span class="line">    SPATIAL INDEX spa_idx_geo(geo)</span><br><span class="line">) ENGINE=MyISAM;</span><br></pre></td></tr></table></figure>
+<h4 id="在已经存在的表上创建索引">2. 在已经存在的表上创建索引</h4>
+<p>在已经存在的表中创建索引可以使用 ALTER TABLE 语句或者 CREATE INDEX
+语句。</p>
+<p><strong>1. 使用 ALTER TABLE 语句创建索引</strong> ALTER TABLE
+语句创建索引的基本语法如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE table_name ADD [UNIQUE | FULLTEXT | SPATIAL] [INDEX | KEY]</span><br><span class="line">[index_name] (col_name[length],...) [ASC | DESC]</span><br></pre></td></tr></table></figure>
+<p><strong>2. 使用 CREATE INDEX 创建索引</strong> CREATE INDEX
+语句可以在已经存在的表上添加索引，在 MySQL 中， CREATE INDEX
+被映射到一个 ALTER TABLE 语句上，基本语法结构为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CREATE [UNIQUE | FULLTEXT | SPATIAL] INDEX index_name</span><br><span class="line">ON table_name (col_name[length],...) [ASC | DESC]</span><br></pre></td></tr></table></figure>
+<h3 id="删除索引">1.3 删除索引</h3>
+<p><code>有索引字段进行大量插入和删除时，性能会下降</code></p>
+<p><code>在插入和删除前可以先删除索引，之后重建索引进行查询操作</code></p>
+<p><strong>1. 使用 ALTER TABLE 删除索引</strong> ALTER TABLE
+删除索引的基本语法格式如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE table_name DROP INDEX index_name;</span><br></pre></td></tr></table></figure>
+<p><strong>2. 使用 DROP INDEX 语句删除索引</strong> DROP INDEX
+删除索引的基本语法格式如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DROP INDEX index_name ON table_name;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>提示:
+删除表中的列时，如果要删除的列为索引的组成部分，则该列也会从索引中删除。如果组成索引的所有列都被删除，则整个索引将被删除。</p>
+</blockquote>
+<h2 id="mysql8.0-索引新特性">2. MySQL8.0 索引新特性</h2>
+<h3 id="支持降序索引">2.1 支持降序索引</h3>
+<p>降序索引以降序存储键值。虽然在语法上，从 MySQL 4
+版本开始就已经支持降序索引的语法了，但实际上 DESC 定义是被忽略的，直到
+MySQL 8.x 版本才开始真正支持降序索引 (仅限于 InnoDB 存储引擎)。</p>
+<p>MySQL 在 8.0
+版本之前创建的仍然是升序索引，使用时进行反向扫描，这大大降低了数据库的效率。在某些场景下，降序索引意义重大。例如，如果一个查询，需要对多个列进行排序，且顺序要求不一致，那么使用降序索引将会避免数据库使用额外的文件排序操作，从而提高性能。</p>
+<p>举例：分别在 MySQL 5.7 版本和 MySQL 8.0 版本中创建数据表
+ts1，结果如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE ts1(a int,b int,index idx_a_b(a,b desc);</span><br></pre></td></tr></table></figure>
+<p>在 MySQL 5.7 版本中查看数据表 ts1 的结构，结果如下:</p>
+<p>从结果可以看出，索引仍然是默认的升序</p>
+<p>在 MySQL 8.0 版本中查看数据表 ts1 的结构，结果如下：</p>
+<p>从结果可以看出，索引已经是降序了。下面继续测试降序索引在执行计划中的表现。</p>
+<p>分别在 MySQL 5.7 版本和 MySQL 8.0 版本的数据表 ts1 中插入 800
+条随机数据，执行语句如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">DELIMITER //</span><br><span class="line">CREATE PROCEDURE ts_insert()</span><br><span class="line">BEGIN</span><br><span class="line">	DECLARE i INT DEFAULT 1;</span><br><span class="line">	WHILE i &lt; 800</span><br><span class="line">	DO</span><br><span class="line">		insert into ts1 select rand()*80000, rand()*80000;</span><br><span class="line">		SET i = i+1;</span><br><span class="line">	END WHILE;</span><br><span class="line">	commit;</span><br><span class="line">END //</span><br><span class="line">DELIMITER;</span><br><span class="line"></span><br><span class="line"># 调用</span><br><span class="line">CALL ts_insert();</span><br></pre></td></tr></table></figure>
+<p>查看数据表 ts1 的执行计划:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EXPLAIN SELECT * FROM ts1 ORDER BY a, b DESC LIMIT 5;</span><br></pre></td></tr></table></figure>
+<p>从结果可以看出，修改后 MySQL 5.7 的执行计划要明显好于 MySQL 8.0。</p>
+<h3 id="隐藏索引">2.2 隐藏索引</h3>
+<p>在 MySQL 5.7
+版本及之前，只能通过显式的方式删除索引。此时，如果发现删除索引后出现错误，又只能通过显式创建索引的方式将删除的索引创建回来。如果数据表中的数据量非常大，或者数据表本身比较大，这种操作就会消耗系统过多的资源，操作成本非常高。</p>
+<p>从 MySQL 8.x 开始支持 隐藏索引（invisible
+indexes），只需要将待删除的索引设置为隐藏索引，使查询优化器不再使用这个索引（即使使用
+force index（强制使用索引），优化器也不会使用该索引，
+确认将索引设置为隐藏索引后系统不受任何响应，就可以彻底删除索引。
+<strong>这种通过先将索引设置为隐藏索引，再删除索引的方式就是软删除</strong>。</p>
+<p>同时，如果你想验证某个索引删除之后的
+<code>查询性能影响</code>，就可以暂时先隐藏该索引。</p>
+<blockquote>
+<p>主键不能被设置为隐藏索引。</p>
+<p>当表中没有显式主键时，表中第一个唯一非空索引会成为隐式主键，也不能设置为隐藏索引。</p>
+</blockquote>
+<p>索引默认是可见的，在使用 CREATE TABLE, CREATE INDEX 或者 ALTER TABLE
+等语句时可以通过 <code>VISIBLE</code> 或者 <code>INVISIBLE</code>
+关键词设置索引的可见性。</p>
+<p><strong>1. 创建表时直接创建</strong></p>
+<p>在 MySQL 中创建隐藏索引通过 SQL 语句 INVISIBLE
+来实现，其语法形式如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE tablename(</span><br><span class="line">propname1 type1[CONSTRAINT1],</span><br><span class="line">propname2 type2[CONSTRAINT2],</span><br><span class="line">……</span><br><span class="line">propnamen typen,</span><br><span class="line">INDEX [indexname](propname1 [(length)]) INVISIBLE</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>上述语句比普通索引多了一个关键字
+INVISIBLE，用来标记索引为不可见索引。</p>
+<p><strong>2. 在已经存在的表上创建</strong></p>
+<p>可以为已经存在的表设置隐藏索引，其语法形式如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CREATE INDEX indexname</span><br><span class="line">ON tablename(propname[(length)]) INVISIBLE;</span><br></pre></td></tr></table></figure>
+<p><strong>3. 通过 ALTER TABLE 语句创建</strong></p>
+<p>语法形式如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE tablename</span><br><span class="line">ADD INDEX indexname (propname [(length)]) INVISIBLE;</span><br></pre></td></tr></table></figure>
+<p><strong>4. 切换索引可见状态</strong></p>
+<p>已存在的索引可通过如下语句切换可见状态：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ALTER TABLE tablename ALTER INDEX index_name INVISIBLE; #切换成隐藏索引</span><br><span class="line">ALTER TABLE tablename ALTER INDEX index_name VISIBLE; #切换成非隐藏索引</span><br></pre></td></tr></table></figure>
+<p>如果将 index_cname 索引切换成可见状态，通过 explain
+查看执行计划，发现优化器选择了 index_cname 索引。</p>
+<blockquote>
+<p>注意
+当索引被隐藏时，它的内容仍然是和正常索引一样实时更新的。如果一个索引需要长期被隐藏，那么可以将其删除，因为索引的存在会影响插入、更新和删除的性能。</p>
+</blockquote>
+<p>通过设置隐藏索引的可见性可以查看索引对调优的帮助。</p>
+<p><strong>5. 使隐藏索引对查询优化器可见</strong></p>
+<p>在 MySQL 8.x
+版本中，为索引提供了一种新的测试方式，可以通过查询优化器的一个开关
+(use_invisible_indexes) 来打开某个设置，使隐藏索引对查询优化器可见。如果
+use_invisible_indexes 设置为 off
+(默认)，优化器会忽略隐藏索引。如果设置为
+on，即使隐藏索引不可见，优化器在生成执行计划时仍会考虑使用隐藏索引。</p>
+<p>（1）在 MySQL 命令行执行如下命令查看查询优化器的开关设置。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select @@optimizer_switch \G</span><br></pre></td></tr></table></figure>
+<p>在输出的结果信息中找到如下属性配置。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">use_invisible_indexes=off</span><br></pre></td></tr></table></figure>
+<p>此属性配置值为 off，说明隐藏索引默认对查询优化器不可见。</p>
+<p>（2）使隐藏索引对查询优化器可见，需要在 MySQL
+命令行执行如下命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; set session optimizer_switch="use_invisible_indexes=on";</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br></pre></td></tr></table></figure>
+<p>SQL 语句执行成功，再次查看查询优化器的开关设置。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select @@optimizer_switch \G</span><br><span class="line">*************************** 1. row ***************************</span><br><span class="line">@@optimizer_switch:</span><br><span class="line">index_merge=on,index_merge_union=on,index_merge_sort_union=on,index_merge_</span><br><span class="line">intersection=on,engine_condition_pushdown=on,index_condition_pushdown=on,mrr=on,mrr_co</span><br><span class="line">st_based=on,block_nested_loop=on,batched_key_access=off,materialization=on,semijoin=on</span><br><span class="line">,loosescan=on,firstmatch=on,duplicateweedout=on,subquery_materialization_cost_based=on</span><br><span class="line">,use_index_extensions=on,condition_fanout_filter=on,derived_merge=on,use_invisible_ind</span><br><span class="line">exes=on,skip_scan=on,hash_join=on</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<p>此时，在输出结果中可以看到如下属性配置。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">use_invisible_indexes=on</span><br></pre></td></tr></table></figure>
+<p>use_invisible_indexes 属性的值为
+on，说明此时隐藏索引对查询优化器可见。</p>
+<p>（3）使用 EXPLAIN 查看以字段 invisible_column
+作为查询条件时的索引使用情况。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">explain select * from classes where cname = '高一2班';</span><br></pre></td></tr></table></figure>
+<p>查询优化器会使用隐藏索引来查询数据。</p>
+<p>（4）如果需要使隐藏索引对查询优化器不可见，则只需要执行如下命令即可。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; set session optimizer_switch="use_invisible_indexes=off";</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br></pre></td></tr></table></figure>
+<p>再次查看查询优化器的开关设置。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select @@optimizer_switch \G</span><br></pre></td></tr></table></figure>
+<p>此时，use_invisible_indexes 属性的值已经被设置为“off”。</p>
+<h2 id="索引的设计原则">3. 索引的设计原则</h2>
+<p>为了使索引的使用效率更高，在创建索引时，必须考虑在哪些字段上创建索引和创建什么类型的索引。<strong>索引设计不合理或者缺少索引都会对数据库和应用程序的性能造成障碍。</strong>高效的索引对于获得良好的性能非常重要。设计索引时，应该考虑相应准则。</p>
+<h3 id="数据准备">3.1 数据准备</h3>
+<p><strong>第 1 步：创建数据库、创建表</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">CREATE DATABASE atguigudb1;</span><br><span class="line">USE atguigudb1;</span><br><span class="line">#1.创建学生表和课程表</span><br><span class="line">CREATE TABLE `student_info` (</span><br><span class="line">`id` INT(11) NOT NULL AUTO_INCREMENT,</span><br><span class="line">`student_id` INT NOT NULL ,</span><br><span class="line">`name` VARCHAR(20) DEFAULT NULL,</span><br><span class="line">`course_id` INT NOT NULL ,</span><br><span class="line">`class_id` INT(11) DEFAULT NULL,</span><br><span class="line">`create_time` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,</span><br><span class="line">PRIMARY KEY (`id`)</span><br><span class="line">) ENGINE=INNODB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;</span><br><span class="line"></span><br><span class="line">CREATE TABLE `course` (</span><br><span class="line">`id` INT(11) NOT NULL AUTO_INCREMENT,</span><br><span class="line">`course_id` INT NOT NULL ,</span><br><span class="line">`course_name` VARCHAR(40) DEFAULT NULL,</span><br><span class="line">PRIMARY KEY (`id`)</span><br><span class="line">) ENGINE=INNODB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;</span><br></pre></td></tr></table></figure>
+<p><strong>第 2 步：创建模拟数据必需的存储函数</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">#函数1：创建随机产生字符串函数</span><br><span class="line">DELIMITER //</span><br><span class="line">CREATE FUNCTION rand_string(n INT)</span><br><span class="line">	RETURNS VARCHAR(255) #该函数会返回一个字符串</span><br><span class="line">BEGIN</span><br><span class="line">	DECLARE chars_str VARCHAR(100) DEFAULT</span><br><span class="line">'abcdefghijklmnopqrstuvwxyzABCDEFJHIJKLMNOPQRSTUVWXYZ';</span><br><span class="line">	DECLARE return_str VARCHAR(255) DEFAULT '';</span><br><span class="line">    DECLARE i INT DEFAULT 0;</span><br><span class="line">    WHILE i &lt; n DO</span><br><span class="line">    	SET return_str =CONCAT(return_str,SUBSTRING(chars_str,FLOOR(1+RAND()*52),1));</span><br><span class="line">    	SET i = i + 1;</span><br><span class="line">    END WHILE;</span><br><span class="line">    RETURN return_str;</span><br><span class="line">END //</span><br><span class="line">DELIMITER ;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#函数2：创建随机数函数</span><br><span class="line">DELIMITER //</span><br><span class="line">CREATE FUNCTION rand_num (from_num INT ,to_num INT) RETURNS INT(11)</span><br><span class="line">BEGIN</span><br><span class="line">DECLARE i INT DEFAULT 0;</span><br><span class="line">SET i = FLOOR(from_num +RAND()*(to_num - from_num+1)) ;</span><br><span class="line">RETURN i;</span><br><span class="line">END //</span><br><span class="line">DELIMITER ;</span><br></pre></td></tr></table></figure>
+<p>创建函数，假如报错：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">This function has none of DETERMINISTIC......</span><br></pre></td></tr></table></figure>
+<p>由于开启过慢查询日志 bin-log, 我们就必须为我们的 function
+指定一个参数。</p>
+<p>主从复制，主机会将写操作记录在 bin-log 日志中。从机读取 bin-log
+日志，执行语句来同步数据。如果使
+用函数来操作数据，会导致从机和主键操作时间不一致。所以，默认情况下，mysql
+不开启创建函数设置。</p>
+<ul>
+<li>查看 mysql 是否允许创建函数：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show variables like 'log_bin_trust_function_creators';</span><br></pre></td></tr></table></figure>
+<ul>
+<li>命令开启：允许创建函数设置：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set global log_bin_trust_function_creators=1; # 不加global只是当前窗口有效。</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>mysqld 重启，上述参数又会消失。永久方法：</p>
+<ul>
+<li><p>windows 下：my.ini[mysqld]加上：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">log_bin_trust_function_creators=1</span><br></pre></td></tr></table></figure></li>
+<li><p>linux 下：/etc/my.cnf 下 my.cnf[mysqld]加上：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">log_bin_trust_function_creators=1</span><br></pre></td></tr></table></figure></li>
+</ul></li>
+</ul>
+<p><strong>第 3 步：创建插入模拟数据的存储过程</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"># 存储过程1：创建插入课程表存储过程</span><br><span class="line">DELIMITER //</span><br><span class="line">CREATE PROCEDURE insert_course( max_num INT )</span><br><span class="line">BEGIN</span><br><span class="line">DECLARE i INT DEFAULT 0;</span><br><span class="line">SET autocommit = 0; #设置手动提交事务</span><br><span class="line">REPEAT #循环</span><br><span class="line">SET i = i + 1; #赋值</span><br><span class="line">INSERT INTO course (course_id, course_name ) VALUES</span><br><span class="line">(rand_num(10000,10100),rand_string(6));</span><br><span class="line">UNTIL i = max_num</span><br><span class="line">END REPEAT;</span><br><span class="line">COMMIT; #提交事务</span><br><span class="line">END //</span><br><span class="line">DELIMITER ;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"># 存储过程2：创建插入学生信息表存储过程</span><br><span class="line">DELIMITER //</span><br><span class="line">CREATE PROCEDURE insert_stu( max_num INT )</span><br><span class="line">BEGIN</span><br><span class="line">DECLARE i INT DEFAULT 0;</span><br><span class="line">SET autocommit = 0; #设置手动提交事务</span><br><span class="line">REPEAT #循环</span><br><span class="line">SET i = i + 1; #赋值</span><br><span class="line">INSERT INTO student_info (course_id, class_id ,student_id ,NAME ) VALUES</span><br><span class="line">(rand_num(10000,10100),rand_num(10000,10200),rand_num(1,200000),rand_string(6));</span><br><span class="line">UNTIL i = max_num</span><br><span class="line">END REPEAT;</span><br><span class="line">COMMIT; #提交事务</span><br><span class="line">END //</span><br><span class="line">DELIMITER ;</span><br></pre></td></tr></table></figure>
+<p><strong>第 4 步：调用存储过程</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CALL insert_course(100);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CALL insert_stu(1000000);</span><br></pre></td></tr></table></figure>
+<h3 id="哪些情况适合创建索引">3.2 哪些情况适合创建索引</h3>
+<h4 id="字段的数值有唯一性的限制">1. 字段的数值有唯一性的限制</h4>
+<p>索引本身可以起到约束的作用，比如唯一索引、主键索引都可以起到唯一性约束的，因此在我们的数据表中，如果<code>某个字段是唯一的</code>，就可以直接<code>创建唯一性索引</code>，或者<code>主键索引</code>。这样可以更快速地通过该索引来确定某条记录。</p>
+<blockquote>
+<p>业务上具有唯一特性的字段，即使是组合字段，也必须建成唯一索引。（来源：Alibaba）
+说明：不要以为唯一索引影响了 insert
+速度，这个速度损耗可以忽略，但提高查找速度是明显的。</p>
+</blockquote>
+<h4 id="频繁作为-where-查询条件的字段">2. 频繁作为 WHERE
+查询条件的字段</h4>
+<p>某个字段在 SELECT 语句的 WHERE
+条件中经常被使用到，那么就需要给这个字段创建索引了。尤其是在
+数据量大的情况下，创建普通索引就可以大幅提升数据查询的效率。</p>
+<p>比如 student_info 数据表（含 100 万条数据），假设我们想要查询
+student_id=123110 的用户信息。</p>
+<h4 id="经常-group-by-和-order-by-的列">3. 经常 GROUP BY 和 ORDER BY
+的列</h4>
+<p>索引就是让数据按照某种顺序进行存储或检索，因此当我们使用 GROUP BY
+对数据进行分组查询，或者使用 ORDER BY
+对数据进行排序的时候，就需要对分组或者排序的字段进行索引
+。如果待排序的列有多个，那么可以在这些列上建立组合索引（<strong>要注意分组或排序中查询的字段顺序</strong>）。</p>
+<h4 id="updatedelete-的-where-条件列">4. UPDATE、DELETE 的 WHERE
+条件列</h4>
+<p>对数据按照某个条件进行查询后再进行 UPDATE 或 DELETE 的操作，如果对
+WHERE 字段创建了索引，就能大幅提升效率。原理是因为我们需要先根据 WHERE
+条件列检索出来这条记录，然后再对它进行更新或删除。<strong>如果进行更新的时候，更新的字段是非索引字段，提升的效率会更明显，这是因为非索引字段更新不需要对索引进行维护。</strong></p>
+<h4 id="distinct-字段需要创建索引">5.DISTINCT 字段需要创建索引</h4>
+<p>有时候我们需要对某个字段进行去重，使用
+DISTINCT，那么对这个字段创建索引，也会提升查询效率。</p>
+<p>比如，我们想要查询课程表中不同的 student_id 都有哪些，如果我们没有对
+student_id 创建索引，执行 SQL 语句：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT DISTINCT(student_id) FROM `student_info`;</span><br></pre></td></tr></table></figure>
+<p>运行结果（600637 条记录，运行时间 0.683s ）</p>
+<p>如果我们对 student_id 创建索引，再执行 SQL 语句：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT DISTINCT(student_id) FROM `student_info`;</span><br></pre></td></tr></table></figure>
+<p>运行结果（600637 条记录，运行时间 0.010s ）</p>
+<p>你能看到 SQL 查询效率有了提升，同时显示出来的 student_id
+还是按照递增的顺序
+进行展示的。这是因为索引会对数据按照某种顺序进行排序，所以在去重的时候也会快很多。</p>
+<h4 id="多表-join-连接操作时创建索引注意事项">6. 多表 JOIN
+连接操作时，创建索引注意事项</h4>
+<p>首先，<code>连接表的数量尽量不要超过 3 张</code>，因为每增加一张表就相当于增加了一次嵌套的循环，数量级增
+长会非常快，严重影响查询的效率。</p>
+<p>其次，<code>对 WHERE 条件创建索引</code>，因为 WHERE
+才是对数据条件的过滤。如果在数据量非常大的情况下， 没有 WHERE
+条件过滤是非常可怕的。</p>
+<p>最后，<code>对用于连接的字段创建索引</code>，并且该字段在多张表中的
+类型必须一致 。比如 course_id 在 student_info 表和 course 表中都为
+int(11) 类型，而不能一个为 int 另一个为 varchar 类型。</p>
+<p>举个例子，如果我们只对 student_id 创建索引，执行 SQL 语句：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SELECT s.course_id, name, s.student_id, c.course_name</span><br><span class="line">FROM student_info s JOIN course c</span><br><span class="line">ON s.course_id = c.course_id</span><br><span class="line">WHERE name = '462eed7ac6e791292a79';</span><br></pre></td></tr></table></figure>
+<p>运行结果（1 条数据，运行时间 0.189s ）</p>
+<p>这里我们对 name 创建索引，再执行上面的 SQL 语句，运行时间为 0.002s
+。</p>
+<h4 id="使用列的类型小的创建索引">7. 使用列的类型小的创建索引</h4>
+<p>我们这里所说的 <strong>类型大小</strong>
+指的就是该类型表示的数据范围的大小。</p>
+<p>我们在定义表结构的时候要显式的指定列的类型，以整数类型为例，有
+<strong>TINYINT、MEDIUMINT 、INT、 BIGINT</strong>
+等，它们占用的存储空间依次递增，能表示的整数范围当然也是依次递增。</p>
+<p>如果我们想要对某个整数列建立索引的话，在表示的整数范围允许的情况下，尽量让索引列使用较小的类型，比如我们能使用
+INT 就不要使用 BIGINT，能使用 MEDIUMINT 就不要使用 INT。这是因为：</p>
+<ul>
+<li>数据类型越小，在查询时进行的比较操作越快</li>
+<li>数据类型越小，索引占用的存储空间就越少，在一个数据页内就可以放下更多的记录，从而减少磁盘
+I <span class="math inline">/0</span>
+带来的性能损耗，也就意味着可以把更多的数据页缓存在内存中，从而加快读写效率。</li>
+</ul>
+<p>这个建议对于表的主键来说更加适用，因为不仅是聚簇索引中会存储主键值，其他所有的二级索引的节点处都会存储一份记录的主键值，如果主键使用更小的数据类型，也就意味着节省更多的存储空间和更高效的
+I/O。</p>
+<h4 id="使用字符串前缀创建索引">8. 使用字符串前缀创建索引</h4>
+<p>假设我们的字符串很长，那存储一个字符串就需要占用很大的存储空间。在我们需要为这个字符串列建立索引时，那就意味着在对应的
+B+树中有这么两个问题:</p>
+<ul>
+<li><span class="math inline">B+</span>
+树索引中的记录需要把该列的完整字符串存储起来，更费时。而且字符串越长，在索引中占用的存储空间越大。</li>
+<li>如果 <span class="math inline"><em>B</em>+</span>
+树索引中索引列存储的字符串很长，那在做字符串比较时会占用更多的时间
+。</li>
+</ul>
+<p>我们可以通过截取字段的前面一部分内容建立索引，这个就叫<strong>前缀索引</strong>。这样在查找记录时虽然不能精确的定位到记录的位置，但是能定位到相应前缀所在的位置，然后根据前缀相同的记录的主键值回表查询完整的字符串值。<strong>既节约空间，又减少了字符串的比较时间，还大体能解决排序的问题</strong>。</p>
+<p>创建一张商户表，因为地址字段比较长，在地址字段上建立前缀索引</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">create table shop(address varchar(120) not null);</span><br><span class="line">alter table shop add index(address(12));</span><br></pre></td></tr></table></figure>
+<p>问题是，截取多少呢？截取得多了，达不到节省索引存储空间的目的；截取得少了，重复内容太多，字段的散列度(选择性)会降低。怎么计算不同的长度的选择性呢？</p>
+<p>先看一下字段在全部数据中的选择度：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select count(distinct address) / count(*) from shop</span><br></pre></td></tr></table></figure>
+<p>通过不同长度去计算，与全表的选择性对比：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">count(distinct left(列名, 索引长度))/count(*)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">select count(distinct left(address,10)) / count(*) as sub10, -- 截取前10个字符的选择度</span><br><span class="line">count(distinct left(address,15)) / count(*) as sub11, -- 截取前15个字符的选择度</span><br><span class="line">count(distinct left(address,20)) / count(*) as sub12, -- 截取前20个字符的选择度</span><br><span class="line">count(distinct left(address,25)) / count(*) as sub13 -- 截取前25个字符的选择度</span><br><span class="line">from shop;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>越接近于 1 越好，说明越有区分度</p>
+</blockquote>
+<p><strong>引申另一个问题：索引列前缀对排序的影响</strong></p>
+<p>如果使用了索引列前缀，比方说前边只把 address 列的
+<code>前12个字符</code>
+放到了二级索引中，下边这个查询可能就有点尴尬了：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM shop</span><br><span class="line">ORDER BY address</span><br><span class="line">LIMIT 12;</span><br></pre></td></tr></table></figure>
+<p>因为二级索引中不包含完整的 address 列信息，所以无法对前 12
+个字符相同，后边的字符不同的记录进行排序，也就是使用索引列前缀的方式
+<code>无法支持使用索引排序</code>，只能使用文件排序。</p>
+<p><strong>拓展：Alibaba《Java 开发手册》</strong></p>
+<p>【 强制 】在 varchar
+字段上建立索引时，必须指定索引长度，没必要对全字段建立索引，根据实际文本
+区分度决定索引长度。</p>
+<p>说明：索引的长度与区分度是一对矛盾体，一般对字符串类型数据，长度为 20
+的索引，区分度会高达 90% 以上 ，可以使用 count(distinct left(列名,
+索引长度))/count(*)的区分度来确定。</p>
+<h4 id="区分度高散列性高的列适合作为索引">9.
+区分度高(散列性高)的列适合作为索引</h4>
+<p><code>列的基数</code>
+指的是某一列中不重复数据的个数，比方说某个列包含值
+<code>2, 5, 8, 2, 5, 8, 2, 5, 8</code>，虽然有<code>9</code>条记录，但该列的基数却是
+3。也就是说<strong>在记录行数一定的情况下，列的基数越大，该列中的值越分散；列的基数越小，该列中的值越集中。</strong>这个列的基数指标非常重要，直接影响我们是否能有效的利用索引。最好为列的基数大的列简历索引，为基数太小的列的简历索引效果可能不好。</p>
+<p>可以使用公式<code>select count(distinct a) / count(*) from t1</code>
+计算区分度，越接近 1 越好，一般超过 33%就算比较高效的索引了。</p>
+<p>扩展：联合索引把区分度高(散列性高)的列放在前面。</p>
+<h4 id="使用最频繁的列放到联合索引的左侧">10.
+使用最频繁的列放到联合索引的左侧</h4>
+<p>这样也可以较少的建立一些索引。同时，由于”最左前缀原则”，可以增加联合索引的使用率。</p>
+<h4 id="在多个字段都要创建索引的情况下联合索引优于单值索引">11.
+在多个字段都要创建索引的情况下，联合索引优于单值索引</h4>
+<h3 id="限制索引的数目">3.3 限制索引的数目</h3>
+<p>在实际工作中，我们也需要注意平衡，索引的数目不是越多越好。我们需要限制每张表上的索引数量，建议单张表索引数量<code>不超过6个</code>。原因：</p>
+<ul>
+<li>每个索引都需要占用<code>磁盘空间</code>，索引越多，需要的磁盘空间就越大。</li>
+<li>索引会影响<code>INSERT、DELETE、UPDATE等语句的性能</code>，因为表中的数据更改的同时，索引也会进行调整和更新，会造成负担。</li>
+<li>优化器在选择如何优化查询时，会根据统一信息，对每一个可以用到的<code>索引来进行评估</code>，以生成出一个最好的执行计划，如果同时有很多个索引都可以用于查询，会增加
+MySQL 优化器生成执行计划时间，降低查询性能。</li>
+</ul>
+<h3 id="哪些情况不适合创建索引">3.4 哪些情况不适合创建索引</h3>
+<h4 id="在-where-中使用不到的字段不要设置索引">1. 在 where
+中使用不到的字段，不要设置索引</h4>
+<p>WHERE 条件 (包括 GROUP BY、ORDER BY)
+里用不到的字段不需要创建索引，索引的价值是快速定位，如果起不到定位的字段通常是不需要创建索引的。举个例子：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT course_id, student_id, create_time</span><br><span class="line">FROM student_info</span><br><span class="line">WHERE student_id = 41251;</span><br></pre></td></tr></table></figure>
+<p>因为我们是按照 student_id
+来进行检索的，所以不需要对其他字段创建索引，即使这些字段出现在 SELECT
+字段中。</p>
+<h4 id="数据量小的表最好不要使用索引">2.
+数据量小的表最好不要使用索引</h4>
+<p>如果表记录太少，比如少于 1000
+个，那么是不需要创建索引的。表记录太少，是否创建索引
+<code>对查询效率的影响并不大</code>。甚至说，查询花费的时间可能比遍历索引的时间还要短，索引可能不会产生优化效果。</p>
+<blockquote>
+<p>结论：在数据表中的数据行数比较少的情况下，比如不到 1000
+行，是不需要创建索引的。</p>
+</blockquote>
+<h4 id="有大量重复数据的列上不要建立索引">3.
+有大量重复数据的列上不要建立索引</h4>
+<p>在条件表达式中经常用到的不同值较多的列上建立索引，但字段中如果有大量重复数据，也不用创建索引。比如在学生表的”性别”字段上只有“男”与“女”两个不同值，因此无须建立索引。如果建立索引，不但不会提高查询效率，反而会<code>严重降低数据更新速度</code>。</p>
+<blockquote>
+<p>结论：当数据重复度大，比如高于 10%
+的时候，也不需要对这个字段使用索引。</p>
+</blockquote>
+<h4 id="避免对经常更新的表创建过多的索引">4.
+避免对经常更新的表创建过多的索引</h4>
+<p>第一层含义：频繁更新的字段不一定要创建索引。因为更新数据的时候，也需要更新索引，如果索引太多，在更新索引的时候也会造成负担，从而影响效率。</p>
+<p>第二层含义：避免对经常更新的表创建过多的索引，并且索引中的列尽可能少。此时，虽然提高了查询速度，同时却降低更新表的速度。</p>
+<h4 id="不建议用无序的值作为索引">5. 不建议用无序的值作为索引</h4>
+<p>例如身份证、UUID(在索引比较时需要转为
+ASCII，并且插入时可能造成页分裂)、MD5、HASH、无序长字 符串等。</p>
+<h4 id="删除不再使用或者很少使用的索引">6.
+删除不再使用或者很少使用的索引</h4>
+<p>表中的数据被大量更新，或者数据的使用方式被改变后，原有的一些索引可能不再需要。数据库管理员应当定期找出这些索引，将它们删除，从而减少索引对更新操作的影响。</p>
+<h4 id="不要定义夯余或重复的索引">7. 不要定义夯余或重复的索引</h4>
+<p>① 冗余索引</p>
+<p>举例：建表语句如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE person_info(</span><br><span class="line">    id INT UNSIGNED NOT NULL AUTO_INCREMENT,</span><br><span class="line">    name VARCHAR(100) NOT NULL,</span><br><span class="line">    birthday DATE NOT NULL,</span><br><span class="line">    phone_number CHAR(11) NOT NULL,</span><br><span class="line">    country varchar(100) NOT NULL,</span><br><span class="line">    PRIMARY KEY (id),</span><br><span class="line">    KEY idx_name_birthday_phone_number (name(10), birthday, phone_number),</span><br><span class="line">    KEY idx_name (name(10))</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>我们知道，通过 idx_name_birthday_phone_number 索引就可以对 name
+列进行快速搜索，再创建一个专门针对 name 列的索引就算是一个 冗余索引
+，维护这个索引只会增加维护的成本，并不会对搜索有 什么好处。</p>
+<p>② 重复索引</p>
+<p>另一种情况，我们可能会对某个列 重复建立索引 ，比方说这样：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE repeat_index_demo (</span><br><span class="line">    col1 INT PRIMARY KEY,</span><br><span class="line">    col2 INT,</span><br><span class="line">    UNIQUE uk_idx_c1 (col1),</span><br><span class="line">    INDEX idx_c1 (col1)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>我们看到，col1
+既是主键、又给它定义为一个唯一索引，还给它定义了一个普通索引，可是主键本身就会生成聚簇索引，所以定义的唯一索引和普通索引是重复的，这种情况要避免。</p>
+
+                    
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                数据库索引设计
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                2024/06/25/数据库索引设计/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    Author
+                </div>
+                <div class="content">Zhongjun Qiu</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    Published
+                </div>
+                <div class="content">2024-06-25 17:00</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    License
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="Copy copyright info" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/DB-Index/">DB-Index</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="Share to WeChat"
+            data-tooltip-img-tip="Scan by WeChat"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to WeiBo"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+                    
+
+<div class="reward-author-container border-box flex-center">
+    <div class="reward-btn border-box flex-center tooltip tooltip-img"
+            data-tooltip-img-url="/images/post/payment.jpg"
+            data-tooltip-img-trigger="click"
+            data-tooltip-img-style="top: -6px;"
+    >
+        <i class="fa-solid fa-gift"></i>&nbsp;REWARD AUTHOR
+    </div>
+</div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/2024/06/29/JDBC-%E5%AE%9E%E8%B7%B5/"
+                                   title="JDBC 实践"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">JDBC 实践</span>
+                                        <span class="post-nav-item">Prev posts</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/2024/06/24/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B4%A2%E5%BC%95/"
+                                   title="数据库索引"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">数据库索引</span>
+                                        <span class="post-nav-item">Next posts</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+    <div class="comments-container border-box">
+        <div id="comments-anchor" class="comment-area-title border-box">
+            <i class="fas fa-comments"></i>&nbsp;Comments
+        </div>
+        <div class="comment-plugin-fail border-box">
+    <span class="fail-tip">Comment plugin failed to load</span>
+    <button class="reload keep-button">Click to reload</button>
+</div>
+<div class="comment-plugin-loading flex-center border-box">
+    <i class="loading-icon fa-solid fa-spinner fa-spin"></i>
+    <span class="load-tip">Loading comment plugin</span>
+</div>
+<script data-pjax>
+  window.KeepCommentPlugin = {}
+  window.KeepCommentPlugin.hideLoading = () => {
+    const cplDom = document.querySelector('.comments-container .comment-plugin-loading')
+    cplDom.style.display = 'none'
+  }
+  window.KeepCommentPlugin.loadFailHandle = () => {
+    window.KeepCommentPlugin.hideLoading()
+    const cpfDom = document.querySelector('.comments-container .comment-plugin-fail')
+    cpfDom.style.display = 'flex'
+    cpfDom.querySelector('.reload').addEventListener('click', () => {
+      window.location.reload()
+    })
+  }
+</script>
+
+        
+            
+
+    <div class="waline-comment-container">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/waline/3.3.2/waline.css"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/waline/3.3.2/waline-meta.css"/>
+        <div id="waline-comment"></div>
+        <script data-pjax>
+          window.KeepCommentPlugin.walineOptions = JSON.parse('{}'.replace(/&#34;/g, '"'))
+          window.KeepCommentPlugin.walineOptions.el = '#waline-comment'
+          window.KeepCommentPlugin.walineOptions.comment = '.post-comments-count'
+          window.KeepCommentPlugin.walineOptions.serverURL = 'https://waline-vercel-two-rho.vercel.app/'
+          window.KeepCommentPlugin.walineOptions.lang = 'en' || 'zh-CN'
+          window.KeepCommentPlugin.walineOptions.reaction = 'true' === 'true'
+        </script>
+
+        
+
+        
+            <script data-pjax
+                    async
+                    type="module"
+            >
+              import { init } from 'https://cdnjs.cloudflare.com/ajax/libs/waline/3.3.2/waline.js'
+              window.KeepCommentPlugin.initWaline = () => {
+                if (init) {
+                  init(window.KeepCommentPlugin.walineOptions)
+                  window.KeepCommentPlugin.hideLoading()
+                } else {
+                  setTimeout(() => {
+                    window.KeepCommentPlugin.initWaline()
+                  }, 1000)
+                }
+              }
+
+              if ('true' === 'true') {
+                setTimeout(() => {
+                  window.KeepCommentPlugin.initWaline()
+                }, 1200)
+              } else {
+                window.addEventListener('DOMContentLoaded', window.KeepCommentPlugin.initWaline)
+              }
+            </script>
+        
+    </div>
+
+
+        
+    </div>
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc right-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E7%9A%84%E5%A3%B0%E6%98%8E%E4%B8%8E%E4%BD%BF%E7%94%A8"><span class="nav-text">1. 索引的声明与使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E7%9A%84%E5%88%86%E7%B1%BB"><span class="nav-text">1.1 索引的分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E7%B4%A2%E5%BC%95"><span class="nav-text">1.2 创建索引</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E8%A1%A8%E7%9A%84%E6%97%B6%E5%80%99%E5%88%9B%E5%BB%BA%E7%B4%A2%E5%BC%95"><span class="nav-text">1. 创建表的时候创建索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9C%A8%E5%B7%B2%E7%BB%8F%E5%AD%98%E5%9C%A8%E7%9A%84%E8%A1%A8%E4%B8%8A%E5%88%9B%E5%BB%BA%E7%B4%A2%E5%BC%95"><span class="nav-text">2. 在已经存在的表上创建索引</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E7%B4%A2%E5%BC%95"><span class="nav-text">1.3 删除索引</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mysql8.0-%E7%B4%A2%E5%BC%95%E6%96%B0%E7%89%B9%E6%80%A7"><span class="nav-text">2. MySQL8.0 索引新特性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%94%AF%E6%8C%81%E9%99%8D%E5%BA%8F%E7%B4%A2%E5%BC%95"><span class="nav-text">2.1 支持降序索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9A%90%E8%97%8F%E7%B4%A2%E5%BC%95"><span class="nav-text">2.2 隐藏索引</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E7%9A%84%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99"><span class="nav-text">3. 索引的设计原则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%87%86%E5%A4%87"><span class="nav-text">3.1 数据准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%93%AA%E4%BA%9B%E6%83%85%E5%86%B5%E9%80%82%E5%90%88%E5%88%9B%E5%BB%BA%E7%B4%A2%E5%BC%95"><span class="nav-text">3.2 哪些情况适合创建索引</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AD%97%E6%AE%B5%E7%9A%84%E6%95%B0%E5%80%BC%E6%9C%89%E5%94%AF%E4%B8%80%E6%80%A7%E7%9A%84%E9%99%90%E5%88%B6"><span class="nav-text">1. 字段的数值有唯一性的限制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A2%91%E7%B9%81%E4%BD%9C%E4%B8%BA-where-%E6%9F%A5%E8%AF%A2%E6%9D%A1%E4%BB%B6%E7%9A%84%E5%AD%97%E6%AE%B5"><span class="nav-text">2. 频繁作为 WHERE
+查询条件的字段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%8F%E5%B8%B8-group-by-%E5%92%8C-order-by-%E7%9A%84%E5%88%97"><span class="nav-text">3. 经常 GROUP BY 和 ORDER BY
+的列</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#updatedelete-%E7%9A%84-where-%E6%9D%A1%E4%BB%B6%E5%88%97"><span class="nav-text">4. UPDATE、DELETE 的 WHERE
+条件列</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#distinct-%E5%AD%97%E6%AE%B5%E9%9C%80%E8%A6%81%E5%88%9B%E5%BB%BA%E7%B4%A2%E5%BC%95"><span class="nav-text">5.DISTINCT 字段需要创建索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%9A%E8%A1%A8-join-%E8%BF%9E%E6%8E%A5%E6%93%8D%E4%BD%9C%E6%97%B6%E5%88%9B%E5%BB%BA%E7%B4%A2%E5%BC%95%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-text">6. 多表 JOIN
+连接操作时，创建索引注意事项</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%88%97%E7%9A%84%E7%B1%BB%E5%9E%8B%E5%B0%8F%E7%9A%84%E5%88%9B%E5%BB%BA%E7%B4%A2%E5%BC%95"><span class="nav-text">7. 使用列的类型小的创建索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%89%8D%E7%BC%80%E5%88%9B%E5%BB%BA%E7%B4%A2%E5%BC%95"><span class="nav-text">8. 使用字符串前缀创建索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8C%BA%E5%88%86%E5%BA%A6%E9%AB%98%E6%95%A3%E5%88%97%E6%80%A7%E9%AB%98%E7%9A%84%E5%88%97%E9%80%82%E5%90%88%E4%BD%9C%E4%B8%BA%E7%B4%A2%E5%BC%95"><span class="nav-text">9.
+区分度高(散列性高)的列适合作为索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%9C%80%E9%A2%91%E7%B9%81%E7%9A%84%E5%88%97%E6%94%BE%E5%88%B0%E8%81%94%E5%90%88%E7%B4%A2%E5%BC%95%E7%9A%84%E5%B7%A6%E4%BE%A7"><span class="nav-text">10.
+使用最频繁的列放到联合索引的左侧</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9C%A8%E5%A4%9A%E4%B8%AA%E5%AD%97%E6%AE%B5%E9%83%BD%E8%A6%81%E5%88%9B%E5%BB%BA%E7%B4%A2%E5%BC%95%E7%9A%84%E6%83%85%E5%86%B5%E4%B8%8B%E8%81%94%E5%90%88%E7%B4%A2%E5%BC%95%E4%BC%98%E4%BA%8E%E5%8D%95%E5%80%BC%E7%B4%A2%E5%BC%95"><span class="nav-text">11.
+在多个字段都要创建索引的情况下，联合索引优于单值索引</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%99%90%E5%88%B6%E7%B4%A2%E5%BC%95%E7%9A%84%E6%95%B0%E7%9B%AE"><span class="nav-text">3.3 限制索引的数目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%93%AA%E4%BA%9B%E6%83%85%E5%86%B5%E4%B8%8D%E9%80%82%E5%90%88%E5%88%9B%E5%BB%BA%E7%B4%A2%E5%BC%95"><span class="nav-text">3.4 哪些情况不适合创建索引</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9C%A8-where-%E4%B8%AD%E4%BD%BF%E7%94%A8%E4%B8%8D%E5%88%B0%E7%9A%84%E5%AD%97%E6%AE%B5%E4%B8%8D%E8%A6%81%E8%AE%BE%E7%BD%AE%E7%B4%A2%E5%BC%95"><span class="nav-text">1. 在 where
+中使用不到的字段，不要设置索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E9%87%8F%E5%B0%8F%E7%9A%84%E8%A1%A8%E6%9C%80%E5%A5%BD%E4%B8%8D%E8%A6%81%E4%BD%BF%E7%94%A8%E7%B4%A2%E5%BC%95"><span class="nav-text">2.
+数据量小的表最好不要使用索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%89%E5%A4%A7%E9%87%8F%E9%87%8D%E5%A4%8D%E6%95%B0%E6%8D%AE%E7%9A%84%E5%88%97%E4%B8%8A%E4%B8%8D%E8%A6%81%E5%BB%BA%E7%AB%8B%E7%B4%A2%E5%BC%95"><span class="nav-text">3.
+有大量重复数据的列上不要建立索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%81%BF%E5%85%8D%E5%AF%B9%E7%BB%8F%E5%B8%B8%E6%9B%B4%E6%96%B0%E7%9A%84%E8%A1%A8%E5%88%9B%E5%BB%BA%E8%BF%87%E5%A4%9A%E7%9A%84%E7%B4%A2%E5%BC%95"><span class="nav-text">4.
+避免对经常更新的表创建过多的索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8D%E5%BB%BA%E8%AE%AE%E7%94%A8%E6%97%A0%E5%BA%8F%E7%9A%84%E5%80%BC%E4%BD%9C%E4%B8%BA%E7%B4%A2%E5%BC%95"><span class="nav-text">5. 不建议用无序的值作为索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E4%B8%8D%E5%86%8D%E4%BD%BF%E7%94%A8%E6%88%96%E8%80%85%E5%BE%88%E5%B0%91%E4%BD%BF%E7%94%A8%E7%9A%84%E7%B4%A2%E5%BC%95"><span class="nav-text">6.
+删除不再使用或者很少使用的索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8D%E8%A6%81%E5%AE%9A%E4%B9%89%E5%A4%AF%E4%BD%99%E6%88%96%E9%87%8D%E5%A4%8D%E7%9A%84%E7%B4%A2%E5%BC%95"><span class="nav-text">7. 不要定义夯余或重复的索引</span></a></li></ol></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="copyright-info info-item">
+    &copy;&nbsp;<span>2020</span>&nbsp;-&nbsp;2025
+    
+            &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">Zhongjun Qiu</a>
+        
+    </div>
+
+    <div class="theme-info info-item">
+        Powered by&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;&&nbsp;Theme&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+    </div>
+
+    
+        
+        <div class="deploy-info info-item">
+            
+                <a target="_blank" rel="nofollow" href="https://github.com">
+            
+            This site is deployed on <span class="tooltip" data-tooltip-content="GitHub Pages"><img src="/images/brands/github.png"></span>
+            
+                </a>
+            
+        </div>
+    
+
+    
+        <div class="count-info info-item">
+            
+                <span class="count-item border-box word">
+                    <span class="item-type border-box">Total words</span>
+                    <span class="item-value border-box word">341.8k</span>
+                </span>
+            
+
+            
+
+            
+                <span class="count-item border-box pv">
+                    <span class="item-type border-box">Page View</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+    
+
+    
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+            <li class="tools-item flex-center go-to-comments">
+                <i class="fas fa-comment"></i>
+                <span class="post-comments-count"></span>
+            </li>
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <!-- toggle mode -->
+        
+            <li class="tools-item tool-toggle-theme-mode flex-center">
+                <i class="fas fa-moon"></i>
+            </li>
+        
+
+        <!-- rss -->
+        
+
+        <!-- to bottom -->
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+            <li class="tools-item go-to-comments-tablet flex-center">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E7%9A%84%E5%A3%B0%E6%98%8E%E4%B8%8E%E4%BD%BF%E7%94%A8"><span class="nav-text">1. 索引的声明与使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E7%9A%84%E5%88%86%E7%B1%BB"><span class="nav-text">1.1 索引的分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E7%B4%A2%E5%BC%95"><span class="nav-text">1.2 创建索引</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E8%A1%A8%E7%9A%84%E6%97%B6%E5%80%99%E5%88%9B%E5%BB%BA%E7%B4%A2%E5%BC%95"><span class="nav-text">1. 创建表的时候创建索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9C%A8%E5%B7%B2%E7%BB%8F%E5%AD%98%E5%9C%A8%E7%9A%84%E8%A1%A8%E4%B8%8A%E5%88%9B%E5%BB%BA%E7%B4%A2%E5%BC%95"><span class="nav-text">2. 在已经存在的表上创建索引</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E7%B4%A2%E5%BC%95"><span class="nav-text">1.3 删除索引</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mysql8.0-%E7%B4%A2%E5%BC%95%E6%96%B0%E7%89%B9%E6%80%A7"><span class="nav-text">2. MySQL8.0 索引新特性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%94%AF%E6%8C%81%E9%99%8D%E5%BA%8F%E7%B4%A2%E5%BC%95"><span class="nav-text">2.1 支持降序索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9A%90%E8%97%8F%E7%B4%A2%E5%BC%95"><span class="nav-text">2.2 隐藏索引</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E7%9A%84%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99"><span class="nav-text">3. 索引的设计原则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%87%86%E5%A4%87"><span class="nav-text">3.1 数据准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%93%AA%E4%BA%9B%E6%83%85%E5%86%B5%E9%80%82%E5%90%88%E5%88%9B%E5%BB%BA%E7%B4%A2%E5%BC%95"><span class="nav-text">3.2 哪些情况适合创建索引</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AD%97%E6%AE%B5%E7%9A%84%E6%95%B0%E5%80%BC%E6%9C%89%E5%94%AF%E4%B8%80%E6%80%A7%E7%9A%84%E9%99%90%E5%88%B6"><span class="nav-text">1. 字段的数值有唯一性的限制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A2%91%E7%B9%81%E4%BD%9C%E4%B8%BA-where-%E6%9F%A5%E8%AF%A2%E6%9D%A1%E4%BB%B6%E7%9A%84%E5%AD%97%E6%AE%B5"><span class="nav-text">2. 频繁作为 WHERE
+查询条件的字段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%8F%E5%B8%B8-group-by-%E5%92%8C-order-by-%E7%9A%84%E5%88%97"><span class="nav-text">3. 经常 GROUP BY 和 ORDER BY
+的列</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#updatedelete-%E7%9A%84-where-%E6%9D%A1%E4%BB%B6%E5%88%97"><span class="nav-text">4. UPDATE、DELETE 的 WHERE
+条件列</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#distinct-%E5%AD%97%E6%AE%B5%E9%9C%80%E8%A6%81%E5%88%9B%E5%BB%BA%E7%B4%A2%E5%BC%95"><span class="nav-text">5.DISTINCT 字段需要创建索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%9A%E8%A1%A8-join-%E8%BF%9E%E6%8E%A5%E6%93%8D%E4%BD%9C%E6%97%B6%E5%88%9B%E5%BB%BA%E7%B4%A2%E5%BC%95%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-text">6. 多表 JOIN
+连接操作时，创建索引注意事项</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%88%97%E7%9A%84%E7%B1%BB%E5%9E%8B%E5%B0%8F%E7%9A%84%E5%88%9B%E5%BB%BA%E7%B4%A2%E5%BC%95"><span class="nav-text">7. 使用列的类型小的创建索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%89%8D%E7%BC%80%E5%88%9B%E5%BB%BA%E7%B4%A2%E5%BC%95"><span class="nav-text">8. 使用字符串前缀创建索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8C%BA%E5%88%86%E5%BA%A6%E9%AB%98%E6%95%A3%E5%88%97%E6%80%A7%E9%AB%98%E7%9A%84%E5%88%97%E9%80%82%E5%90%88%E4%BD%9C%E4%B8%BA%E7%B4%A2%E5%BC%95"><span class="nav-text">9.
+区分度高(散列性高)的列适合作为索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%9C%80%E9%A2%91%E7%B9%81%E7%9A%84%E5%88%97%E6%94%BE%E5%88%B0%E8%81%94%E5%90%88%E7%B4%A2%E5%BC%95%E7%9A%84%E5%B7%A6%E4%BE%A7"><span class="nav-text">10.
+使用最频繁的列放到联合索引的左侧</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9C%A8%E5%A4%9A%E4%B8%AA%E5%AD%97%E6%AE%B5%E9%83%BD%E8%A6%81%E5%88%9B%E5%BB%BA%E7%B4%A2%E5%BC%95%E7%9A%84%E6%83%85%E5%86%B5%E4%B8%8B%E8%81%94%E5%90%88%E7%B4%A2%E5%BC%95%E4%BC%98%E4%BA%8E%E5%8D%95%E5%80%BC%E7%B4%A2%E5%BC%95"><span class="nav-text">11.
+在多个字段都要创建索引的情况下，联合索引优于单值索引</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%99%90%E5%88%B6%E7%B4%A2%E5%BC%95%E7%9A%84%E6%95%B0%E7%9B%AE"><span class="nav-text">3.3 限制索引的数目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%93%AA%E4%BA%9B%E6%83%85%E5%86%B5%E4%B8%8D%E9%80%82%E5%90%88%E5%88%9B%E5%BB%BA%E7%B4%A2%E5%BC%95"><span class="nav-text">3.4 哪些情况不适合创建索引</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9C%A8-where-%E4%B8%AD%E4%BD%BF%E7%94%A8%E4%B8%8D%E5%88%B0%E7%9A%84%E5%AD%97%E6%AE%B5%E4%B8%8D%E8%A6%81%E8%AE%BE%E7%BD%AE%E7%B4%A2%E5%BC%95"><span class="nav-text">1. 在 where
+中使用不到的字段，不要设置索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E9%87%8F%E5%B0%8F%E7%9A%84%E8%A1%A8%E6%9C%80%E5%A5%BD%E4%B8%8D%E8%A6%81%E4%BD%BF%E7%94%A8%E7%B4%A2%E5%BC%95"><span class="nav-text">2.
+数据量小的表最好不要使用索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%89%E5%A4%A7%E9%87%8F%E9%87%8D%E5%A4%8D%E6%95%B0%E6%8D%AE%E7%9A%84%E5%88%97%E4%B8%8A%E4%B8%8D%E8%A6%81%E5%BB%BA%E7%AB%8B%E7%B4%A2%E5%BC%95"><span class="nav-text">3.
+有大量重复数据的列上不要建立索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%81%BF%E5%85%8D%E5%AF%B9%E7%BB%8F%E5%B8%B8%E6%9B%B4%E6%96%B0%E7%9A%84%E8%A1%A8%E5%88%9B%E5%BB%BA%E8%BF%87%E5%A4%9A%E7%9A%84%E7%B4%A2%E5%BC%95"><span class="nav-text">4.
+避免对经常更新的表创建过多的索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8D%E5%BB%BA%E8%AE%AE%E7%94%A8%E6%97%A0%E5%BA%8F%E7%9A%84%E5%80%BC%E4%BD%9C%E4%B8%BA%E7%B4%A2%E5%BC%95"><span class="nav-text">5. 不建议用无序的值作为索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E4%B8%8D%E5%86%8D%E4%BD%BF%E7%94%A8%E6%88%96%E8%80%85%E5%BE%88%E5%B0%91%E4%BD%BF%E7%94%A8%E7%9A%84%E7%B4%A2%E5%BC%95"><span class="nav-text">6.
+删除不再使用或者很少使用的索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8D%E8%A6%81%E5%AE%9A%E4%B9%89%E5%A4%AF%E4%BD%99%E6%88%96%E9%87%8D%E5%A4%8D%E7%9A%84%E7%B4%A2%E5%BC%95"><span class="nav-text">7. 不要定义夯余或重复的索引</span></a></li></ol></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+
+
+<!-- common js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/utils.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/header-shrink.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/back2top.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/toggle-theme.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/code-block.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/main.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/libs/anime.min.js"></script>
+
+<!-- local search -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/local-search.min.js"></script>
+
+
+<!-- lazyload -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/lazyload.min.js"></script>
+
+
+<div class="pjax">
+    <!-- home page -->
+    
+
+    <!-- post page -->
+    
+        <!-- post-helper -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/post-helper.min.js"></script>
+
+        <!-- toc -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/toc.min.js"></script>
+        
+
+        <!-- copyright-info -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/copyright-info.min.js"></script>
+        
+
+        <!-- share -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/share.min.js"></script>
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/libs/pjax.min.js"></script>
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax'
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            KEEP.utils.pjaxProgressBarStart()
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            KEEP.utils.pjaxProgressBarEnd()
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'))
+            KEEP.initExecute()
+        });
+    });
+</script>
+
+
+
+
+    
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/custom_code_block.js" data-pjax></script>
+
+        
+    
+
+</body>
+</html>

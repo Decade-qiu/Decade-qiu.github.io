@@ -1,0 +1,1922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="blog, decade, lucky">
+    <meta name="description" content="Decade&#39;s lucky blog">
+    <meta name="author" content="Zhongjun Qiu">
+    
+    <title>
+        
+            Database 性能优化 |
+        
+        Decade
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/images/logo.ico">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/fontawesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/regular.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/solid.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/brands.min.css">
+    
+        
+            
+        
+            
+                
+<link rel="stylesheet" href="/css/custom.css">
+
+            
+        
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"decade.net.cn","root":"/","language":"en","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"Decade","author":"Zhongjun Qiu","avatar":"/images/avatar.ico","logo":"/images/avatar.ico","favicon":"/images/logo.ico"},"menu":{"home":"/ || fa-solid fa-home","archives":"/archives || fa-solid fa-box-archive","tags":"/tags || fa-solid fa-tags","categories":"/categories || fa-solid fa-layer-group","more":{"icon":"fa-solid fa-circle-user","children":[{"tool":"/tools || fa-solid fa-tools"},{"life":"/photos || fa-solid fa-image"},{"me":"/about || fa-solid fa-user-graduate"},{"Git":"/HTML/index.html || fa-solid fa-user"}]}},"first_screen":{"enable":true,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"The Steadfast Determination of An Ordinary Soul.","hitokoto":false},"social_contact":{"enable":true,"links":{"github":"https://github.com/Decade-qiu","weixin":"img | /images/social/weixin.jpg","qq":null,"weibo":null,"zhihu":null,"twitter":null,"x":null,"facebook":null,"email":"qiuyu6021@gmail.com"}},"scroll":{"progress_bar":true,"percent":true,"hide_header":false},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"created || fa-solid fa-history","post_datetime_format":"ago"},"post":{"author_badge":{"enable":true,"level_badge":false,"custom_badge":"元婴开发者"},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":true,"img_link":"/images/post/payment.jpg","text":null,"icon":null},"created_datetime_icon":"fa-solid fa-calendar-plus","updated_datetime_icon":"fa-solid fa-arrows-rotate"},"code_block":{"tools":{"enable":true,"style":"mac"},"highlight_theme":"obsidian"},"toc":{"enable":true,"number":false,"expand_all":false,"init_open":false,"layout":"right"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":false,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":true,"use":"waline","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.39"},"waline":{"server_url":"https://waline-vercel-two-rho.vercel.app/","reaction":true,"version":"3.3.2"},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":false},"lazyload":{"enable":true},"cdn":{"enable":true,"provider":"cdnjs"},"pjax":{"enable":true},"footer":{"since":2020,"word_count":true,"site_deploy":{"enable":true,"provider":"github","url":"https://github.com"},"record":{"enable":false,"list":[{"code":null,"link":null}]}},"inject":{"enable":true,"css":[null,"/css/custom.css"],"js":[null,"/js/custom_code_block.js"]},"root":"","source_data":{"photos":[{"url":"/images/post/【哲风壁纸】日本动漫-电锯人.webp","name":"电锯人"},{"url":"/images/post/Quicker_20250428_193139.webp","name":"kowayia"},{"url":"/images/post/Quicker_20250428_233349.webp","name":"世界地图"},{"url":"/images/post/tmpFE1E.tmp.webp","name":"施红"},{"url":"/images/post/result-1745849388402.webp","name":"仇忠骏.动漫版"},{"url":"/images/photos/猫猫困了PNG.png","name":"猫猫困了PNG"},{"url":"/images/photos/宁静的暴雨天.png","name":"宁静的暴雨天"},{"url":"/images/photos/我在扬州好想你.png","name":"我在扬州好想你"},{"url":"/images/photos/信鸽.png","name":"信鸽"},{"url":"/images/photos/啤酒烧烤.png","name":"啤酒烧烤"},{"url":"/images/photos/随手拍.png","name":"随手拍"},{"url":"/images/photos/糖油混合炸弹.png","name":"糖油混合炸弹"},{"url":"/images/photos/香香的.png","name":"香香的"},{"url":"/images/photos/蝎子莱莱.png","name":"蝎子莱莱"},{"url":"/images/post/指C为python.png","name":"指C为python"},{"url":"/images/photos/YangZhou_Station.png","name":"YangZhou Station"}],"tools":[{"category":"AIGC","anchorId":"QUlHQw0"},{"name":"ChatGPT","link":"https://chat.openai.com/","description":"OpenAI 旗下 AI 聊天对话工具","image":"/images/tools/chatgpt.svg"},{"name":"Gemini","link":"https://gemini.google.com/app","description":"Google 旗下 AI 聊天对话工具","image":"/images/tools/gemini.svg"},{"name":"Copilot","link":"https://copilot.microsoft.com/","description":"Microsoft 旗下 AI 聊天对话工具","image":"/images/tools/copilot.png"},{"name":"Deepseek","link":"https://chat.deepseek.com/","description":"Deepseek 旗下 AI 聊天对话工具","image":"/images/tools/deepseek.jpg"},{"name":"Qwen","link":"https://chat.qwen.ai/","description":"Alibaba 旗下 AI 聊天对话工具","image":"/images/tools/tongyiqianwen.svg"},{"name":"即梦AI","link":"https://jimeng.jianying.com/ai-tool/home","description":"Dreamina 图像生成工具","image":"/images/tools/dream.png"},{"name":"komiko","link":"https://komiko.app/home","description":"Komiko 动漫化AI工具","image":"/images/tools/komiko.webp"},{"name":"InsMind","link":"https://www.insmind.com/zh-cn/workspace/","description":"AI图片编辑工具","image":"/images/tools/insmind.svg"},{"name":"Raphael","link":"https://raphael.app/zh","description":"AI图片生成工具","image":"/images/tools/rap.png"},{"name":"腾讯元宝","link":"https://yuanbao.tencent.com/chat/","description":"Tencent 旗下 AI 聊天对话工具","image":"/images/tools/tencent.jpg"},{"name":"豆包","link":"https://www.doubao.com/chat/","description":"字节跳动 图片生成工具","image":"/images/tools/dn.jpg"},{"category":"Airport","anchorId":"QWlycG9ydA12"},{"name":"独角兽","link":"https://91unicorn.cloud/","description":"十分稳定","image":"/images/tools/dujiaoshou.ico"},{"name":"极速机场","link":"https://xn--mes358acgm99l.com/","description":"便宜好用","image":"/images/tools/jisu.ico"},{"name":"iKuuu","link":"https://ikuuu.org/user","description":"以备不时之需","image":"/images/tools/ikuu.ico"},{"category":"File Converter","anchorId":"RmlsZSUyMENvbnZlcnRlcg16"},{"name":"Online Image Tool","link":"https://www.onlineimagetool.com/zh/","description":"在线压缩和转换图片","image":"/images/tools/oit.png"},{"name":"Vector Magic","link":"https://zh.vectormagic.com/","description":"文件矢量化","image":"/images/tools/apple-touch-icon-180_97956a9f5fbf6a767de100280d78c1f8.png"},{"name":"TinyPNG","link":"https://tinypng.com/","description":"Smart AVIF, WebP, PNG and JPEG Compression for Faster Websites","image":"/images/tools/tiny.ico"},{"name":"踏得","link":"https://techbrood.com/tool","description":"HTML5在线工具","image":"/images/tools/td.ico"},{"name":"UU在线工具","link":"https://uutool.cn/base64/","description":"base64工具包","image":"/images/tools/uu.png"},{"name":"I Love PDF","link":"https://www.ilovepdf.com/","description":"PDF工具包","image":"/images/tools/ilovepdf.svg"},{"category":"Free GPT API","anchorId":"RnJlZSUyMEdQVCUyMEFQSQ23"},{"name":"Gemini API","link":"https://ai.google.dev/gemini-api/docs/quickstart?lang=python","description":"Google Gemini API","image":"/images/tools/touchicon-180-new.png"},{"name":"SiliconCloud","link":"https://cloud.siliconflow.cn/models","description":"各种模型API"},{"name":"Cloudflare Workers AI","link":"https://developers.cloudflare.com/workers-ai/configuration/open-ai-compatibility/","description":"OpenAI compatible API endpoints","image":"/images/tools/logo.p_ySeMR1.svg"},{"name":"算了么","link":"https://api.suanli.cn/","description":"共享算力API","image":"/images/tools/suanlm.svg"},{"category":"Resource Explorer","anchorId":"UmVzb3VyY2UlMjBFeHBsb3Jlcg28"},{"name":"Free for Developers","link":"https://free-for.dev/","description":"A list of SaaS, PaaS and IaaS offerings that have free tiers of interest to devops and infradev","image":"/images/tools/freefd.webp"},{"name":"zlibrary","link":"https://zh.z-library.sk/","description":"在线图书馆","image":"/images/tools/logo.zlibrary.svg"},{"name":"PicX","link":"https://picx.xpoet.cn/","description":"基于Github的图床","image":"/images/tools/logo.ffee4291.png"},{"name":"HaoWallpaper","link":"https://haowallpaper.com/","description":"哲风壁纸","image":"/images/tools/haowall.ico"},{"name":"Awesome","link":"https://wallhaven.cc/","description":"WallHaven","image":"/images/tools/wallheaven.ico"},{"name":"WallHere","link":"https://wallhere.com/","description":"WallHere"},{"name":"SnapAny","link":"https://snapany.com/zh","description":"万能视频图片解析下载"},{"name":"ØMagnet","link":"https://0cili.org/","description":"种子下载"},{"name":"twitter","link":"https://snapvid.net/zh-cn/twitter-downloader","description":"推特视频下载器","image":"/images/tools/apple-touch-icon.png"},{"name":"youtube","link":"https://www.y2mate.com/en949","description":"Youtube视频下载器","image":"/images/tools/y2mate.webp"},{"name":"Icons8","link":"https://icons8.com/icons","description":"免费图标下载","image":"/images/tools/logo-icons8.svg"},{"name":"全能emoji","link":"https://www.emojiall.com/zh-hans","description":"emoji制作","image":"/images/tools/emoji.ico"},{"name":"emojidb","link":"https://emojidb.org/","description":"免费表情包下载","image":"/images/tools/emojidb.png"},{"name":"Flaticon","link":"https://www.flaticon.com/","description":"免费图标下载","image":"/images/tools/logo-flaticon.svg"},{"name":"IconFinder","link":"https://www.iconfinder.com/","description":"免费图标下载","image":"/images/tools/logo-iconfinder.svg"}]},"version":"4.2.5"}
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"}
+    KEEP.language_code_block = {"copy":"Copy code","copied":"Copied","fold":"Fold code block","folded":"Folded"}
+    KEEP.language_copy_copyright = {"copy":"Copy copyright info","copied":"Copied","title":"Original post title","author":"Original post author","link":"Original post link"}
+  </script>
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <i class="pjax-progress-icon fas fa-circle-notch fa-spin"></i>
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left flex-start border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/avatar.ico">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               Decade
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc border-box">
+                <ul class="menu-list border-box">
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-home"></i>
+                                
+                                HOME
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/archives">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-box-archive"></i>
+                                
+                                ARCHIVES
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/tags">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-tags"></i>
+                                
+                                TAGS
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/categories">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-layer-group"></i>
+                                
+                                CATEGORIES
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box has-sub-menu">
+                            <a class="menu-text-color border-box" href="javascript:void(0);">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-circle-user"></i>
+                                
+                                MORE
+                                
+                                    <i class="menu-text-color collapse-icon fa-solid fa-angle-down"></i>
+                                
+                            </a>
+                            
+                                <ul class="sub-menu-list border-box">
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" href="/tools">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-solid fa-tools"></i>
+                                                
+                                                TOOL
+                                            </a>
+                                        </li>
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" href="/photos">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-solid fa-image"></i>
+                                                
+                                                LIFE
+                                            </a>
+                                        </li>
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" href="/about">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-solid fa-user-graduate"></i>
+                                                
+                                                ME
+                                            </a>
+                                        </li>
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" href="/html/">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-solid fa-user"></i>
+                                                
+                                                GIT
+                                            </a>
+                                        </li>
+                                    
+                                </ul>
+                            
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="menu-text-color fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile border-box flex-start">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list border-box">
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-home"></i>
+                                </span>
+                            
+                            HOME
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/archives">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-box-archive"></i>
+                                </span>
+                            
+                            ARCHIVES
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/tags">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-tags"></i>
+                                </span>
+                            
+                            TAGS
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/categories">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-layer-group"></i>
+                                </span>
+                            
+                            CATEGORIES
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box has-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="javascript:void(0);">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-circle-user"></i>
+                                </span>
+                            
+                            MORE
+                        </a>
+                        
+                            <i class="right-side collapse-icon fa-solid fa-angle-left"></i>
+                        
+                    </label>
+                    
+                        <ul class="drawer-sub-menu-list border-box">
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" href="/tools">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-solid fa-tools"></i>
+                                            </span>
+                                        
+                                        TOOL
+                                    </a>
+                                </li>
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" href="/photos">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-solid fa-image"></i>
+                                            </span>
+                                        
+                                        LIFE
+                                    </a>
+                                </li>
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" href="/about">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-solid fa-user-graduate"></i>
+                                            </span>
+                                        
+                                        ME
+                                    </a>
+                                </li>
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" href="/html/">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-solid fa-user"></i>
+                                            </span>
+                                        
+                                        GIT
+                                    </a>
+                                </li>
+                            
+                        </ul>
+                    
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        Database 性能优化
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/avatar.ico">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">Zhongjun Qiu</span>
+                                
+                                    <span class="author-badge">元婴开发者</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2024-02-27 09:05:02</span>
+            </span>
+
+            
+                <span class="meta-info-item post-update-date">
+                    <i class="icon fa-solid fa-arrows-rotate"></i>&nbsp;
+                    <span class="datetime" data-updated="Thu May 15 2025 23:39:44 GMT+0800">2025-05-15 23:39:44</span>
+                </span>
+            
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/Database/">Database</a></li>
+                        
+                    
+                            <li class="category-item">&nbsp;<i class="icon fas fa-angle-right"></i>&nbsp;<a href="/categories/Database/Performance/">Performance</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/SQL-Performance/">SQL,Performance</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>14.1k Words</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>58 Mins</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <p>数据库性能优化常用手段汇总：包括系统性能参数调优、慢查询日志分析、SHOW PROFILE
+与 EXPLAIN 详解、Trace 跟踪，以及 Sys Schema
+视图监控等，帮助快速定位与解决性能瓶颈。</p>
+<span id="more"></span>
+<h2 id="数据库服务器的优化步骤">1. 数据库服务器的优化步骤</h2>
+<p>当我们遇到数据库调优问题的时候，该如何思考呢？这里把思考的流程整理成下面这张图。</p>
+<p>整个流程划分成了 <code>观察（Show status）</code> 和
+<code>行动（Action）</code> 两个部分。字母 S
+的部分代表观察（会使用相应的分析工具），字母 A
+代表的部分是行动（对应分析可以采取的行动）。</p>
+<p>我们可以通过观察了解数据库整体的运行状态，通过性能分析工具可以让我们了解执行慢的
+SQL 都有哪些，查看具体的 SQL 执行计划，甚至是 SQL
+执行中的每一步的成本代价，这样才能定位问题所在，找到了问题，再采取相应的行动。</p>
+<h2 id="查看系统性能参数">2. 查看系统性能参数</h2>
+<p>在 MySQL 中，可以使用 <code>SHOW STATUS</code> 语句查询一些 MySQL
+数据库服务器的<code>性能参数、执行频率</code>。</p>
+<p>SHOW STATUS 语句语法如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">SHOW [GLOBAL|SESSION] STATUS LIKE '参数';</span><br><span class="line">```git</span><br><span class="line"></span><br><span class="line">一些常用的性能参数如下：</span><br><span class="line"></span><br><span class="line">* Connections：连接MySQL服务器的次数。</span><br><span class="line">* Uptime：MySQL服务器的上线时间。</span><br><span class="line">* Slow_queries：慢查询的次数。</span><br><span class="line">* Innodb_rows_read：Select查询返回的行数</span><br><span class="line">* Innodb_rows_inserted：执行INSERT操作插入的行数</span><br><span class="line">* Innodb_rows_updated：执行UPDATE操作更新的 行数</span><br><span class="line">* Innodb_rows_deleted：执行DELETE操作删除的行数</span><br><span class="line">* Com_select：查询操作的次数。</span><br><span class="line">* Com_insert：插入操作的次数。对于批量插入的 INSERT 操作，只累加一次。</span><br><span class="line">* Com_update：更新操作 的次数。</span><br><span class="line">* Com_delete：删除操作的次数。</span><br><span class="line"></span><br><span class="line">若查询MySQL服务器的连接次数，则可以执行如下语句:</span><br><span class="line"></span><br><span class="line">```mysql</span><br><span class="line">SHOW STATUS LIKE 'Connections';</span><br></pre></td></tr></table></figure>
+<p>若查询服务器工作时间，则可以执行如下语句:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SHOW STATUS LIKE 'Uptime';</span><br></pre></td></tr></table></figure>
+<p>若查询 MySQL 服务器的慢查询次数，则可以执行如下语句:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SHOW STATUS LIKE 'Slow_queries';</span><br></pre></td></tr></table></figure>
+<p>慢查询次数参数可以结合慢查询日志找出<code>查询时间较长</code>的语句，然后针对慢查询语句进行<code>表结构优化</code>或者<code>查询语句优化</code>。</p>
+<p>再比如，如下的指令可以查看相关的指令情况：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SHOW STATUS LIKE 'Innodb_rows_%';</span><br></pre></td></tr></table></figure>
+<h2 id="统计-sql-的查询成本-last_query_cost">3. 统计 SQL 的查询成本:
+last_query_cost</h2>
+<p>一条 SQL
+查询语句在执行前需要查询执行计划，如果存在多种执行计划的话，MySQL
+会计算每个执行计划所需要的成本，从中选择<code>成本最小</code>的一个作为最终执行的执行计划。</p>
+<p>如果我们想要查看某条 SQL 语句的查询成本，可以在执行完这条 SQL
+语句之后，通过查看当前会话中的<code>last_query_cost</code>变量值来得到当前查询的成本。它通常也是我们<code>评价一个查询的执行效率</code>的一个常用指标。这个查询成本对应的是<code>SQL 语句所需要读取的读页的数量</code>。</p>
+<p>我们依然使用 student_info 表为例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE `student_info` (</span><br><span class="line">    `id` INT(11) NOT NULL AUTO_INCREMENT,</span><br><span class="line">    `student_id` INT NOT NULL ,</span><br><span class="line">    `name` VARCHAR(20) DEFAULT NULL,</span><br><span class="line">    `course_id` INT NOT NULL ,</span><br><span class="line">    `class_id` INT(11) DEFAULT NULL,</span><br><span class="line">    `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,</span><br><span class="line">    PRIMARY KEY (`id`)</span><br><span class="line">) ENGINE=INNODB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;</span><br></pre></td></tr></table></figure>
+<p>如果我们想要查询 id=900001
+的记录，然后看查询成本，我们可以直接在聚簇索引上进行查找：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT student_id, class_id, NAME, create_time FROM student_info WHERE id = 900001;</span><br></pre></td></tr></table></figure>
+<p>运行结果（1 条记录，运行时间为 0.042s ）</p>
+<p>然后再看下查询优化器的成本，实际上我们只需要检索一个页即可：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW STATUS LIKE 'last_query_cost';</span><br><span class="line">+-----------------+----------+</span><br><span class="line">| Variable_name   |   Value  |</span><br><span class="line">+-----------------+----------+</span><br><span class="line">| Last_query_cost | 1.000000 |</span><br><span class="line">+-----------------+----------+</span><br></pre></td></tr></table></figure>
+<p>如果我们想要查询 id 在 900001 到 9000100 之间的学生记录呢？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT student_id, class_id, NAME, create_time FROM student_info WHERE id BETWEEN 900001 AND 900100;</span><br></pre></td></tr></table></figure>
+<p>运行结果（100 条记录，运行时间为 0.046s ）：</p>
+<p>然后再看下查询优化器的成本，这时我们大概需要进行 20 个页的查询。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW STATUS LIKE 'last_query_cost';</span><br><span class="line">+-----------------+-----------+</span><br><span class="line">| Variable_name   |   Value   |</span><br><span class="line">+-----------------+-----------+</span><br><span class="line">| Last_query_cost | 21.134453 |</span><br><span class="line">+-----------------+-----------+</span><br></pre></td></tr></table></figure>
+<p>你能看到页的数量是刚才的 20
+倍，但是查询的效率并没有明显的变化，实际上这两个 SQL
+查询的时间基本上一样，就是因为采用了顺序读取的方式将页面一次性加载到缓冲池中，然后再进行查找。虽然
+页
+数量（last_query_cost）增加了不少，但是通过缓冲池的机制后并没有增加多少查询时间
+。</p>
+<p><strong>使用场景：</strong>它对于比较开销是非常有用的，特别是我们有好几种查询方式可选的时候。</p>
+<blockquote>
+<p>SQL
+查询时一个动态的过程，从页加载的角度来看，我们可以得到以下两点结论：</p>
+<ol type="1">
+<li><code>位置决定效率</code>。如果页就在数据库 <code>缓冲池</code>
+中，那么效率是最高的，否则还需要从 <code>内存</code> 或者
+<code>磁盘</code>
+中进行读取，当然针对单个页的读取来说，如果页存在于内存中，会比在磁盘中读取效率高很多。</li>
+<li><code>批量决定效率</code>。如果我们从磁盘中对单一页进行随机读，那么效率是很低的(差不多
+10ms)，而采用顺序读取的方式，批量对页进行读取，平均一页的读取效率就会提升很多，甚至要快于单个页面在内存中的随机读取。</li>
+</ol>
+<p>所以说，遇到 I/O
+并不用担心，方法找对了，效率还是很高的。我们首先要考虑数据存放的位置，如果是进程使用的数据就要尽量放到<code>缓冲池</code>中，其次我们可以充分利用磁盘的吞吐能力，一次性批量读取数据，这样单个页的读取效率也就得到了提升。</p>
+</blockquote>
+<h2 id="定位执行慢的-sql慢查询日志">4. 定位执行慢的 SQL：慢查询日志</h2>
+<p>MySQL 的慢查询日志，用来记录在 MySQL
+中<code>响应时间超过阈值</code>的语句，具体指运行时间超过<code>long_query_time</code>的值的
+SQL，则会被记录到慢查询日志中。long_query_time
+的默认值为<code>10</code>，意思是运行 10 秒以上（不含 10
+秒）的语句，认为是超出了我们的最大忍耐时间值。</p>
+<p>默认情况下，MySQL
+数据库<code>没有开启慢查询日志</code>，需要我们手动来设置这个参数。<code>如果不是调优需要的话，一般不建议启动该参数</code>，因为开启慢查询日志会或多或少带来一定的性能影响。</p>
+<h3 id="开启慢查询日志参数">4.1 开启慢查询日志参数</h3>
+<p><strong>1. 开启 slow_query_log</strong></p>
+<p>在使用前，我们需要先查下慢查询是否已经开启，使用下面这条命令即可：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql &gt; show variables like '%slow_query_log';</span><br></pre></td></tr></table></figure>
+<p>我们可以看到
+<code>slow_query_log=OFF</code>，我们可以把慢查询日志打开，注意设置变量值的时候需要使用
+global，否则会报错：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql &gt; set global slow_query_log='ON';</span><br></pre></td></tr></table></figure>
+<p>然后我们再来查看下慢查询日志是否开启，以及慢查询日志文件的位置：</p>
+<p>你能看到这时慢查询分析已经开启，同时文件保存在
+<code>/var/lib/mysql/atguigu02-slow.log</code> 文件 中。</p>
+<p><strong>2. 修改 long_query_time 阈值</strong></p>
+<p>接下来我们来看下慢查询的时间阈值设置，使用如下命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql &gt; show variables like '%long_query_time%';</span><br></pre></td></tr></table></figure>
+<p>这里如果我们想把时间缩短，比如设置为 1 秒，可以这样设置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#测试发现：设置global的方式对当前session的long_query_time失效。对新连接的客户端有效。所以可以一并执行下述语句</span><br><span class="line">mysql &gt; set global long_query_time = 1;</span><br><span class="line">mysql&gt; show global variables like '%long_query_time%';</span><br><span class="line"></span><br><span class="line">mysql&gt; set long_query_time=1;</span><br><span class="line">mysql&gt; show variables like '%long_query_time%';</span><br></pre></td></tr></table></figure>
+<p><strong>补充：配置文件中一并设置参数</strong></p>
+<p>如下的方式相较于前面的命令行方式，可以看做是永久设置的方式。</p>
+<p>修改 <code>my.cnf</code> 文件，[mysqld] 下增加或修改参数
+<code>long_query_time、slow_query_log</code> 和
+<code>slow_query_log_file</code> 后，然后重启 MySQL 服务器。</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">[mysqld]</span></span><br><span class="line"><span class="attr">slow_query_log</span>=<span class="string">ON  # 开启慢查询日志开关</span></span><br><span class="line"><span class="attr">slow_query_log_file</span>=<span class="string">/var/lib/mysql/atguigu-low.log  # 慢查询日志的目录和文件名信息</span></span><br><span class="line"><span class="attr">long_query_time</span>=<span class="string">3  # 设置慢查询的阈值为3秒，超出此设定值的SQL即被记录到慢查询日志</span></span><br><span class="line"><span class="attr">log_output</span>=<span class="string">FILE</span></span><br></pre></td></tr></table></figure>
+<p>如果不指定存储路径，慢查询日志默认存储到 MySQL
+数据库的数据文件夹下。如果不指定文件名，默认文件名为
+hostname_slow.log。</p>
+<h3 id="查看慢查询数目">4.2 查看慢查询数目</h3>
+<p>查询当前系统中有多少条慢查询记录</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SHOW GLOBAL STATUS LIKE '%Slow_queries%';</span><br></pre></td></tr></table></figure>
+<h3 id="案例演示">4.3 案例演示</h3>
+<p><strong>步骤 1. 建表</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE `student` (</span><br><span class="line">    `id` INT(11) NOT NULL AUTO_INCREMENT,</span><br><span class="line">    `stuno` INT NOT NULL ,</span><br><span class="line">    `name` VARCHAR(20) DEFAULT NULL,</span><br><span class="line">    `age` INT(3) DEFAULT NULL,</span><br><span class="line">    `classId` INT(11) DEFAULT NULL,</span><br><span class="line">    PRIMARY KEY (`id`)</span><br><span class="line">) ENGINE=INNODB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;</span><br></pre></td></tr></table></figure>
+<p><strong>步骤 2：设置参数 log_bin_trust_function_creators</strong></p>
+<p>创建函数，假如报错：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">This function has none of DETERMINISTIC......</span><br></pre></td></tr></table></figure>
+<ul>
+<li>命令开启：允许创建函数设置：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set global log_bin_trust_function_creators=1; # 不加global只是当前窗口有效。</span><br></pre></td></tr></table></figure>
+<p><strong>步骤 3：创建函数</strong></p>
+<p>随机产生字符串：（同上一章）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">DELIMITER //</span><br><span class="line">CREATE FUNCTION rand_string(n INT)</span><br><span class="line">	RETURNS VARCHAR(255) #该函数会返回一个字符串</span><br><span class="line">BEGIN</span><br><span class="line">	DECLARE chars_str VARCHAR(100) DEFAULT</span><br><span class="line">'abcdefghijklmnopqrstuvwxyzABCDEFJHIJKLMNOPQRSTUVWXYZ';</span><br><span class="line">	DECLARE return_str VARCHAR(255) DEFAULT '';</span><br><span class="line">    DECLARE i INT DEFAULT 0;</span><br><span class="line">    WHILE i &lt; n DO</span><br><span class="line">    	SET return_str =CONCAT(return_str,SUBSTRING(chars_str,FLOOR(1+RAND()*52),1));</span><br><span class="line">    	SET i = i + 1;</span><br><span class="line">    END WHILE;</span><br><span class="line">    RETURN return_str;</span><br><span class="line">END //</span><br><span class="line">DELIMITER ;</span><br><span class="line"></span><br><span class="line"># 测试</span><br><span class="line">SELECT rand_string(10);</span><br></pre></td></tr></table></figure>
+<p>产生随机数值：（同上一章）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">DELIMITER //</span><br><span class="line">CREATE FUNCTION rand_num (from_num INT ,to_num INT) RETURNS INT(11)</span><br><span class="line">BEGIN</span><br><span class="line">    DECLARE i INT DEFAULT 0;</span><br><span class="line">    SET i = FLOOR(from_num +RAND()*(to_num - from_num+1)) ;</span><br><span class="line">    RETURN i;</span><br><span class="line">END //</span><br><span class="line">DELIMITER ;</span><br><span class="line"></span><br><span class="line">#测试：</span><br><span class="line">SELECT rand_num(10,100);</span><br></pre></td></tr></table></figure>
+<p><strong>步骤 4：创建存储过程</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">DELIMITER //</span><br><span class="line">CREATE PROCEDURE insert_stu1( START INT , max_num INT )</span><br><span class="line">BEGIN</span><br><span class="line">DECLARE i INT DEFAULT 0;</span><br><span class="line">    SET autocommit = 0; #设置手动提交事务</span><br><span class="line">    REPEAT #循环</span><br><span class="line">    SET i = i + 1; #赋值</span><br><span class="line">    INSERT INTO student (stuno, NAME ,age ,classId ) VALUES</span><br><span class="line">    ((START+i),rand_string(6),rand_num(10,100),rand_num(10,1000));</span><br><span class="line">    UNTIL i = max_num</span><br><span class="line">    END REPEAT;</span><br><span class="line">    COMMIT; #提交事务</span><br><span class="line">END //</span><br><span class="line">DELIMITER ;</span><br></pre></td></tr></table></figure>
+<p><strong>步骤 5：调用存储过程</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#调用刚刚写好的函数, 4000000条记录,从100001号开始</span><br><span class="line">CALL insert_stu1(100001,4000000);</span><br></pre></td></tr></table></figure>
+<h3 id="测试及分析">4.4 测试及分析</h3>
+<p><strong>1. 测试</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SELECT * FROM student WHERE stuno = 3455655;</span><br><span class="line">+---------+---------+--------+------+---------+</span><br><span class="line">|   id    |  stuno  |  name  | age  | classId |</span><br><span class="line">+---------+---------+--------+------+---------+</span><br><span class="line">| 3523633 | 3455655 | oQmLUr |  19  |    39   |</span><br><span class="line">+---------+---------+--------+------+---------+</span><br><span class="line">1 row in set (2.09 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; SELECT * FROM student WHERE name = 'oQmLUr';</span><br><span class="line">+---------+---------+--------+------+---------+</span><br><span class="line">|   id    |  stuno  |  name  |  age | classId |</span><br><span class="line">+---------+---------+--------+------+---------+</span><br><span class="line">| 1154002 | 1243200 | OQMlUR | 266  |   28    |</span><br><span class="line">| 1405708 | 1437740 | OQMlUR | 245  |   439   |</span><br><span class="line">| 1748070 | 1680092 | OQMlUR | 240  |   414   |</span><br><span class="line">| 2119892 | 2051914 | oQmLUr | 17   |   32    |</span><br><span class="line">| 2893154 | 2825176 | OQMlUR | 245  |   435   |</span><br><span class="line">| 3523633 | 3455655 | oQmLUr | 19   |   39    |</span><br><span class="line">+---------+---------+--------+------+---------+</span><br><span class="line">6 rows in set (2.39 sec)</span><br></pre></td></tr></table></figure>
+<p>从上面的结果可以看出来，查询学生编号为“3455655”的学生信息花费时间为
+2.09 秒。查询学生姓名为 “oQmLUr”的学生信息花费时间为 2.39
+秒。已经达到了秒的数量级，说明目前查询效率是比较低的，下面的小节我们分析一下原因。</p>
+<h3 id="慢查询日志分析工具mysqldumpslow">4.5
+慢查询日志分析工具：mysqldumpslow</h3>
+<p>在生产环境中，如果要手工分析日志，查找、分析
+SQL，显然是个体力活，MySQL 提供了日志分析工具 <code>mysqldumpslow</code>
+。</p>
+<p>查看 mysqldumpslow 的帮助信息</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">mysqldumpslow</span> <span class="string">--help</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>-a: 不将数字抽象成 N，字符串抽象成 S</li>
+<li>-s: 是表示按照何种方式排序：
+<ul>
+<li>c: 访问次数</li>
+<li>l: 锁定时间</li>
+<li>r: 返回记录</li>
+<li>t: 查询时间</li>
+<li>al:平均锁定时间</li>
+<li>ar:平均返回记录数</li>
+<li>at:平均查询时间 （默认方式）</li>
+<li>ac:平均查询次数</li>
+</ul></li>
+<li>-t: 即为返回前面多少条的数据；</li>
+<li>-g: 后边搭配一个正则匹配模式，大小写不敏感的；</li>
+</ul>
+<p>举例：我们想要按照查询时间排序，查看前五条 SQL 语句，这样写即可：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">mysqldumpslow</span> <span class="string">-a -s t -t 5 /var/lib/mysql/atguigu01-slow.log</span></span><br></pre></td></tr></table></figure>
+<p><strong>工作常用参考：</strong></p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#得到返回记录集最多的10个SQL</span></span><br><span class="line"><span class="attr">mysqldumpslow</span> <span class="string">-s r -t 10 /var/lib/mysql/atguigu-slow.log</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">#得到访问次数最多的10个SQL</span></span><br><span class="line"><span class="attr">mysqldumpslow</span> <span class="string">-s c -t 10 /var/lib/mysql/atguigu-slow.log</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">#得到按照时间排序的前10条里面含有左连接的查询语句</span></span><br><span class="line"><span class="attr">mysqldumpslow</span> <span class="string">-s t -t 10 -g "left join" /var/lib/mysql/atguigu-slow.log</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">#另外建议在使用这些命令时结合 | 和more 使用 ，否则有可能出现爆屏情况</span></span><br><span class="line"><span class="attr">mysqldumpslow</span> <span class="string">-s r -t 10 /var/lib/mysql/atguigu-slow.log | more</span></span><br></pre></td></tr></table></figure>
+<h3 id="关闭慢查询日志">4.6 关闭慢查询日志</h3>
+<p>MySQL 服务器停止慢查询日志功能有两种方法：</p>
+<p><strong>方式 1：永久性方式</strong></p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">[mysqld]</span></span><br><span class="line"><span class="attr">slow_query_log</span>=<span class="string">OFF</span></span><br></pre></td></tr></table></figure>
+<p>或者，把 slow_query_log 一项注释掉 或 删除</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">[mysqld]</span></span><br><span class="line"><span class="comment">#slow_query_log =OFF</span></span><br></pre></td></tr></table></figure>
+<p>重启 MySQL 服务，执行如下语句查询慢日志功能。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SHOW VARIABLES LIKE '%slow%'; #查询慢查询日志所在目录</span><br><span class="line">SHOW VARIABLES LIKE '%long_query_time%'; #查询超时时长</span><br></pre></td></tr></table></figure>
+<p><strong>方式 2：临时性方式</strong></p>
+<p>使用 SET 语句来设置。</p>
+<p>（1）停止 MySQL 慢查询日志功能，具体 SQL 语句如下。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SET GLOBAL slow_query_log=off;</span><br></pre></td></tr></table></figure>
+<p>（2）重启 MySQL 服务，使用 SHOW 语句查询慢查询日志功能信息，具体 SQL
+语句如下。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SHOW VARIABLES LIKE '%slow%';</span><br><span class="line">#以及</span><br><span class="line">SHOW VARIABLES LIKE '%long_query_time%';</span><br></pre></td></tr></table></figure>
+<h3 id="删除慢查询日志">4.7 删除慢查询日志</h3>
+<p>使用 SHOW 语句显示慢查询日志信息，具体 SQL 语句如下。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SHOW VARIABLES LIKE `slow_query_log%`;</span><br></pre></td></tr></table></figure>
+<p>从执行结果可以看出，慢查询日志的目录默认为 MySQL
+的数据目录，在该目录下 <code>手动删除慢查询日志文件</code> 即可。</p>
+<p>使用命令 <code>mysqladmin flush-logs</code>
+来重新生成查询日志文件，具体命令如下，执行完毕会在数据目录下重新生成慢查询日志文件。</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">mysqladmin</span> <span class="string">-uroot -p flush-logs slow</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>慢查询日志都是使用 mysqladmin flush-logs
+命令来删除重建的。使用时一定要注意，一旦执行了这个命令，慢查询日志都只存在新的日志文件中，如果需要旧的查询日志，就必须事先备份。</p>
+</blockquote>
+<h2 id="查看-sql-执行成本show-profile">5. 查看 SQL 执行成本：SHOW
+PROFILE</h2>
+<p>show profile 在《逻辑架构》章节中讲过，这里作为复习。</p>
+<p>show profile 是 MySQL 提供的可以用来分析当前会话中 SQL
+都做了什么、执行的资源消耗工具的情况，可用于 sql
+调优的测量。<code>默认情况下处于关闭状态</code>，并保存最近 15
+次的运行结果。</p>
+<p>我们可以在会话级别开启这个功能。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql &gt; show variables like 'profiling';</span><br></pre></td></tr></table></figure>
+<p>通过设置 profiling=‘ON’ 来开启 show profile:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql &gt; set profiling = 'ON';</span><br></pre></td></tr></table></figure>
+<p>然后执行相关的查询语句。接着看下当前会话都有哪些
+profiles，使用下面这条命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql &gt; show profiles;</span><br></pre></td></tr></table></figure>
+<p>如果我们想要查看最近一次查询的开销，可以使用：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql &gt; show profile;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show profile cpu,block io for query 2</span><br></pre></td></tr></table></figure>
+<p><strong>show profile 的常用查询参数： </strong></p>
+<p>① ALL：显示所有的开销信息。</p>
+<p>② BLOCK IO：显示块 IO 开销。</p>
+<p>③ CONTEXT SWITCHES：上下文切换开销。</p>
+<p>④ CPU：显示 CPU 开销信息。</p>
+<p>⑤ IPC：显示发送和接收开销信息。</p>
+<p>⑥ MEMORY：显示内存开销信 息。</p>
+<p>⑦ PAGE FAULTS：显示页面错误开销信息。</p>
+<p>⑧ SOURCE：显示和 Source_function，Source_file， Source_line
+相关的开销信息。</p>
+<p>⑨ SWAPS：显示交换次数开销信息。</p>
+<p><strong>日常开发需注意的结论：</strong></p>
+<p>① <code>converting HEAP to MyISAM</code>:
+查询结果太大，内存不够，数据往磁盘上搬了。</p>
+<p>②
+<code>Creating tmp table</code>：创建临时表。先拷贝数据到临时表，用完后再删除临时表。</p>
+<p>③
+<code>Copying to tmp table on disk</code>：把内存中临时表复制到磁盘上，警惕！</p>
+<p>④ <code>locked</code>。</p>
+<p>如果在 show profile 诊断结果中出现了以上 4 条结果中的任何一条，则 sql
+语句需要优化。</p>
+<blockquote>
+<p>不过 SHOW PROFILE 命令将被弃用，我们可以从 information_schema 中的
+profiling 数据表进行查看。</p>
+</blockquote>
+<h2 id="分析查询语句explain">6. 分析查询语句：EXPLAIN</h2>
+<h3 id="概述">6.1 概述</h3>
+<p><strong>定位了查询慢的 SQL 之后，我们就可以使用 EXPLAIN 或 DESCRIBE
+工具做针对性的分析查询语句。</strong></p>
+<p>DESCRIBE 语句的使用方法与 EXPLAIN
+语句是一样的，并且分析结果也是一样的。</p>
+<p>MySQL 中有专门负责优化 SELECT
+语句的优化器模块，主要功能：通过计算分析系统中收集到的统计信息，为客户端请求的
+Query 提供它认为最优的执行计划（他认为最优的数据检索方式，但不见得是 DBA
+认为是最优的，这部分最耗费时间) 。</p>
+<p>这个执行计划展示了接下来具体执行查询的方式，比如多表连接的顺序是什么，对于每个表采用什么访问方法来具体执行查询等等。MySQL
+为我们提供了 EXPLAIN
+语句来帮助我们查看某个查询语句的具体执行计划，大家看懂 EXPLAIN
+语句的各个输出项，可以有针对性的提升我们查询语句的性能。</p>
+<p><strong>1. 能查看什么？</strong></p>
+<ul>
+<li>表的读取顺序</li>
+<li>数据读取操作的操作类型</li>
+<li>哪些索引可以使用</li>
+<li>哪些索引被实际使用</li>
+<li>表之间的引用</li>
+<li>每张表有多少行被优化器查询</li>
+</ul>
+<p><strong>2. 官网介绍</strong></p>
+<p>https://dev.mysql.com/doc/refman/5.7/en/explain-output.html</p>
+<p>https://dev.mysql.com/doc/refman/8.0/en/explain-output.html</p>
+<p><strong>3. 版本情况</strong></p>
+<ul>
+<li>MySQL 5.6.3 以前只能 EXPLAIN SELECT ；MYSQL 5.6.3 以后就可以 EXPLAIN
+SELECT，UPDATE，DELETE。</li>
+<li>在 5.7 以前的版本中，想要显示 partitions 需要使用 explain partitions
+命令；想要显示 filtered 需要使用 explain extended 命令。在 5.7
+版本后，默认 explain 直接显示 partitions 和 filtered 中的信息。</li>
+</ul>
+<h3 id="基本语法">6.2 基本语法</h3>
+<p>EXPLAIN 或 DESCRIBE 语句的语法形式如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">EXPLAIN SELECT select_options</span><br><span class="line">或者</span><br><span class="line">DESCRIBE SELECT select_options</span><br></pre></td></tr></table></figure>
+<p>如果我们想看查询的执行计划，可以在具体的查询语句前边加一个 EXPLAIN
+，就像这样：</p>
+<p>（<strong>EXPALIN 后面的 SQL 语句并不会被执行</strong>）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EXPLAIN SELECT 1;</span><br></pre></td></tr></table></figure>
+<p>EXPLAIN 语句输出的各个列的作用如下：</p>
+<p>在这里把它们都列出来知识为了描述一个轮廓，让大家有一个大致的印象。</p>
+<h3 id="数据准备">6.3 数据准备</h3>
+<p><strong>1. 建表</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE s1 (</span><br><span class="line">    id INT AUTO_INCREMENT,</span><br><span class="line">    key1 VARCHAR(100),</span><br><span class="line">    key2 INT,</span><br><span class="line">    key3 VARCHAR(100),</span><br><span class="line">    key_part1 VARCHAR(100),</span><br><span class="line">    key_part2 VARCHAR(100),</span><br><span class="line">    key_part3 VARCHAR(100),</span><br><span class="line">    common_field VARCHAR(100),</span><br><span class="line">    PRIMARY KEY (id),</span><br><span class="line">    INDEX idx_key1 (key1),</span><br><span class="line">    UNIQUE INDEX idx_key2 (key2),</span><br><span class="line">    INDEX idx_key3 (key3),</span><br><span class="line">    INDEX idx_key_part(key_part1, key_part2, key_part3)</span><br><span class="line">) ENGINE=INNODB CHARSET=utf8;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE s2 (</span><br><span class="line">    id INT AUTO_INCREMENT,</span><br><span class="line">    key1 VARCHAR(100),</span><br><span class="line">    key2 INT,</span><br><span class="line">    key3 VARCHAR(100),</span><br><span class="line">    key_part1 VARCHAR(100),</span><br><span class="line">    key_part2 VARCHAR(100),</span><br><span class="line">    key_part3 VARCHAR(100),</span><br><span class="line">    common_field VARCHAR(100),</span><br><span class="line">    PRIMARY KEY (id),</span><br><span class="line">    INDEX idx_key1 (key1),</span><br><span class="line">    UNIQUE INDEX idx_key2 (key2),</span><br><span class="line">    INDEX idx_key3 (key3),</span><br><span class="line">    INDEX idx_key_part(key_part1, key_part2, key_part3)</span><br><span class="line">) ENGINE=INNODB CHARSET=utf8;</span><br></pre></td></tr></table></figure>
+<p><strong>2. 设置参数 log_bin_trust_function_creators</strong></p>
+<p>创建函数，假如报错，需开启如下命令：允许创建函数设置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set global log_bin_trust_function_creators=1; # 不加global只是当前窗口有效。</span><br></pre></td></tr></table></figure>
+<p><strong>3. 创建函数</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">DELIMITER //</span><br><span class="line">CREATE FUNCTION rand_string1(n INT)</span><br><span class="line">	RETURNS VARCHAR(255) #该函数会返回一个字符串</span><br><span class="line">BEGIN</span><br><span class="line">	DECLARE chars_str VARCHAR(100) DEFAULT</span><br><span class="line">'abcdefghijklmnopqrstuvwxyzABCDEFJHIJKLMNOPQRSTUVWXYZ';</span><br><span class="line">    DECLARE return_str VARCHAR(255) DEFAULT '';</span><br><span class="line">    DECLARE i INT DEFAULT 0;</span><br><span class="line">    WHILE i &lt; n DO</span><br><span class="line">        SET return_str =CONCAT(return_str,SUBSTRING(chars_str,FLOOR(1+RAND()*52),1));</span><br><span class="line">        SET i = i + 1;</span><br><span class="line">    END WHILE;</span><br><span class="line">    RETURN return_str;</span><br><span class="line">END //</span><br><span class="line">DELIMITER ;</span><br></pre></td></tr></table></figure>
+<p><strong>4. 创建存储过程</strong></p>
+<p>创建往 s1 表中插入数据的存储过程：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">DELIMITER //</span><br><span class="line">CREATE PROCEDURE insert_s1 (IN min_num INT (10),IN max_num INT (10))</span><br><span class="line">BEGIN</span><br><span class="line">    DECLARE i INT DEFAULT 0;</span><br><span class="line">    SET autocommit = 0;</span><br><span class="line">    REPEAT</span><br><span class="line">    SET i = i + 1;</span><br><span class="line">    INSERT INTO s1 VALUES(</span><br><span class="line">        (min_num + i),</span><br><span class="line">        rand_string1(6),</span><br><span class="line">        (min_num + 30 * i + 5),</span><br><span class="line">        rand_string1(6),</span><br><span class="line">        rand_string1(10),</span><br><span class="line">        rand_string1(5),</span><br><span class="line">        rand_string1(10),</span><br><span class="line">        rand_string1(10));</span><br><span class="line">    UNTIL i = max_num</span><br><span class="line">    END REPEAT;</span><br><span class="line">    COMMIT;</span><br><span class="line">END //</span><br><span class="line">DELIMITER ;</span><br></pre></td></tr></table></figure>
+<p>创建往 s2 表中插入数据的存储过程：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">DELIMITER //</span><br><span class="line">CREATE PROCEDURE insert_s2 (IN min_num INT (10),IN max_num INT (10))</span><br><span class="line">BEGIN</span><br><span class="line">    DECLARE i INT DEFAULT 0;</span><br><span class="line">    SET autocommit = 0;</span><br><span class="line">    REPEAT</span><br><span class="line">    SET i = i + 1;</span><br><span class="line">    INSERT INTO s2 VALUES(</span><br><span class="line">        (min_num + i),</span><br><span class="line">        rand_string1(6),</span><br><span class="line">        (min_num + 30 * i + 5),</span><br><span class="line">        rand_string1(6),</span><br><span class="line">        rand_string1(10),</span><br><span class="line">        rand_string1(5),</span><br><span class="line">        rand_string1(10),</span><br><span class="line">        rand_string1(10));</span><br><span class="line">    UNTIL i = max_num</span><br><span class="line">    END REPEAT;</span><br><span class="line">    COMMIT;</span><br><span class="line">END //</span><br><span class="line">DELIMITER ;</span><br></pre></td></tr></table></figure>
+<p><strong>5. 调用存储过程</strong></p>
+<p>s1 表数据的添加：加入 1 万条记录：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CALL insert_s1(10001,10000);</span><br></pre></td></tr></table></figure>
+<p>s2 表数据的添加：加入 1 万条记录：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CALL insert_s2(10001,10000);</span><br></pre></td></tr></table></figure>
+<h3 id="explain-各列作用">6.4 EXPLAIN 各列作用</h3>
+<h4 id="table">1. table</h4>
+<p>不论我们的查询语句有多复杂，里边儿 包含了多少个表
+，到最后也是需要对每个表进行 单表访问的，所 以 MySQL 规定 EXPLAIN
+语句输出的每条记录都对应着某个单表的访问方法，该条记录的 table
+列代表着该表的表名（有时不是真实的表名字，可能是简称）。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql &gt; EXPLAIN SELECT * FROM s1;</span><br></pre></td></tr></table></figure>
+<p>这个查询语句只涉及对 s1 表的单表查询，所以 <code>EXPLAIN</code>
+输出中只有一条记录，其中的 table 列的值为 s1，表明这条记录是用来说明对
+s1 表的单表访问方法的。</p>
+<p>下边我们看一个连接查询的执行计划</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql &gt; EXPLAIN SELECT * FROM s1 INNER JOIN s2;</span><br><span class="line">+----+-------------+-------+------------+------+---------------+------+---------+------+-------+----------+-------------------------------+</span><br><span class="line">| id | select_type | table | partitions | type | possible_keys | key  | key_len | ref  | rows  | filtered | Extra                         |</span><br><span class="line">+----+-------------+-------+------------+------+---------------+------+---------+------+-------+----------+-------------------------------+</span><br><span class="line">|  1 | SIMPLE      | s1    | NULL       | ALL  | NULL          | NULL | NULL    | NULL |  9895 |   100.00 | NULL                          |</span><br><span class="line">|  1 | SIMPLE      | s2    | NULL       | ALL  | NULL          | NULL | NULL    | NULL | 10152 |   100.00 | Using join buffer (hash join) |</span><br><span class="line">+----+-------------+-------+------------+------+---------------+------+---------+------+-------+----------+-------------------------------+</span><br><span class="line">2 rows in set, 1 warning (0.00 sec)</span><br></pre></td></tr></table></figure>
+<p>可以看出这个连接查询的执行计划中有两条记录，这两条记录的 table
+列分别是 s1 和 s2，这两条记录用来分别说明对 s1 表和 s2
+表的访问方法是什么。</p>
+<h4 id="id">2. id</h4>
+<p>我们写的查询语句一般都以 SELECT
+关键字开头，比较简单的查询语句里只有一个 SELECT
+关键字，比如下边这个查询语句：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM s1 WHERE key1 = 'a';</span><br></pre></td></tr></table></figure>
+<p>稍微复杂一点的连接查询中也只有一个 SELECT 关键字，比如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM s1 INNER JOIN s2</span><br><span class="line">ON s1.key1 = s2.key1</span><br><span class="line">WHERE s1.common_field = 'a';</span><br></pre></td></tr></table></figure>
+<p>但是下边两种情况下在一条查询语句中会出现多个 SELECT 关键字：</p>
+<ul>
+<li>查询中包含子查询的情况</li>
+</ul>
+<p>比如下边这个查询语句中就包含 2 个 SELECT 关键字:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM 1</span><br><span class="line">WHERE key1 IN (SELECT key3 FROM s2) I.</span><br></pre></td></tr></table></figure>
+<ul>
+<li>查询中包含 UNION 语句的情况</li>
+</ul>
+<p>比如下边这个查询语句中也包含 2 个 SELECT 关键字:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM s1 UNION SELECT * FROM s2;</span><br></pre></td></tr></table></figure>
+<p>查询语句中每出现一个 SELECT 关键字，MySQL 就会为它分配一个唯一的 id
+值。</p>
+<p>这个 id 值就是 EXPLAIN 语句的第一个列，比如下边这个查询中只有一个
+SELECT 关键字，所以 EXPLAIN 的结果中也就只有一条 id 列为 1 的记录:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql &gt; EXPLAIN SELECT * FROM s1 WHERE key1 = 'a';</span><br><span class="line">+----+-------------+-------+------------+------+---------------+------+---------+------+------+----------+-------+</span><br><span class="line">| id | select_type | table | partitions | type | possible_keys | key  | key_len | ref  | rows | filtered | Extra |</span><br><span class="line">+----+-------------+-------+------------+------+---------------+------+---------+------+------+----------+-------+</span><br><span class="line">|  1 | SIMPLE      | s1    | NULL       | ALL  | NULL          | NULL | NULL    | NULL | 9895 |   100.00 | NULL  |</span><br><span class="line">+----+-------------+-------+------------+------+---------------+------+---------+------+------+----------+-------+</span><br></pre></td></tr></table></figure>
+<p>对于连接查询来说，一个 SELECT 关键字后边的 FROM
+字句中可以跟随多个表，所以在连接查询的执行计划中，每个表都会对应一条记录，但是这些记录的
+id 值都是相同的，比如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; EXPLAIN SELECT * FROM s1 INNER JOIN s2;</span><br><span class="line">+----+-------------+-------+------------+------+---------------+------+---------+------+-------+----------+-------------------------------+</span><br><span class="line">| id | select_type | table | partitions | type | possible_keys | key  | key_len | ref  | rows  | filtered | Extra                         |</span><br><span class="line">+----+-------------+-------+------------+------+---------------+------+---------+------+-------+----------+-------------------------------+</span><br><span class="line">|  1 | SIMPLE      | s1    | NULL       | ALL  | NULL          | NULL | NULL    | NULL |  9895 |   100.00 | NULL                          |</span><br><span class="line">|  1 | SIMPLE      | s2    | NULL       | ALL  | NULL          | NULL | NULL    | NULL | 10152 |   100.00 | Using join buffer (hash join) |</span><br><span class="line">+----+-------------+-------+------------+------+---------------+------+---------+------+-------+----------+-------------------------------+</span><br></pre></td></tr></table></figure>
+<p>可以看到，上述连接查询中参与连接的 s1 和 s2
+表分别对应一条记录，但是这两条记录对应的<code>id</code>都是
+1。这里需要大家记住的是，<strong>在连接查询的执行计划中，每个表都会对应一条记录，这些记录的
+id
+列的值是相同的</strong>，出现在前边的表表示<code>驱动表</code>，出现在后面的表表示<code>被驱动表</code>。所以从上边的
+EXPLAIN 输出中我们可以看到，查询优化器准备让 s1 表作为驱动表，让 s2
+表作为被驱动表来执行查询。</p>
+<p>对于包含子查询的查询语句来说，就可能涉及多个<code>SELECT</code>关键字，所以在包含子查询的查询语句的执行计划中，每个<code>SELECT</code>关键字都会对应一个唯一的
+id 值，比如这样：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; EXPLAIN SELECT * FROM s1 WHERE key1 IN (SELECT key1 FROM s2) OR key3 = 'a';</span><br><span class="line">+----+-------------+-------+------------+-------+---------------+----------+---------+------+-------+----------+-------------+</span><br><span class="line">| id | select_type | table | partitions | type  | possible_keys | key      | key_len | ref  | rows  | filtered | Extra       |</span><br><span class="line">+----+-------------+-------+------------+-------+---------------+----------+---------+------+-------+----------+-------------+</span><br><span class="line">|  1 | PRIMARY     | s1    | NULL       | ALL   | idx_key3      | NULL     | NULL    | NULL |  9895 |   100.00 | Using where |</span><br><span class="line">|  2 | SUBQUERY    | s2    | NULL       | index | idx_key1      | idx_key1 | 303     | NULL | 10152 |   100.00 | Using index |</span><br><span class="line">+----+-------------+-------+------------+-------+---------------+----------+---------+------+-------+----------+-------------+</span><br></pre></td></tr></table></figure>
+<p>但查询优化器可能对涉及子查询的查询语句进行重写，转变为多表查询的操作。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; EXPLAIN SELECT * FROM s1 WHERE key1 IN (SELECT key2 FROM s2 WHERE common_field = 'a');</span><br><span class="line">+----+-------------+-------+------------+--------+---------------+----------+---------+--------------+------+----------+------------------------------------+</span><br><span class="line">| id | select_type | table | partitions | type   | possible_keys | key      | key_len | ref          | rows | filtered | Extra                              |</span><br><span class="line">+----+-------------+-------+------------+--------+---------------+----------+---------+--------------+------+----------+------------------------------------+</span><br><span class="line">|  1 | SIMPLE      | s1    | NULL       | ALL    | idx_key1      | NULL     | NULL    | NULL         | 9895 |   100.00 | Using where                        |</span><br><span class="line">|  1 | SIMPLE      | s2    | NULL       | eq_ref | idx_key2      | idx_key2 | 5       | test.s1.key1 |    1 |    10.00 | Using index condition; Using where |</span><br><span class="line">+----+-------------+-------+------------+--------+---------------+----------+---------+--------------+------+----------+------------------------------------+</span><br></pre></td></tr></table></figure>
+<p>可以看到，虽然我们的查询语句是一个子查询，但是执行计划中 s1 和 s2
+表对应的记录的<code>id</code>值全部是
+1，这就表明<code>查询优化器将子查询转换为了连接查询</code>。</p>
+<p>对于包含<code>UNION</code>子句的查询语句来说，每个<code>SELECT</code>关键字对应一个<code>id</code>值也是没错的，不过还是有点儿特别的东西，比方说下边的查询：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># Union去重</span><br><span class="line">mysql&gt; EXPLAIN SELECT * FROM s1 UNION SELECT * FROM s2;</span><br><span class="line">+----+--------------+------------+------------+------+---------------+------+---------+------+-------+----------+-----------------+</span><br><span class="line">| id | select_type  | table      | partitions | type | possible_keys | key  | key_len | ref  | rows  | filtered | Extra           |</span><br><span class="line">+----+--------------+------------+------------+------+---------------+------+---------+------+-------+----------+-----------------+</span><br><span class="line">|  1 | PRIMARY      | s1         | NULL       | ALL  | NULL          | NULL | NULL    | NULL |  9895 |   100.00 | NULL            |</span><br><span class="line">|  2 | UNION        | s2         | NULL       | ALL  | NULL          | NULL | NULL    | NULL | 10152 |   100.00 | NULL            |</span><br><span class="line">|  3 | UNION RESULT | &lt;union1,2&gt; | NULL       | ALL  | NULL          | NULL | NULL    | NULL |  NULL |     NULL | Using temporary |</span><br><span class="line">+----+--------------+------------+------------+------+---------------+------+---------+------+-------+----------+-----------------+</span><br></pre></td></tr></table></figure>
+<p>这个语句的执行计划的第三条记录是什么? 为何 id 值是 3，而且 table
+列也很奇怪?</p>
+<p>UNION！它会把多个查询的结果集合并起来并对结果集中的记录进行去重，怎么去重呢?
+MySQL 使用的是内部的临时表。正如上边的查询计划中所示，UNION 子句是为了把
+id 为 1 的查询和 id 为 2
+的查询的结果集合并起来并去重，所以在内部创建了一个名为
+&lt;union1，2&gt;的临时表（就是执行计划第三条记录的 table
+列的名称），对临时表进行查询的 id 就是 3。</p>
+<p><code>跟UNION对比起来，UNION ALL 就不需要为最终的结果集进行去重，它只是单纯的把多个查询的结果集中的记录合并成一个并返回给用户，所以也就不需要使用临时表</code>。所以在包含
+UNION ALL 子句的查询的执行计划中，就没有那个 id 为 NULL
+的记录，如下所示:</p>
+<p><strong>小结:</strong></p>
+<ul>
+<li>id 如果相同，可以认为是一组，从上往下顺序执行</li>
+<li>在所有组中，id 值越大，优先级越高，越先执行</li>
+<li>关注点：id 号每个号码，表示一趟独立的查询, 一个 sql
+的查询趟数越少越好</li>
+</ul>
+<h4 id="select_type">3. select_type</h4>
+<p>一条大的查询语句里边可以包含若干个 SELECT 关键字，每个 SELECT
+关键字代表着一个小的查询语句，而每个 SELECT 关键字的 FROM
+子句中都可以包含若干张表（这些表用来做连接查询），每一张表都对应着执行计划输出中的一条记录，对于在同一个
+SELECT 关键字中的表来说，它们的 id 值是相同的。</p>
+<p>MySQL 为<strong>每一个 SELECT 关键字代表的小查询都定义了一个称之为
+select_type 的属性</strong>，意思是我们只要知道了某个小查询的
+select_type
+属性，就知道了这个小查询在整个大查询中扮演了一个什么角色，我们看一下
+select_type 都能取哪些值，请看官方文档:</p>
+<p>具体分析如下：</p>
+<ul>
+<li><p>SIMPLE</p>
+<p>查询语句中不包含<code>UNION</code>或者子查询的查询都算作是<code>SIMPLE</code>类型</p>
+<p>比方说:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">EXPLAIN SELECT * FROM s1;</span><br><span class="line">EXPLAIN SELECT * FROM s1 INNER JOIN s2;</span><br></pre></td></tr></table></figure></li>
+<li><p>PRIMARY</p>
+<p>对于包含<code>UNION、UNION ALL</code>或者子查询的大查询来说，它是由几个小查询组成的，其中最左边的那个查询的<code>select_type</code>的值就是<code>PRIMARY</code>,比方说：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; EXPLAIN SELECT * FROM s1 UNION SELECT * FROM s2;</span><br><span class="line">+----+--------------+------------+------------+------+---------------+------+---------+------+-------+----------+-----------------+</span><br><span class="line">| id | select_type  | table      | partitions | type | possible_keys | key  | key_len | ref  | rows  | filtered | Extra           |</span><br><span class="line">+----+--------------+------------+------------+------+---------------+------+---------+------+-------+----------+-----------------+</span><br><span class="line">|  1 | PRIMARY      | s1         | NULL       | ALL  | NULL          | NULL | NULL    | NULL |  9895 |   100.00 | NULL            |</span><br><span class="line">|  2 | UNION        | s2         | NULL       | ALL  | NULL          | NULL | NULL    | NULL | 10152 |   100.00 | NULL            |</span><br><span class="line">|  3 | UNION RESULT | &lt;union1,2&gt; | NULL       | ALL  | NULL          | NULL | NULL    | NULL |  NULL |     NULL | Using temporary |</span><br><span class="line">+----+--------------+------------+------------+------+---------------+------+---------+------+-------+----------+-----------------+</span><br></pre></td></tr></table></figure>
+<p>从结果中可以看到，最左边的小查询<code>SELECT * FROM s1</code>对应的是执行计划中的第一条记录，它的<code>select_type</code>的值就是<code>PRIMARY</code>。</p></li>
+<li><p>UNION</p>
+<p>对于包含<code>UNION</code>或者<code>UNION ALL</code>的大查询来说，它是由几个小查询组成的，其中除了最左边的那个小查询意外，其余的小查询的<code>select_type</code>值就是
+UNION，可以对比上一个例子的效果。</p></li>
+<li><p>UNION RESULT</p>
+<p>MySQL
+选择使用临时表来完成<code>UNION</code>查询的去重工作，针对该临时表的查询的<code>select_type</code>就是<code>UNION RESULT</code>,
+例子上边有。</p></li>
+<li><p>SUBQUERY</p>
+<p>如果包含子查询的查询语句不能够转为对应的<code>semi-join</code>的形式，并且该子查询是不相关子查询，并且查询优化器决定采用将该子查询物化的方案来执行该子查询时，该子查询的第一个<code>SELECT</code>关键字代表的那个查询的<code>select_type</code>就是<code>SUBQUERY</code>，比如下边这个查询：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; EXPLAIN SELECT * FROM s1 WHERE key1 IN (SELECT key1 FROM s2) OR key3 = 'a';</span><br><span class="line">+----+-------------+-------+------------+-------+---------------+----------+---------+------+-------+----------+-------------+</span><br><span class="line">| id | select_type | table | partitions | type  | possible_keys | key      | key_len | ref  | rows  | filtered | Extra       |</span><br><span class="line">+----+-------------+-------+------------+-------+---------------+----------+---------+------+-------+----------+-------------+</span><br><span class="line">|  1 | PRIMARY     | s1    | NULL       | ALL   | idx_key3      | NULL     | NULL    | NULL |  9895 |   100.00 | Using where |</span><br><span class="line">|  2 | SUBQUERY    | s2    | NULL       | index | idx_key1      | idx_key1 | 303     | NULL | 10152 |   100.00 | Using index |</span><br><span class="line">+----+-------------+-------+------------+-------+---------------+----------+---------+------+-------+----------+-------------+</span><br></pre></td></tr></table></figure></li>
+<li><p>DEPENDENT SUBQUERY</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; EXPLAIN SELECT * FROM s1 WHERE key1 IN (SELECT key1 FROM s2 WHERE s1.key2 = s2.key2) OR key3 = 'a';</span><br></pre></td></tr></table></figure></li>
+<li><p>DEPENDENT UNION</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; EXPLAIN SELECT * FROM s1 WHERE key1 IN (SELECT key1 FROM s2 WHERE key1 = 'a' UNION SELECT key1 FROM s1 WHERE key1 = 'b');</span><br></pre></td></tr></table></figure></li>
+<li><p>DERIVED</p>
+<p>当查询优化器在执行包含子查询的语句时，选择将子查询物化之后的外层查询进行连接查询时，该子查询对应的<code>select_type</code>属性就是
+DERIVED，比如下边这个查询：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; EXPLAIN SELECT * FROM (SELECT key1, count(*) as c FROM s1 GROUP BY key1) AS derived_s1 where c &gt; 1;</span><br></pre></td></tr></table></figure></li>
+<li><p>UNCACHEABLE SUBQUERY</p>
+<p>不常用，就不多说了。</p></li>
+<li><p>UNCACHEABLE UNION</p>
+<p>不常用，就不多说了。</p></li>
+</ul>
+<h4 id="partitions-可略">4. partitions (可略)</h4>
+<ul>
+<li>代表分区表中的命中情况，非分区表，该项为<code>NULL</code>。一般情况下我们的额查询语句的执行计划的<code>partitions</code>列的值为<code>NULL</code>。</li>
+<li><a>https://dev.mysql.com/doc/refman/5.7/en/alter-table-partition-operations.html</a></li>
+</ul>
+<h4 id="type">5. type ☆</h4>
+<p>执行计划的一条记录就代表着 MySQL 对某个表的
+<code>执行查询时的访问方法</code> , 又称“访问类型”，其中的
+<code>type</code>
+列就表明了这个访问方法是啥，是较为重要的一个指标。比如，看到<code>type</code>列的值是<code>ref</code>，表明<code>MySQL</code>即将使用<code>ref</code>访问方法来执行对<code>s1</code>表的查询。</p>
+<p>完整的访问方法如下：
+<code>system ， const ， eq_ref ， ref ， fulltext ， ref_or_null ， index_merge ， unique_subquery ， index_subquery ， range ， index ， ALL</code>
+。</p>
+<p>(<strong>查询性能递减</strong>)</p>
+<ul>
+<li><p><code>system</code></p>
+<p>当表中<code>只有一条记录</code>并且该表使用的存储引擎的统计数据是精确的，比如
+MyISAM、Memory，那么对该表的访问方法就是<code>system</code>。比方说我们新建一个<code>MyISAM</code>表，并为其插入一条记录：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; CREATE TABLE t(i int) Engine=MyISAM;</span><br><span class="line">Query OK, 0 rows affected (0.05 sec)</span><br><span class="line">mysql&gt; INSERT INTO t VALUES(1);</span><br><span class="line">Query OK, 1 row affected (0.01 sec)</span><br></pre></td></tr></table></figure>
+<p>然后我们看一下查询这个表的执行计划：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; EXPLAIN SELECT * FROM t;</span><br></pre></td></tr></table></figure>
+<p>可以看到<code>type</code>列的值就是<code>system</code>了，</p>
+<blockquote>
+<p>测试，可以把表改成使用 InnoDB
+存储引擎，试试看执行计划的<code>type</code>列是什么=&gt;ALL</p>
+</blockquote></li>
+<li><p><code>const</code></p>
+<p>当我们根据<strong>主键</strong>或者<strong>唯一二级索引列</strong>与常数进行<strong>等值匹配</strong>时，对单表的访问方法就是<code>const</code>,
+比如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; EXPLAIN SELECT * FROM s1 WHERE id = 10005;</span><br><span class="line">+----+-------------+-------+------------+-------+---------------+---------+---------+-------+------+----------+-------+</span><br><span class="line">| id | select_type | table | partitions | type  | possible_keys | key     | key_len | ref   | rows | filtered | Extra |</span><br><span class="line">+----+-------------+-------+------------+-------+---------------+---------+---------+-------+------+----------+-------+</span><br><span class="line">|  1 | SIMPLE      | s1    | NULL       | const | PRIMARY       | PRIMARY | 4       | const |    1 |   100.00 | NULL  |</span><br><span class="line">+----+-------------+-------+------------+-------+---------------+---------+---------+-------+------+----------+-------+</span><br></pre></td></tr></table></figure></li>
+<li><p><code>eq_ref</code></p>
+<p>在连接查询时，如果被驱动表是通过<strong>主键</strong>或者<strong>唯一二级索引</strong>列<strong>等值匹配</strong>的方式进行访问的</p>
+<p>（如果该主键或者唯一二级索引是联合索引的话，所有的索引列都必须进行等值比较）</p>
+<p>则对该被驱动表的访问方法就是<code>eq_ref</code>，比方说：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; EXPLAIN SELECT * FROM s1 INNER JOIN s2 ON s1.id = s2.id;</span><br><span class="line">+----+-------------+-------+------------+--------+---------------+---------+---------+------------+------+----------+-------+</span><br><span class="line">| id | select_type | table | partitions | type   | possible_keys | key     | key_len | ref        | rows | filtered | Extra |</span><br><span class="line">+----+-------------+-------+------------+--------+---------------+---------+---------+------------+------+----------+-------+</span><br><span class="line">|  1 | SIMPLE      | s1    | NULL       | ALL    | PRIMARY       | NULL    | NULL    | NULL       | 9895 |   100.00 | NULL  |</span><br><span class="line">|  1 | SIMPLE      | s2    | NULL       | eq_ref | PRIMARY       | PRIMARY | 4       | test.s1.id |    1 |   100.00 | NULL  |</span><br><span class="line">+----+-------------+-------+------------+--------+---------------+---------+---------+------------+------+----------+-------+</span><br></pre></td></tr></table></figure>
+<p>从执行计划的结果中可以看出，MySQL 打算将 s2 作为驱动表，s1
+作为被驱动表，重点关注 s1 的访问 方法是 <code>eq_ref</code> ，表明在访问
+s1 表的时候可以 <code>通过主键的等值匹配</code> 来进行访问。</p></li>
+<li><p><code>ref</code></p>
+<p>当通过普通的二级索引列与常量进行等值匹配时来查询某个表，那么对该表的访问方法就可能是<code>ref</code>，比方说下边这个查询：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; EXPLAIN SELECT * FROM s1 WHERE key1 = 'a';</span><br></pre></td></tr></table></figure></li>
+<li><p><code>fulltext</code></p>
+<p>全文索引</p></li>
+<li><p><code>ref_or_null</code></p>
+<p>当对普通二级索引进行等值匹配查询，该索引列的值也可以是<code>NULL</code>值时，那么对该表的访问方法就可能是<code>ref_or_null</code>，比如说：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; EXPLAIN SELECT * FROM s1 WHERE key1 = 'a' OR key1 IS NULL;</span><br></pre></td></tr></table></figure></li>
+<li><p><code>index_merge</code></p>
+<p>一般情况下对于某个表的查询只能使用到一个索引，但单表访问方法时在某些场景下可以使用<code>Interseation、union、Sort-Union</code>这三种索引合并的方式来执行查询。我们看一下执行计划中是怎么体现
+MySQL 使用索引合并的方式来对某个表执行查询的：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; EXPLAIN SELECT * FROM s1 WHERE key1 = 'a' OR key3 = 'a';</span><br><span class="line">+----+-------------+-------+------------+-------------+-------------------+-------------------+---------+------+------+----------+---------------------------------------------+</span><br><span class="line">| id | select_type | table | partitions | type        | possible_keys     | key               | key_len | ref  | rows | filtered | Extra                                       |</span><br><span class="line">+----+-------------+-------+------------+-------------+-------------------+-------------------+---------+------+------+----------+---------------------------------------------+</span><br><span class="line">|  1 | SIMPLE      | s1    | NULL       | index_merge | idx_key1,idx_key3 | idx_key1,idx_key3 | 303,303 | NULL |    2 |   100.00 | Using union(idx_key1,idx_key3); Using where |</span><br><span class="line">+----+-------------+-------+------------+-------------+-------------------+-------------------+---------+------+------+----------+---------------------------------------------+</span><br></pre></td></tr></table></figure>
+<p>从执行计划的 <code>type</code> 列的值是 <code>index_merge</code>
+就可以看出，MySQL 打算使用索引合并的方式来执行对 s1 表的查询。</p>
+<p><strong>相当于先合并再回表和先回表再合并的区别</strong></p></li>
+<li><p><code>unique_subquery</code></p>
+<p>类似于两表连接中被驱动表的<code>eq_ref</code>访问方法，<code>unique_subquery</code>是针对在一些包含<code>IN</code>子查询的查询语句中，如果查询优化器决定将<code>IN</code>子查询转换为<code>EXISTS</code>子查询，而且子查询可以使用到主键进行等值匹配的话，那么该子查询执行计划的<code>type</code>列的值就是<code>unique_subquery</code>，比如下边的这个查询语句：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; EXPLAIN SELECT * FROM s1 WHERE key2 IN (SELECT id FROM s2 where s1.key1 = s2.key1) OR key3 = 'a';</span><br></pre></td></tr></table></figure></li>
+<li><p><code>index_subquery</code></p>
+<p><code>index_subquery</code> 与 <code>unique_subquery</code>
+类似，只不过访问子查询中的表时使用的是普通的索引，比如这样：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; EXPLAIN SELECT * FROM s1 WHERE common_field IN (SELECT key3 FROM s2 where s1.key1 = s2.key1) OR key3 = 'a';</span><br></pre></td></tr></table></figure></li>
+<li><p><code>range</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; EXPLAIN SELECT * FROM s1 WHERE key1 IN ('a', 'b', 'c');</span><br></pre></td></tr></table></figure>
+<p>或者：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; EXPLAIN SELECT * FROM s1 WHERE key1 &gt; 'a' AND key1 &lt; 'b';</span><br></pre></td></tr></table></figure></li>
+<li><p><code>index</code></p>
+<p>当我们可以使用索引覆盖，但需要扫描全部的索引记录时，该表的访问方法就是<code>index</code></p>
+<blockquote>
+<p>覆盖索引（covering
+index）即从非主键索引中就能查到的记录，而不需要查询主键索引中的记录，避免了回表的产生减少了树的搜索次数，显著提升性能。</p>
+<p>如下面的例子，查询的条件（key_part3）和最后查询的结果（key_part2）都是在联合索引<code>idx_key_part</code>中出现，则无需查到对应主键
+id 后再进行回表操作。</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; EXPLAIN SELECT key_part2 FROM s1 WHERE key_part3 = 'a';</span><br></pre></td></tr></table></figure>
+<p>上述查询中的所有列表中只有 key_part2 一个列，而且搜索条件中也只有
+key_part3 一个列，这两个列又恰好包含在 idx_key_part
+这个索引中，可是搜索条件 key_part3
+不能直接使用该索引进行<code>ref</code>和<code>range</code>方式的访问，只能扫描整个<code>idx_key_part</code>索引的记录，所以查询计划的<code>type</code>列的值就是<code>index</code>。</p>
+<blockquote>
+<p>再一次强调，对于使用 InnoDB
+存储引擎的表来说，二级索引的记录只包含索引列和主键列的值，而聚簇索引中包含用户定义的全部列以及一些隐藏列，所以扫描二级索引的代价比直接全表扫描，也就是扫描聚簇索引的代价更低一些。</p>
+</blockquote></li>
+<li><p><code>ALL</code></p>
+<p>最熟悉的全表扫描，就不多说了，直接看例子：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; EXPLAIN SELECT * FROM s1;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p><strong>小结: </strong></p>
+<p>结果值从最好到最坏依次是：</p>
+<p><code>system</code>&gt; <code>const</code>&gt;
+<code>eq_ref</code>&gt; <code>ref</code>&gt; fulltext &gt; ref_or_null
+&gt; index_merge &gt; unique_subquery &gt; index_subquery &gt;
+<code>range</code>&gt; <code>index</code>&gt; <code>ALL</code></p>
+<p><strong>SQL 性能优化的目标：至少要达到 range 级别，要求是 ref
+级别，最好是 consts 级别。（阿里巴巴 开发手册要求）</strong></p>
+<h4 id="possible_keys-和-key">6. possible_keys 和 key</h4>
+<p>在 EXPLAIN
+语句输出的执行计划中<code>possible_keys</code>列表示在某个查询语句中，对某个列执行<code>单表查询时可能用到的索引</code>有哪些。一般查询涉及到的字段上若存在索引，则该索引将被列出，但不一定被查询使用。</p>
+<p><code>key</code>列表示<code>实际用到的索引</code>有哪些，如果为
+NULL，则没有使用索引。比方说下面这个查询：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; EXPLAIN SELECT * FROM s1 WHERE key1 &gt; 'z' AND key3 = 'a';</span><br></pre></td></tr></table></figure>
+<p>上述执行计划的<code>possible_keys</code>列的值是<code>idx_key1, idx_key3</code>，表示该查询可能使用到<code>idx_key1, idx_key3</code>两个索引，然后<code>key</code>列的值是<code>idx_key3</code>，表示经过查询优化器计算使用不同索引的成本后，最后决定采用<code>idx_key3</code>。</p>
+<h4 id="key_len">7. key_len ☆</h4>
+<p>实际使用到的索引长度 (即：字节数)</p>
+<p>帮你检查<code>是否充分的利用了索引</code>，<code>值越大越好</code>，主要针对于联合索引，有一定的参考意义。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; EXPLAIN SELECT * FROM s1 WHERE id = 10005;</span><br><span class="line">+----+-------------+-------+------------+-------+---------------+---------+---------+-------+------+----------+-------+</span><br><span class="line">| id | select_type | table | partitions | type  | possible_keys | key     | key_len | ref   | rows | filtered | Extra |</span><br><span class="line">+----+-------------+-------+------------+-------+---------------+---------+---------+-------+------+----------+-------+</span><br><span class="line">|  1 | SIMPLE      | s1    | NULL       | const | PRIMARY       | PRIMARY | 4       | const |    1 |   100.00 | NULL  |</span><br><span class="line">+----+-------------+-------+------------+-------+---------------+---------+---------+-------+------+----------+-------+</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>int 占用 4 个字节</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; EXPLAIN SELECT * FROM s1 WHERE key2 = 10126;</span><br><span class="line">+----+-------------+-------+------------+-------+---------------+----------+---------+-------+------+----------+-------+</span><br><span class="line">| id | select_type | table | partitions | type  | possible_keys | key      | key_len | ref   | rows | filtered | Extra |</span><br><span class="line">+----+-------------+-------+------------+-------+---------------+----------+---------+-------+------+----------+-------+</span><br><span class="line">|  1 | SIMPLE      | s1    | NULL       | const | idx_key2      | idx_key2 | 5       | const |    1 |   100.00 | NULL  |</span><br><span class="line">+----+-------------+-------+------------+-------+---------------+----------+---------+-------+------+----------+-------+</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>key2 上有一个唯一性约束，是否为 NULL 占用一个字节，那么就是 5
+个字节</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; EXPLAIN SELECT * FROM s1 WHERE key1 = 'a';</span><br><span class="line">+----+-------------+-------+------------+------+---------------+----------+---------+-------+------+----------+-------+</span><br><span class="line">| id | select_type | table | partitions | type | possible_keys | key      | key_len | ref   | rows | filtered | Extra |</span><br><span class="line">+----+-------------+-------+------------+------+---------------+----------+---------+-------+------+----------+-------+</span><br><span class="line">|  1 | SIMPLE      | s1    | NULL       | ref  | idx_key1      | idx_key1 | 303     | const |    1 |   100.00 | NULL  |</span><br><span class="line">+----+-------------+-------+------------+------+---------------+----------+---------+-------+------+----------+-------+</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>key1 VARCHAR(100) 一个字符占 3 个字节，100*3，是否为 NULL 占用 1
+个字节，varchar 的长度信息占两个字节。</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; EXPLAIN SELECT * FROM s1 WHERE key_part1 = 'a' AND key_part2 = 'b';</span><br><span class="line">+----+-------------+-------+------------+------+---------------+--------------+---------+-------------+------+----------+-------+</span><br><span class="line">| id | select_type | table | partitions | type | possible_keys | key          | key_len | ref         | rows | filtered | Extra |</span><br><span class="line">+----+-------------+-------+------------+------+---------------+--------------+---------+-------------+------+----------+-------+</span><br><span class="line">|  1 | SIMPLE      | s1    | NULL       | ref  | idx_key_part  | idx_key_part | 606     | const,const |    1 |   100.00 | NULL  |</span><br><span class="line">+----+-------------+-------+------------+------+---------------+--------------+---------+-------------+------+----------+-------+</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>联合索引中可以比较，key_len=606 的好于 key_len=303</p>
+</blockquote>
+<p><strong>练习： </strong></p>
+<p>key_len 的长度计算公式：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">varchar(10)变长字段且允许NULL = 10 * ( character set：utf8=3,gbk=2,latin1=1)+1(NULL)+2(变长字段)</span><br><span class="line"></span><br><span class="line">varchar(10)变长字段且不允许NULL = 10 * ( character set：utf8=3,gbk=2,latin1=1)+2(变长字段)</span><br><span class="line"></span><br><span class="line">char(10)固定字段且允许NULL = 10 * ( character set：utf8=3,gbk=2,latin1=1)+1(NULL)</span><br><span class="line"></span><br><span class="line">char(10)固定字段且不允许NULL = 10 * ( character set：utf8=3,gbk=2,latin1=1)</span><br></pre></td></tr></table></figure>
+<h4 id="ref">8. ref</h4>
+<p>显示索引的哪一列被使用了，如果可能的话，是一个常数。</p>
+<p>哪些列或常量被用于查找索引列上的值。</p>
+<p>当使用索引列等值匹配的条件去执行查询时，也就是在访问方法是
+const、eq_ref 、ref 、ref_or_null、 unique_subquery 、index_subquery
+其中之一时，ref
+列展示的就是与索引列作等值匹配的结构是什么，比如只是一个常数或者是某个列。大家看下边这个查询:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; EXPLAIN SELECT * FROM s1 WHERE key1 = 'a';</span><br><span class="line">+----+-------------+-------+------------+------+---------------+----------+---------+-------+------+----------+-------+</span><br><span class="line">| id | select_type | table | partitions | type | possible_keys | key      | key_len | ref   | rows | filtered | Extra |</span><br><span class="line">+----+-------------+-------+------------+------+---------------+----------+---------+-------+------+----------+-------+</span><br><span class="line">|  1 | SIMPLE      | s1    | NULL       | ref  | idx_key1      | idx_key1 | 303     | const |    1 |   100.00 | NULL  |</span><br><span class="line">+----+-------------+-------+------------+------+---------------+----------+---------+-------+------+----------+-------+</span><br></pre></td></tr></table></figure>
+<p>可以看到<code>ref</code>列的值是<code>const</code>，表明在使用<code>idx_key1</code>索引执行查询时，与<code>key1</code>列作等值匹配的对象是一个常数，当然有时候更复杂一点:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; EXPLAIN SELECT * FROM s1 INNER JOIN s2 ON s1.id = s2.id;</span><br><span class="line">+----+-------------+-------+------------+--------+---------------+---------+---------+------------+------+----------+-------+</span><br><span class="line">| id | select_type | table | partitions | type   | possible_keys | key     | key_len | ref        | rows | filtered | Extra |</span><br><span class="line">+----+-------------+-------+------------+--------+---------------+---------+---------+------------+------+----------+-------+</span><br><span class="line">|  1 | SIMPLE      | s1    | NULL       | ALL    | PRIMARY       | NULL    | NULL    | NULL       | 9895 |   100.00 | NULL  |</span><br><span class="line">|  1 | SIMPLE      | s2    | NULL       | eq_ref | PRIMARY       | PRIMARY | 4       | test.s1.id |    1 |   100.00 | NULL  |</span><br><span class="line">+----+-------------+-------+------------+--------+---------------+---------+---------+------------+------+----------+-------+</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; EXPLAIN SELECT * FROM s1 INNER JOIN s2 ON s2.key1 = UPPER(s1.key1);</span><br><span class="line">+----+-------------+-------+------------+------+---------------+----------+---------+------+------+----------+-----------------------+</span><br><span class="line">| id | select_type | table | partitions | type | possible_keys | key      | key_len | ref  | rows | filtered | Extra                 |</span><br><span class="line">+----+-------------+-------+------------+------+---------------+----------+---------+------+------+----------+-----------------------+</span><br><span class="line">|  1 | SIMPLE      | s1    | NULL       | ALL  | NULL          | NULL     | NULL    | NULL | 9895 |   100.00 | NULL                  |</span><br><span class="line">|  1 | SIMPLE      | s2    | NULL       | ref  | idx_key1      | idx_key1 | 303     | func |    1 |   100.00 | Using index condition |</span><br><span class="line">+----+-------------+-------+------------+------+---------------+----------+---------+------+------+----------+-----------------------+</span><br></pre></td></tr></table></figure>
+<h4 id="rows">9. rows ☆</h4>
+<p>预估的需要读取的记录条数，<code>值越小越好</code>。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; EXPLAIN SELECT * FROM s1 WHERE key1 &gt; 'z';</span><br><span class="line">+----+-------------+-------+------------+------+---------------+------+---------+------+------+----------+-------+</span><br><span class="line">| id | select_type | table | partitions | type | possible_keys | key  | key_len | ref  | rows | filtered | Extra |</span><br><span class="line">+----+-------------+-------+------------+------+---------------+------+---------+------+------+----------+-------+</span><br><span class="line">|  1 | SIMPLE      | s1    | NULL       | ALL  | NULL          | NULL | NULL    | NULL | 9895 |   100.00 | NULL  |</span><br><span class="line">+----+-------------+-------+------------+------+---------------+------+---------+------+------+----------+-------+</span><br></pre></td></tr></table></figure>
+<h4 id="filtered">10. filtered</h4>
+<p>某个表经过搜索条件过滤后剩余记录条数的百分比</p>
+<p>如果使用的是索引执行的单表扫描，那么计算时需要估计出满足除使用到对应索引的搜索条件外的其他搜索条件的记录有多少条。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; EXPLAIN SELECT * FROM s1 WHERE key1 &gt; 'z' AND common_field = 'a';</span><br></pre></td></tr></table></figure>
+<p>对于单表查询来说，这个 filtered
+的值没有什么意义，我们<code>更关注在连接查询中驱动表对应的执行计划记录的filtered值</code>，它决定了被驱动表要执行的次数
+(即: rows * filtered)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; EXPLAIN SELECT * FROM s1 INNER JOIN s2 ON s1.key1 = s2.key1 WHERE s1.common_field = 'a';</span><br></pre></td></tr></table></figure>
+<p>从执行计划中可以看出来，查询优化器打算把<code>s1</code>作为驱动表，<code>s2</code>当做被驱动表。我们可以看到驱动表<code>s1</code>表的执行计划的<code>rows</code>列为<code>9688</code>，filtered
+列为<code>10.00</code>，这意味着驱动表<code>s1</code>的扇出值就是<code>9688 x 10.00% = 968.8</code>，这说明还要对被驱动表执行大约<code>968</code>次查询。</p>
+<h4 id="extra">11. Extra ☆</h4>
+<p>顾名思义，<code>Extra</code>列是用来说明一些额外信息的，包含不适合在其他列中显示但十分重要的额外信息。我们可以通过这些额外信息来<code>更准确的理解MySQL到底将如何执行给定的查询语句</code>。MySQL
+提供的额外信息有好几十个，我们就不一个一个介绍了，所以我们只挑选比较重要的额外信息介绍给大家。</p>
+<ul>
+<li><p><code>No tables used</code></p>
+<p>当查询语句没有<code>FROM</code>子句时将会提示该额外信息，比如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; EXPLAIN SELECT 1;</span><br></pre></td></tr></table></figure></li>
+<li><p><code>Impossible WHERE</code></p>
+<p>当查询语句的<code>WHERE</code>子句永远为<code>FALSE</code>时将会提示该额外信息</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; EXPLAIN SELECT * FROM s1 WHERE 1 != 1;</span><br></pre></td></tr></table></figure></li>
+<li><p><code>Using where</code></p></li>
+<li><p><code>No matching min/max row</code></p>
+<p>当查询列表处有<code>MIN</code>或者<code>MAX</code>聚合函数，但是并没有符合<code>WHERE</code>子句中的搜索条件的记录时。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; EXPLAIN SELECT MIN(key1) FROM s1 WHERE key1 = 'abcdefg';</span><br></pre></td></tr></table></figure></li>
+<li><p><code>Using index</code></p>
+<p>当我们的查询列表以及搜索条件中只包含属于某个索引的列，也就是在可以使用覆盖索引的情况下，在<code>Extra</code>列将会提示该额外信息。比方说下边这个查询中只需要用到<code>idx_key1</code>而不需要回表操作:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; EXPLAIN SELECT key1 FROM s1 WHERE key1 = 'a';</span><br></pre></td></tr></table></figure></li>
+<li><p><code>Using index condition</code></p>
+<p>有些搜索条件中虽然出现了索引列，但却不能使用到索引，比如下边这个查询：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM s1 WHERE key1 &gt; 'z' AND key1 LIKE '%a';</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; EXPLAIN SELECT * FROM s1 WHERE key1 &gt; 'z' AND key1 LIKE '%b';</span><br></pre></td></tr></table></figure></li>
+<li><p><code>Using join buffer (Block Nested Loop)</code></p>
+<p>在连接查询执行过程中，当被驱动表不能有效的利用索引加快访问速度，MySQL
+一般会为其分配一块名叫<code>join buffer</code>的内存块来加快查询速度，也就是我们所讲的<code>基于块的嵌套循环算法</code>。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; EXPLAIN SELECT * FROM s1 INNER JOIN s2 ON s1.common_field = s2.common_field;</span><br></pre></td></tr></table></figure></li>
+<li><p><code>Not exists</code></p>
+<p>当我们使用左(外)连接时，如果<code>WHERE</code>子句中包含要求被驱动表的某个列等于<code>NULL</code>值的搜索条件，而且那个列是不允许存储<code>NULL</code>值的，那么在该表的执行计划的
+Extra 列就会提示这个信息：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; EXPLAIN SELECT * FROM s1 LEFT JOIN s2 ON s1.key1 = s2.key1 WHERE s2.id IS NULL;</span><br></pre></td></tr></table></figure></li>
+<li><p><code>Using intersect(...) 、 Using union(...) 和 Using sort_union(...)</code></p>
+<p>如果执行计划的<code>Extra</code>列出现了<code>Using intersect(...)</code>提示，说明准备使用<code>Intersect</code>索引合并的方式执行查询，括号中的<code>...</code>表示需要进行索引合并的索引名称；</p>
+<p>如果出现<code>Using union(...)</code>提示，说明准备使用<code>Union</code>索引合并的方式执行查询;</p>
+<p>如果出现<code>Using sort_union(...)</code>提示，说明准备使用<code>Sort-Union</code>索引合并的方式执行查询。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; EXPLAIN SELECT * FROM s1 WHERE key1 = 'a' OR key3 = 'a';</span><br><span class="line">+----+-------------+-------+------------+-------------+-------------------+-------------------+---------+------+------+----------+---------------------------------------------+</span><br><span class="line">| id | select_type | table | partitions | type        | possible_keys     | key               | key_len | ref  | rows | filtered | Extra                                       |</span><br><span class="line">+----+-------------+-------+------------+-------------+-------------------+-------------------+---------+------+------+----------+---------------------------------------------+</span><br><span class="line">|  1 | SIMPLE      | s1    | NULL       | index_merge | idx_key1,idx_key3 | idx_key1,idx_key3 | 303,303 | NULL |    2 |   100.00 | Using union(idx_key1,idx_key3); Using where |</span><br><span class="line">+----+-------------+-------+------------+-------------+-------------------+-------------------+---------+------+------+----------+---------------------------------------------+</span><br></pre></td></tr></table></figure></li>
+<li><p><code>Zero limit</code></p>
+<p>当我们的<code>LIMIT</code>子句的参数为<code>0</code>时，表示压根儿不打算从表中读取任何记录，将会提示该额外信息</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; EXPLAIN SELECT * FROM s1 LIMIT 0;</span><br></pre></td></tr></table></figure></li>
+<li><p><code>Using filesort</code></p>
+<p>有一些情况下对结果集中的记录进行排序是可以使用到索引的。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; EXPLAIN SELECT * FROM s1 ORDER BY key1 LIMIT 10;</span><br><span class="line">+----+-------------+-------+------------+-------+---------------+----------+---------+------+------+----------+-------+</span><br><span class="line">| id | select_type | table | partitions | type  | possible_keys | key      | key_len | ref  | rows | filtered | Extra |</span><br><span class="line">+----+-------------+-------+------------+-------+---------------+----------+---------+------+------+----------+-------+</span><br><span class="line">|  1 | SIMPLE      | s1    | NULL       | index | NULL          | idx_key1 | 303     | NULL |   10 |   100.00 | NULL  |</span><br><span class="line">+----+-------------+-------+------------+-------+---------------+----------+---------+------+------+----------+-------+</span><br></pre></td></tr></table></figure>
+<p>这个查询语句可以利用 idx_key1 索引直接取出 key1 列的 10
+条记录，然后再进行回表操作(key1 已经有序)。</p>
+<p>但是很多情况下排序操作无法使用到索引，只能在内存中（记录较少的时候）或者磁盘中（记录较多的时候）进行排序，MySQL
+把这种在内存中或者磁盘上进行排序的方式统称为文件排序 (英文名：filesort
+)。如果某个查询需要使用文件排序的方式执行查询，就会在执行计划的 Extra
+列中显示 Using filesort 提示，比如这样:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; EXPLAIN SELECT * FROM s1 ORDER BY common_field LIMIT 10;</span><br><span class="line">+----+-------------+-------+------------+------+---------------+------+---------+------+------+----------+----------------+</span><br><span class="line">| id | select_type | table | partitions | type | possible_keys | key  | key_len | ref  | rows | filtered | Extra          |</span><br><span class="line">+----+-------------+-------+------------+------+---------------+------+---------+------+------+----------+----------------+</span><br><span class="line">|  1 | SIMPLE      | s1    | NULL       | ALL  | NULL          | NULL | NULL    | NULL | 9895 |   100.00 | Using filesort |</span><br><span class="line">+----+-------------+-------+------------+------+---------------+------+---------+------+------+----------+----------------+</span><br></pre></td></tr></table></figure>
+<p>需要注意的是，如果查询中需要使用<code>filesort</code>的方式进行排序的记录非常多，那么这个过程是很耗费性能的，我们最好想办法<code>将使用文件排序的执行方式改为索引进行排序</code>。</p></li>
+<li><p><code>Using temporary</code></p>
+<p>在许多查询的执行过程中，MySQL
+可能会借助临时表来完成一些功能，比如去重、排序之类的，比如我们在执行许多包含
+DISTINCT、GROUP BY、UNION
+等子句的查询过程中，如果不能有效利用索引来完成查询， MYSQL
+很有可能寻求通过建立内部的临时表来执行查询。如果查询中使用到了内部的临时表，在执行计划的
+Extra 列将会显示 Using temporary 提示，比方说这样:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; EXPLAIN SELECT DISTINCT common_field FROM s1;</span><br></pre></td></tr></table></figure>
+<p>再比如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; EXPLAIN SELECT common_field, COUNT(*) AS amount FROM s1 GROUP BY common_field;</span><br></pre></td></tr></table></figure>
+<p>执行计划中出现<code>Using temporary</code>并不是一个好的征兆，因为建立与维护临时表要付出很大的成本的，所以我们<code>最好能使用索引来替代掉使用临时表</code>，比方说下边这个包含<code>GROUP BY</code>子句的查询就不需要使用临时表：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; EXPLAIN SELECT key1, COUNT(*) AS amount FROM s1 GROUP BY key1;</span><br></pre></td></tr></table></figure>
+<p>从 <code>Extra</code> 的 <code>Using index</code>
+的提示里我们可以看出，上述查询只需要扫描 <code>idx_key1</code>
+索引就可以搞定了，不再需要临时表了。</p></li>
+<li><p>其他</p>
+<p>其它特殊情况这里省略。</p></li>
+</ul>
+<h4 id="小结">12. 小结</h4>
+<ul>
+<li>EXPLAIN 不考虑各种 Cache</li>
+<li>EXPLAIN 不能显示 MySQL 在执行查询时所作的优化工作</li>
+<li>EXPLAIN
+不会告诉你关于触发器、存储过程的信息或用户自定义函数对查询的影响情况</li>
+<li>部分统计信息是估算的，并非精确值</li>
+</ul>
+<h2 id="explain-的进一步使用">7. EXPLAIN 的进一步使用</h2>
+<h3 id="explain-四种输出格式">7.1 EXPLAIN 四种输出格式</h3>
+<p>这里谈谈 EXPLAIN 的输出格式。EXPLAIN 可以输出四种格式：
+<code>传统格式</code> ，<code>JSON格式</code> ， <code>TREE格式</code>
+以及 <code>可视化输出</code>
+。用户可以根据需要选择适用于自己的格式。</p>
+<h4 id="传统格式">1. 传统格式</h4>
+<p>传统格式简单明了，输出是一个表格形式，概要说明查询计划。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; EXPLAIN SELECT s1.key1, s2.key1 FROM s1 LEFT JOIN s2 ON s1.key1 = s2.key1 WHERE s2.common_field IS NOT NULL;</span><br></pre></td></tr></table></figure>
+<h4 id="json-格式">2. JSON 格式</h4>
+<p>第 1
+种格式中介绍的<code>EXPLAIN</code>语句输出中缺少了一个衡量执行好坏的重要属性
+—— <code>成本</code>。而 JSON
+格式是四种格式里面输出<code>信息最详尽</code>的格式，里面包含了执行的成本信息。</p>
+<ul>
+<li>JSON 格式：在 EXPLAIN 单词和真正的查询语句中间加上 FORMAT=JSON
+。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EXPLAIN FORMAT=JSON SELECT ....</span><br></pre></td></tr></table></figure>
+<ul>
+<li>EXPLAIN 的 Column 与 JSON 的对应关系：(来源于 MySQL 5.7 文档)</li>
+</ul>
+<p>这样我们就可以得到一个 json
+格式的执行计划，里面包含该计划花费的成本。比如这样：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; EXPLAIN FORMAT=JSON SELECT * FROM s1 INNER JOIN s2 ON s1.key1 = s2.key2 WHERE s1.common_field = 'a'\G</span><br></pre></td></tr></table></figure>
+<p>大家可能有疑问 “<code>cost_info</code>”
+里边的成本看着怪怪的，它们是怎么计算出来的？先看 s1 表的
+“<code>cost_info</code>” 部 分：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">"cost_info": {</span><br><span class="line">    "read_cost": "1840.84"</span><br><span class="line">    "eval_cost": "193.76",</span><br><span class="line">    "prefix_cost": "2034.60",</span><br><span class="line">    "data_read_per_join": "1M"</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p><code>read_cost</code> 是由下边这两部分组成的：</p>
+<ul>
+<li>IO 成本</li>
+<li>检测 rows × (1 - filter) 条记录的 CPU 成本</li>
+</ul>
+<blockquote>
+<p>小贴士： rows 和 filter 都是我们前边介绍执行计划的输出列，在 JSON
+格式的执行计划中，rows 相当于 rows_examined_per_scan，filtered
+名称不变。</p>
+</blockquote></li>
+<li><p><code>eval_cost</code> 是这样计算的：</p>
+<p>检测 rows × filter 条记录的成本。</p></li>
+<li><p><code>prefix_cost</code> 就是单独查询 s1 表的成本，也就是：</p>
+<p><code>read_cost + eval_cost</code></p></li>
+<li><p><code>data_read_per_join</code>
+表示在此次查询中需要读取的数据量。</p></li>
+</ul>
+<p>对于 <code>s2</code> 表的 “<code>cost_info</code>” 部分是这样的：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">"cost_info": {</span><br><span class="line">    "read_cost": "968.80",</span><br><span class="line">    "eval_cost": "193.76",</span><br><span class="line">    "prefix_cost": "3197.16",</span><br><span class="line">    "data_read_per_join": "1M"</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<p>由于 <code>s2</code>
+表是被驱动表，所以可能被读取多次，这里的<code>read_cost</code> 和
+<code>eval_cost</code> 是访问多次 <code>s2</code>
+表后累加起来的值，大家主要关注里边儿的 <code>prefix_cost</code>
+的值代表的是整个连接查询预计的成本，也就是单次查询 <code>s1</code>
+表和多次查询 <code>s2</code> 表后的成本的和，也就是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">968.80 + 193.76 + 2034.60 = 3197.16</span><br></pre></td></tr></table></figure>
+<h4 id="tree-格式">3. TREE 格式</h4>
+<p>TREE 格式是 8.0.16 版本之后引入的新格式，主要根据查询的
+<code>各个部分之间的关系</code> 和 <code>各部分的执行顺序</code>
+来描述如何查询。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; EXPLAIN FORMAT=tree SELECT * FROM s1 INNER JOIN s2 ON s1.key1 = s2.key2 WHERE</span><br><span class="line">s1.common_field = 'a'\G</span><br><span class="line">*************************** 1. row ***************************</span><br><span class="line">EXPLAIN: -&gt; Nested loop inner join (cost=1360.08 rows=990)</span><br><span class="line">-&gt; Filter: ((s1.common_field = 'a') and (s1.key1 is not null)) (cost=1013.75</span><br><span class="line">rows=990)</span><br><span class="line">-&gt; Table scan on s1 (cost=1013.75 rows=9895)</span><br><span class="line">-&gt; Single-row index lookup on s2 using idx_key2 (key2=s1.key1), with index</span><br><span class="line">condition: (cast(s1.key1 as double) = cast(s2.key2 as double)) (cost=0.25 rows=1)</span><br><span class="line">1 row in set, 1 warning (0.00 sec)</span><br></pre></td></tr></table></figure>
+<h4 id="可视化输出">4. 可视化输出</h4>
+<p>可视化输出，可以通过 MySQL Workbench 可视化查看 MySQL
+的执行计划。通过点击 Workbench
+的放大镜图标，即可生成可视化的查询计划。</p>
+<h3 id="show-warnings-的使用">7.2 SHOW WARNINGS 的使用</h3>
+<p>在我们使用<code>EXPLAIN</code>语句查看了某个查询的执行计划后，紧接着还可以使用<code>SHOW WARNINGS</code>语句查看与这个查询的执行计划有关的一些扩展信息，比如这样：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; EXPLAIN SELECT s1.key1, s2.key1 FROM s1 LEFT JOIN s2 ON s1.key1 = s2.key1 WHERE s2.common_field IS NOT NULL;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; SHOW WARNINGS\G</span><br><span class="line">*************************** 1. row ***************************</span><br><span class="line">    Level: Note</span><br><span class="line">     Code: 1003</span><br><span class="line">Message: /* select#1 */ select `atguigu`.`s1`.`key1` AS `key1`,`atguigu`.`s2`.`key1`</span><br><span class="line">AS `key1` from `atguigu`.`s1` join `atguigu`.`s2` where ((`atguigu`.`s1`.`key1` =</span><br><span class="line">`atguigu`.`s2`.`key1`) and (`atguigu`.`s2`.`common_field` is not null))</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<p>大家可以看到<code>SHOW WARNINGS</code>展示出来的信息有三个字段，分别是<code>Level、Code、Message</code>。我们最常见的就是
+Code 为 1003 的信息，当 Code 值为 1003
+时，<code>Message</code>字段展示的信息类似于查询优化器将我们的查询语句重写后的语句。比如我们上边的查询本来是一个左(外)连接查询，但是有一个
+s2.common_field IS NOT NULL
+的条件，这就会导致查询优化器把左(外)连接查询优化为内连接查询，从<code>SHOW WARNINGS</code>的<code>Message</code>字段也可以看出来，原本的
+LEFE JOIN 已经变成了 JOIN。</p>
+<p>但是大家一定要注意，我们说<code>Message</code>字段展示的信息类似于查询优化器将我们的查询语句<code>重写后的语句</code>，并不是等价于，也就是说<code>Message</code>字段展示的信息并不是标准的查询语句，在很多情况下并不能直接拿到黑框框中运行，它只能作为帮助我们理解
+MySQL 将如何执行查询语句的一个参考依据而已。</p>
+<h2 id="分析优化器执行计划trace">8. 分析优化器执行计划：trace</h2>
+<p><code>OPTIMIZER_TRACE</code> 是 MySQL 5.6
+引入的一项跟踪功能，它可以跟踪优化器做出的各种决策（比如访问表的方法、各种开销计算、各种转换等)，并将跟踪结果记录到
+INFORMATION_SCHEMA.OPTIMIZER_TRACE 表中。此功能默认关闭。开启
+trace，并设置格式为 JSON，同时设置 trace
+最大能够使用的内存大小，避免解析过程中因为默认内存过小而不能够完整展示。|</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SET optimizer_trace="enabled=on",end_markers_in_json=on;</span><br><span class="line">set optimizer_trace_max_mem_size=1000000;</span><br></pre></td></tr></table></figure>
+<p>开启后，可分析如下语句：</p>
+<ul>
+<li>SELECT</li>
+<li>INSERT</li>
+<li>REPLACE</li>
+<li>UPDATE</li>
+<li>DELETE</li>
+<li>EXPLAIN</li>
+<li>SET</li>
+<li>DECLARE</li>
+<li>CASE</li>
+<li>IF</li>
+<li>RETURN</li>
+<li>CALL</li>
+</ul>
+<p>测试：执行如下 SQL 语句</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from student where id &lt; 10;</span><br></pre></td></tr></table></figure>
+<p>最后， 查询 information_schema.optimizer_trace 就可以知道 MySQL
+是如何执行 SQL 的 ：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from information_schema.optimizer_trace\G</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br></pre></td><td class="code"><pre><span class="line">*************************** 1. row ***************************</span><br><span class="line">//第1部分：查询语句</span><br><span class="line">QUERY: select * from student where id &lt; 10</span><br><span class="line">//第2部分：QUERY字段对应语句的跟踪信息</span><br><span class="line">TRACE: {</span><br><span class="line">"steps": [</span><br><span class="line">{</span><br><span class="line">    "join_preparation": { //预备工作</span><br><span class="line">        "select#": 1,</span><br><span class="line">        "steps": [</span><br><span class="line">            {</span><br><span class="line">            "expanded_query": "/* select#1 */ select `student`.`id` AS</span><br><span class="line">            `id`,`student`.`stuno` AS `stuno`,`student`.`name` AS `name`,`student`.`age` AS</span><br><span class="line">            `age`,`student`.`classId` AS `classId` from `student` where (`student`.`id` &lt; 10)"</span><br><span class="line">            }</span><br><span class="line">        ] /* steps */</span><br><span class="line">    } /* join_preparation */</span><br><span class="line">},</span><br><span class="line">{</span><br><span class="line">    "join_optimization": { //进行优化</span><br><span class="line">    "select#": 1,</span><br><span class="line">    "steps": [</span><br><span class="line">        {</span><br><span class="line">        "condition_processing": { //条件处理</span><br><span class="line">        "condition": "WHERE",</span><br><span class="line">        "original_condition": "(`student`.`id` &lt; 10)",</span><br><span class="line">        "steps": [</span><br><span class="line">        {</span><br><span class="line">            "transformation": "equality_propagation",</span><br><span class="line">            "resulting_condition": "(`student`.`id` &lt; 10)"</span><br><span class="line">        },</span><br><span class="line">        {</span><br><span class="line">            "transformation": "constant_propagation",</span><br><span class="line">            "resulting_condition": "(`student`.`id` &lt; 10)"</span><br><span class="line">        },</span><br><span class="line">        {</span><br><span class="line">            "transformation": "trivial_condition_removal",</span><br><span class="line">            "resulting_condition": "(`student`.`id` &lt; 10)"</span><br><span class="line">        }</span><br><span class="line">        ] /* steps */</span><br><span class="line">    } /* condition_processing */</span><br><span class="line">    },</span><br><span class="line">    {</span><br><span class="line">        "substitute_generated_columns": { //替换生成的列</span><br><span class="line">        } /* substitute_generated_columns */</span><br><span class="line">    },</span><br><span class="line">    {</span><br><span class="line">        "table_dependencies": [ //表的依赖关系</span><br><span class="line">        {</span><br><span class="line">            "table": "`student`",</span><br><span class="line">            "row_may_be_null": false,</span><br><span class="line">            "map_bit": 0,</span><br><span class="line">            "depends_on_map_bits": [</span><br><span class="line">            ] /* depends_on_map_bits */</span><br><span class="line">        }</span><br><span class="line">    ] /* table_dependencies */</span><br><span class="line">    },</span><br><span class="line">    {</span><br><span class="line">    "ref_optimizer_key_uses": [ //使用键</span><br><span class="line">        ] /* ref_optimizer_key_uses */</span><br><span class="line">        },</span><br><span class="line">    {</span><br><span class="line">        "rows_estimation": [ //行判断</span><br><span class="line">        {</span><br><span class="line">            "table": "`student`",</span><br><span class="line">            "range_analysis": {</span><br><span class="line">                "table_scan": {</span><br><span class="line">                    "rows": 3973767,</span><br><span class="line">                    "cost": 408558</span><br><span class="line">            } /* table_scan */, //扫描表</span><br><span class="line">            "potential_range_indexes": [ //潜在的范围索引</span><br><span class="line">                {</span><br><span class="line">                    "index": "PRIMARY",</span><br><span class="line">                    "usable": true,</span><br><span class="line">                    "key_parts": [</span><br><span class="line">                    "id"</span><br><span class="line">                    ] /* key_parts */</span><br><span class="line">                }</span><br><span class="line">            ] /* potential_range_indexes */,</span><br><span class="line">        "setup_range_conditions": [ //设置范围条件</span><br><span class="line">        ] /* setup_range_conditions */,</span><br><span class="line">        "group_index_range": {</span><br><span class="line">            "chosen": false,</span><br><span class="line">            "cause": "not_group_by_or_distinct"</span><br><span class="line">        } /* group_index_range */,</span><br><span class="line">            "skip_scan_range": {</span><br><span class="line">                "potential_skip_scan_indexes": [</span><br><span class="line">                    {</span><br><span class="line">                        "index": "PRIMARY",</span><br><span class="line">                        "usable": false,</span><br><span class="line">                        "cause": "query_references_nonkey_column"</span><br><span class="line">                    }</span><br><span class="line">                ] /* potential_skip_scan_indexes */</span><br><span class="line">            } /* skip_scan_range */,</span><br><span class="line">        "analyzing_range_alternatives": { //分析范围选项</span><br><span class="line">            "range_scan_alternatives": [</span><br><span class="line">                {</span><br><span class="line">                "index": "PRIMARY",</span><br><span class="line">                    "ranges": [</span><br><span class="line">                        "id &lt; 10"</span><br><span class="line">                    ] /* ranges */,</span><br><span class="line">                "index_dives_for_eq_ranges": true,</span><br><span class="line">                "rowid_ordered": true,</span><br><span class="line">                "using_mrr": false,</span><br><span class="line">                "index_only": false,</span><br><span class="line">                "rows": 9,</span><br><span class="line">                "cost": 1.91986,</span><br><span class="line">                "chosen": true</span><br><span class="line">                }</span><br><span class="line">            ] /* range_scan_alternatives */,</span><br><span class="line">        "analyzing_roworder_intersect": {</span><br><span class="line">            "usable": false,</span><br><span class="line">            "cause": "too_few_roworder_scans"</span><br><span class="line">        	} /* analyzing_roworder_intersect */</span><br><span class="line">        } /* analyzing_range_alternatives */,</span><br><span class="line">        "chosen_range_access_summary": { //选择范围访问摘要</span><br><span class="line">            "range_access_plan": {</span><br><span class="line">                "type": "range_scan",</span><br><span class="line">                "index": "PRIMARY",</span><br><span class="line">                "rows": 9,</span><br><span class="line">                "ranges": [</span><br><span class="line">                "id &lt; 10"</span><br><span class="line">                ] /* ranges */</span><br><span class="line">                } /* range_access_plan */,</span><br><span class="line">                "rows_for_plan": 9,</span><br><span class="line">                "cost_for_plan": 1.91986,</span><br><span class="line">                "chosen": true</span><br><span class="line">                } /* chosen_range_access_summary */</span><br><span class="line">                } /* range_analysis */</span><br><span class="line">            }</span><br><span class="line">        ] /* rows_estimation */</span><br><span class="line">    },</span><br><span class="line">    {</span><br><span class="line">    "considered_execution_plans": [ //考虑执行计划</span><br><span class="line">    {</span><br><span class="line">    "plan_prefix": [</span><br><span class="line">    ] /* plan_prefix */,</span><br><span class="line">        "table": "`student`",</span><br><span class="line">        "best_access_path": { //最佳访问路径</span><br><span class="line">        "considered_access_paths": [</span><br><span class="line">        {</span><br><span class="line">            "rows_to_scan": 9,</span><br><span class="line">            "access_type": "range",</span><br><span class="line">            "range_details": {</span><br><span class="line">            "used_index": "PRIMARY"</span><br><span class="line">        } /* range_details */,</span><br><span class="line">        "resulting_rows": 9,</span><br><span class="line">        "cost": 2.81986,</span><br><span class="line">        "chosen": true</span><br><span class="line">    }</span><br><span class="line">    ] /* considered_access_paths */</span><br><span class="line">    } /* best_access_path */,</span><br><span class="line">        "condition_filtering_pct": 100, //行过滤百分比</span><br><span class="line">        "rows_for_plan": 9,</span><br><span class="line">        "cost_for_plan": 2.81986,</span><br><span class="line">        "chosen": true</span><br><span class="line">    }</span><br><span class="line">    ] /* considered_execution_plans */</span><br><span class="line">    },</span><br><span class="line">    {</span><br><span class="line">        "attaching_conditions_to_tables": { //将条件附加到表上</span><br><span class="line">        "original_condition": "(`student`.`id` &lt; 10)",</span><br><span class="line">        "attached_conditions_computation": [</span><br><span class="line">        ] /* attached_conditions_computation */,</span><br><span class="line">        "attached_conditions_summary": [ //附加条件概要</span><br><span class="line">    {</span><br><span class="line">        "table": "`student`",</span><br><span class="line">        "attached": "(`student`.`id` &lt; 10)"</span><br><span class="line">    }</span><br><span class="line">    ] /* attached_conditions_summary */</span><br><span class="line">    } /* attaching_conditions_to_tables */</span><br><span class="line">    },</span><br><span class="line">    {</span><br><span class="line">    "finalizing_table_conditions": [</span><br><span class="line">    {</span><br><span class="line">        "table": "`student`",</span><br><span class="line">        "original_table_condition": "(`student`.`id` &lt; 10)",</span><br><span class="line">        "final_table_condition ": "(`student`.`id` &lt; 10)"</span><br><span class="line">    }</span><br><span class="line">    ] /* finalizing_table_conditions */</span><br><span class="line">    },</span><br><span class="line">    {</span><br><span class="line">    "refine_plan": [ //精简计划</span><br><span class="line">    {</span><br><span class="line">    	"table": "`student`"</span><br><span class="line">    }</span><br><span class="line">    ] /* refine_plan */</span><br><span class="line">    }</span><br><span class="line">    ] /* steps */</span><br><span class="line">    } /* join_optimization */</span><br><span class="line">},</span><br><span class="line">	{</span><br><span class="line">        "join_execution": { //执行</span><br><span class="line">            "select#": 1,</span><br><span class="line">            "steps": [</span><br><span class="line">            ] /* steps */</span><br><span class="line">        	} /* join_execution */</span><br><span class="line">        }</span><br><span class="line">    ] /* steps */</span><br><span class="line">}</span><br><span class="line">//第3部分：跟踪信息过长时，被截断的跟踪信息的字节数。</span><br><span class="line">MISSING_BYTES_BEYOND_MAX_MEM_SIZE: 0 //丢失的超出最大容量的字节</span><br><span class="line">//第4部分：执行跟踪语句的用户是否有查看对象的权限。当不具有权限时，该列信息为1且TRACE字段为空，一般在</span><br><span class="line">调用带有SQL SECURITY DEFINER的视图或者是存储过程的情况下，会出现此问题。</span><br><span class="line">INSUFFICIENT_PRIVILEGES: 0 //缺失权限</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<h2 id="mysql-监控分析视图-sys-schema">9. MySQL 监控分析视图-sys
+schema</h2>
+<h3 id="sys-schema-视图摘要">9.1 Sys schema 视图摘要</h3>
+<ol type="1">
+<li><strong>主机相关</strong>：以 host_summary 开头，主要汇总了 IO
+延迟的信息。</li>
+<li><strong>Innodb 相关</strong>：以 innodb 开头，汇总了 innodb buffer
+信息和事务等待 innodb 锁的信息。</li>
+<li><strong>I/O 相关</strong>：以 io 开头，汇总了等待 I/O、I/O
+使用量情况。</li>
+<li><strong>内存使用情况</strong>：以 memory
+开头，从主机、线程、事件等角度展示内存的使用情况</li>
+<li><strong>连接与会话信息</strong>：processlist 和 session
+相关视图，总结了会话相关信息。</li>
+<li><strong>表相关</strong>：以 schema_table
+开头的视图，展示了表的统计信息。</li>
+<li><strong>索引信息</strong>：统计了索引的使用情况，包含冗余索引和未使用的索引情况。</li>
+<li><strong>语句相关</strong>：以 statement
+开头，包含执行全表扫描、使用临时表、排序等的语句信息。</li>
+<li><strong>用户相关</strong>：以 user 开头的视图，统计了用户使用的文件
+I/O、执行语句统计信息。</li>
+<li><strong>等待事件相关信息</strong>：以 wait
+开头，展示等待事件的延迟情况。</li>
+</ol>
+<h3 id="sys-schema-视图使用场景">9.2 Sys schema 视图使用场景</h3>
+<p>索引情况</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#1. 查询冗余索引</span><br><span class="line">select * from sys.schema_redundant_indexes;</span><br><span class="line">#2. 查询未使用过的索引</span><br><span class="line">select * from sys.schema_unused_indexes;</span><br><span class="line">#3. 查询索引的使用情况</span><br><span class="line">select index_name,rows_selected,rows_inserted,rows_updated,rows_deleted</span><br><span class="line">from sys.schema_index_statistics where table_schema='dbname';</span><br></pre></td></tr></table></figure>
+<p>表相关</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 1. 查询表的访问量</span><br><span class="line">select table_schema,table_name,sum(io_read_requests+io_write_requests) as io from</span><br><span class="line">sys.schema_table_statistics group by table_schema,table_name order by io desc;</span><br><span class="line"># 2. 查询占用bufferpool较多的表</span><br><span class="line">select object_schema,object_name,allocated,data</span><br><span class="line">from sys.innodb_buffer_stats_by_table order by allocated limit 10;</span><br><span class="line"># 3. 查看表的全表扫描情况</span><br><span class="line">select * from sys.statements_with_full_table_scans where db='dbname';</span><br></pre></td></tr></table></figure>
+<p>语句相关</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#1. 监控SQL执行的频率</span><br><span class="line">select db,exec_count,query from sys.statement_analysis</span><br><span class="line">order by exec_count desc;</span><br><span class="line">#2. 监控使用了排序的SQL</span><br><span class="line">select db,exec_count,first_seen,last_seen,query</span><br><span class="line">from sys.statements_with_sorting limit 1;</span><br><span class="line">#3. 监控使用了临时表或者磁盘临时表的SQL</span><br><span class="line">select db,exec_count,tmp_tables,tmp_disk_tables,query</span><br><span class="line">from sys.statement_analysis where tmp_tables&gt;0 or tmp_disk_tables &gt;0</span><br><span class="line">order by (tmp_tables+tmp_disk_tables) desc;</span><br></pre></td></tr></table></figure>
+<p>IO 相关</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#1. 查看消耗磁盘IO的文件</span><br><span class="line">select file,avg_read,avg_write,avg_read+avg_write as avg_io</span><br><span class="line">from sys.io_global_by_file_by_bytes order by avg_read limit 10;</span><br></pre></td></tr></table></figure>
+<p>Innodb 相关</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#1. 行锁阻塞情况</span><br><span class="line">select * from sys.innodb_lock_waits;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>风险提示: 通过 sys 库去查询时，MySQL
+会消耗大量资源去收集相关信息，严重的可能会导致业务请求被阻塞，从而引起故障。建议生产上不要频繁的去查询
+sys 或者 performance_schema、information_schema
+来完成监控、巡检等工作。</p>
+</blockquote>
+<h2 id="小结-1">10. 小结</h2>
+<p>查询是数据库中最频繁的操作，提高查询速度可以有效地提高 MySQL
+数据库的性能。通过对查询语句的分析可以了解查询语句的执行情况，找出查询语句执行的瓶颈，从而优化查询语句。</p>
+
+                    
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                Database 性能优化
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                2024/02/27/Database-性能优化/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    Author
+                </div>
+                <div class="content">Zhongjun Qiu</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    Published
+                </div>
+                <div class="content">2024-02-27 09:05</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    License
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="Copy copyright info" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/SQL-Performance/">SQL,Performance</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="Share to WeChat"
+            data-tooltip-img-tip="Scan by WeChat"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to WeiBo"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+                    
+
+<div class="reward-author-container border-box flex-center">
+    <div class="reward-btn border-box flex-center tooltip tooltip-img"
+            data-tooltip-img-url="/images/post/payment.jpg"
+            data-tooltip-img-trigger="click"
+            data-tooltip-img-style="top: -6px;"
+    >
+        <i class="fa-solid fa-gift"></i>&nbsp;REWARD AUTHOR
+    </div>
+</div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/2024/05/13/AtCoder-Beginner-COntest-289/"
+                                   title="AtCoder Beginner COntest 289"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">AtCoder Beginner COntest 289</span>
+                                        <span class="post-nav-item">Prev posts</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/2024/02/24/InnoDB-%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E/"
+                                   title="InnoDB 存储引擎"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">InnoDB 存储引擎</span>
+                                        <span class="post-nav-item">Next posts</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+    <div class="comments-container border-box">
+        <div id="comments-anchor" class="comment-area-title border-box">
+            <i class="fas fa-comments"></i>&nbsp;Comments
+        </div>
+        <div class="comment-plugin-fail border-box">
+    <span class="fail-tip">Comment plugin failed to load</span>
+    <button class="reload keep-button">Click to reload</button>
+</div>
+<div class="comment-plugin-loading flex-center border-box">
+    <i class="loading-icon fa-solid fa-spinner fa-spin"></i>
+    <span class="load-tip">Loading comment plugin</span>
+</div>
+<script data-pjax>
+  window.KeepCommentPlugin = {}
+  window.KeepCommentPlugin.hideLoading = () => {
+    const cplDom = document.querySelector('.comments-container .comment-plugin-loading')
+    cplDom.style.display = 'none'
+  }
+  window.KeepCommentPlugin.loadFailHandle = () => {
+    window.KeepCommentPlugin.hideLoading()
+    const cpfDom = document.querySelector('.comments-container .comment-plugin-fail')
+    cpfDom.style.display = 'flex'
+    cpfDom.querySelector('.reload').addEventListener('click', () => {
+      window.location.reload()
+    })
+  }
+</script>
+
+        
+            
+
+    <div class="waline-comment-container">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/waline/3.3.2/waline.css"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/waline/3.3.2/waline-meta.css"/>
+        <div id="waline-comment"></div>
+        <script data-pjax>
+          window.KeepCommentPlugin.walineOptions = JSON.parse('{}'.replace(/&#34;/g, '"'))
+          window.KeepCommentPlugin.walineOptions.el = '#waline-comment'
+          window.KeepCommentPlugin.walineOptions.comment = '.post-comments-count'
+          window.KeepCommentPlugin.walineOptions.serverURL = 'https://waline-vercel-two-rho.vercel.app/'
+          window.KeepCommentPlugin.walineOptions.lang = 'en' || 'zh-CN'
+          window.KeepCommentPlugin.walineOptions.reaction = 'true' === 'true'
+        </script>
+
+        
+
+        
+            <script data-pjax
+                    async
+                    type="module"
+            >
+              import { init } from 'https://cdnjs.cloudflare.com/ajax/libs/waline/3.3.2/waline.js'
+              window.KeepCommentPlugin.initWaline = () => {
+                if (init) {
+                  init(window.KeepCommentPlugin.walineOptions)
+                  window.KeepCommentPlugin.hideLoading()
+                } else {
+                  setTimeout(() => {
+                    window.KeepCommentPlugin.initWaline()
+                  }, 1000)
+                }
+              }
+
+              if ('true' === 'true') {
+                setTimeout(() => {
+                  window.KeepCommentPlugin.initWaline()
+                }, 1200)
+              } else {
+                window.addEventListener('DOMContentLoaded', window.KeepCommentPlugin.initWaline)
+              }
+            </script>
+        
+    </div>
+
+
+        
+    </div>
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc right-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E4%BC%98%E5%8C%96%E6%AD%A5%E9%AA%A4"><span class="nav-text">1. 数据库服务器的优化步骤</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E7%B3%BB%E7%BB%9F%E6%80%A7%E8%83%BD%E5%8F%82%E6%95%B0"><span class="nav-text">2. 查看系统性能参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%9F%E8%AE%A1-sql-%E7%9A%84%E6%9F%A5%E8%AF%A2%E6%88%90%E6%9C%AC-last_query_cost"><span class="nav-text">3. 统计 SQL 的查询成本:
+last_query_cost</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9A%E4%BD%8D%E6%89%A7%E8%A1%8C%E6%85%A2%E7%9A%84-sql%E6%85%A2%E6%9F%A5%E8%AF%A2%E6%97%A5%E5%BF%97"><span class="nav-text">4. 定位执行慢的 SQL：慢查询日志</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%80%E5%90%AF%E6%85%A2%E6%9F%A5%E8%AF%A2%E6%97%A5%E5%BF%97%E5%8F%82%E6%95%B0"><span class="nav-text">4.1 开启慢查询日志参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E6%85%A2%E6%9F%A5%E8%AF%A2%E6%95%B0%E7%9B%AE"><span class="nav-text">4.2 查看慢查询数目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A1%88%E4%BE%8B%E6%BC%94%E7%A4%BA"><span class="nav-text">4.3 案例演示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E5%8F%8A%E5%88%86%E6%9E%90"><span class="nav-text">4.4 测试及分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%85%A2%E6%9F%A5%E8%AF%A2%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7mysqldumpslow"><span class="nav-text">4.5
+慢查询日志分析工具：mysqldumpslow</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E9%97%AD%E6%85%A2%E6%9F%A5%E8%AF%A2%E6%97%A5%E5%BF%97"><span class="nav-text">4.6 关闭慢查询日志</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E6%85%A2%E6%9F%A5%E8%AF%A2%E6%97%A5%E5%BF%97"><span class="nav-text">4.7 删除慢查询日志</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B-sql-%E6%89%A7%E8%A1%8C%E6%88%90%E6%9C%ACshow-profile"><span class="nav-text">5. 查看 SQL 执行成本：SHOW
+PROFILE</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E6%9E%90%E6%9F%A5%E8%AF%A2%E8%AF%AD%E5%8F%A5explain"><span class="nav-text">6. 分析查询语句：EXPLAIN</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-text">6.1 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95"><span class="nav-text">6.2 基本语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%87%86%E5%A4%87"><span class="nav-text">6.3 数据准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#explain-%E5%90%84%E5%88%97%E4%BD%9C%E7%94%A8"><span class="nav-text">6.4 EXPLAIN 各列作用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#table"><span class="nav-text">1. table</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#id"><span class="nav-text">2. id</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#select_type"><span class="nav-text">3. select_type</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#partitions-%E5%8F%AF%E7%95%A5"><span class="nav-text">4. partitions (可略)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#type"><span class="nav-text">5. type ☆</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#possible_keys-%E5%92%8C-key"><span class="nav-text">6. possible_keys 和 key</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#key_len"><span class="nav-text">7. key_len ☆</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ref"><span class="nav-text">8. ref</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#rows"><span class="nav-text">9. rows ☆</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#filtered"><span class="nav-text">10. filtered</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#extra"><span class="nav-text">11. Extra ☆</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-text">12. 小结</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#explain-%E7%9A%84%E8%BF%9B%E4%B8%80%E6%AD%A5%E4%BD%BF%E7%94%A8"><span class="nav-text">7. EXPLAIN 的进一步使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#explain-%E5%9B%9B%E7%A7%8D%E8%BE%93%E5%87%BA%E6%A0%BC%E5%BC%8F"><span class="nav-text">7.1 EXPLAIN 四种输出格式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%A0%E7%BB%9F%E6%A0%BC%E5%BC%8F"><span class="nav-text">1. 传统格式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#json-%E6%A0%BC%E5%BC%8F"><span class="nav-text">2. JSON 格式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#tree-%E6%A0%BC%E5%BC%8F"><span class="nav-text">3. TREE 格式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%AF%E8%A7%86%E5%8C%96%E8%BE%93%E5%87%BA"><span class="nav-text">4. 可视化输出</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#show-warnings-%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-text">7.2 SHOW WARNINGS 的使用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E6%9E%90%E4%BC%98%E5%8C%96%E5%99%A8%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92trace"><span class="nav-text">8. 分析优化器执行计划：trace</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mysql-%E7%9B%91%E6%8E%A7%E5%88%86%E6%9E%90%E8%A7%86%E5%9B%BE-sys-schema"><span class="nav-text">9. MySQL 监控分析视图-sys
+schema</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#sys-schema-%E8%A7%86%E5%9B%BE%E6%91%98%E8%A6%81"><span class="nav-text">9.1 Sys schema 视图摘要</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sys-schema-%E8%A7%86%E5%9B%BE%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-text">9.2 Sys schema 视图使用场景</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93-1"><span class="nav-text">10. 小结</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="copyright-info info-item">
+    &copy;&nbsp;<span>2020</span>&nbsp;-&nbsp;2025
+    
+            &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">Zhongjun Qiu</a>
+        
+    </div>
+
+    <div class="theme-info info-item">
+        Powered by&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;&&nbsp;Theme&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+    </div>
+
+    
+        
+        <div class="deploy-info info-item">
+            
+                <a target="_blank" rel="nofollow" href="https://github.com">
+            
+            This site is deployed on <span class="tooltip" data-tooltip-content="GitHub Pages"><img src="/images/brands/github.png"></span>
+            
+                </a>
+            
+        </div>
+    
+
+    
+        <div class="count-info info-item">
+            
+                <span class="count-item border-box word">
+                    <span class="item-type border-box">Total words</span>
+                    <span class="item-value border-box word">341.8k</span>
+                </span>
+            
+
+            
+
+            
+                <span class="count-item border-box pv">
+                    <span class="item-type border-box">Page View</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+    
+
+    
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+            <li class="tools-item flex-center go-to-comments">
+                <i class="fas fa-comment"></i>
+                <span class="post-comments-count"></span>
+            </li>
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <!-- toggle mode -->
+        
+            <li class="tools-item tool-toggle-theme-mode flex-center">
+                <i class="fas fa-moon"></i>
+            </li>
+        
+
+        <!-- rss -->
+        
+
+        <!-- to bottom -->
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+            <li class="tools-item go-to-comments-tablet flex-center">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E4%BC%98%E5%8C%96%E6%AD%A5%E9%AA%A4"><span class="nav-text">1. 数据库服务器的优化步骤</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E7%B3%BB%E7%BB%9F%E6%80%A7%E8%83%BD%E5%8F%82%E6%95%B0"><span class="nav-text">2. 查看系统性能参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%9F%E8%AE%A1-sql-%E7%9A%84%E6%9F%A5%E8%AF%A2%E6%88%90%E6%9C%AC-last_query_cost"><span class="nav-text">3. 统计 SQL 的查询成本:
+last_query_cost</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9A%E4%BD%8D%E6%89%A7%E8%A1%8C%E6%85%A2%E7%9A%84-sql%E6%85%A2%E6%9F%A5%E8%AF%A2%E6%97%A5%E5%BF%97"><span class="nav-text">4. 定位执行慢的 SQL：慢查询日志</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%80%E5%90%AF%E6%85%A2%E6%9F%A5%E8%AF%A2%E6%97%A5%E5%BF%97%E5%8F%82%E6%95%B0"><span class="nav-text">4.1 开启慢查询日志参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E6%85%A2%E6%9F%A5%E8%AF%A2%E6%95%B0%E7%9B%AE"><span class="nav-text">4.2 查看慢查询数目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A1%88%E4%BE%8B%E6%BC%94%E7%A4%BA"><span class="nav-text">4.3 案例演示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E5%8F%8A%E5%88%86%E6%9E%90"><span class="nav-text">4.4 测试及分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%85%A2%E6%9F%A5%E8%AF%A2%E6%97%A5%E5%BF%97%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7mysqldumpslow"><span class="nav-text">4.5
+慢查询日志分析工具：mysqldumpslow</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E9%97%AD%E6%85%A2%E6%9F%A5%E8%AF%A2%E6%97%A5%E5%BF%97"><span class="nav-text">4.6 关闭慢查询日志</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E6%85%A2%E6%9F%A5%E8%AF%A2%E6%97%A5%E5%BF%97"><span class="nav-text">4.7 删除慢查询日志</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B-sql-%E6%89%A7%E8%A1%8C%E6%88%90%E6%9C%ACshow-profile"><span class="nav-text">5. 查看 SQL 执行成本：SHOW
+PROFILE</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E6%9E%90%E6%9F%A5%E8%AF%A2%E8%AF%AD%E5%8F%A5explain"><span class="nav-text">6. 分析查询语句：EXPLAIN</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-text">6.1 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95"><span class="nav-text">6.2 基本语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%87%86%E5%A4%87"><span class="nav-text">6.3 数据准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#explain-%E5%90%84%E5%88%97%E4%BD%9C%E7%94%A8"><span class="nav-text">6.4 EXPLAIN 各列作用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#table"><span class="nav-text">1. table</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#id"><span class="nav-text">2. id</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#select_type"><span class="nav-text">3. select_type</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#partitions-%E5%8F%AF%E7%95%A5"><span class="nav-text">4. partitions (可略)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#type"><span class="nav-text">5. type ☆</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#possible_keys-%E5%92%8C-key"><span class="nav-text">6. possible_keys 和 key</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#key_len"><span class="nav-text">7. key_len ☆</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ref"><span class="nav-text">8. ref</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#rows"><span class="nav-text">9. rows ☆</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#filtered"><span class="nav-text">10. filtered</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#extra"><span class="nav-text">11. Extra ☆</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-text">12. 小结</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#explain-%E7%9A%84%E8%BF%9B%E4%B8%80%E6%AD%A5%E4%BD%BF%E7%94%A8"><span class="nav-text">7. EXPLAIN 的进一步使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#explain-%E5%9B%9B%E7%A7%8D%E8%BE%93%E5%87%BA%E6%A0%BC%E5%BC%8F"><span class="nav-text">7.1 EXPLAIN 四种输出格式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%A0%E7%BB%9F%E6%A0%BC%E5%BC%8F"><span class="nav-text">1. 传统格式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#json-%E6%A0%BC%E5%BC%8F"><span class="nav-text">2. JSON 格式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#tree-%E6%A0%BC%E5%BC%8F"><span class="nav-text">3. TREE 格式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%AF%E8%A7%86%E5%8C%96%E8%BE%93%E5%87%BA"><span class="nav-text">4. 可视化输出</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#show-warnings-%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-text">7.2 SHOW WARNINGS 的使用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E6%9E%90%E4%BC%98%E5%8C%96%E5%99%A8%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92trace"><span class="nav-text">8. 分析优化器执行计划：trace</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mysql-%E7%9B%91%E6%8E%A7%E5%88%86%E6%9E%90%E8%A7%86%E5%9B%BE-sys-schema"><span class="nav-text">9. MySQL 监控分析视图-sys
+schema</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#sys-schema-%E8%A7%86%E5%9B%BE%E6%91%98%E8%A6%81"><span class="nav-text">9.1 Sys schema 视图摘要</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sys-schema-%E8%A7%86%E5%9B%BE%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-text">9.2 Sys schema 视图使用场景</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93-1"><span class="nav-text">10. 小结</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+
+
+<!-- common js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/utils.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/header-shrink.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/back2top.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/toggle-theme.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/code-block.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/main.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/libs/anime.min.js"></script>
+
+<!-- local search -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/local-search.min.js"></script>
+
+
+<!-- lazyload -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/lazyload.min.js"></script>
+
+
+<div class="pjax">
+    <!-- home page -->
+    
+
+    <!-- post page -->
+    
+        <!-- post-helper -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/post-helper.min.js"></script>
+
+        <!-- toc -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/toc.min.js"></script>
+        
+
+        <!-- copyright-info -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/copyright-info.min.js"></script>
+        
+
+        <!-- share -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/share.min.js"></script>
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/libs/pjax.min.js"></script>
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax'
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            KEEP.utils.pjaxProgressBarStart()
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            KEEP.utils.pjaxProgressBarEnd()
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'))
+            KEEP.initExecute()
+        });
+    });
+</script>
+
+
+
+
+    
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/custom_code_block.js" data-pjax></script>
+
+        
+    
+
+</body>
+</html>
