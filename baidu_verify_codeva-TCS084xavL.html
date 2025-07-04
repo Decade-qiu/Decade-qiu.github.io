@@ -9,8 +9,6 @@
     
     <title>
         
-            Leetcode 2024-08-21 题目分享 |
-        
         Decade
     </title>
     
@@ -474,406 +472,27 @@ mjx-container[display="true"] + br {
                 
 
                     
+
 <div class="fade-in-down-animation">
-    <div class="post-page-container border-box">
-        <div class="post-content-container border-box">
+    <div class="page-template-container border-box keep-container ">
+        <!-- page top -->
+        
+
+        <!-- page bottom -->
+        <div class="page-template-bottom border-box">
+            <!-- use page template -->
             
 
-            <div class="post-content-bottom border-box">
+            <!-- page content -->
+            <div class="page-content border-box keep-markdown-body ">
                 
-                    <div class="post-title">
-                        Leetcode 2024-08-21 题目分享
-                    </div>
+                    f6357cb0d461411a23413f951f078f83
                 
+            </div>
 
-                
-                    <div class="post-header border-box">
-                        
-                            <div class="avatar-box border-box">
-                                <img src="/images/avatar.ico">
-                            </div>
-                        
-                        <div class="info-box">
-                            <div class="author border-box">
-                                <span class="name">Zhongjun Qiu</span>
-                                
-                                    <span class="author-badge">元婴开发者</span>
-                                
-                            </div>
-                            <div class="meta-info border-box">
-                                
-
-<div class="post-meta-info-container border-box post">
-    <div class="post-meta-info border-box">
-        
-
-        
-            <span class="meta-info-item post-create-date">
-                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
-                <span class="datetime">2024-12-18 10:19:03</span>
-            </span>
-
+            <!-- comment plugin -->
             
-                <span class="meta-info-item post-update-date">
-                    <i class="icon fa-solid fa-arrows-rotate"></i>&nbsp;
-                    <span class="datetime" data-updated="Thu May 15 2025 23:39:44 GMT+0800">2025-05-15 23:39:44</span>
-                </span>
-            
-        
-
-        
-            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
-                <ul class="post-category-ul">
-                    
-                            <li class="category-item"><a href="/categories/Algorithm/">Algorithm</a></li>
-                        
-                    
-                            <li class="category-item">&nbsp;<i class="icon fas fa-angle-right"></i>&nbsp;<a href="/categories/Algorithm/Problem/">Problem</a></li>
-                        
-                    
-                            <li class="category-item">&nbsp;<i class="icon fas fa-angle-right"></i>&nbsp;<a href="/categories/Leetcode/">Leetcode</a></li>
-                        
-                    
-                </ul>
-            </span>
-        
-
-        
-            <span class="post-tag meta-info-item border-box">
-                <ul class="post-tag-ul">
-                    
-                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E4%BA%8C%E5%88%86/">二分</a></li>
-                        
-                    
-                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E5%88%86%E6%B2%BB/">分治</a></li>
-                        
-                    
-                </ul>
-            </span>
-        
-
-        
-        
-            <span class="meta-info-item post-wordcount">
-                <i class="icon fas fa-file-word"></i>&nbsp;<span>393 Words</span>
-            </span>
-        
-        
-            <span class="meta-info-item post-min2read">
-                <i class="icon fas fa-clock"></i>&nbsp;<span>1 Mins</span>
-            </span>
-        
-        
-            <span class="meta-info-item post-pv">
-                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
-            </span>
-        
-    </div>
-
-    
-</div>
-
-                            </div>
-                        </div>
-                    </div>
-                
-
-                <div class="post-content keep-markdown-body ">
-                    
-
-                    
-                         <p><a class="link" target="_blank" rel="noopener" href="https://leetcode.cn/problems/find-peak-element/">162.
-寻找峰值<i class="fas fa-external-link-alt"></i></a> [Medium] 题解</p>
-<span id="more"></span>
-<h2 id="leetcode-寻找峰值">Leetcode 寻找峰值</h2>
-<p>峰值元素是指其值严格大于左右相邻值的元素。</p>
-<p>给你一个整数数组
-<code>nums</code>，找到峰值元素并返回其索引。数组可能包含多个峰值，在这种情况下，返回
-<strong>任何一个峰值</strong> 所在位置即可。</p>
-<p>你可以假设 <code>nums[-1] = nums[n] = -∞</code> 。</p>
-<p>你必须实现时间复杂度为 <code>O(log n)</code> 的算法来解决此问题。</p>
-<p><strong>示例 1：</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入：nums = [1,2,3,1]</span><br><span class="line">输出：2</span><br><span class="line">解释：3 是峰值元素，你的函数应该返回其索引 2。</span><br></pre></td></tr></table></figure>
-<p><strong>示例 2：</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">输入：nums = [1,2,1,3,5,6,4]</span><br><span class="line">输出：1 或 5 </span><br><span class="line">解释：你的函数可以返回索引 1，其峰值元素为 2；</span><br><span class="line">     或者返回索引 5， 其峰值元素为 6。</span><br></pre></td></tr></table></figure>
-<p><strong>提示：</strong></p>
-<ul>
-<li><code>1 &lt;= nums.length &lt;= 1000</code></li>
-<li><code>-231 &lt;= nums[i] &lt;= 231 - 1</code></li>
-<li>对于所有有效的 <code>i</code> 都有
-<code>nums[i] != nums[i + 1]</code></li>
-</ul>
-<h3 id="思路">思路</h3>
-<ol type="1">
-<li>常规做法很简单，遍历一遍，找到符合条件的下标即可</li>
-<li>题目要求<code>O(log n)</code>，直接想到分治。</li>
-<li>但题解里都是用二分做的，没看到用分治的。<del>因为二分更简单⭕</del></li>
-</ol>
-<h3 id="代码">代码</h3>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> {<span class="type">number[]</span>} <span class="variable">nums</span></span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> {<span class="type">number</span>}</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">var</span> findPeakElement = <span class="keyword">function</span>(<span class="params">nums</span>) {</span><br><span class="line">    <span class="keyword">let</span> n = nums.<span class="property">length</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="title function_">find</span> = (<span class="params">l, r</span>) =&gt; {</span><br><span class="line">        <span class="keyword">if</span> (l == r){</span><br><span class="line">            <span class="keyword">if</span> ((l==<span class="number">0</span>||nums[l]&gt;nums[l-<span class="number">1</span>]) &amp;&amp; (l==n-<span class="number">1</span>||nums[l]&gt;nums[l+<span class="number">1</span>])) <span class="keyword">return</span> l;</span><br><span class="line">            <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">        }</span><br><span class="line">        <span class="keyword">let</span> mid = l+r &gt;&gt; <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">let</span> x = <span class="title function_">find</span>(l, mid), y = <span class="title function_">find</span>(mid+<span class="number">1</span>, r);</span><br><span class="line">        <span class="keyword">if</span> (x != -<span class="number">1</span>) <span class="keyword">return</span> x;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (y != -<span class="number">1</span>) <span class="keyword">return</span> y;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">    };</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_">find</span>(<span class="number">0</span>, n-<span class="number">1</span>);</span><br><span class="line">};</span><br></pre></td></tr></table></figure>
-<h3 id="复杂度分析">复杂度分析</h3>
-<ul>
-<li>时间：O(<span class="math inline">log <em>n</em></span>)。</li>
-<li>空间：O(<span class="math display">1</span>)。</li>
-</ul>
-
-                    
-                </div>
-
-                
-                        
-<div class="post-copyright-info-container border-box">
-    <div class="copyright-info-content border-box">
-        <div class="copyright-info-top border-box">
-            <div class="copyright-post-title border-box text-ellipsis">
-                Leetcode 2024-08-21 题目分享
-            </div>
-
-            <div class="copyright-post-link border-box text-ellipsis">
-                2024/12/18/Leetcode-2024-08-21-题目分享/
-            </div>
         </div>
-
-        <div class="copyright-info-bottom border-box">
-            <div class="copyright-post-author bottom-item">
-                <div class="type">
-                    Author
-                </div>
-                <div class="content">Zhongjun Qiu</div>
-            </div>
-
-            <div class="post-time bottom-item">
-                <div class="type">
-                    Published
-                </div>
-                <div class="content">2024-12-18 10:19</div>
-            </div>
-
-
-            <div class="post-license bottom-item">
-                <div class="type">
-                    License
-                </div>
-                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
-                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed" target="_blank">
-                        
-                            <i class="fa-brands fa-creative-commons"></i>
-                            <i class="fa-brands fa-creative-commons-by"></i>
-                            <i class="fa-brands fa-creative-commons-nc"></i>
-                            <i class="fa-brands fa-creative-commons-sa"></i>
-                        
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <i class="copyright-bg fa-solid fa-copyright"></i>
-    </div>
-    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="Copy copyright info" data-tooltip-offset-y="-2px">
-        <i class="fa-solid fa-copy"></i>
-    </div>
-</div>
-
-                
-
-                <div class="post-bottom-tags-and-share border-box">
-                    <div>
-                        
-                            <ul class="post-tags-box border-box">
-                                
-                                    <li class="tag-item border-box">
-                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E4%BA%8C%E5%88%86/">二分</a>
-                                    </li>
-                                
-                                    <li class="tag-item border-box">
-                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E5%88%86%E6%B2%BB/">分治</a>
-                                    </li>
-                                
-                            </ul>
-                        
-                    </div>
-                    <div>
-                        
-                            <div class="post-share-container border-box">
-    <ul class="share-list-wrap border-box">
-        <li class="qq share-item border-box flex-center tooltip"
-            data-tooltip-content="Share to QQ"
-        >
-            <i class="fa-brands fa-qq"></i>
-        </li>
-        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
-            data-tooltip-content="Share to WeChat"
-            data-tooltip-img-tip="Scan by WeChat"
-            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
-        >
-            <i class="fa-brands fa-weixin"></i>
-        </li>
-        <li class="weibo share-item border-box flex-center tooltip"
-            data-tooltip-content="Share to WeiBo"
-        >
-            <i class="fa-brands fa-weibo"></i>
-        </li>
-    </ul>
-</div>
-
-                        
-                    </div>
-                </div>
-
-                
-                    
-
-<div class="reward-author-container border-box flex-center">
-    <div class="reward-btn border-box flex-center tooltip tooltip-img"
-            data-tooltip-img-url="/images/post/payment.jpg"
-            data-tooltip-img-trigger="click"
-            data-tooltip-img-style="top: -6px;"
-    >
-        <i class="fa-solid fa-gift"></i>&nbsp;REWARD AUTHOR
-    </div>
-</div>
-
-                
-
-                
-                    <div class="post-nav border-box">
-                        
-                            <div class="prev-post">
-                                <a class="prev"
-                                   rel="prev"
-                                   href="/2024/12/21/Leetcode-2024-12-21-%E9%A2%98%E7%9B%AE%E5%88%86%E4%BA%AB/"
-                                   title="Leetcode 2024-12-21 题目分享"
-                                >
-                                    <span class="left arrow-icon flex-center">
-                                        <i class="fas fa-chevron-left"></i>
-                                    </span>
-                                    <span class="title flex-center">
-                                        <span class="post-nav-title-item text-ellipsis">Leetcode 2024-12-21 题目分享</span>
-                                        <span class="post-nav-item">Prev posts</span>
-                                    </span>
-                                </a>
-                            </div>
-                        
-                        
-                            <div class="next-post">
-                                <a class="next"
-                                   rel="next"
-                                   href="/2024/12/12/Leetcode-2024-12-12-%E9%A2%98%E7%9B%AE%E5%88%86%E4%BA%AB/"
-                                   title="Leetcode 2024-12-12 题目分享"
-                                >
-                                    <span class="title flex-center">
-                                        <span class="post-nav-title-item text-ellipsis">Leetcode 2024-12-12 题目分享</span>
-                                        <span class="post-nav-item">Next posts</span>
-                                    </span>
-                                    <span class="right arrow-icon flex-center">
-                                        <i class="fas fa-chevron-right"></i>
-                                    </span>
-                                </a>
-                            </div>
-                        
-                    </div>
-                
-
-                
-                    
-
-
-    <div class="comments-container border-box">
-        <div id="comments-anchor" class="comment-area-title border-box">
-            <i class="fas fa-comments"></i>&nbsp;Comments
-        </div>
-        <div class="comment-plugin-fail border-box">
-    <span class="fail-tip">Comment plugin failed to load</span>
-    <button class="reload keep-button">Click to reload</button>
-</div>
-<div class="comment-plugin-loading flex-center border-box">
-    <i class="loading-icon fa-solid fa-spinner fa-spin"></i>
-    <span class="load-tip">Loading comment plugin</span>
-</div>
-<script data-pjax>
-  window.KeepCommentPlugin = {}
-  window.KeepCommentPlugin.hideLoading = () => {
-    const cplDom = document.querySelector('.comments-container .comment-plugin-loading')
-    cplDom.style.display = 'none'
-  }
-  window.KeepCommentPlugin.loadFailHandle = () => {
-    window.KeepCommentPlugin.hideLoading()
-    const cpfDom = document.querySelector('.comments-container .comment-plugin-fail')
-    cpfDom.style.display = 'flex'
-    cpfDom.querySelector('.reload').addEventListener('click', () => {
-      window.location.reload()
-    })
-  }
-</script>
-
-        
-            
-
-    <div class="waline-comment-container">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/waline/3.3.2/waline.css"/>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/waline/3.3.2/waline-meta.css"/>
-        <div id="waline-comment"></div>
-        <script data-pjax>
-          window.KeepCommentPlugin.walineOptions = JSON.parse('{}'.replace(/&#34;/g, '"'))
-          window.KeepCommentPlugin.walineOptions.el = '#waline-comment'
-          window.KeepCommentPlugin.walineOptions.comment = '.post-comments-count'
-          window.KeepCommentPlugin.walineOptions.serverURL = 'https://waline-vercel-two-rho.vercel.app/'
-          window.KeepCommentPlugin.walineOptions.lang = 'en' || 'zh-CN'
-          window.KeepCommentPlugin.walineOptions.reaction = 'true' === 'true'
-        </script>
-
-        
-
-        
-            <script data-pjax
-                    async
-                    type="module"
-            >
-              import { init } from 'https://cdnjs.cloudflare.com/ajax/libs/waline/3.3.2/waline.js'
-              window.KeepCommentPlugin.initWaline = () => {
-                if (init) {
-                  init(window.KeepCommentPlugin.walineOptions)
-                  window.KeepCommentPlugin.hideLoading()
-                } else {
-                  setTimeout(() => {
-                    window.KeepCommentPlugin.initWaline()
-                  }, 1000)
-                }
-              }
-
-              if ('true' === 'true') {
-                setTimeout(() => {
-                  window.KeepCommentPlugin.initWaline()
-                }, 1200)
-              } else {
-                window.addEventListener('DOMContentLoaded', window.KeepCommentPlugin.initWaline)
-              }
-            </script>
-        
-    </div>
-
-
-        
-    </div>
-
-
-
-
-
-                
-            </div>
-        </div>
-
-        
-            <div class="pc-post-toc right-toc">
-                <div class="post-toc-wrap border-box">
-    <div class="post-toc border-box">
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#leetcode-%E5%AF%BB%E6%89%BE%E5%B3%B0%E5%80%BC"><span class="nav-text">Leetcode 寻找峰值</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF"><span class="nav-text">思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81"><span class="nav-text">代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E6%9E%90"><span class="nav-text">复杂度分析</span></a></li></ol></li></ol>
-    </div>
-</div>
-
-            </div>
-        
     </div>
 </div>
 
@@ -937,36 +556,6 @@ mjx-container[display="true"] + br {
 
     <!-- post tools -->
     
-        <div class="post-tools right-toc">
-            <div class="post-tools-container border-box">
-    <ul class="post-tools-list border-box">
-        <!-- PC encrypt again -->
-        
-
-        <!-- PC TOC show toggle -->
-        
-            <li class="tools-item flex-center toggle-show-toc">
-                <i class="fas fa-list"></i>
-            </li>
-        
-
-        <!-- PC go comment -->
-        
-            <li class="tools-item flex-center go-to-comments">
-                <i class="fas fa-comment"></i>
-                <span class="post-comments-count"></span>
-            </li>
-        
-
-        <!-- PC full screen -->
-        <li class="tools-item flex-center full-screen">
-            <i class="fa-solid fa-expand"></i>
-        </li>
-    </ul>
-</div>
-
-        </div>
-    
 
     <!-- side tools -->
     <div class="side-tools">
@@ -998,15 +587,7 @@ mjx-container[display="true"] + br {
 
     <ul class="exposed-tools-list border-box">
         
-            <li class="tools-item toggle-show-toc-tablet flex-center">
-                <i class="fas fa-list"></i>
-            </li>
-        
 
-        
-            <li class="tools-item go-to-comments-tablet flex-center">
-                <i class="fas fa-comment"></i>
-            </li>
         
 
         <li class="tools-item tool-toggle-show flex-center">
@@ -1062,17 +643,6 @@ mjx-container[display="true"] + br {
 
     <!-- tablet toc -->
     
-        <div class="tablet-post-toc-mask">
-            <div class="tablet-post-toc">
-                <div class="post-toc-wrap border-box">
-    <div class="post-toc border-box">
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#leetcode-%E5%AF%BB%E6%89%BE%E5%B3%B0%E5%80%BC"><span class="nav-text">Leetcode 寻找峰值</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF"><span class="nav-text">思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81"><span class="nav-text">代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%88%86%E6%9E%90"><span class="nav-text">复杂度分析</span></a></li></ol></li></ol>
-    </div>
-</div>
-
-            </div>
-        </div>
-    
 </main>
 
 
@@ -1097,24 +667,6 @@ mjx-container[display="true"] + br {
     
 
     <!-- post page -->
-    
-        <!-- post-helper -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/post-helper.min.js"></script>
-
-        <!-- toc -->
-        
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/toc.min.js"></script>
-        
-
-        <!-- copyright-info -->
-        
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/copyright-info.min.js"></script>
-        
-
-        <!-- share -->
-        
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/share.min.js"></script>
-        
     
 
     <!-- categories page -->
