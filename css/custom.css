@@ -21,6 +21,10 @@
 
     /* color */
     --text-color-3: #191b1f;
+    /* markdown color style */
+    --text-color-strong: #a22a2a;
+    --text-color-h2: #285e8e;
+    --text-color-h3: #777d09;
 }
 
 img[lazyload] {
@@ -31,4 +35,23 @@ img[lazyload] {
     box-shadow: none !important;
     cursor: not-allowed;
     pointer-events: none;
+}
+
+.keep-markdown-body {
+
+    h2 {
+        border-left: 4px solid rgb(8, 75, 135);
+        padding-left: 1em;
+        margin-top: 1.8em;
+        margin-bottom: 0.5em;
+        color: var(--text-color-h2);
+    }
+
+    h3 {
+        color: var(--text-color-h3);
+    }
+
+    strong {
+        color: var(--text-color-strong);
+    }
 }
