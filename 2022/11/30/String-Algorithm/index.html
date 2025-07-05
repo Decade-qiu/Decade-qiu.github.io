@@ -583,8 +583,8 @@ mjx-container[display="true"] + br {
 KMP、Trie、AC自动机，字符串哈希等。</p>
 <span id="more"></span>
 <h2 id="字符串哈希">字符串哈希</h2>
-<div class="keep-tabs" id="keep-tabs-1751678249811">
-            <div class="tabs-nav"><div class="tab active" data-href="keep-tabs-1751678249811-1">java</div><div class="tab" data-href="keep-tabs-1751678249811-2">c++</div></div><div class="tabs-content"><div class="tab-pane active" id="keep-tabs-1751678249811-1"><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 大M取一个比较大的素数 1e9+7 4294967291 大P取一个比较小的素数 171 131</span></span><br><span class="line"><span class="type">long</span> <span class="variable">M</span> <span class="operator">=</span> <span class="number">0x60000005</span>, P = <span class="number">171</span>;</span><br><span class="line"><span class="type">long</span>[] p, h;</span><br><span class="line">p[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>;i &lt;= n;i++){</span><br><span class="line">    h[i] = (h[i-<span class="number">1</span>]*P+(s.charAt(i-<span class="number">1</span>)-<span class="string">'a'</span>+<span class="number">1</span>))%M;</span><br><span class="line">    p[i] = p[i-<span class="number">1</span>]*P%M;</span><br><span class="line">}</span><br><span class="line"><span class="type">long</span> <span class="title function_">get</span><span class="params">(<span class="type">int</span> l, <span class="type">int</span> r)</span>{</span><br><span class="line">    <span class="keyword">return</span> (h[r]-h[l-<span class="number">1</span>]*p[r-l+<span class="number">1</span>]%M+M)%M;</span><br><span class="line">}</span><br></pre></td></tr></table></figure></div><div class="tab-pane" id="keep-tabs-1751678249811-2"><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">mt19937 <span class="title">rng</span><span class="params">(chrono::steady_clock::now().time_since_epoch().count())</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">rnd</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span> </span>{</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">uniform_int_distribution</span>&lt;<span class="type">int</span>&gt;(x, y)(rng);</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">ll MOD = <span class="number">1e18</span> + <span class="built_in">rnd</span>(<span class="number">0</span>, <span class="number">1e9</span>), BASE = <span class="number">233</span> + <span class="built_in">rnd</span>(<span class="number">0</span>, <span class="number">1e3</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">HashString</span> {</span><br><span class="line">    vector&lt;<span class="type">__int128_t</span>&gt; P, H;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">HashString</span>(string &amp;s) {</span><br><span class="line">        <span class="type">int</span> n = s.<span class="built_in">size</span>();</span><br><span class="line">        P.<span class="built_in">resize</span>(n + <span class="number">1</span>);</span><br><span class="line">        P[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">        H.<span class="built_in">resize</span>(n + <span class="number">1</span>);</span><br><span class="line">        H[<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i++) {</span><br><span class="line">            P[i] = P[i - <span class="number">1</span>] * BASE % MOD;</span><br><span class="line">            H[i] = (H[i - <span class="number">1</span>] * BASE + s[i - <span class="number">1</span>]) % MOD;</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="function">ll <span class="title">query</span><span class="params">(<span class="type">int</span> l, <span class="type">int</span> r)</span> </span>{</span><br><span class="line">        <span class="keyword">return</span> (H[r] - H[l - <span class="number">1</span>] * P[r - l + <span class="number">1</span>] % MOD + MOD) % MOD;</span><br><span class="line">    }</span><br><span class="line">};</span><br></pre></td></tr></table></figure></div></div>
+<div class="keep-tabs" id="keep-tabs-1751710094611">
+            <div class="tabs-nav"><div class="tab active" data-href="keep-tabs-1751710094611-1">java</div><div class="tab" data-href="keep-tabs-1751710094611-2">c++</div></div><div class="tabs-content"><div class="tab-pane active" id="keep-tabs-1751710094611-1"><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 大M取一个比较大的素数 1e9+7 4294967291 大P取一个比较小的素数 171 131</span></span><br><span class="line"><span class="type">long</span> <span class="variable">M</span> <span class="operator">=</span> <span class="number">0x60000005</span>, P = <span class="number">171</span>;</span><br><span class="line"><span class="type">long</span>[] p, h;</span><br><span class="line">p[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>;i &lt;= n;i++){</span><br><span class="line">    h[i] = (h[i-<span class="number">1</span>]*P+(s.charAt(i-<span class="number">1</span>)-<span class="string">'a'</span>+<span class="number">1</span>))%M;</span><br><span class="line">    p[i] = p[i-<span class="number">1</span>]*P%M;</span><br><span class="line">}</span><br><span class="line"><span class="type">long</span> <span class="title function_">get</span><span class="params">(<span class="type">int</span> l, <span class="type">int</span> r)</span>{</span><br><span class="line">    <span class="keyword">return</span> (h[r]-h[l-<span class="number">1</span>]*p[r-l+<span class="number">1</span>]%M+M)%M;</span><br><span class="line">}</span><br></pre></td></tr></table></figure></div><div class="tab-pane" id="keep-tabs-1751710094611-2"><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">mt19937 <span class="title">rng</span><span class="params">(chrono::steady_clock::now().time_since_epoch().count())</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">rnd</span><span class="params">(<span class="type">int</span> x, <span class="type">int</span> y)</span> </span>{</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">uniform_int_distribution</span>&lt;<span class="type">int</span>&gt;(x, y)(rng);</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line">ll MOD = <span class="number">1e18</span> + <span class="built_in">rnd</span>(<span class="number">0</span>, <span class="number">1e9</span>), BASE = <span class="number">233</span> + <span class="built_in">rnd</span>(<span class="number">0</span>, <span class="number">1e3</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">HashString</span> {</span><br><span class="line">    vector&lt;<span class="type">__int128_t</span>&gt; P, H;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">HashString</span>(string &amp;s) {</span><br><span class="line">        <span class="type">int</span> n = s.<span class="built_in">size</span>();</span><br><span class="line">        P.<span class="built_in">resize</span>(n + <span class="number">1</span>);</span><br><span class="line">        P[<span class="number">0</span>] = <span class="number">1</span>;</span><br><span class="line">        H.<span class="built_in">resize</span>(n + <span class="number">1</span>);</span><br><span class="line">        H[<span class="number">0</span>] = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">1</span>; i &lt;= n; i++) {</span><br><span class="line">            P[i] = P[i - <span class="number">1</span>] * BASE % MOD;</span><br><span class="line">            H[i] = (H[i - <span class="number">1</span>] * BASE + s[i - <span class="number">1</span>]) % MOD;</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="function">ll <span class="title">query</span><span class="params">(<span class="type">int</span> l, <span class="type">int</span> r)</span> </span>{</span><br><span class="line">        <span class="keyword">return</span> (H[r] - H[l - <span class="number">1</span>] * P[r - l + <span class="number">1</span>] % MOD + MOD) % MOD;</span><br><span class="line">    }</span><br><span class="line">};</span><br></pre></td></tr></table></figure></div></div>
           </div>
 <hr>
 <h2 id="字典树">字典树</h2>
@@ -1008,33 +1008,177 @@ KMP、Trie、AC自动机，字符串哈希等。</p>
 
     <!-- local search -->
     
-        <div class="search-pop-overlay">
-    <div class="popup search-popup">
-        <div class="search-header">
-          <span class="search-input-field-pre">
-            <i class="fas fa-keyboard"></i>
-          </span>
-            <div class="search-input-container">
-                <input autocomplete="off"
-                       autocorrect="off"
-                       autocapitalize="off"
-                       placeholder="Search..."
-                       spellcheck="false"
-                       type="search"
-                       class="search-input"
-                >
-            </div>
-            <span class="close-popup-btn">
-                <i class="fas fa-times"></i>
-            </span>
-        </div>
-        <div id="search-result">
-            <div id="no-result">
-                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
-            </div>
-        </div>
-    </div>
-</div>
+        $icon-size = 1.2rem
+$search-header-height = 3rem
+
+.search-pop-overlay {
+  position fixed
+  top 0
+  left 0
+  z-index $z-index-8
+  display flex
+  width 100%
+  height 100%
+  background rgba(0, 0, 0, 0)
+  visibility hidden
+  transition-t("visibility, background", "0, 0", "0.3, 0.3", "ease, ease")
+
+  &.active {
+    background rgba(0, 0, 0, 0.35)
+    visibility visible
+
+    .search-popup {
+      transform scale(1)
+    }
+  }
+
+
+  .search-popup {
+    z-index $z-index-6
+    width 70%
+    height 80%
+    margin auto
+    background var(--background-color-1)
+    border-radius 0.4rem
+    transform scale(0)
+    transition-t("transform", "0", "0.3", "ease")
+
+    +keep-tablet() {
+      width 80%
+    }
+
+    +keep-mobile() {
+      width 90%
+    }
+
+    .search-header {
+      display flex
+      align-items center
+      height $search-header-height
+      padding 0 1rem
+      background var(--text-color-6)
+      border-top-left-radius 0.2rem
+      border-top-right-radius 0.2rem
+
+      .search-input-field-pre {
+        margin-right 0.2rem
+        color var(--text-color-3)
+        font-size 1.3rem
+        cursor pointer
+      }
+
+      .search-input-container {
+        flex-grow 1
+        padding 0.2rem
+
+        .search-input {
+          width 100%
+          color var(--text-color-3)
+          font-size 1.2rem
+          background transparent
+          border 0
+          outline 0
+
+          &::-webkit-search-cancel-button {
+            display none
+          }
+
+          &::-webkit-input-placeholder {
+            color var(--text-color-4)
+            font-size 1rem
+          }
+        }
+      }
+
+
+      .close-popup-btn {
+        color var(--text-color-3)
+        font-size $icon-size
+        cursor pointer
+
+        &:hover {
+          color var(--text-color-1)
+        }
+      }
+    }
+
+
+    #search-result {
+      position relative
+      display flex
+      box-sizing border-box
+      height 'calc(100% - %s)' % $search-header-height
+      padding 0.3rem 1.5rem
+      overflow auto
+
+      .search-result-list {
+        width 100%
+        height 100%
+        font-size 1rem
+
+        li {
+          box-sizing border-box
+          margin 0.8rem 0
+          padding 0.8rem 0
+          border-bottom 0.1rem dashed var(--border-color)
+
+          &:last-child {
+            border-bottom none
+          }
+
+
+          .search-result-title {
+            position relative
+            display flex
+            align-items center
+            margin-bottom 0.8rem
+            padding-left 1rem
+            font-weight bold
+
+            &::after {
+              position absolute
+              top 50%
+              left 0
+              width 0.4rem
+              height 0.4rem
+              background var(--text-color-3)
+              border-radius 50%
+              transform translateY(-50%)
+              content ''
+            }
+          }
+
+
+          .search-result {
+            margin 0
+            padding-left 1rem
+            line-height 2rem
+            word-wrap break-word
+          }
+
+          a {
+            &:hover {
+              color var(--text-color-3)
+            }
+          }
+
+          .search-keyword {
+            color var(--primary-color)
+            font-weight bold
+            border-bottom 0.1rem dashed var(--primary-color)
+          }
+        }
+      }
+
+
+      #no-result {
+        margin auto
+        color var(--text-color-4)
+      }
+    }
+  }
+}
+
 
     
 
