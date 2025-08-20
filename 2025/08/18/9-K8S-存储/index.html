@@ -516,7 +516,7 @@ mjx-container[display="true"] + br {
             
                 <span class="meta-info-item post-update-date">
                     <i class="icon fa-solid fa-arrows-rotate"></i>&nbsp;
-                    <span class="datetime" data-updated="Mon Aug 18 2025 22:37:34 GMT+0800">2025-08-18 22:37:34</span>
+                    <span class="datetime" data-updated="Wed Aug 20 2025 09:44:58 GMT+0800">2025-08-20 09:44:58</span>
                 </span>
             
         
@@ -549,12 +549,12 @@ mjx-container[display="true"] + br {
         
         
             <span class="meta-info-item post-wordcount">
-                <i class="icon fas fa-file-word"></i>&nbsp;<span>2.8k Words</span>
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>2.6k Words</span>
             </span>
         
         
             <span class="meta-info-item post-min2read">
-                <i class="icon fas fa-clock"></i>&nbsp;<span>11 Mins</span>
+                <i class="icon fas fa-clock"></i>&nbsp;<span>10 Mins</span>
             </span>
         
         
@@ -582,89 +582,80 @@ ConfigMap 和 Secret
 管理应用的配置与敏感数据，旨在为数据提供一个可靠的“家”。</p>
 <!--- more -->
 <h2 id="存储分类">存储分类</h2>
-<p>[cite_start]在 Kubernetes
+<p>在 Kubernetes
 中，存储根据其用途和特性可以分为两大类：<strong>元数据</strong>和<strong>真实数据</strong>
-[cite: 27, 31][cite_start]。理解它们的特性是高效使用 Kubernetes
-存储的基础 [cite: 24]。</p>
+。</p>
 <ul>
-<li><p>[cite_start]<strong>元数据 (Metadata)</strong> [cite: 27]</p>
+<li><p><strong>元数据 (Metadata)</strong></p>
 <ul>
-<li>[cite_start]<strong>ConfigMap</strong>:
-用于保存非敏感的配置数据，以明文形式存储 [cite: 28]。</li>
-<li>[cite_start]<strong>Secret</strong>:
-用于保存敏感数据，如密码、Token、密钥等，数据会进行 Base64 编码 [cite:
-29]。</li>
-<li>[cite_start]<strong>Downward API</strong>:
+<li><strong>ConfigMap</strong>: 用于保存非敏感的配置数据，以明文形式存储
+。</li>
+<li><strong>Secret</strong>:
+用于保存敏感数据，如密码、Token、密钥等，数据会进行 Base64 编码 。</li>
+<li><strong>Downward API</strong>:
 允许容器在运行时获取关于自身或其所在环境（如 Pod
-名称、命名空间、资源限制等）的信息 [cite: 30]。</li>
+名称、命名空间、资源限制等）的信息 。</li>
 </ul></li>
-<li><p>[cite_start]<strong>真实数据 (Real Data)</strong> [cite: 31]</p>
+<li><p><strong>真实数据 (Real Data)</strong></p>
 <ul>
-<li>[cite_start]<strong>Volume</strong>: Pod 级别的数据卷，生命周期与
-Pod 绑定，用于存储临时或持久性数据 [cite: 32]。</li>
-<li>[cite_start]<strong>PersistentVolume (PV)</strong>:
+<li><strong>Volume</strong>: Pod 级别的数据卷，生命周期与 Pod
+绑定，用于存储临时或持久性数据 。</li>
+<li><strong>PersistentVolume (PV)</strong>:
 集群级别的持久化存储资源，独立于 Pod
-的生命周期，通过申请制（PVC）供应用使用 [cite: 33]。</li>
+的生命周期，通过申请制（PVC）供应用使用 。</li>
 </ul></li>
 </ul>
 <h2 id="configmap">ConfigMap</h2>
-<p>[cite_start]ConfigMap 是 Kubernetes
+<p>ConfigMap 是 Kubernetes
 中用于存储和管理应用配置的核心组件，它将配置信息与容器镜像解耦，使得应用配置更加灵活和易于管理
-[cite: 35, 53]。</p>
+。</p>
 <h3 id="创建-configmap">创建 ConfigMap</h3>
 <p>可以通过命令行从文件或字面量快速创建 ConfigMap：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 从文件创建，文件名会成为 key，文件内容成为 value</span></span><br><span class="line">kubectl create configmap my-app-config --from-file=app.properties</span><br><span class="line"></span><br><span class="line"><span class="comment"># 从字面量创建，直接指定 key-value 对</span></span><br><span class="line">kubectl create configmap db-config --from-literal=db.host=mysql --from-literal=db.port=3306</span><br></pre></td></tr></table></figure>
 <h3 id="使用-configmap">使用 ConfigMap</h3>
 <p>ConfigMap 中的数据可以通过多种方式注入到 Pod 中：</p>
-<h4 id="作为环境变量">1. 作为环境变量</h4>
+<h4 id="作为环境变量">1 作为环境变量</h4>
 <p>这是最常见的用法，可以将 ConfigMap
 的键值对直接注入为容器的环境变量。</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Pod</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">my-pod</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">containers:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">my-container</span></span><br><span class="line">      <span class="attr">image:</span> <span class="string">redis</span></span><br><span class="line">      <span class="attr">env:</span></span><br><span class="line">        <span class="comment"># 注入单个 key</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">APP_COLOR</span></span><br><span class="line">          <span class="attr">valueFrom:</span></span><br><span class="line">            <span class="attr">configMapKeyRef:</span></span><br><span class="line">              <span class="attr">name:</span> <span class="string">my-app-config</span> <span class="comment"># ConfigMap 的名称</span></span><br><span class="line">              <span class="attr">key:</span> <span class="string">app.color</span>     <span class="comment"># ConfigMap 中的 key</span></span><br><span class="line">      <span class="comment"># 注入整个 ConfigMap 的所有 key-value</span></span><br><span class="line">      <span class="attr">envFrom:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">configMapRef:</span></span><br><span class="line">            <span class="attr">name:</span> <span class="string">db-config</span></span><br></pre></td></tr></table></figure>
-<h4 id="作为启动命令参数">2. 作为启动命令参数</h4>
-<p>[cite_start]通过将 ConfigMap
-的值注入环境变量，可以在容器的启动命令中引用这些变量 [cite: 58]。</p>
+<h4 id="作为启动命令参数">2 作为启动命令参数</h4>
+<p>通过将 ConfigMap 的值注入环境变量，可以在容器的启动命令中引用这些变量
+。</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Pod</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">my-command-pod</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">containers:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">my-container</span></span><br><span class="line">      <span class="attr">image:</span> <span class="string">busybox</span></span><br><span class="line">      <span class="attr">command:</span> [ <span class="string">"/bin/sh"</span>, <span class="string">"-c"</span>, <span class="string">"echo The database host is $(DB_HOST)"</span> ]</span><br><span class="line">      <span class="attr">env:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">DB_HOST</span></span><br><span class="line">          <span class="attr">valueFrom:</span></span><br><span class="line">            <span class="attr">configMapKeyRef:</span></span><br><span class="line">              <span class="attr">name:</span> <span class="string">db-config</span></span><br><span class="line">              <span class="attr">key:</span> <span class="string">db.host</span></span><br></pre></td></tr></table></figure>
-<h4 id="作为文件挂载到-volume">3. 作为文件挂载到 Volume</h4>
-<p>[cite_start]可以将 ConfigMap
+<h4 id="作为文件挂载到-volume">3 作为文件挂载到 Volume</h4>
+<p>可以将 ConfigMap
 的内容作为一个或多个文件挂载到容器的指定路径，这对于需要读取配置文件的应用非常有用
-[cite: 59]。</p>
+。</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Pod</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">my-volume-pod</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">containers:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">my-container</span></span><br><span class="line">      <span class="attr">image:</span> <span class="string">nginx</span></span><br><span class="line">      <span class="attr">volumeMounts:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">config-volume</span></span><br><span class="line">          <span class="attr">mountPath:</span> <span class="string">/etc/nginx/conf.d</span> <span class="comment"># 将配置文件挂载到 Nginx 配置目录</span></span><br><span class="line">  <span class="attr">volumes:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">config-volume</span></span><br><span class="line">      <span class="attr">configMap:</span></span><br><span class="line">        <span class="attr">name:</span> <span class="string">nginx-config</span> <span class="comment"># 引用包含 nginx.conf 的 ConfigMap</span></span><br></pre></td></tr></table></figure>
 <h3 id="热更新">热更新</h3>
 <p>ConfigMap 的更新机制是其核心特性之一，但不同使用方式下表现不同：</p>
 <ul>
-<li>[cite_start]<strong>环境变量</strong>: 通过 <code>env</code> 或
+<li><strong>环境变量</strong>: 通过 <code>env</code> 或
 <code>envFrom</code> 注入的环境变量<strong>不会</strong>在 ConfigMap
-更新后自动更新 [cite: 65]。Pod 必须重启才能获取新的配置。</li>
-<li>[cite_start]<strong>Volume 挂载</strong>: 通过 Volume 挂载的
-ConfigMap 文件<strong>会</strong>自动更新 [cite:
-66][cite_start]。Kubelet 会定期同步，通常在几十秒内完成更新，无需重启
-Pod [cite: 66]。</li>
+更新后自动更新 。Pod 必须重启才能获取新的配置。</li>
+<li><strong>Volume 挂载</strong>: 通过 Volume 挂载的 ConfigMap
+文件<strong>会</strong>自动更新 。</li>
 </ul>
 <blockquote>
-<p>[cite_start]<strong>注意</strong>：仅更新 ConfigMap 不会触发
-Deployment 的滚动更新。如果需要 Pod 使用新配置进行重建，可以通过修改 Pod
-模板的注解来强制触发滚动更新 [cite: 62]。</p>
+<p><strong>注意</strong>：仅更新 ConfigMap 不会触发 Deployment
+的滚动更新。如果需要 Pod 使用新配置进行重建，可以通过修改 Pod
+模板的注解来强制触发滚动更新 。</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl patch deployment my-deploy --patch <span class="string">'{"spec": {"template": {"metadata": {"annotations": {"version/config": "v2" }}}}}'</span></span><br></pre></td></tr></table></figure>
 </blockquote>
 <h3 id="不可变-configmap-immutable">不可变 ConfigMap (Immutable)</h3>
-<p>[cite_start]为了防止意外更新导致应用中断，并提升大规模集群的性能（通过减少
-API Server 的监控负载），可以将 ConfigMap 设置为不可变 [cite: 68, 69,
-70]。</p>
+<p>为了防止意外更新导致应用中断，并提升大规模集群的性能（通过减少 API
+Server 的监控负载），可以将 ConfigMap 设置为不可变 。</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">ConfigMap</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">my-immutable-config</span></span><br><span class="line"><span class="attr">immutable:</span> <span class="literal">true</span> <span class="comment"># 设置为 true 后，data 字段将无法修改</span></span><br><span class="line"><span class="attr">data:</span></span><br><span class="line">  <span class="attr">key:</span> <span class="string">"initial_value"</span></span><br></pre></td></tr></table></figure>
 <hr>
 <h2 id="secret">Secret</h2>
-<p>[cite_start]Secret 用于存储和管理敏感信息，如密码、OAuth 令牌和 SSH
-密钥等 [cite: 75][cite_start]。相比于明文存储的 ConfigMap，Secret
-提供了基本的安全保障 [cite: 72]。</p>
+<p>Secret 用于存储和管理敏感信息，如密码、OAuth 令牌和 SSH 密钥等 。</p>
 <h3 id="安全特性">安全特性</h3>
 <ul>
 <li>数据以 Base64
 编码形式存储，<strong>并非加密</strong>，但避免了明文暴露。</li>
-<li>[cite_start]只分发到需要使用它的 Pod 所在的节点上 [cite: 77]。</li>
-<li>[cite_start]在节点上，Secret 通常存储在内存中，而非持久化到磁盘
-[cite: 78]。</li>
-<li>[cite_start]在 Etcd 中默认是加密存储的（从 K8s 1.7 开始） [cite:
-79]。</li>
+<li>只分发到需要使用它的 Pod 所在的节点上 。</li>
+<li>在节点上，Secret 通常存储在内存中，而非持久化到磁盘 。</li>
+<li>在 Etcd 中默认是加密存储的（从 K8s 1.7 开始） 。</li>
 </ul>
 <h3 id="创建和使用">创建和使用</h3>
 <p>创建 Secret 时，值必须经过 Base64 编码。</p>
@@ -674,77 +665,69 @@ API Server 的监控负载），可以将 ConfigMap 设置为不可变 [cite: 68
 文件挂载</strong>注入到容器中，只是引用的对象从
 <code>configMapKeyRef</code> 变为 <code>secretKeyRef</code>。</p>
 <h3 id="热更新与不可变性">热更新与不可变性</h3>
-<p>[cite_start]Secret 的热更新机制和不可变（Immutable）配置与 ConfigMap
-完全一致。通过 Volume 挂载的 Secret 会自动更新 [cite:
-87][cite_start]，而注入为环境变量的则不会。同样可以设置
-<code>immutable: true</code> 来锁定 Secret 的内容 [cite: 89]。</p>
+<p>Secret 的热更新机制和不可变（Immutable）配置与 ConfigMap
+完全一致。通过 Volume 挂载的 Secret 会自动更新 。</p>
 <hr>
 <h2 id="downward-api">Downward API</h2>
-<p>[cite_start]Downward API
-是一种特殊的机制，它不用于存储用户定义的数据，而是将 Pod
-自身的元数据暴露给运行在其中的容器 [cite: 93, 96]。</p>
+<p>Downward API 是一种特殊的机制，它不用于存储用户定义的数据，而是将 Pod
+自身的元数据暴露给运行在其中的容器 。</p>
 <h3 id="使用场景">使用场景</h3>
 <ul>
-<li>[cite_start]<strong>获取元数据</strong>: 容器需要知道自己的 Pod
-名称、IP 地址、所在命名空间等 [cite: 97]。</li>
-<li>[cite_start]<strong>动态配置</strong>:
-应用根据其被分配的资源限制（CPU/Memory limits）来动态调整行为 [cite:
-98]。</li>
+<li><strong>获取元数据</strong>: 容器需要知道自己的 Pod 名称、IP
+地址、所在命名空间等 。</li>
+<li><strong>动态配置</strong>: 应用根据其被分配的资源限制（CPU/Memory
+limits）来动态调整行为 。</li>
 </ul>
 <h3 id="使用方式">使用方式</h3>
 <p>与 ConfigMap 和 Secret 类似，Downward API
 也通过<strong>环境变量</strong>和<strong>Volume
 文件</strong>两种方式提供信息。</p>
-<h4 id="环境变量">1. 环境变量</h4>
+<h4 id="环境变量">1 环境变量</h4>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">env:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">MY_POD_NAME</span></span><br><span class="line">    <span class="attr">valueFrom:</span></span><br><span class="line">      <span class="attr">fieldRef:</span></span><br><span class="line">        <span class="attr">fieldPath:</span> <span class="string">metadata.name</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">MY_POD_NAMESPACE</span></span><br><span class="line">    <span class="attr">valueFrom:</span></span><br><span class="line">      <span class="attr">fieldRef:</span></span><br><span class="line">        <span class="attr">fieldPath:</span> <span class="string">metadata.namespace</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">MY_CPU_REQUEST</span></span><br><span class="line">    <span class="attr">valueFrom:</span></span><br><span class="line">      <span class="attr">resourceFieldRef:</span></span><br><span class="line">        <span class="attr">containerName:</span> <span class="string">my-container</span> <span class="comment"># 必须指定容器名称</span></span><br><span class="line">        <span class="attr">resource:</span> <span class="string">requests.cpu</span></span><br></pre></td></tr></table></figure>
-<h4 id="volume-文件">2. Volume 文件</h4>
+<h4 id="volume-文件">2 Volume 文件</h4>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">volumeMounts:</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">podinfo</span></span><br><span class="line">  <span class="attr">mountPath:</span> <span class="string">/etc/podinfo</span></span><br><span class="line"><span class="attr">volumes:</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">podinfo</span></span><br><span class="line">  <span class="attr">downwardAPI:</span></span><br><span class="line">    <span class="attr">items:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">path:</span> <span class="string">"labels"</span></span><br><span class="line">        <span class="attr">fieldRef:</span></span><br><span class="line">          <span class="attr">fieldPath:</span> <span class="string">metadata.labels</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">path:</span> <span class="string">"annotations"</span></span><br><span class="line">        <span class="attr">fieldRef:</span></span><br><span class="line">          <span class="attr">fieldPath:</span> <span class="string">metadata.annotations</span></span><br></pre></td></tr></table></figure>
 <blockquote>
-<p>[cite_start]<strong>优势对比</strong>: 使用 Volume 挂载 Downward API
+<p><strong>优势对比</strong>: 使用 Volume 挂载 Downward API
 的信息支持<strong>热更新</strong>（例如 Pod 的 label 或 annotation
 发生变化时，文件内容会同步更新），而环境变量则是在 Pod
-启动时一次性注入，不会改变 [cite: 103]。</p>
+启动时一次性注入，不会改变 。</p>
 </blockquote>
 <hr>
 <h2 id="volume">Volume</h2>
-<p>[cite_start]Volume 是 Kubernetes
+<p>Volume 是 Kubernetes
 存储体系的基石，它解决了容器文件系统是临时的这一核心问题，提供了数据持久化和容器间文件共享的能力
-[cite: 127]。Volume 的生命周期与 Pod 绑定。</p>
+。Volume 的生命周期与 Pod 绑定。</p>
 <p>Kubernetes 支持多种类型的 Volume，这里介绍两种最基础的：</p>
 <h3 id="emptydir">emptyDir</h3>
-<p>[cite_start]一个临时的空目录，当 Pod 被分配到节点时创建，只要 Pod
+<p>一个临时的空目录，当 Pod 被分配到节点时创建，只要 Pod
 在该节点上运行，它就一直存在。当 Pod 被删除时，<code>emptyDir</code>
-中的数据也会被永久删除 [cite: 130]。</p>
+中的数据也会被永久删除 。</p>
 <ul>
 <li><strong>特性</strong>:
 <ul>
 <li>Pod 内所有容器都可以挂载并读写同一个
 <code>emptyDir</code>，实现容器间文件共享。</li>
-<li>[cite_start]容器崩溃不会导致 <code>emptyDir</code>
-数据丢失，因为它的生命周期与 Pod 相同 [cite: 131]。</li>
+<li>容器崩溃不会导致 <code>emptyDir</code> 数据丢失，因为它的生命周期与
+Pod 相同 。</li>
 </ul></li>
 <li><strong>用途</strong>:
 <ul>
-<li>[cite_start]临时暂存空间，例如用于排序算法的中间数据 [cite:
-133]。</li>
-<li>[cite_start]一个容器从网络下载数据，另一个容器处理这些数据 [cite:
-134]。</li>
+<li>临时暂存空间，例如用于排序算法的中间数据 。</li>
+<li>一个容器从网络下载数据，另一个容器处理这些数据 。</li>
 </ul></li>
-<li>[cite_start]<strong>后端存储</strong>:
-默认使用节点的磁盘，也可以配置使用内存（tmpfs）以获得更高性能 [cite:
-137]。 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">volumes:</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">cache-volume</span></span><br><span class="line">  <span class="attr">emptyDir:</span></span><br><span class="line">    <span class="attr">medium:</span> <span class="string">Memory</span></span><br><span class="line">    <span class="attr">sizeLimit:</span> <span class="string">1Gi</span> <span class="comment"># 使用内存时建议设置大小限制</span></span><br></pre></td></tr></table></figure></li>
+<li><strong>后端存储</strong>:
+默认使用节点的磁盘，也可以配置使用内存（tmpfs）以获得更高性能 。
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">volumes:</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">cache-volume</span></span><br><span class="line">  <span class="attr">emptyDir:</span></span><br><span class="line">    <span class="attr">medium:</span> <span class="string">Memory</span></span><br><span class="line">    <span class="attr">sizeLimit:</span> <span class="string">1Gi</span> <span class="comment"># 使用内存时建议设置大小限制</span></span><br></pre></td></tr></table></figure></li>
 </ul>
 <h3 id="hostpath">hostPath</h3>
-<p>[cite_start]将主机（Node）文件系统上的文件或目录直接挂载到 Pod 中
-[cite: 139]。</p>
+<p>将主机（Node）文件系统上的文件或目录直接挂载到 Pod 中 。</p>
 <ul>
 <li><p><strong>警告</strong>: <code>hostPath</code>
 是一种强大但危险的工具。</p>
 <ul>
-<li>[cite_start]它将 Pod 与特定节点绑定，如果 Pod
-被调度到其他节点，数据会丢失 [cite: 147]。</li>
-<li>[cite_start]可能暴露节点上的敏感文件或系统目录，带来安全风险 [cite:
-149]。</li>
+<li>它将 Pod 与特定节点绑定，如果 Pod 被调度到其他节点，数据会丢失
+。</li>
+<li>可能暴露节点上的敏感文件或系统目录，带来安全风险 。</li>
 <li>通常仅用于需要访问节点底层资源的系统级
 Pod，如日志收集代理或监控组件。</li>
 </ul></li>
@@ -754,13 +737,13 @@ Pod，如日志收集代理或监控组件。</li>
 <hr>
 <h2 id="persistentvolume-pv-与-persistentvolumeclaim-pvc">PersistentVolume
 (PV) 与 PersistentVolumeClaim (PVC)</h2>
-<p>[cite_start]PV 和 PVC 是 Kubernetes
+<p>PV 和 PVC 是 Kubernetes
 持久化存储的核心，它们将<strong>存储资源的定义</strong>（PV）与<strong>存储资源的使用</strong>（PVC）解耦，实现了存储的标准化管理
-[cite: 152]。</p>
+。</p>
 <ul>
-<li>[cite_start]<strong>PersistentVolume (PV)</strong>:
+<li><strong>PersistentVolume (PV)</strong>:
 由管理员创建和配置的一块网络存储。它是集群的资源，就像 CPU 和内存一样
-[cite: 33]。PV 封装了底层存储的实现细节，如 NFS、Ceph、ISCSI 等。</li>
+。PV 封装了底层存储的实现细节，如 NFS、Ceph、ISCSI 等。</li>
 <li><strong>PersistentVolumeClaim (PVC)</strong>:
 用户（应用开发者）创建的存储请求。它声明了需要的存储大小、访问模式等，但不关心底层如何实现。</li>
 </ul>
@@ -777,36 +760,33 @@ PVC，声明所需的存储规格。</li>
 </ol>
 <h3 id="核心概念">核心概念</h3>
 <ul>
-<li><p>[cite_start]<strong>访问模式 (Access Modes)</strong>[cite:
-168]:</p>
+<li><p><strong>访问模式 (Access Modes)</strong>:</p>
 <ul>
-<li>[cite_start]<code>ReadWriteOnce</code> (RWO):
-卷可以被单个节点以读写方式挂载 [cite: 169]。</li>
-<li>[cite_start]<code>ReadOnlyMany</code> (ROX):
-卷可以被多个节点以只读方式挂载 [cite: 170]。</li>
-<li>[cite_start]<code>ReadWriteMany</code> (RWX):
-卷可以被多个节点以读写方式挂载 [cite: 171]。</li>
+<li><code>ReadWriteOnce</code> (RWO): 卷可以被单个节点以读写方式挂载
+。</li>
+<li><code>ReadOnlyMany</code> (ROX): 卷可以被多个节点以只读方式挂载
+。</li>
+<li><code>ReadWriteMany</code> (RWX): 卷可以被多个节点以读写方式挂载
+。</li>
 </ul></li>
-<li><p>[cite_start]<strong>回收策略 (Reclaim Policy)</strong>[cite:
-173]: 定义了当 PVC 被删除后，与之绑定的 PV 如何处理。</p>
+<li><p><strong>回收策略 (Reclaim Policy)</strong>: 定义了当 PVC
+被删除后，与之绑定的 PV 如何处理。</p>
 <ul>
-<li>[cite_start]<code>Retain</code> (保留): PV
-不会被删除，数据保留，状态变为
-<code>Released</code>，需要管理员手动清理和回收 [cite: 174]。</li>
-<li>[cite_start]<code>Delete</code> (删除): PV
-会被自动删除，同时底层的存储资源（如云硬盘）也会被删除 [cite:
-176]。</li>
-<li>[cite_start]<code>Recycle</code> (回收): (已废弃)
+<li><code>Retain</code> (保留): PV 不会被删除，数据保留，状态变为
+<code>Released</code>，需要管理员手动清理和回收 。</li>
+<li><code>Delete</code> (删除): PV
+会被自动删除，同时底层的存储资源（如云硬盘）也会被删除 。</li>
+<li><code>Recycle</code> (回收): (已废弃)
 会清空卷上的数据（<code>rm -rf /thevolume/*</code>）使其可被再次使用
-[cite: 175]。</li>
+。</li>
 </ul></li>
 </ul>
 <hr>
 <h2 id="storageclass">StorageClass</h2>
-<p>[cite_start]当使用静态方式（手动创建
+<p>当使用静态方式（手动创建
 PV）管理存储时，每次用户需要存储都得麻烦管理员。StorageClass
 提供了一种<strong>动态存储供应 (Dynamic Provisioning)</strong>
-的机制，彻底自动化了 PV 的创建过程 [cite: 194, 197]。</p>
+的机制，彻底自动化了 PV 的创建过程 。</p>
 <h3 id="工作原理">工作原理</h3>
 <ol type="1">
 <li><strong>管理员</strong>创建一个或多个 StorageClass
@@ -824,10 +804,10 @@ PV 对象。</li>
 <p>这个过程对用户完全透明，用户只需提交一个
 PVC，就能在几秒钟内得到一块可用的持久化存储。</p>
 <h3 id="示例-使用-nfs-的动态供应">示例: 使用 NFS 的动态供应</h3>
-<p>[cite_start]社区提供了 <code>nfs-client-provisioner</code>
-这样的工具，可以利用现有的 NFS 服务器实现动态存储供应 [cite: 208,
-209]。管理员部署好 Provisioner 和一个指向它的 StorageClass
-后，用户就可以通过 PVC 自动在 NFS 服务器上创建目录并挂载使用了。</p>
+<p>社区提供了 <code>nfs-client-provisioner</code>
+这样的工具，可以利用现有的 NFS 服务器实现动态存储供应 。管理员部署好
+Provisioner 和一个指向它的 StorageClass 后，用户就可以通过 PVC 自动在
+NFS 服务器上创建目录并挂载使用了。</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 用户提交的 PVC</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">PersistentVolumeClaim</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">my-nfs-claim</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">storageClassName:</span> <span class="string">"managed-nfs-storage"</span> <span class="comment"># 指定 StorageClass</span></span><br><span class="line">  <span class="attr">accessModes:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">ReadWriteMany</span></span><br><span class="line">  <span class="attr">resources:</span></span><br><span class="line">    <span class="attr">requests:</span></span><br><span class="line">      <span class="attr">storage:</span> <span class="string">5Gi</span></span><br></pre></td></tr></table></figure>
 
                     
@@ -947,6 +927,22 @@ PVC，就能在几秒钟内得到一块可用的持久化存储。</p>
                 
                     <div class="post-nav border-box">
                         
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/2025/08/20/10-K8S-%E5%AE%89%E5%85%A8/"
+                                   title="Kubernetes 安全机制"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">Kubernetes 安全机制</span>
+                                        <span class="post-nav-item">Prev posts</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
                         
                             <div class="next-post">
                                 <a class="next"
@@ -1061,7 +1057,7 @@ PVC，就能在几秒钟内得到一块可用的持久化存储。</p>
             <div class="pc-post-toc right-toc">
                 <div class="post-toc-wrap border-box">
     <div class="post-toc border-box">
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%98%E5%82%A8%E5%88%86%E7%B1%BB"><span class="nav-text">存储分类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#configmap"><span class="nav-text">ConfigMap</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA-configmap"><span class="nav-text">创建 ConfigMap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-configmap"><span class="nav-text">使用 ConfigMap</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%9C%E4%B8%BA%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="nav-text">1. 作为环境变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%9C%E4%B8%BA%E5%90%AF%E5%8A%A8%E5%91%BD%E4%BB%A4%E5%8F%82%E6%95%B0"><span class="nav-text">2. 作为启动命令参数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%9C%E4%B8%BA%E6%96%87%E4%BB%B6%E6%8C%82%E8%BD%BD%E5%88%B0-volume"><span class="nav-text">3. 作为文件挂载到 Volume</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%83%AD%E6%9B%B4%E6%96%B0"><span class="nav-text">热更新</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8D%E5%8F%AF%E5%8F%98-configmap-immutable"><span class="nav-text">不可变 ConfigMap (Immutable)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#secret"><span class="nav-text">Secret</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E7%89%B9%E6%80%A7"><span class="nav-text">安全特性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8"><span class="nav-text">创建和使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%83%AD%E6%9B%B4%E6%96%B0%E4%B8%8E%E4%B8%8D%E5%8F%AF%E5%8F%98%E6%80%A7"><span class="nav-text">热更新与不可变性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#downward-api"><span class="nav-text">Downward API</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-text">使用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%96%B9%E5%BC%8F"><span class="nav-text">使用方式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="nav-text">1. 环境变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#volume-%E6%96%87%E4%BB%B6"><span class="nav-text">2. Volume 文件</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#volume"><span class="nav-text">Volume</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#emptydir"><span class="nav-text">emptyDir</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hostpath"><span class="nav-text">hostPath</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#persistentvolume-pv-%E4%B8%8E-persistentvolumeclaim-pvc"><span class="nav-text">PersistentVolume
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%98%E5%82%A8%E5%88%86%E7%B1%BB"><span class="nav-text">存储分类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#configmap"><span class="nav-text">ConfigMap</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA-configmap"><span class="nav-text">创建 ConfigMap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-configmap"><span class="nav-text">使用 ConfigMap</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%9C%E4%B8%BA%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="nav-text">1 作为环境变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%9C%E4%B8%BA%E5%90%AF%E5%8A%A8%E5%91%BD%E4%BB%A4%E5%8F%82%E6%95%B0"><span class="nav-text">2 作为启动命令参数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%9C%E4%B8%BA%E6%96%87%E4%BB%B6%E6%8C%82%E8%BD%BD%E5%88%B0-volume"><span class="nav-text">3 作为文件挂载到 Volume</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%83%AD%E6%9B%B4%E6%96%B0"><span class="nav-text">热更新</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8D%E5%8F%AF%E5%8F%98-configmap-immutable"><span class="nav-text">不可变 ConfigMap (Immutable)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#secret"><span class="nav-text">Secret</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E7%89%B9%E6%80%A7"><span class="nav-text">安全特性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8"><span class="nav-text">创建和使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%83%AD%E6%9B%B4%E6%96%B0%E4%B8%8E%E4%B8%8D%E5%8F%AF%E5%8F%98%E6%80%A7"><span class="nav-text">热更新与不可变性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#downward-api"><span class="nav-text">Downward API</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-text">使用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%96%B9%E5%BC%8F"><span class="nav-text">使用方式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="nav-text">1 环境变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#volume-%E6%96%87%E4%BB%B6"><span class="nav-text">2 Volume 文件</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#volume"><span class="nav-text">Volume</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#emptydir"><span class="nav-text">emptyDir</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hostpath"><span class="nav-text">hostPath</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#persistentvolume-pv-%E4%B8%8E-persistentvolumeclaim-pvc"><span class="nav-text">PersistentVolume
 (PV) 与 PersistentVolumeClaim (PVC)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="nav-text">工作流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5"><span class="nav-text">核心概念</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#storageclass"><span class="nav-text">StorageClass</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="nav-text">工作原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B-%E4%BD%BF%E7%94%A8-nfs-%E7%9A%84%E5%8A%A8%E6%80%81%E4%BE%9B%E5%BA%94"><span class="nav-text">示例: 使用 NFS 的动态供应</span></a></li></ol></li></ol>
     </div>
 </div>
@@ -1108,7 +1104,7 @@ PVC，就能在几秒钟内得到一块可用的持久化存储。</p>
             
                 <span class="count-item border-box word">
                     <span class="item-type border-box">Total words</span>
-                    <span class="item-value border-box word">363.4k</span>
+                    <span class="item-value border-box word">364.9k</span>
                 </span>
             
 
@@ -1260,7 +1256,7 @@ PVC，就能在几秒钟内得到一块可用的持久化存储。</p>
             <div class="tablet-post-toc">
                 <div class="post-toc-wrap border-box">
     <div class="post-toc border-box">
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%98%E5%82%A8%E5%88%86%E7%B1%BB"><span class="nav-text">存储分类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#configmap"><span class="nav-text">ConfigMap</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA-configmap"><span class="nav-text">创建 ConfigMap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-configmap"><span class="nav-text">使用 ConfigMap</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%9C%E4%B8%BA%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="nav-text">1. 作为环境变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%9C%E4%B8%BA%E5%90%AF%E5%8A%A8%E5%91%BD%E4%BB%A4%E5%8F%82%E6%95%B0"><span class="nav-text">2. 作为启动命令参数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%9C%E4%B8%BA%E6%96%87%E4%BB%B6%E6%8C%82%E8%BD%BD%E5%88%B0-volume"><span class="nav-text">3. 作为文件挂载到 Volume</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%83%AD%E6%9B%B4%E6%96%B0"><span class="nav-text">热更新</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8D%E5%8F%AF%E5%8F%98-configmap-immutable"><span class="nav-text">不可变 ConfigMap (Immutable)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#secret"><span class="nav-text">Secret</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E7%89%B9%E6%80%A7"><span class="nav-text">安全特性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8"><span class="nav-text">创建和使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%83%AD%E6%9B%B4%E6%96%B0%E4%B8%8E%E4%B8%8D%E5%8F%AF%E5%8F%98%E6%80%A7"><span class="nav-text">热更新与不可变性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#downward-api"><span class="nav-text">Downward API</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-text">使用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%96%B9%E5%BC%8F"><span class="nav-text">使用方式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="nav-text">1. 环境变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#volume-%E6%96%87%E4%BB%B6"><span class="nav-text">2. Volume 文件</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#volume"><span class="nav-text">Volume</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#emptydir"><span class="nav-text">emptyDir</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hostpath"><span class="nav-text">hostPath</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#persistentvolume-pv-%E4%B8%8E-persistentvolumeclaim-pvc"><span class="nav-text">PersistentVolume
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%98%E5%82%A8%E5%88%86%E7%B1%BB"><span class="nav-text">存储分类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#configmap"><span class="nav-text">ConfigMap</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA-configmap"><span class="nav-text">创建 ConfigMap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-configmap"><span class="nav-text">使用 ConfigMap</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%9C%E4%B8%BA%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="nav-text">1 作为环境变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%9C%E4%B8%BA%E5%90%AF%E5%8A%A8%E5%91%BD%E4%BB%A4%E5%8F%82%E6%95%B0"><span class="nav-text">2 作为启动命令参数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%9C%E4%B8%BA%E6%96%87%E4%BB%B6%E6%8C%82%E8%BD%BD%E5%88%B0-volume"><span class="nav-text">3 作为文件挂载到 Volume</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%83%AD%E6%9B%B4%E6%96%B0"><span class="nav-text">热更新</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8D%E5%8F%AF%E5%8F%98-configmap-immutable"><span class="nav-text">不可变 ConfigMap (Immutable)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#secret"><span class="nav-text">Secret</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E7%89%B9%E6%80%A7"><span class="nav-text">安全特性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%92%8C%E4%BD%BF%E7%94%A8"><span class="nav-text">创建和使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%83%AD%E6%9B%B4%E6%96%B0%E4%B8%8E%E4%B8%8D%E5%8F%AF%E5%8F%98%E6%80%A7"><span class="nav-text">热更新与不可变性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#downward-api"><span class="nav-text">Downward API</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-text">使用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%96%B9%E5%BC%8F"><span class="nav-text">使用方式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="nav-text">1 环境变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#volume-%E6%96%87%E4%BB%B6"><span class="nav-text">2 Volume 文件</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#volume"><span class="nav-text">Volume</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#emptydir"><span class="nav-text">emptyDir</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hostpath"><span class="nav-text">hostPath</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#persistentvolume-pv-%E4%B8%8E-persistentvolumeclaim-pvc"><span class="nav-text">PersistentVolume
 (PV) 与 PersistentVolumeClaim (PVC)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="nav-text">工作流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5"><span class="nav-text">核心概念</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#storageclass"><span class="nav-text">StorageClass</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="nav-text">工作原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B-%E4%BD%BF%E7%94%A8-nfs-%E7%9A%84%E5%8A%A8%E6%80%81%E4%BE%9B%E5%BA%94"><span class="nav-text">示例: 使用 NFS 的动态供应</span></a></li></ol></li></ol>
     </div>
 </div>
