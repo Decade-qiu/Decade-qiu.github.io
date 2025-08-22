@@ -516,7 +516,7 @@ mjx-container[display="true"] + br {
             
                 <span class="meta-info-item post-update-date">
                     <i class="icon fa-solid fa-arrows-rotate"></i>&nbsp;
-                    <span class="datetime" data-updated="Wed Aug 20 2025 10:28:49 GMT+0800">2025-08-20 10:28:49</span>
+                    <span class="datetime" data-updated="Sat Aug 23 2025 00:15:26 GMT+0800">2025-08-23 00:15:26</span>
                 </span>
             
         
@@ -615,7 +615,7 @@ Control）</strong>：对行为进行校验或修改，判断是否合理</li>
 <li><code>O</code> 字段用于指定用户组</li>
 </ul></li>
 </ul>
-<p><a href="image-20250820100341695.png"></a></p>
+<p><img lazyload="" alt="image" data-src="image-20250820100341695.png"></p>
 <ul>
 <li><p><strong>HTTP Token 认证</strong><br>
 通过一个预定义的 Token 来识别用户。Token
@@ -662,7 +662,7 @@ ServiceAccount 会关联一个 Secret（类型为
 Pod 内程序读取挂载的 Token，在访问 API Server 时加入到 HTTP
 请求头中，从而完成身份认证。</p></li>
 </ul>
-<p><a href="image-20250820100505316.png"></a></p>
+<p><img lazyload="" alt="image" data-src="image-20250820100505316.png"></p>
 <hr>
 <h2 id="鉴权-authorization">2. 鉴权 (Authorization)</h2>
 <p>认证通过后，API Server
@@ -745,7 +745,7 @@ ClusterRoleBinding</h4>
 <li>实现最小权限原则，避免过度授权。</li>
 </ul>
 </blockquote>
-<p><a href="image-20250820101003504.png"></a></p>
+<p><img lazyload="" alt="image" data-src="image-20250820101003504.png"></p>
 <p><strong>示例：RoleBinding</strong></p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">kind:</span> <span class="string">RoleBinding</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">rbac.authorization.k8s.io/v1</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">read-pods</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">default</span></span><br><span class="line"><span class="attr">subjects:</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">kind:</span> <span class="string">User</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">jane</span>   <span class="comment"># 用户名区分大小写</span></span><br><span class="line">  <span class="attr">apiGroup:</span> <span class="string">rbac.authorization.k8s.io</span></span><br><span class="line"><span class="attr">roleRef:</span></span><br><span class="line">  <span class="attr">kind:</span> <span class="string">Role</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">pod-reader</span></span><br><span class="line">  <span class="attr">apiGroup:</span> <span class="string">rbac.authorization.k8s.io</span></span><br></pre></td></tr></table></figure>
 <p><strong>示例：ClusterRoleBinding</strong></p>

@@ -516,7 +516,7 @@ mjx-container[display="true"] + br {
             
                 <span class="meta-info-item post-update-date">
                     <i class="icon fa-solid fa-arrows-rotate"></i>&nbsp;
-                    <span class="datetime" data-updated="Fri Aug 22 2025 23:55:29 GMT+0800">2025-08-22 23:55:29</span>
+                    <span class="datetime" data-updated="Sat Aug 23 2025 00:15:07 GMT+0800">2025-08-23 00:15:07</span>
                 </span>
             
         
@@ -672,20 +672,20 @@ apt 或 yum 中的软件安装包。</p></li>
 </blockquote>
 <p>运行</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">helm install my-nginx ../my-nginx/</span><br></pre></td></tr></table></figure>
-<p><a href="image-20250822233535251.png"></a></p>
+<p><img lazyload="" alt="image" data-src="image-20250822233535251.png"></p>
 <p>之后在外部机器用curl访问暴露的32100端口，可以看出实现了负载均衡</p>
-<p><a href="image-20250822233726533.png"></a></p>
+<p><img lazyload="" alt="image" data-src="image-20250822233726533.png"></p>
 <blockquote>
 <p>svc暴露的NodePort，会在集群每个Node上的生成对应的IPVS规则，因此你可以访问任意一台Node上的32100端口，IPVS会将你的请求转发到特定的pod上</p>
 <p>可以用<code>ipvsadm -Ln --stats</code>来查看Node上已经部署的IPVS规则</p>
-<p><a href="image-20250822234307530.png"></a></p>
+<p><img lazyload="" alt="image" data-src="image-20250822234307530.png"></p>
 <p>可以看到目标端口为32100的请求会转发到三个地址，即实际nginx-pod的地址</p>
 <p>因为此时已经在集群内，使用的是CNI里的内部IP进行转发</p>
 </blockquote>
 <p>之后需要进行端口更改或者镜像升级，直接修改values.yaml文件，然后运行</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">helm upgrade my-nginx ../my-nginx</span><br></pre></td></tr></table></figure>
 <p>可以查看所有的历史版本</p>
-<p><a href="image-20250822234800250.png"></a></p>
+<p><img lazyload="" alt="image" data-src="image-20250822234800250.png"></p>
 
                     
                 </div>
