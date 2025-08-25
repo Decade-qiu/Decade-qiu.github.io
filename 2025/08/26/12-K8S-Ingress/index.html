@@ -478,12 +478,19 @@ mjx-container[display="true"] + br {
     <div class="post-page-container border-box">
         <div class="post-content-container border-box">
             
-
-            <div class="post-content-bottom border-box">
-                
-                    <div class="post-title">
+                <div class="post-content-top border-box"
+                     style="height: 460px"
+                >
+                    <div class="cover-post-title">
                         超详细！用Ingress-nginx搭建一个简单网关
                     </div>
+                    <img class="post-cover" src="/images/post/v2-087313f4d4b1694c4adbbb1e649f663d_1440w.webp"
+                         onerror="this.style.display='none'"
+                    >
+                </div>
+            
+
+            <div class="post-content-bottom border-box has-cover">
                 
 
                 
@@ -510,13 +517,13 @@ mjx-container[display="true"] + br {
         
             <span class="meta-info-item post-create-date">
                 <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
-                <span class="datetime">2025-08-22 23:55:10</span>
+                <span class="datetime">2025-08-26 23:59:10</span>
             </span>
 
             
                 <span class="meta-info-item post-update-date">
                     <i class="icon fa-solid fa-arrows-rotate"></i>&nbsp;
-                    <span class="datetime" data-updated="Mon Aug 25 2025 23:47:26 GMT+0800">2025-08-25 23:47:26</span>
+                    <span class="datetime" data-updated="Tue Aug 26 2025 00:17:20 GMT+0800">2025-08-26 00:17:20</span>
                 </span>
             
         
@@ -528,7 +535,7 @@ mjx-container[display="true"] + br {
                             <li class="category-item"><a href="/categories/K8S/">K8S</a></li>
                         
                     
-                            <li class="category-item">&nbsp;<i class="icon fas fa-angle-right"></i>&nbsp;<a href="/categories/K8S/Helm/">Helm</a></li>
+                            <li class="category-item">&nbsp;<i class="icon fas fa-angle-right"></i>&nbsp;<a href="/categories/K8S/Ingress/">Ingress</a></li>
                         
                     
                 </ul>
@@ -629,27 +636,27 @@ Service 资源无法根据 URL 路径进行区分和路由，因此无法实现�
 </thead>
 <tbody>
 <tr>
-<td><strong>协议层</strong></td>
+<td>协议层</td>
 <td>TCP/UDP</td>
 <td>HTTP/HTTPS (应用层)</td>
 </tr>
 <tr>
-<td><strong>识别依据</strong></td>
+<td>识别依据</td>
 <td>IP + 端口</td>
 <td>Host、Path、HTTP Header等</td>
 </tr>
 <tr>
-<td><strong>TLS 支持</strong></td>
+<td>TLS 支持</td>
 <td>无（需要 Node/LoadBalancer 层支持）</td>
 <td>内置 TLS 终止，可统一管理证书</td>
 </tr>
 <tr>
-<td><strong>路由能力</strong></td>
+<td>路由能力</td>
 <td>均匀分发</td>
 <td>灵活路由：域名、路径、方法、header 等</td>
 </tr>
 <tr>
-<td><strong>高级功能</strong></td>
+<td>高级功能</td>
 <td>无</td>
 <td>请求重写、限速、熔断、访问控制、跨域、重定向等</td>
 </tr>
@@ -972,7 +979,7 @@ Problem）</strong>的难解性，确保了整个密钥交换过程的安全性�
             </div>
 
             <div class="copyright-post-link border-box text-ellipsis">
-                2025/08/22/12-K8S-Ingress/
+                2025/08/26/12-K8S-Ingress/
             </div>
         </div>
 
@@ -988,7 +995,7 @@ Problem）</strong>的难解性，确保了整个密钥交换过程的安全性�
                 <div class="type">
                     Published
                 </div>
-                <div class="content">2025-08-22 23:55</div>
+                <div class="content">2025-08-26 23:59</div>
             </div>
 
 
@@ -1076,31 +1083,15 @@ Problem）</strong>的难解性，确保了整个密钥交换过程的安全性�
                 
                     <div class="post-nav border-box">
                         
-                            <div class="prev-post">
-                                <a class="prev"
-                                   rel="prev"
-                                   href="/2025/08/22/11-K8S-Helm/"
-                                   title="Kubernetes Helm"
-                                >
-                                    <span class="left arrow-icon flex-center">
-                                        <i class="fas fa-chevron-left"></i>
-                                    </span>
-                                    <span class="title flex-center">
-                                        <span class="post-nav-title-item text-ellipsis">Kubernetes Helm</span>
-                                        <span class="post-nav-item">Prev posts</span>
-                                    </span>
-                                </a>
-                            </div>
-                        
                         
                             <div class="next-post">
                                 <a class="next"
                                    rel="next"
-                                   href="/2025/08/20/10-K8S-%E5%AE%89%E5%85%A8/"
-                                   title="Kubernetes 安全机制"
+                                   href="/2025/08/22/11-K8S-Helm/"
+                                   title="Kubernetes Helm"
                                 >
                                     <span class="title flex-center">
-                                        <span class="post-nav-title-item text-ellipsis">Kubernetes 安全机制</span>
+                                        <span class="post-nav-title-item text-ellipsis">Kubernetes Helm</span>
                                         <span class="post-nav-item">Next posts</span>
                                     </span>
                                     <span class="right arrow-icon flex-center">
