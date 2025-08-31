@@ -1,0 +1,1489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="blog, decade, lucky">
+    <meta name="description" content="Decade&#39;s lucky blog">
+    <meta name="author" content="Zhongjun Qiu">
+    
+    <title>
+        
+            Kubernete 高可用集群 |
+        
+        Decade
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="https://decade.net.cn/images/logo.ico">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/fontawesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/regular.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/solid.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/brands.min.css">
+    
+        
+            
+        
+            
+                
+<link rel="stylesheet" href="/css/custom.css">
+
+            
+        
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"decade.net.cn","root":"/","language":"en","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"Decade","author":"Zhongjun Qiu","avatar":"/images/avatar.ico","logo":"/images/avatar.ico","favicon":"https://decade.net.cn/images/logo.ico"},"menu":{"home":"/ || fa-solid fa-home","archives":"/archives || fa-solid fa-box-archive","tags":"/tags || fa-solid fa-tags","categories":"/categories || fa-solid fa-layer-group","more":{"icon":"fa-solid fa-circle-user","children":[{"tool":"/tools || fa-solid fa-tools"},{"life":"/photos || fa-solid fa-image"},{"me":"/about || fa-solid fa-user-graduate"},{"Git":"/custom/index.html || fa-solid fa-user"}]}},"first_screen":{"enable":true,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"The Steadfast Determination of An Ordinary Soul.","hitokoto":false},"social_contact":{"enable":true,"links":{"github":"https://github.com/Decade-qiu","weixin":"img | /images/social/weixin.jpg","qq":null,"weibo":null,"zhihu":null,"twitter":null,"x":null,"facebook":null,"email":"qiuyu6021@gmail.com"}},"scroll":{"progress_bar":true,"percent":true,"hide_header":false},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"created || fa-solid fa-history","post_datetime_format":"ago"},"post":{"author_badge":{"enable":true,"level_badge":false,"custom_badge":"元婴开发者"},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":true,"img_link":"/images/post/payment.jpg","text":null,"icon":null},"created_datetime_icon":"fa-solid fa-calendar-plus","updated_datetime_icon":"fa-solid fa-arrows-rotate"},"code_block":{"tools":{"enable":true,"style":"mac"},"highlight_theme":"obsidian"},"toc":{"enable":true,"number":false,"expand_all":false,"init_open":false,"layout":"right"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":false,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":true,"use":"waline","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.39"},"waline":{"server_url":"https://waline-vercel-two-rho.vercel.app/","reaction":true,"version":"3.3.2"},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":false},"lazyload":{"enable":true},"cdn":{"enable":true,"provider":"cdnjs"},"pjax":{"enable":true},"footer":{"since":2020,"word_count":true,"site_deploy":{"enable":true,"provider":"github","url":"https://github.com"},"record":{"enable":false,"list":[{"code":null,"link":null}]}},"inject":{"enable":true,"css":[null,"/css/custom.css"],"js":[null,"/js/custom_code_block.js"]},"root":"","source_data":{"photos":[{"url":"/images/post/【哲风壁纸】日本动漫-电锯人.webp","name":"电锯人"},{"url":"/images/post/Quicker_20250428_193139.webp","name":"kowayia"},{"url":"/images/post/Quicker_20250428_233349.webp","name":"世界地图"},{"url":"/images/post/tmpFE1E.tmp.webp","name":"施红"},{"url":"/images/post/result-1745849388402.webp","name":"仇忠骏.动漫版"},{"url":"/images/photos/猫猫困了PNG.png","name":"猫猫困了PNG"},{"url":"/images/photos/宁静的暴雨天.png","name":"宁静的暴雨天"},{"url":"/images/photos/我在扬州好想你.png","name":"我在扬州好想你"},{"url":"/images/photos/信鸽.png","name":"信鸽"},{"url":"/images/photos/啤酒烧烤.png","name":"啤酒烧烤"},{"url":"/images/photos/随手拍.png","name":"随手拍"},{"url":"/images/photos/糖油混合炸弹.png","name":"糖油混合炸弹"},{"url":"/images/photos/香香的.png","name":"香香的"},{"url":"/images/photos/蝎子莱莱.png","name":"蝎子莱莱"},{"url":"/images/post/指C为python.png","name":"指C为python"},{"url":"/images/photos/YangZhou_Station.png","name":"YangZhou Station"},{"url":"/images/photos/GBC.jpg","name":"Girls Band Cry"},{"url":"/images/photos/bocchi.webp","name":"Bocchi the Rock!"}],"tools":[{"category":"AIGC","anchorId":"QUlHQw0"},{"name":"ChatGPT","link":"https://chat.openai.com/","description":"OpenAI 旗下 AI 聊天对话工具","image":"/images/tools/chatgpt.svg"},{"name":"Gemini","link":"https://gemini.google.com/app","description":"Google 旗下 AI 聊天对话工具","image":"/images/tools/gemini.svg"},{"name":"Copilot","link":"https://copilot.microsoft.com/","description":"Microsoft 旗下 AI 聊天对话工具","image":"/images/tools/copilot.png"},{"name":"Deepseek","link":"https://chat.deepseek.com/","description":"Deepseek 旗下 AI 聊天对话工具","image":"/images/tools/deepseek.jpg"},{"name":"Qwen","link":"https://chat.qwen.ai/","description":"Alibaba 旗下 AI 聊天对话工具","image":"/images/tools/tongyiqianwen.svg"},{"name":"即梦AI","link":"https://jimeng.jianying.com/ai-tool/home","description":"Dreamina 图像生成工具","image":"/images/tools/dream.png"},{"name":"komiko","link":"https://komiko.app/home","description":"Komiko 动漫化AI工具","image":"/images/tools/komiko.webp"},{"name":"InsMind","link":"https://www.insmind.com/zh-cn/workspace/","description":"AI图片编辑工具","image":"/images/tools/insmind.svg"},{"name":"Raphael","link":"https://raphael.app/zh","description":"AI图片生成工具","image":"/images/tools/rap.png"},{"name":"腾讯元宝","link":"https://yuanbao.tencent.com/chat/","description":"Tencent 旗下 AI 聊天对话工具","image":"/images/tools/tencent.jpg"},{"name":"豆包","link":"https://www.doubao.com/chat/","description":"字节跳动 图片生成工具","image":"/images/tools/dn.jpg"},{"category":"Airport","anchorId":"QWlycG9ydA12"},{"name":"独角兽","link":"https://91unicorn.cloud/","description":"十分稳定","image":"/images/tools/dujiaoshou.ico"},{"name":"极速机场","link":"https://xn--mes358acgm99l.com/","description":"便宜好用","image":"/images/tools/jisu.ico"},{"name":"iKuuu","link":"https://ikuuu.org/user","description":"以备不时之需","image":"/images/tools/ikuu.ico"},{"category":"File Converter","anchorId":"RmlsZSUyMENvbnZlcnRlcg16"},{"name":"Online Image Tool","link":"https://www.onlineimagetool.com/zh/","description":"在线压缩和转换图片","image":"/images/tools/oit.png"},{"name":"Vector Magic","link":"https://zh.vectormagic.com/","description":"文件矢量化","image":"/images/tools/apple-touch-icon-180_97956a9f5fbf6a767de100280d78c1f8.png"},{"name":"TinyPNG","link":"https://tinypng.com/","description":"Smart AVIF, WebP, PNG and JPEG Compression for Faster Websites","image":"/images/tools/tiny.ico"},{"name":"踏得","link":"https://techbrood.com/tool","description":"HTML5在线工具","image":"/images/tools/td.ico"},{"name":"UU在线工具","link":"https://uutool.cn/base64/","description":"base64工具包","image":"/images/tools/uu.png"},{"name":"I Love PDF","link":"https://www.ilovepdf.com/","description":"PDF工具包","image":"/images/tools/ilovepdf.svg"},{"category":"Free GPT API","anchorId":"RnJlZSUyMEdQVCUyMEFQSQ23"},{"name":"Gemini API","link":"https://ai.google.dev/gemini-api/docs/quickstart?lang=python","description":"Google Gemini API","image":"/images/tools/touchicon-180-new.png"},{"name":"SiliconCloud","link":"https://cloud.siliconflow.cn/models","description":"各种模型API"},{"name":"Cloudflare Workers AI","link":"https://developers.cloudflare.com/workers-ai/configuration/open-ai-compatibility/","description":"OpenAI compatible API endpoints","image":"/images/tools/logo.p_ySeMR1.svg"},{"name":"算了么","link":"https://api.suanli.cn/","description":"共享算力API","image":"/images/tools/suanlm.svg"},{"category":"Resource Explorer","anchorId":"UmVzb3VyY2UlMjBFeHBsb3Jlcg28"},{"name":"Free for Developers","link":"https://free-for.dev/","description":"A list of SaaS, PaaS and IaaS offerings that have free tiers of interest to devops and infradev","image":"/images/tools/freefd.webp"},{"name":"zlibrary","link":"https://zh.z-library.sk/","description":"在线图书馆","image":"/images/tools/logo.zlibrary.svg"},{"name":"PicX","link":"https://picx.xpoet.cn/","description":"基于Github的图床","image":"/images/tools/logo.ffee4291.png"},{"name":"HaoWallpaper","link":"https://haowallpaper.com/","description":"哲风壁纸","image":"/images/tools/haowall.ico"},{"name":"Awesome","link":"https://wallhaven.cc/","description":"WallHaven","image":"/images/tools/wallheaven.ico"},{"name":"WallHere","link":"https://wallhere.com/","description":"WallHere"},{"name":"SnapAny","link":"https://snapany.com/zh","description":"万能视频图片解析下载"},{"name":"ØMagnet","link":"https://0cili.org/","description":"种子下载"},{"name":"twitter","link":"https://snapvid.net/zh-cn/twitter-downloader","description":"推特视频下载器","image":"/images/tools/apple-touch-icon.png"},{"name":"youtube","link":"https://www.y2mate.com/en949","description":"Youtube视频下载器","image":"/images/tools/y2mate.webp"},{"name":"Icons8","link":"https://icons8.com/icons","description":"免费图标下载","image":"/images/tools/logo-icons8.svg"},{"name":"全能emoji","link":"https://www.emojiall.com/zh-hans","description":"emoji制作","image":"/images/tools/emoji.ico"},{"name":"emojidb","link":"https://emojidb.org/","description":"免费表情包下载","image":"/images/tools/emojidb.png"},{"name":"Flaticon","link":"https://www.flaticon.com/","description":"免费图标下载","image":"/images/tools/logo-flaticon.svg"},{"name":"IconFinder","link":"https://www.iconfinder.com/","description":"免费图标下载","image":"/images/tools/logo-iconfinder.svg"}]},"version":"4.2.5"}
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"}
+    KEEP.language_code_block = {"copy":"Copy code","copied":"Copied","fold":"Fold code block","folded":"Folded"}
+    KEEP.language_copy_copyright = {"copy":"Copy copyright info","copied":"Copied","title":"Original post title","author":"Original post author","link":"Original post link"}
+  </script>
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <i class="pjax-progress-icon fas fa-circle-notch fa-spin"></i>
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left flex-start border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/avatar.ico">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               Decade
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc border-box">
+                <ul class="menu-list border-box">
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-home"></i>
+                                
+                                HOME
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/archives">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-box-archive"></i>
+                                
+                                ARCHIVES
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/tags">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-tags"></i>
+                                
+                                TAGS
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/categories">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-layer-group"></i>
+                                
+                                CATEGORIES
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box has-sub-menu">
+                            <a class="menu-text-color border-box" href="javascript:void(0);">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-circle-user"></i>
+                                
+                                MORE
+                                
+                                    <i class="menu-text-color collapse-icon fa-solid fa-angle-down"></i>
+                                
+                            </a>
+                            
+                                <ul class="sub-menu-list border-box">
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" href="/tools">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-solid fa-tools"></i>
+                                                
+                                                TOOL
+                                            </a>
+                                        </li>
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" href="/photos">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-solid fa-image"></i>
+                                                
+                                                LIFE
+                                            </a>
+                                        </li>
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" href="/about">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-solid fa-user-graduate"></i>
+                                                
+                                                ME
+                                            </a>
+                                        </li>
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" href="/custom/">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-solid fa-user"></i>
+                                                
+                                                GIT
+                                            </a>
+                                        </li>
+                                    
+                                </ul>
+                            
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="menu-text-color fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile border-box flex-start">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list border-box">
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-home"></i>
+                                </span>
+                            
+                            HOME
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/archives">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-box-archive"></i>
+                                </span>
+                            
+                            ARCHIVES
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/tags">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-tags"></i>
+                                </span>
+                            
+                            TAGS
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/categories">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-layer-group"></i>
+                                </span>
+                            
+                            CATEGORIES
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box has-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="javascript:void(0);">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-circle-user"></i>
+                                </span>
+                            
+                            MORE
+                        </a>
+                        
+                            <i class="right-side collapse-icon fa-solid fa-angle-left"></i>
+                        
+                    </label>
+                    
+                        <ul class="drawer-sub-menu-list border-box">
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" href="/tools">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-solid fa-tools"></i>
+                                            </span>
+                                        
+                                        TOOL
+                                    </a>
+                                </li>
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" href="/photos">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-solid fa-image"></i>
+                                            </span>
+                                        
+                                        LIFE
+                                    </a>
+                                </li>
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" href="/about">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-solid fa-user-graduate"></i>
+                                            </span>
+                                        
+                                        ME
+                                    </a>
+                                </li>
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" href="/custom/">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-solid fa-user"></i>
+                                            </span>
+                                        
+                                        GIT
+                                    </a>
+                                </li>
+                            
+                        </ul>
+                    
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        Kubernete 高可用集群
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/avatar.ico">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">Zhongjun Qiu</span>
+                                
+                                    <span class="author-badge">元婴开发者</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2025-08-31 20:23:26</span>
+            </span>
+
+            
+                <span class="meta-info-item post-update-date">
+                    <i class="icon fa-solid fa-arrows-rotate"></i>&nbsp;
+                    <span class="datetime" data-updated="Sun Aug 31 2025 20:24:46 GMT+0800">2025-08-31 20:24:46</span>
+                </span>
+            
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/K8S/">K8S</a></li>
+                        
+                    
+                            <li class="category-item">&nbsp;<i class="icon fas fa-angle-right"></i>&nbsp;<a href="/categories/K8S/HA/">HA</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/K8S/">K8S</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>5.1k Words</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>17 Mins</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <p>Kubernetes 的高可用（High Availability,
+HA）集群设计旨在确保集群在面对节点故障、网络分区或其他意外情况时，仍能持续提供服务。本文将详细介绍
+K8S 的核心组件及其高可用实现方式。</p>
+<span id="more"></span>
+<h2 id="k8s核心组件">K8S核心组件</h2>
+<figure>
+<img lazyload="" alt="image-20250830215147462" data-src="/Users/qzj/Desktop/Development/Hexo-blog-source/source/_posts/pictures/17-K8S-高可用集群/image-20250830215147462.png">
+<figcaption aria-hidden="true">image-20250830215147462</figcaption>
+</figure>
+<h3 id="k8s-api-server">K8S API Server</h3>
+<p>K8S 控制平面的核心组件，运行在 Master
+节点上，负责接收和处理所有针对集群的 REST API 调用。</p>
+<ul>
+<li>为用户、控制平面组件以及外部系统提供统一的访问入口。</li>
+<li>所有模块通过 API Server 将数据写入
+etcd；当需要获取或操作数据时，也通过 API Server 提供的 REST 接口（如
+GET/LIST/WATCH）进行交互。</li>
+<li>用户通常通过 kubectl/kubeadm 等工具间接访问 API
+Server，也可以直接发送 REST 请求。</li>
+</ul>
+<p>👉
+接收流量对象：Scheduler、Controller、Kubelet、Kube-Proxy、kubectl/外部客户端
+👉 发送流量对象：etcd</p>
+<h3 id="k8s-scheduler">K8S Scheduler</h3>
+<p>K8S 的调度器，运行在 Master 节点上。</p>
+<ul>
+<li>持续监听 API Server，发现处于 <strong>待调度状态</strong> 的 Pod（即
+PodSpec.NodeName 为空）。</li>
+<li>根据资源需求、节点负载、亲和/反亲和策略等条件筛选候选节点（预选）。</li>
+<li>对候选节点进行打分排序，选出最优节点（优选），并通过 <strong>Binding
+对象</strong> 将调度结果写回 API Server。</li>
+</ul>
+<p>👉 发送流量对象：API Server</p>
+<h3 id="k8s-controller">K8S Controller</h3>
+<p>控制器管理器，运行在 Master
+节点上，负责运行多个控制循环（Controller）。</p>
+<ul>
+<li><p>每个 Controller 负责维持某类资源的期望状态，例如：</p>
+<ul>
+<li>NodeController：检测和管理节点健康；</li>
+<li>ReplicaSetController：确保副本数与期望一致；</li>
+<li>EndpointController：维护 Service 与 Endpoint 的对应关系；</li>
+<li>其他控制器：NamespaceController、ServiceAccountController 等。</li>
+</ul></li>
+<li><p>通过监听 API Server
+获取资源的当前状态，当发现与期望状态不符时，触发相应的修复操作。</p></li>
+</ul>
+<p>👉 发送流量对象：API Server（所有状态监控与修复操作均经由 API
+Server）</p>
+<h3 id="etcd">etcd</h3>
+<p>K8S 的分布式键值存储，提供强一致性和高可用性。</p>
+<ul>
+<li>保存 K8S 的 <strong>完整集群状态数据</strong>（如
+Pod、Service、Secrets、ConfigMap 等）。</li>
+<li><strong>仅有 API Server 可以直接读写 etcd</strong>，其他组件必须通过
+API Server 进行访问。</li>
+</ul>
+<p>👉 接收流量对象：API Server</p>
+<h3 id="kubelet">Kubelet</h3>
+<p>运行在每个节点上的节点代理。</p>
+<ul>
+<li>接收来自 API Server 的 PodSpec，确保容器按规范运行。</li>
+<li>定期上报节点与 Pod 的状态信息。</li>
+<li>与容器运行时（如
+Docker、containerd、CRI-O）交互，负责镜像拉取、容器创建与销毁。</li>
+<li>执行存活探针（liveness）与就绪探针（readiness），并上报容器健康状态。</li>
+</ul>
+<p>👉 发送流量对象：API Server（获取 PodSpec、上报状态）</p>
+<h3 id="kube-proxy">Kube-Proxy</h3>
+<p>运行在每个节点上的网络代理组件。</p>
+<ul>
+<li>维护 iptables/ipvs 规则，确保 Service 的流量能正确分发至对应的
+Pod。</li>
+<li>保障集群内部 Pod 与 Service 的网络通信。</li>
+<li>在某些生产环境中，可能被 Ingress Controller、Nginx 或 HAProxy
+等方案替代。</li>
+</ul>
+<p>👉 发送流量对象：API Server（获取 Service 与 Endpoint
+信息）、各节点的网络栈</p>
+<h2 id="k8s高可用ha集群">K8S高可用（HA）集群</h2>
+<table>
+<colgroup>
+<col style="width: 26%">
+<col style="width: 12%">
+<col style="width: 30%">
+<col style="width: 30%">
+</colgroup>
+<thead>
+<tr>
+<th>组件</th>
+<th>HA 类型</th>
+<th>原理 / 实现方式</th>
+<th>关键说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>etcd</strong></td>
+<td>多副本 + Raft 单活</td>
+<td>部署奇数个节点，Leader 处理写操作并通过 Raft 日志复制到
+Follower，确保一致性</td>
+<td>支持多数节点容错，保证已提交日志不丢失，未提交日志可被覆盖；节点≥3且为奇数最优</td>
+</tr>
+<tr>
+<td><strong>API Server</strong></td>
+<td>多副本 + 负载均衡</td>
+<td>无状态服务，前置 LB（如 Nginx/LVS）实现请求分发</td>
+<td>可多活，任何副本都可处理请求，客户端无需感知副本切换</td>
+</tr>
+<tr>
+<td><strong>Scheduler</strong></td>
+<td>多副本 + Leader Election</td>
+<td>通过 Lease 锁对象选主，只有 Leader 执行业务循环</td>
+<td>Leader 出故障时备用实例自动接管；保证单活执行避免冲突</td>
+</tr>
+<tr>
+<td><strong>Controller Manager</strong></td>
+<td>多副本 + Leader Election</td>
+<td>同 Scheduler</td>
+<td>Leader 故障切换同 Scheduler；确保资源状态一致性</td>
+</tr>
+<tr>
+<td><strong>节点级组件（Kubelet、Kube-Proxy、实际服务
+Pod）</strong></td>
+<td>控制平面管理</td>
+<td>本质上都是运行在节点上的pod，由 控制平面调度和管理</td>
+<td>节点上独立运行，通过控制平面调度和副本管理实现整体高可用；节点故障时
+Pod 会被重新调度</td>
+</tr>
+</tbody>
+</table>
+<p>K8S 的高可用本质上是保证集群中 Pod 的高可用。由于 Pod
+的高可用可以通过 Deployment 等控制器来管理多个副本实现，因此
+<strong>集群高可用的核心目标在于保证 K8S
+控制平面关键组件的高可用</strong>。</p>
+<p>接下来对每一个控制组件的高可用进行分析：</p>
+<h3 id="etcd-1">etcd</h3>
+<p>etcd 通过部署多个实例形成集群来实现高可用。</p>
+<ul>
+<li>每个 etcd
+节点都维护一份状态机，集群中始终只有一个有效的领导者（Leader）。</li>
+<li>所有写操作必须由 Leader 处理，并通过 <strong>Raft 协议</strong>
+将操作日志同步到其他节点。</li>
+<li>Raft
+协议确保集群中所有节点的日志保持一致，从而保证最终存储的键值对数据一致。</li>
+</ul>
+<p>Raft 集群中的每个节点在任意时刻都处于以下三种状态之一：</p>
+<ol type="1">
+<li><strong>跟随者（Follower）</strong>：被动角色，只响应来自 Leader 或
+Candidate 的请求。如果长时间未收到 Leader 消息，会转为候选者。</li>
+<li><strong>候选者（Candidate）</strong>：由跟随者超时转变而来，发起选举请求以争取成为
+Leader。</li>
+<li><strong>领导者（Leader）</strong>：唯一主动角色，负责处理所有客户端请求并将日志复制到其他节点。集群在任意时刻只能有一个
+Leader。</li>
+</ol>
+<p>存在以下几种状态转换操作：</p>
+<h4 id="领导者选举leader-election">领导者选举（Leader Election）</h4>
+<p>领导者选举是Raft协议的基石，它确保了集群中总有一个领导者来协调工作。</p>
+<ol type="1">
+<li><strong>任期（Term）</strong>:
+Raft使用一个递增的整数来表示任期。每个任期都以一次选举开始。当一个节点发起选举时，它会增加自己的任期号。</li>
+<li><strong>超时（Timeout）</strong>:
+每个跟随者都有一个随机的<strong>选举超时时间</strong>（通常在150-300毫秒之间）。如果在超时时间内没有收到来自领导者的<strong>心跳消息</strong>，跟随者就会开始一次新的选举。</li>
+<li>成为候选者: 当一个跟随者超时后，它会：
+<ul>
+<li>增加自己的任期号。</li>
+<li>将自己的状态从跟随者转换为候选者。</li>
+<li>给自己投一票。</li>
+<li>向集群中的其他所有节点发送<strong>RequestVote</strong>（请求投票）RPC。</li>
+</ul></li>
+<li><strong>投票</strong>:
+其他节点收到RequestVote请求后，会根据以下规则进行投票：
+<ul>
+<li>它会首先比较自己的任期号和候选者的任期号，如果候选者的任期号小于自己的任期号，该节点会立即拒绝投票，因为它认为候选者已经过时了。</li>
+<li>如果候选者的任期号大于自己的任期号，该节点会更新自己的任期号为候选者的任期号，然后将自己的状态变为跟随者。</li>
+<li>如果候选者的任期号等于自己的任期号，此时需要进一步比较日志新旧：由于每条日志会记录（term，index），所以仍然先比较最后一条日志的term，更新的优先；如果相等，再比较index，更大的优先。</li>
+</ul></li>
+<li>选举结果: 候选者会等待其他节点的回复，选举有三种可能的结果：
+<ul>
+<li><strong>赢得选举</strong>:
+如果一个候选者从集群中的大多数节点（超过一半）那里获得投票，它就赢得了选举，成为新的领导者。</li>
+<li><strong>分裂投票（Split Vote）</strong>:
+多个候选者同时发起选举，票数分散，没有一个候选者获得多数票。这种情况下，候选者会等待一个新的随机超时时间，然后再次发起选举。</li>
+<li><strong>被新领导者取代</strong>:
+如果在等待投票期间，一个节点发现另一个节点发来的RPC的任期号比自己的大，它会立即放弃成为领导者的尝试，将自己的状态转为跟随者，并更新自己的任期号。</li>
+</ul></li>
+</ol>
+<p>一旦选举出领导者，它会周期性地发送<strong>心跳消息</strong>（AppendEntries
+RPC，不带日志条目）给所有跟随者，以维持自己的领导者地位。</p>
+<blockquote>
+<p>投票机制中一个候选者成为领导者，必须得到半数以上的票数才行，所以etcd高可用集群中节点数量至少是大于等于3的奇数</p>
+<ol type="1">
+<li>如果只有 1 个节点：没有容错能力，一旦宕机整个集群不可用</li>
+<li>如果只有 2
+个节点：半数以上=2，任意一个节点宕机后，另一个节点只能得到自己的1票，无法选出
+Leader</li>
+<li>对于节点数大于等于3的集群，偶数个节点并不会提升容错能力：例如3个节点，只能容忍1个出故障，因为最少需要剩下半数以上的节点，他们这些票都投给同一个节点才能让这个节点成为Leader；但对于4个节点，半数以上=3，所以也最多只能容忍1个出故障。</li>
+</ol>
+</blockquote>
+<blockquote>
+<p>Raft协议中的每个跟随者节点的选举超时时间都是随机且不同的，好处是：</p>
+<p>由于每个节点的超时时间不同，一个节点（比如它的超时时间最短）会比其他节点更早地转换为候选者并发送投票请求。这个“先发制人”的候选者很有可能在其他节点超时之前就获得了多数票，从而成功当选为领导者。一旦有领导者产生，其他节点就会转为跟随者，接受新领导者的心跳，避免了分裂投票的结果（防止一直超时，一直在选举）</p>
+</blockquote>
+<h4 id="日志复制log-replication">日志复制（Log Replication）</h4>
+<p>日志复制是Raft协议的核心功能，它确保了集群中的所有状态机都执行相同的、顺序一致的命令，以实现最终所有机器存储的信息都一样。</p>
+<ol type="1">
+<li><p><strong>客户端请求</strong>:
+所有的客户端请求都必须先发送给领导者。</p></li>
+<li><p>日志条目（Log Entry）:
+领导者将每个客户端请求作为一个日志条目追加到自己的日志中。每个条目包含：</p>
+<ul>
+<li><strong>命令</strong>：要执行的操作（etcd里就是一个键值对存储信息）。</li>
+<li><strong>任期号</strong>：该日志条目创建时的任期号。</li>
+<li><strong>索引</strong>：日志条目在日志中的位置。</li>
+</ul></li>
+<li><p>发送AppendEntries:
+领导者收到日志条目后，会并发地向所有跟随者发送<strong>AppendEntries</strong>（追加日志条目）RPC。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">AppendEntries(</span><br><span class="line">    term,           # Leader 当前任期</span><br><span class="line">    leaderId,       </span><br><span class="line">    prevLogIndex,   # 新日志前一条日志的下标</span><br><span class="line">    prevLogTerm,    # 该日志的任期</span><br><span class="line">    entries[],      # 要追加的新日志（可能为空，表示心跳）</span><br><span class="line">    leaderCommit    # Leader 已提交的索引</span><br><span class="line">)</span><br></pre></td></tr></table></figure></li>
+<li><p>跟随者响应:</p>
+<ul>
+<li>如果跟随者的日志和领导者不一致，它会回复一个失败的响应。领导者会根据失败信息，尝试发送一个更旧的日志条目，直到找到匹配的点，然后从该点开始同步日志（假设最终匹配到的索引是t，那么代表索引t及其之前的日志也一定和领导者是相同的）</li>
+<li>如果跟随者成功接收并追加日志条目，它会回复领导者一个成功的响应</li>
+<li>最终目的是<strong>让跟随者的日志和当前领导者日志保持强一致</strong></li>
+</ul></li>
+<li><p><strong>日志提交（Commit）</strong>：</p>
+<ul>
+<li>当某条日志被复制到大多数节点时，Leader 将其标记为已提交；</li>
+<li>Leader 将命令应用到状态机并返回客户端结果；</li>
+<li>Leader 通过心跳通知 Follower 哪些日志已提交，Follower
+随后应用到状态机。</li>
+</ul></li>
+</ol>
+<h4 id="日志提交的安全性保障">日志提交的安全性保障</h4>
+<p><strong>已提交日志的安全性</strong></p>
+<p>Raft的一个核心安全属性是领导者完全性（Leader
+Completeness）。这个属性保证了：如果一个日志条目在一个任期内被提交了（即被多数节点复制成功），那么这个条目一定会存在于后续所有当选的领导者的日志中。</p>
+<ul>
+<li>一个日志条目要被提交，必须被<strong>多数节点</strong>成功复制。</li>
+<li>一个候选者要当选为领导者，也必须获得<strong>多数节点</strong>的投票。</li>
+<li>这两个“多数”集合之间必然存在<strong>重叠</strong>。这意味着，一个新当选的领导者，它的日志中必然包含了所有在上一任期被提交的日志条目。</li>
+</ul>
+<p>所以无论Leader还是Follower宕机，已提交日志都不会丢失，都会被慢慢同步到所有节点上。</p>
+<p><strong>未提交日志的潜在丢失</strong></p>
+<p>Raft 在处理日志冲突时，会强制覆盖未提交的日志。</p>
+<p>这样做是安全的，因为：</p>
+<ul>
+<li>未提交日志尚未获得多数节点确认，不被视为集群的最终状态；</li>
+<li>客户端也不会收到成功响应，因此客户端知道该操作未被持久化，可以选择重试；</li>
+<li>覆盖这些日志正是为了保证集群一致性。</li>
+</ul>
+<p>例如，Leader A 写了一条新日志，只成功发给了 1 个
+Follower（没到多数）。这时候 Leader A 宕机，新的 Leader B
+当选，它的日志没有这条未提交日志。那么 A 和那个 Follower
+的日志就包含了“未提交条目”，此时Learder
+B会强制覆盖掉所有节点上这个日志。</p>
+<p>但由于是未提交的，Leader
+A并不会向客户端发送成功响应，所以客户端是知道这条日志对应的操作是没有被写入集群中的，所以此时客户端会根据自己的需要判断是否重传这个操作，或者是执行其他操作。</p>
+<p>因此未提交日志就是错误的日志，需要用新日志覆盖掉，只有提交的日志才被客户端认可。</p>
+<h3 id="api-server">API Server</h3>
+<p>API Server 作为集群中其他组件与 etcd
+之间的中间层，本身并不存储任何状态数据，因此是一个
+<strong>无状态服务</strong>。</p>
+<p>其高可用方案相对简单：通过部署多个 API Server
+副本，并在其前面添加一个负载均衡组件（如 Nginx、LVS
+或云负载均衡），即可保证外部访问的连续性与可靠性。</p>
+<figure>
+<img lazyload="" alt="image-20250831173231803" data-src="/Users/qzj/Desktop/Development/Hexo-blog-source/source/_posts/pictures/17-K8S-高可用集群/image-20250831173231803.png">
+<figcaption aria-hidden="true">image-20250831173231803</figcaption>
+</figure>
+<h3 id="k8s-scheduler-k8s-controller">K8S Scheduler &amp; K8S
+Controller</h3>
+<p><strong>Scheduler</strong> 和 <strong>Controller Manager</strong>
+都是 K8S 控制平面的<strong>无状态</strong>进程。它们的工作模式相同：从
+API Server 读取各类资源（如 Pod、Node 和 ReplicaSet
+等），执行决策或计算，然后将结果通过 API Server 写回（例如，为 Pod 创建
+Binding 或更新资源状态）。</p>
+<p>因此，为了实现高可用性，通常会部署多个 Scheduler 或 Controller
+Manager 实例。</p>
+<p>然而，与 API Server
+不同，它们不是被动地等待请求，而是<strong>主动地持续访问</strong> API
+Server，以读取信息并执行相应的操作。如果多个实例同时执行相同类型的写入操作（例如，同时为同一个
+Pod 绑定 Node，或同时创建/删除某个资源），可能会导致冲突或重复操作。</p>
+<p>为了解决这一问题，K8S 内部采用了<strong>领导者选举（Leader
+Election）</strong>机制。该机制确保了在任何给定时间，多个 Scheduler 或
+Controller
+实例中<strong>只有一个处于活跃状态并执行任务</strong>，而其余的则保持<strong>备用</strong>。当活跃实例发生故障时，备用实例会自动通过选举接管其职责，从而保证了服务不中断。</p>
+<p>下面简单说一下 K8S 的领导者选举机制：</p>
+<h4 id="锁对象与实现方式">锁对象与实现方式</h4>
+<p>K8S 的Leader Election依赖于在 API Server
+上操作一个“锁对象”，从而实现<strong>分布式互斥</strong>。</p>
+<p>常见的锁类型有：</p>
+<ul>
+<li>传统方案：使用 Endpoints 或 ConfigMap
+作为锁。这两种方式是早期实现，目前已不再推荐。</li>
+<li>推荐方案：使用
+<code>Lease</code>（<code>coordination.k8s.io/v1</code> 的 Lease
+资源）。<code>Lease</code>
+资源专为租约型选主设计，具有轻量、更新开销小、语义清晰等优点，因此是目前的首选方案。</li>
+</ul>
+<p>这个锁对象会记录关键元数据，例如当前持有者身份（holder
+identity）、租约持续时间、上次续约时间等，以便判断锁是否有效或已过期。</p>
+<h4 id="参与者的身份标识">参与者的身份标识</h4>
+<p>每个参与选举的进程在启动时都会生成一个<strong>唯一的身份标识</strong>（例如，<code>podname_uuid</code>
+或 <code>hostname+pid</code>）。这个标识会被写入锁对象的
+<code>holder</code> 字段，明确地表明“当前谁是领导者”。</p>
+<h4 id="三个重要时间参数">三个重要时间参数</h4>
+<p>Leader Election涉及三个关键的时间参数，它们共同管理着选主流程：</p>
+<ul>
+<li><strong>LeaseDuration</strong>（租约时长）：Leader在不续约的情况下，仍然被视为持有锁的最长时间。</li>
+<li><strong>RenewDeadline</strong>（续约截止）：Leader必须在这个时间窗口内完成续约。如果续约失败并超过此截止时间，它将被认为续约失败。</li>
+<li><strong>RetryPeriod</strong>（重试间隔）：当候选者尝试获取或续约锁失败时，需要等待的时间间隔。</li>
+</ul>
+<p>这些参数的关系通常为：<code>RetryPeriod</code> 较短，而
+<code>RenewDeadline</code> 则小于
+<code>LeaseDuration</code>。这种配置确保了领导者会在租约到期前尽早尝试续约，从而降低因网络波动等原因导致误判的风险。</p>
+<blockquote>
+<p>这些参数在 <code>client-go</code> 的 <code>leader-election</code>
+实现中是可配置的，可以根据具体的网络稳定性和部署环境进行调整。</p>
+</blockquote>
+<h4 id="leader-election-主循环过程">Leader Election 主循环过程</h4>
+<p>核心是在每一个Scheduler或Controller实例上持续运行的循环，可以分解为以下几个步骤：</p>
+<ol type="1">
+<li><p>启动与初始化
+每个进程副本启动后，首先生成唯一的身份标识，并读取或创建指定的锁对象。如果锁对象不存在，则会创建它。</p></li>
+<li><p>尝试获取锁</p>
+<ul>
+<li>进程读取锁对象的当前状态（包括持有者和上次续约时间）。</li>
+<li>如果锁没有持有者，或者锁已过期，该候选者会尝试通过条件更新（乐观锁）来将自己的身份写入
+<code>holder</code> 字段。</li>
+<li>如果写入成功，该实例即成为领导者，并触发
+<code>OnStartedLeading</code>
+回调函数，开始执行其业务逻辑（例如调度或控制器循环）。</li>
+</ul></li>
+<li><p>领导者续约</p>
+<ul>
+<li>成为领导者后，实例会在一个周期内定期向 API Server 更新锁对象，以刷新
+<code>renewTime</code> 字段。此举表明自己依然活跃并持有锁。</li>
+<li>必须在 <code>LeaseDuration</code> 到期前完成续约。</li>
+<li>如果领导者连续续约失败并达到设定的阈值，<code>client-go</code>
+会触发
+<code>OnStoppedLeading</code>，该实例将放弃领导者身份，并停止执行其专属任务。</li>
+</ul></li>
+<li><p>候选者等待与重试</p>
+<ul>
+<li>如果锁已被其他实例持有且未过期，候选者不会立刻进行抢夺。它会等待
+<code>RetryPeriod</code> 指定的时间后，再次重试读取并检查锁状态。</li>
+<li>如果检测到锁的持有者发生变更（例如发现新的
+<code>holderIdentity</code>），会触发 <code>OnNewLeader</code>
+回调，常用于日志记录或监控。</li>
+</ul></li>
+<li><p>领导权争夺
+当领导者无法续约（例如因网络断连或进程崩溃）导致租约过期时，多个备用候选者会几乎同时尝试条件更新锁对象。由于
+API Server
+对资源的更新是原子化的，最终只有一个请求会成功写入。其他请求会因为版本冲突而失败并进入重试，从而选出新的领导者。</p></li>
+</ol>
+<h4 id="原子性与一致性保障">原子性与一致性保障</h4>
+<ul>
+<li>领导者选举的互斥性完全依赖于 <strong>API Server
+对资源的原子更新</strong>。当多个候选者同时尝试更新锁对象时，API Server
+的乐观并发控制机制（通常基于
+<code>resourceVersion</code>）会确保只有第一个成功写入的请求被接受，其他请求会因版本不匹配而失败。</li>
+<li>由于所有操作都通过 API Server 并最终写入 etcd，这利用了 etcd
+集中式存储的一致性语义，有效地避免了
+<strong>脑裂（split-brain）</strong>问题，确保在任何时刻都不会有两个实例同时被长期认定为领导者。</li>
+</ul>
+
+                    
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                Kubernete 高可用集群
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                2025/08/31/17-K8S-高可用集群/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    Author
+                </div>
+                <div class="content">Zhongjun Qiu</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    Published
+                </div>
+                <div class="content">2025-08-31 20:23</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    License
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="Copy copyright info" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/K8S/">K8S</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="Share to WeChat"
+            data-tooltip-img-tip="Scan by WeChat"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to WeiBo"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+                    
+
+<div class="reward-author-container border-box flex-center">
+    <div class="reward-btn border-box flex-center tooltip tooltip-img"
+            data-tooltip-img-url="/images/post/payment.jpg"
+            data-tooltip-img-trigger="click"
+            data-tooltip-img-style="top: -6px;"
+    >
+        <i class="fa-solid fa-gift"></i>&nbsp;REWARD AUTHOR
+    </div>
+</div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/2025/08/30/16-K8S-%E8%BF%90%E7%BB%B4%E8%A1%A5%E5%85%85/"
+                                   title="Kubernetes 运维额外知识"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">Kubernetes 运维额外知识</span>
+                                        <span class="post-nav-item">Next posts</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+    <div class="comments-container border-box">
+        <div id="comments-anchor" class="comment-area-title border-box">
+            <i class="fas fa-comments"></i>&nbsp;Comments
+        </div>
+        <div class="comment-plugin-fail border-box">
+    <span class="fail-tip">Comment plugin failed to load</span>
+    <button class="reload keep-button">Click to reload</button>
+</div>
+<div class="comment-plugin-loading flex-center border-box">
+    <i class="loading-icon fa-solid fa-spinner fa-spin"></i>
+    <span class="load-tip">Loading comment plugin</span>
+</div>
+<script data-pjax>
+  window.KeepCommentPlugin = {}
+  window.KeepCommentPlugin.hideLoading = () => {
+    const cplDom = document.querySelector('.comments-container .comment-plugin-loading')
+    cplDom.style.display = 'none'
+  }
+  window.KeepCommentPlugin.loadFailHandle = () => {
+    window.KeepCommentPlugin.hideLoading()
+    const cpfDom = document.querySelector('.comments-container .comment-plugin-fail')
+    cpfDom.style.display = 'flex'
+    cpfDom.querySelector('.reload').addEventListener('click', () => {
+      window.location.reload()
+    })
+  }
+</script>
+
+        
+            
+
+    <div class="waline-comment-container">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/waline/3.3.2/waline.css"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/waline/3.3.2/waline-meta.css"/>
+        <div id="waline-comment"></div>
+        <script data-pjax>
+          window.KeepCommentPlugin.walineOptions = JSON.parse('{}'.replace(/&#34;/g, '"'))
+          window.KeepCommentPlugin.walineOptions.el = '#waline-comment'
+          window.KeepCommentPlugin.walineOptions.comment = '.post-comments-count'
+          window.KeepCommentPlugin.walineOptions.serverURL = 'https://waline-vercel-two-rho.vercel.app/'
+          window.KeepCommentPlugin.walineOptions.lang = 'en' || 'zh-CN'
+          window.KeepCommentPlugin.walineOptions.reaction = 'true' === 'true'
+        </script>
+
+        
+
+        
+            <script data-pjax
+                    async
+                    type="module"
+            >
+              import { init } from 'https://cdnjs.cloudflare.com/ajax/libs/waline/3.3.2/waline.js'
+              window.KeepCommentPlugin.initWaline = () => {
+                if (init) {
+                  init(window.KeepCommentPlugin.walineOptions)
+                  window.KeepCommentPlugin.hideLoading()
+                } else {
+                  setTimeout(() => {
+                    window.KeepCommentPlugin.initWaline()
+                  }, 1000)
+                }
+              }
+
+              if ('true' === 'true') {
+                setTimeout(() => {
+                  window.KeepCommentPlugin.initWaline()
+                }, 1200)
+              } else {
+                window.addEventListener('DOMContentLoaded', window.KeepCommentPlugin.initWaline)
+              }
+            </script>
+        
+    </div>
+
+
+        
+    </div>
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc right-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#k8s%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6"><span class="nav-text">K8S核心组件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#k8s-api-server"><span class="nav-text">K8S API Server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#k8s-scheduler"><span class="nav-text">K8S Scheduler</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#k8s-controller"><span class="nav-text">K8S Controller</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#etcd"><span class="nav-text">etcd</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#kubelet"><span class="nav-text">Kubelet</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#kube-proxy"><span class="nav-text">Kube-Proxy</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#k8s%E9%AB%98%E5%8F%AF%E7%94%A8ha%E9%9B%86%E7%BE%A4"><span class="nav-text">K8S高可用（HA）集群</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#etcd-1"><span class="nav-text">etcd</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A2%86%E5%AF%BC%E8%80%85%E9%80%89%E4%B8%BEleader-election"><span class="nav-text">领导者选举（Leader Election）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%97%A5%E5%BF%97%E5%A4%8D%E5%88%B6log-replication"><span class="nav-text">日志复制（Log Replication）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%97%A5%E5%BF%97%E6%8F%90%E4%BA%A4%E7%9A%84%E5%AE%89%E5%85%A8%E6%80%A7%E4%BF%9D%E9%9A%9C"><span class="nav-text">日志提交的安全性保障</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#api-server"><span class="nav-text">API Server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#k8s-scheduler-k8s-controller"><span class="nav-text">K8S Scheduler &amp; K8S
+Controller</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%94%81%E5%AF%B9%E8%B1%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F"><span class="nav-text">锁对象与实现方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%82%E4%B8%8E%E8%80%85%E7%9A%84%E8%BA%AB%E4%BB%BD%E6%A0%87%E8%AF%86"><span class="nav-text">参与者的身份标识</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%89%E4%B8%AA%E9%87%8D%E8%A6%81%E6%97%B6%E9%97%B4%E5%8F%82%E6%95%B0"><span class="nav-text">三个重要时间参数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#leader-election-%E4%B8%BB%E5%BE%AA%E7%8E%AF%E8%BF%87%E7%A8%8B"><span class="nav-text">Leader Election 主循环过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8E%9F%E5%AD%90%E6%80%A7%E4%B8%8E%E4%B8%80%E8%87%B4%E6%80%A7%E4%BF%9D%E9%9A%9C"><span class="nav-text">原子性与一致性保障</span></a></li></ol></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="copyright-info info-item">
+    &copy;&nbsp;<span>2020</span>&nbsp;-&nbsp;2025
+    
+            &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">Zhongjun Qiu</a>
+        
+    </div>
+
+    <div class="theme-info info-item">
+        Powered by&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;&&nbsp;Theme&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+    </div>
+
+    
+        
+        <div class="deploy-info info-item">
+            
+                <a target="_blank" rel="nofollow" href="https://github.com">
+            
+            This site is deployed on <span class="tooltip" data-tooltip-content="GitHub Pages"><img src="/images/brands/github.png"></span>
+            
+                </a>
+            
+        </div>
+    
+
+    
+        <div class="count-info info-item">
+            
+                <span class="count-item border-box word">
+                    <span class="item-type border-box">Total words</span>
+                    <span class="item-value border-box word">381.9k</span>
+                </span>
+            
+
+            
+
+            
+                <span class="count-item border-box pv">
+                    <span class="item-type border-box">Page View</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+    
+
+    
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+            <li class="tools-item flex-center go-to-comments">
+                <i class="fas fa-comment"></i>
+                <span class="post-comments-count"></span>
+            </li>
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <!-- toggle mode -->
+        
+            <li class="tools-item tool-toggle-theme-mode flex-center">
+                <i class="fas fa-moon"></i>
+            </li>
+        
+
+        <!-- rss -->
+        
+
+        <!-- to bottom -->
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+            <li class="tools-item go-to-comments-tablet flex-center">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#k8s%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6"><span class="nav-text">K8S核心组件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#k8s-api-server"><span class="nav-text">K8S API Server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#k8s-scheduler"><span class="nav-text">K8S Scheduler</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#k8s-controller"><span class="nav-text">K8S Controller</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#etcd"><span class="nav-text">etcd</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#kubelet"><span class="nav-text">Kubelet</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#kube-proxy"><span class="nav-text">Kube-Proxy</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#k8s%E9%AB%98%E5%8F%AF%E7%94%A8ha%E9%9B%86%E7%BE%A4"><span class="nav-text">K8S高可用（HA）集群</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#etcd-1"><span class="nav-text">etcd</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A2%86%E5%AF%BC%E8%80%85%E9%80%89%E4%B8%BEleader-election"><span class="nav-text">领导者选举（Leader Election）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%97%A5%E5%BF%97%E5%A4%8D%E5%88%B6log-replication"><span class="nav-text">日志复制（Log Replication）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%97%A5%E5%BF%97%E6%8F%90%E4%BA%A4%E7%9A%84%E5%AE%89%E5%85%A8%E6%80%A7%E4%BF%9D%E9%9A%9C"><span class="nav-text">日志提交的安全性保障</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#api-server"><span class="nav-text">API Server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#k8s-scheduler-k8s-controller"><span class="nav-text">K8S Scheduler &amp; K8S
+Controller</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%94%81%E5%AF%B9%E8%B1%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F"><span class="nav-text">锁对象与实现方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%82%E4%B8%8E%E8%80%85%E7%9A%84%E8%BA%AB%E4%BB%BD%E6%A0%87%E8%AF%86"><span class="nav-text">参与者的身份标识</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%89%E4%B8%AA%E9%87%8D%E8%A6%81%E6%97%B6%E9%97%B4%E5%8F%82%E6%95%B0"><span class="nav-text">三个重要时间参数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#leader-election-%E4%B8%BB%E5%BE%AA%E7%8E%AF%E8%BF%87%E7%A8%8B"><span class="nav-text">Leader Election 主循环过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8E%9F%E5%AD%90%E6%80%A7%E4%B8%8E%E4%B8%80%E8%87%B4%E6%80%A7%E4%BF%9D%E9%9A%9C"><span class="nav-text">原子性与一致性保障</span></a></li></ol></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+
+
+<!-- common js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/utils.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/header-shrink.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/back2top.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/toggle-theme.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/code-block.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/main.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/libs/anime.min.js"></script>
+
+<!-- local search -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/local-search.min.js"></script>
+
+
+<!-- lazyload -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/lazyload.min.js"></script>
+
+
+<div class="pjax">
+    <!-- home page -->
+    
+
+    <!-- post page -->
+    
+        <!-- post-helper -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/post-helper.min.js"></script>
+
+        <!-- toc -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/toc.min.js"></script>
+        
+
+        <!-- copyright-info -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/copyright-info.min.js"></script>
+        
+
+        <!-- share -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/share.min.js"></script>
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/libs/pjax.min.js"></script>
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax'
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            KEEP.utils.pjaxProgressBarStart()
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            KEEP.utils.pjaxProgressBarEnd()
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'))
+            KEEP.initExecute()
+        });
+    });
+</script>
+
+
+
+
+    
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/custom_code_block.js" data-pjax></script>
+
+        
+    
+
+</body>
+</html>
