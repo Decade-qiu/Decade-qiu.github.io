@@ -1,0 +1,1374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="blog, decade, lucky">
+    <meta name="description" content="Decade&#39;s lucky blog">
+    <meta name="author" content="Zhongjun Qiu">
+    
+    <title>
+        
+            常用排序算法的选择之道 |
+        
+        Decade
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="https://decade.net.cn/images/logo.ico">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/fontawesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/regular.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/solid.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/brands.min.css">
+    
+        
+            
+        
+            
+                
+<link rel="stylesheet" href="/css/custom.css">
+
+            
+        
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"decade.net.cn","root":"/","language":"en","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"Decade","author":"Zhongjun Qiu","avatar":"/images/avatar.ico","logo":"/images/avatar.ico","favicon":"https://decade.net.cn/images/logo.ico"},"menu":{"home":"/ || fa-solid fa-home","archives":"/archives || fa-solid fa-box-archive","tags":"/tags || fa-solid fa-tags","categories":"/categories || fa-solid fa-layer-group","more":{"icon":"fa-solid fa-circle-user","children":[{"tool":"/tools || fa-solid fa-tools"},{"life":"/photos || fa-solid fa-image"},{"me":"/about || fa-solid fa-user-graduate"},{"Git":"/custom/index.html || fa-solid fa-user"}]}},"first_screen":{"enable":true,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"The Steadfast Determination of An Ordinary Soul.","hitokoto":false},"social_contact":{"enable":true,"links":{"github":"https://github.com/Decade-qiu","weixin":"img | /images/social/weixin.jpg","qq":null,"weibo":null,"zhihu":null,"twitter":null,"x":null,"facebook":null,"email":"qiuyu6021@gmail.com"}},"scroll":{"progress_bar":true,"percent":true,"hide_header":false},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"created || fa-solid fa-history","post_datetime_format":"ago"},"post":{"author_badge":{"enable":true,"level_badge":false,"custom_badge":"元婴开发者"},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":true,"img_link":"/images/post/payment.jpg","text":null,"icon":null},"created_datetime_icon":"fa-solid fa-calendar-plus","updated_datetime_icon":"fa-solid fa-arrows-rotate"},"code_block":{"tools":{"enable":true,"style":"mac"},"highlight_theme":"obsidian"},"toc":{"enable":true,"number":false,"expand_all":false,"init_open":false,"layout":"right"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":false,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":true,"use":"waline","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.39"},"waline":{"server_url":"https://waline-vercel-two-rho.vercel.app/","reaction":true,"version":"3.3.2"},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":false},"lazyload":{"enable":true},"cdn":{"enable":true,"provider":"cdnjs"},"pjax":{"enable":false},"footer":{"since":2020,"word_count":true,"site_deploy":{"enable":true,"provider":"github","url":"https://github.com"},"record":{"enable":false,"list":[{"code":null,"link":null}]}},"inject":{"enable":true,"css":[null,"/css/custom.css"],"js":[null,"/js/custom_code_block.js"]},"root":"","source_data":{"photos":[{"url":"/images/post/【哲风壁纸】日本动漫-电锯人.webp","name":"电锯人"},{"url":"/images/post/Quicker_20250428_193139.webp","name":"kowayia"},{"url":"/images/post/Quicker_20250428_233349.webp","name":"世界地图"},{"url":"/images/post/tmpFE1E.tmp.webp","name":"施红"},{"url":"/images/post/result-1745849388402.webp","name":"仇忠骏.动漫版"},{"url":"/images/photos/猫猫困了PNG.png","name":"猫猫困了PNG"},{"url":"/images/photos/宁静的暴雨天.png","name":"宁静的暴雨天"},{"url":"/images/photos/我在扬州好想你.png","name":"我在扬州好想你"},{"url":"/images/photos/信鸽.png","name":"信鸽"},{"url":"/images/photos/啤酒烧烤.png","name":"啤酒烧烤"},{"url":"/images/photos/随手拍.png","name":"随手拍"},{"url":"/images/photos/糖油混合炸弹.png","name":"糖油混合炸弹"},{"url":"/images/photos/香香的.png","name":"香香的"},{"url":"/images/photos/蝎子莱莱.png","name":"蝎子莱莱"},{"url":"/images/post/指C为python.png","name":"指C为python"},{"url":"/images/photos/YangZhou_Station.png","name":"YangZhou Station"},{"url":"/images/photos/GBC.jpg","name":"Girls Band Cry"},{"url":"/images/photos/bocchi.webp","name":"Bocchi the Rock!"}],"tools":[{"category":"AIGC","anchorId":"QUlHQw0"},{"name":"ChatGPT","link":"https://chat.openai.com/","description":"OpenAI 旗下 AI 聊天对话工具","image":"/images/tools/chatgpt.svg"},{"name":"Gemini","link":"https://gemini.google.com/app","description":"Google 旗下 AI 聊天对话工具","image":"/images/tools/gemini.svg"},{"name":"Copilot","link":"https://copilot.microsoft.com/","description":"Microsoft 旗下 AI 聊天对话工具","image":"/images/tools/copilot.png"},{"name":"Deepseek","link":"https://chat.deepseek.com/","description":"Deepseek 旗下 AI 聊天对话工具","image":"/images/tools/deepseek.jpg"},{"name":"Qwen","link":"https://chat.qwen.ai/","description":"Alibaba 旗下 AI 聊天对话工具","image":"/images/tools/tongyiqianwen.svg"},{"name":"即梦AI","link":"https://jimeng.jianying.com/ai-tool/home","description":"Dreamina 图像生成工具","image":"/images/tools/dream.png"},{"name":"komiko","link":"https://komiko.app/home","description":"Komiko 动漫化AI工具","image":"/images/tools/komiko.webp"},{"name":"InsMind","link":"https://www.insmind.com/zh-cn/workspace/","description":"AI图片编辑工具","image":"/images/tools/insmind.svg"},{"name":"Raphael","link":"https://raphael.app/zh","description":"AI图片生成工具","image":"/images/tools/rap.png"},{"name":"腾讯元宝","link":"https://yuanbao.tencent.com/chat/","description":"Tencent 旗下 AI 聊天对话工具","image":"/images/tools/tencent.jpg"},{"name":"豆包","link":"https://www.doubao.com/chat/","description":"字节跳动 图片生成工具","image":"/images/tools/dn.jpg"},{"category":"Airport","anchorId":"QWlycG9ydA12"},{"name":"独角兽","link":"https://91unicorn.cloud/","description":"十分稳定","image":"/images/tools/dujiaoshou.ico"},{"name":"极速机场","link":"https://xn--mes358acgm99l.com/","description":"便宜好用","image":"/images/tools/jisu.ico"},{"name":"iKuuu","link":"https://ikuuu.org/user","description":"以备不时之需","image":"/images/tools/ikuu.ico"},{"category":"File Converter","anchorId":"RmlsZSUyMENvbnZlcnRlcg16"},{"name":"Online Image Tool","link":"https://www.onlineimagetool.com/zh/","description":"在线压缩和转换图片","image":"/images/tools/oit.png"},{"name":"Vector Magic","link":"https://zh.vectormagic.com/","description":"文件矢量化","image":"/images/tools/apple-touch-icon-180_97956a9f5fbf6a767de100280d78c1f8.png"},{"name":"TinyPNG","link":"https://tinypng.com/","description":"Smart AVIF, WebP, PNG and JPEG Compression for Faster Websites","image":"/images/tools/tiny.ico"},{"name":"踏得","link":"https://techbrood.com/tool","description":"HTML5在线工具","image":"/images/tools/td.ico"},{"name":"UU在线工具","link":"https://uutool.cn/base64/","description":"base64工具包","image":"/images/tools/uu.png"},{"name":"I Love PDF","link":"https://www.ilovepdf.com/","description":"PDF工具包","image":"/images/tools/ilovepdf.svg"},{"category":"Free GPT API","anchorId":"RnJlZSUyMEdQVCUyMEFQSQ23"},{"name":"Gemini API","link":"https://ai.google.dev/gemini-api/docs/quickstart?lang=python","description":"Google Gemini API","image":"/images/tools/touchicon-180-new.png"},{"name":"SiliconCloud","link":"https://cloud.siliconflow.cn/models","description":"各种模型API"},{"name":"Cloudflare Workers AI","link":"https://developers.cloudflare.com/workers-ai/configuration/open-ai-compatibility/","description":"OpenAI compatible API endpoints","image":"/images/tools/logo.p_ySeMR1.svg"},{"name":"算了么","link":"https://api.suanli.cn/","description":"共享算力API","image":"/images/tools/suanlm.svg"},{"category":"Resource Explorer","anchorId":"UmVzb3VyY2UlMjBFeHBsb3Jlcg28"},{"name":"Free for Developers","link":"https://free-for.dev/","description":"A list of SaaS, PaaS and IaaS offerings that have free tiers of interest to devops and infradev","image":"/images/tools/freefd.webp"},{"name":"zlibrary","link":"https://zh.z-library.sk/","description":"在线图书馆","image":"/images/tools/logo.zlibrary.svg"},{"name":"PicX","link":"https://picx.xpoet.cn/","description":"基于Github的图床","image":"/images/tools/logo.ffee4291.png"},{"name":"HaoWallpaper","link":"https://haowallpaper.com/","description":"哲风壁纸","image":"/images/tools/haowall.ico"},{"name":"Awesome","link":"https://wallhaven.cc/","description":"WallHaven","image":"/images/tools/wallheaven.ico"},{"name":"WallHere","link":"https://wallhere.com/","description":"WallHere"},{"name":"SnapAny","link":"https://snapany.com/zh","description":"万能视频图片解析下载"},{"name":"ØMagnet","link":"https://0cili.org/","description":"种子下载"},{"name":"twitter","link":"https://snapvid.net/zh-cn/twitter-downloader","description":"推特视频下载器","image":"/images/tools/apple-touch-icon.png"},{"name":"youtube","link":"https://www.y2mate.com/en949","description":"Youtube视频下载器","image":"/images/tools/y2mate.webp"},{"name":"Icons8","link":"https://icons8.com/icons","description":"免费图标下载","image":"/images/tools/logo-icons8.svg"},{"name":"全能emoji","link":"https://www.emojiall.com/zh-hans","description":"emoji制作","image":"/images/tools/emoji.ico"},{"name":"emojidb","link":"https://emojidb.org/","description":"免费表情包下载","image":"/images/tools/emojidb.png"},{"name":"Flaticon","link":"https://www.flaticon.com/","description":"免费图标下载","image":"/images/tools/logo-flaticon.svg"},{"name":"IconFinder","link":"https://www.iconfinder.com/","description":"免费图标下载","image":"/images/tools/logo-iconfinder.svg"}]},"version":"4.2.5"}
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"}
+    KEEP.language_code_block = {"copy":"Copy code","copied":"Copied","fold":"Fold code block","folded":"Folded"}
+    KEEP.language_copy_copyright = {"copy":"Copy copyright info","copied":"Copied","title":"Original post title","author":"Original post author","link":"Original post link"}
+  </script>
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left flex-start border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/avatar.ico">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               Decade
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc border-box">
+                <ul class="menu-list border-box">
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-home"></i>
+                                
+                                HOME
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/archives">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-box-archive"></i>
+                                
+                                ARCHIVES
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/tags">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-tags"></i>
+                                
+                                TAGS
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/categories">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-layer-group"></i>
+                                
+                                CATEGORIES
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box has-sub-menu">
+                            <a class="menu-text-color border-box" href="javascript:void(0);">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-circle-user"></i>
+                                
+                                MORE
+                                
+                                    <i class="menu-text-color collapse-icon fa-solid fa-angle-down"></i>
+                                
+                            </a>
+                            
+                                <ul class="sub-menu-list border-box">
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" href="/tools">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-solid fa-tools"></i>
+                                                
+                                                TOOL
+                                            </a>
+                                        </li>
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" href="/photos">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-solid fa-image"></i>
+                                                
+                                                LIFE
+                                            </a>
+                                        </li>
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" href="/about">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-solid fa-user-graduate"></i>
+                                                
+                                                ME
+                                            </a>
+                                        </li>
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" href="/custom/">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-solid fa-user"></i>
+                                                
+                                                GIT
+                                            </a>
+                                        </li>
+                                    
+                                </ul>
+                            
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="menu-text-color fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile border-box flex-start">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list border-box">
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-home"></i>
+                                </span>
+                            
+                            HOME
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/archives">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-box-archive"></i>
+                                </span>
+                            
+                            ARCHIVES
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/tags">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-tags"></i>
+                                </span>
+                            
+                            TAGS
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/categories">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-layer-group"></i>
+                                </span>
+                            
+                            CATEGORIES
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box has-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="javascript:void(0);">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-circle-user"></i>
+                                </span>
+                            
+                            MORE
+                        </a>
+                        
+                            <i class="right-side collapse-icon fa-solid fa-angle-left"></i>
+                        
+                    </label>
+                    
+                        <ul class="drawer-sub-menu-list border-box">
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" href="/tools">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-solid fa-tools"></i>
+                                            </span>
+                                        
+                                        TOOL
+                                    </a>
+                                </li>
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" href="/photos">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-solid fa-image"></i>
+                                            </span>
+                                        
+                                        LIFE
+                                    </a>
+                                </li>
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" href="/about">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-solid fa-user-graduate"></i>
+                                            </span>
+                                        
+                                        ME
+                                    </a>
+                                </li>
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" href="/custom/">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-solid fa-user"></i>
+                                            </span>
+                                        
+                                        GIT
+                                    </a>
+                                </li>
+                            
+                        </ul>
+                    
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        常用排序算法的选择之道
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/avatar.ico">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">Zhongjun Qiu</span>
+                                
+                                    <span class="author-badge">元婴开发者</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2025-08-29 14:08:40</span>
+            </span>
+
+            
+                <span class="meta-info-item post-update-date">
+                    <i class="icon fa-solid fa-arrows-rotate"></i>&nbsp;
+                    <span class="datetime" data-updated="Sat Oct 04 2025 19:12:49 GMT+0800">2025-10-04 19:12:49</span>
+                </span>
+            
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/Algorithm/">Algorithm</a></li>
+                        
+                    
+                            <li class="category-item">&nbsp;<i class="icon fas fa-angle-right"></i>&nbsp;<a href="/categories/Algorithm/Theory/">Theory</a></li>
+                        
+                    
+                            <li class="category-item">&nbsp;<i class="icon fas fa-angle-right"></i>&nbsp;<a href="/categories/MS/">MS</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E6%8E%92%E5%BA%8F/">排序</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>3.4k Words</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>13 Mins</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <p>本文深入探讨常用排序算法的原理、实现及其优缺点，面试专用。</p>
+<span id="more"></span>
+<p>排序算法是计算机科学的基石之一。理解不同排序算法的特性，不仅能帮助我们写出更高效的代码，也是衡量工程师基本功的重要标准。本文将排序算法分为两大类，并逐一解析。</p>
+<ul>
+<li><strong>比较排序 (Comparison Sorts):</strong>
+通过比较元素之间的大小关系来排序，其时间复杂度的理论下界为 <span class="math inline"><em>O</em>(<em>n</em>log <em>n</em>)</span>。</li>
+<li><strong>非比较排序 (Non-comparison Sorts):</strong>
+不通过比较来排序，它们利用元素的自身特性（如数值大小、构成部分），在特定条件下可以突破
+<span class="math inline"><em>O</em>(<em>n</em>log <em>n</em>)</span>
+的限制。</li>
+</ul>
+<h2 id="比较排序算法">比较排序算法</h2>
+<h3 id="插入排序-insertion-sort">插入排序 (Insertion Sort)</h3>
+<p>插入排序将数组分为“已排序”和“未排序”两部分。它不断从未排序部分取出一个元素，并将其插入到已排序部分的正确位置。</p>
+<blockquote>
+<p>这个过程就像我们玩扑克牌时，一张张地拿起牌，并将它们插入到手中已排好序的牌里。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">insertionSort</span><span class="params">(<span class="type">int</span>[] arr)</span> {</span><br><span class="line">    <span class="keyword">if</span> (arr == <span class="literal">null</span> || arr.length &lt;= <span class="number">1</span>) <span class="keyword">return</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> arr.length;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt; n; i++) {</span><br><span class="line">        <span class="type">int</span> <span class="variable">key</span> <span class="operator">=</span> arr[i];</span><br><span class="line">        <span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> i - <span class="number">1</span>;</span><br><span class="line">        <span class="comment">// 从后向前扫描，为 key 找到插入位置</span></span><br><span class="line">        <span class="keyword">while</span> (j &gt;= <span class="number">0</span> &amp;&amp; arr[j] &gt; key) {</span><br><span class="line">            arr[j + <span class="number">1</span>] = arr[j];</span><br><span class="line">            j--;</span><br><span class="line">        }</span><br><span class="line">        arr[j + <span class="number">1</span>] = key;</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>时间复杂度:</strong> <span class="math inline"><em>O</em>(<em>n</em><sup>2</sup>)</span>。在数据基本有序时，接近
+<span class="math inline"><em>O</em>(<em>n</em>)</span>。</li>
+<li><strong>空间复杂度:</strong> <span class="math inline"><em>O</em>(1)</span>。</li>
+<li><strong>稳定性:</strong> 稳定。</li>
+</ul>
+<p><strong>优点:</strong>
+实现简单，空间开销小，对于小规模或基本有序的数据集效率很高。
+<strong>缺点:</strong> 在大规模乱序数据集上性能不佳。</p>
+<h3 id="归并排序-merge-sort">归并排序 (Merge Sort)</h3>
+<p>归并排序是分治思想的经典应用。它将数组递归地对半切分，直到子数组只包含一个元素，然后自底向上地将这些有序的子数组两两合并，最终得到一个完全有序的数组。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">mergeSort</span><span class="params">(<span class="type">int</span>[] arr)</span> {</span><br><span class="line">    <span class="keyword">if</span> (arr == <span class="literal">null</span> || arr.length &lt;= <span class="number">1</span>) <span class="keyword">return</span>;</span><br><span class="line">    mergeSort(arr, <span class="number">0</span>, arr.length - <span class="number">1</span>);</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">mergeSort</span><span class="params">(<span class="type">int</span>[] arr, <span class="type">int</span> left, <span class="type">int</span> right)</span> {</span><br><span class="line">    <span class="keyword">if</span> (left &gt;= right) <span class="keyword">return</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">mid</span> <span class="operator">=</span> left + (right - left) / <span class="number">2</span>;</span><br><span class="line">    mergeSort(arr, left, mid);</span><br><span class="line">    mergeSort(arr, mid + <span class="number">1</span>, right);</span><br><span class="line">    merge(arr, left, mid, right);</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">merge</span><span class="params">(<span class="type">int</span>[] arr, <span class="type">int</span> left, <span class="type">int</span> mid, <span class="type">int</span> right)</span> {</span><br><span class="line">    <span class="type">int</span>[] temp = <span class="keyword">new</span> <span class="title class_">int</span>[right - left + <span class="number">1</span>];</span><br><span class="line">    <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> left, j = mid + <span class="number">1</span>, k = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 使用双指针合并两个有序子数组</span></span><br><span class="line">    <span class="keyword">while</span> (i &lt;= mid &amp;&amp; j &lt;= right) {</span><br><span class="line">        <span class="keyword">if</span> (arr[i] &lt;= arr[j]) {</span><br><span class="line">            temp[k++] = arr[i++];</span><br><span class="line">        } <span class="keyword">else</span> {</span><br><span class="line">            temp[k++] = arr[j++];</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (i &lt;= mid) temp[k++] = arr[i++];</span><br><span class="line">    <span class="keyword">while</span> (j &lt;= right) temp[k++] = arr[j++];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 将合并后的结果拷回原数组</span></span><br><span class="line">    System.arraycopy(temp, <span class="number">0</span>, arr, left, temp.length);</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>时间复杂度:</strong> <span class="math inline"><em>O</em>(<em>n</em>log <em>n</em>)</span>
+(包括最坏情况)。</li>
+<li><strong>空间复杂度:</strong> <span class="math inline"><em>O</em>(<em>n</em>)</span>，需要辅助数组。</li>
+<li><strong>稳定性:</strong> 稳定。</li>
+</ul>
+<p><strong>优点:</strong> 性能稳定，最坏情况表现优秀。
+<strong>缺点:</strong> 需要额外的存储空间。</p>
+<h3 id="快速排序-quick-sort">快速排序 (Quick Sort)</h3>
+<p>快速排序同样采用分治策略，但其核心在于“划分”（Partition）。它选择一个“基准”（Pivot）元素，将数组重新排列，使得所有小于基准的元素都在其左边，所有大于基准的元素都在其右边。然后对左右两个子数组递归地应用此过程。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 基础版本</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">quickSort</span><span class="params">(<span class="type">int</span>[] arr)</span> {</span><br><span class="line">    <span class="keyword">if</span> (arr == <span class="literal">null</span> || arr.length &lt;= <span class="number">1</span>) <span class="keyword">return</span>;</span><br><span class="line">    quickSort(arr, <span class="number">0</span>, arr.length - <span class="number">1</span>);</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">quickSort</span><span class="params">(<span class="type">int</span>[] arr, <span class="type">int</span> low, <span class="type">int</span> high)</span> {</span><br><span class="line">    <span class="keyword">if</span> (low &gt;= high) <span class="keyword">return</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">pi</span> <span class="operator">=</span> partition(arr, low, high);</span><br><span class="line">    quickSort(arr, low, pi - <span class="number">1</span>);</span><br><span class="line">    quickSort(arr, pi + <span class="number">1</span>, high);</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="type">int</span> <span class="title function_">partition</span><span class="params">(<span class="type">int</span>[] arr, <span class="type">int</span> low, <span class="type">int</span> high)</span> {</span><br><span class="line">    <span class="type">int</span> <span class="variable">pivot</span> <span class="operator">=</span> arr[high];</span><br><span class="line">    <span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> low - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">j</span> <span class="operator">=</span> low; j &lt; high; j++) {</span><br><span class="line">        <span class="keyword">if</span> (arr[j] &lt;= pivot) {</span><br><span class="line">            swap(arr, ++i, j);</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">    swap(arr, ++i, high);</span><br><span class="line">    <span class="keyword">return</span> i;</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">swap</span><span class="params">(<span class="type">int</span>[] arr, <span class="type">int</span> i, <span class="type">int</span> j)</span> {</span><br><span class="line">    <span class="type">int</span> <span class="variable">temp</span> <span class="operator">=</span> arr[i];</span><br><span class="line">    arr[i] = arr[j];</span><br><span class="line">    arr[j] = temp;</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>时间复杂度:</strong> 平均 <span class="math inline"><em>O</em>(<em>n</em>log <em>n</em>)</span>，最坏
+<span class="math inline"><em>O</em>(<em>n</em><sup>2</sup>)</span>。</li>
+<li><strong>空间复杂度:</strong> <span class="math inline"><em>O</em>(log <em>n</em>)</span>，递归栈的开销。</li>
+<li><strong>稳定性:</strong> 不稳定。</li>
+</ul>
+<h4 id="快速排序的优化">快速排序的优化</h4>
+<p>基础快排有两个主要问题： 1. <strong>最坏情况退化:</strong>
+如果每次选取的基准都是当前数组的最小或最大值（例如，在一个已排序的数组上），递归树会变得极不平衡，时间复杂度退化到
+<span class="math inline"><em>O</em>(<em>n</em><sup>2</sup>)</span>。 -
+<strong>解决方案:</strong>
+<strong>随机化基准</strong>。在划分前，随机选择一个元素与末尾元素交换，作为基准。这使得最坏情况的出现概率降至极低。</p>
+<ol start="2" type="1">
+<li><strong>大量重复元素:</strong>
+当数组中存在大量重复元素时，即使随机化，划分出的两个子数组也可能极不平衡，同样导致性能退化。
+<ul>
+<li><strong>解决方案:</strong> <strong>三向切分 (3-way
+Partitioning)</strong>。将数组划分为三部分：小于、等于、大于基准。之后只需递归排序小于和大于的两部分，等于基准的部分自然就位。</li>
+</ul></li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 优化版：随机化 + 三向切分</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">optimizedQuickSort</span><span class="params">(<span class="type">int</span>[] arr)</span> {</span><br><span class="line">    <span class="keyword">if</span> (arr == <span class="literal">null</span> || arr.length &lt;= <span class="number">1</span>) <span class="keyword">return</span>;</span><br><span class="line">    quickSort3Way(arr, <span class="number">0</span>, arr.length - <span class="number">1</span>);</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">quickSort3Way</span><span class="params">(<span class="type">int</span>[] arr, <span class="type">int</span> low, <span class="type">int</span> high)</span> {</span><br><span class="line">    <span class="keyword">if</span> (l &gt;= r) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> <span class="variable">ridx</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Random</span>().nextInt(l, r + <span class="number">1</span>);</span><br><span class="line">    swap(ridx, r, nums);</span><br><span class="line">    <span class="type">int</span> <span class="variable">p</span> <span class="operator">=</span> nums[r], lowi = l - <span class="number">1</span>, upi = r + <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> l;i &lt; r;i++) {</span><br><span class="line">        <span class="keyword">if</span> (nums[i] &lt; p) swap(++lowi, i, nums);</span><br><span class="line">    }</span><br><span class="line">    swap(lowi + <span class="number">1</span>, r, nums);</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> r;i &gt; lowi + <span class="number">1</span>;i--) {</span><br><span class="line">        <span class="keyword">if</span> (nums[i] &gt; p) swap(--upi, i, nums);</span><br><span class="line">    }</span><br><span class="line">    quickSort3Way(l, lowi, nums, k);</span><br><span class="line">    quickSort3Way(upi, r, nums, k);</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<p><strong>优点:</strong>
+平均性能极佳，是原地排序，空间开销小，常数因子低，通常是同阶算法中最快的。
+<strong>缺点:</strong> 最坏情况性能差（尽管可优化），且不稳定。</p>
+<h3 id="堆排序-heap-sort">堆排序 (Heap Sort)</h3>
+<p>堆排序利用了堆这种数据结构的特性。它首先将待排序数组构建成一个<strong>大顶堆</strong>（Max-Heap），此时堆顶元素（数组第一个元素）就是最大值。然后，它将堆顶元素与数组末尾元素交换，并将堆的大小减一，再对堆顶进行调整（heapify），使其重新满足大顶堆性质。重复此过程，直到堆为空。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">heapSort</span><span class="params">(<span class="type">int</span>[] nums, <span class="type">int</span> k)</span> {</span><br><span class="line">    <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> nums.length;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> n / <span class="number">2</span> - <span class="number">1</span>;i &gt;= <span class="number">0</span>;i--) {</span><br><span class="line">        down(i, n, nums);</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>;i &lt; n;i++) {</span><br><span class="line">        swap(<span class="number">0</span>, n - i - <span class="number">1</span>, nums);</span><br><span class="line">        down(<span class="number">0</span>, n - i - <span class="number">1</span>, nums);</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">return</span> nums[<span class="number">0</span>];</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">down</span><span class="params">(<span class="type">int</span> i, <span class="type">int</span> n, <span class="type">int</span>[] nums)</span> {</span><br><span class="line">    <span class="type">int</span> <span class="variable">ori</span> <span class="operator">=</span> nums[i];</span><br><span class="line">    <span class="keyword">while</span> (<span class="number">2</span> * i + <span class="number">1</span> &lt; n) {</span><br><span class="line">        <span class="type">int</span> <span class="variable">son</span> <span class="operator">=</span> <span class="number">2</span> * i + <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">if</span> (son + <span class="number">1</span> &lt; n &amp;&amp; nums[son + <span class="number">1</span>] &lt; nums[son]) ++son;</span><br><span class="line">        <span class="keyword">if</span> (nums[son] &lt; ori) {</span><br><span class="line">            nums[i] = nums[son];</span><br><span class="line">            i = son;</span><br><span class="line">        } <span class="keyword">else</span> {</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">    nums[i] = ori;</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>时间复杂度:</strong> <span class="math inline"><em>O</em>(<em>n</em>log <em>n</em>)</span>
+(包括最坏情况)。</li>
+<li><strong>空间复杂度:</strong> <span class="math inline"><em>O</em>(1)</span>。</li>
+<li><strong>稳定性:</strong> 不稳定。</li>
+</ul>
+<p><strong>优点:</strong> 性能稳定，空间开销小。 <strong>缺点:</strong>
+在实际应用中，由于其缓存局部性差，常数因子较大，通常比同阶的快速排序慢。</p>
+<h2 id="非比较排序算法">非比较排序算法</h2>
+<p>这类算法通过利用元素的数值特性来工作，适用于特定类型的数据。</p>
+<h3 id="计数排序-counting-sort">计数排序 (Counting Sort)</h3>
+<p>计数排序是一个高效的线性时间排序算法，但它要求输入数据必须是<strong>整数</strong>，并且范围不能过大。其核心思想是统计每个整数出现的次数，然后根据统计结果将元素放回原数组。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">countingSort</span><span class="params">(<span class="type">int</span>[] arr)</span> {</span><br><span class="line">    <span class="keyword">if</span> (arr == <span class="literal">null</span> || arr.length &lt;= <span class="number">1</span>) <span class="keyword">return</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="type">int</span> <span class="variable">max</span> <span class="operator">=</span> Arrays.stream(arr).max().getAsInt();</span><br><span class="line">    <span class="type">int</span> <span class="variable">min</span> <span class="operator">=</span> Arrays.stream(arr).min().getAsInt();</span><br><span class="line">    <span class="type">int</span> <span class="variable">range</span> <span class="operator">=</span> max - min + <span class="number">1</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="type">int</span>[] count = <span class="keyword">new</span> <span class="title class_">int</span>[range];</span><br><span class="line">    <span class="type">int</span>[] output = <span class="keyword">new</span> <span class="title class_">int</span>[arr.length];</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 1. 统计每个元素的出现次数</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> num : arr) {</span><br><span class="line">        count[num - min]++;</span><br><span class="line">    }</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 2. 累加计数，确定每个元素最终的位置</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1</span>; i &lt; range; i++) {</span><br><span class="line">        count[i] += count[i - <span class="number">1</span>];</span><br><span class="line">    }</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 3. 反向填充 output 数组，以保证稳定性</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> arr.length - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) {</span><br><span class="line">        output[count[arr[i] - min] - <span class="number">1</span>] = arr[i];</span><br><span class="line">        count[arr[i] - min]--;</span><br><span class="line">    }</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 4. 拷回原数组</span></span><br><span class="line">    System.arraycopy(output, <span class="number">0</span>, arr, <span class="number">0</span>, arr.length);</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>时间复杂度:</strong> <span class="math inline"><em>O</em>(<em>n</em> + <em>k</em>)</span>，其中
+<span class="math inline"><em>k</em></span> 是整数范围。</li>
+<li><strong>空间复杂度:</strong> <span class="math inline"><em>O</em>(<em>k</em>)</span>。</li>
+<li><strong>稳定性:</strong> 稳定。</li>
+</ul>
+<p><strong>优点:</strong> 在数据范围 <span class="math inline"><em>k</em></span> 不比 <span class="math inline"><em>n</em></span> 大很多的情况下，速度极快。
+<strong>缺点:</strong> 适用场景有限，只能处理整数，且对内存敏感。</p>
+<h3 id="桶排序-bucket-sort">桶排序 (Bucket Sort)</h3>
+<p>桶排序是计数排序的升级版，它将数据分布到有限数量的“桶”里，然后对每个桶内的数据分别进行排序（可以使用其他排序算法，如插入排序），最后依次将每个桶中的数据拼接起来。</p>
+<ul>
+<li><strong>时间复杂度:</strong> 平均 <span class="math inline"><em>O</em>(<em>n</em> + <em>k</em>)</span>，其中
+<span class="math inline"><em>k</em></span> 是桶的数量。最坏 <span class="math inline"><em>O</em>(<em>n</em><sup>2</sup>)</span>（如果所有数据都落入同一个桶）。</li>
+<li><strong>空间复杂度:</strong> <span class="math inline"><em>O</em>(<em>n</em> + <em>k</em>)</span>。</li>
+<li><strong>稳定性:</strong> 取决于桶内排序算法是否稳定。</li>
+</ul>
+<p><strong>适用场景:</strong> 数据均匀分布的场景。</p>
+<h3 id="基数排序-radix-sort">基数排序 (Radix Sort)</h3>
+<p>基数排序是一种非比较型整数排序算法，它将整数按位数切割成不同的数字，然后按每个位数分别比较。通常从最低位开始（LSD），对每一位进行一次排序（通常使用稳定的计数排序），直到最高位。</p>
+<ul>
+<li><strong>时间复杂度:</strong> <span class="math inline"><em>O</em>(<em>d</em> ⋅ (<em>n</em> + <em>k</em>))</span>，其中
+<span class="math inline"><em>d</em></span> 是数字的最大位数，<span class="math inline"><em>k</em></span> 是基数（如十进制为10）。</li>
+<li><strong>空间复杂度:</strong> <span class="math inline"><em>O</em>(<em>n</em> + <em>k</em>)</span>。</li>
+<li><strong>稳定性:</strong> 稳定。</li>
+</ul>
+<p><strong>适用场景:</strong>
+适用于整数或可按位拆分的数据，特别是当数字位数 <span class="math inline"><em>d</em></span> 较小时。</p>
+<h2 id="排序算法的选择之道">排序算法的选择之道</h2>
+<p>没有“最好”的算法，只有“最合适”的算法。以下是决策指南：</p>
+<h3 id="关键指标对比">1. 关键指标对比</h3>
+<table>
+<colgroup>
+<col style="width: 13%">
+<col style="width: 15%">
+<col style="width: 15%">
+<col style="width: 11%">
+<col style="width: 6%">
+<col style="width: 37%">
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">算法</th>
+<th style="text-align: left;">平均时间复杂度</th>
+<th style="text-align: left;">最坏时间复杂度</th>
+<th style="text-align: left;">空间复杂度</th>
+<th style="text-align: left;">稳定性</th>
+<th style="text-align: left;">特点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>插入排序</strong></td>
+<td style="text-align: left;"><span class="math inline"><em>O</em>(<em>n</em><sup>2</sup>)</span></td>
+<td style="text-align: left;"><span class="math inline"><em>O</em>(<em>n</em><sup>2</sup>)</span></td>
+<td style="text-align: left;"><span class="math inline"><em>O</em>(1)</span></td>
+<td style="text-align: left;">稳定</td>
+<td style="text-align: left;">对小规模或近乎有序的数据集极快</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>归并排序</strong></td>
+<td style="text-align: left;"><span class="math inline"><em>O</em>(<em>n</em>log <em>n</em>)</span></td>
+<td style="text-align: left;"><span class="math inline"><em>O</em>(<em>n</em>log <em>n</em>)</span></td>
+<td style="text-align: left;"><span class="math inline"><em>O</em>(<em>n</em>)</span></td>
+<td style="text-align: left;">稳定</td>
+<td style="text-align: left;">性能稳定，保证最坏情况，需要额外空间</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>快速排序</strong></td>
+<td style="text-align: left;"><span class="math inline"><em>O</em>(<em>n</em>log <em>n</em>)</span></td>
+<td style="text-align: left;"><span class="math inline"><em>O</em>(<em>n</em><sup>2</sup>)</span></td>
+<td style="text-align: left;"><span class="math inline"><em>O</em>(log <em>n</em>)</span></td>
+<td style="text-align: left;">不稳定</td>
+<td style="text-align: left;">原地排序，平均速度最快，但最坏差</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>堆排序</strong></td>
+<td style="text-align: left;"><span class="math inline"><em>O</em>(<em>n</em>log <em>n</em>)</span></td>
+<td style="text-align: left;"><span class="math inline"><em>O</em>(<em>n</em>log <em>n</em>)</span></td>
+<td style="text-align: left;"><span class="math inline"><em>O</em>(1)</span></td>
+<td style="text-align: left;">不稳定</td>
+<td style="text-align: left;">原地排序，保证最坏情况，但常数因子大</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>计数排序</strong></td>
+<td style="text-align: left;"><span class="math inline"><em>O</em>(<em>n</em> + <em>k</em>)</span></td>
+<td style="text-align: left;"><span class="math inline"><em>O</em>(<em>n</em> + <em>k</em>)</span></td>
+<td style="text-align: left;"><span class="math inline"><em>O</em>(<em>k</em>)</span></td>
+<td style="text-align: left;">稳定</td>
+<td style="text-align: left;">线性时间，但要求数据范围不能过大</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>桶排序</strong></td>
+<td style="text-align: left;"><span class="math inline"><em>O</em>(<em>n</em> + <em>k</em>)</span></td>
+<td style="text-align: left;"><span class="math inline"><em>O</em>(<em>n</em><sup>2</sup>)</span></td>
+<td style="text-align: left;"><span class="math inline"><em>O</em>(<em>n</em> + <em>k</em>)</span></td>
+<td style="text-align: left;">依赖内部</td>
+<td style="text-align: left;">适用于均匀分布的数据</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>基数排序</strong></td>
+<td style="text-align: left;"><span class="math inline"><em>O</em>(<em>d</em>(<em>n</em> + <em>k</em>))</span></td>
+<td style="text-align: left;"><span class="math inline"><em>O</em>(<em>d</em>(<em>n</em> + <em>k</em>))</span></td>
+<td style="text-align: left;"><span class="math inline"><em>O</em>(<em>n</em> + <em>k</em>)</span></td>
+<td style="text-align: left;">稳定</td>
+<td style="text-align: left;">线性时间，适用于位数固定的整数</td>
+</tr>
+</tbody>
+</table>
+<h3 id="决策流程">2. 决策流程</h3>
+<ol type="1">
+<li><strong>数据类型和范围？</strong>
+<ul>
+<li>如果是整数且范围不大，<strong>计数排序</strong>是首选。</li>
+<li>如果是小数或字符串，且均匀分布，可考虑<strong>桶排序</strong>。</li>
+<li>如果是位数固定的整数，<strong>基数排序</strong>非常高效。</li>
+</ul></li>
+<li><strong>对稳定性有要求吗？</strong>
+<ul>
+<li><strong>是：</strong>
+必须在稳定排序中选择，如<strong>归并排序</strong>、<strong>插入排序</strong>、<strong>计数/基数排序</strong>。例如，对一个包含（姓名，年龄）的对象列表按年龄排序，希望同龄人的相对顺序不变。</li>
+<li><strong>否：</strong>
+可以选择<strong>快速排序</strong>或<strong>堆排序</strong>。</li>
+</ul></li>
+<li><strong>对空间复杂度有要求吗？</strong>
+<ul>
+<li><strong>是（要求 <span class="math inline"><em>O</em>(1)</span> 或
+<span class="math inline"><em>O</em>(log <em>n</em>)</span>）：</strong>
+<strong>快速排序</strong>和<strong>堆排序</strong>是最佳选择。归并排序需要
+<span class="math inline"><em>O</em>(<em>n</em>)</span>
+的额外空间，可能不适用。</li>
+<li><strong>否：</strong>
+<strong>归并排序</strong>的稳定性使其成为一个很好的备选项。</li>
+</ul></li>
+<li><strong>数据规模有多大？</strong>
+<ul>
+<li><strong>小规模 (n &lt; 50)：</strong>
+<strong>插入排序</strong>简单且高效，常被用作更复杂排序算法的“收尾”工作。</li>
+<li><strong>大规模：</strong> 应选择 <span class="math inline"><em>O</em>(<em>n</em>log <em>n</em>)</span>
+级别的算法。</li>
+</ul></li>
+<li><strong>对最坏情况性能有严格要求吗？</strong>
+<ul>
+<li><strong>是：</strong>
+<strong>归并排序</strong>和<strong>堆排序</strong>能提供 <span class="math inline"><em>O</em>(<em>n</em>log <em>n</em>)</span>
+的保证。快速排序有 <span class="math inline"><em>O</em>(<em>n</em><sup>2</sup>)</span>
+的风险。</li>
+<li><strong>否：</strong>
+<strong>快速排序</strong>的平均性能通常是最好的。</li>
+</ul></li>
+</ol>
+<h3 id="现代库中的混合策略">3. 现代库中的混合策略</h3>
+<p>在实际工程中，各大语言的标准库往往结合多种算法的优点，形成混合排序策略，以达到在各种数据分布下的最优性能。</p>
+<ul>
+<li><strong>Introsort (内省排序):</strong> C++ 的 <code>std::sort</code>
+采用此策略。
+<ul>
+<li>它以<strong>快速排序</strong>开始，因为它平均速度最快。</li>
+<li>同时监测递归深度，当深度超过某个阈值（通常是 <span class="math inline">2log <em>n</em></span>）时，判断快速排序有退化为
+<span class="math inline"><em>O</em>(<em>n</em><sup>2</sup>)</span>
+的风险，便切换到<strong>堆排序</strong>，从而保证最坏情况下的时间复杂度为
+<span class="math inline"><em>O</em>(<em>n</em>log <em>n</em>)</span>。</li>
+<li>当待排序的子数组规模变得很小时，切换到<strong>插入排序</strong>，因为对于小数组，插入排序的常数因子更小，效率更高。</li>
+</ul></li>
+<li><strong>Timsort:</strong> Java (<code>Arrays.sort</code> 对对象数组)
+和 Python (<code>list.sort</code>, <code>sorted()</code>)
+的标准排序算法。
+<ul>
+<li>它是一种高度优化的混合稳定排序算法，结合了<strong>归并排序</strong>和<strong>插入排序</strong>。</li>
+<li>它首先在数据中寻找已经存在的<strong>连续升序或降序的片段（run）</strong>，然后用插入排序扩展这些
+run 的长度。</li>
+<li>最后，像归并排序一样，将这些 run 高效地合并起来。</li>
+<li>Timsort 对真实世界中广泛存在的“部分有序”数据表现极其出色，同时保持了
+<span class="math inline"><em>O</em>(<em>n</em>log <em>n</em>)</span>
+的最坏情况性能和 <span class="math inline"><em>O</em>(<em>n</em>)</span>
+的空间复杂度（在最优情况下空间为 <span class="math inline"><em>O</em>(log <em>n</em>)</span>）。</li>
+</ul></li>
+</ul>
+<h3 id="总结">总结</h3>
+<ul>
+<li>追求<strong>极致平均速度</strong>且不要求稳定性，选<strong>快速排序</strong>。</li>
+<li>要求<strong>稳定性</strong>或<strong>严格的最坏性能保证</strong>，选<strong>归并排序</strong>。</li>
+<li>要求<strong>原地排序</strong>且<strong>保证最坏性能</strong>，选<strong>堆排序</strong>。</li>
+<li>数据是<strong>小范围整数</strong>，选<strong>计数排序</strong>。</li>
+<li>数据<strong>基本有序</strong>或<strong>规模很小</strong>，用<strong>插入排序</strong>。</li>
+</ul>
+<p>在不确定时，直接使用你所用语言标准库提供的排序函数，因为它们通常是经过高度优化的混合排序，足以应对绝大多数场景。</p>
+
+                    
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                常用排序算法的选择之道
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                2025/08/29/MS-Sort/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    Author
+                </div>
+                <div class="content">Zhongjun Qiu</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    Published
+                </div>
+                <div class="content">2025-08-29 14:08</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    License
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="Copy copyright info" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E6%8E%92%E5%BA%8F/">排序</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="Share to WeChat"
+            data-tooltip-img-tip="Scan by WeChat"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to WeiBo"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+                    
+
+<div class="reward-author-container border-box flex-center">
+    <div class="reward-btn border-box flex-center tooltip tooltip-img"
+            data-tooltip-img-url="/images/post/payment.jpg"
+            data-tooltip-img-trigger="click"
+            data-tooltip-img-style="top: -6px;"
+    >
+        <i class="fa-solid fa-gift"></i>&nbsp;REWARD AUTHOR
+    </div>
+</div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/2025/08/29/MC0357/"
+                                   title="MC0357题解"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">MC0357题解</span>
+                                        <span class="post-nav-item">Prev posts</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/2025/08/28/14-K8S-Prometheus/"
+                                   title="云原生里的资源监控系统 Prometheus"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">云原生里的资源监控系统 Prometheus</span>
+                                        <span class="post-nav-item">Next posts</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+    <div class="comments-container border-box">
+        <div id="comments-anchor" class="comment-area-title border-box">
+            <i class="fas fa-comments"></i>&nbsp;Comments
+        </div>
+        <div class="comment-plugin-fail border-box">
+    <span class="fail-tip">Comment plugin failed to load</span>
+    <button class="reload keep-button">Click to reload</button>
+</div>
+<div class="comment-plugin-loading flex-center border-box">
+    <i class="loading-icon fa-solid fa-spinner fa-spin"></i>
+    <span class="load-tip">Loading comment plugin</span>
+</div>
+<script data-pjax>
+  window.KeepCommentPlugin = {}
+  window.KeepCommentPlugin.hideLoading = () => {
+    const cplDom = document.querySelector('.comments-container .comment-plugin-loading')
+    cplDom.style.display = 'none'
+  }
+  window.KeepCommentPlugin.loadFailHandle = () => {
+    window.KeepCommentPlugin.hideLoading()
+    const cpfDom = document.querySelector('.comments-container .comment-plugin-fail')
+    cpfDom.style.display = 'flex'
+    cpfDom.querySelector('.reload').addEventListener('click', () => {
+      window.location.reload()
+    })
+  }
+</script>
+
+        
+            
+
+    <div class="waline-comment-container">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/waline/3.3.2/waline.css"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/waline/3.3.2/waline-meta.css"/>
+        <div id="waline-comment"></div>
+        <script data-pjax>
+          window.KeepCommentPlugin.walineOptions = JSON.parse('{}'.replace(/&#34;/g, '"'))
+          window.KeepCommentPlugin.walineOptions.el = '#waline-comment'
+          window.KeepCommentPlugin.walineOptions.comment = '.post-comments-count'
+          window.KeepCommentPlugin.walineOptions.serverURL = 'https://waline-vercel-two-rho.vercel.app/'
+          window.KeepCommentPlugin.walineOptions.lang = 'en' || 'zh-CN'
+          window.KeepCommentPlugin.walineOptions.reaction = 'true' === 'true'
+        </script>
+
+        
+
+        
+            <script 
+                    async
+                    type="module"
+            >
+              import { init } from 'https://cdnjs.cloudflare.com/ajax/libs/waline/3.3.2/waline.js'
+              window.KeepCommentPlugin.initWaline = () => {
+                if (init) {
+                  init(window.KeepCommentPlugin.walineOptions)
+                  window.KeepCommentPlugin.hideLoading()
+                } else {
+                  setTimeout(() => {
+                    window.KeepCommentPlugin.initWaline()
+                  }, 1000)
+                }
+              }
+
+              if ('false' === 'true') {
+                setTimeout(() => {
+                  window.KeepCommentPlugin.initWaline()
+                }, 1200)
+              } else {
+                window.addEventListener('DOMContentLoaded', window.KeepCommentPlugin.initWaline)
+              }
+            </script>
+        
+    </div>
+
+
+        
+    </div>
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc right-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AF%94%E8%BE%83%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95"><span class="nav-text">比较排序算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F-insertion-sort"><span class="nav-text">插入排序 (Insertion Sort)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F-merge-sort"><span class="nav-text">归并排序 (Merge Sort)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F-quick-sort"><span class="nav-text">快速排序 (Quick Sort)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F%E7%9A%84%E4%BC%98%E5%8C%96"><span class="nav-text">快速排序的优化</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A0%86%E6%8E%92%E5%BA%8F-heap-sort"><span class="nav-text">堆排序 (Heap Sort)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%9E%E6%AF%94%E8%BE%83%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95"><span class="nav-text">非比较排序算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A1%E6%95%B0%E6%8E%92%E5%BA%8F-counting-sort"><span class="nav-text">计数排序 (Counting Sort)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A1%B6%E6%8E%92%E5%BA%8F-bucket-sort"><span class="nav-text">桶排序 (Bucket Sort)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%95%B0%E6%8E%92%E5%BA%8F-radix-sort"><span class="nav-text">基数排序 (Radix Sort)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E7%9A%84%E9%80%89%E6%8B%A9%E4%B9%8B%E9%81%93"><span class="nav-text">排序算法的选择之道</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E6%8C%87%E6%A0%87%E5%AF%B9%E6%AF%94"><span class="nav-text">1. 关键指标对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%B3%E7%AD%96%E6%B5%81%E7%A8%8B"><span class="nav-text">2. 决策流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%B0%E4%BB%A3%E5%BA%93%E4%B8%AD%E7%9A%84%E6%B7%B7%E5%90%88%E7%AD%96%E7%95%A5"><span class="nav-text">3. 现代库中的混合策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-text">总结</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="copyright-info info-item">
+    &copy;&nbsp;<span>2020</span>&nbsp;-&nbsp;2025
+    
+            &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">Zhongjun Qiu</a>
+        
+    </div>
+
+    <div class="theme-info info-item">
+        Powered by&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;&&nbsp;Theme&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+    </div>
+
+    
+        
+        <div class="deploy-info info-item">
+            
+                <a target="_blank" rel="nofollow" href="https://github.com">
+            
+            This site is deployed on <span class="tooltip" data-tooltip-content="GitHub Pages"><img src="/images/brands/github.png"></span>
+            
+                </a>
+            
+        </div>
+    
+
+    
+        <div class="count-info info-item">
+            
+                <span class="count-item border-box word">
+                    <span class="item-type border-box">Total words</span>
+                    <span class="item-value border-box word">387.2k</span>
+                </span>
+            
+
+            
+
+            
+                <span class="count-item border-box pv">
+                    <span class="item-type border-box">Page View</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+    
+
+    
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+            <li class="tools-item flex-center go-to-comments">
+                <i class="fas fa-comment"></i>
+                <span class="post-comments-count"></span>
+            </li>
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <!-- toggle mode -->
+        
+            <li class="tools-item tool-toggle-theme-mode flex-center">
+                <i class="fas fa-moon"></i>
+            </li>
+        
+
+        <!-- rss -->
+        
+
+        <!-- to bottom -->
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+            <li class="tools-item go-to-comments-tablet flex-center">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AF%94%E8%BE%83%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95"><span class="nav-text">比较排序算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F-insertion-sort"><span class="nav-text">插入排序 (Insertion Sort)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F-merge-sort"><span class="nav-text">归并排序 (Merge Sort)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F-quick-sort"><span class="nav-text">快速排序 (Quick Sort)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F%E7%9A%84%E4%BC%98%E5%8C%96"><span class="nav-text">快速排序的优化</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A0%86%E6%8E%92%E5%BA%8F-heap-sort"><span class="nav-text">堆排序 (Heap Sort)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%9E%E6%AF%94%E8%BE%83%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95"><span class="nav-text">非比较排序算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A1%E6%95%B0%E6%8E%92%E5%BA%8F-counting-sort"><span class="nav-text">计数排序 (Counting Sort)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A1%B6%E6%8E%92%E5%BA%8F-bucket-sort"><span class="nav-text">桶排序 (Bucket Sort)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%95%B0%E6%8E%92%E5%BA%8F-radix-sort"><span class="nav-text">基数排序 (Radix Sort)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95%E7%9A%84%E9%80%89%E6%8B%A9%E4%B9%8B%E9%81%93"><span class="nav-text">排序算法的选择之道</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E6%8C%87%E6%A0%87%E5%AF%B9%E6%AF%94"><span class="nav-text">1. 关键指标对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%B3%E7%AD%96%E6%B5%81%E7%A8%8B"><span class="nav-text">2. 决策流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%B0%E4%BB%A3%E5%BA%93%E4%B8%AD%E7%9A%84%E6%B7%B7%E5%90%88%E7%AD%96%E7%95%A5"><span class="nav-text">3. 现代库中的混合策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-text">总结</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+
+
+<!-- common js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/utils.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/header-shrink.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/back2top.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/toggle-theme.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/code-block.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/main.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/libs/anime.min.js"></script>
+
+<!-- local search -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/local-search.min.js"></script>
+
+
+<!-- lazyload -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/lazyload.min.js"></script>
+
+
+<div class="">
+    <!-- home page -->
+    
+
+    <!-- post page -->
+    
+        <!-- post-helper -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/post-helper.min.js"></script>
+
+        <!-- toc -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/toc.min.js"></script>
+        
+
+        <!-- copyright-info -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/copyright-info.min.js"></script>
+        
+
+        <!-- share -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/share.min.js"></script>
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+
+
+    
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/custom_code_block.js" data-pjax></script>
+
+        
+    
+
+</body>
+</html>
