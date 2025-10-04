@@ -9,7 +9,7 @@
     
     <title>
         
-            Go语言中的协程 |
+            Archive: 2025/10 |
         
         Decade
     </title>
@@ -207,7 +207,7 @@ mjx-container[display="true"] + br {
                         </li>
                     
                         
-                        <li class="menu-item flex-start border-box">
+                        <li class="menu-item flex-start border-box active">
                             <a class="menu-text-color border-box" href="/archives">
                                 
                                     <i class="menu-text-color menu-icon fa-solid fa-box-archive"></i>
@@ -338,7 +338,7 @@ mjx-container[display="true"] + br {
                 </li>
             
                 
-                <li class="drawer-menu-item border-box not-sub-menu">
+                <li class="drawer-menu-item border-box not-sub-menu active">
                     <label class="drawer-menu-label border-box">
                         <a class="drawer-menu-text-color left-side flex-start border-box" href="/archives">
                             
@@ -470,473 +470,37 @@ mjx-container[display="true"] + br {
             <div class="main-content border-box">
                 
 
-                    
-<div class="fade-in-down-animation">
-    <div class="post-page-container border-box">
-        <div class="post-content-container border-box">
+                    <div class="fade-in-down-animation">
+    <div class="archives-container">
+        <div class="archives-timeline border-box">
             
-
-            <div class="post-content-bottom border-box">
+<div class="archive-list-container border-box">
+    
+        <section class="archive-item border-box">
+            <div class="archive-item-header border-box">
+                <span class="archive-year">2025</span>
+            </div>
+            <ul class="archive-item-body border-box">
                 
-                    <div class="post-title">
-                        Go语言中的协程
-                    </div>
+                    <li class="post-item border-box">
+                        <span class="starting-point border-box flex-center"></span>
+                        <span class="post-date border-box">10-03</span>
+                        <a class="post-title border-box text-ellipsis"
+                           href="/2025/10/03/MS-Sort/"
+                        >常用排序算法的选择之道</a>
+                    </li>
                 
-
-                
-                    <div class="post-header border-box">
-                        
-                            <div class="avatar-box border-box">
-                                <img src="/images/avatar.ico">
-                            </div>
-                        
-                        <div class="info-box">
-                            <div class="author border-box">
-                                <span class="name">Zhongjun Qiu</span>
-                                
-                                    <span class="author-badge">元婴开发者</span>
-                                
-                            </div>
-                            <div class="meta-info border-box">
-                                
-
-<div class="post-meta-info-container border-box post">
-    <div class="post-meta-info border-box">
-        
-
-        
-            <span class="meta-info-item post-create-date">
-                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
-                <span class="datetime">2025-09-06 22:10:10</span>
-            </span>
-
-            
-                <span class="meta-info-item post-update-date">
-                    <i class="icon fa-solid fa-arrows-rotate"></i>&nbsp;
-                    <span class="datetime" data-updated="Mon Sep 08 2025 11:32:40 GMT+0800">2025-09-08 11:32:40</span>
-                </span>
-            
-        
-
-        
-            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
-                <ul class="post-category-ul">
-                    
-                            <li class="category-item"><a href="/categories/Go/">Go</a></li>
-                        
-                    
-                            <li class="category-item">&nbsp;<i class="icon fas fa-angle-right"></i>&nbsp;<a href="/categories/Go/%E5%8D%8F%E7%A8%8B/">协程</a></li>
-                        
-                    
-                </ul>
-            </span>
-        
-
-        
-            <span class="post-tag meta-info-item border-box">
-                <ul class="post-tag-ul">
-                    
-                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E5%8D%8F%E7%A8%8B/">协程</a></li>
-                        
-                    
-                </ul>
-            </span>
-        
-
-        
-        
-            <span class="meta-info-item post-wordcount">
-                <i class="icon fas fa-file-word"></i>&nbsp;<span>1.8k Words</span>
-            </span>
-        
-        
-            <span class="meta-info-item post-min2read">
-                <i class="icon fas fa-clock"></i>&nbsp;<span>6 Mins</span>
-            </span>
-        
-        
-            <span class="meta-info-item post-pv">
-                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
-            </span>
-        
-    </div>
-
+            </ul>
+        </section>
     
 </div>
 
-                            </div>
-                        </div>
-                    </div>
-                
-
-                <div class="post-content keep-markdown-body ">
-                    
-
-                    
-                         <p>Go
-语言中的协程（goroutine）是一种轻量级的线程实现，允许在单个操作系统线程上运行成千上万个并发任务，以提高程序的并发性和资源利用率。</p>
-<hr>
-<h2 id="进程和线程">进程和线程</h2>
-<p>进程（Process）</p>
-<ul>
-<li>程序的一次执行实例，是 <strong>资源分配的最小单位</strong></li>
-<li>拥有独立的内存空间（代码段、数据段、堆、栈）</li>
-<li>进程之间相互隔离，通信需要 IPC（管道、消息队列、共享内存等）</li>
-</ul>
-<p>线程（Thread）</p>
-<ul>
-<li>是 <strong>CPU 调度的最小单位</strong></li>
-<li>线程属于进程，一个进程至少包含一个线程</li>
-<li>线程共享进程的资源（堆、数据段、打开的文件描述符），但有独立的栈和寄存器</li>
-</ul>
-<p>用户线程（User Thread, ULT）</p>
-<ul>
-<li>在 <strong>用户态</strong> 实现，内核对它们不可见</li>
-<li>调度由用户级线程库完成（如 GNU Pthreads 的用户态实现）</li>
-<li>优点：切换快，不需要内核参与</li>
-<li>缺点：一旦某个线程阻塞，整个进程都阻塞（<strong>用户线程对内核不可见，一旦阻塞，内核认为整个进程阻塞</strong>）</li>
-</ul>
-<p>内核线程（Kernel Thread, KLT）</p>
-<ul>
-<li>由 <strong>操作系统内核</strong> 创建与调度</li>
-<li>内核知道每个线程的存在，可以独立调度</li>
-<li>优点：线程阻塞时不会影响同进程中的其他线程</li>
-<li>缺点：切换需要陷入内核态，开销较大</li>
-</ul>
-<h3 id="常见线程模型">常见线程模型</h3>
-<h4 id="一对一模型11">一对一模型（1:1）</h4>
-<ul>
-<li><strong>定义</strong>：每个用户线程对应一个内核线程</li>
-<li><strong>例子</strong>：Linux 的 <code>pthread</code>，Windows
-的线程模型</li>
-</ul>
-<p>✅ 优势：</p>
-<ul>
-<li>阻塞粒度小，一个线程阻塞不会影响其他线程</li>
-<li>可充分利用多核 CPU，实现真正的并行</li>
-</ul>
-<p>❌ 劣势：</p>
-<ul>
-<li>内核线程开销大，线程数量有限（创建/销毁需要系统调用）</li>
-<li>内核调度开销比用户态大</li>
-</ul>
-<h4 id="多对多模型mn">多对多模型（M:N）</h4>
-<ul>
-<li><strong>定义</strong>：n 个用户线程映射到 m 个内核线程（n &gt;
-m）</li>
-<li><strong>例子</strong>：Go 的 goroutine 模型，Java
-早期的绿色线程</li>
-</ul>
-<p>✅ 优势：</p>
-<ul>
-<li>可以支持海量用户线程（轻量级）</li>
-<li>遇到阻塞时，可以切换到其他内核线程继续执行</li>
-<li>结合了用户态调度（快）+ 内核态调度（安全）</li>
-</ul>
-<p>❌ 劣势：</p>
-<ul>
-<li>实现复杂，需要运行时（runtime）或库的支持</li>
-<li>调度策略可能不如内核调度精确</li>
-</ul>
-<h2 id="协程">协程</h2>
-<p>协程可以理解为用户态的轻量级线程。它和普通的线程相比：</p>
-<ul>
-<li><p>创建和切换的开销要小得多，因为它完全由用户态的运行时系统（<strong>runtime</strong>）来管理，不需要每次切换都陷入内核。</p></li>
-<li><p>协程本身不直接对应内核线程，而是运行在进程分配到的内核线程之上。</p></li>
-</ul>
-<p>之所以需要协程，是因为传统的线程模型（无论是一对一还是多对多）在面对大规模并发时都会遇到严重的开销问题。</p>
-<p>线程数量一旦过大，就会导致内存占用增加（栈空间消耗）、线程上下文切换成本变高，以及操作系统调度器负担过重。这使得在高并发的场景下，线程模型难以支撑。</p>
-<p>Java 早期也有类似协程的实现，即所谓的绿色线程（Green
-Thread）。绿色线程是一种多对多的模型，多个用户线程映射到较少数量的内核线程，由虚拟机在用户态调度。</p>
-<p>但绿色线程遇到的根本问题在于<strong>阻塞调用</strong>。由于内核并不知道绿色线程的存在，<strong>当其中一个绿色线程执行阻塞
-IO
-时，对应的整个内核线程都会被挂起</strong>，从而导致所有映射到这个内核线程的绿色线程都无法执行。这就是为什么绿色线程在遇到大量
-IO 阻塞场景时表现很差，最终在现代 JVM 中被放弃的原因。</p>
-<p>解决这个问题的关键在于让阻塞操作不再真正阻塞内核线程。换句话说，阻塞调用需要转化为非阻塞
-IO，加上事件驱动机制来管理。当协程遇到一个 IO
-请求时，运行时会把它挂起并让出执行权，底层通过 epoll/kqueue
-之类的多路复用接口等待事件完成。一旦内核通知 IO
-就绪，运行时再恢复协程的执行。这就避免了“一个协程阻塞拖垮整个线程”的问题。</p>
-<blockquote>
-<p>阻塞调用可以理解为，用户态线程发起systemcall后，会一直等待内核的响应。这时候，内核调度器就会认为这个线程完全阻塞了，所以会将<strong>该线程对应的内核线程放入等待队列，浪费了一个线程</strong>。CPU被用于运行其他线程。</p>
-<p>非阻塞调用的思路不同。当用户态线程发起 system call
-时，调用会立刻返回，而不会等待内核把结果准备好。返回时可能会给出一个状态值，比如“资源暂时不可用”，调用方需要自行决定下一步做什么。这样，<strong>线程就不会白白阻塞住，可以立马切换任务，即对应的内核线程被释放去干其他的活</strong>。与此同时，可以通过轮询或事件通知机制，来获知这个
-IO 何时真正完成。</p>
-</blockquote>
-<p>其实所谓“阻塞”，严格来说是针对 <strong>线程</strong> 而不是 CPU
-的。当一个线程发起阻塞操作（比如阻塞式
-IO）时，这个线程就会被内核挂起，无法继续执行代码。CPU
-本身并不会停下来，它仍然可以调度其他线程运行。但在高并发场景下，如果大多数线程都因为等待
-IO 而阻塞，那么可运行的线程就很少，CPU
-就无法充分利用，导致整体性能下降。</p>
-<p>协程的解决思路正是针对这一点。协程在用户态实现轻量级调度，当一个协程遇到阻塞操作时，runtime
-会把它挂起，同时把底层的内核线程释放去运行其他可运行的协程。这样，即便有大量协程在等待
-IO，也不会占用内核线程，从而保持 CPU
-的高利用率。换句话说，协程让阻塞操作不再“绑死”线程，从而提升并发能力和资源利用效率。</p>
-<p>Go 的协程（goroutine）就是这种机制的高效实现。Go runtime
-在用户态维护了一个调度器，负责把海量的 goroutine
-映射到有限的内核线程上执行。它使用 M:N 模型，即 M 个内核线程运行 N 个
-goroutine。当 goroutine 发起阻塞操作时，runtime
-并不会让内核线程真的阻塞，而是通过非阻塞 IO 和网络轮询器来把这个
-goroutine 挂起，调度器立即把这个内核线程分配给其他 goroutine
-使用。这样，内核线程几乎不会被无谓地浪费，CPU
-资源能够被最大化利用。同时，goroutine 本身占用内存极小（初始栈空间只有几
-KB，且能动态扩展），因此 Go 可以轻松支持成千上万甚至百万级的并发。</p>
-
-                    
-                </div>
-
-                
-                        
-<div class="post-copyright-info-container border-box">
-    <div class="copyright-info-content border-box">
-        <div class="copyright-info-top border-box">
-            <div class="copyright-post-title border-box text-ellipsis">
-                Go语言中的协程
-            </div>
-
-            <div class="copyright-post-link border-box text-ellipsis">
-                2025/09/06/1-Go-协程理解/
-            </div>
         </div>
-
-        <div class="copyright-info-bottom border-box">
-            <div class="copyright-post-author bottom-item">
-                <div class="type">
-                    Author
-                </div>
-                <div class="content">Zhongjun Qiu</div>
-            </div>
-
-            <div class="post-time bottom-item">
-                <div class="type">
-                    Published
-                </div>
-                <div class="content">2025-09-06 22:10</div>
-            </div>
-
-
-            <div class="post-license bottom-item">
-                <div class="type">
-                    License
-                </div>
-                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
-                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed" target="_blank">
-                        
-                            <i class="fa-brands fa-creative-commons"></i>
-                            <i class="fa-brands fa-creative-commons-by"></i>
-                            <i class="fa-brands fa-creative-commons-nc"></i>
-                            <i class="fa-brands fa-creative-commons-sa"></i>
-                        
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <i class="copyright-bg fa-solid fa-copyright"></i>
     </div>
-    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="Copy copyright info" data-tooltip-offset-y="-2px">
-        <i class="fa-solid fa-copy"></i>
-    </div>
-</div>
-
-                
-
-                <div class="post-bottom-tags-and-share border-box">
-                    <div>
-                        
-                            <ul class="post-tags-box border-box">
-                                
-                                    <li class="tag-item border-box">
-                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E5%8D%8F%E7%A8%8B/">协程</a>
-                                    </li>
-                                
-                            </ul>
-                        
-                    </div>
-                    <div>
-                        
-                            <div class="post-share-container border-box">
-    <ul class="share-list-wrap border-box">
-        <li class="qq share-item border-box flex-center tooltip"
-            data-tooltip-content="Share to QQ"
-        >
-            <i class="fa-brands fa-qq"></i>
-        </li>
-        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
-            data-tooltip-content="Share to WeChat"
-            data-tooltip-img-tip="Scan by WeChat"
-            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
-        >
-            <i class="fa-brands fa-weixin"></i>
-        </li>
-        <li class="weibo share-item border-box flex-center tooltip"
-            data-tooltip-content="Share to WeiBo"
-        >
-            <i class="fa-brands fa-weibo"></i>
-        </li>
-    </ul>
-</div>
-
-                        
-                    </div>
-                </div>
-
-                
-                    
-
-<div class="reward-author-container border-box flex-center">
-    <div class="reward-btn border-box flex-center tooltip tooltip-img"
-            data-tooltip-img-url="/images/post/payment.jpg"
-            data-tooltip-img-trigger="click"
-            data-tooltip-img-style="top: -6px;"
-    >
-        <i class="fa-solid fa-gift"></i>&nbsp;REWARD AUTHOR
-    </div>
-</div>
-
-                
-
-                
-                    <div class="post-nav border-box">
-                        
-                            <div class="prev-post">
-                                <a class="prev"
-                                   rel="prev"
-                                   href="/2025/10/03/MS-Sort/"
-                                   title="常用排序算法的选择之道"
-                                >
-                                    <span class="left arrow-icon flex-center">
-                                        <i class="fas fa-chevron-left"></i>
-                                    </span>
-                                    <span class="title flex-center">
-                                        <span class="post-nav-title-item text-ellipsis">常用排序算法的选择之道</span>
-                                        <span class="post-nav-item">Prev posts</span>
-                                    </span>
-                                </a>
-                            </div>
-                        
-                        
-                            <div class="next-post">
-                                <a class="next"
-                                   rel="next"
-                                   href="/2025/08/31/17-K8S-%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4/"
-                                   title="Kubernete 高可用集群"
-                                >
-                                    <span class="title flex-center">
-                                        <span class="post-nav-title-item text-ellipsis">Kubernete 高可用集群</span>
-                                        <span class="post-nav-item">Next posts</span>
-                                    </span>
-                                    <span class="right arrow-icon flex-center">
-                                        <i class="fas fa-chevron-right"></i>
-                                    </span>
-                                </a>
-                            </div>
-                        
-                    </div>
-                
-
-                
-                    
-
-
-    <div class="comments-container border-box">
-        <div id="comments-anchor" class="comment-area-title border-box">
-            <i class="fas fa-comments"></i>&nbsp;Comments
-        </div>
-        <div class="comment-plugin-fail border-box">
-    <span class="fail-tip">Comment plugin failed to load</span>
-    <button class="reload keep-button">Click to reload</button>
-</div>
-<div class="comment-plugin-loading flex-center border-box">
-    <i class="loading-icon fa-solid fa-spinner fa-spin"></i>
-    <span class="load-tip">Loading comment plugin</span>
-</div>
-<script data-pjax>
-  window.KeepCommentPlugin = {}
-  window.KeepCommentPlugin.hideLoading = () => {
-    const cplDom = document.querySelector('.comments-container .comment-plugin-loading')
-    cplDom.style.display = 'none'
-  }
-  window.KeepCommentPlugin.loadFailHandle = () => {
-    window.KeepCommentPlugin.hideLoading()
-    const cpfDom = document.querySelector('.comments-container .comment-plugin-fail')
-    cpfDom.style.display = 'flex'
-    cpfDom.querySelector('.reload').addEventListener('click', () => {
-      window.location.reload()
-    })
-  }
-</script>
-
-        
-            
-
-    <div class="waline-comment-container">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/waline/3.3.2/waline.css"/>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/waline/3.3.2/waline-meta.css"/>
-        <div id="waline-comment"></div>
-        <script data-pjax>
-          window.KeepCommentPlugin.walineOptions = JSON.parse('{}'.replace(/&#34;/g, '"'))
-          window.KeepCommentPlugin.walineOptions.el = '#waline-comment'
-          window.KeepCommentPlugin.walineOptions.comment = '.post-comments-count'
-          window.KeepCommentPlugin.walineOptions.serverURL = 'https://waline-vercel-two-rho.vercel.app/'
-          window.KeepCommentPlugin.walineOptions.lang = 'en' || 'zh-CN'
-          window.KeepCommentPlugin.walineOptions.reaction = 'true' === 'true'
-        </script>
-
-        
-
-        
-            <script 
-                    async
-                    type="module"
-            >
-              import { init } from 'https://cdnjs.cloudflare.com/ajax/libs/waline/3.3.2/waline.js'
-              window.KeepCommentPlugin.initWaline = () => {
-                if (init) {
-                  init(window.KeepCommentPlugin.walineOptions)
-                  window.KeepCommentPlugin.hideLoading()
-                } else {
-                  setTimeout(() => {
-                    window.KeepCommentPlugin.initWaline()
-                  }, 1000)
-                }
-              }
-
-              if ('false' === 'true') {
-                setTimeout(() => {
-                  window.KeepCommentPlugin.initWaline()
-                }, 1200)
-              } else {
-                window.addEventListener('DOMContentLoaded', window.KeepCommentPlugin.initWaline)
-              }
-            </script>
-        
-    </div>
-
-
-        
-    </div>
+    
 
 
 
-
-
-                
-            </div>
-        </div>
-
-        
-            <div class="pc-post-toc right-toc">
-                <div class="post-toc-wrap border-box">
-    <div class="post-toc border-box">
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E5%92%8C%E7%BA%BF%E7%A8%8B"><span class="nav-text">进程和线程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E7%BA%BF%E7%A8%8B%E6%A8%A1%E5%9E%8B"><span class="nav-text">常见线程模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80%E5%AF%B9%E4%B8%80%E6%A8%A1%E5%9E%8B11"><span class="nav-text">一对一模型（1:1）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%9A%E5%AF%B9%E5%A4%9A%E6%A8%A1%E5%9E%8Bmn"><span class="nav-text">多对多模型（M:N）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%8F%E7%A8%8B"><span class="nav-text">协程</span></a></li></ol>
-    </div>
-</div>
-
-            </div>
-        
-    </div>
 </div>
 
 
@@ -999,36 +563,6 @@ KB，且能动态扩展），因此 Go 可以轻松支持成千上万甚至百�
 
     <!-- post tools -->
     
-        <div class="post-tools right-toc">
-            <div class="post-tools-container border-box">
-    <ul class="post-tools-list border-box">
-        <!-- PC encrypt again -->
-        
-
-        <!-- PC TOC show toggle -->
-        
-            <li class="tools-item flex-center toggle-show-toc">
-                <i class="fas fa-list"></i>
-            </li>
-        
-
-        <!-- PC go comment -->
-        
-            <li class="tools-item flex-center go-to-comments">
-                <i class="fas fa-comment"></i>
-                <span class="post-comments-count"></span>
-            </li>
-        
-
-        <!-- PC full screen -->
-        <li class="tools-item flex-center full-screen">
-            <i class="fa-solid fa-expand"></i>
-        </li>
-    </ul>
-</div>
-
-        </div>
-    
 
     <!-- side tools -->
     <div class="side-tools">
@@ -1060,15 +594,7 @@ KB，且能动态扩展），因此 Go 可以轻松支持成千上万甚至百�
 
     <ul class="exposed-tools-list border-box">
         
-            <li class="tools-item toggle-show-toc-tablet flex-center">
-                <i class="fas fa-list"></i>
-            </li>
-        
 
-        
-            <li class="tools-item go-to-comments-tablet flex-center">
-                <i class="fas fa-comment"></i>
-            </li>
         
 
         <li class="tools-item tool-toggle-show flex-center">
@@ -1124,18 +650,8 @@ KB，且能动态扩展），因此 Go 可以轻松支持成千上万甚至百�
 
     <!-- tablet toc -->
     
-        <div class="tablet-post-toc-mask">
-            <div class="tablet-post-toc">
-                <div class="post-toc-wrap border-box">
-    <div class="post-toc border-box">
-        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E5%92%8C%E7%BA%BF%E7%A8%8B"><span class="nav-text">进程和线程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E7%BA%BF%E7%A8%8B%E6%A8%A1%E5%9E%8B"><span class="nav-text">常见线程模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80%E5%AF%B9%E4%B8%80%E6%A8%A1%E5%9E%8B11"><span class="nav-text">一对一模型（1:1）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%9A%E5%AF%B9%E5%A4%9A%E6%A8%A1%E5%9E%8Bmn"><span class="nav-text">多对多模型（M:N）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%8F%E7%A8%8B"><span class="nav-text">协程</span></a></li></ol>
-    </div>
-</div>
-
-            </div>
-        </div>
-    
 </main>
+
 
 
 
@@ -1159,24 +675,6 @@ KB，且能动态扩展），因此 Go 可以轻松支持成千上万甚至百�
     
 
     <!-- post page -->
-    
-        <!-- post-helper -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/post-helper.min.js"></script>
-
-        <!-- toc -->
-        
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/toc.min.js"></script>
-        
-
-        <!-- copyright-info -->
-        
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/copyright-info.min.js"></script>
-        
-
-        <!-- share -->
-        
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/share.min.js"></script>
-        
     
 
     <!-- categories page -->
