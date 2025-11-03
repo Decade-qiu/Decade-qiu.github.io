@@ -1,0 +1,1543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="blog, decade, lucky">
+    <meta name="description" content="Decade&#39;s lucky blog">
+    <meta name="author" content="Zhongjun Qiu">
+    
+    <title>
+        
+            常见的 LLM 文本嵌入（Embedding）方法解析 |
+        
+        Decade
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="https://decade.net.cn/images/logo.ico">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/fontawesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/regular.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/solid.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/brands.min.css">
+    
+        
+            
+        
+            
+                
+<link rel="stylesheet" href="/css/custom.css">
+
+            
+        
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"decade.net.cn","root":"/","language":"en","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"Decade","author":"Zhongjun Qiu","avatar":"/images/avatar.ico","logo":"/images/avatar.ico","favicon":"https://decade.net.cn/images/logo.ico"},"menu":{"home":"/ || fa-solid fa-home","archives":"/archives || fa-solid fa-box-archive","tags":"/tags || fa-solid fa-tags","categories":"/categories || fa-solid fa-layer-group","more":{"icon":"fa-solid fa-circle-user","children":[{"tool":"/tools || fa-solid fa-tools"},{"life":"/photos || fa-solid fa-image"},{"me":"/about || fa-solid fa-user-graduate"},{"Git":"/custom/index.html || fa-solid fa-user"}]}},"first_screen":{"enable":true,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"The Steadfast Determination of An Ordinary Soul.","hitokoto":false},"social_contact":{"enable":true,"links":{"github":"https://github.com/Decade-qiu","weixin":"img | /images/social/weixin.jpg","qq":null,"weibo":null,"zhihu":null,"twitter":null,"x":null,"facebook":null,"email":"qiuyu6021@gmail.com"}},"scroll":{"progress_bar":true,"percent":true,"hide_header":false},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"created || fa-solid fa-history","post_datetime_format":"ago"},"post":{"author_badge":{"enable":true,"level_badge":false,"custom_badge":"元婴开发者"},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":true,"img_link":"/images/post/payment.jpg","text":null,"icon":null},"created_datetime_icon":"fa-solid fa-calendar-plus","updated_datetime_icon":"fa-solid fa-arrows-rotate"},"code_block":{"tools":{"enable":true,"style":"mac"},"highlight_theme":"obsidian"},"toc":{"enable":true,"number":false,"expand_all":false,"init_open":false,"layout":"right"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":false,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":true,"use":"waline","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.39"},"waline":{"server_url":"https://waline-vercel-two-rho.vercel.app/","reaction":true,"version":"3.3.2"},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":false},"lazyload":{"enable":true},"cdn":{"enable":true,"provider":"cdnjs"},"pjax":{"enable":false},"footer":{"since":2020,"word_count":true,"site_deploy":{"enable":true,"provider":"github","url":"https://github.com"},"record":{"enable":false,"list":[{"code":null,"link":null}]}},"inject":{"enable":true,"css":[null,"/css/custom.css"],"js":[null,"/js/custom_code_block.js"]},"root":"","source_data":{"photos":[{"url":"/images/post/【哲风壁纸】日本动漫-电锯人.webp","name":"电锯人"},{"url":"/images/post/Quicker_20250428_193139.webp","name":"kowayia"},{"url":"/images/post/Quicker_20250428_233349.webp","name":"世界地图"},{"url":"/images/post/tmpFE1E.tmp.webp","name":"施红"},{"url":"/images/post/result-1745849388402.webp","name":"仇忠骏.动漫版"},{"url":"/images/photos/猫猫困了PNG.png","name":"猫猫困了PNG"},{"url":"/images/photos/宁静的暴雨天.png","name":"宁静的暴雨天"},{"url":"/images/photos/我在扬州好想你.png","name":"我在扬州好想你"},{"url":"/images/photos/信鸽.png","name":"信鸽"},{"url":"/images/photos/啤酒烧烤.png","name":"啤酒烧烤"},{"url":"/images/photos/随手拍.png","name":"随手拍"},{"url":"/images/photos/糖油混合炸弹.png","name":"糖油混合炸弹"},{"url":"/images/photos/香香的.png","name":"香香的"},{"url":"/images/photos/蝎子莱莱.png","name":"蝎子莱莱"},{"url":"/images/post/指C为python.png","name":"指C为python"},{"url":"/images/photos/YangZhou_Station.png","name":"YangZhou Station"},{"url":"/images/photos/GBC.jpg","name":"Girls Band Cry"},{"url":"/images/photos/bocchi.webp","name":"Bocchi the Rock!"}],"tools":[{"category":"AIGC","anchorId":"QUlHQw0"},{"name":"ChatGPT","link":"https://chat.openai.com/","description":"OpenAI 旗下 AI 聊天对话工具","image":"/images/tools/chatgpt.svg"},{"name":"Gemini","link":"https://gemini.google.com/app","description":"Google 旗下 AI 聊天对话工具","image":"/images/tools/gemini.svg"},{"name":"Copilot","link":"https://copilot.microsoft.com/","description":"Microsoft 旗下 AI 聊天对话工具","image":"/images/tools/copilot.png"},{"name":"Deepseek","link":"https://chat.deepseek.com/","description":"Deepseek 旗下 AI 聊天对话工具","image":"/images/tools/deepseek.jpg"},{"name":"Qwen","link":"https://chat.qwen.ai/","description":"Alibaba 旗下 AI 聊天对话工具","image":"/images/tools/tongyiqianwen.svg"},{"name":"即梦AI","link":"https://jimeng.jianying.com/ai-tool/home","description":"Dreamina 图像生成工具","image":"/images/tools/dream.png"},{"name":"komiko","link":"https://komiko.app/home","description":"Komiko 动漫化AI工具","image":"/images/tools/komiko.webp"},{"name":"InsMind","link":"https://www.insmind.com/zh-cn/workspace/","description":"AI图片编辑工具","image":"/images/tools/insmind.svg"},{"name":"Raphael","link":"https://raphael.app/zh","description":"AI图片生成工具","image":"/images/tools/rap.png"},{"name":"腾讯元宝","link":"https://yuanbao.tencent.com/chat/","description":"Tencent 旗下 AI 聊天对话工具","image":"/images/tools/tencent.jpg"},{"name":"豆包","link":"https://www.doubao.com/chat/","description":"字节跳动 图片生成工具","image":"/images/tools/dn.jpg"},{"category":"Airport","anchorId":"QWlycG9ydA12"},{"name":"独角兽","link":"https://91unicorn.cloud/","description":"十分稳定","image":"/images/tools/dujiaoshou.ico"},{"name":"极速机场","link":"https://xn--mes358acgm99l.com/","description":"便宜好用","image":"/images/tools/jisu.ico"},{"name":"iKuuu","link":"https://ikuuu.org/user","description":"以备不时之需","image":"/images/tools/ikuu.ico"},{"category":"File Converter","anchorId":"RmlsZSUyMENvbnZlcnRlcg16"},{"name":"Online Image Tool","link":"https://www.onlineimagetool.com/zh/","description":"在线压缩和转换图片","image":"/images/tools/oit.png"},{"name":"Vector Magic","link":"https://zh.vectormagic.com/","description":"文件矢量化","image":"/images/tools/apple-touch-icon-180_97956a9f5fbf6a767de100280d78c1f8.png"},{"name":"TinyPNG","link":"https://tinypng.com/","description":"Smart AVIF, WebP, PNG and JPEG Compression for Faster Websites","image":"/images/tools/tiny.ico"},{"name":"踏得","link":"https://techbrood.com/tool","description":"HTML5在线工具","image":"/images/tools/td.ico"},{"name":"UU在线工具","link":"https://uutool.cn/base64/","description":"base64工具包","image":"/images/tools/uu.png"},{"name":"I Love PDF","link":"https://www.ilovepdf.com/","description":"PDF工具包","image":"/images/tools/ilovepdf.svg"},{"category":"Free GPT API","anchorId":"RnJlZSUyMEdQVCUyMEFQSQ23"},{"name":"Gemini API","link":"https://ai.google.dev/gemini-api/docs/quickstart?lang=python","description":"Google Gemini API","image":"/images/tools/touchicon-180-new.png"},{"name":"SiliconCloud","link":"https://cloud.siliconflow.cn/models","description":"各种模型API"},{"name":"Cloudflare Workers AI","link":"https://developers.cloudflare.com/workers-ai/configuration/open-ai-compatibility/","description":"OpenAI compatible API endpoints","image":"/images/tools/logo.p_ySeMR1.svg"},{"name":"算了么","link":"https://api.suanli.cn/","description":"共享算力API","image":"/images/tools/suanlm.svg"},{"category":"Resource Explorer","anchorId":"UmVzb3VyY2UlMjBFeHBsb3Jlcg28"},{"name":"Free for Developers","link":"https://free-for.dev/","description":"A list of SaaS, PaaS and IaaS offerings that have free tiers of interest to devops and infradev","image":"/images/tools/freefd.webp"},{"name":"zlibrary","link":"https://zh.z-library.sk/","description":"在线图书馆","image":"/images/tools/logo.zlibrary.svg"},{"name":"PicX","link":"https://picx.xpoet.cn/","description":"基于Github的图床","image":"/images/tools/logo.ffee4291.png"},{"name":"HaoWallpaper","link":"https://haowallpaper.com/","description":"哲风壁纸","image":"/images/tools/haowall.ico"},{"name":"Awesome","link":"https://wallhaven.cc/","description":"WallHaven","image":"/images/tools/wallheaven.ico"},{"name":"WallHere","link":"https://wallhere.com/","description":"WallHere"},{"name":"SnapAny","link":"https://snapany.com/zh","description":"万能视频图片解析下载"},{"name":"ØMagnet","link":"https://0cili.org/","description":"种子下载"},{"name":"twitter","link":"https://snapvid.net/zh-cn/twitter-downloader","description":"推特视频下载器","image":"/images/tools/apple-touch-icon.png"},{"name":"youtube","link":"https://www.y2mate.com/en949","description":"Youtube视频下载器","image":"/images/tools/y2mate.webp"},{"name":"Icons8","link":"https://icons8.com/icons","description":"免费图标下载","image":"/images/tools/logo-icons8.svg"},{"name":"全能emoji","link":"https://www.emojiall.com/zh-hans","description":"emoji制作","image":"/images/tools/emoji.ico"},{"name":"emojidb","link":"https://emojidb.org/","description":"免费表情包下载","image":"/images/tools/emojidb.png"},{"name":"Flaticon","link":"https://www.flaticon.com/","description":"免费图标下载","image":"/images/tools/logo-flaticon.svg"},{"name":"IconFinder","link":"https://www.iconfinder.com/","description":"免费图标下载","image":"/images/tools/logo-iconfinder.svg"}]},"version":"4.2.5"}
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"}
+    KEEP.language_code_block = {"copy":"Copy code","copied":"Copied","fold":"Fold code block","folded":"Folded"}
+    KEEP.language_copy_copyright = {"copy":"Copy copyright info","copied":"Copied","title":"Original post title","author":"Original post author","link":"Original post link"}
+  </script>
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left flex-start border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/avatar.ico">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               Decade
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc border-box">
+                <ul class="menu-list border-box">
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-home"></i>
+                                
+                                HOME
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/archives">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-box-archive"></i>
+                                
+                                ARCHIVES
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/tags">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-tags"></i>
+                                
+                                TAGS
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/categories">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-layer-group"></i>
+                                
+                                CATEGORIES
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box has-sub-menu">
+                            <a class="menu-text-color border-box" href="javascript:void(0);">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-circle-user"></i>
+                                
+                                MORE
+                                
+                                    <i class="menu-text-color collapse-icon fa-solid fa-angle-down"></i>
+                                
+                            </a>
+                            
+                                <ul class="sub-menu-list border-box">
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" href="/tools">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-solid fa-tools"></i>
+                                                
+                                                TOOL
+                                            </a>
+                                        </li>
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" href="/photos">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-solid fa-image"></i>
+                                                
+                                                LIFE
+                                            </a>
+                                        </li>
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" href="/about">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-solid fa-user-graduate"></i>
+                                                
+                                                ME
+                                            </a>
+                                        </li>
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" href="/custom/">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-solid fa-user"></i>
+                                                
+                                                GIT
+                                            </a>
+                                        </li>
+                                    
+                                </ul>
+                            
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="menu-text-color fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile border-box flex-start">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list border-box">
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-home"></i>
+                                </span>
+                            
+                            HOME
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/archives">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-box-archive"></i>
+                                </span>
+                            
+                            ARCHIVES
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/tags">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-tags"></i>
+                                </span>
+                            
+                            TAGS
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/categories">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-layer-group"></i>
+                                </span>
+                            
+                            CATEGORIES
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box has-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="javascript:void(0);">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-circle-user"></i>
+                                </span>
+                            
+                            MORE
+                        </a>
+                        
+                            <i class="right-side collapse-icon fa-solid fa-angle-left"></i>
+                        
+                    </label>
+                    
+                        <ul class="drawer-sub-menu-list border-box">
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" href="/tools">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-solid fa-tools"></i>
+                                            </span>
+                                        
+                                        TOOL
+                                    </a>
+                                </li>
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" href="/photos">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-solid fa-image"></i>
+                                            </span>
+                                        
+                                        LIFE
+                                    </a>
+                                </li>
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" href="/about">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-solid fa-user-graduate"></i>
+                                            </span>
+                                        
+                                        ME
+                                    </a>
+                                </li>
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" href="/custom/">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-solid fa-user"></i>
+                                            </span>
+                                        
+                                        GIT
+                                    </a>
+                                </li>
+                            
+                        </ul>
+                    
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+                <div class="post-content-top border-box"
+                     style="height: 400px"
+                >
+                    <div class="cover-post-title">
+                        常见的 LLM 文本嵌入（Embedding）方法解析
+                    </div>
+                    <img class="post-cover" src="/images/post/iShot_2025-11-03_20.50.07.webp"
+                         onerror="this.style.display='none'"
+                    >
+                </div>
+            
+
+            <div class="post-content-bottom border-box has-cover">
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/avatar.ico">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">Zhongjun Qiu</span>
+                                
+                                    <span class="author-badge">元婴开发者</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2025-11-03 20:40:22</span>
+            </span>
+
+            
+                <span class="meta-info-item post-update-date">
+                    <i class="icon fa-solid fa-arrows-rotate"></i>&nbsp;
+                    <span class="datetime" data-updated="Mon Nov 03 2025 21:01:42 GMT+0800">2025-11-03 21:01:42</span>
+                </span>
+            
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/LLM/">LLM</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/Embedding/">Embedding</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>7.6k Words</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>32 Mins</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <p>本篇文章介绍大语言模型（LLM）中常用的文本嵌入（Embedding）方法，包括传统的
+One-Hot 编码、词袋模型（BoW）、TF-IDF 以及现代的词向量（Word
+Embedding）技术。每种方法的原理、优缺点及其在实际中的应用场景都会进行详细讲解，并附有代码示例以帮助理解。</p>
+<span id="more"></span>
+<h2 id="引言大语言模型llm的第二块基石embedding">💡
+引言：大语言模型（LLM）的第二块基石——Embedding</h2>
+<p>在上一篇中，我们探讨了 <strong>Tokenizer</strong>
+如何将文本转化为机器可读的 <strong>Token ID
+序列</strong>。然而，这些简单的 ID 数字（如
+<code>[464, 9016, 2793, ...]</code>）本身不包含任何语义信息。模型知道 ID
+9016 对应 “lowest”，但不知道它与 ID 2793 对应的 “lower”
+在意义上是相似的，而与 ID 4000 对应的 “banana” 是不相关的。</p>
+<p>要让机器真正理解语言的<strong>意义、上下文和关系</strong>，我们需要一个机制将离散的、毫无关联的
+Token ID
+转化为连续的、具有丰富语义信息的<strong>向量（Vector）</strong>表示。这个机制就是
+<strong>Embedding（词嵌入或令牌嵌入）</strong>。</p>
+<h3 id="为什么-embedding-是-llm-的核心组件">为什么 Embedding 是 LLM
+的核心组件？</h3>
+<ol type="1">
+<li><strong>语义表示（Semantic Representation）</strong>：Embedding
+是一张高维空间中的“地图”。它通过学习，将具有相似意义的 Token
+放置在这个空间中彼此<strong>接近</strong>的位置。例如，在向量空间中，<span class="math inline">Vector(“King”) − Vector(“Man”) + Vector(“Woman”)</span>
+约等于 <span class="math inline">Vector(“Queen”)</span>，这体现了语言内在的代数关系。</li>
+<li><strong>降维与特征提取（Dimensionality Reduction &amp;
+Features）</strong>：Embedding 将庞大且稀疏的词汇表（数万个
+Token）映射到相对低维且密集的向量空间（如 768 维或 4096
+维），极大地提高了模型的计算效率和学习能力。</li>
+<li><strong>模型兼容性（Neural Network Compatibility）</strong>：无论是
+Transformer 架构、RNN 还是
+CNN，它们都需要连续的、可微分的数值输入才能进行梯度下降和训练。Embedding
+层正是提供了这种<strong>可学习的数值化表示</strong>，是整个深度学习模型接收输入的必经之路。</li>
+</ol>
+<h2 id="one-hot-编码独热表示">1. One-Hot 编码（独热表示）</h2>
+<h3 id="主要思想与原理">💡 主要思想与原理</h3>
+<p>One-Hot
+编码是一种<strong>稀疏、高维、离散</strong>的向量表示方法，也是最早、最直观的文本表示方式。</p>
+<ul>
+<li><strong>原理：</strong> 首先，对训练语料中的所有不重复的词（或
+Token）建立一个词汇表 <span class="math inline"><em>V</em></span>。词汇表的大小 <span class="math inline">|<em>V</em>|</span> 即为向量的维度。</li>
+<li><strong>表示：</strong> 词 <span class="math inline"><em>w</em></span> 的 One-Hot 向量 <span class="math inline"><strong>v</strong><sub><em>w</em></sub></span>
+是一个长度为 <span class="math inline">|<em>V</em>|</span>
+的向量，其中只有对应于 <span class="math inline"><em>w</em></span>
+在词汇表中的索引位置为 <strong>1</strong>，其他位置均为
+<strong>0</strong>。</li>
+</ul>
+<h3 id="缺点分析">🧐 缺点分析</h3>
+<ol type="1">
+<li><strong>维度灾难：</strong>
+当词汇表很大时（如几十万），向量维度极高，且绝大多数元素是
+0（稀疏），计算效率低下。</li>
+<li><strong>语义鸿沟：</strong> 任意两个词的 One-Hot
+向量的点积（或余弦相似度）总是
+0，表示它们之间<strong>完全独立</strong>。这无法体现词汇间的任何语义关系（例如：“猫”和“虎”很相似，但它们的
+One-Hot 向量距离与“猫”和“宇宙飞船”的距离是相同的）。</li>
+</ol>
+<h3 id="示例python-实现">💻 示例（Python 实现）</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment"># 假设的词汇表 V</span></span><br><span class="line">vocab = [<span class="string">'我'</span>, <span class="string">'爱'</span>, <span class="string">'学习'</span>, <span class="string">'自然语言处理'</span>, <span class="string">'技术'</span>]</span><br><span class="line">vocab_size = <span class="built_in">len</span>(vocab)</span><br><span class="line">word_to_idx = {word: i <span class="keyword">for</span> i, word <span class="keyword">in</span> <span class="built_in">enumerate</span>(vocab)}</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">one_hot_encode</span>(<span class="params">word</span>):</span><br><span class="line">    <span class="string">"""为给定词生成 One-Hot 向量"""</span></span><br><span class="line">    <span class="keyword">if</span> word <span class="keyword">not</span> <span class="keyword">in</span> word_to_idx:</span><br><span class="line">        <span class="keyword">raise</span> ValueError(<span class="string">f"'<span class="subst">{word}</span>' 不在词汇表中。"</span>)</span><br><span class="line">    </span><br><span class="line">    vector = np.zeros(vocab_size)</span><br><span class="line">    index = word_to_idx[word]</span><br><span class="line">    vector[index] = <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> vector</span><br><span class="line"></span><br><span class="line"><span class="comment"># 编码 "学习"</span></span><br><span class="line">word_study = <span class="string">'学习'</span></span><br><span class="line">vector_study = one_hot_encode(word_study)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f"词汇表大小: <span class="subst">{vocab_size}</span>"</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f"'<span class="subst">{word_study}</span>' 的 One-Hot 向量: <span class="subst">{vector_study}</span>"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 编码 "技术"</span></span><br><span class="line">word_tech = <span class="string">'技术'</span></span><br><span class="line">vector_tech = one_hot_encode(word_tech)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f"'<span class="subst">{word_tech}</span>' 的 One-Hot 向量: <span class="subst">{vector_tech}</span>"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算两个向量的余弦相似度</span></span><br><span class="line"><span class="comment"># np.dot(v1, v2) / (np.linalg.norm(v1) * np.linalg.norm(v2))</span></span><br><span class="line">similarity = np.dot(vector_study, vector_tech)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f"'<span class="subst">{word_study}</span>' 和 '<span class="subst">{word_tech}</span>' 的相似度: <span class="subst">{similarity}</span>"</span>) </span><br><span class="line"><span class="comment"># 结果始终为 0，因为向量正交</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">词汇表大小: 5</span><br><span class="line">'学习' 的 One-Hot 向量: [0. 0. 1. 0. 0.]</span><br><span class="line">'技术' 的 One-Hot 向量: [0. 0. 0. 0. 1.]</span><br><span class="line">'学习' 和 '技术' 的相似度: 0.0</span><br></pre></td></tr></table></figure>
+<p>也可以用现成的库</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> OneHotEncoder</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">corpus = [[<span class="string">"我"</span>], [<span class="string">"爱"</span>], [<span class="string">"自然语言"</span>], [<span class="string">"处理"</span>]]</span><br><span class="line"></span><br><span class="line">enc = OneHotEncoder(sparse_output=<span class="literal">False</span>)  <span class="comment"># 返回稠密矩阵</span></span><br><span class="line">onehot = enc.fit_transform(corpus)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">"词表:"</span>, enc.categories_)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"One-hot 表示:\n"</span>, onehot)</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">词表: [<span class="built_in">array</span>([<span class="string">'处理'</span>, <span class="string">'我'</span>, <span class="string">'爱'</span>, <span class="string">'自然语言'</span>], dtype=object)]</span><br><span class="line">One-hot 表示:</span><br><span class="line"> [[<span class="number">0.</span> <span class="number">1.</span> <span class="number">0.</span> <span class="number">0.</span>]</span><br><span class="line"> [<span class="number">0.</span> <span class="number">0.</span> <span class="number">1.</span> <span class="number">0.</span>]</span><br><span class="line"> [<span class="number">0.</span> <span class="number">0.</span> <span class="number">0.</span> <span class="number">1.</span>]</span><br><span class="line"> [<span class="number">1.</span> <span class="number">0.</span> <span class="number">0.</span> <span class="number">0.</span>]]</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="词袋编码及优化bow-n-gram-tf-idf">2. 词袋编码及优化（BoW, N-gram,
+TF-IDF）</h2>
+<h3 id="主要思想与原理-1">🧠 主要思想与原理</h3>
+<p>这类方法将一个文档表示为一个向量，向量的每个维度对应词汇表中的一个词。它们主要关注<strong>词汇的频率或重要性</strong>，<strong>忽略词序</strong>。</p>
+<h4 id="词袋模型-bag-of-words-bow">2.1 词袋模型 (Bag-of-Words, BoW)</h4>
+<ul>
+<li><strong>思想：</strong>
+将文档视为“一袋子”词语的集合，<strong>只统计词语的出现次数</strong>（Term
+Frequency, TF），完全不考虑词语出现的顺序和语法结构。</li>
+<li><strong>原理：</strong> 文档向量 <span class="math inline"><strong>d</strong></span> 的第 <span class="math inline"><em>i</em></span> 维数值就是词汇表中的第 <span class="math inline"><em>i</em></span> 个词在文档中出现的次数 <span class="math inline"><em>C</em><em>o</em><em>u</em><em>n</em><em>t</em>(<em>w</em><sub><em>i</em></sub>, <em>d</em>)</span>。</li>
+</ul>
+<p><strong>词袋模型（BoW）</strong> 将文本表示为
+<strong>词频统计向量</strong>：</p>
+<ul>
+<li>忽略词序，仅统计每个词出现次数</li>
+<li>每个文档表示为 “词频分布”</li>
+</ul>
+<p>例如，语料为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Doc1: 我 爱 自然 语言</span><br><span class="line">Doc2: 我 爱 处理</span><br></pre></td></tr></table></figure>
+<p>则词表为 [我, 爱, 自然语言, 处理] 表示为：</p>
+<table>
+<thead>
+<tr>
+<th>文档</th>
+<th>我</th>
+<th>爱</th>
+<th>自然</th>
+<th>语言</th>
+<th>处理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Doc1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Doc2</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p>这就是最原始的 BoW。</p>
+<h4 id="n-gram">2.2 N-gram</h4>
+<ul>
+<li><strong>思想：</strong> 对 BoW
+模型的<strong>词序盲点</strong>进行优化，将连续的 <span class="math inline"><em>N</em></span> 个词作为一个整体（一个
+Token）进行计数。</li>
+<li><strong>原理：</strong> 当 <span class="math inline"><em>N</em> = 2</span> 时，称为 Bi-gram，例如句子 “我
+爱 NLP”
+会被看作三个单元：<code>我</code>、<code>爱</code>、<code>NLP</code>、<code>我 爱</code>、<code>爱 NLP</code>。它部分地保留了局部词序信息。</li>
+</ul>
+<p>例如第一个文档为：“我 爱 自然 语言 处理”，那其对应的词表如下</p>
+<table>
+<thead>
+<tr>
+<th>n</th>
+<th>n-gram 示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>我, 爱, 自然, 语言, 处理</td>
+</tr>
+<tr>
+<td>2</td>
+<td>我爱, 爱自然, 自然语言, 语言处理</td>
+</tr>
+<tr>
+<td>3</td>
+<td>我爱自然, 爱自然语言, 自然语言处理</td>
+</tr>
+</tbody>
+</table>
+<p>假设第二个文档是：“我 爱 机器 学习”</p>
+<p>它的 bigram 特征为：<span class="math inline">我爱, 爱机器, 机器学习</span></p>
+<p>合并整个语料的 2-gram 词表：<span class="math inline"><em>V</em> = 我爱, 爱自然, 自然语言, 语言处理, 爱机器, 机器学习</span></p>
+<p>对应的 BoW 矩阵为：</p>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 45%">
+<col style="width: 5%">
+<col style="width: 8%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 8%">
+<col style="width: 10%">
+</colgroup>
+<thead>
+<tr>
+<th>doc</th>
+<th>我爱</th>
+<th>爱自然</th>
+<th>自然语言</th>
+<th>语言处理</th>
+<th>爱机器</th>
+<th>机器学习</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>doc1 (“我爱自然语言处理”)</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>doc2 (“我爱机器学习”)</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<h4 id="tf-idf">2.3 TF-IDF</h4>
+<p>BoW
+只看词频，不考虑词的重要性。一些高频的功能词（如“我”“是”“的”）在几乎所有文档中都会出现，但它们<strong>并不能区分语义</strong>。BoW
+因此会让无信息的常见词占据较大权重，导致文本相似度计算或分类性能下降。</p>
+<p>TF-IDF中每个文档被表示为一个向量，其每一维对应语料库中的一个词，值为该词在该文档中的
+TF-IDF 权重。</p>
+<ul>
+<li><strong>思想：</strong> 提升 BoW
+模型中对词语重要性的判断。一个词的重要性与它在文档中出现的频率成<strong>正比</strong>（<span class="math inline"><em>T</em><em>F</em></span>），与它在整个语料库中出现的频率成<strong>反比</strong>（<span class="math inline"><em>I</em><em>D</em><em>F</em></span>）。</li>
+<li><strong>原理：</strong>
+<ul>
+<li><strong>词频 (TF)：</strong> <span class="math inline"><mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -1.158ex;" xmlns="http://www.w3.org/2000/svg" width="28.623ex" height="3.447ex" role="img" focusable="false" viewBox="0 -1011.8 12651.5 1523.5"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mi"><path data-c="1D447" d="M40 437Q21 437 21 445Q21 450 37 501T71 602L88 651Q93 669 101 677H569H659Q691 677 697 676T704 667Q704 661 687 553T668 444Q668 437 649 437Q640 437 637 437T631 442L629 445Q629 451 635 490T641 551Q641 586 628 604T573 629Q568 630 515 631Q469 631 457 630T439 622Q438 621 368 343T298 60Q298 48 386 46Q418 46 427 45T436 36Q436 31 433 22Q429 4 424 1L422 0Q419 0 415 0Q410 0 363 1T228 2Q99 2 64 0H49Q43 6 43 9T45 27Q49 40 55 46H83H94Q174 46 189 55Q190 56 191 56Q196 59 201 76T241 233Q258 301 269 344Q339 619 339 625Q339 630 310 630H279Q212 630 191 624Q146 614 121 583T67 467Q60 445 57 441T43 437H40Z"></path></g><g data-mml-node="mi" transform="translate(704,0)"><path data-c="1D439" d="M48 1Q31 1 31 11Q31 13 34 25Q38 41 42 43T65 46Q92 46 125 49Q139 52 144 61Q146 66 215 342T285 622Q285 629 281 629Q273 632 228 634H197Q191 640 191 642T193 659Q197 676 203 680H742Q749 676 749 669Q749 664 736 557T722 447Q720 440 702 440H690Q683 445 683 453Q683 454 686 477T689 530Q689 560 682 579T663 610T626 626T575 633T503 634H480Q398 633 393 631Q388 629 386 623Q385 622 352 492L320 363H375Q378 363 398 363T426 364T448 367T472 374T489 386Q502 398 511 419T524 457T529 475Q532 480 548 480H560Q567 475 567 470Q567 467 536 339T502 207Q500 200 482 200H470Q463 206 463 212Q463 215 468 234T473 274Q473 303 453 310T364 317H309L277 190Q245 66 245 60Q245 46 334 46H359Q365 40 365 39T363 19Q359 6 353 0H336Q295 2 185 2Q120 2 86 2T48 1Z"></path></g><g data-mml-node="mo" transform="translate(1453,0)"><path data-c="28" d="M94 250Q94 319 104 381T127 488T164 576T202 643T244 695T277 729T302 750H315H319Q333 750 333 741Q333 738 316 720T275 667T226 581T184 443T167 250T184 58T225 -81T274 -167T316 -220T333 -241Q333 -250 318 -250H315H302L274 -226Q180 -141 137 -14T94 250Z"></path></g><g data-mml-node="mi" transform="translate(1842,0)"><path data-c="1D464" d="M580 385Q580 406 599 424T641 443Q659 443 674 425T690 368Q690 339 671 253Q656 197 644 161T609 80T554 12T482 -11Q438 -11 404 5T355 48Q354 47 352 44Q311 -11 252 -11Q226 -11 202 -5T155 14T118 53T104 116Q104 170 138 262T173 379Q173 380 173 381Q173 390 173 393T169 400T158 404H154Q131 404 112 385T82 344T65 302T57 280Q55 278 41 278H27Q21 284 21 287Q21 293 29 315T52 366T96 418T161 441Q204 441 227 416T250 358Q250 340 217 250T184 111Q184 65 205 46T258 26Q301 26 334 87L339 96V119Q339 122 339 128T340 136T341 143T342 152T345 165T348 182T354 206T362 238T373 281Q402 395 406 404Q419 431 449 431Q468 431 475 421T483 402Q483 389 454 274T422 142Q420 131 420 107V100Q420 85 423 71T442 42T487 26Q558 26 600 148Q609 171 620 213T632 273Q632 306 619 325T593 357T580 385Z"></path></g><g data-mml-node="mo" transform="translate(2558,0)"><path data-c="29" d="M60 749L64 750Q69 750 74 750H86L114 726Q208 641 251 514T294 250Q294 182 284 119T261 12T224 -76T186 -143T145 -194T113 -227T90 -246Q87 -249 86 -250H74Q66 -250 63 -250T58 -247T55 -238Q56 -237 66 -225Q221 -64 221 250T66 725Q56 737 55 738Q55 746 60 749Z"></path></g><g data-mml-node="mo" transform="translate(3224.8,0)"><path data-c="3D" d="M56 347Q56 360 70 367H707Q722 359 722 347Q722 336 708 328L390 327H72Q56 332 56 347ZM56 153Q56 168 72 173H708Q722 163 722 153Q722 140 707 133H70Q56 140 56 153Z"></path></g><g data-mml-node="mfrac" transform="translate(4280.6,0)"><g data-mml-node="mrow" transform="translate(220,481.4) scale(0.707)"><g data-mml-node="mtext"><text data-variant="normal" transform="scale(1,-1)" font-size="884px" font-family="serif">词</text><path data-c="A0" d="" transform="translate(1000,0)"></path></g><g data-mml-node="mi" transform="translate(1250,0)"><path data-c="1D464" d="M580 385Q580 406 599 424T641 443Q659 443 674 425T690 368Q690 339 671 253Q656 197 644 161T609 80T554 12T482 -11Q438 -11 404 5T355 48Q354 47 352 44Q311 -11 252 -11Q226 -11 202 -5T155 14T118 53T104 116Q104 170 138 262T173 379Q173 380 173 381Q173 390 173 393T169 400T158 404H154Q131 404 112 385T82 344T65 302T57 280Q55 278 41 278H27Q21 284 21 287Q21 293 29 315T52 366T96 418T161 441Q204 441 227 416T250 358Q250 340 217 250T184 111Q184 65 205 46T258 26Q301 26 334 87L339 96V119Q339 122 339 128T340 136T341 143T342 152T345 165T348 182T354 206T362 238T373 281Q402 395 406 404Q419 431 449 431Q468 431 475 421T483 402Q483 389 454 274T422 142Q420 131 420 107V100Q420 85 423 71T442 42T487 26Q558 26 600 148Q609 171 620 213T632 273Q632 306 619 325T593 357T580 385Z"></path></g><g data-mml-node="mtext" transform="translate(1966,0)"><path data-c="A0" d=""></path><text data-variant="normal" transform="translate(250,0) scale(1,-1)" font-size="884px" font-family="serif">在</text><text data-variant="normal" transform="translate(1250,0) scale(1,-1)" font-size="884px" font-family="serif">文</text><text data-variant="normal" transform="translate(2250,0) scale(1,-1)" font-size="884px" font-family="serif">档</text><text data-variant="normal" transform="translate(3250,0) scale(1,-1)" font-size="884px" font-family="serif">中</text><text data-variant="normal" transform="translate(4250,0) scale(1,-1)" font-size="884px" font-family="serif">出</text><text data-variant="normal" transform="translate(5250,0) scale(1,-1)" font-size="884px" font-family="serif">现</text><text data-variant="normal" transform="translate(6250,0) scale(1,-1)" font-size="884px" font-family="serif">的</text><text data-variant="normal" transform="translate(7250,0) scale(1,-1)" font-size="884px" font-family="serif">次</text><text data-variant="normal" transform="translate(8250,0) scale(1,-1)" font-size="884px" font-family="serif">数</text></g></g><g data-mml-node="mtext" transform="translate(2417.7,-370.3) scale(0.707)"><text data-variant="normal" transform="scale(1,-1)" font-size="884px" font-family="serif">文</text><text data-variant="normal" transform="translate(1000,0) scale(1,-1)" font-size="884px" font-family="serif">档</text><text data-variant="normal" transform="translate(2000,0) scale(1,-1)" font-size="884px" font-family="serif">总</text><text data-variant="normal" transform="translate(3000,0) scale(1,-1)" font-size="884px" font-family="serif">词</text><text data-variant="normal" transform="translate(4000,0) scale(1,-1)" font-size="884px" font-family="serif">数</text></g><rect width="8130.9" height="60" x="120" y="220"></rect></g></g></g></svg></mjx-container></span></li>
+<li><strong>逆文档频率 (IDF)：</strong> <span class="math inline"><mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -1.469ex;" xmlns="http://www.w3.org/2000/svg" width="33.259ex" height="4.07ex" role="img" focusable="false" viewBox="0 -1149.5 14700.5 1799"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mi"><path data-c="1D43C" d="M43 1Q26 1 26 10Q26 12 29 24Q34 43 39 45Q42 46 54 46H60Q120 46 136 53Q137 53 138 54Q143 56 149 77T198 273Q210 318 216 344Q286 624 286 626Q284 630 284 631Q274 637 213 637H193Q184 643 189 662Q193 677 195 680T209 683H213Q285 681 359 681Q481 681 487 683H497Q504 676 504 672T501 655T494 639Q491 637 471 637Q440 637 407 634Q393 631 388 623Q381 609 337 432Q326 385 315 341Q245 65 245 59Q245 52 255 50T307 46H339Q345 38 345 37T342 19Q338 6 332 0H316Q279 2 179 2Q143 2 113 2T65 2T43 1Z"></path></g><g data-mml-node="mi" transform="translate(504,0)"><path data-c="1D437" d="M287 628Q287 635 230 637Q207 637 200 638T193 647Q193 655 197 667T204 682Q206 683 403 683Q570 682 590 682T630 676Q702 659 752 597T803 431Q803 275 696 151T444 3L430 1L236 0H125H72Q48 0 41 2T33 11Q33 13 36 25Q40 41 44 43T67 46Q94 46 127 49Q141 52 146 61Q149 65 218 339T287 628ZM703 469Q703 507 692 537T666 584T629 613T590 629T555 636Q553 636 541 636T512 636T479 637H436Q392 637 386 627Q384 623 313 339T242 52Q242 48 253 48T330 47Q335 47 349 47T373 46Q499 46 581 128Q617 164 640 212T683 339T703 469Z"></path></g><g data-mml-node="mi" transform="translate(1332,0)"><path data-c="1D439" d="M48 1Q31 1 31 11Q31 13 34 25Q38 41 42 43T65 46Q92 46 125 49Q139 52 144 61Q146 66 215 342T285 622Q285 629 281 629Q273 632 228 634H197Q191 640 191 642T193 659Q197 676 203 680H742Q749 676 749 669Q749 664 736 557T722 447Q720 440 702 440H690Q683 445 683 453Q683 454 686 477T689 530Q689 560 682 579T663 610T626 626T575 633T503 634H480Q398 633 393 631Q388 629 386 623Q385 622 352 492L320 363H375Q378 363 398 363T426 364T448 367T472 374T489 386Q502 398 511 419T524 457T529 475Q532 480 548 480H560Q567 475 567 470Q567 467 536 339T502 207Q500 200 482 200H470Q463 206 463 212Q463 215 468 234T473 274Q473 303 453 310T364 317H309L277 190Q245 66 245 60Q245 46 334 46H359Q365 40 365 39T363 19Q359 6 353 0H336Q295 2 185 2Q120 2 86 2T48 1Z"></path></g><g data-mml-node="mo" transform="translate(2081,0)"><path data-c="28" d="M94 250Q94 319 104 381T127 488T164 576T202 643T244 695T277 729T302 750H315H319Q333 750 333 741Q333 738 316 720T275 667T226 581T184 443T167 250T184 58T225 -81T274 -167T316 -220T333 -241Q333 -250 318 -250H315H302L274 -226Q180 -141 137 -14T94 250Z"></path></g><g data-mml-node="mi" transform="translate(2470,0)"><path data-c="1D464" d="M580 385Q580 406 599 424T641 443Q659 443 674 425T690 368Q690 339 671 253Q656 197 644 161T609 80T554 12T482 -11Q438 -11 404 5T355 48Q354 47 352 44Q311 -11 252 -11Q226 -11 202 -5T155 14T118 53T104 116Q104 170 138 262T173 379Q173 380 173 381Q173 390 173 393T169 400T158 404H154Q131 404 112 385T82 344T65 302T57 280Q55 278 41 278H27Q21 284 21 287Q21 293 29 315T52 366T96 418T161 441Q204 441 227 416T250 358Q250 340 217 250T184 111Q184 65 205 46T258 26Q301 26 334 87L339 96V119Q339 122 339 128T340 136T341 143T342 152T345 165T348 182T354 206T362 238T373 281Q402 395 406 404Q419 431 449 431Q468 431 475 421T483 402Q483 389 454 274T422 142Q420 131 420 107V100Q420 85 423 71T442 42T487 26Q558 26 600 148Q609 171 620 213T632 273Q632 306 619 325T593 357T580 385Z"></path></g><g data-mml-node="mo" transform="translate(3186,0)"><path data-c="29" d="M60 749L64 750Q69 750 74 750H86L114 726Q208 641 251 514T294 250Q294 182 284 119T261 12T224 -76T186 -143T145 -194T113 -227T90 -246Q87 -249 86 -250H74Q66 -250 63 -250T58 -247T55 -238Q56 -237 66 -225Q221 -64 221 250T66 725Q56 737 55 738Q55 746 60 749Z"></path></g><g data-mml-node="mo" transform="translate(3852.8,0)"><path data-c="3D" d="M56 347Q56 360 70 367H707Q722 359 722 347Q722 336 708 328L390 327H72Q56 332 56 347ZM56 153Q56 168 72 173H708Q722 163 722 153Q722 140 707 133H70Q56 140 56 153Z"></path></g><g data-mml-node="mi" transform="translate(4908.6,0)"><path data-c="6C" d="M42 46H56Q95 46 103 60V68Q103 77 103 91T103 124T104 167T104 217T104 272T104 329Q104 366 104 407T104 482T104 542T103 586T103 603Q100 622 89 628T44 637H26V660Q26 683 28 683L38 684Q48 685 67 686T104 688Q121 689 141 690T171 693T182 694H185V379Q185 62 186 60Q190 52 198 49Q219 46 247 46H263V0H255L232 1Q209 2 183 2T145 3T107 3T57 1L34 0H26V46H42Z"></path><path data-c="6F" d="M28 214Q28 309 93 378T250 448Q340 448 405 380T471 215Q471 120 407 55T250 -10Q153 -10 91 57T28 214ZM250 30Q372 30 372 193V225V250Q372 272 371 288T364 326T348 362T317 390T268 410Q263 411 252 411Q222 411 195 399Q152 377 139 338T126 246V226Q126 130 145 91Q177 30 250 30Z" transform="translate(278,0)"></path><path data-c="67" d="M329 409Q373 453 429 453Q459 453 472 434T485 396Q485 382 476 371T449 360Q416 360 412 390Q410 404 415 411Q415 412 416 414V415Q388 412 363 393Q355 388 355 386Q355 385 359 381T368 369T379 351T388 325T392 292Q392 230 343 187T222 143Q172 143 123 171Q112 153 112 133Q112 98 138 81Q147 75 155 75T227 73Q311 72 335 67Q396 58 431 26Q470 -13 470 -72Q470 -139 392 -175Q332 -206 250 -206Q167 -206 107 -175Q29 -140 29 -75Q29 -39 50 -15T92 18L103 24Q67 55 67 108Q67 155 96 193Q52 237 52 292Q52 355 102 398T223 442Q274 442 318 416L329 409ZM299 343Q294 371 273 387T221 404Q192 404 171 388T145 343Q142 326 142 292Q142 248 149 227T179 192Q196 182 222 182Q244 182 260 189T283 207T294 227T299 242Q302 258 302 292T299 343ZM403 -75Q403 -50 389 -34T348 -11T299 -2T245 0H218Q151 0 138 -6Q118 -15 107 -34T95 -74Q95 -84 101 -97T122 -127T170 -155T250 -167Q319 -167 361 -139T403 -75Z" transform="translate(778,0)"></path></g><g data-mml-node="mo" transform="translate(6186.6,0)"><path data-c="2061" d=""></path></g><g data-mml-node="mrow" transform="translate(6353.2,0)"><g data-mml-node="mo" transform="translate(0 -0.5)"><path data-c="28" d="M180 96T180 250T205 541T266 770T353 944T444 1069T527 1150H555Q561 1144 561 1141Q561 1137 545 1120T504 1072T447 995T386 878T330 721T288 513T272 251Q272 133 280 56Q293 -87 326 -209T399 -405T475 -531T536 -609T561 -640Q561 -643 555 -649H527Q483 -612 443 -568T353 -443T266 -270T205 -41Z"></path></g><g data-mml-node="mfrac" transform="translate(597,0)"><g data-mml-node="mtext" transform="translate(2162.4,481.4) scale(0.707)"><text data-variant="normal" transform="scale(1,-1)" font-size="884px" font-family="serif">文</text><text data-variant="normal" transform="translate(1000,0) scale(1,-1)" font-size="884px" font-family="serif">档</text><text data-variant="normal" transform="translate(2000,0) scale(1,-1)" font-size="884px" font-family="serif">总</text><text data-variant="normal" transform="translate(3000,0) scale(1,-1)" font-size="884px" font-family="serif">数</text></g><g data-mml-node="mrow" transform="translate(220,-370.3) scale(0.707)"><g data-mml-node="mtext"><text data-variant="normal" transform="scale(1,-1)" font-size="884px" font-family="serif">包</text><text data-variant="normal" transform="translate(1000,0) scale(1,-1)" font-size="884px" font-family="serif">含</text><text data-variant="normal" transform="translate(2000,0) scale(1,-1)" font-size="884px" font-family="serif">词</text><path data-c="A0" d="" transform="translate(3000,0)"></path></g><g data-mml-node="mi" transform="translate(3250,0)"><path data-c="1D464" d="M580 385Q580 406 599 424T641 443Q659 443 674 425T690 368Q690 339 671 253Q656 197 644 161T609 80T554 12T482 -11Q438 -11 404 5T355 48Q354 47 352 44Q311 -11 252 -11Q226 -11 202 -5T155 14T118 53T104 116Q104 170 138 262T173 379Q173 380 173 381Q173 390 173 393T169 400T158 404H154Q131 404 112 385T82 344T65 302T57 280Q55 278 41 278H27Q21 284 21 287Q21 293 29 315T52 366T96 418T161 441Q204 441 227 416T250 358Q250 340 217 250T184 111Q184 65 205 46T258 26Q301 26 334 87L339 96V119Q339 122 339 128T340 136T341 143T342 152T345 165T348 182T354 206T362 238T373 281Q402 395 406 404Q419 431 449 431Q468 431 475 421T483 402Q483 389 454 274T422 142Q420 131 420 107V100Q420 85 423 71T442 42T487 26Q558 26 600 148Q609 171 620 213T632 273Q632 306 619 325T593 357T580 385Z"></path></g><g data-mml-node="mtext" transform="translate(3966,0)"><path data-c="A0" d=""></path><text data-variant="normal" transform="translate(250,0) scale(1,-1)" font-size="884px" font-family="serif">的</text><text data-variant="normal" transform="translate(1250,0) scale(1,-1)" font-size="884px" font-family="serif">文</text><text data-variant="normal" transform="translate(2250,0) scale(1,-1)" font-size="884px" font-family="serif">档</text><text data-variant="normal" transform="translate(3250,0) scale(1,-1)" font-size="884px" font-family="serif">数</text></g><g data-mml-node="mo" transform="translate(8216,0)"><path data-c="2B" d="M56 237T56 250T70 270H369V420L370 570Q380 583 389 583Q402 583 409 568V270H707Q722 262 722 250T707 230H409V-68Q401 -82 391 -82H389H387Q375 -82 369 -68V230H70Q56 237 56 250Z"></path></g><g data-mml-node="mn" transform="translate(8994,0)"><path data-c="31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path></g></g><rect width="6913.3" height="60" x="120" y="220"></rect></g><g data-mml-node="mo" transform="translate(7750.3,0) translate(0 -0.5)"><path data-c="29" d="M35 1138Q35 1150 51 1150H56H69Q113 1113 153 1069T243 944T330 771T391 541T416 250T391 -40T330 -270T243 -443T152 -568T69 -649H56Q43 -649 39 -647T35 -637Q65 -607 110 -548Q283 -316 316 56Q324 133 324 251Q324 368 316 445Q278 877 48 1123Q36 1137 35 1138Z"></path></g></g></g></g></svg></mjx-container></span></li>
+<li><strong>TF-IDF：</strong> <span class="math inline"><em>T</em><em>F</em><em>I</em><em>D</em><em>F</em>(<em>w</em>) = <em>T</em><em>F</em>(<em>w</em>) × <em>I</em><em>D</em><em>F</em>(<em>w</em>)</span></li>
+<li>高 <span class="math inline"><em>T</em><em>F</em></span> 且高 <span class="math inline"><em>I</em><em>D</em><em>F</em></span>
+的词（即在当前文档常出现，但在其他文档少出现）被认为是最具区分度的关键词。</li>
+</ul></li>
+</ul>
+<p>优点：</p>
+<ul>
+<li>简单有效，不需要语义模型，也能很好区分文档特征</li>
+<li>抑制无用词，自动降低“我”“是”“的”等停用词的权重</li>
+</ul>
+<p>缺点<strong>（也是BoW和n-gram的缺点）</strong>：</p>
+<ul>
+<li>无法捕捉语序：“语言 自然”与“自然 语言”同样处理</li>
+<li>忽略词义相似：“学习”与“研究”视为完全不同</li>
+<li>静态权重：不能根据上下文动态调整，即一个词在不同上下文里表达的意思可能是完全不同的</li>
+<li>稀疏高维：大语料下向量维度极大，计算耗时高</li>
+</ul>
+<h3 id="示例scikit-learn-实现-bow-n-gram-tf-idf">💻 示例（Scikit-learn
+实现 BoW, N-gram, TF-IDF）</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.feature_extraction.text <span class="keyword">import</span> CountVectorizer, TfidfVectorizer</span><br><span class="line"><span class="keyword">import</span> jieba</span><br><span class="line"></span><br><span class="line">documents = [</span><br><span class="line">    <span class="string">"The quick brown fox jumps over the lazy dog."</span>,</span><br><span class="line">    <span class="string">"A quick brown fox is better than a lazy dog."</span>,</span><br><span class="line">    <span class="string">"The lowest lower technologies are amazing and counterproductive."</span>,</span><br><span class="line">    <span class="string">"我爱自然语言处理，并且明天早上吃什么？ 我爱吃枇杷！"</span></span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">"--- 原始文档 ---"</span>)</span><br><span class="line"><span class="keyword">for</span> doc <span class="keyword">in</span> documents:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f"- <span class="subst">{doc}</span>"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 1. BoW (词袋模型)</span></span><br><span class="line"><span class="comment"># token_pattern 保持了单词之间的空格</span></span><br><span class="line">count_vectorizer = CountVectorizer(token_pattern=<span class="string">r'(?u)\b\w\w+\b'</span>)</span><br><span class="line">X_bow = count_vectorizer.fit_transform(documents)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">"\n--- 1. BoW 词频矩阵 (CountVectorizer) ---"</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"词汇表:"</span>, count_vectorizer.get_feature_names_out())</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"Doc 向量表示:"</span>)</span><br><span class="line"><span class="built_in">print</span>(X_bow.toarray())</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. N-gram (使用 Bi-gram, 即 n-gram=2)</span></span><br><span class="line">ngram_vectorizer = CountVectorizer(ngram_range=(<span class="number">2</span>, <span class="number">2</span>))</span><br><span class="line">X_ngram = ngram_vectorizer.fit_transform(documents)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">"\n--- 2. N-gram (Bi-gram) 词汇表 ---"</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"词汇表:"</span>, ngram_vectorizer.get_feature_names_out())</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"Doc 向量表示:"</span>)</span><br><span class="line"><span class="built_in">print</span>(X_ngram.toarray())</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. TF-IDF</span></span><br><span class="line">tfidf_vectorizer = TfidfVectorizer()</span><br><span class="line">X_tfidf = tfidf_vectorizer.fit_transform(documents)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">"\n--- 3. TF-IDF 矩阵 ---"</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"词汇表:"</span>, tfidf_vectorizer.get_feature_names_out())</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"Doc 向量表示:"</span>)</span><br><span class="line"><span class="built_in">print</span>(X_tfidf.toarray())</span><br><span class="line">feature_names = tfidf_vectorizer.get_feature_names_out()</span><br><span class="line"><span class="keyword">for</span> idx, doc_vec <span class="keyword">in</span> <span class="built_in">enumerate</span>(X_tfidf.toarray()):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f"\n--- 文档 <span class="subst">{idx}</span> 的 TF-IDF 特征 ---"</span>)</span><br><span class="line">    <span class="comment"># 只打印非零的 (value, word)</span></span><br><span class="line">    <span class="keyword">for</span> value, word <span class="keyword">in</span> <span class="built_in">sorted</span>(<span class="built_in">zip</span>(doc_vec, feature_names), reverse=<span class="literal">True</span>):</span><br><span class="line">        <span class="keyword">if</span> value &gt; <span class="number">0</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f"(<span class="subst">{value:<span class="number">.4</span>f}</span>, '<span class="subst">{word}</span>')"</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="bow表示结果">BoW表示结果</h4>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">--- 1. BoW 词频矩阵 (CountVectorizer) ---</span><br><span class="line">词汇表: ['amazing' 'and' 'are' 'better' 'brown' 'counterproductive' 'dog' 'fox'</span><br><span class="line"> 'is' 'jumps' 'lazy' 'lower' 'lowest' 'over' 'quick' 'technologies' 'than'</span><br><span class="line"> 'the' '并且明天早上吃什么' '我爱吃枇杷' '我爱自然语言处理']</span><br><span class="line">Doc 向量表示:</span><br><span class="line">[[0 0 0 0 1 0 1 1 0 1 1 0 0 1 1 0 0 2 0 0 0]</span><br><span class="line"> [0 0 0 1 1 0 1 1 1 0 1 0 0 0 1 0 1 0 0 0 0]</span><br><span class="line"> [1 1 1 0 0 1 0 0 0 0 0 1 1 0 0 1 0 1 0 0 0]</span><br><span class="line"> [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1]]</span><br></pre></td></tr></table></figure>
+<p>就是统计每个Doc中各个出现在词表里的单词的频率。</p>
+<p>例如第一句话 “The quick brown fox jumps over the lazy
+dog.”中，单词”The”出现2次，于是计算出的表示向量中倒数第四个值就是2。</p>
+<blockquote>
+<p>token_pattern=r’(?u)+</p>
+<p>表示分词的方法，根据正则表达式 来切 token：(?u)表示使用 Unicode
+字符规则，，+表示匹配至少2个字母/数字/下划线。（<strong>即不包括任何标点符号和空格</strong>）</p>
+<p>你也可以替换成其他比较成熟的分词方法，利用<em>tokenizer</em>参数</p>
+<p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">count_vectorizer = CountVectorizer(tokenizer=<span class="built_in">list</span>)</span><br></pre></td></tr></table></figure></p>
+<p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">词汇表: [' ' '.' 'a' 'b' 'c' 'd' 'e' 'f' 'g' 'h' 'i' 'j' 'k' 'l' 'm' 'n' 'o' 'p'</span><br><span class="line"> 'q' 'r' 's' 't' 'u' 'v' 'w' 'x' 'y' 'z' '上' '且' '么' '什' '吃' '处' '天' '并'</span><br><span class="line"> '我' '早' '明' '杷' '枇' '然' '爱' '理' '自' '言' '语' '！' '，' '？']</span><br><span class="line">Doc 向量表示:</span><br><span class="line">[[8 1 1 1 1 1 3 1 1 2 1 1 1 1 1 1 4 1 1 2 1 2 2 1 1 1 1 1 0 0 0 0 0 0 0 0</span><br><span class="line">  0 0 0 0 0 0 0 0 0 0 0 0 0 0]</span><br><span class="line"> [9 1 4 2 1 1 2 1 1 1 2 0 1 1 0 2 3 0 1 2 1 3 1 0 1 1 1 1 0 0 0 0 0 0 0 0</span><br><span class="line">  0 0 0 0 0 0 0 0 0 0 0 0 0 0]</span><br><span class="line"> [7 1 4 0 3 2 8 0 2 2 3 0 0 3 1 4 6 1 0 4 2 5 2 1 2 0 0 1 0 0 0 0 0 0 0 0</span><br><span class="line">  0 0 0 0 0 0 0 0 0 0 0 0 0 0]</span><br><span class="line"> [1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 2 1 1 1</span><br><span class="line">  2 1 1 1 1 1 2 1 1 1 1 1 1 1]]</span><br></pre></td></tr></table></figure></p>
+<p><code>tokenizer=list</code>意思是按照所有字符切分，所以词表就是所有Doc中出现过的字符</p>
+</blockquote>
+<h4 id="n-gram表示结果">n-gram表示结果</h4>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">--- <span class="number">2.</span> N-<span class="built_in">gram</span> (Bi-gram) 词汇表 ---</span><br><span class="line">词汇表: [<span class="string">'amazing and'</span> <span class="string">'and counterproductive'</span> <span class="string">'are amazing'</span> <span class="string">'better than'</span></span><br><span class="line"> <span class="string">'brown fox'</span> <span class="string">'fox is'</span> <span class="string">'fox jumps'</span> <span class="string">'is better'</span> <span class="string">'jumps over'</span> <span class="string">'lazy dog'</span></span><br><span class="line"> <span class="string">'lower technologies'</span> <span class="string">'lowest lower'</span> <span class="string">'over the'</span> <span class="string">'quick brown'</span></span><br><span class="line"> <span class="string">'technologies are'</span> <span class="string">'than lazy'</span> <span class="string">'the lazy'</span> <span class="string">'the lowest'</span> <span class="string">'the quick'</span></span><br><span class="line"> <span class="string">'并且明天早上吃什么 我爱吃枇杷'</span> <span class="string">'我爱自然语言处理 并且明天早上吃什么'</span>]</span><br><span class="line">Doc 向量表示:</span><br><span class="line">[[<span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">1</span> <span class="number">0</span> <span class="number">1</span> <span class="number">0</span> <span class="number">1</span> <span class="number">1</span> <span class="number">0</span> <span class="number">0</span> <span class="number">1</span> <span class="number">1</span> <span class="number">0</span> <span class="number">0</span> <span class="number">1</span> <span class="number">0</span> <span class="number">1</span> <span class="number">0</span> <span class="number">0</span>]</span><br><span class="line"> [<span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">0</span> <span class="number">1</span> <span class="number">0</span> <span class="number">1</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">1</span> <span class="number">0</span> <span class="number">1</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span>]</span><br><span class="line"> [<span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">1</span> <span class="number">1</span> <span class="number">0</span> <span class="number">0</span> <span class="number">1</span> <span class="number">0</span> <span class="number">0</span> <span class="number">1</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span>]</span><br><span class="line"> [<span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">0</span> <span class="number">1</span> <span class="number">1</span>]]</span><br></pre></td></tr></table></figure>
+<p>因为我们使用的是ngram_range=(2,
+2)，即将相邻的两个词作为一个Token进行处理，所以词表中都是两个单词组合（中文默认是两个子句组合，因为在大部分分词器中，对中文没有细粒度的分词考虑）</p>
+<h4 id="tf-idf表示结果">TF-IDF表示结果</h4>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">词汇表: ['amazing' 'and' 'are' 'better' 'brown' 'counterproductive' 'dog' 'fox'</span><br><span class="line"> 'is' 'jumps' 'lazy' 'lower' 'lowest' 'over' 'quick' 'technologies' 'than'</span><br><span class="line"> 'the' '并且明天早上吃什么' '我爱吃枇杷' '我爱自然语言处理']</span><br><span class="line">Doc 向量表示:</span><br><span class="line">[[0.         0.         0.         0.         0.28609357 0.</span><br><span class="line">  0.28609357 0.28609357 0.         0.36287342 0.28609357 0.</span><br><span class="line">  0.         0.36287342 0.28609357 0.         0.         0.57218714</span><br><span class="line">  0.         0.         0.        ]</span><br><span class="line"> [0.         0.         0.         0.40462414 0.31901032 0.</span><br><span class="line">  0.31901032 0.31901032 0.40462414 0.         0.31901032 0.</span><br><span class="line">  0.         0.         0.31901032 0.         0.40462414 0.</span><br><span class="line">  0.         0.         0.        ]</span><br><span class="line"> [0.36222393 0.36222393 0.36222393 0.         0.         0.36222393</span><br><span class="line">  0.         0.         0.         0.         0.         0.36222393</span><br><span class="line">  0.36222393 0.         0.         0.36222393 0.         0.2855815</span><br><span class="line">  0.         0.         0.        ]</span><br><span class="line"> [0.         0.         0.         0.         0.         0.</span><br><span class="line">  0.         0.         0.         0.         0.         0.</span><br><span class="line">  0.         0.         0.         0.         0.         0.</span><br><span class="line">  0.57735027 0.57735027 0.57735027]]</span><br><span class="line"></span><br><span class="line">--- 文档 0 的 TF-IDF 特征 ---</span><br><span class="line">(0.5722, 'the')</span><br><span class="line">(0.3629, 'over')</span><br><span class="line">(0.3629, 'jumps')</span><br><span class="line">(0.2861, 'quick')</span><br><span class="line">(0.2861, 'lazy')</span><br><span class="line">(0.2861, 'fox')</span><br><span class="line">(0.2861, 'dog')</span><br><span class="line">(0.2861, 'brown')</span><br><span class="line"></span><br><span class="line">--- 文档 1 的 TF-IDF 特征 ---</span><br><span class="line">(0.4046, 'than')</span><br><span class="line">(0.4046, 'is')</span><br><span class="line">(0.4046, 'better')</span><br><span class="line">(0.3190, 'quick')</span><br><span class="line">(0.3190, 'lazy')</span><br><span class="line">(0.3190, 'fox')</span><br><span class="line">(0.3190, 'dog')</span><br><span class="line">(0.3190, 'brown')</span><br><span class="line"></span><br><span class="line">--- 文档 2 的 TF-IDF 特征 ---</span><br><span class="line">(0.3622, 'technologies')</span><br><span class="line">(0.3622, 'lowest')</span><br><span class="line">(0.3622, 'lower')</span><br><span class="line">(0.3622, 'counterproductive')</span><br><span class="line">(0.3622, 'are')</span><br><span class="line">(0.3622, 'and')</span><br><span class="line">(0.3622, 'amazing')</span><br><span class="line">(0.2856, 'the')</span><br><span class="line"></span><br><span class="line">--- 文档 3 的 TF-IDF 特征 ---</span><br><span class="line">(0.5774, '我爱自然语言处理')</span><br><span class="line">(0.5774, '我爱吃枇杷')</span><br><span class="line">(0.5774, '并且明天早上吃什么')</span><br></pre></td></tr></table></figure>
+<p>TF-IDF是利用TF-IDF指标进行表示的，所以向量里的数值不再是整数了。</p>
+<p>可以仔细看一下文档 2 的 TF-IDF
+特征，除了单词”The”，其他词的TF-IDF数值都一样。这是因为所有词在Doc2中都出现了一次，即TF=1；但对于其他单词，在语料中其他Doc中都没有出现过，只有”The”除外，所以其对应的IDF就小，意思是”The”这个词是一个常用的词，语义在这个文档里不是很重要。</p>
+<blockquote>
+<p>我们可以使用其他对中文比较友好的分词器看看效果：<code>tfidf_vectorizer = TfidfVectorizer(*tokenizer*=jieba.lcut)</code></p>
+<p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">--- 3. TF-IDF 矩阵 ---</span><br><span class="line">词汇表: [' ' '.' 'a' 'amazing' 'and' 'are' 'better' 'brown' 'counterproductive'</span><br><span class="line"> 'dog' 'fox' 'is' 'jumps' 'lazy' 'lower' 'lowest' 'over' 'quick'</span><br><span class="line"> 'technologies' 'than' 'the' '什么' '吃' '处理' '并且' '我' '早上' '明天' '枇杷' '爱'</span><br><span class="line"> '自然语言' '！' '，' '？']</span><br><span class="line"></span><br><span class="line">--- 文档 0 的 TF-IDF 特征 ---</span><br><span class="line">(0.8279, ' ')</span><br><span class="line">(0.3127, 'the')</span><br><span class="line">(0.1983, 'over')</span><br><span class="line">(0.1983, 'jumps')</span><br><span class="line">(0.1563, 'quick')</span><br><span class="line">(0.1563, 'lazy')</span><br><span class="line">(0.1563, 'fox')</span><br><span class="line">(0.1563, 'dog')</span><br><span class="line">(0.1563, 'brown')</span><br><span class="line">(0.1266, '.')</span><br><span class="line"></span><br><span class="line">--- 文档 1 的 TF-IDF 特征 ---</span><br><span class="line">(0.8229, ' ')</span><br><span class="line">(0.3504, 'a')</span><br><span class="line">(0.1752, 'than')</span><br><span class="line">(0.1752, 'is')</span><br><span class="line">(0.1752, 'better')</span><br><span class="line">(0.1381, 'quick')</span><br><span class="line">(0.1381, 'lazy')</span><br><span class="line">(0.1381, 'fox')</span><br><span class="line">(0.1381, 'dog')</span><br><span class="line">(0.1381, 'brown')</span><br><span class="line">(0.1118, '.')</span><br><span class="line"></span><br><span class="line">--- 文档 2 的 TF-IDF 特征 ---</span><br><span class="line">(0.7901, ' ')</span><br><span class="line">(0.2163, 'technologies')</span><br><span class="line">(0.2163, 'lowest')</span><br><span class="line">(0.2163, 'lower')</span><br><span class="line">(0.2163, 'counterproductive')</span><br><span class="line">(0.2163, 'are')</span><br><span class="line">(0.2163, 'and')</span><br><span class="line">(0.2163, 'amazing')</span><br><span class="line">(0.1705, 'the')</span><br><span class="line">(0.1381, '.')</span><br><span class="line"></span><br><span class="line">--- 文档 3 的 TF-IDF 特征 ---</span><br><span class="line">(0.4238, '爱')</span><br><span class="line">(0.4238, '我')</span><br><span class="line">(0.4238, '吃')</span><br><span class="line">(0.2119, '？')</span><br><span class="line">(0.2119, '，')</span><br><span class="line">(0.2119, '！')</span><br><span class="line">(0.2119, '自然语言')</span><br><span class="line">(0.2119, '枇杷')</span><br><span class="line">(0.2119, '明天')</span><br><span class="line">(0.2119, '早上')</span><br><span class="line">(0.2119, '并且')</span><br><span class="line">(0.2119, '处理')</span><br><span class="line">(0.2119, '什么')</span><br><span class="line">(0.1106, ' ')</span><br></pre></td></tr></table></figure></p>
+<p>jieba分词器默认也会考虑所有标点符号和空格，所以词表里也会有这些内容。</p>
+<p>并且对于中文分词也更加地合理。</p>
+</blockquote>
+<hr>
+<h2 id="词向量word-embedding">3. 词向量（Word Embedding）</h2>
+<h3 id="主要思想与原理-2">🌈 主要思想与原理</h3>
+<p>BoW/TF-IDF 是<strong>稀疏、高维、无语义</strong>的；词向量（Word
+Embedding）是<strong>低维、稠密、连续</strong>的向量表示方法</p>
+<ul>
+<li><strong>思想：</strong> 遵循“<strong>分布假说 (Distributional
+Hypothesis)</strong>”，即<strong>上下文相似的词，它们的语义也相似</strong>。通过大规模语料的训练，让模型自动学习词语的语义表示。</li>
+<li><strong>原理：</strong>
+<ul>
+<li>将每个词映射到一个固定长度的实数向量（如 100 维、300 维）。</li>
+<li>向量的每个维度没有明确含义，但整个向量空间能够捕捉词语之间的语义关系。例如，在向量空间中，<span class="math inline">vec(国王) − vec(男人) + vec(女人) ≈ vec(王后)</span>。</li>
+</ul></li>
+</ul>
+<h4 id="常见方法word2vec">常见方法：Word2Vec</h4>
+<p>Word2Vec 是最经典的词向量生成模型，包含两种结构：</p>
+<ol type="1">
+<li>CBOW (Continuous Bag-of-Words)： 用上下文词语预测当前词语。</li>
+<li>Skip-gram： 用当前词语预测上下文词语。</li>
+</ol>
+<blockquote>
+<p>这里并不讲 Word2Vec 模型的原理和实现，想知道的读者可以自行搜索</p>
+</blockquote>
+<p>Word2Vec 并不是用来直接预测下一个词的语言模型（那是 GPT
+的方向）。</p>
+<p>它的目标是：<strong>通过上下文预测任务，学习一个能够捕捉语义的词向量空间。</strong></p>
+<p>换句话说：</p>
+<ul>
+<li>我们并不关心预测结果本身对不对；</li>
+<li>我们关心的是：为了预测正确，模型必须把语义相似的词放得更近；</li>
+<li>而模型内部<strong>权重矩阵（embedding）就是我们想要的词向量表示（word
+embeddings）</strong>。</li>
+</ul>
+<p>假设词表大小为 <span class="math inline"><em>V</em></span>，每个词对应一个 one-hot 向量 <span class="math inline"><strong>x</strong> ∈ ℝ<sup><em>V</em></sup></span>。
+模型希望通过一个嵌入矩阵 <span class="math inline"><em>W</em> ∈ ℝ<sup><em>V</em> × <em>d</em></sup></span>
+把离散的 one-hot 向量变成稠密向量： <span class="math display"><strong>v</strong><sub><em>w</em></sub> = <em>W</em><sup><em>T</em></sup><strong>x</strong></span>
+然后我们用它去完成一个“预测任务”来训练 (W)。</p>
+<h5 id="cbow-训练方法">CBOW 训练方法</h5>
+<p>句子：「我 爱 自然 语言 处理」
+目标中心词是「自然」，窗口大小=2，则上下文为「我, 爱, 语言, 处理」。
+训练目标：如果上下文是“我爱语言处理”，那“自然”的词向量应该更靠近这一上下文的平均表示。</p>
+<h5 id="skip-gram-训练方法">Skip-gram 训练方法</h5>
+<p>同样一句话，「自然」是中心词，它的上下文是「我, 爱, 语言, 处理」。
+训练目标：如果当前词是“自然”，模型希望它的词向量能够预测出上下文中的每一个词，也就是“我”“爱”“语言”“处理”。</p>
+<p>换句话说，模型通过让“自然”的向量尽可能靠近它经常出现的上下文词向量，从而捕捉“自然”的语义信息。训练完成后，“自然”的词向量就自然形成了，并且语义上会靠近类似的词，例如“语言”、“文本”等。</p>
+<h4 id="为什么预测任务能学出语义">为什么“预测任务”能学出语义？</h4>
+<p>Word2Vec 的核心假设是：
+<strong>上下文相似的词，其语义也相似。</strong></p>
+<p>在训练过程中：</p>
+<ul>
+<li>狗和猫经常出现在相似的上下文（例如’喂..’，‘宠物..’）</li>
+<li>模型会让它们的词向量都靠近这些上下文向量；</li>
+<li>最终它们的词向量也就靠近了。</li>
+</ul>
+<h3 id="应用场景">📦 应用场景</h3>
+<ul>
+<li><strong>预训练特征：</strong> 作为所有下游 NLP
+任务（分类、命名实体识别、翻译等）的输入特征。</li>
+<li><strong>语义相似度计算：</strong> 直接计算词向量的余弦相似度。</li>
+<li><strong>词语类比：</strong> 进行向量代数运算来发现语义关系。</li>
+</ul>
+<h3 id="示例gensim-word2vec-skip-gram-实现">💻 示例（Gensim Word2Vec
+Skip-gram 实现）</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> gensim.models <span class="keyword">import</span> Word2Vec</span><br><span class="line"><span class="keyword">import</span> jieba</span><br><span class="line"></span><br><span class="line"><span class="comment"># 中文文本语料(使用较大的语料以获得更好的词向量)</span></span><br><span class="line">corpus_text = <span class="string">"""</span></span><br><span class="line"><span class="string">自然语言处理是人工智能的重要分支。机器学习和深度学习是人工智能的核心技术。</span></span><br><span class="line"><span class="string">词向量是自然语言处理的基础。词向量可以表示词语的语义信息。</span></span><br><span class="line"><span class="string">国王是男性统治者,王后是女性统治者。男人和女人有不同的性别特征。</span></span><br><span class="line"><span class="string">狗是人类的好朋友。猫也是常见的宠物。人们喜欢养狗和猫作为宠物。</span></span><br><span class="line"><span class="string">机器学习包括监督学习和无监督学习。深度学习是机器学习的一个重要方向。</span></span><br><span class="line"><span class="string">自然语言处理应用广泛,包括机器翻译、文本分类、情感分析等任务。</span></span><br><span class="line"><span class="string">Python是流行的编程语言。Java也是常用的编程语言。编程语言用于软件开发。</span></span><br><span class="line"><span class="string">北京是中国的首都。上海是中国的经济中心。中国有很多大城市。</span></span><br><span class="line"><span class="string">苹果是健康的水果。香蕉也是营养丰富的水果。水果富含维生素。</span></span><br><span class="line"><span class="string">足球是流行的运动。篮球也是受欢迎的运动。运动有益于身体健康。</span></span><br><span class="line"><span class="string">电影是娱乐方式。音乐也是常见的娱乐。人们通过娱乐放松身心。</span></span><br><span class="line"><span class="string">学习需要努力和坚持。努力工作才能成功。成功需要坚持不懈。</span></span><br><span class="line"><span class="string">计算机科学是重要学科。数学是科学的基础。物理学研究自然规律。</span></span><br><span class="line"><span class="string">医生治病救人。教师教书育人。工程师设计和建造。</span></span><br><span class="line"><span class="string">春天温暖宜人。夏天炎热多雨。秋天凉爽舒适。冬天寒冷干燥。</span></span><br><span class="line"><span class="string">阅读可以增长知识。写作能够表达思想。思考帮助理解问题。</span></span><br><span class="line"><span class="string">美食令人愉悦。烹饪是一门艺术。餐厅提供各种美食。</span></span><br><span class="line"><span class="string">汽车是交通工具。飞机速度更快。火车适合长途旅行。</span></span><br><span class="line"><span class="string">手机是通讯设备。电脑用于办公学习。互联网连接世界。</span></span><br><span class="line"><span class="string">音乐能够陶冶情操。绘画展现艺术之美。舞蹈表达身体语言。</span></span><br><span class="line"><span class="string">"""</span> * <span class="number">5</span>  <span class="comment"># 重复多次以增加训练数据</span></span><br><span class="line"></span><br><span class="line">sentences = [</span><br><span class="line">    [<span class="string">"我"</span>, <span class="string">"爱"</span>, <span class="string">"自然"</span>, <span class="string">"语言处理"</span>, <span class="string">"技术"</span>],</span><br><span class="line">    [<span class="string">"词向量"</span>, <span class="string">"是"</span>, <span class="string">"自然"</span>, <span class="string">"语言处理"</span>, <span class="string">"的"</span>, <span class="string">"基石"</span>],</span><br><span class="line">    [<span class="string">"机器学习"</span>, <span class="string">"和"</span>, <span class="string">"深度学习"</span>, <span class="string">"是"</span>, <span class="string">"主流"</span>, <span class="string">"方法"</span>],</span><br><span class="line">    [<span class="string">"国王"</span>, <span class="string">"男人"</span>, <span class="string">"女人"</span>, <span class="string">"王后"</span>],</span><br><span class="line">    [<span class="string">"爱"</span>, <span class="string">"和"</span>, <span class="string">"和平"</span>, <span class="string">"是"</span>, <span class="string">"永恒"</span>, <span class="string">"的主题"</span>],</span><br><span class="line">]</span><br><span class="line"><span class="comment"># 使用 jieba 进行中文分词</span></span><br><span class="line"><span class="keyword">for</span> line <span class="keyword">in</span> corpus_text.strip().split(<span class="string">'\n'</span>):</span><br><span class="line">    <span class="keyword">if</span> line.strip():</span><br><span class="line">        words = <span class="built_in">list</span>(jieba.cut(line.strip()))</span><br><span class="line">        <span class="comment"># 过滤标点符号和单字符</span></span><br><span class="line">        words = [w <span class="keyword">for</span> w <span class="keyword">in</span> words <span class="keyword">if</span> <span class="built_in">len</span>(w) &gt; <span class="number">0</span> <span class="keyword">and</span> w <span class="keyword">not</span> <span class="keyword">in</span> <span class="string">',.。,、;:!?!?""'</span><span class="string">'《》()【】'</span>]</span><br><span class="line">        <span class="keyword">if</span> words:</span><br><span class="line">            sentences.append(words)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 训练 Word2Vec 模型</span></span><br><span class="line">model = Word2Vec(</span><br><span class="line">    sentences,            <span class="comment"># 语料</span></span><br><span class="line">    vector_size=<span class="number">32</span>,        <span class="comment"># 向量维度</span></span><br><span class="line">    window=<span class="number">4</span>,             <span class="comment"># 上下文窗口大小</span></span><br><span class="line">    min_count=<span class="number">0</span>,          <span class="comment"># 忽略出现次数小于1的词</span></span><br><span class="line">    sg=<span class="number">1</span>,                 <span class="comment"># sg=1 代表 Skip-gram，sg=0 代表 CBOW</span></span><br><span class="line">    epochs=<span class="number">500</span>            <span class="comment"># 迭代次数</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取词向量</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">"--- 词向量模型训练结果 ---"</span>)</span><br><span class="line">word_love = <span class="string">'爱'</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f"'<span class="subst">{word_love}</span>' 的词向量: <span class="subst">{model.wv[word_love]}</span>"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 词语相似度计算</span></span><br><span class="line">similar_words = model.wv.most_similar(<span class="string">'处理'</span>, topn=<span class="number">3</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f"\n与 '处理' 最相似的词 (Top 3): <span class="subst">{similar_words}</span>"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 词语类比 (如果数据量足够大，效果会很好)</span></span><br><span class="line">analogy = model.wv.most_similar(positive=[<span class="string">'王后'</span>, <span class="string">'男人'</span>], negative=[<span class="string">'女人'</span>], topn=<span class="number">3</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f"\n'王后' + '男人' - '女人' 约等于: <span class="subst">{analogy}</span>"</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">--- 词向量模型训练结果 ---</span><br><span class="line">'爱' 的词向量: [ 1.0664989  -0.5794411  -0.16871376 -0.13184728  0.48283565 -0.354865</span><br><span class="line">  1.3210454  -0.1693582  -0.72543424 -0.2901834   0.21910937 -0.37224293</span><br><span class="line"> -0.06491608 -0.8655389   0.39459693  0.8997167   0.24972028 -0.860483</span><br><span class="line">  0.76891196  0.03923182 -0.3576591   1.2710804   0.1804323   0.5814926</span><br><span class="line">  0.6470771   0.6128785  -1.227191    0.8472333  -1.32114    -0.2857696</span><br><span class="line"> -0.04215891  0.9688248 ]</span><br><span class="line"></span><br><span class="line">与 '处理' 最相似的词 (Top 3): [('自然语言', 0.8251885175704956), ('核心技术', 0.707213819026947), ('向量', 0.6756125688552856)]</span><br><span class="line"></span><br><span class="line">'王后' + '男人' - '女人' 约等于: [('国王', 0.8771973848342896), ('统治者', 0.8529900908470154), ('女性', 0.8453759551048279)]</span><br></pre></td></tr></table></figure>
+<p>可以发现，Word2Vec 会将每一个 <strong>Token（词）</strong>
+转换为一个<strong>固定长度的稠密向量</strong>，这些向量由正负浮点数构成，能够<strong>捕捉词语的语义信息</strong>。例如
+<code>处理</code> 的最相似词包括
+<code>自然语言</code>、<code>核心技术</code>、<code>向量</code>，它们在语义上都与“处理”相关。这说明训练好的向量空间能够将语义相关的词映射到相近的区域。</p>
+<p>此外，实验 <code>'王后' + '男人' - '女人' ≈ '国王'</code>
+成功捕捉了性别关系和角色对应关系。这体现了 Word2Vec
+的核心优势：<strong>不仅表示单个词语，还能隐含语义关系，支持简单的向量运算</strong>。</p>
+<p>我们还可以使用训练好的模型来测试，这会比我们自己训练的效果要好很多：</p>
+<blockquote>
+<p><a class="link" target="_blank" rel="noopener" href="https://code.google.com/archive/p/word2vec/">模型二进制文件下载链接<i class="fas fa-external-link-alt"></i></a></p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">from gensim.models <span class="keyword">import</span> KeyedVectors</span><br><span class="line"></span><br><span class="line">model = KeyedVectors.<span class="built_in">load_word2vec_format</span>(<span class="string">"GoogleNews-vectors-negative300.bin"</span>, binary=True)</span><br><span class="line"></span><br><span class="line"># 获取词向量</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"--- 词向量模型训练结果 ---"</span>)</span><br><span class="line">word_love = <span class="string">'爱'</span></span><br><span class="line"><span class="built_in">print</span>(f<span class="string">"'{word_love}' 的词向量长度: {model[word_love].shape}"</span>)</span><br><span class="line"></span><br><span class="line"># 词语相似度计算</span><br><span class="line">similar_words = model.<span class="built_in">most_similar</span>(<span class="string">'处理'</span>, topn=<span class="number">3</span>)</span><br><span class="line"><span class="built_in">print</span>(f<span class="string">"\n与 '处理' 最相似的词 (Top 3): {similar_words}"</span>)</span><br><span class="line">similar_words = model.<span class="built_in">most_similar</span>(<span class="string">"king"</span>, topn=<span class="number">3</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"king 的相似词:"</span>, similar_words)</span><br><span class="line"></span><br><span class="line"># 词语类比</span><br><span class="line">analogy = model.<span class="built_in">most_similar</span>(positive=[<span class="string">'queen'</span>, <span class="string">'man'</span>], negative=[<span class="string">'women'</span>], topn=<span class="number">3</span>)</span><br><span class="line"><span class="built_in">print</span>(f<span class="string">"\n'queen' + 'man' - 'women' 约等于: {analogy}"</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">--- 词向量模型训练结果 ---</span><br><span class="line"><span class="string">'爱'</span> 的词向量长度: (<span class="number">300</span>,)</span><br><span class="line"></span><br><span class="line">与 <span class="string">'处理'</span> 最相似的词 (Top <span class="number">3</span>): [(<span class="string">'资料'</span>, <span class="number">0.8521135449409485</span>), (<span class="string">'个人'</span>, <span class="number">0.8465384840965271</span>), (<span class="string">'如何'</span>, <span class="number">0.8432191610336304</span>)]</span><br><span class="line">king 的相似词: [(<span class="string">'kings'</span>, <span class="number">0.7138045430183411</span>), (<span class="string">'queen'</span>, <span class="number">0.6510956883430481</span>), (<span class="string">'monarch'</span>, <span class="number">0.6413194537162781</span>)]</span><br><span class="line"></span><br><span class="line"><span class="string">'queen'</span> + <span class="string">'man'</span> - <span class="string">'women'</span> 约等于: [(<span class="string">'king'</span>, <span class="number">0.5553385019302368</span>), (<span class="string">'princess'</span>, <span class="number">0.4909053444862366</span>), (<span class="string">'boy'</span>, <span class="number">0.48070359230041504</span>)]</span><br></pre></td></tr></table></figure>
+<p>首先，该模型中词汇的向量维度是 300
+维，这远大于我们在小规模示例中设置的维度。在海量语料上训练的高维向量通常能够捕捉到更丰富、更细致的语义信息。其次，对于语义相似度计算，模型表现出色，可以很精准地找出相似词。</p>
+<p>但是，最后这里之所以没有使用’王后’ + ‘男人’ - ‘女人’
+的例子，是因为这个训练后的词表中没有’王后’这个词，这也是这类词嵌入方法的固有局限性：它们完全依赖于预设的<strong>固定词汇表</strong>，对于词表中不存在的词（OOV），如新词或跨语言词汇，它们<strong>无法生成有效的向量</strong>。</p>
+<hr>
+<h2 id="上下文嵌入contextual-embedding">4. 上下文嵌入（Contextual
+Embedding）</h2>
+<h3 id="主要思想与原理-3">🚀 主要思想与原理</h3>
+<p>上下文嵌入是深度学习时代的核心技术，它解决了传统词向量（如
+Word2Vec）中<strong>一词多义</strong>的问题。</p>
+<ul>
+<li><strong>思想：</strong>
+一个词的向量表示<strong>不再是固定不变的</strong>，而是根据它在<strong>当前句子中的上下文</strong>动态生成的。</li>
+<li><strong>原理：</strong>
+<ul>
+<li>上下文感知： 使用复杂的神经网络结构（主要是
+<strong>Transformer</strong> 的 <strong>Attention
+机制</strong>）来处理整个输入序列。</li>
+<li>模型在编码一个词时，会<strong>同时关注</strong>句子中的其他所有词，并根据这些词的语义信息来调整当前词的向量表示。</li>
+<li>例如，在 “我喜欢吃 <strong>苹果</strong>” 和 “我用
+<strong>苹果</strong> 电脑” 中，Transformer 会给两个
+“<strong>苹果</strong>”
+生成截然不同的向量，分别对应“水果”和“品牌”的语义。</li>
+</ul></li>
+</ul>
+<h4 id="常见模型bert-gpt">常见模型：BERT &amp; GPT</h4>
+<ol type="1">
+<li>BERT (Bidirectional Encoder Representations from Transformers)：
+双向编码器，同时考虑一个词的左侧和右侧上下文。
+<ul>
+<li>预训练任务： 掩码语言模型（MLM）和下一句预测（NSP）。</li>
+</ul></li>
+<li>GPT (Generative Pre-trained Transformer)：
+单向解码器，只依赖左侧上下文，擅长生成任务。
+<ul>
+<li>预训练任务：下一个词预测 (Next Token Prediction)。</li>
+</ul></li>
+</ol>
+<h3 id="应用场景-1">📦 应用场景</h3>
+<ul>
+<li><strong>所有 SOTA (State-of-the-Art) NLP 任务：</strong>
+机器翻译、问答系统、文本摘要、命名实体识别等。</li>
+<li><strong>零样本/少样本学习 (Zero/Few-shot Learning)：</strong>
+大语言模型的基础。</li>
+</ul>
+<h3 id="示例hugging-face-transformers-bert-获取token表示向量">💻
+示例（Hugging Face Transformers BERT 获取Token表示向量）</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> transformers <span class="keyword">import</span> BertModel, BertTokenizer</span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加载预训练模型和分词器</span></span><br><span class="line">tokenizer = BertTokenizer.from_pretrained(<span class="string">'bert-base-uncased'</span>)</span><br><span class="line">model = BertModel.from_pretrained(<span class="string">'bert-base-uncased'</span>)</span><br><span class="line"></span><br><span class="line">sentence = <span class="string">"The bank is on the river bank."</span></span><br><span class="line"><span class="comment"># 分词</span></span><br><span class="line">inputs = tokenizer(sentence, return_tensors=<span class="string">"pt"</span>)</span><br><span class="line"><span class="built_in">print</span>(inputs)</span><br><span class="line"><span class="keyword">with</span> torch.no_grad():</span><br><span class="line">    outputs = model(**inputs)</span><br><span class="line">    <span class="built_in">print</span>(outputs.keys())</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"last_hidden_state shape:"</span>, outputs.last_hidden_state.shape)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"pooler_output shape:"</span>, outputs.pooler_output.shape)</span><br><span class="line">    last_hidden_state = outputs.last_hidden_state</span><br><span class="line">    </span><br><span class="line"><span class="comment"># 提取关键词的向量</span></span><br><span class="line"><span class="comment"># 词典: ['[CLS]', 'the', 'bank', 'is', 'on', 'the', 'river', 'bank', '.', '[SEP]']</span></span><br><span class="line"><span class="comment"># 'bank' (金融机构): 索引 2</span></span><br><span class="line"><span class="comment"># 'bank' (河岸): 索引 7</span></span><br><span class="line">vector_bank_finance = last_hidden_state[<span class="number">0</span>][<span class="number">2</span>]</span><br><span class="line">vector_bank_river = last_hidden_state[<span class="number">0</span>][<span class="number">7</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 计算两个 'bank' 向量的余弦相似度</span></span><br><span class="line"><span class="comment"># 使用 PyTorch 的相似度计算</span></span><br><span class="line">cos_sim = torch.nn.functional.cosine_similarity(</span><br><span class="line">    vector_bank_finance.unsqueeze(<span class="number">0</span>), </span><br><span class="line">    vector_bank_river.unsqueeze(<span class="number">0</span>)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f"Tokens: <span class="subst">{tokenizer.convert_ids_to_tokens(inputs[<span class="string">'input_ids'</span>][<span class="number">0</span>])}</span>"</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f"BERT 向量维度: <span class="subst">{vector_bank_finance.shape[<span class="number">0</span>]}</span>"</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"--- 两个 'bank' 的向量表示（前 5 维） ---"</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f"Bank (金融): <span class="subst">{vector_bank_finance[:<span class="number">5</span>]}</span>"</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f"Bank (河岸): <span class="subst">{vector_bank_river[:<span class="number">5</span>]}</span>"</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f"\n两个 'bank' 的上下文相似度: <span class="subst">{cos_sim.item()}</span>"</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">{'input_ids': tensor([[ 101, 1996, 2924, 2003, 2006, 1996, 2314, 2924, 1012,  102]]), 'token_type_ids': tensor([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]), 'attention_mask': tensor([[1, 1, 1, 1, 1, 1, 1, 1, 1, 1]])}</span><br><span class="line">odict_keys(['last_hidden_state', 'pooler_output'])</span><br><span class="line">last_hidden_state shape: torch.Size([1, 10, 768])</span><br><span class="line">pooler_output shape: torch.Size([1, 768])</span><br><span class="line">Tokens: ['[CLS]', 'the', 'bank', 'is', 'on', 'the', 'river', 'bank', '.', '[SEP]']</span><br><span class="line">BERT 向量维度: 768</span><br><span class="line">--- 两个 'bank' 的向量表示（前 5 维） ---</span><br><span class="line">Bank (金融): tensor([-0.4117, -0.2152, -0.0635, -0.0978,  0.5961])</span><br><span class="line">Bank (河岸): tensor([-0.1720, -0.2786, -0.0828, -0.4458,  0.2067])</span><br><span class="line"></span><br><span class="line">两个 'bank' 的上下文相似度: 0.7106703519821167</span><br></pre></td></tr></table></figure>
+<p>可以看出BERT中每个token都是用一个768维的向量来表征的。</p>
+<p>BERT的输出中last_hidden_state是模型对每个 token 输出的隐藏向量，形状
+<code>[batch_size, seq_len, hidden_dim]</code>。这里是
+<code>[1, 10, 768]</code>，表示 1 个句子、10 个 token、每个 token
+的向量维度 768。</p>
+<ul>
+<li><code>last_hidden_state[0][i]</code> 就是第 i 个 token
+的表示向量。</li>
+</ul>
+<p>对于句子中的两个“bank”的表示向量，可以看到每一维的数值不完全相同，说明两者在表示上有差异（模型调整了表示以反映不同上下文）。余弦相似度为
+<code>0.7107</code>，这是
+<strong>中等偏高的相似度</strong>。为什么不是接近 0（完全不同）或
+1（几乎相同）？</p>
+<ul>
+<li>两个 <code>bank</code>
+的词形相同、词性相同（名词），且句子里它们都处在相对相似的语言结构（“the
+bank …”、“… river bank”），因此模型在某些维度上仍保留了共同信息（例如
+“名词/地名/机构” 的通用特征），导致相似度偏高。</li>
+<li>同时，因为左右上下文不同（一个后接 <code>is</code>，一个前接
+<code>river</code>），模型在若干语义维度上作了区分，余弦不会是 1。</li>
+<li>BERT 是
+<strong>上下文依赖的嵌入</strong>，但并非总能把多义词完全区分开，特别是在单句中同时出现两个
+sense 时，模型可能会有一定“表示混合”。</li>
+</ul>
+<h3 id="附注">附注</h3>
+<p>BERT中输出还有一项为pooler_output：通常是把 <code>[CLS]</code>
+的隐藏向量做一个线性 + tanh 变换得到的句子级向量，形状
+<code>[batch_size, hidden_dim]</code>。注意：很多下游任务或者评价句子语义时，不一定推荐直接用
+<code>pooler_output</code>，更稳妥的做法是对
+<code>last_hidden_state</code> 做平均池化或用专门的句向量模型（如
+Sentence-BERT）。</p>
+<p>示例</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> transformers <span class="keyword">import</span> BertTokenizer, BertModel, AutoTokenizer, AutoModel</span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torch.nn.functional <span class="keyword">as</span> F</span><br><span class="line"></span><br><span class="line"><span class="comment"># 两个语义相似句</span></span><br><span class="line">sentences = [</span><br><span class="line">    [<span class="string">"A man is playing guitar."</span>,</span><br><span class="line">    <span class="string">"There is a man playing a musical instrument, which likes a guitar"</span>],</span><br><span class="line">    [<span class="string">"A women is playing violin."</span>,</span><br><span class="line">    <span class="string">"The capital of France is Paris"</span>],</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="comment"># ================================</span></span><br><span class="line"><span class="comment"># 1️⃣ 普通 BERT </span></span><br><span class="line"><span class="comment"># ================================</span></span><br><span class="line">bert_name = <span class="string">"bert-base-uncased"</span></span><br><span class="line">bert_tokenizer = BertTokenizer.from_pretrained(bert_name)</span><br><span class="line">bert_model = BertModel.from_pretrained(bert_name)</span><br><span class="line"></span><br><span class="line"><span class="comment"># ================================</span></span><br><span class="line"><span class="comment"># 2️⃣ Sentence-BERT </span></span><br><span class="line"><span class="comment"># ================================</span></span><br><span class="line">sbert_name = <span class="string">"sentence-transformers/all-MiniLM-L6-v2"</span></span><br><span class="line">sbert_tokenizer = AutoTokenizer.from_pretrained(sbert_name)</span><br><span class="line">sbert_model = AutoModel.from_pretrained(sbert_name)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_bert_sentence_embedding</span>(<span class="params">sentence</span>):</span><br><span class="line">    inputs = bert_tokenizer(sentence, return_tensors=<span class="string">"pt"</span>, truncation=<span class="literal">True</span>)</span><br><span class="line">    <span class="keyword">with</span> torch.no_grad():</span><br><span class="line">        outputs = bert_model(**inputs)</span><br><span class="line">        <span class="comment"># mean pooling：取所有token的平均表示</span></span><br><span class="line">        embeddings = outputs.last_hidden_state</span><br><span class="line">        mask = inputs[<span class="string">'attention_mask'</span>].unsqueeze(-<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">return</span> (embeddings * mask).<span class="built_in">sum</span>(<span class="number">1</span>) / mask.<span class="built_in">sum</span>(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_sbert_sentence_embedding</span>(<span class="params">sentence</span>):</span><br><span class="line">    inputs = sbert_tokenizer(sentence, return_tensors=<span class="string">"pt"</span>, truncation=<span class="literal">True</span>)</span><br><span class="line">    <span class="keyword">with</span> torch.no_grad():</span><br><span class="line">        outputs = sbert_model(**inputs)</span><br><span class="line">        <span class="comment"># mean pooling：取所有token的平均表示</span></span><br><span class="line">        embeddings = outputs.last_hidden_state</span><br><span class="line">        mask = inputs[<span class="string">'attention_mask'</span>].unsqueeze(-<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">return</span> (embeddings * mask).<span class="built_in">sum</span>(<span class="number">1</span>) / mask.<span class="built_in">sum</span>(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> ss <span class="keyword">in</span> sentences:</span><br><span class="line">    <span class="built_in">print</span>(ss)</span><br><span class="line">    embeddings_bert = [get_bert_sentence_embedding(s) <span class="keyword">for</span> s <span class="keyword">in</span> ss]</span><br><span class="line">    cos_sim_bert = F.cosine_similarity(embeddings_bert[<span class="number">0</span>],</span><br><span class="line">                                    embeddings_bert[<span class="number">1</span>]).item()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"🔹 BERT pooler_output 相似度:"</span>, <span class="built_in">round</span>(cos_sim_bert, <span class="number">3</span>))</span><br><span class="line"></span><br><span class="line">    embeddings_sbert = [get_sbert_sentence_embedding(s) <span class="keyword">for</span> s <span class="keyword">in</span> ss]</span><br><span class="line">    cos_sim_sbert = F.cosine_similarity(embeddings_sbert[<span class="number">0</span>],</span><br><span class="line">                                        embeddings_sbert[<span class="number">1</span>]).item()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"🔹 Sentence-BERT 相似度:"</span>, <span class="built_in">round</span>(cos_sim_sbert, <span class="number">3</span>))</span><br></pre></td></tr></table></figure>
+<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">['A man is playing guitar.', 'There is a man playing a musical instrument, which likes a guitar']</span><br><span class="line">🔹 BERT pooler_output 相似度: 0.787</span><br><span class="line">🔹 Sentence-BERT 相似度: 0.877</span><br><span class="line">['A women is playing violin.', 'The capital of France is Paris']</span><br><span class="line">🔹 BERT pooler_output 相似度: 0.46</span><br><span class="line">🔹 Sentence-BERT 相似度: 0.015</span><br></pre></td></tr></table></figure>
+
+                    
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                常见的 LLM 文本嵌入（Embedding）方法解析
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                2025/11/03/3-LLM-Embedding/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    Author
+                </div>
+                <div class="content">Zhongjun Qiu</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    Published
+                </div>
+                <div class="content">2025-11-03 20:40</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    License
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="Copy copyright info" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/Embedding/">Embedding</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="Share to WeChat"
+            data-tooltip-img-tip="Scan by WeChat"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to WeiBo"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+                    .reward-author-container {
+  margin-top 1.6rem
+
+  .tooltip-img {
+    .tooltip-img-box {
+      img {
+        max-height 13rem
+      }
+    }
+  }
+
+
+  .reward-btn {
+    padding 0.6rem 1rem
+    color var(--text-color-3)
+    font-size 1rem
+    background -webkit-linear-gradient(0deg, var(--keep-primary-color) 15%, var(--keep-danger-color), var(--keep-warning-color), var(--keep-success-color), var(--keep-primary-color))
+    -webkit-background-clip text
+    background-clip text
+    border-radius 0.8rem
+    box-shadow 0 0 0.4rem var(--shadow-color)
+    cursor pointer
+
+    &:hover {
+      font-weight bold
+      -webkit-text-fill-color transparent
+    }
+
+
+    i {
+      color var(--text-color-3)
+    }
+  }
+}
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/2025/11/03/2-LLM-Tokenizer/"
+                                   title="常见的 LLM 分词器（Tokenizer）"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">常见的 LLM 分词器（Tokenizer）</span>
+                                        <span class="post-nav-item">Next posts</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+    <div class="comments-container border-box">
+        <div id="comments-anchor" class="comment-area-title border-box">
+            <i class="fas fa-comments"></i>&nbsp;Comments
+        </div>
+        <div class="comment-plugin-fail border-box">
+    <span class="fail-tip">Comment plugin failed to load</span>
+    <button class="reload keep-button">Click to reload</button>
+</div>
+<div class="comment-plugin-loading flex-center border-box">
+    <i class="loading-icon fa-solid fa-spinner fa-spin"></i>
+    <span class="load-tip">Loading comment plugin</span>
+</div>
+<script data-pjax>
+  window.KeepCommentPlugin = {}
+  window.KeepCommentPlugin.hideLoading = () => {
+    const cplDom = document.querySelector('.comments-container .comment-plugin-loading')
+    cplDom.style.display = 'none'
+  }
+  window.KeepCommentPlugin.loadFailHandle = () => {
+    window.KeepCommentPlugin.hideLoading()
+    const cpfDom = document.querySelector('.comments-container .comment-plugin-fail')
+    cpfDom.style.display = 'flex'
+    cpfDom.querySelector('.reload').addEventListener('click', () => {
+      window.location.reload()
+    })
+  }
+</script>
+
+        
+            
+
+    <div class="waline-comment-container">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/waline/3.3.2/waline.css"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/waline/3.3.2/waline-meta.css"/>
+        <div id="waline-comment"></div>
+        <script data-pjax>
+          window.KeepCommentPlugin.walineOptions = JSON.parse('{}'.replace(/&#34;/g, '"'))
+          window.KeepCommentPlugin.walineOptions.el = '#waline-comment'
+          window.KeepCommentPlugin.walineOptions.comment = '.post-comments-count'
+          window.KeepCommentPlugin.walineOptions.serverURL = 'https://waline-vercel-two-rho.vercel.app/'
+          window.KeepCommentPlugin.walineOptions.lang = 'en' || 'zh-CN'
+          window.KeepCommentPlugin.walineOptions.reaction = 'true' === 'true'
+        </script>
+
+        
+
+        
+            <script 
+                    async
+                    type="module"
+            >
+              import { init } from 'https://cdnjs.cloudflare.com/ajax/libs/waline/3.3.2/waline.js'
+              window.KeepCommentPlugin.initWaline = () => {
+                if (init) {
+                  init(window.KeepCommentPlugin.walineOptions)
+                  window.KeepCommentPlugin.hideLoading()
+                } else {
+                  setTimeout(() => {
+                    window.KeepCommentPlugin.initWaline()
+                  }, 1000)
+                }
+              }
+
+              if ('false' === 'true') {
+                setTimeout(() => {
+                  window.KeepCommentPlugin.initWaline()
+                }, 1200)
+              } else {
+                window.addEventListener('DOMContentLoaded', window.KeepCommentPlugin.initWaline)
+              }
+            </script>
+        
+    </div>
+
+
+        
+    </div>
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc right-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E8%A8%80%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8Bllm%E7%9A%84%E7%AC%AC%E4%BA%8C%E5%9D%97%E5%9F%BA%E7%9F%B3embedding"><span class="nav-text">💡
+引言：大语言模型（LLM）的第二块基石——Embedding</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88-embedding-%E6%98%AF-llm-%E7%9A%84%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6"><span class="nav-text">为什么 Embedding 是 LLM
+的核心组件？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#one-hot-%E7%BC%96%E7%A0%81%E7%8B%AC%E7%83%AD%E8%A1%A8%E7%A4%BA"><span class="nav-text">1. One-Hot 编码（独热表示）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E6%80%9D%E6%83%B3%E4%B8%8E%E5%8E%9F%E7%90%86"><span class="nav-text">💡 主要思想与原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%BA%E7%82%B9%E5%88%86%E6%9E%90"><span class="nav-text">🧐 缺点分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8Bpython-%E5%AE%9E%E7%8E%B0"><span class="nav-text">💻 示例（Python 实现）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%8D%E8%A2%8B%E7%BC%96%E7%A0%81%E5%8F%8A%E4%BC%98%E5%8C%96bow-n-gram-tf-idf"><span class="nav-text">2. 词袋编码及优化（BoW, N-gram,
+TF-IDF）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E6%80%9D%E6%83%B3%E4%B8%8E%E5%8E%9F%E7%90%86-1"><span class="nav-text">🧠 主要思想与原理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AF%8D%E8%A2%8B%E6%A8%A1%E5%9E%8B-bag-of-words-bow"><span class="nav-text">2.1 词袋模型 (Bag-of-Words, BoW)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#n-gram"><span class="nav-text">2.2 N-gram</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#tf-idf"><span class="nav-text">2.3 TF-IDF</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8Bscikit-learn-%E5%AE%9E%E7%8E%B0-bow-n-gram-tf-idf"><span class="nav-text">💻 示例（Scikit-learn
+实现 BoW, N-gram, TF-IDF）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#bow%E8%A1%A8%E7%A4%BA%E7%BB%93%E6%9E%9C"><span class="nav-text">BoW表示结果</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#n-gram%E8%A1%A8%E7%A4%BA%E7%BB%93%E6%9E%9C"><span class="nav-text">n-gram表示结果</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#tf-idf%E8%A1%A8%E7%A4%BA%E7%BB%93%E6%9E%9C"><span class="nav-text">TF-IDF表示结果</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%8D%E5%90%91%E9%87%8Fword-embedding"><span class="nav-text">3. 词向量（Word Embedding）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E6%80%9D%E6%83%B3%E4%B8%8E%E5%8E%9F%E7%90%86-2"><span class="nav-text">🌈 主要思想与原理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E6%96%B9%E6%B3%95word2vec"><span class="nav-text">常见方法：Word2Vec</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#cbow-%E8%AE%AD%E7%BB%83%E6%96%B9%E6%B3%95"><span class="nav-text">CBOW 训练方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#skip-gram-%E8%AE%AD%E7%BB%83%E6%96%B9%E6%B3%95"><span class="nav-text">Skip-gram 训练方法</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%A2%84%E6%B5%8B%E4%BB%BB%E5%8A%A1%E8%83%BD%E5%AD%A6%E5%87%BA%E8%AF%AD%E4%B9%89"><span class="nav-text">为什么“预测任务”能学出语义？</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-text">📦 应用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8Bgensim-word2vec-skip-gram-%E5%AE%9E%E7%8E%B0"><span class="nav-text">💻 示例（Gensim Word2Vec
+Skip-gram 实现）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8A%E4%B8%8B%E6%96%87%E5%B5%8C%E5%85%A5contextual-embedding"><span class="nav-text">4. 上下文嵌入（Contextual
+Embedding）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E6%80%9D%E6%83%B3%E4%B8%8E%E5%8E%9F%E7%90%86-3"><span class="nav-text">🚀 主要思想与原理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E6%A8%A1%E5%9E%8Bbert-gpt"><span class="nav-text">常见模型：BERT &amp; GPT</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF-1"><span class="nav-text">📦 应用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8Bhugging-face-transformers-bert-%E8%8E%B7%E5%8F%96token%E8%A1%A8%E7%A4%BA%E5%90%91%E9%87%8F"><span class="nav-text">💻
+示例（Hugging Face Transformers BERT 获取Token表示向量）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%99%84%E6%B3%A8"><span class="nav-text">附注</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="copyright-info info-item">
+    &copy;&nbsp;<span>2020</span>&nbsp;-&nbsp;2025
+    
+            &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">Zhongjun Qiu</a>
+        
+    </div>
+
+    <div class="theme-info info-item">
+        Powered by&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;&&nbsp;Theme&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+    </div>
+
+    
+        
+        <div class="deploy-info info-item">
+            
+                <a target="_blank" rel="nofollow" href="https://github.com">
+            
+            This site is deployed on <span class="tooltip" data-tooltip-content="GitHub Pages"><img src="/images/brands/github.png"></span>
+            
+                </a>
+            
+        </div>
+    
+
+    
+        <div class="count-info info-item">
+            
+                <span class="count-item border-box word">
+                    <span class="item-type border-box">Total words</span>
+                    <span class="item-value border-box word">406.3k</span>
+                </span>
+            
+
+            
+
+            
+                <span class="count-item border-box pv">
+                    <span class="item-type border-box">Page View</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+    
+
+    
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+            <li class="tools-item flex-center go-to-comments">
+                <i class="fas fa-comment"></i>
+                <span class="post-comments-count"></span>
+            </li>
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <!-- toggle mode -->
+        
+            <li class="tools-item tool-toggle-theme-mode flex-center">
+                <i class="fas fa-moon"></i>
+            </li>
+        
+
+        <!-- rss -->
+        
+
+        <!-- to bottom -->
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+            <li class="tools-item go-to-comments-tablet flex-center">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E8%A8%80%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8Bllm%E7%9A%84%E7%AC%AC%E4%BA%8C%E5%9D%97%E5%9F%BA%E7%9F%B3embedding"><span class="nav-text">💡
+引言：大语言模型（LLM）的第二块基石——Embedding</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88-embedding-%E6%98%AF-llm-%E7%9A%84%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6"><span class="nav-text">为什么 Embedding 是 LLM
+的核心组件？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#one-hot-%E7%BC%96%E7%A0%81%E7%8B%AC%E7%83%AD%E8%A1%A8%E7%A4%BA"><span class="nav-text">1. One-Hot 编码（独热表示）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E6%80%9D%E6%83%B3%E4%B8%8E%E5%8E%9F%E7%90%86"><span class="nav-text">💡 主要思想与原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%BA%E7%82%B9%E5%88%86%E6%9E%90"><span class="nav-text">🧐 缺点分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8Bpython-%E5%AE%9E%E7%8E%B0"><span class="nav-text">💻 示例（Python 实现）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%8D%E8%A2%8B%E7%BC%96%E7%A0%81%E5%8F%8A%E4%BC%98%E5%8C%96bow-n-gram-tf-idf"><span class="nav-text">2. 词袋编码及优化（BoW, N-gram,
+TF-IDF）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E6%80%9D%E6%83%B3%E4%B8%8E%E5%8E%9F%E7%90%86-1"><span class="nav-text">🧠 主要思想与原理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AF%8D%E8%A2%8B%E6%A8%A1%E5%9E%8B-bag-of-words-bow"><span class="nav-text">2.1 词袋模型 (Bag-of-Words, BoW)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#n-gram"><span class="nav-text">2.2 N-gram</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#tf-idf"><span class="nav-text">2.3 TF-IDF</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8Bscikit-learn-%E5%AE%9E%E7%8E%B0-bow-n-gram-tf-idf"><span class="nav-text">💻 示例（Scikit-learn
+实现 BoW, N-gram, TF-IDF）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#bow%E8%A1%A8%E7%A4%BA%E7%BB%93%E6%9E%9C"><span class="nav-text">BoW表示结果</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#n-gram%E8%A1%A8%E7%A4%BA%E7%BB%93%E6%9E%9C"><span class="nav-text">n-gram表示结果</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#tf-idf%E8%A1%A8%E7%A4%BA%E7%BB%93%E6%9E%9C"><span class="nav-text">TF-IDF表示结果</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%8D%E5%90%91%E9%87%8Fword-embedding"><span class="nav-text">3. 词向量（Word Embedding）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E6%80%9D%E6%83%B3%E4%B8%8E%E5%8E%9F%E7%90%86-2"><span class="nav-text">🌈 主要思想与原理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E6%96%B9%E6%B3%95word2vec"><span class="nav-text">常见方法：Word2Vec</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#cbow-%E8%AE%AD%E7%BB%83%E6%96%B9%E6%B3%95"><span class="nav-text">CBOW 训练方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#skip-gram-%E8%AE%AD%E7%BB%83%E6%96%B9%E6%B3%95"><span class="nav-text">Skip-gram 训练方法</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%A2%84%E6%B5%8B%E4%BB%BB%E5%8A%A1%E8%83%BD%E5%AD%A6%E5%87%BA%E8%AF%AD%E4%B9%89"><span class="nav-text">为什么“预测任务”能学出语义？</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-text">📦 应用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8Bgensim-word2vec-skip-gram-%E5%AE%9E%E7%8E%B0"><span class="nav-text">💻 示例（Gensim Word2Vec
+Skip-gram 实现）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8A%E4%B8%8B%E6%96%87%E5%B5%8C%E5%85%A5contextual-embedding"><span class="nav-text">4. 上下文嵌入（Contextual
+Embedding）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E6%80%9D%E6%83%B3%E4%B8%8E%E5%8E%9F%E7%90%86-3"><span class="nav-text">🚀 主要思想与原理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E6%A8%A1%E5%9E%8Bbert-gpt"><span class="nav-text">常见模型：BERT &amp; GPT</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF-1"><span class="nav-text">📦 应用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8Bhugging-face-transformers-bert-%E8%8E%B7%E5%8F%96token%E8%A1%A8%E7%A4%BA%E5%90%91%E9%87%8F"><span class="nav-text">💻
+示例（Hugging Face Transformers BERT 获取Token表示向量）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%99%84%E6%B3%A8"><span class="nav-text">附注</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+
+
+<!-- common js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/utils.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/header-shrink.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/back2top.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/toggle-theme.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/code-block.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/main.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/libs/anime.min.js"></script>
+
+<!-- local search -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/local-search.min.js"></script>
+
+
+<!-- lazyload -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/lazyload.min.js"></script>
+
+
+<div class="">
+    <!-- home page -->
+    
+
+    <!-- post page -->
+    
+        <!-- post-helper -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/post-helper.min.js"></script>
+
+        <!-- toc -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/toc.min.js"></script>
+        
+
+        <!-- copyright-info -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/copyright-info.min.js"></script>
+        
+
+        <!-- share -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/share.min.js"></script>
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+
+
+    
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/custom_code_block.js" data-pjax></script>
+
+        
+    
+
+</body>
+</html>
