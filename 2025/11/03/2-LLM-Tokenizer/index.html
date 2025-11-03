@@ -1,0 +1,1699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="blog, decade, lucky">
+    <meta name="description" content="Decade&#39;s lucky blog">
+    <meta name="author" content="Zhongjun Qiu">
+    
+    <title>
+        
+            常见的 LLM 分词器（Tokenizer） |
+        
+        Decade
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="https://decade.net.cn/images/logo.ico">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/fontawesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/regular.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/solid.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/brands.min.css">
+    
+        
+            
+        
+            
+                
+<link rel="stylesheet" href="/css/custom.css">
+
+            
+        
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"decade.net.cn","root":"/","language":"en","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"Decade","author":"Zhongjun Qiu","avatar":"/images/avatar.ico","logo":"/images/avatar.ico","favicon":"https://decade.net.cn/images/logo.ico"},"menu":{"home":"/ || fa-solid fa-home","archives":"/archives || fa-solid fa-box-archive","tags":"/tags || fa-solid fa-tags","categories":"/categories || fa-solid fa-layer-group","more":{"icon":"fa-solid fa-circle-user","children":[{"tool":"/tools || fa-solid fa-tools"},{"life":"/photos || fa-solid fa-image"},{"me":"/about || fa-solid fa-user-graduate"},{"Git":"/custom/index.html || fa-solid fa-user"}]}},"first_screen":{"enable":true,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"The Steadfast Determination of An Ordinary Soul.","hitokoto":false},"social_contact":{"enable":true,"links":{"github":"https://github.com/Decade-qiu","weixin":"img | /images/social/weixin.jpg","qq":null,"weibo":null,"zhihu":null,"twitter":null,"x":null,"facebook":null,"email":"qiuyu6021@gmail.com"}},"scroll":{"progress_bar":true,"percent":true,"hide_header":false},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"created || fa-solid fa-history","post_datetime_format":"ago"},"post":{"author_badge":{"enable":true,"level_badge":false,"custom_badge":"元婴开发者"},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":true,"img_link":"/images/post/payment.jpg","text":null,"icon":null},"created_datetime_icon":"fa-solid fa-calendar-plus","updated_datetime_icon":"fa-solid fa-arrows-rotate"},"code_block":{"tools":{"enable":true,"style":"mac"},"highlight_theme":"obsidian"},"toc":{"enable":true,"number":false,"expand_all":false,"init_open":false,"layout":"right"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":false,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":true,"use":"waline","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.39"},"waline":{"server_url":"https://waline-vercel-two-rho.vercel.app/","reaction":true,"version":"3.3.2"},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":false},"lazyload":{"enable":true},"cdn":{"enable":true,"provider":"cdnjs"},"pjax":{"enable":false},"footer":{"since":2020,"word_count":true,"site_deploy":{"enable":true,"provider":"github","url":"https://github.com"},"record":{"enable":false,"list":[{"code":null,"link":null}]}},"inject":{"enable":true,"css":[null,"/css/custom.css"],"js":[null,"/js/custom_code_block.js"]},"root":"","source_data":{"photos":[{"url":"/images/post/【哲风壁纸】日本动漫-电锯人.webp","name":"电锯人"},{"url":"/images/post/Quicker_20250428_193139.webp","name":"kowayia"},{"url":"/images/post/Quicker_20250428_233349.webp","name":"世界地图"},{"url":"/images/post/tmpFE1E.tmp.webp","name":"施红"},{"url":"/images/post/result-1745849388402.webp","name":"仇忠骏.动漫版"},{"url":"/images/photos/猫猫困了PNG.png","name":"猫猫困了PNG"},{"url":"/images/photos/宁静的暴雨天.png","name":"宁静的暴雨天"},{"url":"/images/photos/我在扬州好想你.png","name":"我在扬州好想你"},{"url":"/images/photos/信鸽.png","name":"信鸽"},{"url":"/images/photos/啤酒烧烤.png","name":"啤酒烧烤"},{"url":"/images/photos/随手拍.png","name":"随手拍"},{"url":"/images/photos/糖油混合炸弹.png","name":"糖油混合炸弹"},{"url":"/images/photos/香香的.png","name":"香香的"},{"url":"/images/photos/蝎子莱莱.png","name":"蝎子莱莱"},{"url":"/images/post/指C为python.png","name":"指C为python"},{"url":"/images/photos/YangZhou_Station.png","name":"YangZhou Station"},{"url":"/images/photos/GBC.jpg","name":"Girls Band Cry"},{"url":"/images/photos/bocchi.webp","name":"Bocchi the Rock!"}],"tools":[{"category":"AIGC"},{"name":"ChatGPT","link":"https://chat.openai.com/","description":"OpenAI 旗下 AI 聊天对话工具","image":"/images/tools/chatgpt.svg"},{"name":"Gemini","link":"https://gemini.google.com/app","description":"Google 旗下 AI 聊天对话工具","image":"/images/tools/gemini.svg"},{"name":"Copilot","link":"https://copilot.microsoft.com/","description":"Microsoft 旗下 AI 聊天对话工具","image":"/images/tools/copilot.png"},{"name":"Deepseek","link":"https://chat.deepseek.com/","description":"Deepseek 旗下 AI 聊天对话工具","image":"/images/tools/deepseek.jpg"},{"name":"Qwen","link":"https://chat.qwen.ai/","description":"Alibaba 旗下 AI 聊天对话工具","image":"/images/tools/tongyiqianwen.svg"},{"name":"即梦AI","link":"https://jimeng.jianying.com/ai-tool/home","description":"Dreamina 图像生成工具","image":"/images/tools/dream.png"},{"name":"komiko","link":"https://komiko.app/home","description":"Komiko 动漫化AI工具","image":"/images/tools/komiko.webp"},{"name":"InsMind","link":"https://www.insmind.com/zh-cn/workspace/","description":"AI图片编辑工具","image":"/images/tools/insmind.svg"},{"name":"Raphael","link":"https://raphael.app/zh","description":"AI图片生成工具","image":"/images/tools/rap.png"},{"name":"腾讯元宝","link":"https://yuanbao.tencent.com/chat/","description":"Tencent 旗下 AI 聊天对话工具","image":"/images/tools/tencent.jpg"},{"name":"豆包","link":"https://www.doubao.com/chat/","description":"字节跳动 图片生成工具","image":"/images/tools/dn.jpg"},{"category":"Airport"},{"name":"独角兽","link":"https://91unicorn.cloud/","description":"十分稳定","image":"/images/tools/dujiaoshou.ico"},{"name":"极速机场","link":"https://xn--mes358acgm99l.com/","description":"便宜好用","image":"/images/tools/jisu.ico"},{"name":"iKuuu","link":"https://ikuuu.org/user","description":"以备不时之需","image":"/images/tools/ikuu.ico"},{"category":"File Converter"},{"name":"Online Image Tool","link":"https://www.onlineimagetool.com/zh/","description":"在线压缩和转换图片","image":"/images/tools/oit.png"},{"name":"Vector Magic","link":"https://zh.vectormagic.com/","description":"文件矢量化","image":"/images/tools/apple-touch-icon-180_97956a9f5fbf6a767de100280d78c1f8.png"},{"name":"TinyPNG","link":"https://tinypng.com/","description":"Smart AVIF, WebP, PNG and JPEG Compression for Faster Websites","image":"/images/tools/tiny.ico"},{"name":"踏得","link":"https://techbrood.com/tool","description":"HTML5在线工具","image":"/images/tools/td.ico"},{"name":"UU在线工具","link":"https://uutool.cn/base64/","description":"base64工具包","image":"/images/tools/uu.png"},{"name":"I Love PDF","link":"https://www.ilovepdf.com/","description":"PDF工具包","image":"/images/tools/ilovepdf.svg"},{"category":"Free GPT API"},{"name":"Gemini API","link":"https://ai.google.dev/gemini-api/docs/quickstart?lang=python","description":"Google Gemini API","image":"/images/tools/touchicon-180-new.png"},{"name":"SiliconCloud","link":"https://cloud.siliconflow.cn/models","description":"各种模型API"},{"name":"Cloudflare Workers AI","link":"https://developers.cloudflare.com/workers-ai/configuration/open-ai-compatibility/","description":"OpenAI compatible API endpoints","image":"/images/tools/logo.p_ySeMR1.svg"},{"name":"算了么","link":"https://api.suanli.cn/","description":"共享算力API","image":"/images/tools/suanlm.svg"},{"category":"Resource Explorer"},{"name":"Free for Developers","link":"https://free-for.dev/","description":"A list of SaaS, PaaS and IaaS offerings that have free tiers of interest to devops and infradev","image":"/images/tools/freefd.webp"},{"name":"zlibrary","link":"https://zh.z-library.sk/","description":"在线图书馆","image":"/images/tools/logo.zlibrary.svg"},{"name":"PicX","link":"https://picx.xpoet.cn/","description":"基于Github的图床","image":"/images/tools/logo.ffee4291.png"},{"name":"HaoWallpaper","link":"https://haowallpaper.com/","description":"哲风壁纸","image":"/images/tools/haowall.ico"},{"name":"Awesome","link":"https://wallhaven.cc/","description":"WallHaven","image":"/images/tools/wallheaven.ico"},{"name":"WallHere","link":"https://wallhere.com/","description":"WallHere"},{"name":"SnapAny","link":"https://snapany.com/zh","description":"万能视频图片解析下载"},{"name":"ØMagnet","link":"https://0cili.org/","description":"种子下载"},{"name":"twitter","link":"https://snapvid.net/zh-cn/twitter-downloader","description":"推特视频下载器","image":"/images/tools/apple-touch-icon.png"},{"name":"youtube","link":"https://www.y2mate.com/en949","description":"Youtube视频下载器","image":"/images/tools/y2mate.webp"},{"name":"Icons8","link":"https://icons8.com/icons","description":"免费图标下载","image":"/images/tools/logo-icons8.svg"},{"name":"全能emoji","link":"https://www.emojiall.com/zh-hans","description":"emoji制作","image":"/images/tools/emoji.ico"},{"name":"emojidb","link":"https://emojidb.org/","description":"免费表情包下载","image":"/images/tools/emojidb.png"},{"name":"Flaticon","link":"https://www.flaticon.com/","description":"免费图标下载","image":"/images/tools/logo-flaticon.svg"},{"name":"IconFinder","link":"https://www.iconfinder.com/","description":"免费图标下载","image":"/images/tools/logo-iconfinder.svg"}]},"version":"4.2.5"}
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"}
+    KEEP.language_code_block = {"copy":"Copy code","copied":"Copied","fold":"Fold code block","folded":"Folded"}
+    KEEP.language_copy_copyright = {"copy":"Copy copyright info","copied":"Copied","title":"Original post title","author":"Original post author","link":"Original post link"}
+  </script>
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left flex-start border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/avatar.ico">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               Decade
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc border-box">
+                <ul class="menu-list border-box">
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-home"></i>
+                                
+                                HOME
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/archives">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-box-archive"></i>
+                                
+                                ARCHIVES
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/tags">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-tags"></i>
+                                
+                                TAGS
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/categories">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-layer-group"></i>
+                                
+                                CATEGORIES
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box has-sub-menu">
+                            <a class="menu-text-color border-box" href="javascript:void(0);">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-circle-user"></i>
+                                
+                                MORE
+                                
+                                    <i class="menu-text-color collapse-icon fa-solid fa-angle-down"></i>
+                                
+                            </a>
+                            
+                                <ul class="sub-menu-list border-box">
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" href="/tools">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-solid fa-tools"></i>
+                                                
+                                                TOOL
+                                            </a>
+                                        </li>
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" href="/photos">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-solid fa-image"></i>
+                                                
+                                                LIFE
+                                            </a>
+                                        </li>
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" href="/about">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-solid fa-user-graduate"></i>
+                                                
+                                                ME
+                                            </a>
+                                        </li>
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" href="/custom/">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-solid fa-user"></i>
+                                                
+                                                GIT
+                                            </a>
+                                        </li>
+                                    
+                                </ul>
+                            
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="menu-text-color fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile border-box flex-start">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list border-box">
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-home"></i>
+                                </span>
+                            
+                            HOME
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/archives">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-box-archive"></i>
+                                </span>
+                            
+                            ARCHIVES
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/tags">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-tags"></i>
+                                </span>
+                            
+                            TAGS
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/categories">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-layer-group"></i>
+                                </span>
+                            
+                            CATEGORIES
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box has-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="javascript:void(0);">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-circle-user"></i>
+                                </span>
+                            
+                            MORE
+                        </a>
+                        
+                            <i class="right-side collapse-icon fa-solid fa-angle-left"></i>
+                        
+                    </label>
+                    
+                        <ul class="drawer-sub-menu-list border-box">
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" href="/tools">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-solid fa-tools"></i>
+                                            </span>
+                                        
+                                        TOOL
+                                    </a>
+                                </li>
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" href="/photos">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-solid fa-image"></i>
+                                            </span>
+                                        
+                                        LIFE
+                                    </a>
+                                </li>
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" href="/about">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-solid fa-user-graduate"></i>
+                                            </span>
+                                        
+                                        ME
+                                    </a>
+                                </li>
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" href="/custom/">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-solid fa-user"></i>
+                                            </span>
+                                        
+                                        GIT
+                                    </a>
+                                </li>
+                            
+                        </ul>
+                    
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        常见的 LLM 分词器（Tokenizer）
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/avatar.ico">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">Zhongjun Qiu</span>
+                                
+                                    <span class="author-badge">元婴开发者</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2025-11-03 09:21:57</span>
+            </span>
+
+            
+                <span class="meta-info-item post-update-date">
+                    <i class="icon fa-solid fa-arrows-rotate"></i>&nbsp;
+                    <span class="datetime" data-updated="Mon Nov 03 2025 09:23:43 GMT+0800">2025-11-03 09:23:43</span>
+                </span>
+            
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/LLM/">LLM</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/Tokenizer/">Tokenizer</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>5.5k Words</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>23 Mins</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <p>本篇文章介绍大语言模型（LLM）中常用的几种分词（Tokenizer）方法，包括传统分词、BPE、WordPiece、SentencePiece
+以及 Unigram Language
+Model。我们将通过原理解析、应用场景和代码示例，帮助读者理解这些分词技术在
+LLM 中的作用与实现。</p>
+<span id="more"></span>
+<h2 id="传统分词rule-based-word-level">1️⃣ 传统分词（Rule-based /
+Word-level）</h2>
+<h3 id="原理">🔍 原理</h3>
+<p>传统分词基于<strong>空格或人工规则</strong>进行切分。</p>
+<ul>
+<li>英文：直接用空格拆词。</li>
+<li>中文：需要词典和规则（如结巴分词、THULAC 等）。</li>
+<li>无法处理未登录词（OOV），粒度较粗。</li>
+</ul>
+<h3 id="应用场景">📦 应用场景</h3>
+<ul>
+<li>传统 NLP 特征工程（TF-IDF、BM25）</li>
+<li>不依赖大模型的任务（情感分析、分类）</li>
+</ul>
+<h3 id="示例jieba-中文分词">💻 示例（jieba 中文分词）</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> jieba</span><br><span class="line"></span><br><span class="line">text = <span class="string">"我爱自然语言处理 i like natural language process"</span></span><br><span class="line">tokens = <span class="built_in">list</span>(jieba.cut(text))</span><br><span class="line"><span class="built_in">print</span>(tokens)</span><br></pre></td></tr></table></figure>
+<p><strong>输出：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">['我', '爱', '自然语言', '处理', ' ', 'i', ' ', 'like', ' ', 'natural', ' ', 'language', ' ', 'process']</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="bpebyte-pair-encoding">2️⃣ BPE（Byte Pair Encoding）</h2>
+<h3 id="原理-1">🔍 原理</h3>
+<p>BPE 是一种 <strong>基于频率的子词切分算法</strong>。</p>
+<ol type="1">
+<li>从字符级开始（如 “l”, “o”, “w”, “e”, “r”）。</li>
+<li>找出频率最高的相邻对（如 “l” + “o” → “lo”）。</li>
+<li>合并成新的子词，不断重复，直到词汇表大小达到限制。</li>
+<li>在推理时按最长匹配优先进行切分。</li>
+</ol>
+<h3 id="应用场景-1">📦 应用场景</h3>
+<ul>
+<li>GPT-2、RoBERTa、LLaMA</li>
+<li>英文效果好，可应对拼写变化与新词</li>
+</ul>
+<h3 id="示例使用-tokenizers-库">💻 示例（使用 <code>tokenizers</code>
+库）</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> tokenizers <span class="keyword">import</span> Tokenizer, models, trainers, pre_tokenizers</span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始化 BPE 模型</span></span><br><span class="line">tokenizer = Tokenizer(models.BPE())</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义训练器</span></span><br><span class="line">trainer = trainers.BpeTrainer(</span><br><span class="line">    vocab_size=<span class="number">50</span>,  <span class="comment"># 小词表方便观察</span></span><br><span class="line">    min_frequency=<span class="number">1</span>,<span class="comment"># type: ignore</span></span><br><span class="line">    special_tokens=[<span class="string">"&lt;unk&gt;"</span>, <span class="string">"&lt;pad&gt;"</span>, <span class="string">"&lt;s&gt;"</span>, <span class="string">"&lt;/s&gt;"</span>]</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置预分词规则（这里用空格分词）</span></span><br><span class="line">tokenizer.pre_tokenizer = pre_tokenizers.Whitespace() <span class="comment"># type: ignore</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 模拟一批文本数据</span></span><br><span class="line">texts = [</span><br><span class="line">    <span class="string">"The lower and lowest temperatures are often lower than expected."</span>,</span><br><span class="line">    <span class="string">"Newest technologies bring wider opportunities and new solutions"</span>,</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 训练 BPE 分词器</span></span><br><span class="line">tokenizer.train_from_iterator(texts, trainer)</span><br><span class="line"></span><br><span class="line"><span class="comment"># tokenizer 是训练好的 Tokenizer 对象</span></span><br><span class="line">vocab_dict = tokenizer.get_vocab()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"词表大小:"</span>, <span class="built_in">len</span>(vocab_dict))</span><br><span class="line">vocab_sorted = <span class="built_in">sorted</span>(vocab_dict.items(), key=<span class="keyword">lambda</span> x: x[<span class="number">1</span>])</span><br><span class="line"><span class="built_in">print</span>(vocab_sorted)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 编码新的句子</span></span><br><span class="line">test_sentence = <span class="string">"The lowest lower technologies are amazing."</span></span><br><span class="line">encoding = tokenizer.encode(test_sentence)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出结果</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">"Input sentence:"</span>, test_sentence)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"Tokens:"</span>, encoding.tokens)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"Token IDs:"</span>, encoding.ids)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"Decoded back:"</span>, tokenizer.decode(encoding.ids))</span><br></pre></td></tr></table></figure>
+<p><strong>输出：</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">词表大小: 50</span><br><span class="line">[('&lt;unk&gt;', 0), ('&lt;pad&gt;', 1), ('&lt;s&gt;', 2), ('&lt;/s&gt;', 3), ('.', 4), ('N', 5), ('T', 6), ('a', 7), ('b', 8), ('c', 9), ('d', 10), ('e', 11), ('f', 12), ('g', 13), ('h', 14), ('i', 15), ('l', 16), ('m', 17), ('n', 18), ('o', 19), ('p', 20), ('r', 21), ('s', 22), ('t', 23), ('u', 24), ('w', 25), ('x', 26), ('es', 27), ('er', 28), ('lo', 29), ('te', 30), ('an', 31), ('low', 32), ('ew', 33), ('ies', 34), ('tu', 35), ('est', 36), ('and', 37), ('lower', 38), ('New', 39), ('Th', 40), ('ar', 41), ('atu', 42), ('br', 43), ('ch', 44), ('cte', 45), ('der', 46), ('ex', 47), ('ecte', 48), ('fte', 49)]</span><br><span class="line">Input sentence: The lowest lower technologies are amazing.</span><br><span class="line">Tokens: ['Th', 'e', 'low', 'est', 'lower', 'te', 'ch', 'n', 'o', 'lo', 'g', 'ies', 'ar', 'e', 'a', 'm', 'a', 'i', 'n', 'g', '.']</span><br><span class="line">Token IDs: [40, 11, 32, 36, 38, 30, 44, 18, 19, 29, 13, 34, 41, 11, 7, 17, 7, 15, 18, 13, 4]</span><br><span class="line">Decoded back: Th e low est lower te ch n o lo g ies ar e a m a i n g .</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>词表太小</strong>，BPE 没法把所有长单词收录完整。</li>
+<li>算法会优先保留
+<strong>高频子词/词根</strong>，低频词只能拆成更小单位。</li>
+</ul>
+<p>因为<code>vocab_size=50</code>，词表比较小，所以BPE最后生成的大部分都是词根，并且是在训练的语句中经常出现的，例如：“lower”，“New”等等。</p>
+<p>当我们设置<code>vocab_size=100</code>：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">词表大小: 96</span><br><span class="line">[('&lt;unk&gt;', 0), ('&lt;pad&gt;', 1), ('&lt;s&gt;', 2), ('&lt;/s&gt;', 3), ('.', 4), ('N', 5), ('T', 6), ('a', 7), ('b', 8), ('c', 9), ('d', 10), ('e', 11), ('f', 12), ('g', 13), ('h', 14), ('i', 15), ('l', 16), ('m', 17), ('n', 18), ('o', 19), ('p', 20), ('r', 21), ('s', 22), ('t', 23), ('u', 24), ('w', 25), ('x', 26), ('es', 27), ('er', 28), ('lo', 29), ('te', 30), ('an', 31), ('low', 32), ('ew', 33), ('ies', 34), ('tu', 35), ('est', 36), ('and', 37), ('lower', 38), ('New', 39), ('Th', 40), ('ar', 41), ('atu', 42), ('br', 43), ('ch', 44), ('cte', 45), ('der', 46), ('ex', 47), ('ecte', 48), ('fte', 49), ('gies', 50), ('han', 51), ('in', 52), ('io', 53), ('it', 54), ('ider', 55), ('lu', 56), ('mp', 57), ('no', 58), ('ns', 59), ('new', 60), ('nit', 61), ('op', 62), ('or', 63), ('ofte', 64), ('olu', 65), ('pecte', 66), ('por', 67), ('res', 68), ('solu', 69), ('than', 70), ('tio', 71), ('wider', 72), ('eratu', 73), ('logies', 74), ('tech', 75), ('temp', 76), ('lowest', 77), ('tunit', 78), ('Newest', 79), ('The', 80), ('are', 81), ('brin', 82), ('expecte', 83), ('nologies', 84), ('oppor', 85), ('often', 86), ('solutio', 87), ('eratures', 88), ('technologies', 89), ('temperatures', 90), ('tunities', 91), ('bring', 92), ('expected', 93), ('opportunities', 94), ('solutions', 95)]</span><br><span class="line">Input sentence: The lowest lower technologies are amazing.</span><br><span class="line">Tokens: ['The', 'lowest', 'lower', 'technologies', 'are', 'a', 'm', 'a', 'in', 'g', '.']</span><br><span class="line">Token IDs: [80, 77, 38, 89, 81, 7, 17, 7, 52, 13, 4]</span><br><span class="line">Decoded back: The lowest lower technologies are a m a in g .</span><br></pre></td></tr></table></figure>
+<p>高频单词和长单词被更多地完整保留：</p>
+<ul>
+<li><code>lowest</code>, <code>lower</code>, <code>technologies</code>
+都出现在词表中</li>
+</ul>
+<p>只有一些低频、长尾词被拆分，例如：</p>
+<ul>
+<li><code>amazing</code> → <code>a</code>, <code>m</code>,
+<code>a</code>, <code>in</code>, <code>g</code></li>
+</ul>
+<p>分词粒度更粗，保留更多完整单词，而非拆成单字或极小子词。</p>
+<p>在此基础上，设置<code>min_frequency=2</code>：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">词表大小: 39</span><br><span class="line">[('&lt;unk&gt;', 0), ('&lt;pad&gt;', 1), ('&lt;s&gt;', 2), ('&lt;/s&gt;', 3), ('.', 4), ('N', 5), ('T', 6), ('a', 7), ('b', 8), ('c', 9), ('d', 10), ('e', 11), ('f', 12), ('g', 13), ('h', 14), ('i', 15), ('l', 16), ('m', 17), ('n', 18), ('o', 19), ('p', 20), ('r', 21), ('s', 22), ('t', 23), ('u', 24), ('w', 25), ('x', 26), ('es', 27), ('er', 28), ('lo', 29), ('te', 30), ('an', 31), ('low', 32), ('ew', 33), ('ies', 34), ('tu', 35), ('est', 36), ('and', 37), ('lower', 38)]</span><br><span class="line">Input sentence: The lowest lower technologies are amazing.</span><br><span class="line">Tokens: ['T', 'h', 'e', 'low', 'est', 'lower', 'te', 'c', 'h', 'n', 'o', 'lo', 'g', 'ies', 'a', 'r', 'e', 'a', 'm', 'a', 'i', 'n', 'g', '.']</span><br><span class="line">Token IDs: [6, 14, 11, 32, 36, 38, 30, 9, 14, 18, 19, 29, 13, 34, 7, 21, 11, 7, 17, 7, 15, 18, 13, 4]</span><br><span class="line">Decoded back: T h e low est lower te c h n o lo g ies a r e a m a i n g .</span><br></pre></td></tr></table></figure>
+<ul>
+<li>高频子词（如 <code>low</code>, <code>est</code>,
+<code>lower</code>）被保留</li>
+<li><strong>低频子词或字符</strong>被拆得更细，例如：
+<ul>
+<li><code>The</code> → <code>'T', 'h', 'e'</code></li>
+<li><code>technologies</code> →
+<code>'te', 'c', 'h', 'n', 'o', 'lo', 'g', 'ies'</code></li>
+<li><code>amazing</code> →
+<code>'a', 'm', 'a', 'i', 'n', 'g'</code></li>
+</ul></li>
+</ul>
+<p>因为<code>min_frequency=2</code> 会
+<strong>排除低频组合</strong>，于是 BPE
+没法把低频长单词直接加入词表（即使词表余量充足），只能拆成更小的字母或子词组合。高频子词仍然被保留，因此
+<code>lower</code>, <code>low</code>, <code>est</code>
+等能完整出现。</p>
+<hr>
+<h2 id="wordpiece基于概率的bpe变体">3️⃣
+WordPiece（基于概率的BPE变体）</h2>
+<h3 id="原理-2">🔍 原理</h3>
+<ul>
+<li><strong>BPE：</strong>
+规则很简单，谁“<strong>数量多</strong>”就合并谁。它合并的是<strong>出现频率最高</strong>的相邻pair。</li>
+<li><strong>WordPiece：</strong>
+规则更“聪明”：它合并的是能使训练数据<strong>总“似然(Likelihood)”提升最大</strong>的相邻
+pair。</li>
+</ul>
+<p>我们用一个简单的例子来说明：</p>
+<ul>
+<li>假设我们要决定是合并 <code>A</code> 和 <code>B</code> 呢，还是合并
+<code>C</code> 和 <code>D</code>。</li>
+<li><code>count(A)</code> 表示 <code>A</code> 出现的总次数。</li>
+<li><code>count(A, B)</code> 表示 <code>A</code> 和 <code>B</code>
+<strong>相邻</strong>出现的总次数。</li>
+</ul>
+<h4 id="bpe-的打分方式频率">1. BPE 的打分方式（频率）</h4>
+<p>BPE 只看相邻次数： <code>Score(A, B) = count(A, B)</code></p>
+<p>如果 <code>count(A, B) = 100</code> 且
+<code>count(C, D) = 90</code>，BPE会选择合并 <code>A, B</code>。</p>
+<h4 id="wordpiece-的打分方式似然">2. WordPiece 的打分方式（似然）</h4>
+<p>WordPiece 认为，仅仅看 <code>count(A, B)</code> 是不够的。如果
+<code>A</code> 和 <code>B</code> 本身都是超级高频的字母（比如 ‘e’ 和
+‘s’），它们俩相邻出现100次可能<strong>纯属巧合</strong>。</p>
+<p>WordPiece 的打分公式（简化后）是：
+<code>Score(A, B) = count(A, B) / ( count(A) * count(B) )</code></p>
+<p>这个公式在计算 <code>A</code> 和 <code>B</code> 相邻出现的概率
+<code>count(A, B)</code>
+的同时，还<strong>除以了</strong>它们各自独立出现的概率
+<code>count(A)</code> 和 <code>count(B)</code>。</p>
+<p>这实际上是在计算一个“<strong>点互信息 (Pointwise Mutual Information,
+PMI)</strong>”： <code>A</code> 和 <code>B</code>
+一起出现的概率，<strong>相比于</strong>它们各自独立、“碰巧”出现在一起的概率，要高出多少？</p>
+<h4 id="举个例子为什么-wordpiece-更语义相关">举个例子：为什么 WordPiece
+更“语义相关”</h4>
+<p>假设我们的语料库非常大，我们有以下统计数据：</p>
+<ul>
+<li><strong>Pair 1: <code>('t', 'h')</code></strong> (比如 “the”,
+“this”, “that”)
+<ul>
+<li><code>count(t, h)</code> = 1,000,000 (相邻出现100万次)</li>
+<li><code>count(t)</code> = 5,000,000</li>
+<li><code>count(h)</code> = 4,000,000</li>
+</ul></li>
+<li><strong>Pair 2: <code>('e', 's')</code></strong> (比如 “these”,
+“makes”, “goes”…)
+<ul>
+<li><code>count(e, s)</code> = 1,200,000 (相邻出现120万次)</li>
+<li><code>count(e)</code> = 10,000,000 (最常见的字母)</li>
+<li><code>count(s)</code> = 8,000,000</li>
+</ul></li>
+</ul>
+<h4 id="bpe-的选择">BPE 的选择：</h4>
+<ul>
+<li>Score(<code>t, h</code>) = 1,000,000</li>
+<li>Score(<code>e, s</code>) = 1,200,000</li>
+<li><strong>BPE 结论：</strong> <code>120万 &gt; 100万</code>，优先合并
+<code>('e', 's')</code>。</li>
+</ul>
+<h4 id="wordpiece-的选择">WordPiece 的选择：</h4>
+<ul>
+<li><p>Score(<code>t, h</code>) = 1,000,000 / (5,000,000 * 4,000,000) =
+1 / 20,000,000</p></li>
+<li><p>Score(<code>e, s</code>) = 1,200,000 / (10,000,000 * 8,000,000) =
+1.2 / 80,000,000 = 1 / 66,666,667</p></li>
+<li><p><strong>WordPiece 结论：</strong> <code>1/20M</code> 远远大于
+<code>1/66M</code>。<code>('t', 'h')</code> 这个组合的“意义”远大于
+<code>('e', 's')</code>。</p></li>
+<li><p><strong>解读：</strong> <code>t</code> 和 <code>h</code>
+结合在一起，比它们“随机”碰在一起的概率高得多，这说明 <code>th</code>
+是一个强相关的“语义单元”。而 <code>e</code> 和 <code>s</code>
+虽然也经常挨在一起，但因为它们各自都太常用了，所以它们挨在一起很可能只是“巧合”，<code>es</code>
+并不是一个像 <code>th</code> 一样牢固的单元。</p></li>
+<li><p>因此，WordPiece 会优先合并 <code>('t', 'h')</code>。</p></li>
+</ul>
+<p>BPE 是“频率驱动”的，简单粗暴。而 WordPiece
+是“概率驱动”的，它通过除以单个 token
+的频率，<strong>惩罚了那些由高频、无意义的 token
+组成的“巧合”pair</strong>，从而优先保留了像
+<code>th</code>、<code>ing</code>、<code>pro</code>
+这样真正具有强内部相关性的“语义单元”。</p>
+<h3 id="应用场景-2">📦 应用场景</h3>
+<ul>
+<li>BERT、ALBERT、DistilBERT</li>
+<li>英文任务常用，能兼顾泛化性与语义一致性</li>
+</ul>
+<h3 id="示例hugging-face自带的wordpiece">💻 示例（Hugging
+Face自带的WordPiece）</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> transformers <span class="keyword">import</span> BertTokenizerFast</span><br><span class="line"></span><br><span class="line">tokenizer = BertTokenizerFast.from_pretrained(<span class="string">"bert-base-uncased"</span>)</span><br><span class="line"></span><br><span class="line">vocab_dict = tokenizer.get_vocab()</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"词表大小:"</span>, <span class="built_in">len</span>(vocab_dict))</span><br><span class="line"></span><br><span class="line">test_sentence = <span class="string">"The lowest lower technologies are amazing and counterproductive."</span></span><br><span class="line"></span><br><span class="line">tokens = tokenizer.tokenize(test_sentence)</span><br><span class="line">ids = tokenizer.convert_tokens_to_ids(tokens)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"Tokens:"</span>, tokens)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"IDs:"</span>, ids)</span><br></pre></td></tr></table></figure>
+<p><strong>输出：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">词表大小: 30522</span><br><span class="line">Tokens: ['the', 'lowest', 'lower', 'technologies', 'are', 'amazing', 'and', 'counter', '##pro', '##ductive', '.']</span><br><span class="line">IDs: [1996, 7290, 2896, 6786, 2024, 6429, 1998, 4675, 21572, 26638, 1012]</span><br></pre></td></tr></table></figure>
+<h3 id="附注">附注</h3>
+<p><code>##</code> 标记是 WordPiece
+算法的核心机制，用于<strong>确保分词过程的“可逆性”和“无歧义性”</strong>。</p>
+<p>简单来说，它的作用是告诉解码器：“<strong>这个 token
+是一个词的中间或后缀，它应该紧贴着前一个
+token，它们之间没有空格。</strong>”</p>
+<p><strong>为什么这是必要的？</strong></p>
+<p>想象一下，如果我们没有 <code>##</code> 标记，词汇表里只有
+<code>counter</code>, <code>pro</code>,
+<code>ductive</code>。那么下面两个完全不同的输入会产生完全相同的结果：</p>
+<ol type="1">
+<li><code>"counterproductive"</code> (一个词) -&gt;
+<code>['counter', 'pro', 'ductive']</code></li>
+<li><code>"counter pro ductive"</code> (三个词) -&gt;
+<code>['counter', 'pro', 'ductive']</code></li>
+</ol>
+<p>这就导致了一个严重问题：当模型输出
+<code>['counter', 'pro', 'ductive']</code>
+时，我们无法知道应该将它重构为 “counterproductive” 还是 “counter pro
+ductive”。</p>
+<p><strong><code>##</code> 如何解决这个问题：</strong></p>
+<p>WordPiece 的词汇表会同时包含 <code>pro</code>（词首）和
+<code>##pro</code>（非词首）。</p>
+<ul>
+<li><p><strong>句子 1: <code>"counterproductive"</code></strong></p>
+<ul>
+<li>分词结果: <code>['counter', '##pro', '##ductive']</code></li>
+<li>解码：<code>counter</code> + (无空格)<code>pro</code> +
+(无空格)<code>ductive</code> -&gt; “counterproductive”</li>
+</ul></li>
+<li><p><strong>句子 2: <code>"counter pro ductive"</code></strong></p>
+<ul>
+<li><p>分词结果: <code>['counter', 'pro', 'ductive']</code></p></li>
+<li><p>解码：<code>counter</code> + (加空格)<code>pro</code> +
+(加空格)<code>ductive</code> -&gt; “counter pro ductive”</p></li>
+</ul></li>
+</ul>
+<blockquote>
+<p>BPE（及其变体 SentencePiece，被 GPT、RoBERTa
+等模型使用）也必须解决同样的可逆性问题，但它采用了<strong>逻辑上相反的标记策略</strong>。</p>
+<ul>
+<li><strong>WordPiece (BERT):</strong> 默认所有 token 间加空格，使用
+<code>##</code> 标记“<strong>不要加空格</strong>”。</li>
+<li><strong>BPE (GPT):</strong> 默认所有 token
+间不加空格，使用一个特殊前缀（如 <code></code> 或
+<code>Ġ</code>，代表空格）来标记“<strong>请在这里加一个空格</strong>”。</li>
+</ul>
+<p><strong>BPE/SentencePiece 示例：</strong></p>
+<p>在 BPE 的词汇表里，一个词根（如 “pro”）会有两种形式：</p>
+<ol type="1">
+<li><code>pro</code>
+(无前缀)：表示这是一个词的<strong>中间或后缀</strong>（等同于 WordPiece
+的 <code>##pro</code>）。</li>
+<li><code>Ġpro</code> (带前缀 <code>Ġ</code> 或
+<code></code>)：表示这是一个<strong>新词的开头</strong>（等同于
+WordPiece 的 <code>pro</code>）。</li>
+</ol>
+<p>我们用 BPE 来处理同样的两个句子：</p>
+<ul>
+<li><p><strong>句子 1: <code>"counterproductive"</code></strong></p>
+<ul>
+<li>分词结果: <code>['counter', 'pro', 'ductive']</code> (这里的
+<code>counter</code> 是词首，<code>pro</code> 和 <code>ductive</code>
+是非词首)</li>
+<li>解码：<code>counter</code> + (无<code>Ġ</code>)<code>pro</code> +
+(无<code>Ġ</code>)<code>ductive</code> -&gt; “counterproductive”</li>
+</ul></li>
+<li><p><strong>句子 2: <code>"counter pro ductive"</code></strong></p>
+<ul>
+<li>分词结果: <code>['counter', 'Ġpro', 'Ġductive']</code></li>
+<li>解码：<code>counter</code> + (有<code>Ġ</code>)<code>pro</code> +
+(有<code>Ġ</code>)<code>ductive</code> -&gt; “counter pro ductive”</li>
+</ul></li>
+</ul>
+<p>两种算法都解决了歧义问题，只是标记策略相反。WordPiece
+标记“非词首”，而 BPE/SentencePiece 标记“词首”。</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> transformers <span class="keyword">import</span> AutoTokenizer</span><br><span class="line"></span><br><span class="line">model_name = <span class="string">"gpt2"</span></span><br><span class="line"></span><br><span class="line">tokenizer = AutoTokenizer.from_pretrained(model_name)</span><br><span class="line"></span><br><span class="line">test_sentence = <span class="string">"The lowest lower technologies are amazing and counterproductive."</span></span><br><span class="line"></span><br><span class="line">tokens = tokenizer.tokenize(test_sentence)</span><br><span class="line">ids = tokenizer.convert_tokens_to_ids(tokens)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"Tokens:"</span>, tokens)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"IDs:"</span>, ids)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出</span></span><br><span class="line"><span class="comment"># Tokens: ['The', 'Ġlowest', 'Ġlower', 'Ġtechnologies', 'Ġare', 'Ġamazing', 'Ġand', 'Ġcounterproductive', '.']</span></span><br><span class="line"><span class="comment"># IDs: [464, 9016, 2793, 8514, 389, 4998, 290, 46674, 13]</span></span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="sentencepiecegoogle开发的通用分词器">4️⃣
+SentencePiece（Google开发的通用分词器）</h2>
+<h3 id="原理-3">🔍 原理</h3>
+<p>在 <strong>BPE / WordPiece</strong> 的经典实现（如
+<code>huggingface</code> 的 tokenizer 或
+GPT/BERT）中，训练输入通常是：the cat sat on the mat -&gt; [“the”,
+“cat”, “sat”, “on”, “the”, “mat”] (默认用空格分割单词)。然后在这些 token
+上做 BPE 统计相邻 pair
+频率，逐步合并，空格已经被视为“不可合并的边界”。</p>
+<p>SentencePiece
+不依赖空格或人工分词规则，而是直接在<strong>原始字符流上学习子词单元</strong>。</p>
+<ol type="1">
+<li><p>将空格也视作一种符号（用 <code>_</code> 来替换所有空格）</p></li>
+<li><p>使用两种常用模型进行分词：BPE 和 Unigram</p></li>
+</ol>
+<h3 id="应用场景-3">📦 应用场景</h3>
+<ul>
+<li>T5、ALBERT、mBERT</li>
+<li>适用于中英混合、多语言模型</li>
+</ul>
+<h3 id="示例sentencepiece">💻 示例（SentencePiece）</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> transformers <span class="keyword">import</span> T5TokenizerFast</span><br><span class="line"></span><br><span class="line"><span class="comment"># 1. 准备 T5 SentencePiece 分词器</span></span><br><span class="line"><span class="comment"># T5 使用 SentencePiece 且是 Unigram Language Model 算法的代表</span></span><br><span class="line">tokenizer = T5TokenizerFast.from_pretrained(<span class="string">"t5-base"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 准备中英文输入</span></span><br><span class="line">english_sentence = <span class="string">"The lowest lower technologies are amazing and counterproductive."</span></span><br><span class="line">chinese_sentence = <span class="string">"我爱自然语言处理，并且明天早上吃什么？ 我爱吃枇杷！"</span></span><br><span class="line"></span><br><span class="line">english_tokens = tokenizer.tokenize(english_sentence)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"Tokens:"</span>, english_tokens)</span><br><span class="line"></span><br><span class="line">chinese_tokens = tokenizer.tokenize(chinese_sentence)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">"Tokens:"</span>, chinese_tokens)</span><br></pre></td></tr></table></figure>
+<p><strong>输出：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Tokens: ['▁The', '▁lowest', '▁lower', '▁technologies', '▁are', '▁amazing', '▁and', '▁counter', 'productive', '.']</span><br><span class="line">Tokens: ['▁', '我爱自然语言处理', ',', '并且明天早上吃什么', '?', '▁', '我爱吃枇杷', '!']</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>“▁”
+表示空格位置，进而也可以表示该token是不是一个单词或一句话的第一个token</p>
+</blockquote>
+<p>当然，这里t5-base输出的中文分词粒度很粗，是因为其训练语料中中文数据很少</p>
+<p>我们可以换几个用其他中文数据集训练的T5模型试试：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">from transformers import AutoTokenizer</span><br><span class="line"></span><br><span class="line">tok2 = AutoTokenizer.from_pretrained("google/mt5-small")</span><br><span class="line">print(tok2.tokenize("我爱自然语言处理，并且明天早上吃什么？我爱吃枇杷！"))</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">[<span class="string">'▁'</span>, <span class="string">'我爱'</span>, <span class="string">'自然'</span>, <span class="string">'语言'</span>, <span class="string">'处理'</span>, <span class="string">','</span>, <span class="string">'并且'</span>, <span class="string">'明天'</span>, <span class="string">'早上'</span>, <span class="string">'吃'</span>, <span class="string">'什么'</span>, <span class="string">'?'</span>, <span class="string">'▁'</span>, <span class="string">'我爱'</span>, <span class="string">'吃'</span>, <span class="string">'枇'</span>, <span class="string">'杷'</span>, <span class="string">'!'</span>]</span></span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="unigram-language-modelsentencepiece默认算法">5️⃣ Unigram Language
+Model（SentencePiece默认算法）</h2>
+<h3 id="原理-4">🔍 原理</h3>
+<p>Unigram Language Model
+算法的核心目标是：<strong>找到一个最优的子词集合（词汇表），使得训练语料的整体似然（Likelihood）最大化。</strong>
+它不依赖于简单的频率计数（如 BPE），而是引入了概率模型。</p>
+<ul>
+<li><strong>模型假设：</strong> 假设任何一个句子 <span class="math inline"><em>S</em></span> 都可以被分解为一系列子词 <span class="math inline"><em>x</em><sub>1</sub>, <em>x</em><sub>2</sub>, …, <em>x</em><sub><em>n</em></sub></span>。ULM
+假设这些子词是<strong>独立地</strong>从词汇表 <span class="math inline"><em>Σ</em></span> 中抽样出来的（即 Unigram
+假设）。</li>
+<li><strong>似然函数：</strong> 句子 <span class="math inline"><em>S</em></span> 的概率（似然）可以表示为： <span class="math display"><mjx-container class="MathJax" jax="SVG" display="true"><svg style="vertical-align: -3.222ex;" xmlns="http://www.w3.org/2000/svg" width="31.688ex" height="6.757ex" role="img" focusable="false" viewBox="0 -1562.5 14006.1 2986.6"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mi"><path data-c="1D443" d="M287 628Q287 635 230 637Q206 637 199 638T192 648Q192 649 194 659Q200 679 203 681T397 683Q587 682 600 680Q664 669 707 631T751 530Q751 453 685 389Q616 321 507 303Q500 302 402 301H307L277 182Q247 66 247 59Q247 55 248 54T255 50T272 48T305 46H336Q342 37 342 35Q342 19 335 5Q330 0 319 0Q316 0 282 1T182 2Q120 2 87 2T51 1Q33 1 33 11Q33 13 36 25Q40 41 44 43T67 46Q94 46 127 49Q141 52 146 61Q149 65 218 339T287 628ZM645 554Q645 567 643 575T634 597T609 619T560 635Q553 636 480 637Q463 637 445 637T416 636T404 636Q391 635 386 627Q384 621 367 550T332 412T314 344Q314 342 395 342H407H430Q542 342 590 392Q617 419 631 471T645 554Z"></path></g><g data-mml-node="mo" transform="translate(751,0)"><path data-c="28" d="M94 250Q94 319 104 381T127 488T164 576T202 643T244 695T277 729T302 750H315H319Q333 750 333 741Q333 738 316 720T275 667T226 581T184 443T167 250T184 58T225 -81T274 -167T316 -220T333 -241Q333 -250 318 -250H315H302L274 -226Q180 -141 137 -14T94 250Z"></path></g><g data-mml-node="mi" transform="translate(1140,0)"><path data-c="1D446" d="M308 24Q367 24 416 76T466 197Q466 260 414 284Q308 311 278 321T236 341Q176 383 176 462Q176 523 208 573T273 648Q302 673 343 688T407 704H418H425Q521 704 564 640Q565 640 577 653T603 682T623 704Q624 704 627 704T632 705Q645 705 645 698T617 577T585 459T569 456Q549 456 549 465Q549 471 550 475Q550 478 551 494T553 520Q553 554 544 579T526 616T501 641Q465 662 419 662Q362 662 313 616T263 510Q263 480 278 458T319 427Q323 425 389 408T456 390Q490 379 522 342T554 242Q554 216 546 186Q541 164 528 137T492 78T426 18T332 -20Q320 -22 298 -22Q199 -22 144 33L134 44L106 13Q83 -14 78 -18T65 -22Q52 -22 52 -14Q52 -11 110 221Q112 227 130 227H143Q149 221 149 216Q149 214 148 207T144 186T142 153Q144 114 160 87T203 47T255 29T308 24Z"></path></g><g data-mml-node="mo" transform="translate(1785,0)"><path data-c="29" d="M60 749L64 750Q69 750 74 750H86L114 726Q208 641 251 514T294 250Q294 182 284 119T261 12T224 -76T186 -143T145 -194T113 -227T90 -246Q87 -249 86 -250H74Q66 -250 63 -250T58 -247T55 -238Q56 -237 66 -225Q221 -64 221 250T66 725Q56 737 55 738Q55 746 60 749Z"></path></g><g data-mml-node="mo" transform="translate(2451.8,0)"><path data-c="3D" d="M56 347Q56 360 70 367H707Q722 359 722 347Q722 336 708 328L390 327H72Q56 332 56 347ZM56 153Q56 168 72 173H708Q722 163 722 153Q722 140 707 133H70Q56 140 56 153Z"></path></g><g data-mml-node="munder" transform="translate(3507.6,0)"><g data-mml-node="mo" transform="translate(2507.6,0)"><path data-c="2211" d="M60 948Q63 950 665 950H1267L1325 815Q1384 677 1388 669H1348L1341 683Q1320 724 1285 761Q1235 809 1174 838T1033 881T882 898T699 902H574H543H251L259 891Q722 258 724 252Q725 250 724 246Q721 243 460 -56L196 -356Q196 -357 407 -357Q459 -357 548 -357T676 -358Q812 -358 896 -353T1063 -332T1204 -283T1307 -196Q1328 -170 1348 -124H1388Q1388 -125 1381 -145T1356 -210T1325 -294L1267 -449L666 -450Q64 -450 61 -448Q55 -446 55 -439Q55 -437 57 -433L590 177Q590 178 557 222T452 366T322 544L56 909L55 924Q55 945 60 948Z"></path></g><g data-mml-node="TeXAtom" transform="translate(0,-1147.3) scale(0.707)" data-mjx-texclass="ORD"><g data-mml-node="mo"><path data-c="28" d="M94 250Q94 319 104 381T127 488T164 576T202 643T244 695T277 729T302 750H315H319Q333 750 333 741Q333 738 316 720T275 667T226 581T184 443T167 250T184 58T225 -81T274 -167T316 -220T333 -241Q333 -250 318 -250H315H302L274 -226Q180 -141 137 -14T94 250Z"></path></g><g data-mml-node="msub" transform="translate(389,0)"><g data-mml-node="mi"><path data-c="1D465" d="M52 289Q59 331 106 386T222 442Q257 442 286 424T329 379Q371 442 430 442Q467 442 494 420T522 361Q522 332 508 314T481 292T458 288Q439 288 427 299T415 328Q415 374 465 391Q454 404 425 404Q412 404 406 402Q368 386 350 336Q290 115 290 78Q290 50 306 38T341 26Q378 26 414 59T463 140Q466 150 469 151T485 153H489Q504 153 504 145Q504 144 502 134Q486 77 440 33T333 -11Q263 -11 227 52Q186 -10 133 -10H127Q78 -10 57 16T35 71Q35 103 54 123T99 143Q142 143 142 101Q142 81 130 66T107 46T94 41L91 40Q91 39 97 36T113 29T132 26Q168 26 194 71Q203 87 217 139T245 247T261 313Q266 340 266 352Q266 380 251 392T217 404Q177 404 142 372T93 290Q91 281 88 280T72 278H58Q52 284 52 289Z"></path></g><g data-mml-node="mn" transform="translate(605,-150) scale(0.707)"><path data-c="31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path></g></g><g data-mml-node="mo" transform="translate(1397.6,0)"><path data-c="2C" d="M78 35T78 60T94 103T137 121Q165 121 187 96T210 8Q210 -27 201 -60T180 -117T154 -158T130 -185T117 -194Q113 -194 104 -185T95 -172Q95 -168 106 -156T131 -126T157 -76T173 -3V9L172 8Q170 7 167 6T161 3T152 1T140 0Q113 0 96 17Z"></path></g><g data-mml-node="mo" transform="translate(1675.6,0)"><path data-c="2026" d="M78 60Q78 84 95 102T138 120Q162 120 180 104T199 61Q199 36 182 18T139 0T96 17T78 60ZM525 60Q525 84 542 102T585 120Q609 120 627 104T646 61Q646 36 629 18T586 0T543 17T525 60ZM972 60Q972 84 989 102T1032 120Q1056 120 1074 104T1093 61Q1093 36 1076 18T1033 0T990 17T972 60Z"></path></g><g data-mml-node="mo" transform="translate(2847.6,0)"><path data-c="2C" d="M78 35T78 60T94 103T137 121Q165 121 187 96T210 8Q210 -27 201 -60T180 -117T154 -158T130 -185T117 -194Q113 -194 104 -185T95 -172Q95 -168 106 -156T131 -126T157 -76T173 -3V9L172 8Q170 7 167 6T161 3T152 1T140 0Q113 0 96 17Z"></path></g><g data-mml-node="msub" transform="translate(3125.6,0)"><g data-mml-node="mi"><path data-c="1D465" d="M52 289Q59 331 106 386T222 442Q257 442 286 424T329 379Q371 442 430 442Q467 442 494 420T522 361Q522 332 508 314T481 292T458 288Q439 288 427 299T415 328Q415 374 465 391Q454 404 425 404Q412 404 406 402Q368 386 350 336Q290 115 290 78Q290 50 306 38T341 26Q378 26 414 59T463 140Q466 150 469 151T485 153H489Q504 153 504 145Q504 144 502 134Q486 77 440 33T333 -11Q263 -11 227 52Q186 -10 133 -10H127Q78 -10 57 16T35 71Q35 103 54 123T99 143Q142 143 142 101Q142 81 130 66T107 46T94 41L91 40Q91 39 97 36T113 29T132 26Q168 26 194 71Q203 87 217 139T245 247T261 313Q266 340 266 352Q266 380 251 392T217 404Q177 404 142 372T93 290Q91 281 88 280T72 278H58Q52 284 52 289Z"></path></g><g data-mml-node="mi" transform="translate(605,-150) scale(0.707)"><path data-c="1D45B" d="M21 287Q22 293 24 303T36 341T56 388T89 425T135 442Q171 442 195 424T225 390T231 369Q231 367 232 367L243 378Q304 442 382 442Q436 442 469 415T503 336T465 179T427 52Q427 26 444 26Q450 26 453 27Q482 32 505 65T540 145Q542 153 560 153Q580 153 580 145Q580 144 576 130Q568 101 554 73T508 17T439 -10Q392 -10 371 17T350 73Q350 92 386 193T423 345Q423 404 379 404H374Q288 404 229 303L222 291L189 157Q156 26 151 16Q138 -11 108 -11Q95 -11 87 -5T76 7T74 17Q74 30 112 180T152 343Q153 348 153 366Q153 405 129 405Q91 405 66 305Q60 285 60 284Q58 278 41 278H27Q21 284 21 287Z"></path></g></g><g data-mml-node="mo" transform="translate(4204.8,0)"><path data-c="29" d="M60 749L64 750Q69 750 74 750H86L114 726Q208 641 251 514T294 250Q294 182 284 119T261 12T224 -76T186 -143T145 -194T113 -227T90 -246Q87 -249 86 -250H74Q66 -250 63 -250T58 -247T55 -238Q56 -237 66 -225Q221 -64 221 250T66 725Q56 737 55 738Q55 746 60 749Z"></path></g><g data-mml-node="mo" transform="translate(4593.8,0)"><path data-c="2208" d="M84 250Q84 372 166 450T360 539Q361 539 377 539T419 540T469 540H568Q583 532 583 520Q583 511 570 501L466 500Q355 499 329 494Q280 482 242 458T183 409T147 354T129 306T124 272V270H568Q583 262 583 250T568 230H124V228Q124 207 134 177T167 112T231 48T328 7Q355 1 466 0H570Q583 -10 583 -20Q583 -32 568 -40H471Q464 -40 446 -40T417 -41Q262 -41 172 45Q84 127 84 250Z"></path></g><g data-mml-node="mtext" transform="translate(5260.8,0)"><path data-c="53" d="M55 507Q55 590 112 647T243 704H257Q342 704 405 641L426 672Q431 679 436 687T446 700L449 704Q450 704 453 704T459 705H463Q466 705 472 699V462L466 456H448Q437 456 435 459T430 479Q413 605 329 646Q292 662 254 662Q201 662 168 626T135 542Q135 508 152 480T200 435Q210 431 286 412T370 389Q427 367 463 314T500 191Q500 110 448 45T301 -21Q245 -21 201 -4T140 27L122 41Q118 36 107 21T87 -7T78 -21Q76 -22 68 -22H64Q61 -22 55 -16V101Q55 220 56 222Q58 227 76 227H89Q95 221 95 214Q95 182 105 151T139 90T205 42T305 24Q352 24 386 62T420 155Q420 198 398 233T340 281Q284 295 266 300Q261 301 239 306T206 314T174 325T141 343T112 367T85 402Q55 451 55 507Z"></path><path data-c="70" d="M36 -148H50Q89 -148 97 -134V-126Q97 -119 97 -107T97 -77T98 -38T98 6T98 55T98 106Q98 140 98 177T98 243T98 296T97 335T97 351Q94 370 83 376T38 385H20V408Q20 431 22 431L32 432Q42 433 61 434T98 436Q115 437 135 438T165 441T176 442H179V416L180 390L188 397Q247 441 326 441Q407 441 464 377T522 216Q522 115 457 52T310 -11Q242 -11 190 33L182 40V-45V-101Q182 -128 184 -134T195 -145Q216 -148 244 -148H260V-194H252L228 -193Q205 -192 178 -192T140 -191Q37 -191 28 -194H20V-148H36ZM424 218Q424 292 390 347T305 402Q234 402 182 337V98Q222 26 294 26Q345 26 384 80T424 218Z" transform="translate(556,0)"></path><path data-c="6C" d="M42 46H56Q95 46 103 60V68Q103 77 103 91T103 124T104 167T104 217T104 272T104 329Q104 366 104 407T104 482T104 542T103 586T103 603Q100 622 89 628T44 637H26V660Q26 683 28 683L38 684Q48 685 67 686T104 688Q121 689 141 690T171 693T182 694H185V379Q185 62 186 60Q190 52 198 49Q219 46 247 46H263V0H255L232 1Q209 2 183 2T145 3T107 3T57 1L34 0H26V46H42Z" transform="translate(1112,0)"></path><path data-c="69" d="M69 609Q69 637 87 653T131 669Q154 667 171 652T188 609Q188 579 171 564T129 549Q104 549 87 564T69 609ZM247 0Q232 3 143 3Q132 3 106 3T56 1L34 0H26V46H42Q70 46 91 49Q100 53 102 60T104 102V205V293Q104 345 102 359T88 378Q74 385 41 385H30V408Q30 431 32 431L42 432Q52 433 70 434T106 436Q123 437 142 438T171 441T182 442H185V62Q190 52 197 50T232 46H255V0H247Z" transform="translate(1390,0)"></path><path data-c="74" d="M27 422Q80 426 109 478T141 600V615H181V431H316V385H181V241Q182 116 182 100T189 68Q203 29 238 29Q282 29 292 100Q293 108 293 146V181H333V146V134Q333 57 291 17Q264 -10 221 -10Q187 -10 162 2T124 33T105 68T98 100Q97 107 97 248V385H18V422H27Z" transform="translate(1668,0)"></path><path data-c="73" d="M295 316Q295 356 268 385T190 414Q154 414 128 401Q98 382 98 349Q97 344 98 336T114 312T157 287Q175 282 201 278T245 269T277 256Q294 248 310 236T342 195T359 133Q359 71 321 31T198 -10H190Q138 -10 94 26L86 19L77 10Q71 4 65 -1L54 -11H46H42Q39 -11 33 -5V74V132Q33 153 35 157T45 162H54Q66 162 70 158T75 146T82 119T101 77Q136 26 198 26Q295 26 295 104Q295 133 277 151Q257 175 194 187T111 210Q75 227 54 256T33 318Q33 357 50 384T93 424T143 442T187 447H198Q238 447 268 432L283 424L292 431Q302 440 314 448H322H326Q329 448 335 442V310L329 304H301Q295 310 295 316Z" transform="translate(2057,0)"></path></g><g data-mml-node="mo" transform="translate(7711.8,0)"><path data-c="28" d="M94 250Q94 319 104 381T127 488T164 576T202 643T244 695T277 729T302 750H315H319Q333 750 333 741Q333 738 316 720T275 667T226 581T184 443T167 250T184 58T225 -81T274 -167T316 -220T333 -241Q333 -250 318 -250H315H302L274 -226Q180 -141 137 -14T94 250Z"></path></g><g data-mml-node="mi" transform="translate(8100.8,0)"><path data-c="1D446" d="M308 24Q367 24 416 76T466 197Q466 260 414 284Q308 311 278 321T236 341Q176 383 176 462Q176 523 208 573T273 648Q302 673 343 688T407 704H418H425Q521 704 564 640Q565 640 577 653T603 682T623 704Q624 704 627 704T632 705Q645 705 645 698T617 577T585 459T569 456Q549 456 549 465Q549 471 550 475Q550 478 551 494T553 520Q553 554 544 579T526 616T501 641Q465 662 419 662Q362 662 313 616T263 510Q263 480 278 458T319 427Q323 425 389 408T456 390Q490 379 522 342T554 242Q554 216 546 186Q541 164 528 137T492 78T426 18T332 -20Q320 -22 298 -22Q199 -22 144 33L134 44L106 13Q83 -14 78 -18T65 -22Q52 -22 52 -14Q52 -11 110 221Q112 227 130 227H143Q149 221 149 216Q149 214 148 207T144 186T142 153Q144 114 160 87T203 47T255 29T308 24Z"></path></g><g data-mml-node="mo" transform="translate(8745.8,0)"><path data-c="29" d="M60 749L64 750Q69 750 74 750H86L114 726Q208 641 251 514T294 250Q294 182 284 119T261 12T224 -76T186 -143T145 -194T113 -227T90 -246Q87 -249 86 -250H74Q66 -250 63 -250T58 -247T55 -238Q56 -237 66 -225Q221 -64 221 250T66 725Q56 737 55 738Q55 746 60 749Z"></path></g></g></g><g data-mml-node="munderover" transform="translate(10133.5,0)"><g data-mml-node="mo"><path data-c="220F" d="M220 812Q220 813 218 819T214 829T208 840T199 853T185 866T166 878T140 887T107 893T66 896H56V950H1221V896H1211Q1080 896 1058 812V-311Q1076 -396 1211 -396H1221V-450H725V-396H735Q864 -396 888 -314Q889 -312 889 -311V896H388V292L389 -311Q405 -396 542 -396H552V-450H56V-396H66Q195 -396 219 -314Q220 -312 220 -311V812Z"></path></g><g data-mml-node="TeXAtom" transform="translate(65.2,-1087.9) scale(0.707)" data-mjx-texclass="ORD"><g data-mml-node="mi"><path data-c="1D456" d="M184 600Q184 624 203 642T247 661Q265 661 277 649T290 619Q290 596 270 577T226 557Q211 557 198 567T184 600ZM21 287Q21 295 30 318T54 369T98 420T158 442Q197 442 223 419T250 357Q250 340 236 301T196 196T154 83Q149 61 149 51Q149 26 166 26Q175 26 185 29T208 43T235 78T260 137Q263 149 265 151T282 153Q302 153 302 143Q302 135 293 112T268 61T223 11T161 -11Q129 -11 102 10T74 74Q74 91 79 106T122 220Q160 321 166 341T173 380Q173 404 156 404H154Q124 404 99 371T61 287Q60 286 59 284T58 281T56 279T53 278T49 278T41 278H27Q21 284 21 287Z"></path></g><g data-mml-node="mo" transform="translate(345,0)"><path data-c="3D" d="M56 347Q56 360 70 367H707Q722 359 722 347Q722 336 708 328L390 327H72Q56 332 56 347ZM56 153Q56 168 72 173H708Q722 163 722 153Q722 140 707 133H70Q56 140 56 153Z"></path></g><g data-mml-node="mn" transform="translate(1123,0)"><path data-c="31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path></g></g><g data-mml-node="mi" transform="translate(426.9,1150) scale(0.707)"><path data-c="1D45B" d="M21 287Q22 293 24 303T36 341T56 388T89 425T135 442Q171 442 195 424T225 390T231 369Q231 367 232 367L243 378Q304 442 382 442Q436 442 469 415T503 336T465 179T427 52Q427 26 444 26Q450 26 453 27Q482 32 505 65T540 145Q542 153 560 153Q580 153 580 145Q580 144 576 130Q568 101 554 73T508 17T439 -10Q392 -10 371 17T350 73Q350 92 386 193T423 345Q423 404 379 404H374Q288 404 229 303L222 291L189 157Q156 26 151 16Q138 -11 108 -11Q95 -11 87 -5T76 7T74 17Q74 30 112 180T152 343Q153 348 153 366Q153 405 129 405Q91 405 66 305Q60 285 60 284Q58 278 41 278H27Q21 284 21 287Z"></path></g></g><g data-mml-node="mi" transform="translate(11578.2,0)"><path data-c="1D443" d="M287 628Q287 635 230 637Q206 637 199 638T192 648Q192 649 194 659Q200 679 203 681T397 683Q587 682 600 680Q664 669 707 631T751 530Q751 453 685 389Q616 321 507 303Q500 302 402 301H307L277 182Q247 66 247 59Q247 55 248 54T255 50T272 48T305 46H336Q342 37 342 35Q342 19 335 5Q330 0 319 0Q316 0 282 1T182 2Q120 2 87 2T51 1Q33 1 33 11Q33 13 36 25Q40 41 44 43T67 46Q94 46 127 49Q141 52 146 61Q149 65 218 339T287 628ZM645 554Q645 567 643 575T634 597T609 619T560 635Q553 636 480 637Q463 637 445 637T416 636T404 636Q391 635 386 627Q384 621 367 550T332 412T314 344Q314 342 395 342H407H430Q542 342 590 392Q617 419 631 471T645 554Z"></path></g><g data-mml-node="mo" transform="translate(12329.2,0)"><path data-c="28" d="M94 250Q94 319 104 381T127 488T164 576T202 643T244 695T277 729T302 750H315H319Q333 750 333 741Q333 738 316 720T275 667T226 581T184 443T167 250T184 58T225 -81T274 -167T316 -220T333 -241Q333 -250 318 -250H315H302L274 -226Q180 -141 137 -14T94 250Z"></path></g><g data-mml-node="msub" transform="translate(12718.2,0)"><g data-mml-node="mi"><path data-c="1D465" d="M52 289Q59 331 106 386T222 442Q257 442 286 424T329 379Q371 442 430 442Q467 442 494 420T522 361Q522 332 508 314T481 292T458 288Q439 288 427 299T415 328Q415 374 465 391Q454 404 425 404Q412 404 406 402Q368 386 350 336Q290 115 290 78Q290 50 306 38T341 26Q378 26 414 59T463 140Q466 150 469 151T485 153H489Q504 153 504 145Q504 144 502 134Q486 77 440 33T333 -11Q263 -11 227 52Q186 -10 133 -10H127Q78 -10 57 16T35 71Q35 103 54 123T99 143Q142 143 142 101Q142 81 130 66T107 46T94 41L91 40Q91 39 97 36T113 29T132 26Q168 26 194 71Q203 87 217 139T245 247T261 313Q266 340 266 352Q266 380 251 392T217 404Q177 404 142 372T93 290Q91 281 88 280T72 278H58Q52 284 52 289Z"></path></g><g data-mml-node="mi" transform="translate(605,-150) scale(0.707)"><path data-c="1D456" d="M184 600Q184 624 203 642T247 661Q265 661 277 649T290 619Q290 596 270 577T226 557Q211 557 198 567T184 600ZM21 287Q21 295 30 318T54 369T98 420T158 442Q197 442 223 419T250 357Q250 340 236 301T196 196T154 83Q149 61 149 51Q149 26 166 26Q175 26 185 29T208 43T235 78T260 137Q263 149 265 151T282 153Q302 153 302 143Q302 135 293 112T268 61T223 11T161 -11Q129 -11 102 10T74 74Q74 91 79 106T122 220Q160 321 166 341T173 380Q173 404 156 404H154Q124 404 99 371T61 287Q60 286 59 284T58 281T56 279T53 278T49 278T41 278H27Q21 284 21 287Z"></path></g></g><g data-mml-node="mo" transform="translate(13617.1,0)"><path data-c="29" d="M60 749L64 750Q69 750 74 750H86L114 726Q208 641 251 514T294 250Q294 182 284 119T261 12T224 -76T186 -143T145 -194T113 -227T90 -246Q87 -249 86 -250H74Q66 -250 63 -250T58 -247T55 -238Q56 -237 66 -225Q221 -64 221 250T66 725Q56 737 55 738Q55 746 60 749Z"></path></g></g></g></svg></mjx-container></span> 其中，<span class="math inline">Splits(<em>S</em>)</span> 是 <span class="math inline"><em>S</em></span>
+所有可能的分词组合。算法的目标是找到词汇表 <span class="math inline"><em>Σ</em></span> 和每个子词的概率 <span class="math inline"><em>P</em>(<em>x</em>)</span>，使得 <span class="math inline">log (<em>P</em>(Corpus))</span> 最大化。</li>
+</ul>
+<h4 id="分词过程自上而下的剪枝法">分词过程：自上而下的剪枝法</h4>
+<p>ULM 算法的训练分为三个关键阶段：初始化、迭代优化和最终分词。</p>
+<h4 id="阶段-i-初始化">阶段 I: 初始化</h4>
+<ol type="1">
+<li><strong>准备：</strong> 将语料库进行 SentencePiece 预处理（用 <span class="math inline"><code>_</code></span> 替换空格）。</li>
+<li><strong>构建大词汇表 <span class="math inline"><em>Σ</em></span>：</strong> 收集语料库中所有长度在
+1 到某个最大值（如
+5）之间的<strong>所有</strong>子字符串。这个初始词汇表 <span class="math inline"><em>Σ</em></span> 非常庞大。</li>
+<li><strong>计算初始概率：</strong> 对 <span class="math inline"><em>Σ</em></span> 中的每个子词 <span class="math inline"><em>x</em></span>，计算其在语料库中的初始频率。</li>
+</ol>
+<h4 id="阶段-ii-迭代优化剪枝">阶段 II: 迭代优化（剪枝）</h4>
+<p>这个阶段是 ULM 的核心，通过 EM (Expectation-Maximization)
+算法的思想来优化词汇表 <span class="math inline"><em>Σ</em></span>
+和子词概率 <span class="math inline"><em>P</em>(<em>x</em>)</span>。</p>
+<ol type="1">
+<li><strong>E-步（计算概率）：</strong> 使用当前的词汇表 <span class="math inline"><em>Σ</em></span> 和子词概率 <span class="math inline"><em>P</em>(<em>x</em>)</span>，对语料库中的每个句子
+<span class="math inline"><em>S</em></span>，找到<strong>最佳分词</strong>（即概率最大的分词路径）。这通常通过
+<strong>Viterbi 算法</strong>实现，因为它需要找到 <span class="math inline">max ∏<em>P</em>(<em>x</em><sub><em>i</em></sub>)</span>。</li>
+<li><strong>M-步（计算损失 / 剪枝）：</strong>
+<ul>
+<li><strong>计算损失：</strong> 对于词汇表中的每个子词 <span class="math inline"><em>x</em></span>，暂时将其删除，然后重新计算语料库的总似然。</li>
+<li><strong>计算贡献度：</strong>
+找出那些<strong>删除后对总似然影响最小</strong>（即贡献度最低）的子词。</li>
+<li><strong>剪枝：</strong> 移除词汇表中贡献度最低的 <span class="math inline"><em>p</em></span> %（例如 20%）的子词。</li>
+</ul></li>
+<li><strong>重复：</strong> 重复 E 步和 M 步，直到词汇表 <span class="math inline"><em>Σ</em></span> 达到预设的目标大小（例如
+32,000）。</li>
+</ol>
+<h4 id="阶段-iii-最终分词">阶段 III: 最终分词</h4>
+<p>训练完成后，词汇表 <span class="math inline"><em>Σ</em></span>
+中的每个子词 <span class="math inline"><em>x</em></span>
+都有一个固定的概率 <span class="math inline"><em>P</em>(<em>x</em>)</span>。</p>
+<p>对于任何输入句子 <span class="math inline"><em>S</em></span>，分词器使用 <strong>Viterbi
+算法</strong>，在<strong>所有可能的分词路径</strong>中，找到那个使 <span class="math inline">∏<em>P</em>(<em>x</em><sub><em>i</em></sub>)</span>
+最大的分词序列作为最终结果。</p>
+<p>假设我们已经训练好了一个 ULM 词汇表，其中包含以下子词及其概率 <span class="math inline"><em>P</em>(<em>x</em>)</span>：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">子词 <span class="math inline"><em>x</em></span></th>
+<th style="text-align: left;">概率 <span class="math inline"><em>P</em>(<em>x</em>)</span> (Log 形式)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><span class="math inline"><code>_</code><em>p</em></span></td>
+<td style="text-align: left;">-3.0</td>
+</tr>
+<tr>
+<td style="text-align: left;"><span class="math inline"><code>_</code><em>p</em><em>l</em><em>a</em><em>y</em></span></td>
+<td style="text-align: left;">-1.0</td>
+</tr>
+<tr>
+<td style="text-align: left;"><span class="math inline"><code>i</code><code>n</code><code>g</code></span></td>
+<td style="text-align: left;">-1.5</td>
+</tr>
+<tr>
+<td style="text-align: left;"><span class="math inline"><em>l</em><em>a</em><em>y</em></span></td>
+<td style="text-align: left;">-2.0</td>
+</tr>
+<tr>
+<td style="text-align: left;"><span class="math inline">_<em>p</em><em>l</em><em>a</em><em>y</em><em>i</em><em>n</em><em>g</em></span></td>
+<td style="text-align: left;">-3.5</td>
+</tr>
+</tbody>
+</table>
+<p>现在，我们要对句子 <span class="math inline"><em>S</em> = "playing"</span>（预处理后是 <span class="math inline"><code>_</code>playing</span>）进行分词。</p>
+<p>ULM 会考虑所有可能的拆分路径：</p>
+<table>
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">路径 (Split)</th>
+<th style="text-align: left;">拆分 Tokens</th>
+<th style="text-align: left;">概率计算 (Log)</th>
+<th style="text-align: left;">结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>路径 A</strong></td>
+<td style="text-align: left;"><span class="math inline"><code>_</code>play, <code>i</code><code>n</code><code>g</code></span></td>
+<td style="text-align: left;"><span class="math inline"><em>P</em>(<code>_</code>play) + <em>P</em>(<code>i</code><code>n</code><code>g</code>)</span></td>
+<td style="text-align: left;"><span class="math inline">(−1.0) + (−1.5) = −2.5</span></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>路径 B</strong></td>
+<td style="text-align: left;"><span class="math inline"><code>_</code>p, <code>l</code><code>a</code><code>y</code>, <code>i</code><code>n</code><code>g</code></span></td>
+<td style="text-align: left;"><span class="math inline"><em>P</em>(<code>_</code>p) + <em>P</em>(<code>l</code><code>a</code><code>y</code>) + <em>P</em>(<code>i</code><code>n</code><code>g</code>)</span></td>
+<td style="text-align: left;"><span class="math inline">(−3.0) + (−2.0) + (−1.5) = −6.5</span></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>路径 C</strong></td>
+<td style="text-align: left;"><span class="math inline"><code>_</code>playing</span></td>
+<td style="text-align: left;"><span class="math inline"><em>P</em>(<code>_</code>playing)</span></td>
+<td style="text-align: left;"><span class="math inline">(−3.5)</span></td>
+</tr>
+</tbody>
+</table>
+<p><strong>结论：</strong> 在 Log 概率中，数字越大（越接近
+0）表示概率越高。路径 A (-2.5) 的概率最高，所以 ULM 最终选择：<span class="math inline"><code>_</code>play, <code>i</code><code>n</code><code>g</code></span></p>
+<h3 id="应用场景-4">📦 应用场景</h3>
+<ul>
+<li>mT5、XLNet（与 SentencePiece 结合）</li>
+<li>适用于中英混合、多语言模型</li>
+</ul>
+<h3 id="示例">💻 示例</h3>
+<p>上一节中的t5-base和google/mt5-small都是使用的SentencePiece+ULM</p>
+<hr>
+<h2 id="byte-level-bpe">6️⃣ Byte-level BPE</h2>
+<h3 id="原理-5">🔍 原理</h3>
+<p>传统的 BPE
+训练是从<strong>字符集</strong>开始的。例如，如果你的语料是英文，BPE
+的起始词汇表可能是 26 个小写字母、26 个大写字母、10
+个数字和一些标点符号。</p>
+<p>然而，如果语料中出现了像
+Emoji、生僻符号或非拉丁字符（如日文、俄文）时，BPE
+必须将这些新的字符也添加到初始词汇表中。这导致一个问题：<strong>初始词汇表大小不固定，且可能非常巨大。</strong>
+如果你需要支持全世界所有语言，初始词汇表可能包含成千上万个稀有字符。</p>
+<p>而BBPE 抛弃了“字符集”作为起点，而是以 <strong>字节（Byte）</strong>
+作为最小单位。</p>
+<ul>
+<li><strong>起点：</strong> 所有的文本都被视为其 UTF-8
+编码的字节序列。</li>
+<li><strong>初始词汇表：</strong> 固定的 <strong>256 个字节</strong>（从
+0x00 到 0xFF）。</li>
+<li><strong>训练：</strong> 传统的 BPE 合并规则应用于这个 256
+个字节的初始词汇表。</li>
+</ul>
+<h4 id="bbpe-如何实现全覆盖universal-coverage">BBPE
+如何实现全覆盖（Universal Coverage）</h4>
+<p>现代计算机中，所有文本都是以字节形式存储的。UTF-8 编码使用 1 到 4
+个字节来表示一个字符。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">字符</th>
+<th style="text-align: left;">UTF-8 字节序列</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>英文 ‘A’</strong></td>
+<td style="text-align: left;"><code>0x41</code> (1 字节)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>中文 ‘你’</strong></td>
+<td style="text-align: left;"><code>0xE4 0xBD 0xA0</code> (3 字节)</td>
+</tr>
+</tbody>
+</table>
+<p>由于 BBPE 的初始词汇表包含了所有的 256
+个字节，因此它<strong>理论上可以表示任何可能的文本输入</strong>，包括
+Emoji、乱码、甚至是二进制数据。</p>
+<p>这确保了 <strong>Tokenization 的零 OOV (Out-Of-Vocabulary)</strong>
+问题：任何输入文本都能被拆分成一系列已知的字节或字节组合，无需使用
+<code>&lt;UNK&gt;</code> 标记。</p>
+<h4 id="bbpe-的实际技巧避免无意义的字节组合">BBPE
+的实际技巧：避免无意义的字节组合</h4>
+<p>虽然 BBPE 从 256
+个原始字节开始，但如果直接合并这些原始字节，可能会导致一些奇怪的、无法解码的
+Token。例如，如果 <code>0xC3</code> 和 <code>0x28</code>
+合并了，这可能构成一个无效的 UTF-8 序列。</p>
+<p>为了解决这个问题，BBPE 在训练时通常结合使用以下技巧：</p>
+<h5 id="a.-字节到字符的映射byte-to-char-mapping">A.
+字节到字符的映射（Byte-to-Char Mapping）</h5>
+<p>为了在视觉上保持可读性（因为一个原始字节可能无法显示），BBPE
+通常会将原始的 256 个字节映射到 256 个 Unicode 字符上。</p>
+<ul>
+<li><strong>特殊处理：</strong>
+通常会处理那些控制字符（如换行符、制表符）和 ASCII 不可见字符。例如，将
+ASCII 0-31 和 127-160 的控制字节映射到 Unicode
+中的其他可用区段，保证所有 256 个字节都能被清晰地表示和显示。</li>
+<li><strong>好处：</strong> 这样训练的 BPE
+算法是<strong>字节级别</strong>的，但输出的 Token
+仍然是可读的<strong>字符串</strong>（仅限英文，中文仍是不可读）。</li>
+</ul>
+<h5 id="b.-空格编码">B. 空格编码</h5>
+<p>与 SentencePiece 类似，BBPE 也需要处理空格信息以确保可逆性。GPT-2/3
+采用的方法是在空格前添加一个特殊字符，最常见的是 <span class="math inline"><code>Ġ</code></span>（Unicode 字符 U+0120，一个大写
+G 上带点）。</p>
+<ul>
+<li><strong>输入：</strong> “Hello World”</li>
+<li><strong>内部处理：</strong> 会被编码为
+<code>ĠHelloĠWorld</code></li>
+<li><strong>分词结果：</strong> <code>['ĠHello', 'ĠWorld']</code></li>
+</ul>
+<h3 id="应用场景-5">📦 应用场景</h3>
+<ul>
+<li>避免了为每种语言设计一个特定字符集的问题，是构建大规模多语言模型的理想选择。</li>
+<li>BPE 算法直接在字节序列上运行，无需复杂的字符集预处理。</li>
+</ul>
+<p>BBPE 是 BPE 算法面向现代大规模 Transformer
+模型和多语言环境的进化版本。它通过将训练的最小单位固定为<strong>字节</strong>，实现了<strong>全覆盖</strong>和<strong>零OOV</strong>，代价是在非拉丁语言上会产生更长的序列。</p>
+<h3 id="示例使用-gpt-2-tokenizer">💻 示例（使用 GPT-2 tokenizer）</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> transformers <span class="keyword">import</span> GPT2TokenizerFast</span><br><span class="line"></span><br><span class="line">tokenizer = GPT2TokenizerFast.from_pretrained(<span class="string">"gpt2"</span>)</span><br><span class="line"></span><br><span class="line">text = <span class="string">"😊Hello 你好11 The lowest lower technologies are amazing and counterproductive."</span></span><br><span class="line"><span class="built_in">print</span>(tokenizer.tokenize(text))</span><br><span class="line"><span class="built_in">print</span>(tokenizer.convert_tokens_to_ids(tokenizer.tokenize(text)))</span><br></pre></td></tr></table></figure>
+<p><strong>输出：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">['ðŁĺ', 'Ĭ', 'Hello', 'Ġ', 'ä½', 'ł', 'å¥', '½', '11', 'ĠThe', 'Ġlowest', 'Ġlower', 'Ġtechnologies', 'Ġare', 'Ġamazing', 'Ġand', 'Ġcounterproductive', '.']</span><br><span class="line">[47249, 232, 15496, 220, 19526, 254, 25001, 121, 1157, 383, 9016, 2793, 8514, 389, 4998, 290, 46674, 13]</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>可见即使包含 emoji 和中文，也能稳定切分。</p>
+<p>并且从输出可以看出，一个中文字符在utf8中常常占3个字节。</p>
+</blockquote>
+<p>Byte-level BPE (BBPE) 是 BPE 算法的一个重要变体，由 OpenAI 率先应用于
+<strong>GPT-2</strong> 模型，并被后续的 GPT-3、GPT-4 和所有现代 BPE
+模型（如 RoBERTa、BART）广泛采用。</p>
+<hr>
+<h2 id="现代分词算法对比总结">现代分词算法对比总结</h2>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">方法</th>
+<th style="text-align: left;">基本原理</th>
+<th style="text-align: left;">是否数据驱动</th>
+<th style="text-align: left;">是否依赖原始空格</th>
+<th style="text-align: left;">优点</th>
+<th style="text-align: left;">缺点</th>
+<th style="text-align: left;">代表模型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>传统分词</strong></td>
+<td style="text-align: left;">规则 / 词典</td>
+<td style="text-align: left;">否</td>
+<td style="text-align: left;">是</td>
+<td style="text-align: left;">快速可解释；精确匹配已知词</td>
+<td style="text-align: left;">无法处理新词(OOV)；无法支持多种语言</td>
+<td style="text-align: left;">Jieba, TF-IDF</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>BPE (基础版)</strong></td>
+<td style="text-align: left;">最频繁相邻子词合并</td>
+<td style="text-align: left;">是</td>
+<td style="text-align: left;">是</td>
+<td style="text-align: left;">简单高效；OOV问题减轻</td>
+<td style="text-align: left;">依赖空格预分割；对罕见字符支持差</td>
+<td style="text-align: left;"><strong>GPT-2</strong> (使用BBPE)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>WordPiece</strong></td>
+<td style="text-align: left;"><strong>最大似然</strong>相邻子词合并</td>
+<td style="text-align: left;">是</td>
+<td style="text-align: left;">是</td>
+<td style="text-align: left;">子词语义更强；高频词汇拆分更合理</td>
+<td style="text-align: left;">依赖空格预分割；需要特殊标记
+<code>##</code></td>
+<td style="text-align: left;"><strong>BERT</strong>, ALBERT</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>SentencePiece (框架)</strong></td>
+<td style="text-align: left;">通用<strong>字符流</strong>分词器框架</td>
+<td style="text-align: left;">是</td>
+<td style="text-align: left;"><strong>否</strong></td>
+<td style="text-align: left;">语言无关；支持中/日/韩等无空格语言；<strong>完美可逆</strong></td>
+<td style="text-align: left;">需额外的训练和推理库；Token化可能较慢</td>
+<td style="text-align: left;">T5, XLNet, LLaMA</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Unigram LM</strong></td>
+<td style="text-align: left;"><strong>概率剪枝</strong>；Viterbi最优分词</td>
+<td style="text-align: left;">是</td>
+<td style="text-align: left;"><strong>否</strong></td>
+<td style="text-align: left;">理论严谨；分词路径可采样（正则化）</td>
+<td style="text-align: left;">实现复杂；训练所需资源较大</td>
+<td style="text-align: left;"><strong>T5</strong>, mT5, Flan-T5</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Byte-level BPE
+(BBPE)</strong></td>
+<td style="text-align: left;">对 <strong>UTF-8 字节流</strong> 进行 BPE
+合并</td>
+<td style="text-align: left;">是</td>
+<td style="text-align: left;"><strong>否</strong></td>
+<td style="text-align: left;"><strong>零
+OOV</strong>；最鲁棒；真正语言无关</td>
+<td style="text-align: left;">序列变长（尤其中文）；Token可读性稍差</td>
+<td style="text-align: left;"><strong>GPT-3/4</strong>, RoBERTa,
+BART</td>
+</tr>
+</tbody>
+</table>
+
+                    
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                常见的 LLM 分词器（Tokenizer）
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                2025/11/03/2-LLM-Tokenizer/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    Author
+                </div>
+                <div class="content">Zhongjun Qiu</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    Published
+                </div>
+                <div class="content">2025-11-03 09:21</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    License
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="Copy copyright info" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/Tokenizer/">Tokenizer</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="Share to WeChat"
+            data-tooltip-img-tip="Scan by WeChat"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to WeiBo"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+                    
+
+<div class="reward-author-container border-box flex-center">
+    <div class="reward-btn border-box flex-center tooltip tooltip-img"
+            data-tooltip-img-url="/images/post/payment.jpg"
+            data-tooltip-img-trigger="click"
+            data-tooltip-img-style="top: -6px;"
+    >
+        <i class="fa-solid fa-gift"></i>&nbsp;REWARD AUTHOR
+    </div>
+</div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/2025/11/03/1-LLM-RAG/"
+                                   title="Retrieval-Augmented Generation (RAG) 系统实现"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">Retrieval-Augmented Generation (RAG) 系统实现</span>
+                                        <span class="post-nav-item">Next posts</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+    <div class="comments-container border-box">
+        <div id="comments-anchor" class="comment-area-title border-box">
+            <i class="fas fa-comments"></i>&nbsp;Comments
+        </div>
+        <div class="comment-plugin-fail border-box">
+    <span class="fail-tip">Comment plugin failed to load</span>
+    <button class="reload keep-button">Click to reload</button>
+</div>
+<div class="comment-plugin-loading flex-center border-box">
+    <i class="loading-icon fa-solid fa-spinner fa-spin"></i>
+    <span class="load-tip">Loading comment plugin</span>
+</div>
+<script data-pjax>
+  window.KeepCommentPlugin = {}
+  window.KeepCommentPlugin.hideLoading = () => {
+    const cplDom = document.querySelector('.comments-container .comment-plugin-loading')
+    cplDom.style.display = 'none'
+  }
+  window.KeepCommentPlugin.loadFailHandle = () => {
+    window.KeepCommentPlugin.hideLoading()
+    const cpfDom = document.querySelector('.comments-container .comment-plugin-fail')
+    cpfDom.style.display = 'flex'
+    cpfDom.querySelector('.reload').addEventListener('click', () => {
+      window.location.reload()
+    })
+  }
+</script>
+
+        
+            
+
+    <div class="waline-comment-container">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/waline/3.3.2/waline.css"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/waline/3.3.2/waline-meta.css"/>
+        <div id="waline-comment"></div>
+        <script data-pjax>
+          window.KeepCommentPlugin.walineOptions = JSON.parse('{}'.replace(/&#34;/g, '"'))
+          window.KeepCommentPlugin.walineOptions.el = '#waline-comment'
+          window.KeepCommentPlugin.walineOptions.comment = '.post-comments-count'
+          window.KeepCommentPlugin.walineOptions.serverURL = 'https://waline-vercel-two-rho.vercel.app/'
+          window.KeepCommentPlugin.walineOptions.lang = 'en' || 'zh-CN'
+          window.KeepCommentPlugin.walineOptions.reaction = 'true' === 'true'
+        </script>
+
+        
+
+        
+            <script 
+                    async
+                    type="module"
+            >
+              import { init } from 'https://cdnjs.cloudflare.com/ajax/libs/waline/3.3.2/waline.js'
+              window.KeepCommentPlugin.initWaline = () => {
+                if (init) {
+                  init(window.KeepCommentPlugin.walineOptions)
+                  window.KeepCommentPlugin.hideLoading()
+                } else {
+                  setTimeout(() => {
+                    window.KeepCommentPlugin.initWaline()
+                  }, 1000)
+                }
+              }
+
+              if ('false' === 'true') {
+                setTimeout(() => {
+                  window.KeepCommentPlugin.initWaline()
+                }, 1200)
+              } else {
+                window.addEventListener('DOMContentLoaded', window.KeepCommentPlugin.initWaline)
+              }
+            </script>
+        
+    </div>
+
+
+        
+    </div>
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc right-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%A0%E7%BB%9F%E5%88%86%E8%AF%8Drule-based-word-level"><span class="nav-text">1️⃣ 传统分词（Rule-based &#x2F;
+Word-level）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%9F%E7%90%86"><span class="nav-text">🔍 原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-text">📦 应用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8Bjieba-%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D"><span class="nav-text">💻 示例（jieba 中文分词）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bpebyte-pair-encoding"><span class="nav-text">2️⃣ BPE（Byte Pair Encoding）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%9F%E7%90%86-1"><span class="nav-text">🔍 原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF-1"><span class="nav-text">📦 应用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B%E4%BD%BF%E7%94%A8-tokenizers-%E5%BA%93"><span class="nav-text">💻 示例（使用 tokenizers
+库）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#wordpiece%E5%9F%BA%E4%BA%8E%E6%A6%82%E7%8E%87%E7%9A%84bpe%E5%8F%98%E4%BD%93"><span class="nav-text">3️⃣
+WordPiece（基于概率的BPE变体）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%9F%E7%90%86-2"><span class="nav-text">🔍 原理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#bpe-%E7%9A%84%E6%89%93%E5%88%86%E6%96%B9%E5%BC%8F%E9%A2%91%E7%8E%87"><span class="nav-text">1. BPE 的打分方式（频率）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#wordpiece-%E7%9A%84%E6%89%93%E5%88%86%E6%96%B9%E5%BC%8F%E4%BC%BC%E7%84%B6"><span class="nav-text">2. WordPiece 的打分方式（似然）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BE%E4%B8%AA%E4%BE%8B%E5%AD%90%E4%B8%BA%E4%BB%80%E4%B9%88-wordpiece-%E6%9B%B4%E8%AF%AD%E4%B9%89%E7%9B%B8%E5%85%B3"><span class="nav-text">举个例子：为什么 WordPiece
+更“语义相关”</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#bpe-%E7%9A%84%E9%80%89%E6%8B%A9"><span class="nav-text">BPE 的选择：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#wordpiece-%E7%9A%84%E9%80%89%E6%8B%A9"><span class="nav-text">WordPiece 的选择：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF-2"><span class="nav-text">📦 应用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8Bhugging-face%E8%87%AA%E5%B8%A6%E7%9A%84wordpiece"><span class="nav-text">💻 示例（Hugging
+Face自带的WordPiece）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%99%84%E6%B3%A8"><span class="nav-text">附注</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sentencepiecegoogle%E5%BC%80%E5%8F%91%E7%9A%84%E9%80%9A%E7%94%A8%E5%88%86%E8%AF%8D%E5%99%A8"><span class="nav-text">4️⃣
+SentencePiece（Google开发的通用分词器）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%9F%E7%90%86-3"><span class="nav-text">🔍 原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF-3"><span class="nav-text">📦 应用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8Bsentencepiece"><span class="nav-text">💻 示例（SentencePiece）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#unigram-language-modelsentencepiece%E9%BB%98%E8%AE%A4%E7%AE%97%E6%B3%95"><span class="nav-text">5️⃣ Unigram Language
+Model（SentencePiece默认算法）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%9F%E7%90%86-4"><span class="nav-text">🔍 原理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E8%AF%8D%E8%BF%87%E7%A8%8B%E8%87%AA%E4%B8%8A%E8%80%8C%E4%B8%8B%E7%9A%84%E5%89%AA%E6%9E%9D%E6%B3%95"><span class="nav-text">分词过程：自上而下的剪枝法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%98%B6%E6%AE%B5-i-%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-text">阶段 I: 初始化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%98%B6%E6%AE%B5-ii-%E8%BF%AD%E4%BB%A3%E4%BC%98%E5%8C%96%E5%89%AA%E6%9E%9D"><span class="nav-text">阶段 II: 迭代优化（剪枝）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%98%B6%E6%AE%B5-iii-%E6%9C%80%E7%BB%88%E5%88%86%E8%AF%8D"><span class="nav-text">阶段 III: 最终分词</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF-4"><span class="nav-text">📦 应用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B"><span class="nav-text">💻 示例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#byte-level-bpe"><span class="nav-text">6️⃣ Byte-level BPE</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%9F%E7%90%86-5"><span class="nav-text">🔍 原理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#bbpe-%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%85%A8%E8%A6%86%E7%9B%96universal-coverage"><span class="nav-text">BBPE
+如何实现全覆盖（Universal Coverage）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#bbpe-%E7%9A%84%E5%AE%9E%E9%99%85%E6%8A%80%E5%B7%A7%E9%81%BF%E5%85%8D%E6%97%A0%E6%84%8F%E4%B9%89%E7%9A%84%E5%AD%97%E8%8A%82%E7%BB%84%E5%90%88"><span class="nav-text">BBPE
+的实际技巧：避免无意义的字节组合</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#a.-%E5%AD%97%E8%8A%82%E5%88%B0%E5%AD%97%E7%AC%A6%E7%9A%84%E6%98%A0%E5%B0%84byte-to-char-mapping"><span class="nav-text">A.
+字节到字符的映射（Byte-to-Char Mapping）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#b.-%E7%A9%BA%E6%A0%BC%E7%BC%96%E7%A0%81"><span class="nav-text">B. 空格编码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF-5"><span class="nav-text">📦 应用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B%E4%BD%BF%E7%94%A8-gpt-2-tokenizer"><span class="nav-text">💻 示例（使用 GPT-2 tokenizer）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%B0%E4%BB%A3%E5%88%86%E8%AF%8D%E7%AE%97%E6%B3%95%E5%AF%B9%E6%AF%94%E6%80%BB%E7%BB%93"><span class="nav-text">现代分词算法对比总结</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="copyright-info info-item">
+    &copy;&nbsp;<span>2020</span>&nbsp;-&nbsp;2025
+    
+            &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">Zhongjun Qiu</a>
+        
+    </div>
+
+    <div class="theme-info info-item">
+        Powered by&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;&&nbsp;Theme&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+    </div>
+
+    
+        
+        <div class="deploy-info info-item">
+            
+                <a target="_blank" rel="nofollow" href="https://github.com">
+            
+            This site is deployed on <span class="tooltip" data-tooltip-content="GitHub Pages"><img src="/images/brands/github.png"></span>
+            
+                </a>
+            
+        </div>
+    
+
+    
+        <div class="count-info info-item">
+            
+                <span class="count-item border-box word">
+                    <span class="item-type border-box">Total words</span>
+                    <span class="item-value border-box word">398.2k</span>
+                </span>
+            
+
+            
+
+            
+                <span class="count-item border-box pv">
+                    <span class="item-type border-box">Page View</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+    
+
+    
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+            <li class="tools-item flex-center go-to-comments">
+                <i class="fas fa-comment"></i>
+                <span class="post-comments-count"></span>
+            </li>
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <!-- toggle mode -->
+        
+            <li class="tools-item tool-toggle-theme-mode flex-center">
+                <i class="fas fa-moon"></i>
+            </li>
+        
+
+        <!-- rss -->
+        
+
+        <!-- to bottom -->
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+            <li class="tools-item go-to-comments-tablet flex-center">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%A0%E7%BB%9F%E5%88%86%E8%AF%8Drule-based-word-level"><span class="nav-text">1️⃣ 传统分词（Rule-based &#x2F;
+Word-level）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%9F%E7%90%86"><span class="nav-text">🔍 原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-text">📦 应用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8Bjieba-%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D"><span class="nav-text">💻 示例（jieba 中文分词）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bpebyte-pair-encoding"><span class="nav-text">2️⃣ BPE（Byte Pair Encoding）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%9F%E7%90%86-1"><span class="nav-text">🔍 原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF-1"><span class="nav-text">📦 应用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B%E4%BD%BF%E7%94%A8-tokenizers-%E5%BA%93"><span class="nav-text">💻 示例（使用 tokenizers
+库）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#wordpiece%E5%9F%BA%E4%BA%8E%E6%A6%82%E7%8E%87%E7%9A%84bpe%E5%8F%98%E4%BD%93"><span class="nav-text">3️⃣
+WordPiece（基于概率的BPE变体）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%9F%E7%90%86-2"><span class="nav-text">🔍 原理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#bpe-%E7%9A%84%E6%89%93%E5%88%86%E6%96%B9%E5%BC%8F%E9%A2%91%E7%8E%87"><span class="nav-text">1. BPE 的打分方式（频率）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#wordpiece-%E7%9A%84%E6%89%93%E5%88%86%E6%96%B9%E5%BC%8F%E4%BC%BC%E7%84%B6"><span class="nav-text">2. WordPiece 的打分方式（似然）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BE%E4%B8%AA%E4%BE%8B%E5%AD%90%E4%B8%BA%E4%BB%80%E4%B9%88-wordpiece-%E6%9B%B4%E8%AF%AD%E4%B9%89%E7%9B%B8%E5%85%B3"><span class="nav-text">举个例子：为什么 WordPiece
+更“语义相关”</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#bpe-%E7%9A%84%E9%80%89%E6%8B%A9"><span class="nav-text">BPE 的选择：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#wordpiece-%E7%9A%84%E9%80%89%E6%8B%A9"><span class="nav-text">WordPiece 的选择：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF-2"><span class="nav-text">📦 应用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8Bhugging-face%E8%87%AA%E5%B8%A6%E7%9A%84wordpiece"><span class="nav-text">💻 示例（Hugging
+Face自带的WordPiece）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%99%84%E6%B3%A8"><span class="nav-text">附注</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sentencepiecegoogle%E5%BC%80%E5%8F%91%E7%9A%84%E9%80%9A%E7%94%A8%E5%88%86%E8%AF%8D%E5%99%A8"><span class="nav-text">4️⃣
+SentencePiece（Google开发的通用分词器）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%9F%E7%90%86-3"><span class="nav-text">🔍 原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF-3"><span class="nav-text">📦 应用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8Bsentencepiece"><span class="nav-text">💻 示例（SentencePiece）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#unigram-language-modelsentencepiece%E9%BB%98%E8%AE%A4%E7%AE%97%E6%B3%95"><span class="nav-text">5️⃣ Unigram Language
+Model（SentencePiece默认算法）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%9F%E7%90%86-4"><span class="nav-text">🔍 原理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E8%AF%8D%E8%BF%87%E7%A8%8B%E8%87%AA%E4%B8%8A%E8%80%8C%E4%B8%8B%E7%9A%84%E5%89%AA%E6%9E%9D%E6%B3%95"><span class="nav-text">分词过程：自上而下的剪枝法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%98%B6%E6%AE%B5-i-%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-text">阶段 I: 初始化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%98%B6%E6%AE%B5-ii-%E8%BF%AD%E4%BB%A3%E4%BC%98%E5%8C%96%E5%89%AA%E6%9E%9D"><span class="nav-text">阶段 II: 迭代优化（剪枝）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%98%B6%E6%AE%B5-iii-%E6%9C%80%E7%BB%88%E5%88%86%E8%AF%8D"><span class="nav-text">阶段 III: 最终分词</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF-4"><span class="nav-text">📦 应用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B"><span class="nav-text">💻 示例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#byte-level-bpe"><span class="nav-text">6️⃣ Byte-level BPE</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%9F%E7%90%86-5"><span class="nav-text">🔍 原理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#bbpe-%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%85%A8%E8%A6%86%E7%9B%96universal-coverage"><span class="nav-text">BBPE
+如何实现全覆盖（Universal Coverage）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#bbpe-%E7%9A%84%E5%AE%9E%E9%99%85%E6%8A%80%E5%B7%A7%E9%81%BF%E5%85%8D%E6%97%A0%E6%84%8F%E4%B9%89%E7%9A%84%E5%AD%97%E8%8A%82%E7%BB%84%E5%90%88"><span class="nav-text">BBPE
+的实际技巧：避免无意义的字节组合</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#a.-%E5%AD%97%E8%8A%82%E5%88%B0%E5%AD%97%E7%AC%A6%E7%9A%84%E6%98%A0%E5%B0%84byte-to-char-mapping"><span class="nav-text">A.
+字节到字符的映射（Byte-to-Char Mapping）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#b.-%E7%A9%BA%E6%A0%BC%E7%BC%96%E7%A0%81"><span class="nav-text">B. 空格编码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF-5"><span class="nav-text">📦 应用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B%E4%BD%BF%E7%94%A8-gpt-2-tokenizer"><span class="nav-text">💻 示例（使用 GPT-2 tokenizer）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%B0%E4%BB%A3%E5%88%86%E8%AF%8D%E7%AE%97%E6%B3%95%E5%AF%B9%E6%AF%94%E6%80%BB%E7%BB%93"><span class="nav-text">现代分词算法对比总结</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+
+
+<!-- common js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/utils.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/header-shrink.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/back2top.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/toggle-theme.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/code-block.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/main.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/libs/anime.min.js"></script>
+
+<!-- local search -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/local-search.min.js"></script>
+
+
+<!-- lazyload -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/lazyload.min.js"></script>
+
+
+<div class="">
+    <!-- home page -->
+    
+
+    <!-- post page -->
+    
+        <!-- post-helper -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/post-helper.min.js"></script>
+
+        <!-- toc -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/toc.min.js"></script>
+        
+
+        <!-- copyright-info -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/copyright-info.min.js"></script>
+        
+
+        <!-- share -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/share.min.js"></script>
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+
+
+    
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/custom_code_block.js" data-pjax></script>
+
+        
+    
+
+</body>
+</html>

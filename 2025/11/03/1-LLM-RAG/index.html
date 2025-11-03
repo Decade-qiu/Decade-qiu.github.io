@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="blog, decade, lucky">
+    <meta name="description" content="Decade&#39;s lucky blog">
+    <meta name="author" content="Zhongjun Qiu">
+    
+    <title>
+        
+            Retrieval-Augmented Generation (RAG) 系统实现 |
+        
+        Decade
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="https://decade.net.cn/images/logo.ico">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/fontawesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/regular.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/solid.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/brands.min.css">
+    
+        
+            
+        
+            
+                
+<link rel="stylesheet" href="/css/custom.css">
+
+            
+        
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"decade.net.cn","root":"/","language":"en","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"Decade","author":"Zhongjun Qiu","avatar":"/images/avatar.ico","logo":"/images/avatar.ico","favicon":"https://decade.net.cn/images/logo.ico"},"menu":{"home":"/ || fa-solid fa-home","archives":"/archives || fa-solid fa-box-archive","tags":"/tags || fa-solid fa-tags","categories":"/categories || fa-solid fa-layer-group","more":{"icon":"fa-solid fa-circle-user","children":[{"tool":"/tools || fa-solid fa-tools"},{"life":"/photos || fa-solid fa-image"},{"me":"/about || fa-solid fa-user-graduate"},{"Git":"/custom/index.html || fa-solid fa-user"}]}},"first_screen":{"enable":true,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"The Steadfast Determination of An Ordinary Soul.","hitokoto":false},"social_contact":{"enable":true,"links":{"github":"https://github.com/Decade-qiu","weixin":"img | /images/social/weixin.jpg","qq":null,"weibo":null,"zhihu":null,"twitter":null,"x":null,"facebook":null,"email":"qiuyu6021@gmail.com"}},"scroll":{"progress_bar":true,"percent":true,"hide_header":false},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"created || fa-solid fa-history","post_datetime_format":"ago"},"post":{"author_badge":{"enable":true,"level_badge":false,"custom_badge":"元婴开发者"},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":true,"img_link":"/images/post/payment.jpg","text":null,"icon":null},"created_datetime_icon":"fa-solid fa-calendar-plus","updated_datetime_icon":"fa-solid fa-arrows-rotate"},"code_block":{"tools":{"enable":true,"style":"mac"},"highlight_theme":"obsidian"},"toc":{"enable":true,"number":false,"expand_all":false,"init_open":false,"layout":"right"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":false,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":true,"use":"waline","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.39"},"waline":{"server_url":"https://waline-vercel-two-rho.vercel.app/","reaction":true,"version":"3.3.2"},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":false},"lazyload":{"enable":true},"cdn":{"enable":true,"provider":"cdnjs"},"pjax":{"enable":false},"footer":{"since":2020,"word_count":true,"site_deploy":{"enable":true,"provider":"github","url":"https://github.com"},"record":{"enable":false,"list":[{"code":null,"link":null}]}},"inject":{"enable":true,"css":[null,"/css/custom.css"],"js":[null,"/js/custom_code_block.js"]},"root":"","source_data":{"photos":[{"url":"/images/post/【哲风壁纸】日本动漫-电锯人.webp","name":"电锯人"},{"url":"/images/post/Quicker_20250428_193139.webp","name":"kowayia"},{"url":"/images/post/Quicker_20250428_233349.webp","name":"世界地图"},{"url":"/images/post/tmpFE1E.tmp.webp","name":"施红"},{"url":"/images/post/result-1745849388402.webp","name":"仇忠骏.动漫版"},{"url":"/images/photos/猫猫困了PNG.png","name":"猫猫困了PNG"},{"url":"/images/photos/宁静的暴雨天.png","name":"宁静的暴雨天"},{"url":"/images/photos/我在扬州好想你.png","name":"我在扬州好想你"},{"url":"/images/photos/信鸽.png","name":"信鸽"},{"url":"/images/photos/啤酒烧烤.png","name":"啤酒烧烤"},{"url":"/images/photos/随手拍.png","name":"随手拍"},{"url":"/images/photos/糖油混合炸弹.png","name":"糖油混合炸弹"},{"url":"/images/photos/香香的.png","name":"香香的"},{"url":"/images/photos/蝎子莱莱.png","name":"蝎子莱莱"},{"url":"/images/post/指C为python.png","name":"指C为python"},{"url":"/images/photos/YangZhou_Station.png","name":"YangZhou Station"},{"url":"/images/photos/GBC.jpg","name":"Girls Band Cry"},{"url":"/images/photos/bocchi.webp","name":"Bocchi the Rock!"}],"tools":[{"category":"AIGC"},{"name":"ChatGPT","link":"https://chat.openai.com/","description":"OpenAI 旗下 AI 聊天对话工具","image":"/images/tools/chatgpt.svg"},{"name":"Gemini","link":"https://gemini.google.com/app","description":"Google 旗下 AI 聊天对话工具","image":"/images/tools/gemini.svg"},{"name":"Copilot","link":"https://copilot.microsoft.com/","description":"Microsoft 旗下 AI 聊天对话工具","image":"/images/tools/copilot.png"},{"name":"Deepseek","link":"https://chat.deepseek.com/","description":"Deepseek 旗下 AI 聊天对话工具","image":"/images/tools/deepseek.jpg"},{"name":"Qwen","link":"https://chat.qwen.ai/","description":"Alibaba 旗下 AI 聊天对话工具","image":"/images/tools/tongyiqianwen.svg"},{"name":"即梦AI","link":"https://jimeng.jianying.com/ai-tool/home","description":"Dreamina 图像生成工具","image":"/images/tools/dream.png"},{"name":"komiko","link":"https://komiko.app/home","description":"Komiko 动漫化AI工具","image":"/images/tools/komiko.webp"},{"name":"InsMind","link":"https://www.insmind.com/zh-cn/workspace/","description":"AI图片编辑工具","image":"/images/tools/insmind.svg"},{"name":"Raphael","link":"https://raphael.app/zh","description":"AI图片生成工具","image":"/images/tools/rap.png"},{"name":"腾讯元宝","link":"https://yuanbao.tencent.com/chat/","description":"Tencent 旗下 AI 聊天对话工具","image":"/images/tools/tencent.jpg"},{"name":"豆包","link":"https://www.doubao.com/chat/","description":"字节跳动 图片生成工具","image":"/images/tools/dn.jpg"},{"category":"Airport"},{"name":"独角兽","link":"https://91unicorn.cloud/","description":"十分稳定","image":"/images/tools/dujiaoshou.ico"},{"name":"极速机场","link":"https://xn--mes358acgm99l.com/","description":"便宜好用","image":"/images/tools/jisu.ico"},{"name":"iKuuu","link":"https://ikuuu.org/user","description":"以备不时之需","image":"/images/tools/ikuu.ico"},{"category":"File Converter"},{"name":"Online Image Tool","link":"https://www.onlineimagetool.com/zh/","description":"在线压缩和转换图片","image":"/images/tools/oit.png"},{"name":"Vector Magic","link":"https://zh.vectormagic.com/","description":"文件矢量化","image":"/images/tools/apple-touch-icon-180_97956a9f5fbf6a767de100280d78c1f8.png"},{"name":"TinyPNG","link":"https://tinypng.com/","description":"Smart AVIF, WebP, PNG and JPEG Compression for Faster Websites","image":"/images/tools/tiny.ico"},{"name":"踏得","link":"https://techbrood.com/tool","description":"HTML5在线工具","image":"/images/tools/td.ico"},{"name":"UU在线工具","link":"https://uutool.cn/base64/","description":"base64工具包","image":"/images/tools/uu.png"},{"name":"I Love PDF","link":"https://www.ilovepdf.com/","description":"PDF工具包","image":"/images/tools/ilovepdf.svg"},{"category":"Free GPT API"},{"name":"Gemini API","link":"https://ai.google.dev/gemini-api/docs/quickstart?lang=python","description":"Google Gemini API","image":"/images/tools/touchicon-180-new.png"},{"name":"SiliconCloud","link":"https://cloud.siliconflow.cn/models","description":"各种模型API"},{"name":"Cloudflare Workers AI","link":"https://developers.cloudflare.com/workers-ai/configuration/open-ai-compatibility/","description":"OpenAI compatible API endpoints","image":"/images/tools/logo.p_ySeMR1.svg"},{"name":"算了么","link":"https://api.suanli.cn/","description":"共享算力API","image":"/images/tools/suanlm.svg"},{"category":"Resource Explorer"},{"name":"Free for Developers","link":"https://free-for.dev/","description":"A list of SaaS, PaaS and IaaS offerings that have free tiers of interest to devops and infradev","image":"/images/tools/freefd.webp"},{"name":"zlibrary","link":"https://zh.z-library.sk/","description":"在线图书馆","image":"/images/tools/logo.zlibrary.svg"},{"name":"PicX","link":"https://picx.xpoet.cn/","description":"基于Github的图床","image":"/images/tools/logo.ffee4291.png"},{"name":"HaoWallpaper","link":"https://haowallpaper.com/","description":"哲风壁纸","image":"/images/tools/haowall.ico"},{"name":"Awesome","link":"https://wallhaven.cc/","description":"WallHaven","image":"/images/tools/wallheaven.ico"},{"name":"WallHere","link":"https://wallhere.com/","description":"WallHere"},{"name":"SnapAny","link":"https://snapany.com/zh","description":"万能视频图片解析下载"},{"name":"ØMagnet","link":"https://0cili.org/","description":"种子下载"},{"name":"twitter","link":"https://snapvid.net/zh-cn/twitter-downloader","description":"推特视频下载器","image":"/images/tools/apple-touch-icon.png"},{"name":"youtube","link":"https://www.y2mate.com/en949","description":"Youtube视频下载器","image":"/images/tools/y2mate.webp"},{"name":"Icons8","link":"https://icons8.com/icons","description":"免费图标下载","image":"/images/tools/logo-icons8.svg"},{"name":"全能emoji","link":"https://www.emojiall.com/zh-hans","description":"emoji制作","image":"/images/tools/emoji.ico"},{"name":"emojidb","link":"https://emojidb.org/","description":"免费表情包下载","image":"/images/tools/emojidb.png"},{"name":"Flaticon","link":"https://www.flaticon.com/","description":"免费图标下载","image":"/images/tools/logo-flaticon.svg"},{"name":"IconFinder","link":"https://www.iconfinder.com/","description":"免费图标下载","image":"/images/tools/logo-iconfinder.svg"}]},"version":"4.2.5"}
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"}
+    KEEP.language_code_block = {"copy":"Copy code","copied":"Copied","fold":"Fold code block","folded":"Folded"}
+    KEEP.language_copy_copyright = {"copy":"Copy copyright info","copied":"Copied","title":"Original post title","author":"Original post author","link":"Original post link"}
+  </script>
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left flex-start border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/avatar.ico">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               Decade
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc border-box">
+                <ul class="menu-list border-box">
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-home"></i>
+                                
+                                HOME
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/archives">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-box-archive"></i>
+                                
+                                ARCHIVES
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/tags">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-tags"></i>
+                                
+                                TAGS
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/categories">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-layer-group"></i>
+                                
+                                CATEGORIES
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box has-sub-menu">
+                            <a class="menu-text-color border-box" href="javascript:void(0);">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-circle-user"></i>
+                                
+                                MORE
+                                
+                                    <i class="menu-text-color collapse-icon fa-solid fa-angle-down"></i>
+                                
+                            </a>
+                            
+                                <ul class="sub-menu-list border-box">
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" href="/tools">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-solid fa-tools"></i>
+                                                
+                                                TOOL
+                                            </a>
+                                        </li>
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" href="/photos">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-solid fa-image"></i>
+                                                
+                                                LIFE
+                                            </a>
+                                        </li>
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" href="/about">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-solid fa-user-graduate"></i>
+                                                
+                                                ME
+                                            </a>
+                                        </li>
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" href="/custom/">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-solid fa-user"></i>
+                                                
+                                                GIT
+                                            </a>
+                                        </li>
+                                    
+                                </ul>
+                            
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="menu-text-color fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile border-box flex-start">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list border-box">
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-home"></i>
+                                </span>
+                            
+                            HOME
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/archives">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-box-archive"></i>
+                                </span>
+                            
+                            ARCHIVES
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/tags">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-tags"></i>
+                                </span>
+                            
+                            TAGS
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/categories">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-layer-group"></i>
+                                </span>
+                            
+                            CATEGORIES
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box has-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="javascript:void(0);">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-circle-user"></i>
+                                </span>
+                            
+                            MORE
+                        </a>
+                        
+                            <i class="right-side collapse-icon fa-solid fa-angle-left"></i>
+                        
+                    </label>
+                    
+                        <ul class="drawer-sub-menu-list border-box">
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" href="/tools">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-solid fa-tools"></i>
+                                            </span>
+                                        
+                                        TOOL
+                                    </a>
+                                </li>
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" href="/photos">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-solid fa-image"></i>
+                                            </span>
+                                        
+                                        LIFE
+                                    </a>
+                                </li>
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" href="/about">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-solid fa-user-graduate"></i>
+                                            </span>
+                                        
+                                        ME
+                                    </a>
+                                </li>
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" href="/custom/">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-solid fa-user"></i>
+                                            </span>
+                                        
+                                        GIT
+                                    </a>
+                                </li>
+                            
+                        </ul>
+                    
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        Retrieval-Augmented Generation (RAG) 系统实现
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/avatar.ico">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">Zhongjun Qiu</span>
+                                
+                                    <span class="author-badge">元婴开发者</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2025-11-03 09:15:59</span>
+            </span>
+
+            
+                <span class="meta-info-item post-update-date">
+                    <i class="icon fa-solid fa-arrows-rotate"></i>&nbsp;
+                    <span class="datetime" data-updated="Mon Nov 03 2025 09:22:59 GMT+0800">2025-11-03 09:22:59</span>
+                </span>
+            
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/LLM/">LLM</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/RAG/">RAG</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>2.1k Words</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>11 Mins</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <p>本篇文章实现了一个
+<strong>从零开始构建的多模态检索增强生成（RAG）系统</strong>，融合了
+<strong>BM25 语义检索 + Dense 向量检索 + Cross-Encoder 重排序 + LLM
+回答生成</strong> 的完整流程。</p>
+<p>目标是模拟真实生产中的 RAG 管线，实现一个可复用的、轻量级的本地 RAG
+框架。</p>
+<span id="more"></span>
+<h2 id="系统目标">🎯 系统目标</h2>
+<p>该系统旨在实现一个可复现的端到端 <strong>知识增强问答</strong>
+管道，包括：</p>
+<ol type="1">
+<li><strong>文档摄入（Document Ingestion）</strong>
+<ul>
+<li>自动读取指定目录下的 <code>.txt</code> 文件；</li>
+<li>使用句子分割器将文档切分成固定长度的文本块（chunks）。</li>
+</ul></li>
+<li><strong>多通道索引构建</strong>
+<ul>
+<li>使用 <strong>BM25</strong> 进行关键词倒排索引；</li>
+<li>使用 <strong>SentenceTransformer</strong> 将 chunk 编码为 dense
+向量；</li>
+<li>使用 <strong>FAISS</strong> 构建向量索引；</li>
+<li>可混合 BM25 与 dense 召回（Hybrid Search）。</li>
+</ul></li>
+<li><strong>查询与多跳检索（Multi-Hop Retrieval）</strong>
+<ul>
+<li>首次召回使用 Hybrid 检索；</li>
+<li>通过 LLM（如 Qwen）生成下一步检索 query；</li>
+<li>迭代式地进行多跳检索，获取更丰富上下文。</li>
+</ul></li>
+<li><strong>重排序与答案生成</strong>
+<ul>
+<li>使用 <strong>Cross-Encoder</strong>
+对候选段落进行相关性重排序；</li>
+<li>拼接上下文与用户问题形成 prompt；</li>
+<li>调用本地或 OpenAI LLM 生成最终回答。</li>
+</ul></li>
+</ol>
+<hr>
+<h2 id="系统流程图">🧩 系统流程图</h2>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">flowchart TD</span><br><span class="line"></span><br><span class="line">A[📂 文档目录 data/] --&gt; B[🔹 读取与分句 chunking]</span><br><span class="line">B --&gt; C1[🔸 BM25 索引构建]</span><br><span class="line">B --&gt; C2[🔸 Dense Embedding 编码 SentenceTransformer]</span><br><span class="line">C2 --&gt; D[🧮 FAISS 向量索引]</span><br><span class="line">C1 --&gt; E[⚡ Hybrid 检索 BM25 + FAISS]</span><br><span class="line">D --&gt; E</span><br><span class="line">E --&gt; F[🧠 Cross-Encoder 重排序]</span><br><span class="line">F --&gt; G[🔁 LLM 生成下一跳查询 Multi-Hop]</span><br><span class="line">G --&gt; E</span><br><span class="line">F --&gt; H[📚 拼接上下文 &amp; 问题 → Prompt]</span><br><span class="line">H --&gt; I[🤖 LLM 生成最终答案]</span><br><span class="line">I --&gt; J[✅ 输出 Answer]</span><br><span class="line">````</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">## 运行与配置说明</span><br><span class="line"></span><br><span class="line">### 🔧 环境依赖</span><br><span class="line"></span><br><span class="line">确保已安装以下主要库：</span><br><span class="line"></span><br><span class="line">```bash</span><br><span class="line">pip install -r requirements.txt</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>若网络访问 HuggingFace 较慢，可启用镜像：</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line">os.environ[<span class="string">"HF_ENDPOINT"</span>] = <span class="string">"https://hf-mirror.com"</span></span><br></pre></td></tr></table></figure>
+<h3 id="主要配置参数config-类">⚙️ 主要配置参数（Config 类）</h3>
+<table>
+<colgroup>
+<col style="width: 27%">
+<col style="width: 23%">
+<col style="width: 49%">
+</colgroup>
+<thead>
+<tr>
+<th>参数</th>
+<th>含义</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>data_dir</code></td>
+<td>文档目录路径</td>
+<td><code>./data</code></td>
+</tr>
+<tr>
+<td><code>chunk_size_sentences</code></td>
+<td>每个 chunk 的句子数</td>
+<td>5</td>
+</tr>
+<tr>
+<td><code>dense_model_name</code></td>
+<td>Dense encoder 模型</td>
+<td><code>sentence-transformers/all-MiniLM-L6-v2</code></td>
+</tr>
+<tr>
+<td><code>reranker_model_name</code></td>
+<td>Cross-Encoder 模型</td>
+<td><code>cross-encoder/ms-marco-MiniLM-L-6-v2</code></td>
+</tr>
+<tr>
+<td><code>hf_llm_model</code></td>
+<td>回答生成模型</td>
+<td><code>Qwen/Qwen2.5-7B-Instruct</code></td>
+</tr>
+<tr>
+<td><code>top_k_recall</code></td>
+<td>召回阶段候选数量</td>
+<td>50</td>
+</tr>
+<tr>
+<td><code>top_k_rerank</code></td>
+<td>重排序后取前几段</td>
+<td>10</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="使用流程">🚀 使用流程</h2>
+<ol type="1">
+<li><p><strong>准备文本数据：</strong></p>
+<ul>
+<li>在 <code>data/</code> 文件夹中放入若干 <code>.txt</code> 文档。</li>
+</ul></li>
+<li><p><strong>运行主程序：</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">main()</span><br></pre></td></tr></table></figure></li>
+<li><p><strong>系统流程：</strong></p>
+<ul>
+<li>自动构建索引；</li>
+<li>执行多跳检索；</li>
+<li>拼接上下文生成答案；</li>
+<li>输出最终回答。</li>
+</ul></li>
+</ol>
+<blockquote>
+<p>💡 提示：</p>
+<ul>
+<li>若显存有限，可修改 <code>device="cpu"</code> 或使用 4-bit
+量化配置；</li>
+<li>若希望使用 OpenAI 接口，可设置 <code>SILICON_API_KEY</code>
+环境变量；</li>
+<li>Multi-Hop 检索层数可在 <code>multi.retrieve(query, hops=N)</code>
+中调整。</li>
+</ul>
+</blockquote>
+<h3 id="详细代码">详细代码</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line">os.environ[<span class="string">"HF_ENDPOINT"</span>] = <span class="string">"https://hf-mirror.com"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> glob</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">import</span> math</span><br><span class="line"><span class="keyword">from</span> typing <span class="keyword">import</span> <span class="type">List</span>, <span class="type">Tuple</span>, <span class="type">Dict</span>, <span class="type">Any</span></span><br><span class="line"><span class="keyword">from</span> dataclasses <span class="keyword">import</span> dataclass</span><br><span class="line"></span><br><span class="line"><span class="comment"># 文本处理相关</span></span><br><span class="line"><span class="keyword">import</span> nltk</span><br><span class="line"><span class="keyword">from</span> nltk.tokenize <span class="keyword">import</span> sent_tokenize</span><br><span class="line">nltk.download(<span class="string">'punkt'</span>)</span><br><span class="line">nltk.download(<span class="string">'punkt_tab'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># TF-IDF/BM25</span></span><br><span class="line"><span class="keyword">from</span> rank_bm25 <span class="keyword">import</span> BM25Okapi</span><br><span class="line"></span><br><span class="line"><span class="comment"># Dense embeddings</span></span><br><span class="line"><span class="keyword">from</span> sentence_transformers <span class="keyword">import</span> SentenceTransformer, CrossEncoder</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> faiss</span><br><span class="line"></span><br><span class="line"><span class="comment"># LLM（这里提供两种调用方式：OpenAI 或 HuggingFace）</span></span><br><span class="line"><span class="comment"># import openai</span></span><br><span class="line"><span class="keyword">from</span> transformers <span class="keyword">import</span> AutoModelForCausalLM, AutoTokenizer</span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"></span><br><span class="line">CURRENT_PATH = <span class="string">"..."</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ------------- 配置 -------------</span></span><br><span class="line"><span class="keyword">from</span> transformers <span class="keyword">import</span> BitsAndBytesConfig</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@dataclass</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Config</span>:</span><br><span class="line">    data_dir: <span class="built_in">str</span> = <span class="string">f"<span class="subst">{CURRENT_PATH}</span>/data"</span></span><br><span class="line">    chunk_size_sentences: <span class="built_in">int</span> = <span class="number">5</span></span><br><span class="line">    chunk_overlap: <span class="built_in">int</span> = <span class="number">1</span></span><br><span class="line">    dense_model_name: <span class="built_in">str</span> = <span class="string">"sentence-transformers/all-MiniLM-L6-v2"</span></span><br><span class="line">    reranker_model_name: <span class="built_in">str</span> = <span class="string">"cross-encoder/ms-marco-MiniLM-L-6-v2"</span></span><br><span class="line">    hf_llm_model: <span class="built_in">str</span> = <span class="string">"Qwen/Qwen2.5-7B-Instruct"</span></span><br><span class="line">    openai_api_key: <span class="built_in">str</span> = os.getenv(<span class="string">'SILICON_API_KEY'</span>, <span class="string">''</span>)</span><br><span class="line">    top_k_recall: <span class="built_in">int</span> = <span class="number">5</span></span><br><span class="line">    top_k_rerank: <span class="built_in">int</span> = <span class="number">2</span></span><br><span class="line">    faiss_index_path: <span class="built_in">str</span> = <span class="string">"faiss.index"</span></span><br><span class="line"></span><br><span class="line">cfg = Config()</span><br><span class="line"></span><br><span class="line"><span class="comment"># ------------- 工具函数：文档摄入与 chunk -------------</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">read_texts_from_dir</span>(<span class="params">data_dir: <span class="built_in">str</span></span>) -&gt; <span class="type">List</span>[<span class="type">Tuple</span>[<span class="built_in">str</span>, <span class="built_in">str</span>]]:</span><br><span class="line">    <span class="string">"""读取目录下所有 txt 文件，返回 (doc_id, text) 列表"""</span></span><br><span class="line">    files = glob.glob(os.path.join(data_dir, <span class="string">"*.txt"</span>))</span><br><span class="line">    docs = []</span><br><span class="line">    <span class="keyword">for</span> p <span class="keyword">in</span> files:</span><br><span class="line">        doc_id = os.path.basename(p)</span><br><span class="line">        <span class="keyword">with</span> <span class="built_in">open</span>(p, <span class="string">'r'</span>, encoding=<span class="string">'utf-8'</span>) <span class="keyword">as</span> f:</span><br><span class="line">            text = f.read()</span><br><span class="line">        docs.append((doc_id, text))</span><br><span class="line">    <span class="keyword">return</span> docs</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">chunk_document</span>(<span class="params">doc_id: <span class="built_in">str</span>, text: <span class="built_in">str</span>, chunk_size_sentences=<span class="number">5</span>, overlap=<span class="number">1</span></span>) -&gt; <span class="type">List</span>[<span class="type">Dict</span>[<span class="built_in">str</span>, <span class="type">Any</span>]]:</span><br><span class="line">    sents = sent_tokenize(text)</span><br><span class="line">    chunks = []</span><br><span class="line">    i = <span class="number">0</span></span><br><span class="line">    chunk_id = <span class="number">0</span></span><br><span class="line">    <span class="keyword">while</span> i &lt; <span class="built_in">len</span>(sents):</span><br><span class="line">        end = <span class="built_in">min</span>(i + chunk_size_sentences, <span class="built_in">len</span>(sents))</span><br><span class="line">        chunk_text = <span class="string">" "</span>.join(sents[i:end])</span><br><span class="line">        chunks.append({</span><br><span class="line">            <span class="string">'doc_id'</span>: doc_id,</span><br><span class="line">            <span class="string">'chunk_id'</span>: <span class="string">f"<span class="subst">{doc_id}</span>_chunk<span class="subst">{chunk_id}</span>"</span>,</span><br><span class="line">            <span class="string">'text'</span>: chunk_text,</span><br><span class="line">            <span class="string">'start_sent'</span>: i,</span><br><span class="line">            <span class="string">'end_sent'</span>: end</span><br><span class="line">        })</span><br><span class="line">        chunk_id += <span class="number">1</span></span><br><span class="line">        i += chunk_size_sentences - overlap</span><br><span class="line">    <span class="keyword">return</span> chunks</span><br><span class="line"></span><br><span class="line"><span class="comment"># ------------- 索引构建：BM25 + Dense (FAISS) -------------</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Indexer</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, cfg: Config</span>):</span><br><span class="line">        <span class="variable language_">self</span>.cfg = cfg</span><br><span class="line">        <span class="variable language_">self</span>.dense_model = SentenceTransformer(cfg.dense_model_name, device=<span class="string">"cpu"</span>)</span><br><span class="line">        <span class="variable language_">self</span>.reranker = CrossEncoder(cfg.reranker_model_name, device=<span class="string">"cpu"</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 保存 chunk 列表</span></span><br><span class="line">        <span class="variable language_">self</span>.chunks: <span class="type">List</span>[<span class="type">Dict</span>[<span class="built_in">str</span>, <span class="type">Any</span>]] = []</span><br><span class="line"></span><br><span class="line">        <span class="comment"># BM25 结构</span></span><br><span class="line">        <span class="variable language_">self</span>.bm25 = <span class="literal">None</span></span><br><span class="line">        <span class="variable language_">self</span>.bm25_tokenized = []</span><br><span class="line"></span><br><span class="line">        <span class="comment"># FAISS</span></span><br><span class="line">        <span class="variable language_">self</span>.faiss_index = <span class="literal">None</span></span><br><span class="line">        <span class="variable language_">self</span>.faiss_id_map = []  <span class="comment"># idx -&gt; chunk idx</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">ingest</span>(<span class="params">self, docs: <span class="type">List</span>[<span class="type">Tuple</span>[<span class="built_in">str</span>, <span class="built_in">str</span>]]</span>):</span><br><span class="line">        <span class="comment"># chunk 并保存</span></span><br><span class="line">        <span class="keyword">for</span> doc_id, text <span class="keyword">in</span> docs:</span><br><span class="line">            chs = chunk_document(doc_id, text, <span class="variable language_">self</span>.cfg.chunk_size_sentences, <span class="variable language_">self</span>.cfg.chunk_overlap)</span><br><span class="line">            <span class="variable language_">self</span>.chunks.extend(chs)</span><br><span class="line"></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f"Total chunks: <span class="subst">{<span class="built_in">len</span>(self.chunks)}</span>"</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f"The first 5 chunks:"</span>)</span><br><span class="line">        <span class="keyword">for</span> c <span class="keyword">in</span> <span class="variable language_">self</span>.chunks[:<span class="number">5</span>]:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f"- <span class="subst">{c[<span class="string">'chunk_id'</span>]}</span>: <span class="subst">{c[<span class="string">'text'</span>]}</span>..."</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 构建 BM25</span></span><br><span class="line">        tokenized = [<span class="variable language_">self</span>._tokenize_for_bm25(c[<span class="string">'text'</span>]) <span class="keyword">for</span> c <span class="keyword">in</span> <span class="variable language_">self</span>.chunks]</span><br><span class="line">        <span class="variable language_">self</span>.bm25_tokenized = tokenized</span><br><span class="line">        <span class="variable language_">self</span>.bm25 = BM25Okapi(tokenized)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 构建 dense 向量</span></span><br><span class="line">        texts = [c[<span class="string">'text'</span>] <span class="keyword">for</span> c <span class="keyword">in</span> <span class="variable language_">self</span>.chunks]</span><br><span class="line">        embeddings = <span class="variable language_">self</span>.dense_model.encode(texts, convert_to_numpy=<span class="literal">True</span>, show_progress_bar=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">        d = embeddings.shape[<span class="number">1</span>]</span><br><span class="line">        index = faiss.IndexFlatIP(d)</span><br><span class="line">        faiss.normalize_L2(embeddings)</span><br><span class="line">        index.add(embeddings) <span class="comment"># type: ignore</span></span><br><span class="line">        <span class="variable language_">self</span>.faiss_index = index</span><br><span class="line">        <span class="variable language_">self</span>.faiss_id_map = <span class="built_in">list</span>(<span class="built_in">range</span>(<span class="built_in">len</span>(<span class="variable language_">self</span>.chunks)))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">_tokenize_for_bm25</span>(<span class="params">self, text: <span class="built_in">str</span></span>) -&gt; <span class="type">List</span>[<span class="built_in">str</span>]:</span><br><span class="line">        <span class="comment"># 简单分词：按空格 + 小写，可替换为更复杂的分词器</span></span><br><span class="line">        <span class="keyword">return</span> [t.lower() <span class="keyword">for</span> t <span class="keyword">in</span> text.split()]</span><br><span class="line"></span><br><span class="line">    <span class="comment"># BM25 召回</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">bm25_retrieve</span>(<span class="params">self, query: <span class="built_in">str</span>, top_k: <span class="built_in">int</span></span>) -&gt; <span class="type">List</span>[<span class="type">Tuple</span>[<span class="built_in">int</span>, <span class="built_in">float</span>]]:</span><br><span class="line">        q_tokens = <span class="variable language_">self</span>._tokenize_for_bm25(query)</span><br><span class="line">        scores = <span class="variable language_">self</span>.bm25.get_scores(q_tokens) <span class="keyword">if</span> <span class="variable language_">self</span>.bm25 != <span class="literal">None</span> <span class="keyword">else</span> []</span><br><span class="line">        idxs = np.argsort(scores)[::-<span class="number">1</span>][:top_k]</span><br><span class="line">        <span class="keyword">return</span> [(<span class="built_in">int</span>(i), <span class="built_in">float</span>(scores[i])) <span class="keyword">for</span> i <span class="keyword">in</span> idxs]</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Dense 召回</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">dense_retrieve</span>(<span class="params">self, query: <span class="built_in">str</span>, top_k: <span class="built_in">int</span></span>) -&gt; <span class="type">List</span>[<span class="type">Tuple</span>[<span class="built_in">int</span>, <span class="built_in">float</span>]]:</span><br><span class="line">        q_emb = <span class="variable language_">self</span>.dense_model.encode([query], convert_to_numpy=<span class="literal">True</span>)</span><br><span class="line">        faiss.normalize_L2(q_emb)</span><br><span class="line">        D, I = <span class="variable language_">self</span>.faiss_index.search(q_emb, top_k) <span class="comment"># type: ignore</span></span><br><span class="line">        <span class="keyword">return</span> [(<span class="built_in">int</span>(I[<span class="number">0</span>][i]), <span class="built_in">float</span>(D[<span class="number">0</span>][i])) <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(I[<span class="number">0</span>]))]</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Hybrid: 合并 BM25 + Dense 得分（简单加权）</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">hybrid_retrieve</span>(<span class="params">self, query: <span class="built_in">str</span>, top_k: <span class="built_in">int</span>, alpha=<span class="number">0.5</span></span>) -&gt; <span class="type">List</span>[<span class="type">Tuple</span>[<span class="built_in">int</span>, <span class="built_in">float</span>]]:</span><br><span class="line">        bm = <span class="built_in">dict</span>(<span class="variable language_">self</span>.bm25_retrieve(query, top_k*<span class="number">2</span>))</span><br><span class="line">        de = <span class="built_in">dict</span>(<span class="variable language_">self</span>.dense_retrieve(query, top_k*<span class="number">2</span>))</span><br><span class="line">        <span class="comment"># normalize</span></span><br><span class="line">        all_ids = <span class="built_in">set</span>(<span class="built_in">list</span>(bm.keys()) + <span class="built_in">list</span>(de.keys()))</span><br><span class="line">        bm_vals = np.array([bm.get(i, <span class="number">0.0</span>) <span class="keyword">for</span> i <span class="keyword">in</span> all_ids])</span><br><span class="line">        de_vals = np.array([de.get(i, <span class="number">0.0</span>) <span class="keyword">for</span> i <span class="keyword">in</span> all_ids])</span><br><span class="line">        <span class="keyword">if</span> bm_vals.<span class="built_in">max</span>() &gt; <span class="number">0</span>:</span><br><span class="line">            bm_vals = bm_vals / (bm_vals.<span class="built_in">max</span>())</span><br><span class="line">        <span class="keyword">if</span> de_vals.<span class="built_in">max</span>() &gt; <span class="number">0</span>:</span><br><span class="line">            de_vals = de_vals / (de_vals.<span class="built_in">max</span>())</span><br><span class="line">        scores = {}</span><br><span class="line">        <span class="keyword">for</span> idx, b_norm, d_norm <span class="keyword">in</span> <span class="built_in">zip</span>(<span class="built_in">list</span>(all_ids), bm_vals, de_vals):</span><br><span class="line">            scores[idx] = alpha * b_norm + (<span class="number">1</span> - alpha) * d_norm</span><br><span class="line">        top = <span class="built_in">sorted</span>(scores.items(), key=<span class="keyword">lambda</span> x: x[<span class="number">1</span>], reverse=<span class="literal">True</span>)[:top_k]</span><br><span class="line">        <span class="keyword">return</span> top</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Rerank 使用 cross-encoder（更强模型，输入 query + doc）</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">rerank</span>(<span class="params">self, query: <span class="built_in">str</span>, candidates: <span class="type">List</span>[<span class="built_in">int</span>], top_k: <span class="built_in">int</span></span>) -&gt; <span class="type">List</span>[<span class="type">Tuple</span>[<span class="built_in">int</span>, <span class="built_in">float</span>]]:</span><br><span class="line">        pairs = [(query, <span class="variable language_">self</span>.chunks[c][<span class="string">'text'</span>]) <span class="keyword">for</span> c <span class="keyword">in</span> candidates]</span><br><span class="line">        scores = <span class="variable language_">self</span>.reranker.predict(pairs)</span><br><span class="line">        scored = <span class="built_in">list</span>(<span class="built_in">zip</span>(candidates, scores))</span><br><span class="line">        scored_sorted = <span class="built_in">sorted</span>(scored, key=<span class="keyword">lambda</span> x: x[<span class="number">1</span>], reverse=<span class="literal">True</span>)[:top_k]</span><br><span class="line">        <span class="keyword">return</span> scored_sorted</span><br><span class="line"></span><br><span class="line"><span class="comment"># ------------- 多跳检索（简单示例） -------------</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MultiHopRAG</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, indexer: Indexer, cfg: Config</span>):</span><br><span class="line">        <span class="variable language_">self</span>.indexer = indexer</span><br><span class="line">        <span class="variable language_">self</span>.cfg = cfg</span><br><span class="line">        <span class="comment"># LLM for query rewriting / next-hop generation</span></span><br><span class="line">        <span class="comment"># 这里提供简单的 HF 生成器作为示例</span></span><br><span class="line">        <span class="variable language_">self</span>.llm_tokenizer = AutoTokenizer.from_pretrained(cfg.hf_llm_model)</span><br><span class="line">        <span class="variable language_">self</span>.llm_model = AutoModelForCausalLM.from_pretrained(cfg.hf_llm_model)</span><br><span class="line">        <span class="comment"># self.device = 'cuda' if torch.cuda.is_available() else 'cpu'</span></span><br><span class="line">        <span class="variable language_">self</span>.device = <span class="string">'cpu'</span></span><br><span class="line">        <span class="variable language_">self</span>.llm_model.to(<span class="variable language_">self</span>.device) <span class="comment"># type: ignore</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">generate_followup_query</span>(<span class="params">self, query: <span class="built_in">str</span>, context_chunks: <span class="type">List</span>[<span class="built_in">str</span>]</span>) -&gt; <span class="built_in">str</span>:</span><br><span class="line">        <span class="comment"># 简单的 prompt：让 LLM 根据当前检索结果抽出下一步检索关键词</span></span><br><span class="line">        prompt = <span class="string">"Given the user question and retrieved contexts, generate a concise follow-up search query to fetch more evidence.\n\nQuestion:\n"</span> + query + <span class="string">"\n\nContexts:\n"</span></span><br><span class="line">        <span class="keyword">for</span> c <span class="keyword">in</span> context_chunks:</span><br><span class="line">            prompt += <span class="string">"- "</span> + c + <span class="string">"\n"</span></span><br><span class="line">        prompt += <span class="string">"\nFollow-up query:"</span></span><br><span class="line">        inputs = <span class="variable language_">self</span>.llm_tokenizer(prompt, return_tensors=<span class="string">'pt'</span>).to(<span class="variable language_">self</span>.device)</span><br><span class="line">        outputs = <span class="variable language_">self</span>.llm_model.generate(**inputs, max_new_tokens=<span class="number">32</span>)</span><br><span class="line">        ans = <span class="variable language_">self</span>.llm_tokenizer.decode(outputs[<span class="number">0</span>], skip_special_tokens=<span class="literal">True</span>)</span><br><span class="line">        <span class="comment"># 取最后一行或截取</span></span><br><span class="line">        <span class="built_in">print</span>()</span><br><span class="line">        <span class="built_in">print</span>(prompt)</span><br><span class="line">        <span class="built_in">print</span>(ans)</span><br><span class="line">        <span class="built_in">print</span>()</span><br><span class="line">        <span class="keyword">return</span> ans.split(<span class="string">'\n'</span>)[-<span class="number">1</span>].strip()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">retrieve</span>(<span class="params">self, query: <span class="built_in">str</span>, hops=<span class="number">2</span></span>) -&gt; <span class="type">List</span>[<span class="type">Dict</span>[<span class="built_in">str</span>, <span class="type">Any</span>]]:</span><br><span class="line">        <span class="comment"># 第一步 hybrid 召回</span></span><br><span class="line">        hybrid = <span class="variable language_">self</span>.indexer.hybrid_retrieve(query, <span class="variable language_">self</span>.cfg.top_k_recall, alpha=<span class="number">0.5</span>)</span><br><span class="line">        cand_ids = [c <span class="keyword">for</span> c, s <span class="keyword">in</span> hybrid]</span><br><span class="line">        <span class="comment"># 重排序取 top_k_rerank</span></span><br><span class="line">        reranked = <span class="variable language_">self</span>.indexer.rerank(query, cand_ids, <span class="variable language_">self</span>.cfg.top_k_rerank)</span><br><span class="line">        top_chunks = [<span class="variable language_">self</span>.indexer.chunks[c] <span class="keyword">for</span> c, s <span class="keyword">in</span> reranked]</span><br><span class="line"></span><br><span class="line">        all_results = top_chunks.copy()</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 迭代多跳</span></span><br><span class="line">        current_query = query</span><br><span class="line">        <span class="keyword">for</span> hop <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, hops):</span><br><span class="line">            contexts = [c[<span class="string">'text'</span>] <span class="keyword">for</span> c <span class="keyword">in</span> top_chunks]</span><br><span class="line">            followup = <span class="variable language_">self</span>.generate_followup_query(current_query, contexts)</span><br><span class="line">            hybrid2 = <span class="variable language_">self</span>.indexer.hybrid_retrieve(followup, <span class="variable language_">self</span>.cfg.top_k_recall, alpha=<span class="number">0.5</span>)</span><br><span class="line">            cand_ids2 = [c <span class="keyword">for</span> c, s <span class="keyword">in</span> hybrid2]</span><br><span class="line">            reranked2 = <span class="variable language_">self</span>.indexer.rerank(followup, cand_ids2, <span class="variable language_">self</span>.cfg.top_k_rerank)</span><br><span class="line">            top_chunks2 = [<span class="variable language_">self</span>.indexer.chunks[c] <span class="keyword">for</span> c, s <span class="keyword">in</span> reranked2]</span><br><span class="line">            all_results.extend(top_chunks2)</span><br><span class="line">            <span class="comment"># 为下一轮聚焦</span></span><br><span class="line">            top_chunks = top_chunks2</span><br><span class="line">            current_query = followup</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> all_results</span><br><span class="line">    </span><br><span class="line"><span class="comment"># ------------- Prompt 拼接 与 最终生成 -------------</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">RAGPipeline</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, indexer: Indexer, cfg: Config</span>):</span><br><span class="line">        <span class="variable language_">self</span>.indexer = indexer</span><br><span class="line">        <span class="variable language_">self</span>.cfg = cfg</span><br><span class="line">        <span class="comment"># LLM 选择：OpenAI 或 HuggingFace</span></span><br><span class="line">        <span class="variable language_">self</span>.use_openai = <span class="literal">False</span> <span class="keyword">if</span> cfg.openai_api_key == <span class="string">''</span> <span class="keyword">else</span> <span class="literal">True</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> <span class="variable language_">self</span>.use_openai:</span><br><span class="line">            quant_config = BitsAndBytesConfig(</span><br><span class="line">                load_in_4bit=<span class="literal">True</span>,</span><br><span class="line">                bnb_4bit_use_double_quant=<span class="literal">True</span>,</span><br><span class="line">                bnb_4bit_quant_type=<span class="string">"nf4"</span>,</span><br><span class="line">            )</span><br><span class="line">            <span class="variable language_">self</span>.hf_tokenizer = AutoTokenizer.from_pretrained(cfg.hf_llm_model)</span><br><span class="line">            <span class="variable language_">self</span>.hf_model = AutoModelForCausalLM.from_pretrained(</span><br><span class="line">                cfg.hf_llm_model, </span><br><span class="line">                device_map=<span class="string">"auto"</span>,</span><br><span class="line">                quantization_config=quant_config</span><br><span class="line">            )<span class="comment"># type: ignore</span></span><br><span class="line">            <span class="comment"># 'cuda' if torch.cuda.is_available() else 'cpu'</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">build_prompt</span>(<span class="params">self, question: <span class="built_in">str</span>, contexts: <span class="type">List</span>[<span class="type">Dict</span>[<span class="built_in">str</span>, <span class="type">Any</span>]]</span>) -&gt; <span class="built_in">str</span>:</span><br><span class="line">        prompt = <span class="string">"You are an expert assistant. Use the provided contexts to answer the question. If the answer is not contained in the contexts, say you don't know.\n\n"</span></span><br><span class="line">        prompt += <span class="string">"CONTEXTS:\n"</span></span><br><span class="line">        <span class="keyword">for</span> i, c <span class="keyword">in</span> <span class="built_in">enumerate</span>(contexts):</span><br><span class="line">            prompt += <span class="string">f"[<span class="subst">{i}</span>] (source: <span class="subst">{c[<span class="string">'doc_id'</span>]}</span>) <span class="subst">{c[<span class="string">'text'</span>]}</span>\n---\n"</span></span><br><span class="line">        prompt += <span class="string">"\nQuestion:\n"</span> + question + <span class="string">"\n\nAnswer:"</span></span><br><span class="line">        <span class="keyword">return</span> prompt</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">generate_answer</span>(<span class="params">self, question: <span class="built_in">str</span>, contexts: <span class="type">List</span>[<span class="type">Dict</span>[<span class="built_in">str</span>, <span class="type">Any</span>]], max_tokens=<span class="number">256</span></span>):</span><br><span class="line">        prompt = <span class="variable language_">self</span>.build_prompt(question, contexts)</span><br><span class="line">        <span class="comment"># 将 prompt 截断至模型最大输入长度</span></span><br><span class="line">        inputs = <span class="variable language_">self</span>.hf_tokenizer(prompt, return_tensors=<span class="string">'pt'</span>)</span><br><span class="line">        <span class="comment"># max_model_len = 1024</span></span><br><span class="line">        <span class="comment"># if inputs.input_ids.shape[1] &gt; max_model_len:</span></span><br><span class="line">        <span class="comment">#     inputs.input_ids = inputs.input_ids[:, -max_model_len:]</span></span><br><span class="line">        <span class="comment">#     inputs.attention_mask = inputs.attention_mask[:, -max_model_len:]</span></span><br><span class="line">        <span class="keyword">if</span> <span class="variable language_">self</span>.use_openai:</span><br><span class="line">            <span class="keyword">import</span> openai</span><br><span class="line">            openai.api_key = <span class="variable language_">self</span>.cfg.openai_api_key</span><br><span class="line">            res = openai.chat.completions.create(</span><br><span class="line">                model=<span class="string">'deepseek-ai/DeepSeek-OCR'</span>,</span><br><span class="line">                messages=[{<span class="string">"role"</span>: <span class="string">"user"</span>, <span class="string">"content"</span>: prompt}],</span><br><span class="line">                max_tokens=max_tokens,</span><br><span class="line">                temperature=<span class="number">0.0</span></span><br><span class="line">            )</span><br><span class="line">            <span class="keyword">return</span> res</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            inputs = <span class="variable language_">self</span>.hf_tokenizer(prompt, return_tensors=<span class="string">'pt'</span>).to(<span class="variable language_">self</span>.hf_model.device)</span><br><span class="line">            outputs = <span class="variable language_">self</span>.hf_model.generate(**inputs, max_new_tokens=max_tokens, do_sample=<span class="literal">False</span>)</span><br><span class="line">            ans = <span class="variable language_">self</span>.hf_tokenizer.decode(outputs[<span class="number">0</span>], skip_special_tokens=<span class="literal">True</span>)</span><br><span class="line">            <span class="comment"># 取 prompt 之后的内容</span></span><br><span class="line">            <span class="built_in">print</span>()</span><br><span class="line">            <span class="built_in">print</span>(ans)</span><br><span class="line">            <span class="built_in">print</span>()</span><br><span class="line">            <span class="keyword">return</span> ans[<span class="built_in">len</span>(prompt):].strip()</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ------------- Demo 主流程 -------------</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>():</span><br><span class="line">    docs = read_texts_from_dir(cfg.data_dir)</span><br><span class="line">    idx = Indexer(cfg)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f"Ingest <span class="subst">{<span class="built_in">len</span>(docs)}</span> docs..."</span>)</span><br><span class="line">    idx.ingest(docs)</span><br><span class="line"></span><br><span class="line">    multi = MultiHopRAG(idx, cfg)</span><br><span class="line">    pipeline = RAGPipeline(idx, cfg)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 示例查询</span></span><br><span class="line">    query = <span class="string">"who is ljc?"</span></span><br><span class="line">    retrieved = multi.retrieve(query, hops=<span class="number">2</span>)</span><br><span class="line">    <span class="comment"># 去重并限制数量</span></span><br><span class="line">    seen = <span class="built_in">set</span>()</span><br><span class="line">    contexts = []</span><br><span class="line">    <span class="keyword">for</span> r <span class="keyword">in</span> retrieved:</span><br><span class="line">        <span class="keyword">if</span> r[<span class="string">'chunk_id'</span>] <span class="keyword">in</span> seen:</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        seen.add(r[<span class="string">'chunk_id'</span>])</span><br><span class="line">        contexts.append(r)</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">len</span>(contexts) &gt;= <span class="number">4</span>:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line"></span><br><span class="line">    ans = pipeline.generate_answer(query, contexts)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"\n---- ANSWER ----\n"</span>)</span><br><span class="line">    <span class="built_in">print</span>(ans)</span><br></pre></td></tr></table></figure>
+
+                    
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                Retrieval-Augmented Generation (RAG) 系统实现
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                2025/11/03/1-LLM-RAG/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    Author
+                </div>
+                <div class="content">Zhongjun Qiu</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    Published
+                </div>
+                <div class="content">2025-11-03 09:15</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    License
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="Copy copyright info" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/RAG/">RAG</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="Share to WeChat"
+            data-tooltip-img-tip="Scan by WeChat"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to WeiBo"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+                    
+
+<div class="reward-author-container border-box flex-center">
+    <div class="reward-btn border-box flex-center tooltip tooltip-img"
+            data-tooltip-img-url="/images/post/payment.jpg"
+            data-tooltip-img-trigger="click"
+            data-tooltip-img-style="top: -6px;"
+    >
+        <i class="fa-solid fa-gift"></i>&nbsp;REWARD AUTHOR
+    </div>
+</div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/2025/11/03/2-LLM-Tokenizer/"
+                                   title="常见的 LLM 分词器（Tokenizer）"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">常见的 LLM 分词器（Tokenizer）</span>
+                                        <span class="post-nav-item">Prev posts</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/2025/11/01/1-LLM-RAG-Naive/"
+                                   title="Naïve RAG"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">Naïve RAG</span>
+                                        <span class="post-nav-item">Next posts</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+    <div class="comments-container border-box">
+        <div id="comments-anchor" class="comment-area-title border-box">
+            <i class="fas fa-comments"></i>&nbsp;Comments
+        </div>
+        <div class="comment-plugin-fail border-box">
+    <span class="fail-tip">Comment plugin failed to load</span>
+    <button class="reload keep-button">Click to reload</button>
+</div>
+<div class="comment-plugin-loading flex-center border-box">
+    <i class="loading-icon fa-solid fa-spinner fa-spin"></i>
+    <span class="load-tip">Loading comment plugin</span>
+</div>
+<script data-pjax>
+  window.KeepCommentPlugin = {}
+  window.KeepCommentPlugin.hideLoading = () => {
+    const cplDom = document.querySelector('.comments-container .comment-plugin-loading')
+    cplDom.style.display = 'none'
+  }
+  window.KeepCommentPlugin.loadFailHandle = () => {
+    window.KeepCommentPlugin.hideLoading()
+    const cpfDom = document.querySelector('.comments-container .comment-plugin-fail')
+    cpfDom.style.display = 'flex'
+    cpfDom.querySelector('.reload').addEventListener('click', () => {
+      window.location.reload()
+    })
+  }
+</script>
+
+        
+            
+
+    <div class="waline-comment-container">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/waline/3.3.2/waline.css"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/waline/3.3.2/waline-meta.css"/>
+        <div id="waline-comment"></div>
+        <script data-pjax>
+          window.KeepCommentPlugin.walineOptions = JSON.parse('{}'.replace(/&#34;/g, '"'))
+          window.KeepCommentPlugin.walineOptions.el = '#waline-comment'
+          window.KeepCommentPlugin.walineOptions.comment = '.post-comments-count'
+          window.KeepCommentPlugin.walineOptions.serverURL = 'https://waline-vercel-two-rho.vercel.app/'
+          window.KeepCommentPlugin.walineOptions.lang = 'en' || 'zh-CN'
+          window.KeepCommentPlugin.walineOptions.reaction = 'true' === 'true'
+        </script>
+
+        
+
+        
+            <script 
+                    async
+                    type="module"
+            >
+              import { init } from 'https://cdnjs.cloudflare.com/ajax/libs/waline/3.3.2/waline.js'
+              window.KeepCommentPlugin.initWaline = () => {
+                if (init) {
+                  init(window.KeepCommentPlugin.walineOptions)
+                  window.KeepCommentPlugin.hideLoading()
+                } else {
+                  setTimeout(() => {
+                    window.KeepCommentPlugin.initWaline()
+                  }, 1000)
+                }
+              }
+
+              if ('false' === 'true') {
+                setTimeout(() => {
+                  window.KeepCommentPlugin.initWaline()
+                }, 1200)
+              } else {
+                window.addEventListener('DOMContentLoaded', window.KeepCommentPlugin.initWaline)
+              }
+            </script>
+        
+    </div>
+
+
+        
+    </div>
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc right-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E7%9B%AE%E6%A0%87"><span class="nav-text">🎯 系统目标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E6%B5%81%E7%A8%8B%E5%9B%BE"><span class="nav-text">🧩 系统流程图</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0config-%E7%B1%BB"><span class="nav-text">⚙️ 主要配置参数（Config 类）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%B5%81%E7%A8%8B"><span class="nav-text">🚀 使用流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%A6%E7%BB%86%E4%BB%A3%E7%A0%81"><span class="nav-text">详细代码</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="copyright-info info-item">
+    &copy;&nbsp;<span>2020</span>&nbsp;-&nbsp;2025
+    
+            &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">Zhongjun Qiu</a>
+        
+    </div>
+
+    <div class="theme-info info-item">
+        Powered by&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;&&nbsp;Theme&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+    </div>
+
+    
+        
+        <div class="deploy-info info-item">
+            
+                <a target="_blank" rel="nofollow" href="https://github.com">
+            
+            This site is deployed on <span class="tooltip" data-tooltip-content="GitHub Pages"><img src="/images/brands/github.png"></span>
+            
+                </a>
+            
+        </div>
+    
+
+    
+        <div class="count-info info-item">
+            
+                <span class="count-item border-box word">
+                    <span class="item-type border-box">Total words</span>
+                    <span class="item-value border-box word">398.2k</span>
+                </span>
+            
+
+            
+
+            
+                <span class="count-item border-box pv">
+                    <span class="item-type border-box">Page View</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+    
+
+    
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+            <li class="tools-item flex-center go-to-comments">
+                <i class="fas fa-comment"></i>
+                <span class="post-comments-count"></span>
+            </li>
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <!-- toggle mode -->
+        
+            <li class="tools-item tool-toggle-theme-mode flex-center">
+                <i class="fas fa-moon"></i>
+            </li>
+        
+
+        <!-- rss -->
+        
+
+        <!-- to bottom -->
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+            <li class="tools-item go-to-comments-tablet flex-center">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E7%9B%AE%E6%A0%87"><span class="nav-text">🎯 系统目标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E6%B5%81%E7%A8%8B%E5%9B%BE"><span class="nav-text">🧩 系统流程图</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0config-%E7%B1%BB"><span class="nav-text">⚙️ 主要配置参数（Config 类）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%B5%81%E7%A8%8B"><span class="nav-text">🚀 使用流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%A6%E7%BB%86%E4%BB%A3%E7%A0%81"><span class="nav-text">详细代码</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+
+
+<!-- common js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/utils.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/header-shrink.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/back2top.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/toggle-theme.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/code-block.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/main.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/libs/anime.min.js"></script>
+
+<!-- local search -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/local-search.min.js"></script>
+
+
+<!-- lazyload -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/lazyload.min.js"></script>
+
+
+<div class="">
+    <!-- home page -->
+    
+
+    <!-- post page -->
+    
+        <!-- post-helper -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/post-helper.min.js"></script>
+
+        <!-- toc -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/toc.min.js"></script>
+        
+
+        <!-- copyright-info -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/copyright-info.min.js"></script>
+        
+
+        <!-- share -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/share.min.js"></script>
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+
+
+    
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/custom_code_block.js" data-pjax></script>
+
+        
+    
+
+</body>
+</html>
