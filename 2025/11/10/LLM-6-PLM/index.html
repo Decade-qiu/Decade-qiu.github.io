@@ -1,0 +1,1806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="blog, decade, lucky">
+    <meta name="description" content="Decade&#39;s lucky blog">
+    <meta name="author" content="Zhongjun Qiu">
+    
+    <title>
+        
+            Pre-trained Language Models介绍 |
+        
+        Decade
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="https://decade.net.cn/images/logo.ico">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/fontawesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/regular.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/solid.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/brands.min.css">
+    
+        
+            
+        
+            
+                
+<link rel="stylesheet" href="/css/custom.css">
+
+            
+        
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"decade.net.cn","root":"/","language":"en","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"Decade","author":"Zhongjun Qiu","avatar":"/images/avatar.ico","logo":"/images/avatar.ico","favicon":"https://decade.net.cn/images/logo.ico"},"menu":{"home":"/ || fa-solid fa-home","archives":"/archives || fa-solid fa-box-archive","tags":"/tags || fa-solid fa-tags","categories":"/categories || fa-solid fa-layer-group","more":{"icon":"fa-solid fa-circle-user","children":[{"tool":"/tools || fa-solid fa-tools"},{"life":"/photos || fa-solid fa-image"},{"me":"/about || fa-solid fa-user-graduate"},{"Git":"/custom/index.html || fa-solid fa-user"}]}},"first_screen":{"enable":true,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"The Steadfast Determination of An Ordinary Soul.","hitokoto":false},"social_contact":{"enable":true,"links":{"github":"https://github.com/Decade-qiu","weixin":"img | /images/social/weixin.jpg","qq":null,"weibo":null,"zhihu":null,"twitter":null,"x":null,"facebook":null,"email":"qiuyu6021@gmail.com"}},"scroll":{"progress_bar":true,"percent":true,"hide_header":false},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"created || fa-solid fa-history","post_datetime_format":"ago"},"post":{"author_badge":{"enable":true,"level_badge":false,"custom_badge":"元婴开发者"},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":true,"img_link":"/images/post/payment.jpg","text":null,"icon":null},"created_datetime_icon":"fa-solid fa-calendar-plus","updated_datetime_icon":"fa-solid fa-arrows-rotate"},"code_block":{"tools":{"enable":true,"style":"mac"},"highlight_theme":"obsidian"},"toc":{"enable":true,"number":false,"expand_all":false,"init_open":false,"layout":"right"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":false,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":true,"use":"waline","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.39"},"waline":{"server_url":"https://waline-vercel-two-rho.vercel.app/","reaction":true,"version":"3.3.2"},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":false},"lazyload":{"enable":true},"cdn":{"enable":true,"provider":"cdnjs"},"pjax":{"enable":false},"footer":{"since":2020,"word_count":true,"site_deploy":{"enable":true,"provider":"github","url":"https://github.com"},"record":{"enable":false,"list":[{"code":null,"link":null}]}},"inject":{"enable":true,"css":[null,"/css/custom.css"],"js":[null,"/js/custom_code_block.js"]},"root":"","source_data":{"photos":[{"url":"/images/post/【哲风壁纸】日本动漫-电锯人.webp","name":"电锯人"},{"url":"/images/post/Quicker_20250428_193139.webp","name":"kowayia"},{"url":"/images/post/Quicker_20250428_233349.webp","name":"世界地图"},{"url":"/images/post/tmpFE1E.tmp.webp","name":"施红"},{"url":"/images/post/result-1745849388402.webp","name":"仇忠骏.动漫版"},{"url":"/images/photos/猫猫困了PNG.png","name":"猫猫困了PNG"},{"url":"/images/photos/宁静的暴雨天.png","name":"宁静的暴雨天"},{"url":"/images/photos/我在扬州好想你.png","name":"我在扬州好想你"},{"url":"/images/photos/信鸽.png","name":"信鸽"},{"url":"/images/photos/啤酒烧烤.png","name":"啤酒烧烤"},{"url":"/images/photos/随手拍.png","name":"随手拍"},{"url":"/images/photos/糖油混合炸弹.png","name":"糖油混合炸弹"},{"url":"/images/photos/香香的.png","name":"香香的"},{"url":"/images/photos/蝎子莱莱.png","name":"蝎子莱莱"},{"url":"/images/post/指C为python.png","name":"指C为python"},{"url":"/images/photos/YangZhou_Station.png","name":"YangZhou Station"},{"url":"/images/photos/GBC.jpg","name":"Girls Band Cry"},{"url":"/images/photos/bocchi.webp","name":"Bocchi the Rock!"}],"tools":[{"category":"AIGC","anchorId":"QUlHQw0"},{"name":"ChatGPT","link":"https://chat.openai.com/","description":"OpenAI 旗下 AI 聊天对话工具","image":"/images/tools/chatgpt.svg"},{"name":"Gemini","link":"https://gemini.google.com/app","description":"Google 旗下 AI 聊天对话工具","image":"/images/tools/gemini.svg"},{"name":"Copilot","link":"https://copilot.microsoft.com/","description":"Microsoft 旗下 AI 聊天对话工具","image":"/images/tools/copilot.png"},{"name":"Deepseek","link":"https://chat.deepseek.com/","description":"Deepseek 旗下 AI 聊天对话工具","image":"/images/tools/deepseek.jpg"},{"name":"Qwen","link":"https://chat.qwen.ai/","description":"Alibaba 旗下 AI 聊天对话工具","image":"/images/tools/tongyiqianwen.svg"},{"name":"即梦AI","link":"https://jimeng.jianying.com/ai-tool/home","description":"Dreamina 图像生成工具","image":"/images/tools/dream.png"},{"name":"komiko","link":"https://komiko.app/home","description":"Komiko 动漫化AI工具","image":"/images/tools/komiko.webp"},{"name":"InsMind","link":"https://www.insmind.com/zh-cn/workspace/","description":"AI图片编辑工具","image":"/images/tools/insmind.svg"},{"name":"Raphael","link":"https://raphael.app/zh","description":"AI图片生成工具","image":"/images/tools/rap.png"},{"name":"腾讯元宝","link":"https://yuanbao.tencent.com/chat/","description":"Tencent 旗下 AI 聊天对话工具","image":"/images/tools/tencent.jpg"},{"name":"豆包","link":"https://www.doubao.com/chat/","description":"字节跳动 图片生成工具","image":"/images/tools/dn.jpg"},{"category":"Airport","anchorId":"QWlycG9ydA12"},{"name":"独角兽","link":"https://91unicorn.cloud/","description":"十分稳定","image":"/images/tools/dujiaoshou.ico"},{"name":"极速机场","link":"https://xn--mes358acgm99l.com/","description":"便宜好用","image":"/images/tools/jisu.ico"},{"name":"iKuuu","link":"https://ikuuu.org/user","description":"以备不时之需","image":"/images/tools/ikuu.ico"},{"category":"File Converter","anchorId":"RmlsZSUyMENvbnZlcnRlcg16"},{"name":"Online Image Tool","link":"https://www.onlineimagetool.com/zh/","description":"在线压缩和转换图片","image":"/images/tools/oit.png"},{"name":"Vector Magic","link":"https://zh.vectormagic.com/","description":"文件矢量化","image":"/images/tools/apple-touch-icon-180_97956a9f5fbf6a767de100280d78c1f8.png"},{"name":"TinyPNG","link":"https://tinypng.com/","description":"Smart AVIF, WebP, PNG and JPEG Compression for Faster Websites","image":"/images/tools/tiny.ico"},{"name":"踏得","link":"https://techbrood.com/tool","description":"HTML5在线工具","image":"/images/tools/td.ico"},{"name":"UU在线工具","link":"https://uutool.cn/base64/","description":"base64工具包","image":"/images/tools/uu.png"},{"name":"I Love PDF","link":"https://www.ilovepdf.com/","description":"PDF工具包","image":"/images/tools/ilovepdf.svg"},{"category":"Free GPT API","anchorId":"RnJlZSUyMEdQVCUyMEFQSQ23"},{"name":"Gemini API","link":"https://ai.google.dev/gemini-api/docs/quickstart?lang=python","description":"Google Gemini API","image":"/images/tools/touchicon-180-new.png"},{"name":"SiliconCloud","link":"https://cloud.siliconflow.cn/models","description":"各种模型API"},{"name":"Cloudflare Workers AI","link":"https://developers.cloudflare.com/workers-ai/configuration/open-ai-compatibility/","description":"OpenAI compatible API endpoints","image":"/images/tools/logo.p_ySeMR1.svg"},{"name":"算了么","link":"https://api.suanli.cn/","description":"共享算力API","image":"/images/tools/suanlm.svg"},{"category":"Resource Explorer","anchorId":"UmVzb3VyY2UlMjBFeHBsb3Jlcg28"},{"name":"Free for Developers","link":"https://free-for.dev/","description":"A list of SaaS, PaaS and IaaS offerings that have free tiers of interest to devops and infradev","image":"/images/tools/freefd.webp"},{"name":"zlibrary","link":"https://zh.z-library.sk/","description":"在线图书馆","image":"/images/tools/logo.zlibrary.svg"},{"name":"PicX","link":"https://picx.xpoet.cn/","description":"基于Github的图床","image":"/images/tools/logo.ffee4291.png"},{"name":"HaoWallpaper","link":"https://haowallpaper.com/","description":"哲风壁纸","image":"/images/tools/haowall.ico"},{"name":"Awesome","link":"https://wallhaven.cc/","description":"WallHaven","image":"/images/tools/wallheaven.ico"},{"name":"WallHere","link":"https://wallhere.com/","description":"WallHere"},{"name":"SnapAny","link":"https://snapany.com/zh","description":"万能视频图片解析下载"},{"name":"ØMagnet","link":"https://0cili.org/","description":"种子下载"},{"name":"twitter","link":"https://snapvid.net/zh-cn/twitter-downloader","description":"推特视频下载器","image":"/images/tools/apple-touch-icon.png"},{"name":"youtube","link":"https://www.y2mate.com/en949","description":"Youtube视频下载器","image":"/images/tools/y2mate.webp"},{"name":"Icons8","link":"https://icons8.com/icons","description":"免费图标下载","image":"/images/tools/logo-icons8.svg"},{"name":"全能emoji","link":"https://www.emojiall.com/zh-hans","description":"emoji制作","image":"/images/tools/emoji.ico"},{"name":"emojidb","link":"https://emojidb.org/","description":"免费表情包下载","image":"/images/tools/emojidb.png"},{"name":"Flaticon","link":"https://www.flaticon.com/","description":"免费图标下载","image":"/images/tools/logo-flaticon.svg"},{"name":"IconFinder","link":"https://www.iconfinder.com/","description":"免费图标下载","image":"/images/tools/logo-iconfinder.svg"}]},"version":"4.2.5"}
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"}
+    KEEP.language_code_block = {"copy":"Copy code","copied":"Copied","fold":"Fold code block","folded":"Folded"}
+    KEEP.language_copy_copyright = {"copy":"Copy copyright info","copied":"Copied","title":"Original post title","author":"Original post author","link":"Original post link"}
+  </script>
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left flex-start border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/avatar.ico">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               Decade
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc border-box">
+                <ul class="menu-list border-box">
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-home"></i>
+                                
+                                HOME
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/archives">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-box-archive"></i>
+                                
+                                ARCHIVES
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/tags">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-tags"></i>
+                                
+                                TAGS
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/categories">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-layer-group"></i>
+                                
+                                CATEGORIES
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box has-sub-menu">
+                            <a class="menu-text-color border-box" href="javascript:void(0);">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-circle-user"></i>
+                                
+                                MORE
+                                
+                                    <i class="menu-text-color collapse-icon fa-solid fa-angle-down"></i>
+                                
+                            </a>
+                            
+                                <ul class="sub-menu-list border-box">
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" href="/tools">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-solid fa-tools"></i>
+                                                
+                                                TOOL
+                                            </a>
+                                        </li>
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" href="/photos">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-solid fa-image"></i>
+                                                
+                                                LIFE
+                                            </a>
+                                        </li>
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" href="/about">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-solid fa-user-graduate"></i>
+                                                
+                                                ME
+                                            </a>
+                                        </li>
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" href="/custom/">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-solid fa-user"></i>
+                                                
+                                                GIT
+                                            </a>
+                                        </li>
+                                    
+                                </ul>
+                            
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="menu-text-color fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile border-box flex-start">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list border-box">
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-home"></i>
+                                </span>
+                            
+                            HOME
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/archives">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-box-archive"></i>
+                                </span>
+                            
+                            ARCHIVES
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/tags">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-tags"></i>
+                                </span>
+                            
+                            TAGS
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/categories">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-layer-group"></i>
+                                </span>
+                            
+                            CATEGORIES
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box has-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="javascript:void(0);">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-circle-user"></i>
+                                </span>
+                            
+                            MORE
+                        </a>
+                        
+                            <i class="right-side collapse-icon fa-solid fa-angle-left"></i>
+                        
+                    </label>
+                    
+                        <ul class="drawer-sub-menu-list border-box">
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" href="/tools">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-solid fa-tools"></i>
+                                            </span>
+                                        
+                                        TOOL
+                                    </a>
+                                </li>
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" href="/photos">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-solid fa-image"></i>
+                                            </span>
+                                        
+                                        LIFE
+                                    </a>
+                                </li>
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" href="/about">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-solid fa-user-graduate"></i>
+                                            </span>
+                                        
+                                        ME
+                                    </a>
+                                </li>
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" href="/custom/">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-solid fa-user"></i>
+                                            </span>
+                                        
+                                        GIT
+                                    </a>
+                                </li>
+                            
+                        </ul>
+                    
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+                <div class="post-content-top border-box"
+                     style="height: 480px"
+                >
+                    <div class="cover-post-title">
+                        Pre-trained Language Models介绍
+                    </div>
+                    <img class="post-cover" src="/images/post/plm.jpg"
+                         onerror="this.style.display='none'"
+                    >
+                </div>
+            
+
+            <div class="post-content-bottom border-box has-cover">
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/avatar.ico">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">Zhongjun Qiu</span>
+                                
+                                    <span class="author-badge">元婴开发者</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2025-11-10 15:30:22</span>
+            </span>
+
+            
+                <span class="meta-info-item post-update-date">
+                    <i class="icon fa-solid fa-arrows-rotate"></i>&nbsp;
+                    <span class="datetime" data-updated="Mon Nov 10 2025 15:48:56 GMT+0800">2025-11-10 15:48:56</span>
+                </span>
+            
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/LLM/">LLM</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/PLM/">PLM</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>9.2k Words</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>35 Mins</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <p>本文详细介绍了预训练语言模型（Pre-trained Language Models,
+PLM）的核心架构与代表模型，重点分析了 Encoder-only、Encoder-Decoder 和
+Decoder-only 三种主流设计思路及其在自然语言处理任务中的应用优势。</p>
+<span id="more"></span>
+<h2 id="encoder-only">Encoder-only</h2>
+<p>在上一章中，我们深入解析了 <strong>注意力机制（Attention
+Mechanism）</strong> 以及以此为核心构建的 <strong>Transformer
+模型</strong>。Transformer 的提出不仅带来了 NLP
+模型架构的彻底革新，也奠定了此后所有预训练语言模型（Pre-trained Language
+Model, PLM）的基础。 Transformer 的整体结构由 <strong>Encoder</strong>
+与 <strong>Decoder</strong>
+两部分组成，两者在结构与输入输出形式上各具特点，也因此衍生出三种不同方向的预训练模型设计思路：</p>
+<ul>
+<li><strong>Encoder-only</strong>：以 Encoder
+为主体，用于自然语言理解（NLU）任务的代表模型是
+<strong>BERT</strong>；</li>
+<li><strong>Decoder-only</strong>：以 Decoder
+为核心，适用于自然语言生成（NLG）任务的代表模型是 <strong>GPT
+系列</strong>；</li>
+<li><strong>Encoder-Decoder</strong>：同时保留两部分结构的典型代表是
+<strong>T5</strong>。</li>
+</ul>
+<p>本章将围绕这三种架构展开，依次介绍 Encoder-only、Encoder-Decoder 和
+Decoder-only 模型的核心设计、预训练任务及其在各类 NLP 任务中的优势。</p>
+<h3 id="bert双向理解的基石模型">BERT：双向理解的基石模型</h3>
+<p><strong>BERT（Bidirectional Encoder Representations from
+Transformers）</strong> 是 Google 于 2018
+年发布的革命性模型，论文题为《BERT: Pre-training of Deep Bidirectional
+Transformers for Language Understanding》。 BERT 在 GLUE、MultiNLI
+等多个自然语言理解任务上刷新了当时的最优性能（State-of-the-Art,
+SOTA），正式确立了“<strong>预训练 + 微调（Pre-training +
+Fine-tuning）</strong>”的范式。 自此之后，BERT 成为 NLP
+模型设计的基准，并催生了大量衍生与改进模型，如
+<strong>RoBERTa</strong>、<strong>MacBERT</strong>、<strong>ALBERT</strong>、<strong>BART</strong>
+等。可以说，从 BERT 到 LLM（大型语言模型），是 NLP 领域演进的主线。</p>
+<h4 id="思想源流融合-elmo-与-transformer">（1）思想源流：融合 ELMo 与
+Transformer</h4>
+<p>BERT 的提出并非凭空而来，而是融合了两条技术路线的思想：</p>
+<ul>
+<li><strong>Transformer 架构的继承</strong> 在 2017 年的论文《Attention
+Is All You Need》中，Transformer
+首次实现了“完全基于注意力机制、摒弃循环与卷积结构”的序列建模方法。BERT
+沿用了 Transformer 的 Encoder
+结构，并通过多层堆叠与大规模参数扩展，构建了面向理解任务的强大语义建模能力。</li>
+<li><strong>预训练 + 微调范式的延续</strong> 2018 年的 ELMo
+模型首次引入了“预训练语言模型 + 下游任务微调”的框架，通过双向 LSTM
+的语言建模任务获取通用语义表示。BERT 继承了这一思路，但用 Transformer
+替代 LSTM，并提出更适合捕捉深层语义的 <strong>掩码语言模型（Masked
+Language Model, MLM）</strong>
+任务，使预训练-微调范式进入黄金时代。</li>
+</ul>
+<h4 id="模型架构encoder-only-的深度语义建模">（2）模型架构：Encoder-only
+的深度语义建模</h4>
+<p>BERT 的结构完全由 <strong>Transformer Encoder
+堆叠而成</strong>，可视为一个去除了 Decoder 的 Seq2Seq 模型。
+在自然语言理解任务中，输入通常是文本序列，输出是分类标签（例如情感分析的“积极/消极”）。
+因此，BERT 在 Encoder
+顶层额外增加了一个线性分类头（<code>prediction_heads</code>），将隐藏状态映射为类别概率。</p>
+<p>整体结构包括：</p>
+<ol type="1">
+<li><strong>Tokenizer 部分</strong>：将文本转化为
+<code>input_ids</code>；</li>
+<li><strong>Embedding 层</strong>：将输入 ID 映射到连续向量空间；</li>
+<li><strong>Encoder 堆叠层</strong>：核心的多层自注意力与前馈网络；</li>
+<li><strong>Prediction Head</strong>：线性层 + 激活函数 + Softmax
+输出类别概率。</li>
+</ol>
+<p>模型结构示意如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">    style A fill:#d9ead3,stroke:#3c781d,stroke-width:2px;</span><br><span class="line">    style B fill:#fff2cc,stroke:#b45f06,stroke-width:2px;</span><br><span class="line">    style C fill:#f4cccc,stroke:#cc0000,stroke-width:2px;</span><br><span class="line">    style D fill:#cfe2f3,stroke:#0b5394,stroke-width:2px;</span><br><span class="line">    style E1 fill:#d0e0e3,stroke:#007d8c,stroke-width:2px;</span><br><span class="line">    style F fill:#fff2cc,stroke:#b45f06,stroke-width:2px;</span><br><span class="line">    style E2 fill:#d0e0e3,stroke:#007d8c,stroke-width:2px;</span><br><span class="line">    style G fill:#fff2cc,stroke:#b45f06,stroke-width:2px;</span><br><span class="line"></span><br><span class="line">    subgraph "Tokenizer"</span><br><span class="line">        A[Text]</span><br><span class="line">        B(tokenizer)</span><br><span class="line">        C[input_ids]</span><br><span class="line">        A --&gt; B --&gt; C</span><br><span class="line">    end</span><br><span class="line"></span><br><span class="line">    subgraph "BERT Model"</span><br><span class="line">        D(Embedding)</span><br><span class="line">        E1(hidden_states)</span><br><span class="line">        F(Encoder Stack)</span><br><span class="line">        E2(hidden_states)</span><br><span class="line">        G(prediction_heads)</span><br><span class="line">        D --&gt; E1 --&gt; F --&gt; E2 --&gt; G</span><br><span class="line">    end</span><br><span class="line"></span><br><span class="line">    C --&gt; D</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>BERT 使用 <strong>WordPiece</strong>
+分词算法，将词语拆解为子词单元（如 “playing” → [“play”, “##ing”]）。
+对于中文文本，每个汉字通常作为独立的 token。</p>
+</blockquote>
+<h4 id="prediction-head任务适配层">（3）Prediction Head：任务适配层</h4>
+<p>BERT
+的分类头通常由两层线性变换和一个激活函数组成，输出维度等于任务的类别数：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">    style PH fill:#3d85c6,stroke:#333,stroke-width:2px,color:#fff;</span><br><span class="line">    style L1 fill:#cfe2f3,stroke:#0b5394,stroke-width:2px;</span><br><span class="line">    style Act fill:#cfe2f3,stroke:#0b5394,stroke-width:2px;</span><br><span class="line">    style L2 fill:#cfe2f3,stroke:#0b5394,stroke-width:2px;</span><br><span class="line">    style Out fill:#d9ead3,stroke:#3c781d,stroke-width:2px;</span><br><span class="line"></span><br><span class="line">    PH[prediction_heads]</span><br><span class="line">    subgraph Internal</span><br><span class="line">        L1[Linear] --&gt; Act[激活函数] --&gt; L2[Linear]</span><br><span class="line">    end</span><br><span class="line">    L2 --&gt; Out[输出类别概率]</span><br><span class="line">    PH === Internal</span><br></pre></td></tr></table></figure>
+<hr>
+<h4 id="encoder-层attention-与激活函数">（4）Encoder 层：Attention
+与激活函数</h4>
+<p>每个 Encoder Layer 都由 <strong>多头自注意力（Multi-Head
+Self-Attention）</strong> 和 <strong>前馈全连接层（Feed Forward Network,
+FFN）</strong> 组成，并通过残差连接（Residual
+Connection）与层归一化（LayerNorm）保证训练稳定。</p>
+<p>BERT 在 FFN 的激活函数上使用了 <strong>GELU（Gaussian Error Linear
+Unit）</strong>，公式如下：</p>
+<p><span class="math display"><mjx-container class="MathJax" jax="SVG" display="true"><svg style="vertical-align: -2.827ex;" xmlns="http://www.w3.org/2000/svg" width="54.272ex" height="6.785ex" role="img" focusable="false" viewBox="0 -1749.5 23988.3 2999"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mtext"><path data-c="47" d="M56 342Q56 428 89 500T174 615T283 681T391 705Q394 705 400 705T408 704Q499 704 569 636L582 624L612 663Q639 700 643 704Q644 704 647 704T653 705H657Q660 705 666 699V419L660 413H626Q620 419 619 430Q610 512 571 572T476 651Q457 658 426 658Q401 658 376 654T316 633T254 592T205 519T177 411Q173 369 173 335Q173 259 192 201T238 111T302 58T370 31T431 24Q478 24 513 45T559 100Q562 110 562 160V212Q561 213 557 216T551 220T542 223T526 225T502 226T463 227H437V273H449L609 270Q715 270 727 273H735V227H721Q674 227 668 215Q666 211 666 108V6Q660 0 657 0Q653 0 639 10Q617 25 600 42L587 54Q571 27 524 3T406 -22Q317 -22 238 22T108 151T56 342Z"></path><path data-c="45" d="M128 619Q121 626 117 628T101 631T58 634H25V680H597V676Q599 670 611 560T625 444V440H585V444Q584 447 582 465Q578 500 570 526T553 571T528 601T498 619T457 629T411 633T353 634Q266 634 251 633T233 622Q233 622 233 621Q232 619 232 497V376H286Q359 378 377 385Q413 401 416 469Q416 471 416 473V493H456V213H416V233Q415 268 408 288T383 317T349 328T297 330Q290 330 286 330H232V196V114Q232 57 237 52Q243 47 289 47H340H391Q428 47 452 50T505 62T552 92T584 146Q594 172 599 200T607 247T612 270V273H652V270Q651 267 632 137T610 3V0H25V46H58Q100 47 109 49T128 61V619Z" transform="translate(785,0)"></path><path data-c="4C" d="M128 622Q121 629 117 631T101 634T58 637H25V683H36Q48 680 182 680Q324 680 348 683H360V637H333Q273 637 258 635T233 622L232 342V129Q232 57 237 52Q243 47 313 47Q384 47 410 53Q470 70 498 110T536 221Q536 226 537 238T540 261T542 272T562 273H582V268Q580 265 568 137T554 5V0H25V46H58Q100 47 109 49T128 61V622Z" transform="translate(1466,0)"></path><path data-c="55" d="M128 622Q121 629 117 631T101 634T58 637H25V683H36Q57 680 180 680Q315 680 324 683H335V637H302Q262 636 251 634T233 622L232 418V291Q232 189 240 145T280 67Q325 24 389 24Q454 24 506 64T571 183Q575 206 575 410V598Q569 608 565 613T541 627T489 637H472V683H481Q496 680 598 680T715 683H724V637H707Q634 633 622 598L621 399Q620 194 617 180Q617 179 615 171Q595 83 531 31T389 -22Q304 -22 226 33T130 192Q129 201 128 412V622Z" transform="translate(2091,0)"></path></g><g data-mml-node="mo" transform="translate(2841,0)"><path data-c="28" d="M94 250Q94 319 104 381T127 488T164 576T202 643T244 695T277 729T302 750H315H319Q333 750 333 741Q333 738 316 720T275 667T226 581T184 443T167 250T184 58T225 -81T274 -167T316 -220T333 -241Q333 -250 318 -250H315H302L274 -226Q180 -141 137 -14T94 250Z"></path></g><g data-mml-node="mi" transform="translate(3230,0)"><path data-c="1D465" d="M52 289Q59 331 106 386T222 442Q257 442 286 424T329 379Q371 442 430 442Q467 442 494 420T522 361Q522 332 508 314T481 292T458 288Q439 288 427 299T415 328Q415 374 465 391Q454 404 425 404Q412 404 406 402Q368 386 350 336Q290 115 290 78Q290 50 306 38T341 26Q378 26 414 59T463 140Q466 150 469 151T485 153H489Q504 153 504 145Q504 144 502 134Q486 77 440 33T333 -11Q263 -11 227 52Q186 -10 133 -10H127Q78 -10 57 16T35 71Q35 103 54 123T99 143Q142 143 142 101Q142 81 130 66T107 46T94 41L91 40Q91 39 97 36T113 29T132 26Q168 26 194 71Q203 87 217 139T245 247T261 313Q266 340 266 352Q266 380 251 392T217 404Q177 404 142 372T93 290Q91 281 88 280T72 278H58Q52 284 52 289Z"></path></g><g data-mml-node="mo" transform="translate(3802,0)"><path data-c="29" d="M60 749L64 750Q69 750 74 750H86L114 726Q208 641 251 514T294 250Q294 182 284 119T261 12T224 -76T186 -143T145 -194T113 -227T90 -246Q87 -249 86 -250H74Q66 -250 63 -250T58 -247T55 -238Q56 -237 66 -225Q221 -64 221 250T66 725Q56 737 55 738Q55 746 60 749Z"></path></g><g data-mml-node="mo" transform="translate(4468.8,0)"><path data-c="3D" d="M56 347Q56 360 70 367H707Q722 359 722 347Q722 336 708 328L390 327H72Q56 332 56 347ZM56 153Q56 168 72 173H708Q722 163 722 153Q722 140 707 133H70Q56 140 56 153Z"></path></g><g data-mml-node="mn" transform="translate(5524.6,0)"><path data-c="30" d="M96 585Q152 666 249 666Q297 666 345 640T423 548Q460 465 460 320Q460 165 417 83Q397 41 362 16T301 -15T250 -22Q224 -22 198 -16T137 16T82 83Q39 165 39 320Q39 494 96 585ZM321 597Q291 629 250 629Q208 629 178 597Q153 571 145 525T137 333Q137 175 145 125T181 46Q209 16 250 16Q290 16 318 46Q347 76 354 130T362 333Q362 478 354 524T321 597Z"></path><path data-c="2E" d="M78 60Q78 84 95 102T138 120Q162 120 180 104T199 61Q199 36 182 18T139 0T96 17T78 60Z" transform="translate(500,0)"></path><path data-c="35" d="M164 157Q164 133 148 117T109 101H102Q148 22 224 22Q294 22 326 82Q345 115 345 210Q345 313 318 349Q292 382 260 382H254Q176 382 136 314Q132 307 129 306T114 304Q97 304 95 310Q93 314 93 485V614Q93 664 98 664Q100 666 102 666Q103 666 123 658T178 642T253 634Q324 634 389 662Q397 666 402 666Q410 666 410 648V635Q328 538 205 538Q174 538 149 544L139 546V374Q158 388 169 396T205 412T256 420Q337 420 393 355T449 201Q449 109 385 44T229 -22Q148 -22 99 32T50 154Q50 178 61 192T84 210T107 214Q132 214 148 197T164 157Z" transform="translate(778,0)"></path></g><g data-mml-node="mi" transform="translate(6802.6,0)"><path data-c="1D465" d="M52 289Q59 331 106 386T222 442Q257 442 286 424T329 379Q371 442 430 442Q467 442 494 420T522 361Q522 332 508 314T481 292T458 288Q439 288 427 299T415 328Q415 374 465 391Q454 404 425 404Q412 404 406 402Q368 386 350 336Q290 115 290 78Q290 50 306 38T341 26Q378 26 414 59T463 140Q466 150 469 151T485 153H489Q504 153 504 145Q504 144 502 134Q486 77 440 33T333 -11Q263 -11 227 52Q186 -10 133 -10H127Q78 -10 57 16T35 71Q35 103 54 123T99 143Q142 143 142 101Q142 81 130 66T107 46T94 41L91 40Q91 39 97 36T113 29T132 26Q168 26 194 71Q203 87 217 139T245 247T261 313Q266 340 266 352Q266 380 251 392T217 404Q177 404 142 372T93 290Q91 281 88 280T72 278H58Q52 284 52 289Z"></path></g><g data-mml-node="mrow" transform="translate(7541.2,0)"><g data-mml-node="mo" transform="translate(0 -0.5)"><path data-c="28" d="M758 -1237T758 -1240T752 -1249H736Q718 -1249 717 -1248Q711 -1245 672 -1199Q237 -706 237 251T672 1700Q697 1730 716 1749Q718 1750 735 1750H752Q758 1744 758 1741Q758 1737 740 1713T689 1644T619 1537T540 1380T463 1176Q348 802 348 251Q348 -242 441 -599T744 -1218Q758 -1237 758 -1240Z"></path></g><g data-mml-node="mn" transform="translate(792,0)"><path data-c="31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path></g><g data-mml-node="mo" transform="translate(1514.2,0)"><path data-c="2B" d="M56 237T56 250T70 270H369V420L370 570Q380 583 389 583Q402 583 409 568V270H707Q722 262 722 250T707 230H409V-68Q401 -82 391 -82H389H387Q375 -82 369 -68V230H70Q56 237 56 250Z"></path></g><g data-mml-node="mi" transform="translate(2514.4,0)"><path data-c="74" d="M27 422Q80 426 109 478T141 600V615H181V431H316V385H181V241Q182 116 182 100T189 68Q203 29 238 29Q282 29 292 100Q293 108 293 146V181H333V146V134Q333 57 291 17Q264 -10 221 -10Q187 -10 162 2T124 33T105 68T98 100Q97 107 97 248V385H18V422H27Z"></path><path data-c="61" d="M137 305T115 305T78 320T63 359Q63 394 97 421T218 448Q291 448 336 416T396 340Q401 326 401 309T402 194V124Q402 76 407 58T428 40Q443 40 448 56T453 109V145H493V106Q492 66 490 59Q481 29 455 12T400 -6T353 12T329 54V58L327 55Q325 52 322 49T314 40T302 29T287 17T269 6T247 -2T221 -8T190 -11Q130 -11 82 20T34 107Q34 128 41 147T68 188T116 225T194 253T304 268H318V290Q318 324 312 340Q290 411 215 411Q197 411 181 410T156 406T148 403Q170 388 170 359Q170 334 154 320ZM126 106Q126 75 150 51T209 26Q247 26 276 49T315 109Q317 116 318 175Q318 233 317 233Q309 233 296 232T251 223T193 203T147 166T126 106Z" transform="translate(389,0)"></path><path data-c="6E" d="M41 46H55Q94 46 102 60V68Q102 77 102 91T102 122T103 161T103 203Q103 234 103 269T102 328V351Q99 370 88 376T43 385H25V408Q25 431 27 431L37 432Q47 433 65 434T102 436Q119 437 138 438T167 441T178 442H181V402Q181 364 182 364T187 369T199 384T218 402T247 421T285 437Q305 442 336 442Q450 438 463 329Q464 322 464 190V104Q464 66 466 59T477 49Q498 46 526 46H542V0H534L510 1Q487 2 460 2T422 3Q319 3 310 0H302V46H318Q379 46 379 62Q380 64 380 200Q379 335 378 343Q372 371 358 385T334 402T308 404Q263 404 229 370Q202 343 195 315T187 232V168V108Q187 78 188 68T191 55T200 49Q221 46 249 46H265V0H257L234 1Q210 2 183 2T145 3Q42 3 33 0H25V46H41Z" transform="translate(889,0)"></path><path data-c="68" d="M41 46H55Q94 46 102 60V68Q102 77 102 91T102 124T102 167T103 217T103 272T103 329Q103 366 103 407T103 482T102 542T102 586T102 603Q99 622 88 628T43 637H25V660Q25 683 27 683L37 684Q47 685 66 686T103 688Q120 689 140 690T170 693T181 694H184V367Q244 442 328 442Q451 442 463 329Q464 322 464 190V104Q464 66 466 59T477 49Q498 46 526 46H542V0H534L510 1Q487 2 460 2T422 3Q319 3 310 0H302V46H318Q379 46 379 62Q380 64 380 200Q379 335 378 343Q372 371 358 385T334 402T308 404Q263 404 229 370Q202 343 195 315T187 232V168V108Q187 78 188 68T191 55T200 49Q221 46 249 46H265V0H257L234 1Q210 2 183 2T145 3Q42 3 33 0H25V46H41Z" transform="translate(1445,0)"></path></g><g data-mml-node="mo" transform="translate(4515.4,0)"><path data-c="2061" d=""></path></g><g data-mml-node="mrow" transform="translate(4682.1,0)"><g data-mml-node="mo" transform="translate(0 -0.5)"><path data-c="28" d="M758 -1237T758 -1240T752 -1249H736Q718 -1249 717 -1248Q711 -1245 672 -1199Q237 -706 237 251T672 1700Q697 1730 716 1749Q718 1750 735 1750H752Q758 1744 758 1741Q758 1737 740 1713T689 1644T619 1537T540 1380T463 1176Q348 802 348 251Q348 -242 441 -599T744 -1218Q758 -1237 758 -1240Z"></path></g><g data-mml-node="msqrt" transform="translate(792,0)"><g transform="translate(1020,0)"><g data-mml-node="mfrac"><g data-mml-node="mn" transform="translate(255,676)"><path data-c="32" d="M109 429Q82 429 66 447T50 491Q50 562 103 614T235 666Q326 666 387 610T449 465Q449 422 429 383T381 315T301 241Q265 210 201 149L142 93L218 92Q375 92 385 97Q392 99 409 186V189H449V186Q448 183 436 95T421 3V0H50V19V31Q50 38 56 46T86 81Q115 113 136 137Q145 147 170 174T204 211T233 244T261 278T284 308T305 340T320 369T333 401T340 431T343 464Q343 527 309 573T212 619Q179 619 154 602T119 569T109 550Q109 549 114 549Q132 549 151 535T170 489Q170 464 154 447T109 429Z"></path></g><g data-mml-node="mi" transform="translate(220,-686)"><path data-c="1D70B" d="M132 -11Q98 -11 98 22V33L111 61Q186 219 220 334L228 358H196Q158 358 142 355T103 336Q92 329 81 318T62 297T53 285Q51 284 38 284Q19 284 19 294Q19 300 38 329T93 391T164 429Q171 431 389 431Q549 431 553 430Q573 423 573 402Q573 371 541 360Q535 358 472 358H408L405 341Q393 269 393 222Q393 170 402 129T421 65T431 37Q431 20 417 5T381 -10Q370 -10 363 -7T347 17T331 77Q330 86 330 121Q330 170 339 226T357 318T367 358H269L268 354Q268 351 249 275T206 114T175 17Q164 -11 132 -11Z"></path></g><rect width="770" height="60" x="120" y="220"></rect></g></g><g data-mml-node="mo" transform="translate(0,187.8)"><path data-c="221A" d="M424 -948Q422 -947 313 -434T202 80L170 31Q165 24 157 10Q137 -21 137 -21Q131 -16 124 -8L111 5L264 248L473 -720Q473 -717 727 359T983 1440Q989 1450 1001 1450Q1007 1450 1013 1445T1020 1433Q1020 1425 742 244T460 -941Q458 -950 439 -950H436Q424 -950 424 -948Z"></path></g><rect width="1010" height="60" x="1020" y="1577.8"></rect></g><g data-mml-node="mo" transform="translate(2822,0)"><path data-c="28" d="M94 250Q94 319 104 381T127 488T164 576T202 643T244 695T277 729T302 750H315H319Q333 750 333 741Q333 738 316 720T275 667T226 581T184 443T167 250T184 58T225 -81T274 -167T316 -220T333 -241Q333 -250 318 -250H315H302L274 -226Q180 -141 137 -14T94 250Z"></path></g><g data-mml-node="mi" transform="translate(3211,0)"><path data-c="1D465" d="M52 289Q59 331 106 386T222 442Q257 442 286 424T329 379Q371 442 430 442Q467 442 494 420T522 361Q522 332 508 314T481 292T458 288Q439 288 427 299T415 328Q415 374 465 391Q454 404 425 404Q412 404 406 402Q368 386 350 336Q290 115 290 78Q290 50 306 38T341 26Q378 26 414 59T463 140Q466 150 469 151T485 153H489Q504 153 504 145Q504 144 502 134Q486 77 440 33T333 -11Q263 -11 227 52Q186 -10 133 -10H127Q78 -10 57 16T35 71Q35 103 54 123T99 143Q142 143 142 101Q142 81 130 66T107 46T94 41L91 40Q91 39 97 36T113 29T132 26Q168 26 194 71Q203 87 217 139T245 247T261 313Q266 340 266 352Q266 380 251 392T217 404Q177 404 142 372T93 290Q91 281 88 280T72 278H58Q52 284 52 289Z"></path></g><g data-mml-node="mo" transform="translate(4005.2,0)"><path data-c="2B" d="M56 237T56 250T70 270H369V420L370 570Q380 583 389 583Q402 583 409 568V270H707Q722 262 722 250T707 230H409V-68Q401 -82 391 -82H389H387Q375 -82 369 -68V230H70Q56 237 56 250Z"></path></g><g data-mml-node="mn" transform="translate(5005.4,0)"><path data-c="30" d="M96 585Q152 666 249 666Q297 666 345 640T423 548Q460 465 460 320Q460 165 417 83Q397 41 362 16T301 -15T250 -22Q224 -22 198 -16T137 16T82 83Q39 165 39 320Q39 494 96 585ZM321 597Q291 629 250 629Q208 629 178 597Q153 571 145 525T137 333Q137 175 145 125T181 46Q209 16 250 16Q290 16 318 46Q347 76 354 130T362 333Q362 478 354 524T321 597Z"></path><path data-c="2E" d="M78 60Q78 84 95 102T138 120Q162 120 180 104T199 61Q199 36 182 18T139 0T96 17T78 60Z" transform="translate(500,0)"></path><path data-c="30" d="M96 585Q152 666 249 666Q297 666 345 640T423 548Q460 465 460 320Q460 165 417 83Q397 41 362 16T301 -15T250 -22Q224 -22 198 -16T137 16T82 83Q39 165 39 320Q39 494 96 585ZM321 597Q291 629 250 629Q208 629 178 597Q153 571 145 525T137 333Q137 175 145 125T181 46Q209 16 250 16Q290 16 318 46Q347 76 354 130T362 333Q362 478 354 524T321 597Z" transform="translate(778,0)"></path><path data-c="34" d="M462 0Q444 3 333 3Q217 3 199 0H190V46H221Q241 46 248 46T265 48T279 53T286 61Q287 63 287 115V165H28V211L179 442Q332 674 334 675Q336 677 355 677H373L379 671V211H471V165H379V114Q379 73 379 66T385 54Q393 47 442 46H471V0H462ZM293 211V545L74 212L183 211H293Z" transform="translate(1278,0)"></path><path data-c="34" d="M462 0Q444 3 333 3Q217 3 199 0H190V46H221Q241 46 248 46T265 48T279 53T286 61Q287 63 287 115V165H28V211L179 442Q332 674 334 675Q336 677 355 677H373L379 671V211H471V165H379V114Q379 73 379 66T385 54Q393 47 442 46H471V0H462ZM293 211V545L74 212L183 211H293Z" transform="translate(1778,0)"></path><path data-c="37" d="M55 458Q56 460 72 567L88 674Q88 676 108 676H128V672Q128 662 143 655T195 646T364 644H485V605L417 512Q408 500 387 472T360 435T339 403T319 367T305 330T292 284T284 230T278 162T275 80Q275 66 275 52T274 28V19Q270 2 255 -10T221 -22Q210 -22 200 -19T179 0T168 40Q168 198 265 368Q285 400 349 489L395 552H302Q128 552 119 546Q113 543 108 522T98 479L95 458V455H55V458Z" transform="translate(2278,0)"></path><path data-c="31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z" transform="translate(2778,0)"></path><path data-c="35" d="M164 157Q164 133 148 117T109 101H102Q148 22 224 22Q294 22 326 82Q345 115 345 210Q345 313 318 349Q292 382 260 382H254Q176 382 136 314Q132 307 129 306T114 304Q97 304 95 310Q93 314 93 485V614Q93 664 98 664Q100 666 102 666Q103 666 123 658T178 642T253 634Q324 634 389 662Q397 666 402 666Q410 666 410 648V635Q328 538 205 538Q174 538 149 544L139 546V374Q158 388 169 396T205 412T256 420Q337 420 393 355T449 201Q449 109 385 44T229 -22Q148 -22 99 32T50 154Q50 178 61 192T84 210T107 214Q132 214 148 197T164 157Z" transform="translate(3278,0)"></path></g><g data-mml-node="msup" transform="translate(8783.4,0)"><g data-mml-node="mi"><path data-c="1D465" d="M52 289Q59 331 106 386T222 442Q257 442 286 424T329 379Q371 442 430 442Q467 442 494 420T522 361Q522 332 508 314T481 292T458 288Q439 288 427 299T415 328Q415 374 465 391Q454 404 425 404Q412 404 406 402Q368 386 350 336Q290 115 290 78Q290 50 306 38T341 26Q378 26 414 59T463 140Q466 150 469 151T485 153H489Q504 153 504 145Q504 144 502 134Q486 77 440 33T333 -11Q263 -11 227 52Q186 -10 133 -10H127Q78 -10 57 16T35 71Q35 103 54 123T99 143Q142 143 142 101Q142 81 130 66T107 46T94 41L91 40Q91 39 97 36T113 29T132 26Q168 26 194 71Q203 87 217 139T245 247T261 313Q266 340 266 352Q266 380 251 392T217 404Q177 404 142 372T93 290Q91 281 88 280T72 278H58Q52 284 52 289Z"></path></g><g data-mml-node="mn" transform="translate(605,413) scale(0.707)"><path data-c="33" d="M127 463Q100 463 85 480T69 524Q69 579 117 622T233 665Q268 665 277 664Q351 652 390 611T430 522Q430 470 396 421T302 350L299 348Q299 347 308 345T337 336T375 315Q457 262 457 175Q457 96 395 37T238 -22Q158 -22 100 21T42 130Q42 158 60 175T105 193Q133 193 151 175T169 130Q169 119 166 110T159 94T148 82T136 74T126 70T118 67L114 66Q165 21 238 21Q293 21 321 74Q338 107 338 175V195Q338 290 274 322Q259 328 213 329L171 330L168 332Q166 335 166 348Q166 366 174 366Q202 366 232 371Q266 376 294 413T322 525V533Q322 590 287 612Q265 626 240 626Q208 626 181 615T143 592T132 580H135Q138 579 143 578T153 573T165 566T175 555T183 540T186 520Q186 498 172 481T127 463Z"></path></g></g><g data-mml-node="mo" transform="translate(9792,0)"><path data-c="29" d="M60 749L64 750Q69 750 74 750H86L114 726Q208 641 251 514T294 250Q294 182 284 119T261 12T224 -76T186 -143T145 -194T113 -227T90 -246Q87 -249 86 -250H74Q66 -250 63 -250T58 -247T55 -238Q56 -237 66 -225Q221 -64 221 250T66 725Q56 737 55 738Q55 746 60 749Z"></path></g><g data-mml-node="mo" transform="translate(10181,0) translate(0 -0.5)"><path data-c="29" d="M33 1741Q33 1750 51 1750H60H65Q73 1750 81 1743T119 1700Q554 1207 554 251Q554 -707 119 -1199Q76 -1250 66 -1250Q65 -1250 62 -1250T56 -1249Q55 -1249 53 -1249T49 -1250Q33 -1250 33 -1239Q33 -1236 50 -1214T98 -1150T163 -1052T238 -910T311 -727Q443 -335 443 251Q443 402 436 532T405 831T339 1142T224 1438T50 1716Q33 1737 33 1741Z"></path></g></g><g data-mml-node="mo" transform="translate(15655.1,0) translate(0 -0.5)"><path data-c="29" d="M33 1741Q33 1750 51 1750H60H65Q73 1750 81 1743T119 1700Q554 1207 554 251Q554 -707 119 -1199Q76 -1250 66 -1250Q65 -1250 62 -1250T56 -1249Q55 -1249 53 -1249T49 -1250Q33 -1250 33 -1239Q33 -1236 50 -1214T98 -1150T163 -1052T238 -910T311 -727Q443 -335 443 251Q443 402 436 532T405 831T339 1142T224 1438T50 1716Q33 1737 33 1741Z"></path></g></g></g></g></svg></mjx-container></span></p>
+<p>与传统的 ReLU 相比，GELU 具有以下优势：</p>
+<ul>
+<li><strong>梯度更平滑</strong>：在 0 附近可导，避免 ReLU
+的梯度断点问题；</li>
+<li><strong>分布匹配性强</strong>：输入经 LayerNorm
+后近似标准正态分布，GELU 基于正态 CDF
+定义，与输入统计特性高度一致；</li>
+<li><strong>更好的泛化性</strong>：保留部分负值信息，增强模型表达能力与收敛稳定性。</li>
+</ul>
+<h4 id="注意力机制与相对位置编码">（5）注意力机制与相对位置编码</h4>
+<p>BERT 的注意力机制与 Transformer Encoder 基本一致，唯一差异在于
+<strong>引入了可训练的相对位置编码</strong>（在后续改进模型中实现）。
+在计算注意力权重时，BERT 在 ( QK^T )
+得分后加入了可学习的相对位置嵌入，用以增强模型的序列感知能力：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">    style A fill:#3d85c6,stroke:#333,stroke-width:2px,color:#fff;</span><br><span class="line">    style B fill:#d0e0e3,stroke:#92b6a9,stroke-width:2px;</span><br><span class="line">    style C fill:#cfe2f3,stroke:#6aa84f,stroke-width:2px;</span><br><span class="line">    style D fill:#f4cccc,stroke:#cc0000,stroke-width:2px;</span><br><span class="line">    style E fill:#d9ead3,stroke:#3c781d,stroke-width:2px;</span><br><span class="line">    style F fill:#d0e0e3,stroke:#0b5394,stroke-width:2px;</span><br><span class="line">    style G fill:#fff2cc,stroke:#b45f06,stroke-width:2px;</span><br><span class="line">    style H fill:#0fe2f3,stroke:#0b5394,stroke-width:2px;</span><br><span class="line">    style I fill:#d9ead3,stroke:#3c781d,stroke-width:2px;</span><br><span class="line">    style J fill:#d0e0e3,stroke:#92b6a9,stroke-width:2px;</span><br><span class="line"></span><br><span class="line">    A[Attention]</span><br><span class="line"></span><br><span class="line">    subgraph Attention_Mechanism</span><br><span class="line">        style Attention_Mechanism stroke-dasharray: 5 5, stroke:#cc0000, stroke-width:2px;</span><br><span class="line"></span><br><span class="line">        B[hidden_states]</span><br><span class="line">        C(query_states)</span><br><span class="line">        D(key_states)</span><br><span class="line">        E(value_states)</span><br><span class="line">        F{QK^T}</span><br><span class="line">        G[attention_weight]</span><br><span class="line">        H[Position Embedding]</span><br><span class="line">        I[soft_max]</span><br><span class="line">        J[matmul]</span><br><span class="line">        K[attention_out]</span><br><span class="line"></span><br><span class="line">        B --&gt; C</span><br><span class="line">        B --&gt; D</span><br><span class="line">        B --&gt; E</span><br><span class="line"></span><br><span class="line">        C --&gt; F</span><br><span class="line">        D --&gt; F</span><br><span class="line"></span><br><span class="line">        F --&gt; G</span><br><span class="line">        G --&gt; H</span><br><span class="line">        H --&gt; I</span><br><span class="line">        I --&gt; J</span><br><span class="line">        E --&gt; J</span><br><span class="line">        J --&gt; K</span><br><span class="line">    end</span><br><span class="line"></span><br><span class="line">    A --&gt; B</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>需要注意，原始 BERT 使用的是与 Transformer 相同的
+<strong>绝对位置编码（sinusoidal encoding）</strong>，而后续如
+RoBERTa、DeBERTa 等模型改进为
+<strong>相对位置编码</strong>，以增强长距离依赖建模能力。
+相对位置编码可学习性更强，但也限制了模型的最大输入长度（BERT 约为 512 个
+token）。</p>
+</blockquote>
+<h4 id="预训练任务-mlm-与-nsp">（6）预训练任务 MLM 与 NSP</h4>
+<p>BERT 真正的突破点在于它提出了两种全新的预训练任务：</p>
+<ul>
+<li><strong>Masked Language Model（MLM）</strong>：掩码语言模型</li>
+<li><strong>Next Sentence
+Prediction（NSP）</strong>：下一句预测任务</li>
+</ul>
+<p>这两个任务共同构成了 BERT “理解语言”的核心机制，也奠定了后续所有
+Encoder-only 模型（如 RoBERTa、ELECTRA、DeBERTa 等）的预训练思路。</p>
+<p>BERT 的预训练遵循 “预训练 + 微调（Pre-train &amp; Fine-tune）”
+的两阶段范式。 其核心思想是：</p>
+<blockquote>
+<p>在海量无监督文本上预训练一个具有通用语言理解能力的模型，再针对不同任务用少量标注数据进行微调。</p>
+</blockquote>
+<p>这种思路的关键优势在于：</p>
+<ol type="1">
+<li><strong>成本分离</strong>：预训练一次即可服务多个任务；微调开销极低；</li>
+<li><strong>大规模学习</strong>：可以直接利用互联网上的海量无监督文本（无需标注）；</li>
+<li><strong>任务迁移</strong>：模型经过预训练后，自带“语言常识”，能快速适配不同任务。</li>
+</ol>
+<p>传统语言模型（Language
+Model，LM）通过“<strong>预测下一个词</strong>”的方式在无监督语料上训练，但这种方式只能学习从左到右的单向依赖。而理解自然语言往往需要双向语义（如前后文关联、句法结构、语境推理），这正是
+BERT 的创新出发点。</p>
+<h5 id="masked-language-modelmlm">1 Masked Language Model（MLM）</h5>
+<p>MLM
+的核心思想是——让模型在看到上下文的情况下，<strong>预测被遮蔽的词</strong>，类似于人类做“完形填空”的过程：</p>
+<ol type="1">
+<li>每个输入序列中随机选取 15% 的 token；</li>
+<li>对这 15% 的 token 进行如下处理：
+<ul>
+<li>80% 的概率替换为特殊标记
+<code>&lt;MASK&gt;</code>：允许模型学习上下文信息，并预测出该标记背后的词元。这是最主要的训练任务。</li>
+<li>10% 的概率替换为任意其他
+token：迫使模型对每个输入词元都保持警觉，学习到“这不是目标词元”的能力。这能减少模型倾向于只关注<code>[MASK]</code>标记的情况，防止预训练和微调之间的不一致性。</li>
+<li>10%
+的概率保持不变：鼓励模型为实际的词元（非<code>[MASK]</code>）保留其正确的表示，避免模型认为所有被选中预测的词元都是“错误的”或“需要替换的”，进一步减轻预训练/微调的差异。</li>
+</ul></li>
+</ol>
+<p>设计意图</p>
+<ul>
+<li><strong>引入随机替换</strong>：防止模型只关注被
+<code>&lt;MASK&gt;</code> 的位置；</li>
+<li><strong>保留部分原词</strong>：缓解预训练与微调阶段的输入分布差异；</li>
+<li><strong>利用上下文预测</strong>：模型需要同时理解上下文的前后信息才能正确预测遮蔽词。</li>
+</ul>
+<p>示例</p>
+<p>输入句子：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">I &lt;MASK&gt; you because dog are &lt;MASK&gt;.</span><br></pre></td></tr></table></figure>
+<p>模型需要预测出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">I "love" you because "you" are "kind".</span><br></pre></td></tr></table></figure>
+<h5 id="next-sentence-predictionnsp">2 Next Sentence
+Prediction（NSP）</h5>
+<p>MLM 关注的是 <strong>词级（token-level）</strong>
+的理解，而在自然语言理解任务（如问答、文本蕴含、句对匹配）中，模型还需要学习
+<strong>句级（sentence-level）</strong> 的语义关系。 因此，BERT
+引入了第二个预训练任务，NSP 的目标是：</p>
+<blockquote>
+<p>判断两个句子是否在原文中是连续出现的上下文。</p>
+</blockquote>
+<p>训练样本由句子对构成：</p>
+<table>
+<thead>
+<tr>
+<th>Sentence A</th>
+<th>Sentence B</th>
+<th>标签</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>I love you.</td>
+<td>Because you are wonderful.</td>
+<td>1（是连续上下文）</td>
+</tr>
+<tr>
+<td>I love you.</td>
+<td>Because today’s dinner is so nice.</td>
+<td>0（非连续上下文）</td>
+</tr>
+</tbody>
+</table>
+<p>数据构造方式</p>
+<ul>
+<li>正样本（50%）：直接取相邻句子；</li>
+<li>负样本（50%）：随机取不相邻的句子。</li>
+</ul>
+<h4 id="微调机制fine-tuning">（7）微调机制（Fine-tuning）</h4>
+<p>完成预训练后，BERT
+只需在下游任务上进行<strong>轻量级微调</strong>即可达到极高性能：</p>
+<ol type="1">
+<li>保留预训练好的 Transformer 层；</li>
+<li>在顶部添加一个任务相关的 “prediction head”；</li>
+<li>用标注数据继续训练（微调）模型参数。</li>
+</ol>
+<p>例如：</p>
+<ul>
+<li><strong>文本分类任务</strong> → 使用 <code>&lt;CLS&gt;</code>
+向量经过线性层分类；</li>
+<li><strong>序列标注任务（NER、POS）</strong> → 取每个 token
+的隐向量输出标注；</li>
+<li><strong>句对关系任务（NLI、QA）</strong> → 取
+<code>&lt;CLS&gt;</code> 向量做二分类或匹配。</li>
+</ul>
+<h4 id="通用输入结构">🔧 通用输入结构</h4>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[CLS] Sentence A [SEP] Sentence B [SEP]</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>[CLS]</code>：整句（或句对）表示，用于分类任务；</li>
+<li><code>[SEP]</code>：分隔符，用于标记句子边界。</li>
+</ul>
+<p>当然可以，下面是我为你<strong>重构、润色并补充可视化的完整版博客文稿</strong>，保持技术严谨性与博客可读性并重，逻辑更连贯、表达更自然，适合作为你的系列
+Transformer 文章的下篇。</p>
+<h2 id="encoder-decoder">Encoder-Decoder</h2>
+<p>在前文中我们介绍了基于 Encoder-Only 的 BERT 与基于 Decoder-Only 的
+GPT。本节将学习另一种重要的结构——Encoder-Decoder（编码器-解码器）。</p>
+<h3 id="t5text-to-text-transfer-transformer">T5：Text-To-Text Transfer
+Transformer</h3>
+<p><strong>T5</strong> 是 Google 在 2020
+年提出的一种通用语言模型，它将所有 NLP
+任务统一表示为“<strong>文本到文本（Text-to-Text）</strong>”的形式。无论是分类、翻译、摘要还是问答，T5
+都将其转化为一种输入文本 → 输出文本的映射问题。例如：</p>
+<ul>
+<li>文本分类任务： <code>输入: classify: 这部电影非常好看</code>
+<code>输出: 正面</code></li>
+<li>翻译任务：
+<code>输入: translate English to German: How are you?</code>
+<code>输出: Wie geht es dir?</code></li>
+<li>摘要任务：
+<code>输入: summarize: BERT 是一种预训练语言模型...</code>
+<code>输出: BERT 是一种基于 Transformer 的语言理解模型。</code></li>
+</ul>
+<p>通过这种统一任务形式，T5
+不仅极大简化了模型设计，也提升了参数共享与跨任务迁移能力，真正实现了 NLP
+模型的通用化与模块化。</p>
+<h4 id="模型结构">（1）模型结构</h4>
+<p>T5 基于 Transformer
+架构，包含Encoder（编码器）和Decoder（解码器）两部分。</p>
+<ul>
+<li>Encoder：负责将输入文本编码为高维语义表示。</li>
+<li>Decoder：在每一步生成时，通过自注意力机制读取前文输出，同时结合
+Encoder 编码的语义向量生成下一个 token。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">graph LR</span><br><span class="line">    subgraph Tokeninzer 部分</span><br><span class="line">        A[Text] --&gt; B(tokenizer)</span><br><span class="line">        B --&gt; C[input_ids]</span><br><span class="line">    end</span><br><span class="line"></span><br><span class="line">    subgraph T5 model</span><br><span class="line">        C --&gt; D(Embedding)</span><br><span class="line">        D --&gt; E[hidden_states]</span><br><span class="line">        E --&gt; F[EncoderLayers]</span><br><span class="line">        F --&gt; G[DecoderLayers]</span><br><span class="line">        G --&gt; H[hidden_states]</span><br><span class="line">    end</span><br><span class="line"></span><br><span class="line">    subgraph EncoderLayer 细节</span><br><span class="line">        F === I[EncoderLayer]</span><br><span class="line">        I --&gt; J[......]</span><br><span class="line">        J --&gt; K[EncoderLayer]</span><br><span class="line">        K --&gt; L[LayerNorm]</span><br><span class="line">    end</span><br><span class="line"></span><br><span class="line">    subgraph DecoderLayer 细节</span><br><span class="line">        G === M[DecoderLayer]</span><br><span class="line">        M --&gt; N[......]</span><br><span class="line">        N --&gt; O[DecoderLayer]</span><br><span class="line">        O --&gt; P[LayerNorm]</span><br><span class="line">    end</span><br><span class="line"></span><br><span class="line">    style A fill:#A8E4A8,stroke:#333</span><br><span class="line">    style B fill:#FFFACD,stroke:#333</span><br><span class="line">    style C fill:#F08080,stroke:#333</span><br><span class="line">    style D fill:#B0C4DE,stroke:#333</span><br><span class="line">    style E fill:#B0C4DE,stroke:#333</span><br><span class="line">    style F fill:#FFFACD,stroke:#333</span><br><span class="line">    style G fill:#A8E4A8,stroke:#333</span><br><span class="line">    style H fill:#B0C4DE,stroke:#333</span><br><span class="line">    style I fill:#FFFACD,stroke:#333</span><br><span class="line">    style J fill:#FFFACD,stroke:#333</span><br><span class="line">    style K fill:#FFFACD,stroke:#333</span><br><span class="line">    style L fill:#F08080,stroke:#333</span><br><span class="line">    style M fill:#A8E4A8,stroke:#333</span><br><span class="line">    style N fill:#A8E4A8,stroke:#333</span><br><span class="line">    style O fill:#A8E4A8,stroke:#333</span><br><span class="line">    style P fill:#F08080,stroke:#333</span><br><span class="line"></span><br><span class="line">    classDef Title fill:#4682B4,color:#fff,stroke:#333,stroke-width:2px</span><br><span class="line">    class Tokeninzer Title</span><br><span class="line">    class T5 Title</span><br></pre></td></tr></table></figure>
+<p>在结构上，T5 继承了 Transformer
+的标准设计，包括多头注意力（Multi-Head
+Attention）与前馈网络（Feed-Forward Network）。但相比原版
+Transformer，T5 在以下两点上有所创新：</p>
+<h5 id="归一化层改进rmsnorm-代替-layernorm">归一化层改进：RMSNorm 代替
+LayerNorm</h5>
+<p>T5 采用 RMSNorm (Root Mean Square Normalization) 代替了传统的
+LayerNorm。</p>
+<ul>
+<li><p>RMSNorm 公式： RMSNorm
+仅基于均方根进行缩放，省略了对输入向量的均值居中操作。</p>
+<p><span class="math display"><mjx-container class="MathJax" jax="SVG" display="true"><svg style="vertical-align: -4.118ex;" xmlns="http://www.w3.org/2000/svg" width="36.684ex" height="6.647ex" role="img" focusable="false" viewBox="0 -1118 16214.2 2938"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mtext"><path data-c="52" d="M130 622Q123 629 119 631T103 634T60 637H27V683H202H236H300Q376 683 417 677T500 648Q595 600 609 517Q610 512 610 501Q610 468 594 439T556 392T511 361T472 343L456 338Q459 335 467 332Q497 316 516 298T545 254T559 211T568 155T578 94Q588 46 602 31T640 16H645Q660 16 674 32T692 87Q692 98 696 101T712 105T728 103T732 90Q732 59 716 27T672 -16Q656 -22 630 -22Q481 -16 458 90Q456 101 456 163T449 246Q430 304 373 320L363 322L297 323H231V192L232 61Q238 51 249 49T301 46H334V0H323Q302 3 181 3Q59 3 38 0H27V46H60Q102 47 111 49T130 61V622ZM491 499V509Q491 527 490 539T481 570T462 601T424 623T362 636Q360 636 340 636T304 637H283Q238 637 234 628Q231 624 231 492V360H289Q390 360 434 378T489 456Q491 467 491 499Z"></path><path data-c="4D" d="M132 622Q125 629 121 631T105 634T62 637H29V683H135Q221 683 232 682T249 675Q250 674 354 398L458 124L562 398Q666 674 668 675Q671 681 683 682T781 683H887V637H854Q814 636 803 634T785 622V61Q791 51 802 49T854 46H887V0H876Q855 3 736 3Q605 3 596 0H585V46H618Q660 47 669 49T688 61V347Q688 424 688 461T688 546T688 613L687 632Q454 14 450 7Q446 1 430 1T410 7Q409 9 292 316L176 624V606Q175 588 175 543T175 463T175 356L176 86Q187 50 261 46H278V0H269Q254 3 154 3Q52 3 37 0H29V46H46Q78 48 98 56T122 69T132 86V622Z" transform="translate(736,0)"></path><path data-c="53" d="M55 507Q55 590 112 647T243 704H257Q342 704 405 641L426 672Q431 679 436 687T446 700L449 704Q450 704 453 704T459 705H463Q466 705 472 699V462L466 456H448Q437 456 435 459T430 479Q413 605 329 646Q292 662 254 662Q201 662 168 626T135 542Q135 508 152 480T200 435Q210 431 286 412T370 389Q427 367 463 314T500 191Q500 110 448 45T301 -21Q245 -21 201 -4T140 27L122 41Q118 36 107 21T87 -7T78 -21Q76 -22 68 -22H64Q61 -22 55 -16V101Q55 220 56 222Q58 227 76 227H89Q95 221 95 214Q95 182 105 151T139 90T205 42T305 24Q352 24 386 62T420 155Q420 198 398 233T340 281Q284 295 266 300Q261 301 239 306T206 314T174 325T141 343T112 367T85 402Q55 451 55 507Z" transform="translate(1653,0)"></path><path data-c="4E" d="M42 46Q74 48 94 56T118 69T128 86V634H124Q114 637 52 637H25V683H232L235 680Q237 679 322 554T493 303L578 178V598Q572 608 568 613T544 627T492 637H475V683H483Q498 680 600 680Q706 680 715 683H724V637H707Q634 633 622 598L621 302V6L614 0H600Q585 0 582 3T481 150T282 443T171 605V345L172 86Q183 50 257 46H274V0H265Q250 3 150 3Q48 3 33 0H25V46H42Z" transform="translate(2209,0)"></path><path data-c="6F" d="M28 214Q28 309 93 378T250 448Q340 448 405 380T471 215Q471 120 407 55T250 -10Q153 -10 91 57T28 214ZM250 30Q372 30 372 193V225V250Q372 272 371 288T364 326T348 362T317 390T268 410Q263 411 252 411Q222 411 195 399Q152 377 139 338T126 246V226Q126 130 145 91Q177 30 250 30Z" transform="translate(2959,0)"></path><path data-c="72" d="M36 46H50Q89 46 97 60V68Q97 77 97 91T98 122T98 161T98 203Q98 234 98 269T98 328L97 351Q94 370 83 376T38 385H20V408Q20 431 22 431L32 432Q42 433 60 434T96 436Q112 437 131 438T160 441T171 442H174V373Q213 441 271 441H277Q322 441 343 419T364 373Q364 352 351 337T313 322Q288 322 276 338T263 372Q263 381 265 388T270 400T273 405Q271 407 250 401Q234 393 226 386Q179 341 179 207V154Q179 141 179 127T179 101T180 81T180 66V61Q181 59 183 57T188 54T193 51T200 49T207 48T216 47T225 47T235 46T245 46H276V0H267Q249 3 140 3Q37 3 28 0H20V46H36Z" transform="translate(3459,0)"></path><path data-c="6D" d="M41 46H55Q94 46 102 60V68Q102 77 102 91T102 122T103 161T103 203Q103 234 103 269T102 328V351Q99 370 88 376T43 385H25V408Q25 431 27 431L37 432Q47 433 65 434T102 436Q119 437 138 438T167 441T178 442H181V402Q181 364 182 364T187 369T199 384T218 402T247 421T285 437Q305 442 336 442Q351 442 364 440T387 434T406 426T421 417T432 406T441 395T448 384T452 374T455 366L457 361L460 365Q463 369 466 373T475 384T488 397T503 410T523 422T546 432T572 439T603 442Q729 442 740 329Q741 322 741 190V104Q741 66 743 59T754 49Q775 46 803 46H819V0H811L788 1Q764 2 737 2T699 3Q596 3 587 0H579V46H595Q656 46 656 62Q657 64 657 200Q656 335 655 343Q649 371 635 385T611 402T585 404Q540 404 506 370Q479 343 472 315T464 232V168V108Q464 78 465 68T468 55T477 49Q498 46 526 46H542V0H534L510 1Q487 2 460 2T422 3Q319 3 310 0H302V46H318Q379 46 379 62Q380 64 380 200Q379 335 378 343Q372 371 358 385T334 402T308 404Q263 404 229 370Q202 343 195 315T187 232V168V108Q187 78 188 68T191 55T200 49Q221 46 249 46H265V0H257L234 1Q210 2 183 2T145 3Q42 3 33 0H25V46H41Z" transform="translate(3851,0)"></path></g><g data-mml-node="mo" transform="translate(4684,0)"><path data-c="28" d="M94 250Q94 319 104 381T127 488T164 576T202 643T244 695T277 729T302 750H315H319Q333 750 333 741Q333 738 316 720T275 667T226 581T184 443T167 250T184 58T225 -81T274 -167T316 -220T333 -241Q333 -250 318 -250H315H302L274 -226Q180 -141 137 -14T94 250Z"></path></g><g data-mml-node="mi" transform="translate(5073,0)"><path data-c="1D465" d="M52 289Q59 331 106 386T222 442Q257 442 286 424T329 379Q371 442 430 442Q467 442 494 420T522 361Q522 332 508 314T481 292T458 288Q439 288 427 299T415 328Q415 374 465 391Q454 404 425 404Q412 404 406 402Q368 386 350 336Q290 115 290 78Q290 50 306 38T341 26Q378 26 414 59T463 140Q466 150 469 151T485 153H489Q504 153 504 145Q504 144 502 134Q486 77 440 33T333 -11Q263 -11 227 52Q186 -10 133 -10H127Q78 -10 57 16T35 71Q35 103 54 123T99 143Q142 143 142 101Q142 81 130 66T107 46T94 41L91 40Q91 39 97 36T113 29T132 26Q168 26 194 71Q203 87 217 139T245 247T261 313Q266 340 266 352Q266 380 251 392T217 404Q177 404 142 372T93 290Q91 281 88 280T72 278H58Q52 284 52 289Z"></path></g><g data-mml-node="mo" transform="translate(5645,0)"><path data-c="29" d="M60 749L64 750Q69 750 74 750H86L114 726Q208 641 251 514T294 250Q294 182 284 119T261 12T224 -76T186 -143T145 -194T113 -227T90 -246Q87 -249 86 -250H74Q66 -250 63 -250T58 -247T55 -238Q56 -237 66 -225Q221 -64 221 250T66 725Q56 737 55 738Q55 746 60 749Z"></path></g><g data-mml-node="mo" transform="translate(6311.8,0)"><path data-c="3D" d="M56 347Q56 360 70 367H707Q722 359 722 347Q722 336 708 328L390 327H72Q56 332 56 347ZM56 153Q56 168 72 173H708Q722 163 722 153Q722 140 707 133H70Q56 140 56 153Z"></path></g><g data-mml-node="mfrac" transform="translate(7367.6,0)"><g data-mml-node="mi" transform="translate(3504.6,676)"><path data-c="1D465" d="M52 289Q59 331 106 386T222 442Q257 442 286 424T329 379Q371 442 430 442Q467 442 494 420T522 361Q522 332 508 314T481 292T458 288Q439 288 427 299T415 328Q415 374 465 391Q454 404 425 404Q412 404 406 402Q368 386 350 336Q290 115 290 78Q290 50 306 38T341 26Q378 26 414 59T463 140Q466 150 469 151T485 153H489Q504 153 504 145Q504 144 502 134Q486 77 440 33T333 -11Q263 -11 227 52Q186 -10 133 -10H127Q78 -10 57 16T35 71Q35 103 54 123T99 143Q142 143 142 101Q142 81 130 66T107 46T94 41L91 40Q91 39 97 36T113 29T132 26Q168 26 194 71Q203 87 217 139T245 247T261 313Q266 340 266 352Q266 380 251 392T217 404Q177 404 142 372T93 290Q91 281 88 280T72 278H58Q52 284 52 289Z"></path></g><g data-mml-node="msqrt" transform="translate(220,-1243.6)"><g transform="translate(1020,0)"><g data-mml-node="mfrac"><g data-mml-node="mn" transform="translate(255.4,394) scale(0.707)"><path data-c="31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path></g><g data-mml-node="mi" transform="translate(220,-345) scale(0.707)"><path data-c="1D45B" d="M21 287Q22 293 24 303T36 341T56 388T89 425T135 442Q171 442 195 424T225 390T231 369Q231 367 232 367L243 378Q304 442 382 442Q436 442 469 415T503 336T465 179T427 52Q427 26 444 26Q450 26 453 27Q482 32 505 65T540 145Q542 153 560 153Q580 153 580 145Q580 144 576 130Q568 101 554 73T508 17T439 -10Q392 -10 371 17T350 73Q350 92 386 193T423 345Q423 404 379 404H374Q288 404 229 303L222 291L189 157Q156 26 151 16Q138 -11 108 -11Q95 -11 87 -5T76 7T74 17Q74 30 112 180T152 343Q153 348 153 366Q153 405 129 405Q91 405 66 305Q60 285 60 284Q58 278 41 278H27Q21 284 21 287Z"></path></g><rect width="624.3" height="60" x="120" y="220"></rect></g><g data-mml-node="munderover" transform="translate(1030.9,0)"><g data-mml-node="mo"><path data-c="2211" d="M61 748Q64 750 489 750H913L954 640Q965 609 976 579T993 533T999 516H979L959 517Q936 579 886 621T777 682Q724 700 655 705T436 710H319Q183 710 183 709Q186 706 348 484T511 259Q517 250 513 244L490 216Q466 188 420 134T330 27L149 -187Q149 -188 362 -188Q388 -188 436 -188T506 -189Q679 -189 778 -162T936 -43Q946 -27 959 6H999L913 -249L489 -250Q65 -250 62 -248Q56 -246 56 -239Q56 -234 118 -161Q186 -81 245 -11L428 206Q428 207 242 462L57 717L56 728Q56 744 61 748Z"></path></g><g data-mml-node="TeXAtom" transform="translate(1089,477.1) scale(0.707)" data-mjx-texclass="ORD"><g data-mml-node="mi"><path data-c="1D45B" d="M21 287Q22 293 24 303T36 341T56 388T89 425T135 442Q171 442 195 424T225 390T231 369Q231 367 232 367L243 378Q304 442 382 442Q436 442 469 415T503 336T465 179T427 52Q427 26 444 26Q450 26 453 27Q482 32 505 65T540 145Q542 153 560 153Q580 153 580 145Q580 144 576 130Q568 101 554 73T508 17T439 -10Q392 -10 371 17T350 73Q350 92 386 193T423 345Q423 404 379 404H374Q288 404 229 303L222 291L189 157Q156 26 151 16Q138 -11 108 -11Q95 -11 87 -5T76 7T74 17Q74 30 112 180T152 343Q153 348 153 366Q153 405 129 405Q91 405 66 305Q60 285 60 284Q58 278 41 278H27Q21 284 21 287Z"></path></g></g><g data-mml-node="TeXAtom" transform="translate(1089,-285.4) scale(0.707)" data-mjx-texclass="ORD"><g data-mml-node="mi"><path data-c="1D456" d="M184 600Q184 624 203 642T247 661Q265 661 277 649T290 619Q290 596 270 577T226 557Q211 557 198 567T184 600ZM21 287Q21 295 30 318T54 369T98 420T158 442Q197 442 223 419T250 357Q250 340 236 301T196 196T154 83Q149 61 149 51Q149 26 166 26Q175 26 185 29T208 43T235 78T260 137Q263 149 265 151T282 153Q302 153 302 143Q302 135 293 112T268 61T223 11T161 -11Q129 -11 102 10T74 74Q74 91 79 106T122 220Q160 321 166 341T173 380Q173 404 156 404H154Q124 404 99 371T61 287Q60 286 59 284T58 281T56 279T53 278T49 278T41 278H27Q21 284 21 287Z"></path></g><g data-mml-node="mo" transform="translate(345,0)"><path data-c="3D" d="M56 347Q56 360 70 367H707Q722 359 722 347Q722 336 708 328L390 327H72Q56 332 56 347ZM56 153Q56 168 72 173H708Q722 163 722 153Q722 140 707 133H70Q56 140 56 153Z"></path></g><g data-mml-node="mn" transform="translate(1123,0)"><path data-c="31" d="M213 578L200 573Q186 568 160 563T102 556H83V602H102Q149 604 189 617T245 641T273 663Q275 666 285 666Q294 666 302 660V361L303 61Q310 54 315 52T339 48T401 46H427V0H416Q395 3 257 3Q121 3 100 0H88V46H114Q136 46 152 46T177 47T193 50T201 52T207 57T213 61V578Z"></path></g></g></g><g data-mml-node="msubsup" transform="translate(3484.2,0)"><g data-mml-node="mi"><path data-c="1D465" d="M52 289Q59 331 106 386T222 442Q257 442 286 424T329 379Q371 442 430 442Q467 442 494 420T522 361Q522 332 508 314T481 292T458 288Q439 288 427 299T415 328Q415 374 465 391Q454 404 425 404Q412 404 406 402Q368 386 350 336Q290 115 290 78Q290 50 306 38T341 26Q378 26 414 59T463 140Q466 150 469 151T485 153H489Q504 153 504 145Q504 144 502 134Q486 77 440 33T333 -11Q263 -11 227 52Q186 -10 133 -10H127Q78 -10 57 16T35 71Q35 103 54 123T99 143Q142 143 142 101Q142 81 130 66T107 46T94 41L91 40Q91 39 97 36T113 29T132 26Q168 26 194 71Q203 87 217 139T245 247T261 313Q266 340 266 352Q266 380 251 392T217 404Q177 404 142 372T93 290Q91 281 88 280T72 278H58Q52 284 52 289Z"></path></g><g data-mml-node="mn" transform="translate(605,353.6) scale(0.707)"><path data-c="32" d="M109 429Q82 429 66 447T50 491Q50 562 103 614T235 666Q326 666 387 610T449 465Q449 422 429 383T381 315T301 241Q265 210 201 149L142 93L218 92Q375 92 385 97Q392 99 409 186V189H449V186Q448 183 436 95T421 3V0H50V19V31Q50 38 56 46T86 81Q115 113 136 137Q145 147 170 174T204 211T233 244T261 278T284 308T305 340T320 369T333 401T340 431T343 464Q343 527 309 573T212 619Q179 619 154 602T119 569T109 550Q109 549 114 549Q132 549 151 535T170 489Q170 464 154 447T109 429Z"></path></g><g data-mml-node="mi" transform="translate(605,-293.8) scale(0.707)"><path data-c="1D456" d="M184 600Q184 624 203 642T247 661Q265 661 277 649T290 619Q290 596 270 577T226 557Q211 557 198 567T184 600ZM21 287Q21 295 30 318T54 369T98 420T158 442Q197 442 223 419T250 357Q250 340 236 301T196 196T154 83Q149 61 149 51Q149 26 166 26Q175 26 185 29T208 43T235 78T260 137Q263 149 265 151T282 153Q302 153 302 143Q302 135 293 112T268 61T223 11T161 -11Q129 -11 102 10T74 74Q74 91 79 106T122 220Q160 321 166 341T173 380Q173 404 156 404H154Q124 404 99 371T61 287Q60 286 59 284T58 281T56 279T53 278T49 278T41 278H27Q21 284 21 287Z"></path></g></g><g data-mml-node="mo" transform="translate(4715,0)"><path data-c="2B" d="M56 237T56 250T70 270H369V420L370 570Q380 583 389 583Q402 583 409 568V270H707Q722 262 722 250T707 230H409V-68Q401 -82 391 -82H389H387Q375 -82 369 -68V230H70Q56 237 56 250Z"></path></g><g data-mml-node="mi" transform="translate(5715.2,0)"><path data-c="1D716" d="M227 -11Q149 -11 95 41T40 174Q40 262 87 322Q121 367 173 396T287 430Q289 431 329 431H367Q382 426 382 411Q382 385 341 385H325H312Q191 385 154 277L150 265H327Q340 256 340 246Q340 228 320 219H138V217Q128 187 128 143Q128 77 160 52T231 26Q258 26 284 36T326 57T343 68Q350 68 354 58T358 39Q358 36 357 35Q354 31 337 21T289 0T227 -11Z"></path></g></g><g data-mml-node="mo" transform="translate(0,73.6)"><path data-c="221A" d="M1001 1150Q1017 1150 1020 1132Q1020 1127 741 244L460 -643Q453 -650 436 -650H424Q423 -647 423 -645T421 -640T419 -631T415 -617T408 -594T399 -560T385 -512T367 -448T343 -364T312 -259L203 119L138 41L111 67L212 188L264 248L472 -474L983 1140Q988 1150 1001 1150Z"></path></g><rect width="6121.2" height="60" x="1020" y="1163.6"></rect></g><rect width="7341.2" height="60" x="120" y="220"></rect></g><g data-mml-node="mo" transform="translate(15171,0)"><path data-c="22C5" d="M78 250Q78 274 95 292T138 310Q162 310 180 294T199 251Q199 226 182 208T139 190T96 207T78 250Z"></path></g><g data-mml-node="mi" transform="translate(15671.2,0)"><path data-c="1D6FE" d="M31 249Q11 249 11 258Q11 275 26 304T66 365T129 418T206 441Q233 441 239 440Q287 429 318 386T371 255Q385 195 385 170Q385 166 386 166L398 193Q418 244 443 300T486 391T508 430Q510 431 524 431H537Q543 425 543 422Q543 418 522 378T463 251T391 71Q385 55 378 6T357 -100Q341 -165 330 -190T303 -216Q286 -216 286 -188Q286 -138 340 32L346 51L347 69Q348 79 348 100Q348 257 291 317Q251 355 196 355Q148 355 108 329T51 260Q49 251 47 251Q45 249 31 249Z"></path></g></g></g></svg></mjx-container></span></p></li>
+<li><p>优势：
+这种归一化方法更轻量、计算更稳定，尤其在大规模训练中能有效减少梯度爆炸的风险，并提升整体训练效率。</p></li>
+</ul>
+<h5 id="位置编码改进相对位置偏置-relative-position-bias">位置编码改进：相对位置偏置
+(Relative Position Bias)</h5>
+<p>T5 弃用了绝对位置编码，转而使用相对位置偏置（Relative Position
+Bias），以增强模型对不同输入长度与上下文跨度的泛化能力。并且T5中相对位置偏置
+<span class="math inline"><em>B</em><sub><em>i</em><em>j</em></sub></span>
+不加到输入上，而是直接加到 Transformer 的自注意力机制的得分上：</p>
+<p><span class="math display"><em>A</em><sup>′</sup><sub><em>i</em><em>j</em></sub> = <em>Q</em><sub><em>i</em></sub><em>K</em><sub><em>j</em></sub><sup><em>T</em></sup> + <em>B</em><sub><em>i</em><em>j</em></sub></span></p>
+<p>其中：</p>
+<ul>
+<li><span class="math inline"><em>Q</em><sub><em>i</em></sub></span> 和
+<span class="math inline"><em>K</em><sub><em>j</em></sub></span>
+分别是查询和键向量的点积得分。</li>
+<li><span class="math inline"><em>B</em><sub><em>i</em><em>j</em></sub></span>
+是表示词元 <span class="math inline"><em>i</em></span> 和词元 <span class="math inline"><em>j</em></span> 之间相对距离 <span class="math inline">|<em>i</em> − <em>j</em>|</span>
+的可学习偏置项。</li>
+</ul>
+<p>距离分桶机制（Distance Bucketing）：T5
+的核心创新在于如何高效地学习这些相对位置偏置<span class="math inline"><em>B</em><sub><em>i</em><em>j</em></sub></span>。它采用分桶机制将无限多的相对距离映射到有限数量的可学习参数上。</p>
+<p>首先，模型区分正向距离（<span class="math inline"><em>j</em> &gt; <em>i</em></span>）和负向距离（<span class="math inline"><em>j</em> &lt; <em>i</em></span>），为它们分配不同的参数空间，以保留序列的方向信息。</p>
+<p>其次，对于相对距离 <span class="math inline"><em>d</em> = |<em>i</em> − <em>j</em>|</span>，T5
+使用一个分段函数将其映射到桶索引 <span class="math inline">bucket_id(<em>d</em>)</span>：</p>
+<ol type="1">
+<li><p>独立近距离桶： 对于小于某个阈值 <span class="math inline"><em>k</em></span> 的距离（例如 <span class="math inline"><em>k</em> = 8</span> 或 <span class="math inline">12</span>），每个距离 <span class="math inline"><em>d</em></span>
+都有自己的独立桶。这保证了对局部语义关系的高分辨率建模。</p>
+<p><span class="math display">bucket_id(<em>d</em>) = <em>d</em>  if
+<em>d</em> &lt; <em>k</em></span></p></li>
+<li><p>对数远距离桶： 对于大于或等于 <span class="math inline"><em>k</em></span> 的距离，T5
+使用近似对数函数进行映射，使得距离越远，增长越慢，越多的距离共享同一个桶。</p>
+<p><span class="math display">bucket_id(<em>d</em>) = <em>k</em> + ⌊ln (<em>d</em>/<em>k</em>)/ln (1.02)⌋  if
+<em>d</em> ≥ <em>k</em></span></p></li>
+</ol>
+<p>最后，T5中所有的偏置项 <span class="math inline"><em>B</em><sub><em>i</em><em>j</em></sub></span>
+是从一个共享的、有限大小的偏置矩阵中根据计算出的 <span class="math inline">bucket_id(|<em>i</em> − <em>j</em>|)</span>
+查找出来的可学习参数。</p>
+<h4 id="预训练任务">（2）预训练任务</h4>
+<p>与 BERT 类似，T5
+的预训练目标本质上也是一种掩码语言模型（MLM）。但它并非简单地随机遮蔽单个
+token，而是采用更自然的“<strong>Span
+Corruption（片段遮蔽）</strong>”策略。</p>
+<p>预训练流程</p>
+<ol type="1">
+<li>从语料中随机选择若干个<strong>连续的 token
+片段（Span）</strong>；</li>
+<li>将每个片段替换为一个特殊占位符（如
+<code>&lt;extra_id_0&gt;</code>、<code>&lt;extra_id_1&gt;</code>）；</li>
+<li>模型输入为被遮蔽的句子，输出为被替换掉的 token 序列。</li>
+</ol>
+<p>例如：</p>
+<p>输入：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">The &lt;extra_id_0&gt; walked to the &lt;extra_id_1&gt;.</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;extra_id_0&gt; man &lt;extra_id_1&gt; store.</span><br></pre></td></tr></table></figure>
+<p>这种方式比 BERT 的随机 token
+遮蔽更接近人类语言处理方式，使模型学会预测更长跨度的语义单元，从而捕捉上下文的整体结构。</p>
+<h4 id="多任务预训练与迁移学习">（3）多任务预训练与迁移学习</h4>
+<p>T5 在预训练阶段不仅学习
+MLM，还融合了多种任务（如翻译、摘要、问答等）的统一训练。这种<strong>多任务预训练（Multi-Task
+Pretraining）</strong>使得模型能学习到跨任务的共享语言表示，从而在下游任务中具备更强的迁移能力。</p>
+<p>预训练完成后，T5
+可以通过简单的微调快速适配各种任务，只需在输入前加上任务前缀（Task
+Prefix）即可：</p>
+<table>
+<colgroup>
+<col style="width: 8%">
+<col style="width: 44%">
+<col style="width: 47%">
+</colgroup>
+<thead>
+<tr>
+<th>任务类型</th>
+<th>输入格式</th>
+<th>输出</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>文本分类</td>
+<td><code>classify: 这是一部好电影</code></td>
+<td><code>正面</code></td>
+</tr>
+<tr>
+<td>翻译</td>
+<td><code>translate English to German: How are you?</code></td>
+<td><code>Wie geht es dir?</code></td>
+</tr>
+<tr>
+<td>摘要</td>
+<td><code>summarize: BERT 是一种预训练语言模型...</code></td>
+<td><code>BERT 是一种基于 Transformer 的语言理解模型。</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="大一统思想统一视角下的-nlp-世界">（4）大一统思想：统一视角下的
+NLP 世界</h4>
+<p>T5 最具革命性的创新在于其提出的 <strong>NLP 大一统思想</strong>：</p>
+<blockquote>
+<p>所有自然语言处理任务，归根结底都是“输入一段文本 →
+输出一段文本”的过程。</p>
+</blockquote>
+<p>这种理念的意义在于：</p>
+<ol type="1">
+<li><strong>统一任务形式</strong>：所有任务都可通过相同模型架构完成；</li>
+<li><strong>统一输入输出接口</strong>：训练、推理、微调完全复用；</li>
+<li><strong>统一优化目标</strong>：跨任务共享语言理解能力；</li>
+<li><strong>显著简化开发流程</strong>：从工程角度提升 NLP
+系统的复用性。</li>
+</ol>
+<p>T5
+通过这种统一的“文本到文本”视角，不仅使模型具备了更强的通用性与可扩展性，也为后续的多模态模型（如
+Flamingo、PaLM-E 等）提供了设计启发。</p>
+<h2 id="decoder-only">Decoder-Only</h2>
+<p>在前两节中，我们分别讲解了由 Transformer 发展而来的两种模型架构——以
+BERT 为代表的 Encoder-Only 模型和以 T5 为代表的 Encoder-Decoder
+模型。那么，很自然可以想见，除了上述两种架构，还可以有一种模型架构——Decoder-Only，即只使用
+Decoder 堆叠而成的模型。</p>
+<p>事实上，Decoder-Only 就是目前大火的 LLM 的基础架构，目前所有的 LLM
+基本都是 Decoder-Only 模型（RWKV、Mamba 等非 Transformer
+架构除外）。而引发 LLM 热潮的 ChatGPT，正是 Decoder-Only 系列的代表模型
+GPT 系列模型的大成之作。而目前作为开源 LLM 基本架构的 LLaMA
+模型，也正是在 GPT
+的模型架构基础上优化发展而来。因此，在本节中，我们不但会详细分析
+Decoder-Only 代表模型 GPT 的原理、架构和特点，还会深入到目前的主流开源
+LLM，分析它们的结构、特点，结合之前对 Transformer
+系列其他模型的分析，帮助大家深入理解当下被寄予厚望、被认为是 AGI
+必经之路的 LLM 是如何一步步从传统 PLM 中发展而来的。</p>
+<h3 id="gpt">GPT</h3>
+<p>GPT，即 Generative Pre-Training Language Model，是由 OpenAI 团队于
+2018年发布的预训练语言模型。虽然学界普遍认可 BERT
+作为预训练语言模型时代的代表，但首先明确提出预训练-微调思想的模型其实是
+GPT。GPT
+提出了通用预训练的概念，也就是在海量无监督语料上预训练，进而在每个特定任务上进行微调，从而实现这些任务的巨大收益。虽然在发布之初，由于性能略输于不久后发布的
+BERT，没能取得轰动性成果，也没能让 GPT 所使用的 Decoder-Only
+架构成为学界研究的主流，但 OpenAI
+团队坚定地选择了不断扩大预训练数据、增加模型参数，在 GPT
+架构上不断优化，最终在 2020年发布的 GPT-3 成就了 LLM 时代的基础，并以
+GPT-3 为基座模型的 ChatGPT 成功打开新时代的大门，成为 LLM
+时代的最强竞争者也是目前的最大赢家。</p>
+<p>本节将以 GPT 为例，分别从模型架构、预训练任务、GPT
+系列模型的发展历程等三个方面深入分析 GPT 及其代表的 Decoder-Only
+模型，并进一步引出当前的主流 LLM 架构——LLaMA。</p>
+<h4 id="模型架构">（1） 模型架构</h4>
+<p><img lazyload="" alt="image" data-src="3-0.png"></p>
+<p>如图可以看到，GPT 的整体结构和 BERT 是有一些类似的，只是相较于 BERT
+的 Encoder，选择使用了 Decoder 来进行模型结构的堆叠。由于 Decoder-Only
+结构也天生适用于文本生成任务，所以相较于更贴合 NLU 任务设计的 BERT，GPT
+和 T5 的模型设计更契合于 NLG 任务和 Seq2Seq
+任务。同样，对于一个自然语言文本的输入，先通过 tokenizer
+进行分词并转化为对应词典序号的 input_ids。</p>
+<p>输入的 input_ids 首先通过 Embedding 层，再经过 Positional Embedding
+进行位置编码，位置编码也是可学习的。</p>
+<p>通过 Embedding 层和 Positional Embedding 层编码成 hidden_states
+之后，就可以进入到解码器（Decoder），第一代 GPT 模型和原始 Transformer
+模型类似，选择了 12层解码器层，但是在解码器层的内部，相较于 Transformer
+原始 Decoder 层的双注意力层设计，GPT 的 Decoder 层反而更像 Encoder
+层一点。由于不再有 Encoder 的编码输入，Decoder
+层仅保留了一个带掩码的注意力层，并且将 LayerNorm 层从 Transformer
+的注意力层之后提到了注意力层之前。hidden_states 输入 Decoder
+层之后，会先进行
+LayerNorm，再进行掩码注意力计算，然后经过残差连接和再一次 LayerNorm
+进入到 MLP 中并得到最后输出。</p>
+<p>由于不存在 Encoder 的编码结果，Decoder
+层中的掩码注意力也是自注意力计算。也就是对一个输入的
+hidden_states，会通过三个参数矩阵来生成 query、key 和 value，而不再是像
+Transformer 中的 Decoder 那样由 Encoder 输出作为 key 和
+value。后续的注意力计算过程则和 BERT
+类似，只是在计算得到注意力权重之后，通过掩码矩阵来遮蔽了未来 token
+的注意力权重，从而限制每一个 token 只能关注到它之前 token
+的注意力，来实现掩码自注意力的计算。</p>
+<p>另外一个结构上的区别在于，GPT 的 MLP
+层没有选择线性矩阵来进行特征提取，而是选择了两个一维卷积核来提取，不过，从效果上说这两者是没有太大区别的。通过
+N 个 Decoder 层后的 hidden_states
+最后经过线性矩阵映射到词表维度，就可以转化成自然语言的
+token，从而生成我们的目标序列。</p>
+<h4 id="预训练任务-1">（2）预训练任务</h4>
+<p>Decoder-Only 的模型结构往往更适合于文本生成任务，因此，Decoder-Only
+模型往往选择了最传统也最直接的预训练任务——因果语言模型，Casual Language
+Model，下简称 CLM。</p>
+<p>CLM 可以看作 N-gram 语言模型的一个直接扩展。N-gram 语言模型是基于前 N
+个 token 来预测下一个 token，CLM 则是基于一个自然语言序列的前面所有
+token 来预测下一个
+token，通过不断重复该过程来实现目标文本序列的生成。也就是说，CLM
+是一个经典的补全形式。例如，CLM 的输入和输出可以是：</p>
+<pre><code>input: 今天天气
+output: 今天天气很
+
+input: 今天天气很
+output：今天天气很好</code></pre>
+<p>因此，对于一个输入目标序列长度为 256，期待输出序列长度为 256
+的任务，模型会不断根据前 256 个 token、257个
+token（输入+预测出来的第一个 token）…… 进行 256
+次计算，最后生成一个序列长度为 512 的输出文本，这个输出文本前 256 个
+token 为输入，后 256 个 token 就是我们期待的模型输出。</p>
+<p>在前面我们说过，BERT
+之所以可以采用预训练+微调的范式取得重大突破，正是因为其选择的 MLM、NSP
+可以在海量无监督语料上直接训练——而很明显，CLM
+是更直接的预训练任务，其天生和人类书写自然语言文本的习惯相契合，也和下游任务直接匹配，相对于
+MLM 任务更加直接，可以在任何自然语言文本上直接应用。因此，CLM
+也可以使用海量的自然语言语料进行大规模的预训练，无需任何人工标注数据。</p>
+<h4 id="gpt-系列模型的发展">（3）GPT 系列模型的发展</h4>
+<p>自 GPT-1 推出开始，OpenAI 一直坚信 Decoder-Only
+的模型结构和“体量即正义”的优化思路，不断扩大预训练数据集、模型体量并对模型做出一些小的优化和修正，来不断探索更强大的预训练模型。从被
+BERT 压制的 GPT-1，到没有引起足够关注的
+GPT-2，再到激发了涌现能力、带来大模型时代的 GPT-3，最后带来了跨时代的
+ChatGPT，OpenAI 通过数十年的努力证明了其思路的正确性。</p>
+<p>下表总结了从 GPT-1 到 GPT-3 的模型结构、预训练语料大小的变化：</p>
+<table>
+<colgroup>
+<col style="width: 7%">
+<col style="width: 19%">
+<col style="width: 16%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 11%">
+<col style="width: 14%">
+</colgroup>
+<thead>
+<tr>
+<th>模型</th>
+<th>Decoder Layer</th>
+<th>Hidden_size</th>
+<th>注意力头数</th>
+<th>注意力维度</th>
+<th>总参数量</th>
+<th>预训练语料</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GPT-1</td>
+<td>12</td>
+<td>3072</td>
+<td>12</td>
+<td>768</td>
+<td>0.12B</td>
+<td>5GB</td>
+</tr>
+<tr>
+<td>GPT-2</td>
+<td>48</td>
+<td>6400</td>
+<td>25</td>
+<td>1600</td>
+<td>1.5B</td>
+<td>40GB</td>
+</tr>
+<tr>
+<td>GPT-3</td>
+<td>96</td>
+<td>49152</td>
+<td>96</td>
+<td>12288</td>
+<td>175B</td>
+<td>570GB</td>
+</tr>
+</tbody>
+</table>
+<p>GPT-1 是 GPT 系列的开山之作，也是第一个使用 Decoder-Only
+的预训练模型。但是，GPT-1 的模型体量和预训练数据都较少，沿承了传统
+Transformer 的模型结构，使用了 12层 Decoder Block 和 768
+的隐藏层维度，模型参数量仅有 1.17亿（0.12B），在大小为 5GB 的
+BooksCorpus 数据集上预训练得到。可以看到，GPT-1 的参数规模与预训练规模和
+BERT-base 是大致相当的，但其表现相较于 BERT-base 却有所不如，这也是 GPT
+系列模型没能成为预训练语言模型时代的代表的原因。</p>
+<p>GPT-2 则是 OpenAI 在 GPT-1
+的基础上进一步探究预训练语言模型多任务学习能力的产物。GPT-2 的模型结构和
+GPT-1 大致相当，只是扩大了模型参数规模、将 Post-Norm 改为了
+Pre-Norm（也就是先进行 LayerNorm
+计算，再进入注意力层计算）。这些改动的核心原因在于，由于模型层数增加、体量增大，梯度消失和爆炸的风险也不断增加，为了使模型梯度更稳定对上述结构进行了优化。</p>
+<p>GPT-2 的核心改进是大幅增加了预训练数据集和模型体量。GPT-2 的 Decoder
+Block 层数达到了48（注意，GPT-2
+共发布了四种规格的模型，此处我们仅指规格最大的 GPT-2
+模型），隐藏层维度达到了 1600，模型整体参数量达
+15亿（1.5B），使用了自己抓取的 40GB 大小的 WebText
+数据集进行预训练，不管是模型结构还是预训练大小都超过了
+1代一个数量级。</p>
+<p>GPT-2 的另一个重大突破是以
+zero-shot（零样本学习）为主要目标，也就是不对模型进行微调，直接要求模型解决任务。例如，在传统的预训练-微调范式中，我们要解决一个问题，一般需要收集几百上千的训练样本，在这些训练样本上微调预训练语言模型来实现该问题的解决。而
+zero-shot
+则强调不使用任何训练样本，直接通过向预训练语言模型描述问题来去解决该问题。zero-shot
+的思路自然是比预训练-微调范式更进一步、更高效的自然语言范式，但是在
+GPT-2 的时代，模型能力还不足够支撑较好的 zero-shot
+效果，在大模型时代，zero-shot 及其延伸出的
+few-shot（少样本学习）才开始逐渐成为主流。</p>
+<p>GPT-3 则是更进一步展示了 OpenAI“力大砖飞”的核心思路，也是 LLM
+的开创之作。在 GPT-2 的基础上，OpenAI
+进一步增大了模型体量和预训练数据量，整体参数量达
+175B，是当之无愧的“大型语言模型”。在模型结构上，基本没有大的改进，只是由于巨大的模型体量使用了稀疏注意力机制来取代传统的注意力机制。在预训练数据上，则是分别从
+CC、WebText、维基百科等大型语料集中采样，共采样了 45T、清洗后 570GB
+的数据。根据推算，GPT-3 需要在 1024张 A100（80GB
+显存）的分布式训练集群上训练 1个月。</p>
+<p>之所以说 GPT-3 是 LLM
+的开创之作，除去其巨大的体量带来了涌现能力的凸显外，还在于其提出了
+few-shot 的重要思想。few-shot 是在 zero-shot 上的改进，研究者发现即使是
+175B 大小的 GPT-3，想要在 zero-shot
+上取得较好的表现仍然是一件较为困难的事情。而 few-shot 是对 zero-shot
+的一个折中，旨在提供给模型少样的示例来教会它完成任务。few-shot 一般会在
+prompt（也就是模型的输入）中增加
+3~5个示例，来帮助模型理解。例如，对于情感分类任务：</p>
+<pre><code>zero-shot：请你判断‘这真是一个绝佳的机会’的情感是正向还是负向，如果是正向，输出1；否则输出0
+
+few-shot：请你判断‘这真是一个绝佳的机会’的情感是正向还是负向，如果是正向，输出1；否则输出0。你可以参考以下示例来判断：‘你的表现非常好’——1；‘太糟糕了’——0；‘真是一个好主意’——1。</code></pre>
+<p>通过给模型提供少量示例，模型可以取得远好于 zero-shot
+的良好表现。few-shot 也被称为上下文学习（In-context
+Learning），即让模型从提供的上下文中的示例里学习问题的解决方法。GPT-3 在
+few-shot 上展现的强大能力，为 NLP
+的突破带来了重要进展。如果对于绝大部分任务都可以通过人为构造
+3~5个示例就能让模型解决，其效率将远高于传统的预训练-微调范式，意味着 NLP
+的进一步落地应用成为可能——而这，也正是 LLM 的核心优势。</p>
+<p>在 GPT
+系列模型的基础上，通过引入预训练-指令微调-人类反馈强化学习的三阶段训练，OpenAI
+发布了跨时代的 ChatGPT，引发了大模型的热潮。也正是在 GPT-3 及 ChatGPT
+的基础上，LLaMA、ChatGLM 等模型的发布进一步揭示了 LLM
+的无尽潜力。在下一节，我们将深入剖析目前 LLM 的普适架构——LLaMA。</p>
+<h3 id="llama">LLaMA</h3>
+<p>LLaMA模型是由Meta（前Facebook）开发的一系列大型预训练语言模型。从LLaMA-1到LLaMA-3，LLaMA系列模型展示了大规模预训练语言模型的演进及其在实际应用中的显著潜力。</p>
+<h4 id="模型架构-1">（1） 模型架构</h4>
+<p>与GPT系列模型一样，LLaMA模型也是基于Decoder-Only架构的预训练语言模型。LLaMA模型的整体结构与GPT系列模型类似，只是在模型规模和预训练数据集上有所不同。如图是LLaMA模型的架构示意图：</p>
+<p><img lazyload="" alt="image" data-src="3-1.png"></p>
+<p>总体流程：</p>
+<ol type="1">
+<li>输入文本 → tokenizer → <code>input_ids</code>（可能带
+<code>attention_mask</code>、特殊 token）。</li>
+<li><code>input_ids</code> → token embedding（得到初始
+<code>hidden_states</code>）。</li>
+<li>把 <code>hidden_states</code> 输入到 N 层 <strong>decoder
+block</strong>（每层包含：RMSNorm → masked self-attention（含 RoPE） →
+残差 → RMSNorm → Gated-MLP → 残差）。</li>
+<li>堆叠 N 层后做最终归一化（RMSNorm），再通过线性投影到词表维得到
+logits（通常与 embedding 权重共享）。</li>
+<li>生成阶段使用 causal mask + KV cache（历史 K/V
+的增量拼接）完成高效自回归推断。</li>
+</ol>
+<h5 id="tokenizer-与-embedding">1. Tokenizer 与 Embedding</h5>
+<ul>
+<li>功能：将文本分割并映射为离散 <code>input_ids</code>，embedding 将 id
+映射为向量（维度 <code>d_model</code>）。</li>
+<li>与 Transformer/GPT
+的差别：这一块通常一致；差别主要在后续如何编码位置信息（见 RoPE）。</li>
+</ul>
+<h5 id="位置编码roperotary-positional-embeddings">2.
+位置编码：RoPE（Rotary Positional Embeddings）</h5>
+<ul>
+<li>LLaMA 采用：RoPE，把位置编码作为对 Q/K 的旋转变换（在 attention
+计算前作用于 Q 与 K）。</li>
+<li>经典 Transformer（原论文）：使用可加的绝对位置编码（sinusoidal pos
+emb）或可学习的位置向量相加到 token embedding。</li>
+<li>早期 GPT（如 GPT-2/GPT-3 的一些实现）：通常采用可学习的绝对位置
+embedding（加到 token embedding）。</li>
+<li>为什么用 RoPE？优点：
+<ul>
+<li>能直接在内积中体现相对位置信息，更自然地支持相对位置感知。</li>
+<li>对长序列推断/外推（extrapolation）更友好：在某些实现上，RoPE
+能较好地处理超出训练长度的序列。</li>
+<li>与 attention
+内部（Q·K）耦合紧密，避免将位置信息作为简单的偏置叠加。</li>
+</ul></li>
+</ul>
+<h5 id="归一化rmsnormpre-norm">3. 归一化：RMSNorm（Pre-norm）</h5>
+<ul>
+<li>LLaMA 使用：RMSNorm（Root Mean Square Normalization），并采用
+pre-norm 架构（即先归一化再做子层计算）。</li>
+<li>原始 Transformer：使用
+LayerNorm（有均值与方差归一化，通常在子层后/前的版本存在差别）。</li>
+<li>为什么用 RMSNorm（优点）：
+<ul>
+<li>RMSNorm 没有减去均值项（没有
+centering），计算更简洁，且在大模型训练中表现良好。</li>
+<li>与 pre-norm
+配合能提高训练稳定性、梯度流通畅，尤其在大深度（很多层）模型里更易收敛</li>
+</ul></li>
+</ul>
+<h5 id="self-attentionmasked自回归">4.
+Self-Attention（Masked，自回归）</h5>
+<ul>
+<li>功能流程：
+<ol type="1">
+<li><code>hidden_states</code> → 线性映射得到 Q, K, V。</li>
+<li>对 Q/K 应用 RoPE（位置编码）。</li>
+<li>计算 scaled
+dot-product：<code>scores = Q·K^T / sqrt(d_k)</code>。</li>
+<li>应用 mask（causal mask + padding mask），对被屏蔽位置施加 −inf 后
+softmax。</li>
+<li><code>attention_out = softmax(scores) · V</code>。</li>
+</ol></li>
+</ul>
+<h5 id="feed-forwardmlp">5. Feed-Forward（MLP）</h5>
+<ul>
+<li>结构（常见实现）：
+<ul>
+<li><code>gate = W_g x</code>，<code>up = W_u x</code>。</li>
+<li><code>activated = act(gate)</code>（如 SiLU / GELU 变体）。</li>
+<li><code>mid = activated * up</code>（逐元素相乘，门控机制）。</li>
+<li><code>out = W_down(mid)</code>（降回 <code>d_model</code>）。</li>
+</ul></li>
+<li>为什么用 Gated FFN（优点）：
+<ul>
+<li>门控结构（SwiGLU）在表达能力上优于简单的两层
+MLP（提升非线性建模能力）且能提高参数利用效率。</li>
+<li>在同等参数预算下通常有更好的下游性能和训练速度。</li>
+</ul></li>
+</ul>
+<h4 id="llama模型的发展历程">（2） LLaMA模型的发展历程</h4>
+<p><strong>LLaMA-1 系列</strong>：</p>
+<ul>
+<li>Meta于2023年2月发布了LLaMA-1，包括7B、13B、30B和65B四个参数量版本。</li>
+<li>这些模型在超过1T
+token的语料上进行了预训练，其中最大的65B参数模型在2,048张A100 80G
+GPU上训练了近21天。</li>
+<li>LLaMA-1因其开源性和优异性能迅速成为开源社区中最受欢迎的大模型之一。</li>
+</ul>
+<p><strong>LLaMA-2 系列</strong>：</p>
+<ul>
+<li>2023年7月，Meta发布了LLaMA-2，包含7B、13B、34B和70B四个参数量版本，除了34B模型外，其他均已开源。</li>
+<li>LLaMA-2将预训练的语料扩充到了2T
+token，并将模型的上下文长度从2,048翻倍到了4,096。</li>
+<li>引入了分组查询注意力机制（Grouped-Query Attention,
+GQA）等技术。</li>
+</ul>
+<p><strong>LLaMA-3 系列</strong>：</p>
+<ul>
+<li>2024年4月，Meta发布了LLaMA-3，包括8B和70B两个参数量版本，同时透露400B的LLaMA-3还在训练中。</li>
+<li>LLaMA-3支持8K长文本，并采用了编码效率更高的tokenizer，词表大小为128K。</li>
+<li>使用了超过15T token的预训练语料，是LLaMA-2的7倍多。</li>
+</ul>
+<p>LLaMA模型以其技术创新、多参数版本、大规模预训练和高效架构设计而著称。模型支持从7亿到数百亿不等的参数量，适应不同规模的应用需求。LLaMA-1以其开源性和优异性能迅速受到社区欢迎，而LLaMA-2和LLaMA-3进一步通过引入分组查询注意力机制和支持更长文本输入，显著提升了模型性能和应用范围。特别是LLaMA-3，通过采用128K词表大小的高效tokenizer和15T
+token的庞大训练数据，实现了在多语言和多任务处理上的重大进步。Meta对模型安全性和社区支持的持续关注，预示着LLaMA将继续作为AI技术发展的重要推动力，促进全球范围内的技术应用和创新。</p>
+
+                    
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                Pre-trained Language Models介绍
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                2025/11/10/LLM-6-PLM/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    Author
+                </div>
+                <div class="content">Zhongjun Qiu</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    Published
+                </div>
+                <div class="content">2025-11-10 15:30</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    License
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="Copy copyright info" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/PLM/">PLM</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="Share to WeChat"
+            data-tooltip-img-tip="Scan by WeChat"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to WeiBo"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+                    
+
+<div class="reward-author-container border-box flex-center">
+    <div class="reward-btn border-box flex-center tooltip tooltip-img"
+            data-tooltip-img-url="/images/post/payment.jpg"
+            data-tooltip-img-trigger="click"
+            data-tooltip-img-style="top: -6px;"
+    >
+        <i class="fa-solid fa-gift"></i>&nbsp;REWARD AUTHOR
+    </div>
+</div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/2025/11/08/LLM-5-Transformer/"
+                                   title="Transformer架构详解"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">Transformer架构详解</span>
+                                        <span class="post-nav-item">Next posts</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+    <div class="comments-container border-box">
+        <div id="comments-anchor" class="comment-area-title border-box">
+            <i class="fas fa-comments"></i>&nbsp;Comments
+        </div>
+        <div class="comment-plugin-fail border-box">
+    <span class="fail-tip">Comment plugin failed to load</span>
+    <button class="reload keep-button">Click to reload</button>
+</div>
+<div class="comment-plugin-loading flex-center border-box">
+    <i class="loading-icon fa-solid fa-spinner fa-spin"></i>
+    <span class="load-tip">Loading comment plugin</span>
+</div>
+<script data-pjax>
+  window.KeepCommentPlugin = {}
+  window.KeepCommentPlugin.hideLoading = () => {
+    const cplDom = document.querySelector('.comments-container .comment-plugin-loading')
+    cplDom.style.display = 'none'
+  }
+  window.KeepCommentPlugin.loadFailHandle = () => {
+    window.KeepCommentPlugin.hideLoading()
+    const cpfDom = document.querySelector('.comments-container .comment-plugin-fail')
+    cpfDom.style.display = 'flex'
+    cpfDom.querySelector('.reload').addEventListener('click', () => {
+      window.location.reload()
+    })
+  }
+</script>
+
+        
+            
+
+    <div class="waline-comment-container">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/waline/3.3.2/waline.css"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/waline/3.3.2/waline-meta.css"/>
+        <div id="waline-comment"></div>
+        <script data-pjax>
+          window.KeepCommentPlugin.walineOptions = JSON.parse('{}'.replace(/&#34;/g, '"'))
+          window.KeepCommentPlugin.walineOptions.el = '#waline-comment'
+          window.KeepCommentPlugin.walineOptions.comment = '.post-comments-count'
+          window.KeepCommentPlugin.walineOptions.serverURL = 'https://waline-vercel-two-rho.vercel.app/'
+          window.KeepCommentPlugin.walineOptions.lang = 'en' || 'zh-CN'
+          window.KeepCommentPlugin.walineOptions.reaction = 'true' === 'true'
+        </script>
+
+        
+
+        
+            <script 
+                    async
+                    type="module"
+            >
+              import { init } from 'https://cdnjs.cloudflare.com/ajax/libs/waline/3.3.2/waline.js'
+              window.KeepCommentPlugin.initWaline = () => {
+                if (init) {
+                  init(window.KeepCommentPlugin.walineOptions)
+                  window.KeepCommentPlugin.hideLoading()
+                } else {
+                  setTimeout(() => {
+                    window.KeepCommentPlugin.initWaline()
+                  }, 1000)
+                }
+              }
+
+              if ('false' === 'true') {
+                setTimeout(() => {
+                  window.KeepCommentPlugin.initWaline()
+                }, 1200)
+              } else {
+                window.addEventListener('DOMContentLoaded', window.KeepCommentPlugin.initWaline)
+              }
+            </script>
+        
+    </div>
+
+
+        
+    </div>
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc right-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#encoder-only"><span class="nav-text">Encoder-only</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#bert%E5%8F%8C%E5%90%91%E7%90%86%E8%A7%A3%E7%9A%84%E5%9F%BA%E7%9F%B3%E6%A8%A1%E5%9E%8B"><span class="nav-text">BERT：双向理解的基石模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%80%9D%E6%83%B3%E6%BA%90%E6%B5%81%E8%9E%8D%E5%90%88-elmo-%E4%B8%8E-transformer"><span class="nav-text">（1）思想源流：融合 ELMo 与
+Transformer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E6%9E%B6%E6%9E%84encoder-only-%E7%9A%84%E6%B7%B1%E5%BA%A6%E8%AF%AD%E4%B9%89%E5%BB%BA%E6%A8%A1"><span class="nav-text">（2）模型架构：Encoder-only
+的深度语义建模</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#prediction-head%E4%BB%BB%E5%8A%A1%E9%80%82%E9%85%8D%E5%B1%82"><span class="nav-text">（3）Prediction Head：任务适配层</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#encoder-%E5%B1%82attention-%E4%B8%8E%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0"><span class="nav-text">（4）Encoder 层：Attention
+与激活函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6%E4%B8%8E%E7%9B%B8%E5%AF%B9%E4%BD%8D%E7%BD%AE%E7%BC%96%E7%A0%81"><span class="nav-text">（5）注意力机制与相对位置编码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A2%84%E8%AE%AD%E7%BB%83%E4%BB%BB%E5%8A%A1-mlm-%E4%B8%8E-nsp"><span class="nav-text">（6）预训练任务 MLM 与 NSP</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#masked-language-modelmlm"><span class="nav-text">1 Masked Language Model（MLM）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#next-sentence-predictionnsp"><span class="nav-text">2 Next Sentence
+Prediction（NSP）</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BE%AE%E8%B0%83%E6%9C%BA%E5%88%B6fine-tuning"><span class="nav-text">（7）微调机制（Fine-tuning）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%9A%E7%94%A8%E8%BE%93%E5%85%A5%E7%BB%93%E6%9E%84"><span class="nav-text">🔧 通用输入结构</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#encoder-decoder"><span class="nav-text">Encoder-Decoder</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#t5text-to-text-transfer-transformer"><span class="nav-text">T5：Text-To-Text Transfer
+Transformer</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E7%BB%93%E6%9E%84"><span class="nav-text">（1）模型结构</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%BD%92%E4%B8%80%E5%8C%96%E5%B1%82%E6%94%B9%E8%BF%9Brmsnorm-%E4%BB%A3%E6%9B%BF-layernorm"><span class="nav-text">归一化层改进：RMSNorm 代替
+LayerNorm</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%8D%E7%BD%AE%E7%BC%96%E7%A0%81%E6%94%B9%E8%BF%9B%E7%9B%B8%E5%AF%B9%E4%BD%8D%E7%BD%AE%E5%81%8F%E7%BD%AE-relative-position-bias"><span class="nav-text">位置编码改进：相对位置偏置
+(Relative Position Bias)</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A2%84%E8%AE%AD%E7%BB%83%E4%BB%BB%E5%8A%A1"><span class="nav-text">（2）预训练任务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%9A%E4%BB%BB%E5%8A%A1%E9%A2%84%E8%AE%AD%E7%BB%83%E4%B8%8E%E8%BF%81%E7%A7%BB%E5%AD%A6%E4%B9%A0"><span class="nav-text">（3）多任务预训练与迁移学习</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%A7%E4%B8%80%E7%BB%9F%E6%80%9D%E6%83%B3%E7%BB%9F%E4%B8%80%E8%A7%86%E8%A7%92%E4%B8%8B%E7%9A%84-nlp-%E4%B8%96%E7%95%8C"><span class="nav-text">（4）大一统思想：统一视角下的
+NLP 世界</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#decoder-only"><span class="nav-text">Decoder-Only</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#gpt"><span class="nav-text">GPT</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E6%9E%B6%E6%9E%84"><span class="nav-text">（1） 模型架构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A2%84%E8%AE%AD%E7%BB%83%E4%BB%BB%E5%8A%A1-1"><span class="nav-text">（2）预训练任务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#gpt-%E7%B3%BB%E5%88%97%E6%A8%A1%E5%9E%8B%E7%9A%84%E5%8F%91%E5%B1%95"><span class="nav-text">（3）GPT 系列模型的发展</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#llama"><span class="nav-text">LLaMA</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E6%9E%B6%E6%9E%84-1"><span class="nav-text">（1） 模型架构</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#tokenizer-%E4%B8%8E-embedding"><span class="nav-text">1. Tokenizer 与 Embedding</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%8D%E7%BD%AE%E7%BC%96%E7%A0%81roperotary-positional-embeddings"><span class="nav-text">2.
+位置编码：RoPE（Rotary Positional Embeddings）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%BD%92%E4%B8%80%E5%8C%96rmsnormpre-norm"><span class="nav-text">3. 归一化：RMSNorm（Pre-norm）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#self-attentionmasked%E8%87%AA%E5%9B%9E%E5%BD%92"><span class="nav-text">4.
+Self-Attention（Masked，自回归）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#feed-forwardmlp"><span class="nav-text">5. Feed-Forward（MLP）</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#llama%E6%A8%A1%E5%9E%8B%E7%9A%84%E5%8F%91%E5%B1%95%E5%8E%86%E7%A8%8B"><span class="nav-text">（2） LLaMA模型的发展历程</span></a></li></ol></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="copyright-info info-item">
+    &copy;&nbsp;<span>2020</span>&nbsp;-&nbsp;2025
+    
+            &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">Zhongjun Qiu</a>
+        
+    </div>
+
+    <div class="theme-info info-item">
+        Powered by&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;&&nbsp;Theme&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+    </div>
+
+    
+        
+        <div class="deploy-info info-item">
+            
+                <a target="_blank" rel="nofollow" href="https://github.com">
+            
+            This site is deployed on <span class="tooltip" data-tooltip-content="GitHub Pages"><img src="/images/brands/github.png"></span>
+            
+                </a>
+            
+        </div>
+    
+
+    
+        <div class="count-info info-item">
+            
+                <span class="count-item border-box word">
+                    <span class="item-type border-box">Total words</span>
+                    <span class="item-value border-box word">427.1k</span>
+                </span>
+            
+
+            
+
+            
+                <span class="count-item border-box pv">
+                    <span class="item-type border-box">Page View</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+    
+
+    
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+            <li class="tools-item flex-center go-to-comments">
+                <i class="fas fa-comment"></i>
+                <span class="post-comments-count"></span>
+            </li>
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <!-- toggle mode -->
+        
+            <li class="tools-item tool-toggle-theme-mode flex-center">
+                <i class="fas fa-moon"></i>
+            </li>
+        
+
+        <!-- rss -->
+        
+
+        <!-- to bottom -->
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+            <li class="tools-item go-to-comments-tablet flex-center">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#encoder-only"><span class="nav-text">Encoder-only</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#bert%E5%8F%8C%E5%90%91%E7%90%86%E8%A7%A3%E7%9A%84%E5%9F%BA%E7%9F%B3%E6%A8%A1%E5%9E%8B"><span class="nav-text">BERT：双向理解的基石模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%80%9D%E6%83%B3%E6%BA%90%E6%B5%81%E8%9E%8D%E5%90%88-elmo-%E4%B8%8E-transformer"><span class="nav-text">（1）思想源流：融合 ELMo 与
+Transformer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E6%9E%B6%E6%9E%84encoder-only-%E7%9A%84%E6%B7%B1%E5%BA%A6%E8%AF%AD%E4%B9%89%E5%BB%BA%E6%A8%A1"><span class="nav-text">（2）模型架构：Encoder-only
+的深度语义建模</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#prediction-head%E4%BB%BB%E5%8A%A1%E9%80%82%E9%85%8D%E5%B1%82"><span class="nav-text">（3）Prediction Head：任务适配层</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#encoder-%E5%B1%82attention-%E4%B8%8E%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0"><span class="nav-text">（4）Encoder 层：Attention
+与激活函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6%E4%B8%8E%E7%9B%B8%E5%AF%B9%E4%BD%8D%E7%BD%AE%E7%BC%96%E7%A0%81"><span class="nav-text">（5）注意力机制与相对位置编码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A2%84%E8%AE%AD%E7%BB%83%E4%BB%BB%E5%8A%A1-mlm-%E4%B8%8E-nsp"><span class="nav-text">（6）预训练任务 MLM 与 NSP</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#masked-language-modelmlm"><span class="nav-text">1 Masked Language Model（MLM）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#next-sentence-predictionnsp"><span class="nav-text">2 Next Sentence
+Prediction（NSP）</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BE%AE%E8%B0%83%E6%9C%BA%E5%88%B6fine-tuning"><span class="nav-text">（7）微调机制（Fine-tuning）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%9A%E7%94%A8%E8%BE%93%E5%85%A5%E7%BB%93%E6%9E%84"><span class="nav-text">🔧 通用输入结构</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#encoder-decoder"><span class="nav-text">Encoder-Decoder</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#t5text-to-text-transfer-transformer"><span class="nav-text">T5：Text-To-Text Transfer
+Transformer</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E7%BB%93%E6%9E%84"><span class="nav-text">（1）模型结构</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%BD%92%E4%B8%80%E5%8C%96%E5%B1%82%E6%94%B9%E8%BF%9Brmsnorm-%E4%BB%A3%E6%9B%BF-layernorm"><span class="nav-text">归一化层改进：RMSNorm 代替
+LayerNorm</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%8D%E7%BD%AE%E7%BC%96%E7%A0%81%E6%94%B9%E8%BF%9B%E7%9B%B8%E5%AF%B9%E4%BD%8D%E7%BD%AE%E5%81%8F%E7%BD%AE-relative-position-bias"><span class="nav-text">位置编码改进：相对位置偏置
+(Relative Position Bias)</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A2%84%E8%AE%AD%E7%BB%83%E4%BB%BB%E5%8A%A1"><span class="nav-text">（2）预训练任务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%9A%E4%BB%BB%E5%8A%A1%E9%A2%84%E8%AE%AD%E7%BB%83%E4%B8%8E%E8%BF%81%E7%A7%BB%E5%AD%A6%E4%B9%A0"><span class="nav-text">（3）多任务预训练与迁移学习</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%A7%E4%B8%80%E7%BB%9F%E6%80%9D%E6%83%B3%E7%BB%9F%E4%B8%80%E8%A7%86%E8%A7%92%E4%B8%8B%E7%9A%84-nlp-%E4%B8%96%E7%95%8C"><span class="nav-text">（4）大一统思想：统一视角下的
+NLP 世界</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#decoder-only"><span class="nav-text">Decoder-Only</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#gpt"><span class="nav-text">GPT</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E6%9E%B6%E6%9E%84"><span class="nav-text">（1） 模型架构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%A2%84%E8%AE%AD%E7%BB%83%E4%BB%BB%E5%8A%A1-1"><span class="nav-text">（2）预训练任务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#gpt-%E7%B3%BB%E5%88%97%E6%A8%A1%E5%9E%8B%E7%9A%84%E5%8F%91%E5%B1%95"><span class="nav-text">（3）GPT 系列模型的发展</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#llama"><span class="nav-text">LLaMA</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E6%9E%B6%E6%9E%84-1"><span class="nav-text">（1） 模型架构</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#tokenizer-%E4%B8%8E-embedding"><span class="nav-text">1. Tokenizer 与 Embedding</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%8D%E7%BD%AE%E7%BC%96%E7%A0%81roperotary-positional-embeddings"><span class="nav-text">2.
+位置编码：RoPE（Rotary Positional Embeddings）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%BD%92%E4%B8%80%E5%8C%96rmsnormpre-norm"><span class="nav-text">3. 归一化：RMSNorm（Pre-norm）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#self-attentionmasked%E8%87%AA%E5%9B%9E%E5%BD%92"><span class="nav-text">4.
+Self-Attention（Masked，自回归）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#feed-forwardmlp"><span class="nav-text">5. Feed-Forward（MLP）</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#llama%E6%A8%A1%E5%9E%8B%E7%9A%84%E5%8F%91%E5%B1%95%E5%8E%86%E7%A8%8B"><span class="nav-text">（2） LLaMA模型的发展历程</span></a></li></ol></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+
+
+<!-- common js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/utils.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/header-shrink.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/back2top.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/toggle-theme.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/code-block.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/main.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/libs/anime.min.js"></script>
+
+<!-- local search -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/local-search.min.js"></script>
+
+
+<!-- lazyload -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/lazyload.min.js"></script>
+
+
+<div class="">
+    <!-- home page -->
+    
+
+    <!-- post page -->
+    
+        <!-- post-helper -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/post-helper.min.js"></script>
+
+        <!-- toc -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/toc.min.js"></script>
+        
+
+        <!-- copyright-info -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/copyright-info.min.js"></script>
+        
+
+        <!-- share -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/share.min.js"></script>
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+
+
+    
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/custom_code_block.js" data-pjax></script>
+
+        
+    
+
+</body>
+</html>
