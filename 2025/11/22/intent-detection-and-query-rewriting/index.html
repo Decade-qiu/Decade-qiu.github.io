@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="blog, decade, lucky">
+    <meta name="description" content="Decade&#39;s lucky blog">
+    <meta name="author" content="Zhongjun Qiu">
+    
+    <title>
+        
+            对话式 RAG 的预处理链路：意图识别与查询重写的工程取舍 |
+        
+        Decade
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="https://decade.net.cn/images/logo.ico">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/fontawesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/regular.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/solid.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/brands.min.css">
+    
+        
+            
+        
+            
+                
+<link rel="stylesheet" href="/css/custom.css">
+
+            
+        
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"decade.net.cn","root":"/","language":"en","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"Decade","author":"Zhongjun Qiu","avatar":"/images/avatar.ico","logo":"/images/avatar.ico","favicon":"https://decade.net.cn/images/logo.ico"},"menu":{"home":"/ || fa-solid fa-home","archives":"/archives || fa-solid fa-box-archive","tags":"/tags || fa-solid fa-tags","categories":"/categories || fa-solid fa-layer-group","more":{"icon":"fa-solid fa-circle-user","children":[{"tool":"/tools || fa-solid fa-tools"},{"life":"/photos || fa-solid fa-image"},{"me":"/about || fa-solid fa-user-graduate"},{"Git":"/custom/index.html || fa-solid fa-user"}]}},"first_screen":{"enable":true,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"The Steadfast Determination of An Ordinary Soul.","hitokoto":false},"social_contact":{"enable":true,"links":{"github":"https://github.com/Decade-qiu","weixin":"img | /images/social/weixin.jpg","qq":null,"weibo":null,"zhihu":null,"twitter":null,"x":"https://x.com/LukasMa46743746","facebook":null,"email":"qiuyu6021@gmail.com"}},"scroll":{"progress_bar":true,"percent":true,"hide_header":false},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"created || fa-solid fa-history","post_datetime_format":"ago"},"post":{"author_badge":{"enable":true,"level_badge":false,"custom_badge":"元婴开发者"},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":true,"img_link":"/images/post/payment.jpg","text":null,"icon":null},"created_datetime_icon":"fa-solid fa-calendar-plus","updated_datetime_icon":"fa-solid fa-arrows-rotate"},"code_block":{"tools":{"enable":true,"style":"mac"},"highlight_theme":"obsidian"},"toc":{"enable":true,"number":false,"expand_all":false,"init_open":false,"layout":"right"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":false,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":true,"use":"waline","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.39"},"waline":{"server_url":"https://waline-vercel-two-rho.vercel.app/","reaction":true,"version":"3.3.2"},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":false},"lazyload":{"enable":true},"cdn":{"enable":true,"provider":"cdnjs"},"pjax":{"enable":false},"footer":{"since":2020,"word_count":true,"site_deploy":{"enable":true,"provider":"github","url":"https://github.com"},"record":{"enable":false,"list":[{"code":null,"link":null}]}},"inject":{"enable":true,"css":[null,"/css/custom.css"],"js":[null,"/js/custom_code_block.js"]},"root":"","source_data":{"photos":[{"url":"/images/post/【哲风壁纸】日本动漫-电锯人.webp","name":"电锯人"},{"url":"/images/post/Quicker_20250428_193139.webp","name":"kowayia"},{"url":"/images/post/Quicker_20250428_233349.webp","name":"世界地图"},{"url":"/images/post/tmpFE1E.tmp.webp","name":"施红"},{"url":"/images/post/result-1745849388402.webp","name":"仇忠骏.动漫版"},{"url":"/images/photos/猫猫困了PNG.png","name":"猫猫困了PNG"},{"url":"/images/photos/宁静的暴雨天.png","name":"宁静的暴雨天"},{"url":"/images/photos/我在扬州好想你.png","name":"我在扬州好想你"},{"url":"/images/photos/信鸽.png","name":"信鸽"},{"url":"/images/photos/啤酒烧烤.png","name":"啤酒烧烤"},{"url":"/images/photos/随手拍.png","name":"随手拍"},{"url":"/images/photos/糖油混合炸弹.png","name":"糖油混合炸弹"},{"url":"/images/photos/香香的.png","name":"香香的"},{"url":"/images/photos/蝎子莱莱.png","name":"蝎子莱莱"},{"url":"/images/post/指C为python.png","name":"指C为python"},{"url":"/images/photos/YangZhou_Station.png","name":"YangZhou Station"},{"url":"/images/photos/GBC.jpg","name":"Girls Band Cry"},{"url":"/images/photos/bocchi.webp","name":"Bocchi the Rock!"}],"tools":[{"category":"AIGC","anchorId":"QUlHQw0"},{"name":"ChatGPT","link":"https://chat.openai.com/","description":"OpenAI 旗下 AI 聊天对话工具","image":"/images/tools/chatgpt.svg"},{"name":"Gemini","link":"https://gemini.google.com/app","description":"Google 旗下 AI 聊天对话工具","image":"/images/tools/gemini.svg"},{"name":"Copilot","link":"https://copilot.microsoft.com/","description":"Microsoft 旗下 AI 聊天对话工具","image":"/images/tools/copilot.png"},{"name":"Deepseek","link":"https://chat.deepseek.com/","description":"Deepseek 旗下 AI 聊天对话工具","image":"/images/tools/deepseek.jpg"},{"name":"Qwen","link":"https://chat.qwen.ai/","description":"Alibaba 旗下 AI 聊天对话工具","image":"/images/tools/tongyiqianwen.svg"},{"name":"即梦AI","link":"https://jimeng.jianying.com/ai-tool/home","description":"Dreamina 图像生成工具","image":"/images/tools/dream.png"},{"name":"komiko","link":"https://komiko.app/home","description":"Komiko 动漫化AI工具","image":"/images/tools/komiko.webp"},{"name":"InsMind","link":"https://www.insmind.com/zh-cn/workspace/","description":"AI图片编辑工具","image":"/images/tools/insmind.svg"},{"name":"Raphael","link":"https://raphael.app/zh","description":"AI图片生成工具","image":"/images/tools/rap.png"},{"name":"腾讯元宝","link":"https://yuanbao.tencent.com/chat/","description":"Tencent 旗下 AI 聊天对话工具","image":"/images/tools/tencent.jpg"},{"name":"豆包","link":"https://www.doubao.com/chat/","description":"字节跳动 图片生成工具","image":"/images/tools/dn.jpg"},{"category":"Airport","anchorId":"QWlycG9ydA12"},{"name":"独角兽","link":"https://91unicorn.cloud/","description":"十分稳定","image":"/images/tools/dujiaoshou.ico"},{"name":"极速机场","link":"https://xn--mes358acgm99l.com/","description":"便宜好用","image":"/images/tools/jisu.ico"},{"name":"iKuuu","link":"https://ikuuu.org/user","description":"以备不时之需","image":"/images/tools/ikuu.ico"},{"category":"File Converter","anchorId":"RmlsZSUyMENvbnZlcnRlcg16"},{"name":"Online Image Tool","link":"https://www.onlineimagetool.com/zh/","description":"在线压缩和转换图片","image":"/images/tools/oit.png"},{"name":"Vector Magic","link":"https://zh.vectormagic.com/","description":"文件矢量化","image":"/images/tools/apple-touch-icon-180_97956a9f5fbf6a767de100280d78c1f8.png"},{"name":"TinyPNG","link":"https://tinypng.com/","description":"Smart AVIF, WebP, PNG and JPEG Compression for Faster Websites","image":"/images/tools/tiny.ico"},{"name":"踏得","link":"https://techbrood.com/tool","description":"HTML5在线工具","image":"/images/tools/td.ico"},{"name":"UU在线工具","link":"https://uutool.cn/base64/","description":"base64工具包","image":"/images/tools/uu.png"},{"name":"I Love PDF","link":"https://www.ilovepdf.com/","description":"PDF工具包","image":"/images/tools/ilovepdf.svg"},{"category":"Free GPT API","anchorId":"RnJlZSUyMEdQVCUyMEFQSQ23"},{"name":"Gemini API","link":"https://ai.google.dev/gemini-api/docs/quickstart?lang=python","description":"Google Gemini API","image":"/images/tools/touchicon-180-new.png"},{"name":"SiliconCloud","link":"https://cloud.siliconflow.cn/models","description":"各种模型API"},{"name":"Cloudflare Workers AI","link":"https://developers.cloudflare.com/workers-ai/configuration/open-ai-compatibility/","description":"OpenAI compatible API endpoints","image":"/images/tools/logo.p_ySeMR1.svg"},{"name":"算了么","link":"https://api.suanli.cn/","description":"共享算力API","image":"/images/tools/suanlm.svg"},{"category":"Resource Explorer","anchorId":"UmVzb3VyY2UlMjBFeHBsb3Jlcg28"},{"name":"Free for Developers","link":"https://free-for.dev/","description":"A list of SaaS, PaaS and IaaS offerings that have free tiers of interest to devops and infradev","image":"/images/tools/freefd.webp"},{"name":"zlibrary","link":"https://zh.z-library.sk/","description":"在线图书馆","image":"/images/tools/logo.zlibrary.svg"},{"name":"PicX","link":"https://picx.xpoet.cn/","description":"基于Github的图床","image":"/images/tools/logo.ffee4291.png"},{"name":"HaoWallpaper","link":"https://haowallpaper.com/","description":"哲风壁纸","image":"/images/tools/haowall.ico"},{"name":"Awesome","link":"https://wallhaven.cc/","description":"WallHaven","image":"/images/tools/wallheaven.ico"},{"name":"WallHere","link":"https://wallhere.com/","description":"WallHere"},{"name":"SnapAny","link":"https://snapany.com/zh","description":"万能视频图片解析下载"},{"name":"ØMagnet","link":"https://0cili.org/","description":"种子下载"},{"name":"twitter","link":"https://snapvid.net/zh-cn/twitter-downloader","description":"推特视频下载器","image":"/images/tools/apple-touch-icon.png"},{"name":"youtube","link":"https://www.y2mate.com/en949","description":"Youtube视频下载器","image":"/images/tools/y2mate.webp"},{"name":"Icons8","link":"https://icons8.com/icons","description":"免费图标下载","image":"/images/tools/logo-icons8.svg"},{"name":"全能emoji","link":"https://www.emojiall.com/zh-hans","description":"emoji制作","image":"/images/tools/emoji.ico"},{"name":"emojidb","link":"https://emojidb.org/","description":"免费表情包下载","image":"/images/tools/emojidb.png"},{"name":"Flaticon","link":"https://www.flaticon.com/","description":"免费图标下载","image":"/images/tools/logo-flaticon.svg"},{"name":"IconFinder","link":"https://www.iconfinder.com/","description":"免费图标下载","image":"/images/tools/logo-iconfinder.svg"}]},"version":"4.2.5"}
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"}
+    KEEP.language_code_block = {"copy":"Copy code","copied":"Copied","fold":"Fold code block","folded":"Folded"}
+    KEEP.language_copy_copyright = {"copy":"Copy copyright info","copied":"Copied","title":"Original post title","author":"Original post author","link":"Original post link"}
+  </script>
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left flex-start border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/avatar.ico">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               Decade
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc border-box">
+                <ul class="menu-list border-box">
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-home"></i>
+                                
+                                HOME
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/archives">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-box-archive"></i>
+                                
+                                ARCHIVES
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/tags">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-tags"></i>
+                                
+                                TAGS
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/categories">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-layer-group"></i>
+                                
+                                CATEGORIES
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box has-sub-menu">
+                            <a class="menu-text-color border-box" href="javascript:void(0);">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-circle-user"></i>
+                                
+                                MORE
+                                
+                                    <i class="menu-text-color collapse-icon fa-solid fa-angle-down"></i>
+                                
+                            </a>
+                            
+                                <ul class="sub-menu-list border-box">
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" href="/tools">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-solid fa-tools"></i>
+                                                
+                                                TOOL
+                                            </a>
+                                        </li>
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" href="/photos">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-solid fa-image"></i>
+                                                
+                                                LIFE
+                                            </a>
+                                        </li>
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" href="/about">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-solid fa-user-graduate"></i>
+                                                
+                                                ME
+                                            </a>
+                                        </li>
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" href="/custom/">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-solid fa-user"></i>
+                                                
+                                                GIT
+                                            </a>
+                                        </li>
+                                    
+                                </ul>
+                            
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="menu-text-color fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile border-box flex-start">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list border-box">
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-home"></i>
+                                </span>
+                            
+                            HOME
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/archives">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-box-archive"></i>
+                                </span>
+                            
+                            ARCHIVES
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/tags">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-tags"></i>
+                                </span>
+                            
+                            TAGS
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/categories">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-layer-group"></i>
+                                </span>
+                            
+                            CATEGORIES
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box has-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="javascript:void(0);">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-circle-user"></i>
+                                </span>
+                            
+                            MORE
+                        </a>
+                        
+                            <i class="right-side collapse-icon fa-solid fa-angle-left"></i>
+                        
+                    </label>
+                    
+                        <ul class="drawer-sub-menu-list border-box">
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" href="/tools">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-solid fa-tools"></i>
+                                            </span>
+                                        
+                                        TOOL
+                                    </a>
+                                </li>
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" href="/photos">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-solid fa-image"></i>
+                                            </span>
+                                        
+                                        LIFE
+                                    </a>
+                                </li>
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" href="/about">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-solid fa-user-graduate"></i>
+                                            </span>
+                                        
+                                        ME
+                                    </a>
+                                </li>
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" href="/custom/">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-solid fa-user"></i>
+                                            </span>
+                                        
+                                        GIT
+                                    </a>
+                                </li>
+                            
+                        </ul>
+                    
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        对话式 RAG 的预处理链路：意图识别与查询重写的工程取舍
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/avatar.ico">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">Zhongjun Qiu</span>
+                                
+                                    <span class="author-badge">元婴开发者</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2025-11-22 19:20:00</span>
+            </span>
+
+            
+                <span class="meta-info-item post-update-date">
+                    <i class="icon fa-solid fa-arrows-rotate"></i>&nbsp;
+                    <span class="datetime" data-updated="Sun Dec 28 2025 23:57:02 GMT+0800">2025-12-28 23:57:02</span>
+                </span>
+            
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/%E5%90%8E%E7%AB%AF/">后端</a></li>
+                        
+                    
+                            <li class="category-item">&nbsp;<i class="icon fas fa-angle-right"></i>&nbsp;<a href="/categories/AI-%E5%B7%A5%E7%A8%8B/">AI 工程</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/RAG/">RAG</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/LLM/">LLM</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E5%AF%B9%E8%AF%9D%E7%B3%BB%E7%BB%9F/">对话系统</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>2.8k Words</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>10 Mins</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <p>在对话式 RAG
+系统中，用户的输入往往不能直接拿去检索——“它怎么做”指代不明，“好的”根本不需要检索。本文记录了
+CookHero 项目中意图识别和查询重写模块的设计过程，包括我们在 Prompt
+工程上的反复迭代，以及一些”看起来简单但容易做错”的细节。</p>
+<span id="more"></span>
+<h2 id="问题用户说的不是检索要用的">问题：用户说的不是检索要用的</h2>
+<p>先看几个真实的用户输入：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">用户：红烧肉怎么做</span><br><span class="line">用户：这个要放多少盐？</span><br><span class="line">用户：有点太油腻了，有什么替代方案吗</span><br><span class="line">用户：好的，我试试</span><br><span class="line">用户：谢谢</span><br></pre></td></tr></table></figure>
+<p>如果把这些原封不动送去检索：</p>
+<ul>
+<li>“红烧肉怎么做” → ✅ 可以检索</li>
+<li>“这个要放多少盐” → ❌ “这个”是什么？检索会失败</li>
+<li>“有点太油腻了…” → ❓ 能检索，但需要明确是哪道菜的替代方案</li>
+<li>“好的” → ❌ 完全不需要检索，检索了也是噪声</li>
+<li>“谢谢” → ❌ 同上</li>
+</ul>
+<p>直接把用户输入扔给检索模块，<strong>一半以上会出问题</strong>。</p>
+<p>我们需要两个预处理步骤：</p>
+<ol type="1">
+<li><strong>意图识别</strong>：判断是否需要检索（过滤掉”好的”“谢谢”）</li>
+<li><strong>查询重写</strong>：把指代词解析、上下文补全（“这个” →
+“红烧肉”）</li>
+</ol>
+<h2 id="意图识别减少不必要的检索">意图识别：减少不必要的检索</h2>
+<h3 id="设计目标">设计目标</h3>
+<p>意图识别的核心目标是<strong>回答一个问题：这个查询需要检索知识库吗？</strong></p>
+<p>如果不需要，就跳过检索，直接让 LLM 回答。这样做有两个好处：</p>
+<ol type="1">
+<li><strong>降低延迟</strong>：省掉检索步骤，响应更快</li>
+<li><strong>避免噪声</strong>：不该检索的检索了，可能返回不相关内容，影响
+LLM 生成质量</li>
+</ol>
+<h3 id="分类体系">分类体系</h3>
+<p>我们定义了五种意图：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">QueryIntent</span>(<span class="title class_ inherited__">Enum</span>):</span><br><span class="line">    RECIPE_SEARCH = <span class="string">"recipe_search"</span>      <span class="comment"># 菜谱查询</span></span><br><span class="line">    COOKING_TIPS = <span class="string">"cooking_tips"</span>        <span class="comment"># 烹饪技巧</span></span><br><span class="line">    INGREDIENT_INFO = <span class="string">"ingredient_info"</span>  <span class="comment"># 食材信息</span></span><br><span class="line">    RECOMMENDATION = <span class="string">"recommendation"</span>    <span class="comment"># 推荐请求</span></span><br><span class="line">    GENERAL_CHAT = <span class="string">"general_chat"</span>        <span class="comment"># 闲聊/确认</span></span><br></pre></td></tr></table></figure>
+<p>其中只有 <code>GENERAL_CHAT</code> 不需要 RAG，其他四种都需要。</p>
+<h3 id="prompt-的迭代">Prompt 的迭代</h3>
+<p>意图识别用 LLM 实现。最初的 Prompt 很简单：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">判断用户问题的意图，输出 JSON：</span><br><span class="line">{"need_rag": true/false, "intent": "..."}</span><br></pre></td></tr></table></figure>
+<p>上线后发现问题：</p>
+<ol type="1">
+<li><strong>边界 case 判断不准</strong>：“这个可以用微波炉吗” →
+被判成不需要 RAG</li>
+<li><strong>过度检索</strong>：“好的我知道了” → 被判成需要 RAG</li>
+</ol>
+<p>反复迭代后，我们总结出 Prompt 设计的几个要点：</p>
+<h4 id="要点-1明确定义-need_ragtrue-的条件">要点 1：明确定义
+need_rag=true 的条件</h4>
+<p>不能让 LLM 自己”理解”什么时候需要检索，要显式列出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">【need_rag = true 的典型情况】</span><br><span class="line"></span><br><span class="line">1. 菜谱 / 做法查询</span><br><span class="line">   - 明确询问某道菜怎么做、步骤、火候</span><br><span class="line">2. 基于条件的可执行建议</span><br><span class="line">   - "有 A、B、C 能做什么菜"</span><br><span class="line">   - "减脂期间晚餐推荐做什么"</span><br><span class="line">3. 烹饪技巧与操作问题</span><br><span class="line">   - 处理方法、口味调整、失败补救</span><br><span class="line">   - 时间、温度、器具、流程相关问题</span><br><span class="line">4. 承接式问题（需结合上下文）</span><br><span class="line">   - 使用指代或省略："这个怎么做""第二种呢"</span><br><span class="line">   - 基于之前推荐继续追问细节</span><br></pre></td></tr></table></figure>
+<h4 id="要点-2显式排除不需要检索的情况">要点
+2：显式排除不需要检索的情况</h4>
+<p>同样地，也要列出 need_rag=false 的边界：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">【need_rag = false 的典型情况】</span><br><span class="line"></span><br><span class="line">1. 纯对话或流程控制</span><br><span class="line">   - 闲聊、感谢、寒暄</span><br><span class="line">   - "好的""明白了""继续"</span><br><span class="line">2. 确认 / 澄清 / 选择类问题</span><br><span class="line">   - "这个可以吗？"</span><br><span class="line">   - "就用第一个方案"</span><br><span class="line">3. 与烹饪无关的内容</span><br></pre></td></tr></table></figure>
+<h4 id="要点-3强调结合对话历史判断">要点 3：强调结合对话历史判断</h4>
+<p>孤立地看”这个可以吗”无法判断，必须结合上下文。我们在 Prompt
+中显式要求：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">你的判断必须结合：</span><br><span class="line">- 用户的【当前问题】</span><br><span class="line">- 已压缩/整理后的【对话历史上下文】</span><br></pre></td></tr></table></figure>
+<p>并且在调用时把历史文本一并传入：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">template = INTENT_DETECTION_PROMPT.format_prompt(history=history_text + <span class="string">f"\n用户: <span class="subst">{query}</span>"</span>)</span><br><span class="line">response = <span class="keyword">await</span> llm.ainvoke(template.messages)</span><br></pre></td></tr></table></figure>
+<h3 id="输出格式约束">输出格式约束</h3>
+<p>LLM 有时会输出不规范的 JSON。我们用了几个手段：</p>
+<ol type="1">
+<li><strong>Prompt 中强调</strong>：“你必须且只能输出以下
+JSON，不得输出任何多余文本”</li>
+<li><strong>解析时做容错</strong>：用正则提取 JSON，处理多余的 markdown
+标记</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">extract_first_valid_json</span>(<span class="params">content: <span class="built_in">str</span></span>) -&gt; <span class="built_in">dict</span>:</span><br><span class="line">    <span class="string">"""从 LLM 输出中提取第一个有效的 JSON 对象"""</span></span><br><span class="line">    <span class="comment"># 处理 ```json ... ``` 包装</span></span><br><span class="line">    content = re.sub(<span class="string">r'^```json\s*'</span>, <span class="string">''</span>, content)</span><br><span class="line">    content = re.sub(<span class="string">r'\s*```$'</span>, <span class="string">''</span>, content)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 尝试解析</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">return</span> json.loads(content)</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="comment"># fallback: 用正则找 {...}</span></span><br><span class="line">        <span class="keyword">match</span> = re.search(<span class="string">r'\{[^{}]*\}'</span>, content)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">match</span>:</span><br><span class="line">            <span class="keyword">return</span> json.loads(<span class="keyword">match</span>.group())</span><br><span class="line">    <span class="keyword">return</span> {}</span><br></pre></td></tr></table></figure>
+<h3 id="选择-fast-模型">选择 Fast 模型</h3>
+<p>意图识别调用 LLM，会增加延迟。为了控制成本和延迟，我们用的是
+<strong>fast 模型</strong>（更小更快的模型），而不是主生成用的 normal
+模型：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">IntentDetector</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, llm_type: LLMType = LLMType.FAST</span>):</span><br><span class="line">        <span class="variable language_">self</span>._llm = provider.create_base_llm(llm_type, temperature=<span class="number">0.0</span>)</span><br></pre></td></tr></table></figure>
+<p>实测 fast 模型在意图识别这种简单分类任务上，准确率和 normal
+模型差不多，但延迟低 3-4 倍。</p>
+<h2 id="查询重写消除指代补全上下文">查询重写：消除指代、补全上下文</h2>
+<h3 id="为什么需要重写">为什么需要重写？</h3>
+<p>即使判断出需要 RAG，原始查询也可能不适合直接检索：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">用户：红烧肉怎么做</span><br><span class="line">助手：红烧肉的做法是... [详细步骤]</span><br><span class="line">用户：第二步要多长时间？</span><br></pre></td></tr></table></figure>
+<p>“第二步要多长时间”如果直接检索，会匹配到各种菜的”第二步”，而不是红烧肉的。</p>
+<p>查询重写的目标是：<strong>把用户的当前问题转换为一个独立、完整、可直接检索的查询</strong>。</p>
+<p>重写后应该是：“红烧肉烹制的第二步需要多长时间”。</p>
+<h3 id="prompt-设计的核心规则">Prompt 设计的核心规则</h3>
+<h4 id="规则-1指代消解">规则 1：指代消解</h4>
+<p>最重要的规则。把”它”“这个”“上一道”等指代词替换为具体对象：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">【指代消解】</span><br><span class="line">- 将"它/这个/那个/第一个"等指代词，替换为对话历史中已明确出现的具体菜品、食材</span><br><span class="line">- 禁止猜测或引入未出现的信息</span><br></pre></td></tr></table></figure>
+<p>“禁止猜测”很重要——LLM 很喜欢”帮忙”补充信息，但这会引入幻觉。</p>
+<h4 id="规则-2上下文补全">规则 2：上下文补全</h4>
+<p>有时候用户省略了主语，需要从历史中补充：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">用户：我想减脂</span><br><span class="line">助手：推荐低卡沙拉、蒸鸡胸...</span><br><span class="line">用户：第一个怎么做</span><br></pre></td></tr></table></figure>
+<p>重写应该补全主语：“低卡沙拉怎么做”。</p>
+<p>但补全要克制，<strong>只补充对检索必要的信息</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">【上下文补全】</span><br><span class="line">- 若当前问题无法独立理解，补充对检索必要且直接相关的历史信息</span><br><span class="line">- 只补充与"做什么/怎么做/推荐什么"直接相关的内容</span><br></pre></td></tr></table></figure>
+<h4 id="规则-3幻觉防护">规则 3：幻觉防护</h4>
+<p>这是我们迭代多次才意识到的重点。LLM 重写时经常”加戏”：</p>
+<ul>
+<li>用户说”推荐个菜”，重写成”推荐一道简单快手的家常菜” ❌</li>
+<li>用户说”有什么素菜”，重写成”推荐一道健康低脂的素菜” ❌</li>
+</ul>
+<p>这些额外的限定条件不是用户说的，是 LLM
+脑补的，会导致检索结果偏离用户真实需求。</p>
+<p>我们在 Prompt 中显式禁止：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">【幻觉与扩展限制】</span><br><span class="line">- 对话中未出现的信息一律不得添加</span><br><span class="line">- 不得擅自加入"简单/快速/健康/低脂/辣"等描述</span><br></pre></td></tr></table></figure>
+<h4 id="规则-4处理模糊问题">规则 4：处理模糊问题</h4>
+<p>用户说”我饿了”或”吃点啥”怎么办？</p>
+<p>强行指代消解会出错（没有可消解的对象），强行补充上下文会引入幻觉。</p>
+<p>我们的策略是<strong>保持模糊</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">【模糊问题处理】</span><br><span class="line">- 若问题本身无法确定具体对象（如"我饿了""吃点啥"）</span><br><span class="line">- 重写为不设限、不假设条件的通用菜谱请求</span><br></pre></td></tr></table></figure>
+<p>重写结果可能是”推荐一些菜品”，虽然宽泛，但至少不会出错。</p>
+<h3 id="输出格式">输出格式</h3>
+<p>和意图识别一样，输出 JSON：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">{</span><span class="attr">"query"</span><span class="punctuation">:</span> <span class="string">"重写后的一句话查询"</span><span class="punctuation">}</span></span><br></pre></td></tr></table></figure>
+<p>同样需要做解析容错。</p>
+<h3 id="跳过重写的情况">跳过重写的情况</h3>
+<p>如果没有历史上下文，重写就没意义。我们直接跳过：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">rewrite</span>(<span class="params">self, current_query: <span class="built_in">str</span>, history_text: <span class="built_in">str</span></span>) -&gt; <span class="built_in">str</span>:</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> history_text.strip():</span><br><span class="line">        <span class="keyword">return</span> current_query  <span class="comment"># 直接返回原查询</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 执行重写...</span></span><br></pre></td></tr></table></figure>
+<p>这避免了无意义的 LLM 调用。</p>
+<h2 id="串联预处理链路的完整流程">串联：预处理链路的完整流程</h2>
+<p>把意图识别和查询重写串起来：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">handle_query</span>(<span class="params">query: <span class="built_in">str</span>, conversation_id: <span class="built_in">str</span></span>):</span><br><span class="line">    <span class="comment"># 1. 获取对话历史</span></span><br><span class="line">    history = <span class="keyword">await</span> repository.get_history(conversation_id)</span><br><span class="line">    history_text = context_manager.build_history_text(history)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 2. 意图识别</span></span><br><span class="line">    intent_result = <span class="keyword">await</span> intent_detector.detect(history_text + <span class="string">f"\n用户: <span class="subst">{query}</span>"</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> intent_result.need_rag:</span><br><span class="line">        <span class="comment"># 不需要检索，直接生成</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">await</span> llm_generate(query, history)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 3. 查询重写</span></span><br><span class="line">    rewritten_query = <span class="keyword">await</span> query_rewriter.rewrite(query, history_text)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 4. 检索</span></span><br><span class="line">    rag_result = <span class="keyword">await</span> rag_service.retrieve(rewritten_query)</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 5. 生成</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">await</span> llm_generate(query, history, rag_context=rag_result.context)</span><br></pre></td></tr></table></figure>
+<p>注意：</p>
+<ul>
+<li>意图识别的输入是 <strong>history + 当前 query</strong></li>
+<li>查询重写的输入是 <strong>当前 query + history</strong>（history
+作为上下文参考）</li>
+<li>检索用的是 <strong>rewritten_query</strong>，不是原始 query</li>
+</ul>
+<h2 id="遇到的几个坑">遇到的几个坑</h2>
+<h3 id="重写结果变成了多句话">1. 重写结果变成了多句话</h3>
+<p>最初我们没限制输出格式，LLM 有时输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">红烧肉的做法。特别是第二步需要多长时间。</span><br></pre></td></tr></table></figure>
+<p>这不是一个可检索的查询。加了约束后解决：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输出必须是一整句通顺、自然的中文</span><br><span class="line">禁止列表、标签、关键词堆砌</span><br></pre></td></tr></table></figure>
+<h3 id="意图识别和重写的顺序问题">2. 意图识别和重写的顺序问题</h3>
+<p>最初我们先重写再识别意图，逻辑是”重写后的查询更清晰，意图更好判断”。</p>
+<p>但实际上这样做有问题：</p>
+<ul>
+<li>重写也需要调用 LLM，浪费了一次调用</li>
+<li>如果不需要检索，重写完全是无用功</li>
+</ul>
+<p>改成<strong>先意图识别</strong>后，不需要 RAG
+的情况直接跳过重写，省掉一次 LLM 调用。</p>
+<h3 id="历史上下文太长">3. 历史上下文太长</h3>
+<p>历史文本太长会：</p>
+<ol type="1">
+<li>超过 LLM 上下文限制</li>
+<li>增加 token 成本</li>
+<li>降低 LLM 处理速度</li>
+</ol>
+<p>我们做了截断，只取最近的历史：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">build_history_text</span>(<span class="params">self, history, limit=<span class="number">10</span></span>):</span><br><span class="line">    recent = history[-limit:]</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"\n"</span>.join([<span class="string">f"<span class="subst">{h[<span class="string">'role'</span>]}</span>: <span class="subst">{h[<span class="string">'content'</span>]}</span>"</span> <span class="keyword">for</span> h <span class="keyword">in</span> recent])</span><br></pre></td></tr></table></figure>
+<p>另外，如果使用了上下文压缩（见我们的另一篇博客），这里传入的是压缩摘要
++ 未压缩消息，进一步控制长度。</p>
+<h3 id="temperature-设置">4. temperature 设置</h3>
+<p>意图识别和查询重写都用 <code>temperature=0.0</code>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">base_llm = provider.create_base_llm(llm_type, temperature=<span class="number">0.0</span>)</span><br></pre></td></tr></table></figure>
+<p>这不是最佳实践的通用建议，而是针对这两个任务的选择：</p>
+<ul>
+<li>意图识别是<strong>分类任务</strong>，需要确定性输出</li>
+<li>查询重写需要<strong>保守改写</strong>，不要创造性发挥</li>
+</ul>
+<p>如果是需要多样性的任务（如生成推荐理由），temperature 应该调高。</p>
+<h2 id="还在思考的问题">还在思考的问题</h2>
+<ol type="1">
+<li><p><strong>意图识别可以不用 LLM 吗？</strong></p>
+<p>对于简单 case（“好的”“谢谢”），规则就能判断。可以先过规则，再用 LLM
+处理复杂 case。</p></li>
+<li><p><strong>重写可以更激进吗？</strong></p>
+<p>目前的策略很保守，“宁可不改也不错改”。但有时候激进改写效果更好（比如把口语化表达转成书面语）。</p></li>
+<li><p><strong>两步可以合成一步吗？</strong></p>
+<p>意图识别和查询重写都用
+LLM，理论上可以合并成一次调用。但分开做更清晰，失败也更容易定位。这是复杂度
+vs 性能的取舍。</p></li>
+</ol>
+<h2 id="总结">总结</h2>
+<p>对话式 RAG 的预处理链路，核心设计要点：</p>
+<ol type="1">
+<li><strong>先判断再检索</strong>：意图识别过滤掉不需要 RAG 的查询</li>
+<li><strong>Prompt 要显式</strong>：边界条件、禁止行为都要写清楚，不要靠
+LLM “理解”</li>
+<li><strong>防止幻觉</strong>：查询重写最容易引入幻觉，要显式禁止”加戏”</li>
+<li><strong>用 fast
+模型</strong>：预处理任务对模型能力要求不高，用小模型降低延迟</li>
+</ol>
+
+                    
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                对话式 RAG 的预处理链路：意图识别与查询重写的工程取舍
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                2025/11/22/intent-detection-and-query-rewriting/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    Author
+                </div>
+                <div class="content">Zhongjun Qiu</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    Published
+                </div>
+                <div class="content">2025-11-22 19:20</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    License
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="Copy copyright info" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/RAG/">RAG</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/LLM/">LLM</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E5%AF%B9%E8%AF%9D%E7%B3%BB%E7%BB%9F/">对话系统</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="Share to WeChat"
+            data-tooltip-img-tip="Scan by WeChat"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to WeiBo"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+                    
+
+<div class="reward-author-container border-box flex-center">
+    <div class="reward-btn border-box flex-center tooltip tooltip-img"
+            data-tooltip-img-url="/images/post/payment.jpg"
+            data-tooltip-img-trigger="click"
+            data-tooltip-img-style="top: -6px;"
+    >
+        <i class="fa-solid fa-gift"></i>&nbsp;REWARD AUTHOR
+    </div>
+</div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/2025/12/01/rag-dual-layer-cache-design/"
+                                   title="RAG 检索缓存的双层架构：L1 精确匹配 + L2 语义匹配的设计权衡"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">RAG 检索缓存的双层架构：L1 精确匹配 + L2 语义匹配的设计权衡</span>
+                                        <span class="post-nav-item">Prev posts</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/2025/11/16/context-compression-in-llm-conversations/"
+                                   title="多轮对话场景下的上下文压缩：从爆 token 到稳定运行的工程实践"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">多轮对话场景下的上下文压缩：从爆 token 到稳定运行的工程实践</span>
+                                        <span class="post-nav-item">Next posts</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+    <div class="comments-container border-box">
+        <div id="comments-anchor" class="comment-area-title border-box">
+            <i class="fas fa-comments"></i>&nbsp;Comments
+        </div>
+        <div class="comment-plugin-fail border-box">
+    <span class="fail-tip">Comment plugin failed to load</span>
+    <button class="reload keep-button">Click to reload</button>
+</div>
+<div class="comment-plugin-loading flex-center border-box">
+    <i class="loading-icon fa-solid fa-spinner fa-spin"></i>
+    <span class="load-tip">Loading comment plugin</span>
+</div>
+<script data-pjax>
+  window.KeepCommentPlugin = {}
+  window.KeepCommentPlugin.hideLoading = () => {
+    const cplDom = document.querySelector('.comments-container .comment-plugin-loading')
+    cplDom.style.display = 'none'
+  }
+  window.KeepCommentPlugin.loadFailHandle = () => {
+    window.KeepCommentPlugin.hideLoading()
+    const cpfDom = document.querySelector('.comments-container .comment-plugin-fail')
+    cpfDom.style.display = 'flex'
+    cpfDom.querySelector('.reload').addEventListener('click', () => {
+      window.location.reload()
+    })
+  }
+</script>
+
+        
+            
+
+    <div class="waline-comment-container">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/waline/3.3.2/waline.css"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/waline/3.3.2/waline-meta.css"/>
+        <div id="waline-comment"></div>
+        <script data-pjax>
+          window.KeepCommentPlugin.walineOptions = JSON.parse('{}'.replace(/&#34;/g, '"'))
+          window.KeepCommentPlugin.walineOptions.el = '#waline-comment'
+          window.KeepCommentPlugin.walineOptions.comment = '.post-comments-count'
+          window.KeepCommentPlugin.walineOptions.serverURL = 'https://waline-vercel-two-rho.vercel.app/'
+          window.KeepCommentPlugin.walineOptions.lang = 'en' || 'zh-CN'
+          window.KeepCommentPlugin.walineOptions.reaction = 'true' === 'true'
+        </script>
+
+        
+
+        
+            <script 
+                    async
+                    type="module"
+            >
+              import { init } from 'https://cdnjs.cloudflare.com/ajax/libs/waline/3.3.2/waline.js'
+              window.KeepCommentPlugin.initWaline = () => {
+                if (init) {
+                  init(window.KeepCommentPlugin.walineOptions)
+                  window.KeepCommentPlugin.hideLoading()
+                } else {
+                  setTimeout(() => {
+                    window.KeepCommentPlugin.initWaline()
+                  }, 1000)
+                }
+              }
+
+              if ('false' === 'true') {
+                setTimeout(() => {
+                  window.KeepCommentPlugin.initWaline()
+                }, 1200)
+              } else {
+                window.addEventListener('DOMContentLoaded', window.KeepCommentPlugin.initWaline)
+              }
+            </script>
+        
+    </div>
+
+
+        
+    </div>
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc right-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E7%94%A8%E6%88%B7%E8%AF%B4%E7%9A%84%E4%B8%8D%E6%98%AF%E6%A3%80%E7%B4%A2%E8%A6%81%E7%94%A8%E7%9A%84"><span class="nav-text">问题：用户说的不是检索要用的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%84%8F%E5%9B%BE%E8%AF%86%E5%88%AB%E5%87%8F%E5%B0%91%E4%B8%8D%E5%BF%85%E8%A6%81%E7%9A%84%E6%A3%80%E7%B4%A2"><span class="nav-text">意图识别：减少不必要的检索</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E7%9B%AE%E6%A0%87"><span class="nav-text">设计目标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E7%B1%BB%E4%BD%93%E7%B3%BB"><span class="nav-text">分类体系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#prompt-%E7%9A%84%E8%BF%AD%E4%BB%A3"><span class="nav-text">Prompt 的迭代</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A6%81%E7%82%B9-1%E6%98%8E%E7%A1%AE%E5%AE%9A%E4%B9%89-need_ragtrue-%E7%9A%84%E6%9D%A1%E4%BB%B6"><span class="nav-text">要点 1：明确定义
+need_rag&#x3D;true 的条件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A6%81%E7%82%B9-2%E6%98%BE%E5%BC%8F%E6%8E%92%E9%99%A4%E4%B8%8D%E9%9C%80%E8%A6%81%E6%A3%80%E7%B4%A2%E7%9A%84%E6%83%85%E5%86%B5"><span class="nav-text">要点
+2：显式排除不需要检索的情况</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A6%81%E7%82%B9-3%E5%BC%BA%E8%B0%83%E7%BB%93%E5%90%88%E5%AF%B9%E8%AF%9D%E5%8E%86%E5%8F%B2%E5%88%A4%E6%96%AD"><span class="nav-text">要点 3：强调结合对话历史判断</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BE%93%E5%87%BA%E6%A0%BC%E5%BC%8F%E7%BA%A6%E6%9D%9F"><span class="nav-text">输出格式约束</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%89%E6%8B%A9-fast-%E6%A8%A1%E5%9E%8B"><span class="nav-text">选择 Fast 模型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E8%AF%A2%E9%87%8D%E5%86%99%E6%B6%88%E9%99%A4%E6%8C%87%E4%BB%A3%E8%A1%A5%E5%85%A8%E4%B8%8A%E4%B8%8B%E6%96%87"><span class="nav-text">查询重写：消除指代、补全上下文</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E9%87%8D%E5%86%99"><span class="nav-text">为什么需要重写？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#prompt-%E8%AE%BE%E8%AE%A1%E7%9A%84%E6%A0%B8%E5%BF%83%E8%A7%84%E5%88%99"><span class="nav-text">Prompt 设计的核心规则</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A7%84%E5%88%99-1%E6%8C%87%E4%BB%A3%E6%B6%88%E8%A7%A3"><span class="nav-text">规则 1：指代消解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A7%84%E5%88%99-2%E4%B8%8A%E4%B8%8B%E6%96%87%E8%A1%A5%E5%85%A8"><span class="nav-text">规则 2：上下文补全</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A7%84%E5%88%99-3%E5%B9%BB%E8%A7%89%E9%98%B2%E6%8A%A4"><span class="nav-text">规则 3：幻觉防护</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A7%84%E5%88%99-4%E5%A4%84%E7%90%86%E6%A8%A1%E7%B3%8A%E9%97%AE%E9%A2%98"><span class="nav-text">规则 4：处理模糊问题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BE%93%E5%87%BA%E6%A0%BC%E5%BC%8F"><span class="nav-text">输出格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B7%B3%E8%BF%87%E9%87%8D%E5%86%99%E7%9A%84%E6%83%85%E5%86%B5"><span class="nav-text">跳过重写的情况</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%B2%E8%81%94%E9%A2%84%E5%A4%84%E7%90%86%E9%93%BE%E8%B7%AF%E7%9A%84%E5%AE%8C%E6%95%B4%E6%B5%81%E7%A8%8B"><span class="nav-text">串联：预处理链路的完整流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%81%87%E5%88%B0%E7%9A%84%E5%87%A0%E4%B8%AA%E5%9D%91"><span class="nav-text">遇到的几个坑</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%8D%E5%86%99%E7%BB%93%E6%9E%9C%E5%8F%98%E6%88%90%E4%BA%86%E5%A4%9A%E5%8F%A5%E8%AF%9D"><span class="nav-text">1. 重写结果变成了多句话</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%84%8F%E5%9B%BE%E8%AF%86%E5%88%AB%E5%92%8C%E9%87%8D%E5%86%99%E7%9A%84%E9%A1%BA%E5%BA%8F%E9%97%AE%E9%A2%98"><span class="nav-text">2. 意图识别和重写的顺序问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%86%E5%8F%B2%E4%B8%8A%E4%B8%8B%E6%96%87%E5%A4%AA%E9%95%BF"><span class="nav-text">3. 历史上下文太长</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#temperature-%E8%AE%BE%E7%BD%AE"><span class="nav-text">4. temperature 设置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%98%E5%9C%A8%E6%80%9D%E8%80%83%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-text">还在思考的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-text">总结</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="copyright-info info-item">
+    &copy;&nbsp;<span>2020</span>&nbsp;-&nbsp;2025
+    
+            &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">Zhongjun Qiu</a>
+        
+    </div>
+
+    <div class="theme-info info-item">
+        Powered by&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;&&nbsp;Theme&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+    </div>
+
+    
+        
+        <div class="deploy-info info-item">
+            
+                <a target="_blank" rel="nofollow" href="https://github.com">
+            
+            This site is deployed on <span class="tooltip" data-tooltip-content="GitHub Pages"><img src="/images/brands/github.png"></span>
+            
+                </a>
+            
+        </div>
+    
+
+    
+        <div class="count-info info-item">
+            
+                <span class="count-item border-box word">
+                    <span class="item-type border-box">Total words</span>
+                    <span class="item-value border-box word">444.6k</span>
+                </span>
+            
+
+            
+
+            
+                <span class="count-item border-box pv">
+                    <span class="item-type border-box">Page View</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+    
+
+    
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+            <li class="tools-item flex-center go-to-comments">
+                <i class="fas fa-comment"></i>
+                <span class="post-comments-count"></span>
+            </li>
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <!-- toggle mode -->
+        
+            <li class="tools-item tool-toggle-theme-mode flex-center">
+                <i class="fas fa-moon"></i>
+            </li>
+        
+
+        <!-- rss -->
+        
+
+        <!-- to bottom -->
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+            <li class="tools-item go-to-comments-tablet flex-center">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E7%94%A8%E6%88%B7%E8%AF%B4%E7%9A%84%E4%B8%8D%E6%98%AF%E6%A3%80%E7%B4%A2%E8%A6%81%E7%94%A8%E7%9A%84"><span class="nav-text">问题：用户说的不是检索要用的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%84%8F%E5%9B%BE%E8%AF%86%E5%88%AB%E5%87%8F%E5%B0%91%E4%B8%8D%E5%BF%85%E8%A6%81%E7%9A%84%E6%A3%80%E7%B4%A2"><span class="nav-text">意图识别：减少不必要的检索</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E7%9B%AE%E6%A0%87"><span class="nav-text">设计目标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E7%B1%BB%E4%BD%93%E7%B3%BB"><span class="nav-text">分类体系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#prompt-%E7%9A%84%E8%BF%AD%E4%BB%A3"><span class="nav-text">Prompt 的迭代</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A6%81%E7%82%B9-1%E6%98%8E%E7%A1%AE%E5%AE%9A%E4%B9%89-need_ragtrue-%E7%9A%84%E6%9D%A1%E4%BB%B6"><span class="nav-text">要点 1：明确定义
+need_rag&#x3D;true 的条件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A6%81%E7%82%B9-2%E6%98%BE%E5%BC%8F%E6%8E%92%E9%99%A4%E4%B8%8D%E9%9C%80%E8%A6%81%E6%A3%80%E7%B4%A2%E7%9A%84%E6%83%85%E5%86%B5"><span class="nav-text">要点
+2：显式排除不需要检索的情况</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A6%81%E7%82%B9-3%E5%BC%BA%E8%B0%83%E7%BB%93%E5%90%88%E5%AF%B9%E8%AF%9D%E5%8E%86%E5%8F%B2%E5%88%A4%E6%96%AD"><span class="nav-text">要点 3：强调结合对话历史判断</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BE%93%E5%87%BA%E6%A0%BC%E5%BC%8F%E7%BA%A6%E6%9D%9F"><span class="nav-text">输出格式约束</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%89%E6%8B%A9-fast-%E6%A8%A1%E5%9E%8B"><span class="nav-text">选择 Fast 模型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E8%AF%A2%E9%87%8D%E5%86%99%E6%B6%88%E9%99%A4%E6%8C%87%E4%BB%A3%E8%A1%A5%E5%85%A8%E4%B8%8A%E4%B8%8B%E6%96%87"><span class="nav-text">查询重写：消除指代、补全上下文</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E9%87%8D%E5%86%99"><span class="nav-text">为什么需要重写？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#prompt-%E8%AE%BE%E8%AE%A1%E7%9A%84%E6%A0%B8%E5%BF%83%E8%A7%84%E5%88%99"><span class="nav-text">Prompt 设计的核心规则</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A7%84%E5%88%99-1%E6%8C%87%E4%BB%A3%E6%B6%88%E8%A7%A3"><span class="nav-text">规则 1：指代消解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A7%84%E5%88%99-2%E4%B8%8A%E4%B8%8B%E6%96%87%E8%A1%A5%E5%85%A8"><span class="nav-text">规则 2：上下文补全</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A7%84%E5%88%99-3%E5%B9%BB%E8%A7%89%E9%98%B2%E6%8A%A4"><span class="nav-text">规则 3：幻觉防护</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A7%84%E5%88%99-4%E5%A4%84%E7%90%86%E6%A8%A1%E7%B3%8A%E9%97%AE%E9%A2%98"><span class="nav-text">规则 4：处理模糊问题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BE%93%E5%87%BA%E6%A0%BC%E5%BC%8F"><span class="nav-text">输出格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B7%B3%E8%BF%87%E9%87%8D%E5%86%99%E7%9A%84%E6%83%85%E5%86%B5"><span class="nav-text">跳过重写的情况</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%B2%E8%81%94%E9%A2%84%E5%A4%84%E7%90%86%E9%93%BE%E8%B7%AF%E7%9A%84%E5%AE%8C%E6%95%B4%E6%B5%81%E7%A8%8B"><span class="nav-text">串联：预处理链路的完整流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%81%87%E5%88%B0%E7%9A%84%E5%87%A0%E4%B8%AA%E5%9D%91"><span class="nav-text">遇到的几个坑</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%8D%E5%86%99%E7%BB%93%E6%9E%9C%E5%8F%98%E6%88%90%E4%BA%86%E5%A4%9A%E5%8F%A5%E8%AF%9D"><span class="nav-text">1. 重写结果变成了多句话</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%84%8F%E5%9B%BE%E8%AF%86%E5%88%AB%E5%92%8C%E9%87%8D%E5%86%99%E7%9A%84%E9%A1%BA%E5%BA%8F%E9%97%AE%E9%A2%98"><span class="nav-text">2. 意图识别和重写的顺序问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%86%E5%8F%B2%E4%B8%8A%E4%B8%8B%E6%96%87%E5%A4%AA%E9%95%BF"><span class="nav-text">3. 历史上下文太长</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#temperature-%E8%AE%BE%E7%BD%AE"><span class="nav-text">4. temperature 设置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%98%E5%9C%A8%E6%80%9D%E8%80%83%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-text">还在思考的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-text">总结</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+
+
+<!-- common js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/utils.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/header-shrink.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/back2top.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/toggle-theme.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/code-block.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/main.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/libs/anime.min.js"></script>
+
+<!-- local search -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/local-search.min.js"></script>
+
+
+<!-- lazyload -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/lazyload.min.js"></script>
+
+
+<div class="">
+    <!-- home page -->
+    
+
+    <!-- post page -->
+    
+        <!-- post-helper -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/post-helper.min.js"></script>
+
+        <!-- toc -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/toc.min.js"></script>
+        
+
+        <!-- copyright-info -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/copyright-info.min.js"></script>
+        
+
+        <!-- share -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/share.min.js"></script>
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+
+
+    
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/custom_code_block.js" data-pjax></script>
+
+        
+    
+
+</body>
+</html>

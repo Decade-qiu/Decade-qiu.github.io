@@ -851,6 +851,247 @@ LCA、树的直径、重构树和树链剖分等。</p>
                 <div class="home-post-item-bottom border-box">
                     
                     <h3 class="home-post-title border-box">
+                        <a href="/2025/12/01/rag-dual-layer-cache-design/">
+                            RAG 检索缓存的双层架构：L1 精确匹配 + L2 语义匹配的设计权衡
+                        </a>
+                    </h3>
+
+                    <div class="home-post-content keep-markdown-body">
+                        
+                            <p>在 RAG 系统中，检索延迟和 API 成本是两大痛点。本文记录了我们在
+CookHero 项目中设计的 L1+L2 双层缓存架构——用 Redis 做精确匹配，用 Milvus
+做语义匹配——以及这个设计背后的思考和踩过的坑。</p>
+                        
+                    </div>
+
+                    
+
+<div class="post-meta-info-container border-box home">
+    <div class="post-meta-info border-box">
+        
+            <span class="meta-info-item border-box">
+                <i class="icon fa-solid fa-history"></i>&nbsp;<span class="home-post-history"
+                                                                                data-updated="Mon Dec 01 2025 14:15:00 GMT+0800"
+                >2025-12-01 14:15:00</span>
+            </span>
+        
+
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/%E5%90%8E%E7%AB%AF/">后端</a></li>
+                        
+                    
+                            <li class="category-item">&nbsp;<i class="icon fas fa-angle-right"></i>&nbsp;<a href="/categories/AI-%E5%B7%A5%E7%A8%8B/">AI 工程</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/RAG/">RAG</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E7%BC%93%E5%AD%98%E8%AE%BE%E8%AE%A1/">缓存设计</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/Milvus/">Milvus</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/Redis/">Redis</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+        
+        
+    </div>
+
+    
+        <a class="home-read-more" href="/2025/12/01/rag-dual-layer-cache-design/">Read more&nbsp;<i class="icon fas fa-angle-right"></i></a>
+    
+</div>
+
+                </div>
+            </li>
+        
+            <li class="home-post-item">
+
+                
+
+                <div class="home-post-item-bottom border-box">
+                    
+                    <h3 class="home-post-title border-box">
+                        <a href="/2025/11/22/intent-detection-and-query-rewriting/">
+                            对话式 RAG 的预处理链路：意图识别与查询重写的工程取舍
+                        </a>
+                    </h3>
+
+                    <div class="home-post-content keep-markdown-body">
+                        
+                            <p>在对话式 RAG
+系统中，用户的输入往往不能直接拿去检索——“它怎么做”指代不明，“好的”根本不需要检索。本文记录了
+CookHero 项目中意图识别和查询重写模块的设计过程，包括我们在 Prompt
+工程上的反复迭代，以及一些”看起来简单但容易做错”的细节。</p>
+                        
+                    </div>
+
+                    
+
+<div class="post-meta-info-container border-box home">
+    <div class="post-meta-info border-box">
+        
+            <span class="meta-info-item border-box">
+                <i class="icon fa-solid fa-history"></i>&nbsp;<span class="home-post-history"
+                                                                                data-updated="Sat Nov 22 2025 19:20:00 GMT+0800"
+                >2025-11-22 19:20:00</span>
+            </span>
+        
+
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/%E5%90%8E%E7%AB%AF/">后端</a></li>
+                        
+                    
+                            <li class="category-item">&nbsp;<i class="icon fas fa-angle-right"></i>&nbsp;<a href="/categories/AI-%E5%B7%A5%E7%A8%8B/">AI 工程</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/RAG/">RAG</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/LLM/">LLM</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E5%AF%B9%E8%AF%9D%E7%B3%BB%E7%BB%9F/">对话系统</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+        
+        
+    </div>
+
+    
+        <a class="home-read-more" href="/2025/11/22/intent-detection-and-query-rewriting/">Read more&nbsp;<i class="icon fas fa-angle-right"></i></a>
+    
+</div>
+
+                </div>
+            </li>
+        
+            <li class="home-post-item">
+
+                
+
+                <div class="home-post-item-bottom border-box">
+                    
+                    <h3 class="home-post-title border-box">
+                        <a href="/2025/11/16/context-compression-in-llm-conversations/">
+                            多轮对话场景下的上下文压缩：从爆 token 到稳定运行的工程实践
+                        </a>
+                    </h3>
+
+                    <div class="home-post-content keep-markdown-body">
+                        
+                            <p>在构建一个真实的多轮对话系统时，上下文管理是绕不开的痛点。本文记录了我们在
+CookHero 项目中如何从”对话几轮就爆
+token”走向”稳定运行”的完整过程，包括踩过的坑、做过的权衡，以及最终的压缩策略设计。</p>
+                        
+                    </div>
+
+                    
+
+<div class="post-meta-info-container border-box home">
+    <div class="post-meta-info border-box">
+        
+            <span class="meta-info-item border-box">
+                <i class="icon fa-solid fa-history"></i>&nbsp;<span class="home-post-history"
+                                                                                data-updated="Sun Nov 16 2025 10:30:00 GMT+0800"
+                >2025-11-16 10:30:00</span>
+            </span>
+        
+
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/%E5%90%8E%E7%AB%AF/">后端</a></li>
+                        
+                    
+                            <li class="category-item">&nbsp;<i class="icon fas fa-angle-right"></i>&nbsp;<a href="/categories/AI-%E5%B7%A5%E7%A8%8B/">AI 工程</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/RAG/">RAG</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/LLM/">LLM</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E4%B8%8A%E4%B8%8B%E6%96%87%E7%AE%A1%E7%90%86/">上下文管理</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+        
+        
+    </div>
+
+    
+        <a class="home-read-more" href="/2025/11/16/context-compression-in-llm-conversations/">Read more&nbsp;<i class="icon fas fa-angle-right"></i></a>
+    
+</div>
+
+                </div>
+            </li>
+        
+            <li class="home-post-item">
+
+                
+
+                <div class="home-post-item-bottom border-box">
+                    
+                    <h3 class="home-post-title border-box">
                         <a href="/2025/11/12/LLM-8-KV-Cache/">
                             理解 LLM 推理中的 KV Cache 机制
                         </a>
@@ -1147,246 +1388,6 @@ Decoder-only 三种主流设计思路及其在自然语言处理任务中的应�
                 </div>
             </li>
         
-            <li class="home-post-item">
-
-                
-                    <div class="home-post-item-top border-box"
-                         style="height: 160px"
-                    >
-                        
-                        <img class="home-cover" src="/images/post/attentionisallyouneed.png"
-                             onerror="this.style.display='none'"
-                        >
-                    </div>
-                
-
-                <div class="home-post-item-bottom border-box">
-                    
-                    <h3 class="home-post-title border-box">
-                        <a href="/2025/11/08/LLM-4-Attention/">
-                            Attention is all you need
-                        </a>
-                    </h3>
-
-                    <div class="home-post-content keep-markdown-body">
-                        
-                            <p>本篇主要讲解了注意力机制（Attention
-Mechanism）的基本原理和计算过程，包括各种优化技巧，如缩放点积注意力（Scaled
-Dot-Product
-Attention）、自注意力（Self-Attention）、掩码自注意力（Masked
-Self-Attention）和多头注意力（Multi-Head Attention）。</p>
-                        
-                    </div>
-
-                    
-
-<div class="post-meta-info-container border-box home">
-    <div class="post-meta-info border-box">
-        
-            <span class="meta-info-item border-box">
-                <i class="icon fa-solid fa-history"></i>&nbsp;<span class="home-post-history"
-                                                                                data-updated="Sat Nov 08 2025 15:34:22 GMT+0800"
-                >2025-11-08 15:34:22</span>
-            </span>
-        
-
-        
-
-        
-            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
-                <ul class="post-category-ul">
-                    
-                            <li class="category-item"><a href="/categories/LLM/">LLM</a></li>
-                        
-                    
-                </ul>
-            </span>
-        
-
-        
-            <span class="post-tag meta-info-item border-box">
-                <ul class="post-tag-ul">
-                    
-                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/Attention/">Attention</a></li>
-                        
-                    
-                </ul>
-            </span>
-        
-
-        
-        
-        
-        
-    </div>
-
-    
-        <a class="home-read-more" href="/2025/11/08/LLM-4-Attention/">Read more&nbsp;<i class="icon fas fa-angle-right"></i></a>
-    
-</div>
-
-                </div>
-            </li>
-        
-            <li class="home-post-item">
-
-                
-                    <div class="home-post-item-top border-box"
-                         style="height: 160px"
-                    >
-                        
-                        <img class="home-cover" src="/images/post/iShot_2025-11-03_20.50.07.webp"
-                             onerror="this.style.display='none'"
-                        >
-                    </div>
-                
-
-                <div class="home-post-item-bottom border-box">
-                    
-                    <h3 class="home-post-title border-box">
-                        <a href="/2025/11/03/LLM-3-Embedding/">
-                            常见的 LLM 文本嵌入（Embedding）方法解析
-                        </a>
-                    </h3>
-
-                    <div class="home-post-content keep-markdown-body">
-                        
-                            <p>本篇文章介绍大语言模型（LLM）中常用的文本嵌入（Embedding）方法，包括传统的
-One-Hot 编码、词袋模型（BoW）、TF-IDF 以及现代的词向量（Word
-Embedding）技术。每种方法的原理、优缺点及其在实际中的应用场景都会进行详细讲解，并附有代码示例以帮助理解。</p>
-                        
-                    </div>
-
-                    
-
-<div class="post-meta-info-container border-box home">
-    <div class="post-meta-info border-box">
-        
-            <span class="meta-info-item border-box">
-                <i class="icon fa-solid fa-history"></i>&nbsp;<span class="home-post-history"
-                                                                                data-updated="Mon Nov 03 2025 20:40:22 GMT+0800"
-                >2025-11-03 20:40:22</span>
-            </span>
-        
-
-        
-
-        
-            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
-                <ul class="post-category-ul">
-                    
-                            <li class="category-item"><a href="/categories/LLM/">LLM</a></li>
-                        
-                    
-                </ul>
-            </span>
-        
-
-        
-            <span class="post-tag meta-info-item border-box">
-                <ul class="post-tag-ul">
-                    
-                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/Embedding/">Embedding</a></li>
-                        
-                    
-                </ul>
-            </span>
-        
-
-        
-        
-        
-        
-    </div>
-
-    
-        <a class="home-read-more" href="/2025/11/03/LLM-3-Embedding/">Read more&nbsp;<i class="icon fas fa-angle-right"></i></a>
-    
-</div>
-
-                </div>
-            </li>
-        
-            <li class="home-post-item">
-
-                
-                    <div class="home-post-item-top border-box"
-                         style="height: 160px"
-                    >
-                        
-                        <img class="home-cover" src="/images/post/1_kTV5w8LHCmUkhKcz14bJDA.webp"
-                             onerror="this.style.display='none'"
-                        >
-                    </div>
-                
-
-                <div class="home-post-item-bottom border-box">
-                    
-                    <h3 class="home-post-title border-box">
-                        <a href="/2025/11/03/LLM-2-Tokenizer/">
-                            常见的 LLM 分词器（Tokenizer）
-                        </a>
-                    </h3>
-
-                    <div class="home-post-content keep-markdown-body">
-                        
-                            <p>本篇文章介绍大语言模型（LLM）中常用的几种分词（Tokenizer）方法，包括传统分词、BPE、WordPiece、SentencePiece
-以及 Unigram Language
-Model。我们将通过原理解析、应用场景和代码示例，帮助读者理解这些分词技术在
-LLM 中的作用与实现。</p>
-                        
-                    </div>
-
-                    
-
-<div class="post-meta-info-container border-box home">
-    <div class="post-meta-info border-box">
-        
-            <span class="meta-info-item border-box">
-                <i class="icon fa-solid fa-history"></i>&nbsp;<span class="home-post-history"
-                                                                                data-updated="Mon Nov 03 2025 09:21:57 GMT+0800"
-                >2025-11-03 09:21:57</span>
-            </span>
-        
-
-        
-
-        
-            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
-                <ul class="post-category-ul">
-                    
-                            <li class="category-item"><a href="/categories/LLM/">LLM</a></li>
-                        
-                    
-                </ul>
-            </span>
-        
-
-        
-            <span class="post-tag meta-info-item border-box">
-                <ul class="post-tag-ul">
-                    
-                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/Tokenizer/">Tokenizer</a></li>
-                        
-                    
-                </ul>
-            </span>
-        
-
-        
-        
-        
-        
-    </div>
-
-    
-        <a class="home-read-more" href="/2025/11/03/LLM-2-Tokenizer/">Read more&nbsp;<i class="icon fas fa-angle-right"></i></a>
-    
-</div>
-
-                </div>
-            </li>
-        
     </ul>
     
     <div class="paginator border-box flex-center">
@@ -1406,8 +1407,8 @@ LLM 中的作用与实现。</p>
                    type="number"
                    value="1"
                    min="1"
-                   max="12"
-            /><span class="delimiter base-style">/</span><span class="base-style">12</span>
+                   max="13"
+            /><span class="delimiter base-style">/</span><span class="base-style">13</span>
         </div>
 
 
@@ -1464,7 +1465,7 @@ LLM 中的作用与实现。</p>
             
                 <span class="count-item border-box word">
                     <span class="item-type border-box">Total words</span>
-                    <span class="item-value border-box word">437.8k</span>
+                    <span class="item-value border-box word">444.6k</span>
                 </span>
             
 
