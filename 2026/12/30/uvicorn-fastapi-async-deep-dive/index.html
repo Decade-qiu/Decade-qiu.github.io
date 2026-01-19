@@ -1,0 +1,1754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="blog, decade, lucky">
+    <meta name="description" content="Decade&#39;s lucky blog">
+    <meta name="author" content="Zhongjun Qiu">
+    
+    <title>
+        
+            Web服务器高并发技术深度解析：事件循环 vs 线程池模型 |
+        
+        Decade
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="https://decade.net.cn/images/logo.ico">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/fontawesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/regular.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/solid.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/brands.min.css">
+    
+        
+            
+        
+            
+                
+<link rel="stylesheet" href="/css/custom.css">
+
+            
+        
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"decade.net.cn","root":"/","language":"en","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"Decade","author":"Zhongjun Qiu","avatar":"/images/avatar.ico","logo":"/images/avatar.ico","favicon":"https://decade.net.cn/images/logo.ico"},"menu":{"home":"/ || fa-solid fa-home","archives":"/archives || fa-solid fa-box-archive","tags":"/tags || fa-solid fa-tags","categories":"/categories || fa-solid fa-layer-group","more":{"icon":"fa-solid fa-circle-user","children":[{"tool":"/tools || fa-solid fa-tools"},{"life":"/photos || fa-solid fa-image"},{"me":"/about || fa-solid fa-user-graduate"},{"Git":"/custom/index.html || fa-solid fa-user"}]}},"first_screen":{"enable":true,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"The Steadfast Determination of An Ordinary Soul.","hitokoto":false},"social_contact":{"enable":true,"links":{"github":"https://github.com/Decade-qiu","weixin":"img | /images/social/weixin.jpg","qq":null,"weibo":null,"zhihu":null,"twitter":null,"x":"https://x.com/LukasMa46743746","facebook":null,"email":"qiuyu6021@gmail.com"}},"scroll":{"progress_bar":true,"percent":true,"hide_header":false},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"created || fa-solid fa-history","post_datetime_format":"ago"},"post":{"author_badge":{"enable":true,"level_badge":false,"custom_badge":"元婴开发者"},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":true,"img_link":"/images/post/payment.jpg","text":null,"icon":null},"created_datetime_icon":"fa-solid fa-calendar-plus","updated_datetime_icon":"fa-solid fa-arrows-rotate"},"code_block":{"tools":{"enable":true,"style":"mac"},"highlight_theme":"obsidian"},"toc":{"enable":true,"number":false,"expand_all":false,"init_open":false,"layout":"right"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":false,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":true,"use":"waline","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.39"},"waline":{"server_url":"https://waline-vercel-two-rho.vercel.app/","reaction":true,"version":"3.3.2"},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":false},"lazyload":{"enable":true},"cdn":{"enable":true,"provider":"cdnjs"},"pjax":{"enable":false},"footer":{"since":2020,"word_count":true,"site_deploy":{"enable":true,"provider":"github","url":"https://github.com"},"record":{"enable":false,"list":[{"code":null,"link":null}]}},"inject":{"enable":true,"css":[null,"/css/custom.css"],"js":[null,"/js/custom_code_block.js"]},"root":"","source_data":{"photos":[{"url":"/images/post/【哲风壁纸】日本动漫-电锯人.webp","name":"电锯人"},{"url":"/images/post/Quicker_20250428_193139.webp","name":"kowayia"},{"url":"/images/post/Quicker_20250428_233349.webp","name":"世界地图"},{"url":"/images/post/tmpFE1E.tmp.webp","name":"施红"},{"url":"/images/post/result-1745849388402.webp","name":"仇忠骏.动漫版"},{"url":"/images/photos/猫猫困了PNG.png","name":"猫猫困了PNG"},{"url":"/images/photos/宁静的暴雨天.png","name":"宁静的暴雨天"},{"url":"/images/photos/我在扬州好想你.png","name":"我在扬州好想你"},{"url":"/images/photos/信鸽.png","name":"信鸽"},{"url":"/images/photos/啤酒烧烤.png","name":"啤酒烧烤"},{"url":"/images/photos/随手拍.png","name":"随手拍"},{"url":"/images/photos/糖油混合炸弹.png","name":"糖油混合炸弹"},{"url":"/images/photos/香香的.png","name":"香香的"},{"url":"/images/photos/蝎子莱莱.png","name":"蝎子莱莱"},{"url":"/images/post/指C为python.png","name":"指C为python"},{"url":"/images/photos/YangZhou_Station.png","name":"YangZhou Station"},{"url":"/images/photos/GBC.jpg","name":"Girls Band Cry"},{"url":"/images/photos/bocchi.webp","name":"Bocchi the Rock!"}],"tools":[{"category":"AIGC","anchorId":"QUlHQw0"},{"name":"ChatGPT","link":"https://chat.openai.com/","description":"OpenAI 旗下 AI 聊天对话工具","image":"/images/tools/chatgpt.svg"},{"name":"Gemini","link":"https://gemini.google.com/app","description":"Google 旗下 AI 聊天对话工具","image":"/images/tools/gemini.svg"},{"name":"Copilot","link":"https://copilot.microsoft.com/","description":"Microsoft 旗下 AI 聊天对话工具","image":"/images/tools/copilot.png"},{"name":"Deepseek","link":"https://chat.deepseek.com/","description":"Deepseek 旗下 AI 聊天对话工具","image":"/images/tools/deepseek.jpg"},{"name":"Qwen","link":"https://chat.qwen.ai/","description":"Alibaba 旗下 AI 聊天对话工具","image":"/images/tools/tongyiqianwen.svg"},{"name":"即梦AI","link":"https://jimeng.jianying.com/ai-tool/home","description":"Dreamina 图像生成工具","image":"/images/tools/dream.png"},{"name":"komiko","link":"https://komiko.app/home","description":"Komiko 动漫化AI工具","image":"/images/tools/komiko.webp"},{"name":"InsMind","link":"https://www.insmind.com/zh-cn/workspace/","description":"AI图片编辑工具","image":"/images/tools/insmind.svg"},{"name":"Raphael","link":"https://raphael.app/zh","description":"AI图片生成工具","image":"/images/tools/rap.png"},{"name":"腾讯元宝","link":"https://yuanbao.tencent.com/chat/","description":"Tencent 旗下 AI 聊天对话工具","image":"/images/tools/tencent.jpg"},{"name":"豆包","link":"https://www.doubao.com/chat/","description":"字节跳动 图片生成工具","image":"/images/tools/dn.jpg"},{"category":"Airport","anchorId":"QWlycG9ydA12"},{"name":"独角兽","link":"https://91unicorn.cloud/","description":"十分稳定","image":"/images/tools/dujiaoshou.ico"},{"name":"极速机场","link":"https://xn--mes358acgm99l.com/","description":"便宜好用","image":"/images/tools/jisu.ico"},{"name":"iKuuu","link":"https://ikuuu.org/user","description":"以备不时之需","image":"/images/tools/ikuu.ico"},{"category":"File Converter","anchorId":"RmlsZSUyMENvbnZlcnRlcg16"},{"name":"Online Image Tool","link":"https://www.onlineimagetool.com/zh/","description":"在线压缩和转换图片","image":"/images/tools/oit.png"},{"name":"Vector Magic","link":"https://zh.vectormagic.com/","description":"文件矢量化","image":"/images/tools/apple-touch-icon-180_97956a9f5fbf6a767de100280d78c1f8.png"},{"name":"TinyPNG","link":"https://tinypng.com/","description":"Smart AVIF, WebP, PNG and JPEG Compression for Faster Websites","image":"/images/tools/tiny.ico"},{"name":"踏得","link":"https://techbrood.com/tool","description":"HTML5在线工具","image":"/images/tools/td.ico"},{"name":"UU在线工具","link":"https://uutool.cn/base64/","description":"base64工具包","image":"/images/tools/uu.png"},{"name":"I Love PDF","link":"https://www.ilovepdf.com/","description":"PDF工具包","image":"/images/tools/ilovepdf.svg"},{"category":"Free GPT API","anchorId":"RnJlZSUyMEdQVCUyMEFQSQ23"},{"name":"Gemini API","link":"https://ai.google.dev/gemini-api/docs/quickstart?lang=python","description":"Google Gemini API","image":"/images/tools/touchicon-180-new.png"},{"name":"SiliconCloud","link":"https://cloud.siliconflow.cn/models","description":"各种模型API"},{"name":"Cloudflare Workers AI","link":"https://developers.cloudflare.com/workers-ai/configuration/open-ai-compatibility/","description":"OpenAI compatible API endpoints","image":"/images/tools/logo.p_ySeMR1.svg"},{"name":"算了么","link":"https://api.suanli.cn/","description":"共享算力API","image":"/images/tools/suanlm.svg"},{"category":"Resource Explorer","anchorId":"UmVzb3VyY2UlMjBFeHBsb3Jlcg28"},{"name":"Free for Developers","link":"https://free-for.dev/","description":"A list of SaaS, PaaS and IaaS offerings that have free tiers of interest to devops and infradev","image":"/images/tools/freefd.webp"},{"name":"zlibrary","link":"https://zh.z-library.sk/","description":"在线图书馆","image":"/images/tools/logo.zlibrary.svg"},{"name":"PicX","link":"https://picx.xpoet.cn/","description":"基于Github的图床","image":"/images/tools/logo.ffee4291.png"},{"name":"HaoWallpaper","link":"https://haowallpaper.com/","description":"哲风壁纸","image":"/images/tools/haowall.ico"},{"name":"Awesome","link":"https://wallhaven.cc/","description":"WallHaven","image":"/images/tools/wallheaven.ico"},{"name":"WallHere","link":"https://wallhere.com/","description":"WallHere"},{"name":"SnapAny","link":"https://snapany.com/zh","description":"万能视频图片解析下载"},{"name":"ØMagnet","link":"https://0cili.org/","description":"种子下载"},{"name":"twitter","link":"https://snapvid.net/zh-cn/twitter-downloader","description":"推特视频下载器","image":"/images/tools/apple-touch-icon.png"},{"name":"youtube","link":"https://www.y2mate.com/en949","description":"Youtube视频下载器","image":"/images/tools/y2mate.webp"},{"name":"Icons8","link":"https://icons8.com/icons","description":"免费图标下载","image":"/images/tools/logo-icons8.svg"},{"name":"全能emoji","link":"https://www.emojiall.com/zh-hans","description":"emoji制作","image":"/images/tools/emoji.ico"},{"name":"emojidb","link":"https://emojidb.org/","description":"免费表情包下载","image":"/images/tools/emojidb.png"},{"name":"Flaticon","link":"https://www.flaticon.com/","description":"免费图标下载","image":"/images/tools/logo-flaticon.svg"},{"name":"IconFinder","link":"https://www.iconfinder.com/","description":"免费图标下载","image":"/images/tools/logo-iconfinder.svg"}]},"version":"4.2.5"}
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"}
+    KEEP.language_code_block = {"copy":"Copy code","copied":"Copied","fold":"Fold code block","folded":"Folded"}
+    KEEP.language_copy_copyright = {"copy":"Copy copyright info","copied":"Copied","title":"Original post title","author":"Original post author","link":"Original post link"}
+  </script>
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left flex-start border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/avatar.ico">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               Decade
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc border-box">
+                <ul class="menu-list border-box">
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-home"></i>
+                                
+                                HOME
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/archives">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-box-archive"></i>
+                                
+                                ARCHIVES
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/tags">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-tags"></i>
+                                
+                                TAGS
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/categories">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-layer-group"></i>
+                                
+                                CATEGORIES
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box has-sub-menu">
+                            <a class="menu-text-color border-box" href="javascript:void(0);">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-circle-user"></i>
+                                
+                                MORE
+                                
+                                    <i class="menu-text-color collapse-icon fa-solid fa-angle-down"></i>
+                                
+                            </a>
+                            
+                                <ul class="sub-menu-list border-box">
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" href="/tools">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-solid fa-tools"></i>
+                                                
+                                                TOOL
+                                            </a>
+                                        </li>
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" href="/photos">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-solid fa-image"></i>
+                                                
+                                                LIFE
+                                            </a>
+                                        </li>
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" href="/about">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-solid fa-user-graduate"></i>
+                                                
+                                                ME
+                                            </a>
+                                        </li>
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" href="/custom/">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-solid fa-user"></i>
+                                                
+                                                GIT
+                                            </a>
+                                        </li>
+                                    
+                                </ul>
+                            
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="menu-text-color fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile border-box flex-start">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list border-box">
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-home"></i>
+                                </span>
+                            
+                            HOME
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/archives">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-box-archive"></i>
+                                </span>
+                            
+                            ARCHIVES
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/tags">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-tags"></i>
+                                </span>
+                            
+                            TAGS
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/categories">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-layer-group"></i>
+                                </span>
+                            
+                            CATEGORIES
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box has-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="javascript:void(0);">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-circle-user"></i>
+                                </span>
+                            
+                            MORE
+                        </a>
+                        
+                            <i class="right-side collapse-icon fa-solid fa-angle-left"></i>
+                        
+                    </label>
+                    
+                        <ul class="drawer-sub-menu-list border-box">
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" href="/tools">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-solid fa-tools"></i>
+                                            </span>
+                                        
+                                        TOOL
+                                    </a>
+                                </li>
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" href="/photos">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-solid fa-image"></i>
+                                            </span>
+                                        
+                                        LIFE
+                                    </a>
+                                </li>
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" href="/about">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-solid fa-user-graduate"></i>
+                                            </span>
+                                        
+                                        ME
+                                    </a>
+                                </li>
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" href="/custom/">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-solid fa-user"></i>
+                                            </span>
+                                        
+                                        GIT
+                                    </a>
+                                </li>
+                            
+                        </ul>
+                    
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        Web服务器高并发技术深度解析：事件循环 vs 线程池模型
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/avatar.ico">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">Zhongjun Qiu</span>
+                                
+                                    <span class="author-badge">元婴开发者</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2026-12-30 00:00:00</span>
+            </span>
+
+            
+                <span class="meta-info-item post-update-date">
+                    <i class="icon fa-solid fa-arrows-rotate"></i>&nbsp;
+                    <span class="datetime" data-updated="Mon Jan 19 2026 18:30:40 GMT+0800">2026-01-19 18:30:40</span>
+                </span>
+            
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/">技术笔记</a></li>
+                        
+                    
+                            <li class="category-item">&nbsp;<i class="icon fas fa-angle-right"></i>&nbsp;<a href="/categories/%E9%9D%A2%E8%AF%95/">面试</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">并发编程</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>5.5k Words</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>20 Mins</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <h2 id="核心对比">核心对比</h2>
+<p>事件循环和线程池是两种本质不同的并发模型。事件循环用”时间分片”在一个线程上同时处理数万连接，资源占用极低；线程池用”真并行”让每个请求独占资源，简单但开销巨大。本文将深入解析这两种模型的底层原理、优缺点对比，以及在什么场景下选择哪种架构。</p>
+<span id="more"></span>
+<h2 id="一uvicorn-的异步实现原理">一、Uvicorn 的异步实现原理</h2>
+<p>Uvicorn 是一个 ASGI（Asynchronous Server Gateway
+Interface）服务器，它的核心异步能力完全基于 Python 的 asyncio 生态：</p>
+<h3 id="核心组件">1.1 核心组件</h3>
+<ul>
+<li><p><strong>事件循环</strong>：Uvicorn 使用 asyncio
+的事件循环来驱动整个服务器。默认情况下，它会将标准库的 asyncio
+事件循环替换为 <strong>uvloop</strong>（一个用 Cython
+实现的、更高效的事件循环），显著提升性能。</p></li>
+<li><p><strong>HTTP 解析</strong>：使用 <strong>httptools</strong>（基于
+llhttp 的高速 HTTP
+协议解析器）来快速解析传入的请求，而不阻塞事件循环。</p></li>
+<li><p><strong>连接管理</strong>：每个传入的 TCP 连接都被包装成 asyncio
+的传输（transport）和协议（protocol）对象。服务器在单个线程（单个事件循环）内并发处理数千个连接，通过非阻塞
+I/O 和协程调度实现高并发。</p></li>
+<li><p><strong>Worker 模型</strong>：</p>
+<ul>
+<li>单 worker 时：纯异步，单进程单线程，利用 asyncio
+并发处理所有请求</li>
+<li>多 worker
+时（<code>uvicorn --workers N</code>）：启动多个进程，每个进程独立运行一个事件循环，实现多核利用</li>
+</ul></li>
+</ul>
+<h3 id="本质特点">1.2 本质特点</h3>
+<p>Uvicorn
+的异步是”原生”的：它本身就是为异步应用设计的服务器，不依赖线程或多进程来实现并发（除非你手动开启多
+worker）。这与传统的多线程服务器形成鲜明对比。</p>
+<h2 id="二fastapi-框架与异步的关系">二、FastAPI 框架与异步的关系</h2>
+<h3 id="核心问题框架是否完全不需要关心异步协程">2.1
+核心问题：框架是否完全不需要关心异步/协程？</h3>
+<p>答案是：<strong>可以不关心，但如果你想真正发挥异步的优势，就必须关心</strong>。</p>
+<p>FastAPI 基于 Starlette，而 Starlette 是纯 ASGI
+框架。你可以写两种路由：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 异步路由：真正的异步端点</span></span><br><span class="line"><span class="meta">@app.get(<span class="params"><span class="string">"/"</span></span>)</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">read_root</span>():</span><br><span class="line">    <span class="keyword">return</span> {<span class="string">"message"</span>: <span class="string">"Hello World"</span>}</span><br><span class="line"></span><br><span class="line"><span class="comment"># 同步路由：普通函数</span></span><br><span class="line"><span class="meta">@app.get(<span class="params"><span class="string">"/"</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">read_root</span>():</span><br><span class="line">    <span class="keyword">return</span> {<span class="string">"message"</span>: <span class="string">"Hello World"</span>}</span><br></pre></td></tr></table></figure>
+<h3 id="运行机制差异">2.2 运行机制差异</h3>
+<ul>
+<li><strong>async def
+路由</strong>：真正的异步端点，直接在事件循环中运行</li>
+<li><strong>def 路由</strong>（普通同步函数）：FastAPI/Uvicorn
+会自动把它丢到线程池（默认
+<code>concurrent.futures.ThreadPoolExecutor</code>）中执行，避免阻塞主事件循环</li>
+</ul>
+<h3 id="何时可以不关心">2.3 何时可以”不关心”</h3>
+<p>如果你的应用主要是 CPU-bound 或同步阻塞操作（比如同步数据库查询、同步
+HTTP 调用），用同步路由也没问题，Uvicorn
+会用线程池帮你处理，不会让整个服务器卡死。对于轻量级的
+API，甚至很多生产环境一开始都用同步写法，性能也足够。</p>
+<h3 id="想获得最佳性能必须主动写异步代码">2.4
+想获得最佳性能，必须主动写异步代码</h3>
+<p>只有当路由是
+<code>async def</code>，并且内部使用异步库时，才能真正实现”零线程、高并发”的异步
+I/O。</p>
+<p>典型异步库选择： -
+数据库：<code>asyncpg</code>（PostgreSQL）、<code>databases</code>、SQLAlchemy
+2.0 async 等异步驱动 - HTTP 客户端：<code>httpx</code> 或
+<code>aiohttp</code> - 文件 I/O：<code>aiofiles</code></p>
+<p><strong>警告</strong>：如果你在 <code>async def</code>
+路由里调用了阻塞的同步代码（比如
+<code>requests.get()</code>），它仍然会阻塞整个事件循环，导致并发度大幅下降。</p>
+<h3 id="形象类比">2.5 形象类比</h3>
+<p>Uvicorn 是”底盘”，FastAPI
+是”车身”，想跑得快，还得装”好发动机”（异步代码）。</p>
+<h2 id="三与-java-spring-生态的类比对比">三、与 Java Spring
+生态的类比对比</h2>
+<table>
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr>
+<th>Python 侧（FastAPI + Uvicorn）</th>
+<th>Java Spring 侧对应技术</th>
+<th>类比要点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Uvicorn</strong>（ASGI 服务器）</td>
+<td><strong>Netty</strong>（或 Reactor Netty）</td>
+<td>两者都是底层高性能、事件驱动、非阻塞 I/O 的网络服务器</td>
+</tr>
+<tr>
+<td><strong>FastAPI / Starlette</strong>（ASGI 框架）</td>
+<td><strong>Spring WebFlux</strong>（响应式 Web 栈）</td>
+<td>两者都是为异步/非阻塞设计的现代 Web 框架</td>
+</tr>
+<tr>
+<td>FastAPI 中的<strong>同步路由</strong>（def 普通函数）</td>
+<td><strong>Spring MVC</strong>（传统阻塞式）</td>
+<td>两者都”向下兼容”同步代码，同步代码会被丢到线程池执行</td>
+</tr>
+<tr>
+<td><strong>ASGI</strong></td>
+<td><strong>Reactive Streams</strong></td>
+<td>两者都是框架与服务器之间的”契约”</td>
+</tr>
+<tr>
+<td>传统同步框架（Flask + Gunicorn）</td>
+<td><strong>Spring MVC + Tomcat</strong></td>
+<td>经典的阻塞式、多线程/多进程模型</td>
+</tr>
+</tbody>
+</table>
+<h3 id="关键行为类比">关键行为类比</h3>
+<p><strong>纯异步路径（最高性能）</strong> -
+FastAPI：<code>async def</code> 路由 +
+异步库（<code>asyncpg</code>、<code>httpx</code>）+ Uvicorn -
+Spring：<code>Mono/Flux</code> 返回类型 +
+响应式驱动（R2DBC、WebClient）+ Netty -
+两者都在单线程事件循环上实现高并发，无线程切换开销</p>
+<p><strong>混合/同步路径（最常见起步方式）</strong> - FastAPI：同步路由
++ 同步库（SQLAlchemy sync、requests）+ Uvicorn（自动线程池） -
+Spring：Spring MVC Controller + 阻塞 JDBC/HttpClient + Tomcat（线程池）
+- 开发最简单，框架自动处理阻塞不卡死服务器</p>
+<h2 id="四springboot-阻塞式为何能支持高并发">四、SpringBoot
+阻塞式为何能支持高并发？</h2>
+<p>很多人认为阻塞式就是低并发，这是误解。Spring Boot + Spring MVC
+虽然是阻塞式模型，但通过多种优化手段，仍然能轻松扛住数千甚至上万的
+QPS。</p>
+<h3 id="spring-boot-spring-mvc-的默认运行模型">4.1 Spring Boot + Spring
+MVC 的默认运行模型</h3>
+<ul>
+<li><strong>核心机制</strong>：基于 Java Servlet API，嵌入式服务器默认是
+<strong>Tomcat</strong></li>
+<li><strong>线程模型</strong>：经典的 <strong>“线程池 + 线程 per
+request”</strong>
+<ul>
+<li>Tomcat 维护一个线程池（默认最大 200 个线程，可配置到上千）</li>
+<li>每个 HTTP 请求到来时，从线程池取一个线程执行整个请求</li>
+</ul></li>
+<li><strong>连接层优化</strong>：Tomcat 的连接器支持
+<strong>NIO（Non-blocking I/O）</strong> 或
+<strong>APR（native）</strong> 模式</li>
+</ul>
+<h3 id="为什么阻塞式还能支持高并发">4.2
+为什么阻塞式还能支持高并发？</h3>
+<ol type="1">
+<li><p><strong>线程池规模可调</strong>：Tomcat 默认
+maxThreads=200，但生产环境常配置到 800~2000 甚至更高</p></li>
+<li><p><strong>I/O 等待时间通常很短</strong>：现代数据库（如 MySQL +
+连接池）、缓存（Redis）、外部 API 的响应往往在 10~100ms 内</p></li>
+<li><p><strong>其他优化手段</strong>：</p>
+<ul>
+<li><strong>连接池</strong>：Druid/HikariCP 管理数据库连接</li>
+<li><strong>缓存</strong>：Redis、Caffeine 减少数据库压力</li>
+<li><strong>异步任务</strong>：<span class="citation" data-cites="Async">@Async</span>、消息队列把耗时操作移出请求线程</li>
+<li><strong>水平扩展</strong>：部署多个 Spring Boot 实例 + Nginx/Envoy
+负载均衡</li>
+</ul></li>
+</ol>
+<h3 id="spring-mvc-vs-spring-webflux-对比">4.3 Spring MVC vs Spring
+WebFlux 对比</h3>
+<table>
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr>
+<th>方面</th>
+<th>Spring MVC（阻塞式）</th>
+<th>Spring WebFlux（非阻塞式）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>服务器默认</td>
+<td>Tomcat（线程池）</td>
+<td>Netty（事件循环）</td>
+</tr>
+<tr>
+<td>线程模型</td>
+<td>多线程（数百~数千线程）</td>
+<td>少量线程（通常等于 CPU</td>
+</tr>
+<tr>
+<td>高（靠线程数扩展）</td>
+<td>更高（单线程处理数万连接）</td>
+<td></td>
+</tr>
+<tr>
+<td>资源占用</td>
+<td>较高（每个请求占一个线程栈 ~1MB）</td>
+<td>极低（协程式，内存占用小）</td>
+</tr>
+<tr>
+<td>开发复杂度</td>
+<td>低（同步代码，生态最丰富）</td>
+<td>高（需要响应式编程、Mono/Flux）</td>
+</tr>
+<tr>
+<td>适用场景</td>
+<td>绝大多数传统业务、CRUD、内部系统</td>
+<td>极高并发、长连接、流式处理</td>
+</tr>
+</tbody>
+</table>
+<h3 id="为什么很多项目仍然选择-spring-mvc">4.4 为什么很多项目仍然选择
+Spring MVC？</h3>
+<ul>
+<li><strong>开发效率高</strong>：同步代码直观、调试简单、生态成熟</li>
+<li><strong>性能足够</strong>：99% 的项目不需要 WebFlux
+那种极致并发</li>
+<li><strong>迁移成本高</strong>：从 MVC 切换到 WebFlux
+需要重写大量代码</li>
+</ul>
+<p>Spring
+官方明确表示：<strong>除非有明确的高并发或背压需求，否则优先推荐 Spring
+MVC</strong>。</p>
+<h2 id="五事件循环-vs-线程池两种并发模型的深度解析">五、事件循环 vs
+线程池：两种并发模型的深度解析</h2>
+<h3 id="核心机制差异">5.1 核心机制差异</h3>
+<p><strong>事件循环（非阻塞/异步模型）</strong> -
+单线程（或少量线程）运行一个循环，不断轮询事件（I/O 就绪、定时器等） -
+当请求涉及 I/O
+时，不会阻塞线程，而是注册回调/协程，事件循环在等待期间切换去处理其他请求</p>
+<p><strong>线程池（阻塞/同步模型）</strong> -
+维护一个线程池（数百到数千线程） -
+每个请求分配一个专用线程，线程从头到尾处理该请求 - 如果涉及
+I/O，线程会<strong>阻塞等待</strong>（闲置），直到 I/O 完成才能继续</p>
+<h3 id="性能对比">5.2 性能对比</h3>
+<table>
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr>
+<th>方面</th>
+<th>事件循环（Event Loop）</th>
+<th>线程池（Thread Pool）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>最大并发连接</td>
+<td>极高（单线程可处理数万~数十万连接）</td>
+<td>中等（受线程数限制，通常数百~数千）</td>
+</tr>
+<tr>
+<td>吞吐量 (QPS)</td>
+<td>I/O 密集场景下更高（无上下文切换开销）</td>
+<td>足够高，但线程多时上下文切换开销大</td>
+</tr>
+<tr>
+<td>延迟</td>
+<td>更低（快速切换任务）</td>
+<td>稍高（线程调度开销）</td>
+</tr>
+<tr>
+<td>资源占用</td>
+<td>低（无线程栈开销，内存/CPU 高效）</td>
+<td>高（每个线程栈 ~1MB，上下文切换耗 CPU）</td>
+</tr>
+<tr>
+<td>扩展方式</td>
+<td>单进程多核难（需多进程 + 负载均衡）</td>
+<td>易多核（线程池天然利用多核）</td>
+</tr>
+</tbody>
+</table>
+<h3 id="优缺点对比">5.3 优缺点对比</h3>
+<p><strong>事件循环的优势</strong> - 资源效率高：适合高并发、低负载的
+I/O 密集型应用 - 可预测性强：无线程竞争问题（锁少）</p>
+<p><strong>事件循环的劣势</strong> - CPU
+密集任务会阻塞整个循环（需手动卸载到线程池） - 编程模型复杂（需
+async/await、回调、Mono/Flux）</p>
+<p><strong>线程池的优势</strong></p>
+<ul>
+<li>开发简单：同步代码直观，生态成熟</li>
+<li>天然支持 CPU 密集任务（多线程并行计算）</li>
+</ul>
+<p><strong>线程池的劣势</strong> - 线程开销大，高并发下内存/CPU 压力大 -
+线程池耗尽时请求排队或拒绝</p>
+<h3 id="一句话总结">5.4 一句话总结</h3>
+<ul>
+<li><strong>事件循环</strong>：用”时间分片”在一个线程上”假装”同时处理很多事，高效但要求代码非阻塞</li>
+<li><strong>线程池</strong>：用”真并行”多线程每个请求独占资源，简单但开销大</li>
+</ul>
+<h2 id="六spring-mvc-的异步支持机制">六、Spring MVC 的异步支持机制</h2>
+<h3 id="异步实现方式">6.1 异步实现方式</h3>
+<p>Spring MVC 基于 Servlet 3.0+
+的异步特性，允许你在不阻塞容器线程的情况下处理耗时操作：</p>
+<p><strong>1. Controller 返回 Callable / WebAsyncTask</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping("/async")</span></span><br><span class="line"><span class="keyword">public</span> Callable&lt;String&gt; <span class="title function_">asyncEndpoint</span><span class="params">()</span> {</span><br><span class="line">    <span class="keyword">return</span> () -&gt; {</span><br><span class="line">        <span class="comment">// 这里执行耗时操作（如外部 API 调用、复杂计算）</span></span><br><span class="line">        Thread.sleep(<span class="number">5000</span>); <span class="comment">// 模拟耗时</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">"done"</span>;</span><br><span class="line">    };</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<p><strong>线程行为</strong>： - 请求到达时，Tomcat 的 worker
+线程执行到返回 Callable - Spring 将 Callable 提交到
+<strong>TaskExecutor</strong> 执行 -
+<strong>容器线程立即释放</strong>，返回 Tomcat 线程池 -
+耗时任务在另一个线程中执行，完成后结果写回响应</p>
+<p><strong>2. 使用 DeferredResult / WebAsyncTask</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@GetMapping("/deferred")</span></span><br><span class="line"><span class="keyword">public</span> DeferredResult&lt;String&gt; <span class="title function_">deferredEndpoint</span><span class="params">()</span> {</span><br><span class="line">    DeferredResult&lt;String&gt; result = <span class="keyword">new</span> <span class="title class_">DeferredResult</span>&lt;&gt;();</span><br><span class="line">    executor.submit(() -&gt; {</span><br><span class="line">        <span class="comment">// 耗时操作</span></span><br><span class="line">        result.setResult(<span class="string">"done"</span>);</span><br><span class="line">    });</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<p><strong>3. <span class="citation" data-cites="Async">@Async</span> 在
+Service 层</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyService</span> {</span><br><span class="line">    <span class="meta">@Async</span>  <span class="comment">// 需要 @EnableAsync 开启</span></span><br><span class="line">    <span class="keyword">public</span> CompletableFuture&lt;Void&gt; <span class="title function_">longTask</span><span class="params">()</span> {</span><br><span class="line">        <span class="comment">// 耗时操作</span></span><br><span class="line">        <span class="keyword">return</span> CompletableFuture.completedFuture(<span class="literal">null</span>);</span><br><span class="line">    }</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<h3 id="异步的价值">6.2 异步的价值</h3>
+<p><strong>是的，会释放线程</strong></p>
+<p>Tomcat 的 worker
+线程在异步任务提交后<strong>立即返回池中</strong>。这大大提高了并发能力：原本一个耗时
+5 秒的请求会独占线程 5 秒，现在只占用几毫秒。</p>
+<h3 id="实际数字对比">6.3 实际数字对比</h3>
+<p>假设： - Tomcat maxThreads=200 - 每个请求有 5 秒耗时 I/O 操作 -
+请求平均处理时间（不含耗时）：100ms</p>
+<table>
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr>
+<th>模式</th>
+<th>最大稳定并发（理论）</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>纯同步（全阻塞）</strong></td>
+<td>~200</td>
+<td>每个请求独占一个容器线程 5 秒多</td>
+</tr>
+<tr>
+<td><strong>异步（释放容器线程）</strong></td>
+<td>几千甚至上万</td>
+<td>容器线程快速释放，复用率极高</td>
+</tr>
+<tr>
+<td><strong>纯非阻塞（WebFlux）</strong></td>
+<td>更高（数万）</td>
+<td>全程无阻塞，线程几乎不闲置</td>
+</tr>
+</tbody>
+</table>
+<h3 id="局限性">6.4 局限性</h3>
+<p>这种异步机制的本质是<strong>“线程池分层”</strong>：把珍贵的”前端线程”保护起来，让它们只做轻量活，把重活丢给”后端工人”。</p>
+<p>但仍有局限： - 后端线程还是会被阻塞占用，如果 TaskExecutor
+也耗尽，任务会排队 - 如果耗时任务超级多/超级长，仍然需要进一步优化 -
+资源占用比纯事件循环高（两个线程池 vs 一个事件循环）</p>
+<h2 id="七阻塞与非阻塞的本质区别">七、阻塞与非阻塞的本质区别</h2>
+<h3 id="为什么事件循环模型必须使用非阻塞库">7.1
+为什么事件循环模型必须使用非阻塞库？</h3>
+<p>在事件循环模型（如 Spring WebFlux + Netty、FastAPI async +
+Uvicorn）中，整个服务器的核心是<strong>单线程（或少量线程）的事件循环</strong>。</p>
+<p>如果任何 I/O
+操作是<strong>阻塞式的</strong>，它会直接<strong>阻塞整个事件循环线程</strong>，导致：
+- <strong>整个服务器卡顿</strong>：在等待 I/O
+完成期间，事件循环无法切换到其他请求 -
+<strong>并发度崩盘</strong>：原本能处理数万连接的系统，瞬间降到只能处理一个请求
+- <strong>雪崩风险</strong>：高并发下，系统响应变慢、超时、拒绝服务</p>
+<h3 id="阻塞-vs-非阻塞在事件循环中的区别">7.2 阻塞 vs
+非阻塞在事件循环中的区别</h3>
+<table>
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr>
+<th>方面</th>
+<th>阻塞式 I/O（同步库，如 JdbcTemplate、requests）</th>
+<th>非阻塞式 I/O（WebClient、R2DBC、httpx、asyncpg）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>线程行为</td>
+<td>当前线程<strong>立即挂起等待</strong>（闲置）。在事件循环中，这就是<strong>阻塞整个循环</strong></td>
+<td>线程<strong>不等待</strong>，立即返回”未来结果”。事件循环注册回调，继续处理其他任务</td>
+</tr>
+<tr>
+<td>等待期间</td>
+<td>线程闲置，无法做任何事 → 整个服务器停转</td>
+<td>事件循环切换到其他请求/协程 → 高并发持续</td>
+</tr>
+<tr>
+<td>并发效果</td>
+<td>差：一个阻塞操作卡住所有请求</td>
+<td>优：单线程处理数万请求，线程利用率接近 100%</td>
+</tr>
+<tr>
+<td>示例后果</td>
+<td>一个慢数据库查询（5 秒）→ 所有客户端都等 5 秒+</td>
+<td>一个慢查询只影响自身，其他请求正常处理</td>
+</tr>
+</tbody>
+</table>
+<h3 id="在线程池-异步实现中的区别">7.3 在”线程池 +
+异步”实现中的区别</h3>
+<table>
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr>
+<th>方面</th>
+<th>阻塞式 I/O（常见，如 RestTemplate、JDBC）</th>
+<th>非阻塞式 I/O（WebClient 等，可用但非必须）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>线程行为</td>
+<td>阻塞操作占用<strong>后端线程池的一个线程</strong>（TaskExecutor）。容器线程已释放，不影响前端</td>
+<td>同事件循环：不阻塞任何线程，但收益有限（因为已有线程池）</td>
+</tr>
+<tr>
+<td>等待期间</td>
+<td>该后端线程闲置，但其他线程继续工作 → 系统整体正常</td>
+<td>后端线程不闲置，利用率更高</td>
+</tr>
+<tr>
+<td>并发效果</td>
+<td>好：只影响一个线程，后端池可扩容（数百线程）</td>
+<td>更好：但在多线程环境中提升有限</td>
+</tr>
+<tr>
+<td>为什么阻塞库可用</td>
+<td>阻塞只影响”后端工人线程”，前端容器线程已保护好</td>
+<td>非必须，但推荐用于极致优化</td>
+</tr>
+</tbody>
+</table>
+<h3 id="形象比喻">7.4 形象比喻</h3>
+<p><strong>事件循环模型</strong>： -
+阻塞：厨师（事件循环线程）做菜时必须盯着锅等水开 → 只能服务一个客人 -
+非阻塞：厨师下指令后去服务其他客人，水开时闹钟响再回来 →
+一个厨师服务几十个客人</p>
+<p><strong>线程池模型</strong>： -
+阻塞：一个工人盯着锅等水开（闲置），但其他工人继续干活，前台继续接待客人
+-
+非阻塞：工人下指令就去干别的事，更高效，但系统已有多个工人，差距不如事件循环大</p>
+<h2 id="八协程-vs-线程用户态与内核态的较量">八、协程 vs
+线程：用户态与内核态的较量</h2>
+<h3 id="基本定义与特性对比">8.1 基本定义与特性对比</h3>
+<table>
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr>
+<th>方面</th>
+<th>协程 (Coroutines)</th>
+<th>线程 (Threads)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>调度方式</td>
+<td>用户态调度（由语言运行时/事件循环控制）</td>
+<td>内核态调度（由 OS 控制）</td>
+</tr>
+<tr>
+<td>重量级</td>
+<td>轻量（栈空间小，通常几 KB）</td>
+<td>重量（默认栈 1MB+，创建/切换开销大）</td>
+</tr>
+<tr>
+<td>数量规模</td>
+<td>极多（单线程可调度数万~数十万个协程）</td>
+<td>有限（数百~数千，受内存/CPU 限制）</td>
+</tr>
+<tr>
+<td>切换开销</td>
+<td>极低（用户态，直接跳转）</td>
+<td>高（涉及内核上下文切换、TLB 失效等）</td>
+</tr>
+<tr>
+<td>阻塞行为</td>
+<td>协程”挂起”（yield/await）时不阻塞底层线程</td>
+<td>线程阻塞时，整个线程闲置（OS 切换其他线程）</td>
+</tr>
+<tr>
+<td>典型实现</td>
+<td>Python async/await、Go goroutine、Java 虚拟线程（Loom）</td>
+<td>Java Thread、Python threading、OS pthread</td>
+</tr>
+</tbody>
+</table>
+<h3 id="核心区别用户态-vs-内核态调度">8.2 核心区别：用户态 vs
+内核态调度</h3>
+<p><strong>协程是用户态的概念</strong> - 调度者：由程序运行时（如 Python
+asyncio、Go runtime、Java Loom）控制 -
+切换开销：极低（几微秒）：直接保存/恢复寄存器和栈指针 -
+内核可见性：内核完全看不到协程（只看到承载它们的线程）</p>
+<p><strong>线程是内核态的概念</strong> - 调度者：由操作系统内核（Linux
+kernel、Windows scheduler）控制 -
+切换开销：高（几十微秒~毫秒）：涉及内核陷阱、上下文切换、缓存失效 -
+内核可见性：内核直接管理每个线程（调度、资源分配）</p>
+<h3 id="在两种并发模型中的角色">8.3 在两种并发模型中的角色</h3>
+<p><strong>事件循环模型（协程主导）</strong> -
+协程是主角，线程是”幕后支撑” - 高并发靠协程堆叠：资源占用极低，适合 I/O
+密集 - 一个内核线程运行事件循环，调度成千上万协程 -
+协程挂起时：用户态切换 → 底层线程继续跑其他协程</p>
+<p><strong>线程池 + 异步模型（线程主导）</strong> -
+线程是唯一主角，协程不存在或很少 -
+高并发靠线程堆叠：每个请求/任务占一个线程，资源占用高 -
+部分异步只是”线程分层”，本质仍是多线程阻塞模型的优化</p>
+<h3 id="总结">8.4 总结</h3>
+<p><strong>协程是用户态的”伪并发”</strong>（协作式、轻量、高效），用来在少量内核线程上模拟大量并发；<strong>线程是内核态的”真并发”</strong>（抢占式、重量、真实并行）。内核永远只认识线程，协程只是聪明地在用户空间”偷懒”分工，让线程利用率更高。</p>
+<h2 id="九实战场景协程何时优于线程">九、实战场景：协程何时优于线程？</h2>
+<h3 id="经典场景高并发-io-密集型-web-服务器">9.1 经典场景：高并发 I/O
+密集型 Web 服务器</h3>
+<p><strong>场景描述</strong></p>
+<p>想象你开发一个实时股票报价服务： - 服务器需要同时服务 <strong>50,000
+个客户端连接</strong> -
+每个连接每秒可能发起一个请求：查询外部数据源（网络 I/O，平均延迟
+50~200ms） - 请求主要是 I/O 等待（非 CPU 计算）</p>
+<p><strong>用传统线程模型的表现</strong> -
+<strong>内存爆炸</strong>：每个线程默认栈空间 1MB，50,000 线程 ≈ 50GB
+内存 - <strong>上下文切换开销</strong>：OS 频繁切换线程，CPU
+利用率低，系统抖动大 - <strong>实际极限</strong>：一台中等服务器（32 核
+64GB 内存）最多稳定处理几千~一万并发 -
+<strong>扩展成本</strong>：需多实例 + 负载均衡，部署复杂，资源浪费</p>
+<p><strong>用协程模型的表现</strong> -
+<strong>内存极低</strong>：每个协程栈空间仅几 KB（Go goroutine 初始
+2KB），50,000 协程 ≈ 几百 MB 内存 -
+<strong>切换高效</strong>：协程在用户态协作切换（I/O 等待时主动
+yield），无内核介入，开销微秒级 -
+<strong>实际极限</strong>：单机轻松处理 10 万~百万并发 -
+<strong>资源效率</strong>：一台服务器顶得上传统模型的 10~100 台</p>
+<h3 id="量化对比基于真实基准测试">9.2 量化对比（基于真实基准测试）</h3>
+<table>
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr>
+<th>指标</th>
+<th>线程模型（Java Servlet + Tomcat）</th>
+<th>协程模型（Go / Vert.x / FastAPI async）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>单机最大并发连接</td>
+<td>~20,000（受内存/线程限制）</td>
+<td>~1,000,000+</td>
+</tr>
+<tr>
+<td>内存占用（10万并发）</td>
+<td>~100GB+（不可行）</td>
+<td>~15GB</td>
+</tr>
+<tr>
+<td>平均延迟（高负载下）</td>
+<td>高（线程切换 + 排队）</td>
+<td>低（高效复用）</td>
+</tr>
+<tr>
+<td>CPU 利用率</td>
+<td>中低（大量闲置等待）</td>
+<td>高（持续调度）</td>
+</tr>
+</tbody>
+</table>
+<h3 id="为什么协程偷懒分工在这里胜出">9.3
+为什么协程”偷懒”分工在这里胜出？</h3>
+<ul>
+<li>协程让<strong>一个内核线程”假装”同时干数万件事</strong>：I/O
+等待时不闲置线程，而是用户态快速切换协程</li>
+<li>内核只看到少数忙碌线程（高效利用 CPU
+时间片），而传统线程模型让内核管理数万闲置线程（浪费）</li>
+<li>真实案例：Discord（聊天服务）用 Go（协程）单机处理百万连接；许多
+CDN/网关用 Node.js/Go 而非 Java 线程池</li>
+</ul>
+<h3 id="适用场景总结">9.4 适用场景总结</h3>
+<p><strong>优先事件循环（协程）</strong> - 高并发 I/O（如实时推送、大量
+API 调用、WebSocket 长连接） - 资源受限环境（云服务器、容器）</p>
+<p><strong>优先线程池</strong> - 混合负载（有 CPU 计算） -
+快速开发、遗留系统 - 并发需求不高（&lt; 数千 QPS）</p>
+<h2 id="十总结与选型建议">十、总结与选型建议</h2>
+<h3 id="核心要点回顾">10.1 核心要点回顾</h3>
+<ol type="1">
+<li><strong>Uvicorn 提供了完整的异步运行环境</strong>（事件循环 +
+非阻塞服务器）</li>
+<li><strong>FastAPI 这类现代 ASGI
+框架让你可以”无痛”运行同步代码</strong>，但真正的异步高性能需要你在业务层主动使用
+async/await 和异步生态库</li>
+<li><strong>事件循环模型 vs 线程池模型</strong>：
+<ul>
+<li>事件循环：用”时间分片”在一个线程上”假装”同时处理很多事，高效但要求代码非阻塞</li>
+<li>线程池：用”真并行”多线程每个请求独占资源，简单但开销大</li>
+</ul></li>
+<li><strong>阻塞 vs 非阻塞</strong>：
+<ul>
+<li>事件循环模型：必须非阻塞，否则整个单线程崩了——这是”生死线”</li>
+<li>线程池 +
+异步模型：阻塞库没问题（只堵一个线程），非阻塞库是锦上添花</li>
+</ul></li>
+<li><strong>协程 vs 线程</strong>：
+<ul>
+<li>协程是用户态的”伪并发”（协作式、轻量、高效）</li>
+<li>线程是内核态的”真并发”（抢占式、重量、真实并行）</li>
+</ul></li>
+</ol>
+<h3 id="选型建议">10.2 选型建议</h3>
+<p><strong>选择事件循环 + 非阻塞模型（FastAPI async、WebFlux）</strong>
+- 你的应用对并发要求极高（数万~数十万并发） - 主要是 I/O
+密集型任务（大量数据库/外部 API 调用、WebSocket 长连接） -
+资源受限环境（云服务器、容器） - 你愿意学习异步/响应式编程模型</p>
+<p><strong>选择线程池 + 异步模型（Spring MVC）</strong> -
+你的应用对并发要求不高（&lt; 数千 QPS） - 有 CPU 计算任务或混合负载 -
+开发速度优先、代码遗留多 - 生态兼容性要求高（很多库只提供同步版本）</p>
+<p><strong>混合使用</strong></p>
+<ul>
+<li>在事件循环模型中，用线程池处理 CPU 密集任务</li>
+<li>在线程池模型中，用异步编程释放容器线程，提升并发</li>
+</ul>
+<h3 id="最终建议">10.3 最终建议</h3>
+<p>现代系统往往混合使用两种模型。如果不确定，从简单的线程池模型开始（Spring
+MVC、FastAPI
+同步路由），在遇到真正的性能瓶颈时再考虑迁移到纯事件循环模型。记住：<strong>过早优化是万恶之源</strong>。</p>
+<p>对于大多数企业内部系统、普通 API 服务，Spring MVC +
+异步（Callable/<span class="citation" data-cites="Async">@Async</span>）或
+FastAPI（同步路由）已经足够了。只有当你真正需要处理数万并发、大量长连接或极致资源效率时，才需要全面拥抱事件循环
++ 非阻塞模型。</p>
+<hr>
+<p><em>本文整理自与 AI 的技术对话，深入探讨了 Web
+服务器异步实现的方方面面。如有疑问或需要补充，欢迎讨论。</em></p>
+
+                    
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                Web服务器高并发技术深度解析：事件循环 vs 线程池模型
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                2026/12/30/uvicorn-fastapi-async-deep-dive/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    Author
+                </div>
+                <div class="content">Zhongjun Qiu</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    Published
+                </div>
+                <div class="content">2026-12-30 00:00</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    License
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="Copy copyright info" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">并发编程</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="Share to WeChat"
+            data-tooltip-img-tip="Scan by WeChat"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to WeiBo"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+                    
+
+<div class="reward-author-container border-box flex-center">
+    <div class="reward-btn border-box flex-center tooltip tooltip-img"
+            data-tooltip-img-url="/images/post/payment.jpg"
+            data-tooltip-img-trigger="click"
+            data-tooltip-img-style="top: -6px;"
+    >
+        <i class="fa-solid fa-gift"></i>&nbsp;REWARD AUTHOR
+    </div>
+</div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/2026/12/20/writealgcode/"
+                                   title="为什么我用 C++/Java 而非 Python 写算法题"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">为什么我用 C++/Java 而非 Python 写算法题</span>
+                                        <span class="post-nav-item">Next posts</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+    <div class="comments-container border-box">
+        <div id="comments-anchor" class="comment-area-title border-box">
+            <i class="fas fa-comments"></i>&nbsp;Comments
+        </div>
+        <div class="comment-plugin-fail border-box">
+    <span class="fail-tip">Comment plugin failed to load</span>
+    <button class="reload keep-button">Click to reload</button>
+</div>
+<div class="comment-plugin-loading flex-center border-box">
+    <i class="loading-icon fa-solid fa-spinner fa-spin"></i>
+    <span class="load-tip">Loading comment plugin</span>
+</div>
+<script data-pjax>
+  window.KeepCommentPlugin = {}
+  window.KeepCommentPlugin.hideLoading = () => {
+    const cplDom = document.querySelector('.comments-container .comment-plugin-loading')
+    cplDom.style.display = 'none'
+  }
+  window.KeepCommentPlugin.loadFailHandle = () => {
+    window.KeepCommentPlugin.hideLoading()
+    const cpfDom = document.querySelector('.comments-container .comment-plugin-fail')
+    cpfDom.style.display = 'flex'
+    cpfDom.querySelector('.reload').addEventListener('click', () => {
+      window.location.reload()
+    })
+  }
+</script>
+
+        
+            
+
+    <div class="waline-comment-container">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/waline/3.3.2/waline.css"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/waline/3.3.2/waline-meta.css"/>
+        <div id="waline-comment"></div>
+        <script data-pjax>
+          window.KeepCommentPlugin.walineOptions = JSON.parse('{}'.replace(/&#34;/g, '"'))
+          window.KeepCommentPlugin.walineOptions.el = '#waline-comment'
+          window.KeepCommentPlugin.walineOptions.comment = '.post-comments-count'
+          window.KeepCommentPlugin.walineOptions.serverURL = 'https://waline-vercel-two-rho.vercel.app/'
+          window.KeepCommentPlugin.walineOptions.lang = 'en' || 'zh-CN'
+          window.KeepCommentPlugin.walineOptions.reaction = 'true' === 'true'
+        </script>
+
+        
+
+        
+            <script 
+                    async
+                    type="module"
+            >
+              import { init } from 'https://cdnjs.cloudflare.com/ajax/libs/waline/3.3.2/waline.js'
+              window.KeepCommentPlugin.initWaline = () => {
+                if (init) {
+                  init(window.KeepCommentPlugin.walineOptions)
+                  window.KeepCommentPlugin.hideLoading()
+                } else {
+                  setTimeout(() => {
+                    window.KeepCommentPlugin.initWaline()
+                  }, 1000)
+                }
+              }
+
+              if ('false' === 'true') {
+                setTimeout(() => {
+                  window.KeepCommentPlugin.initWaline()
+                }, 1200)
+              } else {
+                window.addEventListener('DOMContentLoaded', window.KeepCommentPlugin.initWaline)
+              }
+            </script>
+        
+    </div>
+
+
+        
+    </div>
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc right-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E5%AF%B9%E6%AF%94"><span class="nav-text">核心对比</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80uvicorn-%E7%9A%84%E5%BC%82%E6%AD%A5%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86"><span class="nav-text">一、Uvicorn 的异步实现原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6"><span class="nav-text">1.1 核心组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%AC%E8%B4%A8%E7%89%B9%E7%82%B9"><span class="nav-text">1.2 本质特点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8Cfastapi-%E6%A1%86%E6%9E%B6%E4%B8%8E%E5%BC%82%E6%AD%A5%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-text">二、FastAPI 框架与异步的关系</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E9%97%AE%E9%A2%98%E6%A1%86%E6%9E%B6%E6%98%AF%E5%90%A6%E5%AE%8C%E5%85%A8%E4%B8%8D%E9%9C%80%E8%A6%81%E5%85%B3%E5%BF%83%E5%BC%82%E6%AD%A5%E5%8D%8F%E7%A8%8B"><span class="nav-text">2.1
+核心问题：框架是否完全不需要关心异步&#x2F;协程？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6%E5%B7%AE%E5%BC%82"><span class="nav-text">2.2 运行机制差异</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%95%E6%97%B6%E5%8F%AF%E4%BB%A5%E4%B8%8D%E5%85%B3%E5%BF%83"><span class="nav-text">2.3 何时可以”不关心”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%83%B3%E8%8E%B7%E5%BE%97%E6%9C%80%E4%BD%B3%E6%80%A7%E8%83%BD%E5%BF%85%E9%A1%BB%E4%B8%BB%E5%8A%A8%E5%86%99%E5%BC%82%E6%AD%A5%E4%BB%A3%E7%A0%81"><span class="nav-text">2.4
+想获得最佳性能，必须主动写异步代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BD%A2%E8%B1%A1%E7%B1%BB%E6%AF%94"><span class="nav-text">2.5 形象类比</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E4%B8%8E-java-spring-%E7%94%9F%E6%80%81%E7%9A%84%E7%B1%BB%E6%AF%94%E5%AF%B9%E6%AF%94"><span class="nav-text">三、与 Java Spring
+生态的类比对比</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E8%A1%8C%E4%B8%BA%E7%B1%BB%E6%AF%94"><span class="nav-text">关键行为类比</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9Bspringboot-%E9%98%BB%E5%A1%9E%E5%BC%8F%E4%B8%BA%E4%BD%95%E8%83%BD%E6%94%AF%E6%8C%81%E9%AB%98%E5%B9%B6%E5%8F%91"><span class="nav-text">四、SpringBoot
+阻塞式为何能支持高并发？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#spring-boot-spring-mvc-%E7%9A%84%E9%BB%98%E8%AE%A4%E8%BF%90%E8%A1%8C%E6%A8%A1%E5%9E%8B"><span class="nav-text">4.1 Spring Boot + Spring
+MVC 的默认运行模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%98%BB%E5%A1%9E%E5%BC%8F%E8%BF%98%E8%83%BD%E6%94%AF%E6%8C%81%E9%AB%98%E5%B9%B6%E5%8F%91"><span class="nav-text">4.2
+为什么阻塞式还能支持高并发？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#spring-mvc-vs-spring-webflux-%E5%AF%B9%E6%AF%94"><span class="nav-text">4.3 Spring MVC vs Spring
+WebFlux 对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E5%BE%88%E5%A4%9A%E9%A1%B9%E7%9B%AE%E4%BB%8D%E7%84%B6%E9%80%89%E6%8B%A9-spring-mvc"><span class="nav-text">4.4 为什么很多项目仍然选择
+Spring MVC？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF-vs-%E7%BA%BF%E7%A8%8B%E6%B1%A0%E4%B8%A4%E7%A7%8D%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%9E%8B%E7%9A%84%E6%B7%B1%E5%BA%A6%E8%A7%A3%E6%9E%90"><span class="nav-text">五、事件循环 vs
+线程池：两种并发模型的深度解析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E6%9C%BA%E5%88%B6%E5%B7%AE%E5%BC%82"><span class="nav-text">5.1 核心机制差异</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%A7%E8%83%BD%E5%AF%B9%E6%AF%94"><span class="nav-text">5.2 性能对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%98%E7%BC%BA%E7%82%B9%E5%AF%B9%E6%AF%94"><span class="nav-text">5.3 优缺点对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%80%BB%E7%BB%93"><span class="nav-text">5.4 一句话总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%ADspring-mvc-%E7%9A%84%E5%BC%82%E6%AD%A5%E6%94%AF%E6%8C%81%E6%9C%BA%E5%88%B6"><span class="nav-text">六、Spring MVC 的异步支持机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%82%E6%AD%A5%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F"><span class="nav-text">6.1 异步实现方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%82%E6%AD%A5%E7%9A%84%E4%BB%B7%E5%80%BC"><span class="nav-text">6.2 异步的价值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E9%99%85%E6%95%B0%E5%AD%97%E5%AF%B9%E6%AF%94"><span class="nav-text">6.3 实际数字对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B1%80%E9%99%90%E6%80%A7"><span class="nav-text">6.4 局限性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%83%E9%98%BB%E5%A1%9E%E4%B8%8E%E9%9D%9E%E9%98%BB%E5%A1%9E%E7%9A%84%E6%9C%AC%E8%B4%A8%E5%8C%BA%E5%88%AB"><span class="nav-text">七、阻塞与非阻塞的本质区别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF%E6%A8%A1%E5%9E%8B%E5%BF%85%E9%A1%BB%E4%BD%BF%E7%94%A8%E9%9D%9E%E9%98%BB%E5%A1%9E%E5%BA%93"><span class="nav-text">7.1
+为什么事件循环模型必须使用非阻塞库？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%98%BB%E5%A1%9E-vs-%E9%9D%9E%E9%98%BB%E5%A1%9E%E5%9C%A8%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF%E4%B8%AD%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-text">7.2 阻塞 vs
+非阻塞在事件循环中的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8%E7%BA%BF%E7%A8%8B%E6%B1%A0-%E5%BC%82%E6%AD%A5%E5%AE%9E%E7%8E%B0%E4%B8%AD%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-text">7.3 在”线程池 +
+异步”实现中的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BD%A2%E8%B1%A1%E6%AF%94%E5%96%BB"><span class="nav-text">7.4 形象比喻</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AB%E5%8D%8F%E7%A8%8B-vs-%E7%BA%BF%E7%A8%8B%E7%94%A8%E6%88%B7%E6%80%81%E4%B8%8E%E5%86%85%E6%A0%B8%E6%80%81%E7%9A%84%E8%BE%83%E9%87%8F"><span class="nav-text">八、协程 vs
+线程：用户态与内核态的较量</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E5%AE%9A%E4%B9%89%E4%B8%8E%E7%89%B9%E6%80%A7%E5%AF%B9%E6%AF%94"><span class="nav-text">8.1 基本定义与特性对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E5%8C%BA%E5%88%AB%E7%94%A8%E6%88%B7%E6%80%81-vs-%E5%86%85%E6%A0%B8%E6%80%81%E8%B0%83%E5%BA%A6"><span class="nav-text">8.2 核心区别：用户态 vs
+内核态调度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8%E4%B8%A4%E7%A7%8D%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%9E%8B%E4%B8%AD%E7%9A%84%E8%A7%92%E8%89%B2"><span class="nav-text">8.3 在两种并发模型中的角色</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-text">8.4 总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B9%9D%E5%AE%9E%E6%88%98%E5%9C%BA%E6%99%AF%E5%8D%8F%E7%A8%8B%E4%BD%95%E6%97%B6%E4%BC%98%E4%BA%8E%E7%BA%BF%E7%A8%8B"><span class="nav-text">九、实战场景：协程何时优于线程？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%8F%E5%85%B8%E5%9C%BA%E6%99%AF%E9%AB%98%E5%B9%B6%E5%8F%91-io-%E5%AF%86%E9%9B%86%E5%9E%8B-web-%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-text">9.1 经典场景：高并发 I&#x2F;O
+密集型 Web 服务器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%8F%E5%8C%96%E5%AF%B9%E6%AF%94%E5%9F%BA%E4%BA%8E%E7%9C%9F%E5%AE%9E%E5%9F%BA%E5%87%86%E6%B5%8B%E8%AF%95"><span class="nav-text">9.2 量化对比（基于真实基准测试）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E5%8D%8F%E7%A8%8B%E5%81%B7%E6%87%92%E5%88%86%E5%B7%A5%E5%9C%A8%E8%BF%99%E9%87%8C%E8%83%9C%E5%87%BA"><span class="nav-text">9.3
+为什么协程”偷懒”分工在这里胜出？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF%E6%80%BB%E7%BB%93"><span class="nav-text">9.4 适用场景总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%81%E6%80%BB%E7%BB%93%E4%B8%8E%E9%80%89%E5%9E%8B%E5%BB%BA%E8%AE%AE"><span class="nav-text">十、总结与选型建议</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E8%A6%81%E7%82%B9%E5%9B%9E%E9%A1%BE"><span class="nav-text">10.1 核心要点回顾</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%89%E5%9E%8B%E5%BB%BA%E8%AE%AE"><span class="nav-text">10.2 选型建议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%80%E7%BB%88%E5%BB%BA%E8%AE%AE"><span class="nav-text">10.3 最终建议</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="copyright-info info-item">
+    &copy;&nbsp;<span>2020</span>&nbsp;-&nbsp;2026
+    
+            &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">Zhongjun Qiu</a>
+        
+    </div>
+
+    <div class="theme-info info-item">
+        Powered by&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;&&nbsp;Theme&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+    </div>
+
+    
+        
+        <div class="deploy-info info-item">
+            
+                <a target="_blank" rel="nofollow" href="https://github.com">
+            
+            This site is deployed on <span class="tooltip" data-tooltip-content="GitHub Pages"><img src="/images/brands/github.png"></span>
+            
+                </a>
+            
+        </div>
+    
+
+    
+        <div class="count-info info-item">
+            
+                <span class="count-item border-box word">
+                    <span class="item-type border-box">Total words</span>
+                    <span class="item-value border-box word">461.4k</span>
+                </span>
+            
+
+            
+
+            
+                <span class="count-item border-box pv">
+                    <span class="item-type border-box">Page View</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+    
+
+    
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+            <li class="tools-item flex-center go-to-comments">
+                <i class="fas fa-comment"></i>
+                <span class="post-comments-count"></span>
+            </li>
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <!-- toggle mode -->
+        
+            <li class="tools-item tool-toggle-theme-mode flex-center">
+                <i class="fas fa-moon"></i>
+            </li>
+        
+
+        <!-- rss -->
+        
+
+        <!-- to bottom -->
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+            <li class="tools-item go-to-comments-tablet flex-center">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E5%AF%B9%E6%AF%94"><span class="nav-text">核心对比</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80uvicorn-%E7%9A%84%E5%BC%82%E6%AD%A5%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86"><span class="nav-text">一、Uvicorn 的异步实现原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6"><span class="nav-text">1.1 核心组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%AC%E8%B4%A8%E7%89%B9%E7%82%B9"><span class="nav-text">1.2 本质特点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8Cfastapi-%E6%A1%86%E6%9E%B6%E4%B8%8E%E5%BC%82%E6%AD%A5%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-text">二、FastAPI 框架与异步的关系</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E9%97%AE%E9%A2%98%E6%A1%86%E6%9E%B6%E6%98%AF%E5%90%A6%E5%AE%8C%E5%85%A8%E4%B8%8D%E9%9C%80%E8%A6%81%E5%85%B3%E5%BF%83%E5%BC%82%E6%AD%A5%E5%8D%8F%E7%A8%8B"><span class="nav-text">2.1
+核心问题：框架是否完全不需要关心异步&#x2F;协程？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%90%E8%A1%8C%E6%9C%BA%E5%88%B6%E5%B7%AE%E5%BC%82"><span class="nav-text">2.2 运行机制差异</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%95%E6%97%B6%E5%8F%AF%E4%BB%A5%E4%B8%8D%E5%85%B3%E5%BF%83"><span class="nav-text">2.3 何时可以”不关心”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%83%B3%E8%8E%B7%E5%BE%97%E6%9C%80%E4%BD%B3%E6%80%A7%E8%83%BD%E5%BF%85%E9%A1%BB%E4%B8%BB%E5%8A%A8%E5%86%99%E5%BC%82%E6%AD%A5%E4%BB%A3%E7%A0%81"><span class="nav-text">2.4
+想获得最佳性能，必须主动写异步代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BD%A2%E8%B1%A1%E7%B1%BB%E6%AF%94"><span class="nav-text">2.5 形象类比</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E4%B8%8E-java-spring-%E7%94%9F%E6%80%81%E7%9A%84%E7%B1%BB%E6%AF%94%E5%AF%B9%E6%AF%94"><span class="nav-text">三、与 Java Spring
+生态的类比对比</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E8%A1%8C%E4%B8%BA%E7%B1%BB%E6%AF%94"><span class="nav-text">关键行为类比</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9Bspringboot-%E9%98%BB%E5%A1%9E%E5%BC%8F%E4%B8%BA%E4%BD%95%E8%83%BD%E6%94%AF%E6%8C%81%E9%AB%98%E5%B9%B6%E5%8F%91"><span class="nav-text">四、SpringBoot
+阻塞式为何能支持高并发？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#spring-boot-spring-mvc-%E7%9A%84%E9%BB%98%E8%AE%A4%E8%BF%90%E8%A1%8C%E6%A8%A1%E5%9E%8B"><span class="nav-text">4.1 Spring Boot + Spring
+MVC 的默认运行模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%98%BB%E5%A1%9E%E5%BC%8F%E8%BF%98%E8%83%BD%E6%94%AF%E6%8C%81%E9%AB%98%E5%B9%B6%E5%8F%91"><span class="nav-text">4.2
+为什么阻塞式还能支持高并发？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#spring-mvc-vs-spring-webflux-%E5%AF%B9%E6%AF%94"><span class="nav-text">4.3 Spring MVC vs Spring
+WebFlux 对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E5%BE%88%E5%A4%9A%E9%A1%B9%E7%9B%AE%E4%BB%8D%E7%84%B6%E9%80%89%E6%8B%A9-spring-mvc"><span class="nav-text">4.4 为什么很多项目仍然选择
+Spring MVC？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF-vs-%E7%BA%BF%E7%A8%8B%E6%B1%A0%E4%B8%A4%E7%A7%8D%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%9E%8B%E7%9A%84%E6%B7%B1%E5%BA%A6%E8%A7%A3%E6%9E%90"><span class="nav-text">五、事件循环 vs
+线程池：两种并发模型的深度解析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E6%9C%BA%E5%88%B6%E5%B7%AE%E5%BC%82"><span class="nav-text">5.1 核心机制差异</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%A7%E8%83%BD%E5%AF%B9%E6%AF%94"><span class="nav-text">5.2 性能对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%98%E7%BC%BA%E7%82%B9%E5%AF%B9%E6%AF%94"><span class="nav-text">5.3 优缺点对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%80%BB%E7%BB%93"><span class="nav-text">5.4 一句话总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%ADspring-mvc-%E7%9A%84%E5%BC%82%E6%AD%A5%E6%94%AF%E6%8C%81%E6%9C%BA%E5%88%B6"><span class="nav-text">六、Spring MVC 的异步支持机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%82%E6%AD%A5%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F"><span class="nav-text">6.1 异步实现方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%82%E6%AD%A5%E7%9A%84%E4%BB%B7%E5%80%BC"><span class="nav-text">6.2 异步的价值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E9%99%85%E6%95%B0%E5%AD%97%E5%AF%B9%E6%AF%94"><span class="nav-text">6.3 实际数字对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B1%80%E9%99%90%E6%80%A7"><span class="nav-text">6.4 局限性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%83%E9%98%BB%E5%A1%9E%E4%B8%8E%E9%9D%9E%E9%98%BB%E5%A1%9E%E7%9A%84%E6%9C%AC%E8%B4%A8%E5%8C%BA%E5%88%AB"><span class="nav-text">七、阻塞与非阻塞的本质区别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF%E6%A8%A1%E5%9E%8B%E5%BF%85%E9%A1%BB%E4%BD%BF%E7%94%A8%E9%9D%9E%E9%98%BB%E5%A1%9E%E5%BA%93"><span class="nav-text">7.1
+为什么事件循环模型必须使用非阻塞库？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%98%BB%E5%A1%9E-vs-%E9%9D%9E%E9%98%BB%E5%A1%9E%E5%9C%A8%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF%E4%B8%AD%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-text">7.2 阻塞 vs
+非阻塞在事件循环中的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8%E7%BA%BF%E7%A8%8B%E6%B1%A0-%E5%BC%82%E6%AD%A5%E5%AE%9E%E7%8E%B0%E4%B8%AD%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-text">7.3 在”线程池 +
+异步”实现中的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BD%A2%E8%B1%A1%E6%AF%94%E5%96%BB"><span class="nav-text">7.4 形象比喻</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AB%E5%8D%8F%E7%A8%8B-vs-%E7%BA%BF%E7%A8%8B%E7%94%A8%E6%88%B7%E6%80%81%E4%B8%8E%E5%86%85%E6%A0%B8%E6%80%81%E7%9A%84%E8%BE%83%E9%87%8F"><span class="nav-text">八、协程 vs
+线程：用户态与内核态的较量</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E5%AE%9A%E4%B9%89%E4%B8%8E%E7%89%B9%E6%80%A7%E5%AF%B9%E6%AF%94"><span class="nav-text">8.1 基本定义与特性对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E5%8C%BA%E5%88%AB%E7%94%A8%E6%88%B7%E6%80%81-vs-%E5%86%85%E6%A0%B8%E6%80%81%E8%B0%83%E5%BA%A6"><span class="nav-text">8.2 核心区别：用户态 vs
+内核态调度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8%E4%B8%A4%E7%A7%8D%E5%B9%B6%E5%8F%91%E6%A8%A1%E5%9E%8B%E4%B8%AD%E7%9A%84%E8%A7%92%E8%89%B2"><span class="nav-text">8.3 在两种并发模型中的角色</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-text">8.4 总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B9%9D%E5%AE%9E%E6%88%98%E5%9C%BA%E6%99%AF%E5%8D%8F%E7%A8%8B%E4%BD%95%E6%97%B6%E4%BC%98%E4%BA%8E%E7%BA%BF%E7%A8%8B"><span class="nav-text">九、实战场景：协程何时优于线程？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%8F%E5%85%B8%E5%9C%BA%E6%99%AF%E9%AB%98%E5%B9%B6%E5%8F%91-io-%E5%AF%86%E9%9B%86%E5%9E%8B-web-%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-text">9.1 经典场景：高并发 I&#x2F;O
+密集型 Web 服务器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%8F%E5%8C%96%E5%AF%B9%E6%AF%94%E5%9F%BA%E4%BA%8E%E7%9C%9F%E5%AE%9E%E5%9F%BA%E5%87%86%E6%B5%8B%E8%AF%95"><span class="nav-text">9.2 量化对比（基于真实基准测试）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E5%8D%8F%E7%A8%8B%E5%81%B7%E6%87%92%E5%88%86%E5%B7%A5%E5%9C%A8%E8%BF%99%E9%87%8C%E8%83%9C%E5%87%BA"><span class="nav-text">9.3
+为什么协程”偷懒”分工在这里胜出？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF%E6%80%BB%E7%BB%93"><span class="nav-text">9.4 适用场景总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%81%E6%80%BB%E7%BB%93%E4%B8%8E%E9%80%89%E5%9E%8B%E5%BB%BA%E8%AE%AE"><span class="nav-text">十、总结与选型建议</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E8%A6%81%E7%82%B9%E5%9B%9E%E9%A1%BE"><span class="nav-text">10.1 核心要点回顾</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%89%E5%9E%8B%E5%BB%BA%E8%AE%AE"><span class="nav-text">10.2 选型建议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%80%E7%BB%88%E5%BB%BA%E8%AE%AE"><span class="nav-text">10.3 最终建议</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+
+
+<!-- common js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/utils.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/header-shrink.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/back2top.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/toggle-theme.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/code-block.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/main.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/libs/anime.min.js"></script>
+
+<!-- local search -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/local-search.min.js"></script>
+
+
+<!-- lazyload -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/lazyload.min.js"></script>
+
+
+<div class="">
+    <!-- home page -->
+    
+
+    <!-- post page -->
+    
+        <!-- post-helper -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/post-helper.min.js"></script>
+
+        <!-- toc -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/toc.min.js"></script>
+        
+
+        <!-- copyright-info -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/copyright-info.min.js"></script>
+        
+
+        <!-- share -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/share.min.js"></script>
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+
+
+    
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/custom_code_block.js" data-pjax></script>
+
+        
+    
+
+</body>
+</html>

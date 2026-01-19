@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="blog, decade, lucky">
+    <meta name="description" content="Decade&#39;s lucky blog">
+    <meta name="author" content="Zhongjun Qiu">
+    
+    <title>
+        
+            从混乱到秩序：我如何设计一个统一的 LLM 调用框架 |
+        
+        Decade
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="https://decade.net.cn/images/logo.ico">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/fontawesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/regular.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/solid.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/brands.min.css">
+    
+        
+            
+        
+            
+                
+<link rel="stylesheet" href="/css/custom.css">
+
+            
+        
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"decade.net.cn","root":"/","language":"en","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"Decade","author":"Zhongjun Qiu","avatar":"/images/avatar.ico","logo":"/images/avatar.ico","favicon":"https://decade.net.cn/images/logo.ico"},"menu":{"home":"/ || fa-solid fa-home","archives":"/archives || fa-solid fa-box-archive","tags":"/tags || fa-solid fa-tags","categories":"/categories || fa-solid fa-layer-group","more":{"icon":"fa-solid fa-circle-user","children":[{"tool":"/tools || fa-solid fa-tools"},{"life":"/photos || fa-solid fa-image"},{"me":"/about || fa-solid fa-user-graduate"},{"Git":"/custom/index.html || fa-solid fa-user"}]}},"first_screen":{"enable":true,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"The Steadfast Determination of An Ordinary Soul.","hitokoto":false},"social_contact":{"enable":true,"links":{"github":"https://github.com/Decade-qiu","weixin":"img | /images/social/weixin.jpg","qq":null,"weibo":null,"zhihu":null,"twitter":null,"x":"https://x.com/LukasMa46743746","facebook":null,"email":"qiuyu6021@gmail.com"}},"scroll":{"progress_bar":true,"percent":true,"hide_header":false},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"created || fa-solid fa-history","post_datetime_format":"ago"},"post":{"author_badge":{"enable":true,"level_badge":false,"custom_badge":"元婴开发者"},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":true,"img_link":"/images/post/payment.jpg","text":null,"icon":null},"created_datetime_icon":"fa-solid fa-calendar-plus","updated_datetime_icon":"fa-solid fa-arrows-rotate"},"code_block":{"tools":{"enable":true,"style":"mac"},"highlight_theme":"obsidian"},"toc":{"enable":true,"number":false,"expand_all":false,"init_open":false,"layout":"right"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":false,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":true,"use":"waline","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.39"},"waline":{"server_url":"https://waline-vercel-two-rho.vercel.app/","reaction":true,"version":"3.3.2"},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":false},"lazyload":{"enable":true},"cdn":{"enable":true,"provider":"cdnjs"},"pjax":{"enable":false},"footer":{"since":2020,"word_count":true,"site_deploy":{"enable":true,"provider":"github","url":"https://github.com"},"record":{"enable":false,"list":[{"code":null,"link":null}]}},"inject":{"enable":true,"css":[null,"/css/custom.css"],"js":[null,"/js/custom_code_block.js"]},"root":"","source_data":{"photos":[{"url":"/images/post/【哲风壁纸】日本动漫-电锯人.webp","name":"电锯人"},{"url":"/images/post/Quicker_20250428_193139.webp","name":"kowayia"},{"url":"/images/post/Quicker_20250428_233349.webp","name":"世界地图"},{"url":"/images/post/tmpFE1E.tmp.webp","name":"施红"},{"url":"/images/post/result-1745849388402.webp","name":"仇忠骏.动漫版"},{"url":"/images/photos/猫猫困了PNG.png","name":"猫猫困了PNG"},{"url":"/images/photos/宁静的暴雨天.png","name":"宁静的暴雨天"},{"url":"/images/photos/我在扬州好想你.png","name":"我在扬州好想你"},{"url":"/images/photos/信鸽.png","name":"信鸽"},{"url":"/images/photos/啤酒烧烤.png","name":"啤酒烧烤"},{"url":"/images/photos/随手拍.png","name":"随手拍"},{"url":"/images/photos/糖油混合炸弹.png","name":"糖油混合炸弹"},{"url":"/images/photos/香香的.png","name":"香香的"},{"url":"/images/photos/蝎子莱莱.png","name":"蝎子莱莱"},{"url":"/images/post/指C为python.png","name":"指C为python"},{"url":"/images/photos/YangZhou_Station.png","name":"YangZhou Station"},{"url":"/images/photos/GBC.jpg","name":"Girls Band Cry"},{"url":"/images/photos/bocchi.webp","name":"Bocchi the Rock!"}],"tools":[{"category":"AIGC","anchorId":"QUlHQw0"},{"name":"ChatGPT","link":"https://chat.openai.com/","description":"OpenAI 旗下 AI 聊天对话工具","image":"/images/tools/chatgpt.svg"},{"name":"Gemini","link":"https://gemini.google.com/app","description":"Google 旗下 AI 聊天对话工具","image":"/images/tools/gemini.svg"},{"name":"Copilot","link":"https://copilot.microsoft.com/","description":"Microsoft 旗下 AI 聊天对话工具","image":"/images/tools/copilot.png"},{"name":"Deepseek","link":"https://chat.deepseek.com/","description":"Deepseek 旗下 AI 聊天对话工具","image":"/images/tools/deepseek.jpg"},{"name":"Qwen","link":"https://chat.qwen.ai/","description":"Alibaba 旗下 AI 聊天对话工具","image":"/images/tools/tongyiqianwen.svg"},{"name":"即梦AI","link":"https://jimeng.jianying.com/ai-tool/home","description":"Dreamina 图像生成工具","image":"/images/tools/dream.png"},{"name":"komiko","link":"https://komiko.app/home","description":"Komiko 动漫化AI工具","image":"/images/tools/komiko.webp"},{"name":"InsMind","link":"https://www.insmind.com/zh-cn/workspace/","description":"AI图片编辑工具","image":"/images/tools/insmind.svg"},{"name":"Raphael","link":"https://raphael.app/zh","description":"AI图片生成工具","image":"/images/tools/rap.png"},{"name":"腾讯元宝","link":"https://yuanbao.tencent.com/chat/","description":"Tencent 旗下 AI 聊天对话工具","image":"/images/tools/tencent.jpg"},{"name":"豆包","link":"https://www.doubao.com/chat/","description":"字节跳动 图片生成工具","image":"/images/tools/dn.jpg"},{"category":"Airport","anchorId":"QWlycG9ydA12"},{"name":"独角兽","link":"https://91unicorn.cloud/","description":"十分稳定","image":"/images/tools/dujiaoshou.ico"},{"name":"极速机场","link":"https://xn--mes358acgm99l.com/","description":"便宜好用","image":"/images/tools/jisu.ico"},{"name":"iKuuu","link":"https://ikuuu.org/user","description":"以备不时之需","image":"/images/tools/ikuu.ico"},{"category":"File Converter","anchorId":"RmlsZSUyMENvbnZlcnRlcg16"},{"name":"Online Image Tool","link":"https://www.onlineimagetool.com/zh/","description":"在线压缩和转换图片","image":"/images/tools/oit.png"},{"name":"Vector Magic","link":"https://zh.vectormagic.com/","description":"文件矢量化","image":"/images/tools/apple-touch-icon-180_97956a9f5fbf6a767de100280d78c1f8.png"},{"name":"TinyPNG","link":"https://tinypng.com/","description":"Smart AVIF, WebP, PNG and JPEG Compression for Faster Websites","image":"/images/tools/tiny.ico"},{"name":"踏得","link":"https://techbrood.com/tool","description":"HTML5在线工具","image":"/images/tools/td.ico"},{"name":"UU在线工具","link":"https://uutool.cn/base64/","description":"base64工具包","image":"/images/tools/uu.png"},{"name":"I Love PDF","link":"https://www.ilovepdf.com/","description":"PDF工具包","image":"/images/tools/ilovepdf.svg"},{"category":"Free GPT API","anchorId":"RnJlZSUyMEdQVCUyMEFQSQ23"},{"name":"Gemini API","link":"https://ai.google.dev/gemini-api/docs/quickstart?lang=python","description":"Google Gemini API","image":"/images/tools/touchicon-180-new.png"},{"name":"SiliconCloud","link":"https://cloud.siliconflow.cn/models","description":"各种模型API"},{"name":"Cloudflare Workers AI","link":"https://developers.cloudflare.com/workers-ai/configuration/open-ai-compatibility/","description":"OpenAI compatible API endpoints","image":"/images/tools/logo.p_ySeMR1.svg"},{"name":"算了么","link":"https://api.suanli.cn/","description":"共享算力API","image":"/images/tools/suanlm.svg"},{"category":"Resource Explorer","anchorId":"UmVzb3VyY2UlMjBFeHBsb3Jlcg28"},{"name":"Free for Developers","link":"https://free-for.dev/","description":"A list of SaaS, PaaS and IaaS offerings that have free tiers of interest to devops and infradev","image":"/images/tools/freefd.webp"},{"name":"zlibrary","link":"https://zh.z-library.sk/","description":"在线图书馆","image":"/images/tools/logo.zlibrary.svg"},{"name":"PicX","link":"https://picx.xpoet.cn/","description":"基于Github的图床","image":"/images/tools/logo.ffee4291.png"},{"name":"HaoWallpaper","link":"https://haowallpaper.com/","description":"哲风壁纸","image":"/images/tools/haowall.ico"},{"name":"Awesome","link":"https://wallhaven.cc/","description":"WallHaven","image":"/images/tools/wallheaven.ico"},{"name":"WallHere","link":"https://wallhere.com/","description":"WallHere"},{"name":"SnapAny","link":"https://snapany.com/zh","description":"万能视频图片解析下载"},{"name":"ØMagnet","link":"https://0cili.org/","description":"种子下载"},{"name":"twitter","link":"https://snapvid.net/zh-cn/twitter-downloader","description":"推特视频下载器","image":"/images/tools/apple-touch-icon.png"},{"name":"youtube","link":"https://www.y2mate.com/en949","description":"Youtube视频下载器","image":"/images/tools/y2mate.webp"},{"name":"Icons8","link":"https://icons8.com/icons","description":"免费图标下载","image":"/images/tools/logo-icons8.svg"},{"name":"全能emoji","link":"https://www.emojiall.com/zh-hans","description":"emoji制作","image":"/images/tools/emoji.ico"},{"name":"emojidb","link":"https://emojidb.org/","description":"免费表情包下载","image":"/images/tools/emojidb.png"},{"name":"Flaticon","link":"https://www.flaticon.com/","description":"免费图标下载","image":"/images/tools/logo-flaticon.svg"},{"name":"IconFinder","link":"https://www.iconfinder.com/","description":"免费图标下载","image":"/images/tools/logo-iconfinder.svg"}]},"version":"4.2.5"}
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"}
+    KEEP.language_code_block = {"copy":"Copy code","copied":"Copied","fold":"Fold code block","folded":"Folded"}
+    KEEP.language_copy_copyright = {"copy":"Copy copyright info","copied":"Copied","title":"Original post title","author":"Original post author","link":"Original post link"}
+  </script>
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left flex-start border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/avatar.ico">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               Decade
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc border-box">
+                <ul class="menu-list border-box">
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-home"></i>
+                                
+                                HOME
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/archives">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-box-archive"></i>
+                                
+                                ARCHIVES
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/tags">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-tags"></i>
+                                
+                                TAGS
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/categories">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-layer-group"></i>
+                                
+                                CATEGORIES
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box has-sub-menu">
+                            <a class="menu-text-color border-box" href="javascript:void(0);">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-circle-user"></i>
+                                
+                                MORE
+                                
+                                    <i class="menu-text-color collapse-icon fa-solid fa-angle-down"></i>
+                                
+                            </a>
+                            
+                                <ul class="sub-menu-list border-box">
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" href="/tools">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-solid fa-tools"></i>
+                                                
+                                                TOOL
+                                            </a>
+                                        </li>
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" href="/photos">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-solid fa-image"></i>
+                                                
+                                                LIFE
+                                            </a>
+                                        </li>
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" href="/about">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-solid fa-user-graduate"></i>
+                                                
+                                                ME
+                                            </a>
+                                        </li>
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" href="/custom/">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-solid fa-user"></i>
+                                                
+                                                GIT
+                                            </a>
+                                        </li>
+                                    
+                                </ul>
+                            
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="menu-text-color fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile border-box flex-start">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list border-box">
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-home"></i>
+                                </span>
+                            
+                            HOME
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/archives">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-box-archive"></i>
+                                </span>
+                            
+                            ARCHIVES
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/tags">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-tags"></i>
+                                </span>
+                            
+                            TAGS
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/categories">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-layer-group"></i>
+                                </span>
+                            
+                            CATEGORIES
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box has-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="javascript:void(0);">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-circle-user"></i>
+                                </span>
+                            
+                            MORE
+                        </a>
+                        
+                            <i class="right-side collapse-icon fa-solid fa-angle-left"></i>
+                        
+                    </label>
+                    
+                        <ul class="drawer-sub-menu-list border-box">
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" href="/tools">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-solid fa-tools"></i>
+                                            </span>
+                                        
+                                        TOOL
+                                    </a>
+                                </li>
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" href="/photos">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-solid fa-image"></i>
+                                            </span>
+                                        
+                                        LIFE
+                                    </a>
+                                </li>
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" href="/about">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-solid fa-user-graduate"></i>
+                                            </span>
+                                        
+                                        ME
+                                    </a>
+                                </li>
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" href="/custom/">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-solid fa-user"></i>
+                                            </span>
+                                        
+                                        GIT
+                                    </a>
+                                </li>
+                            
+                        </ul>
+                    
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        从混乱到秩序：我如何设计一个统一的 LLM 调用框架
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/avatar.ico">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">Zhongjun Qiu</span>
+                                
+                                    <span class="author-badge">元婴开发者</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2026-01-13 00:00:00</span>
+            </span>
+
+            
+                <span class="meta-info-item post-update-date">
+                    <i class="icon fa-solid fa-arrows-rotate"></i>&nbsp;
+                    <span class="datetime" data-updated="Sun Jan 18 2026 15:08:29 GMT+0800">2026-01-18 15:08:29</span>
+                </span>
+            
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/%E6%8A%80%E6%9C%AF%E5%AE%9E%E8%B7%B5/">技术实践</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/LLM/">LLM</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/">异步编程</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/">架构设计</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/Python/">Python</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>1.8k Words</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>7 Mins</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <p>在 AI
+应用开发中，调用大语言模型看似简单，但当项目规模扩大后，你会发现各种问题接踵而至：配置散落各地、追踪信息需要层层传递、Token
+消耗无法统一记录……今天我想分享一下我是如何在 CookHero
+项目中设计一个统一的 LLM 调用框架的。</p>
+<span id="more"></span>
+<h2 id="一个看似简单的问题">一个看似简单的问题</h2>
+<p>第一次调用 LLM 时，你可能会这样写：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> openai <span class="keyword">import</span> OpenAI</span><br><span class="line">client = OpenAI(api_key=<span class="string">"xxx"</span>)</span><br><span class="line">response = client.chat.completions.create(</span><br><span class="line">    model=<span class="string">"gpt-4"</span>,</span><br><span class="line">    messages=[{<span class="string">"role"</span>: <span class="string">"user"</span>, <span class="string">"content"</span>: <span class="string">"hello"</span>}]</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>不到 10
+行代码，搞定。但当你的项目有几十个模块、需要记录使用量、要在调用链中传递用户信息、还要支持多个模型切换时……代码就会变成这样：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 每个模块都要重复这些配置</span></span><br><span class="line">client = OpenAI(api_key=<span class="string">"xxx"</span>, base_url=<span class="string">"..."</span>, timeout=...)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 追踪信息一层层传递</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">recipe_generator</span>(<span class="params">user_id, conversation_id, ...</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">call_llm</span>(<span class="params">module_name, user_id, conversation_id, ...</span>):</span><br><span class="line">        <span class="comment"># 手动记录 token</span></span><br><span class="line">        response = client.chat.completions.create(...)</span><br><span class="line">        log_token(user_id, module_name, response)</span><br><span class="line">        <span class="keyword">return</span> response</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 到处都是这种重复代码</span></span><br></pre></td></tr></table></figure>
+<p>这就是我遇到的问题，也是 CookHero LLM 模块要解决的核心痛点。</p>
+<h2 id="核心设计三个关键抽象">核心设计：三个关键抽象</h2>
+<p>经过反复思考，我确定了三个核心概念来组织整个框架：</p>
+<table>
+<thead>
+<tr>
+<th>概念</th>
+<th>职责</th>
+<th>一句话总结</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>LLMProvider</strong></td>
+<td>配置管理者</td>
+<td>知道有哪些模型、API 地址、配置参数</td>
+</tr>
+<tr>
+<td><strong>LLMInvoker</strong></td>
+<td>调用执行者</td>
+<td>封装调用逻辑，自动附加追踪</td>
+</tr>
+<tr>
+<td><strong>LLMCallContext</strong></td>
+<td>上下文携带者</td>
+<td>在调用链中传递追踪信息</td>
+</tr>
+</tbody>
+</table>
+<p>这三者的关系可以这样理解：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">LLMProvider (工厂)  ──创建──▶  LLMInvoker (执行器)</span><br><span class="line">                                │</span><br><span class="line">                                ├── 依赖 ──▶  LLMCallContext (contextvars)</span><br><span class="line">                                │</span><br><span class="line">                                └── 依赖 ──▶  LLMUsageCallbackHandler (callbacks)</span><br></pre></td></tr></table></figure>
+<h2 id="分层架构">分层架构</h2>
+<p>整个设计采用清晰的分层架构：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">┌─────────────────────────────────────────────────────────────┐</span><br><span class="line">│                      业务调用层                              │</span><br><span class="line">│   (intent_detector, recipe_generator, chat_agent 等模块)     │</span><br><span class="line">└─────────────────────────────────────────────────────────────┘</span><br><span class="line">                              │</span><br><span class="line">                              ▼</span><br><span class="line">┌─────────────────────────────────────────────────────────────┐</span><br><span class="line">│                     封装层 (Provider)                        │</span><br><span class="line">│         LLMProvider + LLMInvoker 统一入口                     │</span><br><span class="line">└─────────────────────────────────────────────────────────────┘</span><br><span class="line">                              │</span><br><span class="line">          ┌───────────────────┼───────────────────┐</span><br><span class="line">          ▼                   ▼                   ▼</span><br><span class="line">┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐</span><br><span class="line">│   context.py    │ │  callbacks.py   │ │   LangChain     │</span><br><span class="line">│   上下文管理     │ │   使用量追踪     │ │   ChatOpenAI    │</span><br><span class="line">└─────────────────┘ └─────────────────┘ └─────────────────┘</span><br></pre></td></tr></table></figure>
+<h2 id="难点一追踪信息如何优雅传递">难点一：追踪信息如何优雅传递？</h2>
+<h3 id="问题">问题</h3>
+<p>在 LLM
+调用时，我们需要知道是哪个用户、哪个模块调用的。如果每个函数都加参数，代码会变得难以维护：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 噩梦般的函数签名</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">recipe_generator</span>(<span class="params">module_name, user_id, conversation_id, request_id, ...</span>):</span><br><span class="line">    <span class="comment"># 每层都要透传这些参数</span></span><br><span class="line">    response = <span class="keyword">await</span> call_llm(module_name, user_id, conversation_id, ...)</span><br></pre></td></tr></table></figure>
+<h3 id="解决方案contextvars">解决方案：contextvars</h3>
+<p>Python 3.7 引入了
+<code>contextvars</code>，专门解决这类问题。它提供了线程/协程安全的上下文管理：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># context.py</span></span><br><span class="line"><span class="keyword">from</span> contextvars <span class="keyword">import</span> ContextVar</span><br><span class="line"></span><br><span class="line">_llm_context: ContextVar[<span class="type">Optional</span>[LLMCallContext]] = ContextVar(</span><br><span class="line">    <span class="string">"llm_context"</span>, default=<span class="literal">None</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>通过一个简单的 contextmanager，我们实现了优雅的上下文传递：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@contextmanager</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">llm_context</span>(<span class="params">module_name: <span class="built_in">str</span>, user_id: <span class="built_in">str</span> = <span class="literal">None</span>, conversation_id: <span class="built_in">str</span> = <span class="literal">None</span></span>):</span><br><span class="line">    ctx = LLMCallContext(</span><br><span class="line">        request_id=<span class="built_in">str</span>(uuid.uuid4()),</span><br><span class="line">        module_name=module_name,</span><br><span class="line">        user_id=user_id,</span><br><span class="line">        conversation_id=conversation_id,</span><br><span class="line">    )</span><br><span class="line">    _llm_context.<span class="built_in">set</span>(ctx)  <span class="comment"># 设置到上下文变量</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">yield</span> ctx</span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        clear_llm_context()  <span class="comment"># 自动清除</span></span><br></pre></td></tr></table></figure>
+<p>使用起来非常简单：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> llm_context(<span class="string">"recipe_generator"</span>, user_id=<span class="string">"user123"</span>, conversation_id=<span class="string">"conv_456"</span>):</span><br><span class="line">    <span class="comment"># 这里设置的上下文，可以在任何深度被访问</span></span><br><span class="line">    response = <span class="keyword">await</span> invoker.ainvoke(messages)</span><br><span class="line">    <span class="comment"># callback 自动从 contextvars 读取 user_id</span></span><br></pre></td></tr></table></figure>
+<p><strong>工作原理</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">调用链：</span><br><span class="line">with llm_context("recipe_module", user_id="user123"):</span><br><span class="line">    # 这里设置上下文到 contextvars</span><br><span class="line">    # ----------------------------------</span><br><span class="line">    # 调用 deep_call()</span><br><span class="line">    #     ↓</span><br><span class="line">    #   call_llm()</span><br><span class="line">    #     ↓</span><br><span class="line">    #   callback 读取 contextvars</span><br><span class="line">    #     ↓</span><br><span class="line">    #   写入数据库（包含 user_id）</span><br><span class="line"></span><br><span class="line"># 离开 with 块，自动清除上下文</span><br></pre></td></tr></table></figure>
+<h3 id="优势">优势</h3>
+<ul>
+<li><strong>无需修改函数签名</strong>：业务代码保持干净</li>
+<li><strong>自动管理生命周期</strong>：进入 with
+块自动设置，离开自动清除</li>
+<li><strong>线程/协程安全</strong>：每个请求有独立的上下文</li>
+</ul>
+<h2 id="难点二使用量追踪如何自动执行">难点二：使用量追踪如何自动执行？</h2>
+<h3 id="问题-1">问题</h3>
+<p>每次调用 LLM 后，都要手动提取 token
+使用量并写入数据库，代码重复且容易遗漏：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 每个地方都要写重复代码</span></span><br><span class="line">response = client.chat.completions.create(...)</span><br><span class="line">usage = response.usage.total_tokens</span><br><span class="line">log_to_db(user_id, module_name, usage)  <span class="comment"># 忘记写就完了</span></span><br></pre></td></tr></table></figure>
+<h3 id="解决方案langchain-callbacks">解决方案：LangChain Callbacks</h3>
+<p>LangChain 提供了强大的回调机制，我们可以在 LLM
+调用的生命周期中自动执行操作：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># callbacks.py</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">LLMUsageCallbackHandler</span>(<span class="title class_ inherited__">BaseCallbackHandler</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">on_llm_end</span>(<span class="params">self, response: LLMResult, **kwargs</span>):</span><br><span class="line">        ctx = get_llm_context()  <span class="comment"># 获取上下文</span></span><br><span class="line">        usage = <span class="variable language_">self</span>._extract_usage(response)  <span class="comment"># 提取 token</span></span><br><span class="line">        <span class="comment"># 异步写入数据库</span></span><br></pre></td></tr></table></figure>
+<p><strong>工作流程</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">业务代码</span><br><span class="line">    │</span><br><span class="line">    ▼</span><br><span class="line">invoker.ainvoke(messages, callbacks=[handler])</span><br><span class="line">    │</span><br><span class="line">    ▼</span><br><span class="line">LangChain 执行 LLM 调用</span><br><span class="line">    │</span><br><span class="line">    ├── 开始 ──▶ on_llm_start()</span><br><span class="line">    │</span><br><span class="line">    └── 结束 ──▶ on_llm_end()</span><br><span class="line">                    │</span><br><span class="line">                    ├── 提取 usage</span><br><span class="line">                    ├── 获取上下文</span><br><span class="line">                    └── 异步写库</span><br></pre></td></tr></table></figure>
+<h3 id="异步写入设计">异步写入设计</h3>
+<p>写数据库是 I/O
+操作，不应该阻塞主流程。我使用独立线程的事件循环来处理：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">_schedule_write</span>(<span class="params">self, log_data</span>):</span><br><span class="line">    loop = _get_background_loop()</span><br><span class="line">    future = asyncio.run_coroutine_threadsafe(<span class="variable language_">self</span>._write_to_db(log_data), loop)</span><br></pre></td></tr></table></figure>
+<p><strong>为什么用独立线程</strong>？</p>
+<ul>
+<li>写数据库是 I/O 操作，不应阻塞 LLM 调用</li>
+<li>使用单独的线程 + 事件循环，避免主线程负担</li>
+<li>不影响用户体验和其他请求</li>
+</ul>
+<h2 id="难点三负载均衡">难点三：负载均衡</h2>
+<h3 id="问题-2">问题</h3>
+<p>同一个模型可能有多个实例（如多个 OpenAI 兼容的 API
+地址），需要均匀分散请求，避免某个实例过载。</p>
+<h3 id="解决方案">解决方案</h3>
+<p>每次调用时随机选择模型实例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">pick_model</span>(<span class="params">self, llm_type</span>) -&gt; <span class="built_in">str</span>:</span><br><span class="line">    profile = <span class="variable language_">self</span>.get_profile(llm_type)</span><br><span class="line">    <span class="keyword">return</span> random.choice(profile.model_names)  <span class="comment"># 随机选择</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">_get_llm_with_model</span>(<span class="params">self</span>):</span><br><span class="line">    model = <span class="variable language_">self</span>._provider.pick_model(<span class="variable language_">self</span>._llm_type)  <span class="comment"># 每次随机</span></span><br><span class="line">    llm = <span class="variable language_">self</span>._base_llm.bind(model=model)  <span class="comment"># 绑定新模型</span></span><br><span class="line">    <span class="keyword">return</span> llm</span><br></pre></td></tr></table></figure>
+<p><strong>优点</strong>： - 请求均匀分布到多个模型实例 -
+提高系统整体吞吐量 - 某个实例故障时自动切换</p>
+<h2 id="难点四多配置管理">难点四：多配置管理</h2>
+<h3 id="问题-3">问题</h3>
+<p>不同场景需要不同配置：快速响应用小模型，复杂任务用大模型。如果每个地方都写死配置，切换成本很高。</p>
+<h3 id="解决方案-1">解决方案</h3>
+<p>通过配置文件统一管理：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 配置文件 (llm_config.py)</span></span><br><span class="line">LLMConfig:</span><br><span class="line">  profiles:</span><br><span class="line">    fast:</span><br><span class="line">      model_names: [<span class="string">"gpt-4o-mini"</span>, <span class="string">"claude-3-haiku"</span>]</span><br><span class="line">      temperature: <span class="number">0.3</span></span><br><span class="line">      max_tokens: <span class="number">1000</span></span><br><span class="line">    normal:</span><br><span class="line">      model_names: [<span class="string">"gpt-4o"</span>, <span class="string">"claude-3-sonnet"</span>]</span><br><span class="line">      temperature: <span class="number">0.7</span></span><br><span class="line">      max_tokens: <span class="number">4000</span></span><br></pre></td></tr></table></figure>
+<p>调用时只需指定类型：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 快速响应场景</span></span><br><span class="line">fast_invoker = provider.create_invoker(<span class="string">"fast"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 高质量响应场景</span></span><br><span class="line">normal_invoker = provider.create_invoker(<span class="string">"normal"</span>)</span><br></pre></td></tr></table></figure>
+<p><strong>优点</strong>： - 配置集中管理，一处修改处处生效 -
+根据场景灵活选择模型 - 便于 A/B 测试和模型迁移</p>
+<h2 id="完整调用链路">完整调用链路</h2>
+<h3 id="创建阶段">创建阶段</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> app.llm <span class="keyword">import</span> LLMProvider, llm_context</span><br><span class="line"><span class="keyword">from</span> app.config <span class="keyword">import</span> settings</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建 provider</span></span><br><span class="line">provider = LLMProvider(settings.llm)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建带 usage tracking 的 invoker</span></span><br><span class="line">invoker = provider.create_invoker(<span class="string">"fast"</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="调用阶段">调用阶段</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> llm_context(<span class="string">"recipe_generator"</span>, user_id=<span class="string">"user123"</span>, conversation_id=<span class="string">"conv_456"</span>):</span><br><span class="line">    response = <span class="keyword">await</span> invoker.ainvoke(messages)</span><br></pre></td></tr></table></figure>
+<p><strong>调用链路详解</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">业务代码</span><br><span class="line">    │</span><br><span class="line">    ▼</span><br><span class="line">with llm_context(...)  ───设置上下文──▶ contextvars</span><br><span class="line">    │</span><br><span class="line">    ▼</span><br><span class="line">invoker.ainvoke(messages)</span><br><span class="line">    │</span><br><span class="line">    ├── 1. _prepare_config(kwargs)</span><br><span class="line">    │       │</span><br><span class="line">    │       └── 合并所有 callbacks</span><br><span class="line">    │           ├── 用户传入的 callbacks</span><br><span class="line">    │           ├── config 中的 callbacks</span><br><span class="line">    │           └── 初始化时传入的 usage callback</span><br><span class="line">    │</span><br><span class="line">    └── 2. _get_llm_with_model()</span><br><span class="line">            │</span><br><span class="line">            ├── pick_model() ──随机选模型──▶ "gpt-4o-mini"</span><br><span class="line">            │</span><br><span class="line">            └── bind(model="gpt-4o-mini") ──▶ 新的 ChatOpenAI 实例</span><br><span class="line">                    │</span><br><span class="line">                    ▼</span><br><span class="line">            base_llm.ainvoke(messages, config={callbacks: [..., usage_handler]})</span><br><span class="line">                    │</span><br><span class="line">                    ▼</span><br><span class="line">            LangChain 执行 HTTP 请求到 LLM API</span><br><span class="line">                    │</span><br><span class="line">                    ▼</span><br><span class="line">            ╔════════════════════════════════════╗</span><br><span class="line">            ║  LangChain 内部回调触发             ║</span><br><span class="line">            ╠════════════════════════════════════╣</span><br><span class="line">            ║  on_llm_start()                    ║</span><br><span class="line">            ║  ...                               ║</span><br><span class="line">            ║  on_llm_end()  ← 响应返回           ║</span><br><span class="line">            ║      │                             ║</span><br><span class="line">            ║      ├── 提取 token 使用量          ║</span><br><span class="line">            ║      │     (response.llm_output)   ║</span><br><span class="line">            ║      │                             ║</span><br><span class="line">            ║      ├── get_llm_context()         ║</span><br><span class="line">            ║      │     (从 contextvars 读取)   ║</span><br><span class="line">            ║      │                             ║</span><br><span class="line">            ║      └── _schedule_write(log_data) ║</span><br><span class="line">            ║            │                       ║</span><br><span class="line">            ║            └── 异步写入数据库       ║</span><br><span class="line">            ╚════════════════════════════════════╝</span><br></pre></td></tr></table></figure>
+<h2 id="更多使用场景">更多使用场景</h2>
+<h3 id="流式输出">流式输出</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">invoker = provider.create_invoker(<span class="string">"fast"</span>, streaming=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> llm_context(<span class="string">"chat"</span>, user_id=<span class="string">"user123"</span>):</span><br><span class="line">    messages = [{<span class="string">"role"</span>: <span class="string">"user"</span>, <span class="string">"content"</span>: <span class="string">"讲个笑话"</span>}]</span><br><span class="line">    <span class="keyword">async</span> <span class="keyword">for</span> chunk <span class="keyword">in</span> invoker.astream(messages):</span><br><span class="line">        <span class="built_in">print</span>(chunk.content, end=<span class="string">""</span>, flush=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="工具调用">工具调用</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">tools = [get_recipe, search_ingredients]</span><br><span class="line"></span><br><span class="line">invoker = provider.create_invoker(<span class="string">"normal"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> llm_context(<span class="string">"recipe_agent"</span>, user_id=<span class="string">"user123"</span>):</span><br><span class="line">    messages = [{<span class="string">"role"</span>: <span class="string">"user"</span>, <span class="string">"content"</span>: <span class="string">"给我红烧肉的做法"</span>}]</span><br><span class="line">    response = <span class="keyword">await</span> invoker.ainvoke_with_tools(messages, tools)</span><br></pre></td></tr></table></figure>
+<h3 id="多模块追踪">多模块追踪</h3>
+<p>不同模块可以独立使用，自动追踪各自的调用：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># intent_detector.py</span></span><br><span class="line">intent_invoker = provider.create_invoker(<span class="string">"fast"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">detect_intent</span>(<span class="params">user_id: <span class="built_in">str</span>, query: <span class="built_in">str</span></span>):</span><br><span class="line">    <span class="keyword">with</span> llm_context(<span class="string">"intent_detector"</span>, user_id=user_id):</span><br><span class="line">        response = <span class="keyword">await</span> intent_invoker.ainvoke([</span><br><span class="line">            {<span class="string">"role"</span>: <span class="string">"system"</span>, <span class="string">"content"</span>: <span class="string">"You are an intent detector."</span>},</span><br><span class="line">            {<span class="string">"role"</span>: <span class="string">"user"</span>, <span class="string">"content"</span>: query}</span><br><span class="line">        ])</span><br><span class="line">        <span class="keyword">return</span> response.content</span><br><span class="line"></span><br><span class="line"><span class="comment"># recipe_generator.py</span></span><br><span class="line">recipe_invoker = provider.create_invoker(<span class="string">"normal"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">def</span> <span class="title function_">generate_recipe</span>(<span class="params">user_id: <span class="built_in">str</span>, intent: <span class="built_in">str</span></span>):</span><br><span class="line">    <span class="keyword">with</span> llm_context(<span class="string">"recipe_generator"</span>, user_id=user_id):</span><br><span class="line">        response = <span class="keyword">await</span> recipe_invoker.ainvoke([</span><br><span class="line">            {<span class="string">"role"</span>: <span class="string">"system"</span>, <span class="string">"content"</span>: <span class="string">"You are a recipe generator."</span>},</span><br><span class="line">            {<span class="string">"role"</span>: <span class="string">"user"</span>, <span class="string">"content"</span>: intent}</span><br><span class="line">        ])</span><br><span class="line">        <span class="keyword">return</span> response.content</span><br></pre></td></tr></table></figure>
+<p>如果你也在做类似的事情，希望这个设计能给你一些启发。</p>
+
+                    
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                从混乱到秩序：我如何设计一个统一的 LLM 调用框架
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                2026/01/13/llm-统一调用设计/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    Author
+                </div>
+                <div class="content">Zhongjun Qiu</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    Published
+                </div>
+                <div class="content">2026-01-13 00:00</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    License
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="Copy copyright info" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/LLM/">LLM</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/">异步编程</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/">架构设计</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/Python/">Python</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="Share to WeChat"
+            data-tooltip-img-tip="Scan by WeChat"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to WeiBo"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+                    
+
+<div class="reward-author-container border-box flex-center">
+    <div class="reward-btn border-box flex-center tooltip tooltip-img"
+            data-tooltip-img-url="/images/post/payment.jpg"
+            data-tooltip-img-trigger="click"
+            data-tooltip-img-style="top: -6px;"
+    >
+        <i class="fa-solid fa-gift"></i>&nbsp;REWARD AUTHOR
+    </div>
+</div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/2026/01/16/cookhero-async-debug/"
+                                   title="异步编程中的同步阻塞陷阱：从一次RAG评估bug说起"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">异步编程中的同步阻塞陷阱：从一次RAG评估bug说起</span>
+                                        <span class="post-nav-item">Prev posts</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/2026/01/02/contextvar-deep-dive/"
+                                   title="ContextVar底层实现深度解析：从原理到实战"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">ContextVar底层实现深度解析：从原理到实战</span>
+                                        <span class="post-nav-item">Next posts</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+    <div class="comments-container border-box">
+        <div id="comments-anchor" class="comment-area-title border-box">
+            <i class="fas fa-comments"></i>&nbsp;Comments
+        </div>
+        <div class="comment-plugin-fail border-box">
+    <span class="fail-tip">Comment plugin failed to load</span>
+    <button class="reload keep-button">Click to reload</button>
+</div>
+<div class="comment-plugin-loading flex-center border-box">
+    <i class="loading-icon fa-solid fa-spinner fa-spin"></i>
+    <span class="load-tip">Loading comment plugin</span>
+</div>
+<script data-pjax>
+  window.KeepCommentPlugin = {}
+  window.KeepCommentPlugin.hideLoading = () => {
+    const cplDom = document.querySelector('.comments-container .comment-plugin-loading')
+    cplDom.style.display = 'none'
+  }
+  window.KeepCommentPlugin.loadFailHandle = () => {
+    window.KeepCommentPlugin.hideLoading()
+    const cpfDom = document.querySelector('.comments-container .comment-plugin-fail')
+    cpfDom.style.display = 'flex'
+    cpfDom.querySelector('.reload').addEventListener('click', () => {
+      window.location.reload()
+    })
+  }
+</script>
+
+        
+            
+
+    <div class="waline-comment-container">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/waline/3.3.2/waline.css"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/waline/3.3.2/waline-meta.css"/>
+        <div id="waline-comment"></div>
+        <script data-pjax>
+          window.KeepCommentPlugin.walineOptions = JSON.parse('{}'.replace(/&#34;/g, '"'))
+          window.KeepCommentPlugin.walineOptions.el = '#waline-comment'
+          window.KeepCommentPlugin.walineOptions.comment = '.post-comments-count'
+          window.KeepCommentPlugin.walineOptions.serverURL = 'https://waline-vercel-two-rho.vercel.app/'
+          window.KeepCommentPlugin.walineOptions.lang = 'en' || 'zh-CN'
+          window.KeepCommentPlugin.walineOptions.reaction = 'true' === 'true'
+        </script>
+
+        
+
+        
+            <script 
+                    async
+                    type="module"
+            >
+              import { init } from 'https://cdnjs.cloudflare.com/ajax/libs/waline/3.3.2/waline.js'
+              window.KeepCommentPlugin.initWaline = () => {
+                if (init) {
+                  init(window.KeepCommentPlugin.walineOptions)
+                  window.KeepCommentPlugin.hideLoading()
+                } else {
+                  setTimeout(() => {
+                    window.KeepCommentPlugin.initWaline()
+                  }, 1000)
+                }
+              }
+
+              if ('false' === 'true') {
+                setTimeout(() => {
+                  window.KeepCommentPlugin.initWaline()
+                }, 1200)
+              } else {
+                window.addEventListener('DOMContentLoaded', window.KeepCommentPlugin.initWaline)
+              }
+            </script>
+        
+    </div>
+
+
+        
+    </div>
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc right-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E4%B8%AA%E7%9C%8B%E4%BC%BC%E7%AE%80%E5%8D%95%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-text">一个看似简单的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E8%AE%BE%E8%AE%A1%E4%B8%89%E4%B8%AA%E5%85%B3%E9%94%AE%E6%8A%BD%E8%B1%A1"><span class="nav-text">核心设计：三个关键抽象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E5%B1%82%E6%9E%B6%E6%9E%84"><span class="nav-text">分层架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9A%BE%E7%82%B9%E4%B8%80%E8%BF%BD%E8%B8%AA%E4%BF%A1%E6%81%AF%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E4%BC%A0%E9%80%92"><span class="nav-text">难点一：追踪信息如何优雅传递？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98"><span class="nav-text">问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88contextvars"><span class="nav-text">解决方案：contextvars</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%98%E5%8A%BF"><span class="nav-text">优势</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9A%BE%E7%82%B9%E4%BA%8C%E4%BD%BF%E7%94%A8%E9%87%8F%E8%BF%BD%E8%B8%AA%E5%A6%82%E4%BD%95%E8%87%AA%E5%8A%A8%E6%89%A7%E8%A1%8C"><span class="nav-text">难点二：使用量追踪如何自动执行？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98-1"><span class="nav-text">问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88langchain-callbacks"><span class="nav-text">解决方案：LangChain Callbacks</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%82%E6%AD%A5%E5%86%99%E5%85%A5%E8%AE%BE%E8%AE%A1"><span class="nav-text">异步写入设计</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9A%BE%E7%82%B9%E4%B8%89%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1"><span class="nav-text">难点三：负载均衡</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98-2"><span class="nav-text">问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-text">解决方案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9A%BE%E7%82%B9%E5%9B%9B%E5%A4%9A%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86"><span class="nav-text">难点四：多配置管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98-3"><span class="nav-text">问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88-1"><span class="nav-text">解决方案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%8C%E6%95%B4%E8%B0%83%E7%94%A8%E9%93%BE%E8%B7%AF"><span class="nav-text">完整调用链路</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E9%98%B6%E6%AE%B5"><span class="nav-text">创建阶段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B0%83%E7%94%A8%E9%98%B6%E6%AE%B5"><span class="nav-text">调用阶段</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9B%B4%E5%A4%9A%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-text">更多使用场景</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%81%E5%BC%8F%E8%BE%93%E5%87%BA"><span class="nav-text">流式输出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%A5%E5%85%B7%E8%B0%83%E7%94%A8"><span class="nav-text">工具调用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E6%A8%A1%E5%9D%97%E8%BF%BD%E8%B8%AA"><span class="nav-text">多模块追踪</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="copyright-info info-item">
+    &copy;&nbsp;<span>2020</span>&nbsp;-&nbsp;2026
+    
+            &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">Zhongjun Qiu</a>
+        
+    </div>
+
+    <div class="theme-info info-item">
+        Powered by&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;&&nbsp;Theme&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+    </div>
+
+    
+        
+        <div class="deploy-info info-item">
+            
+                <a target="_blank" rel="nofollow" href="https://github.com">
+            
+            This site is deployed on <span class="tooltip" data-tooltip-content="GitHub Pages"><img src="/images/brands/github.png"></span>
+            
+                </a>
+            
+        </div>
+    
+
+    
+        <div class="count-info info-item">
+            
+                <span class="count-item border-box word">
+                    <span class="item-type border-box">Total words</span>
+                    <span class="item-value border-box word">461.4k</span>
+                </span>
+            
+
+            
+
+            
+                <span class="count-item border-box pv">
+                    <span class="item-type border-box">Page View</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+    
+
+    
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+            <li class="tools-item flex-center go-to-comments">
+                <i class="fas fa-comment"></i>
+                <span class="post-comments-count"></span>
+            </li>
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <!-- toggle mode -->
+        
+            <li class="tools-item tool-toggle-theme-mode flex-center">
+                <i class="fas fa-moon"></i>
+            </li>
+        
+
+        <!-- rss -->
+        
+
+        <!-- to bottom -->
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+            <li class="tools-item go-to-comments-tablet flex-center">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E4%B8%AA%E7%9C%8B%E4%BC%BC%E7%AE%80%E5%8D%95%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-text">一个看似简单的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E8%AE%BE%E8%AE%A1%E4%B8%89%E4%B8%AA%E5%85%B3%E9%94%AE%E6%8A%BD%E8%B1%A1"><span class="nav-text">核心设计：三个关键抽象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E5%B1%82%E6%9E%B6%E6%9E%84"><span class="nav-text">分层架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9A%BE%E7%82%B9%E4%B8%80%E8%BF%BD%E8%B8%AA%E4%BF%A1%E6%81%AF%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E4%BC%A0%E9%80%92"><span class="nav-text">难点一：追踪信息如何优雅传递？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98"><span class="nav-text">问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88contextvars"><span class="nav-text">解决方案：contextvars</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%98%E5%8A%BF"><span class="nav-text">优势</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9A%BE%E7%82%B9%E4%BA%8C%E4%BD%BF%E7%94%A8%E9%87%8F%E8%BF%BD%E8%B8%AA%E5%A6%82%E4%BD%95%E8%87%AA%E5%8A%A8%E6%89%A7%E8%A1%8C"><span class="nav-text">难点二：使用量追踪如何自动执行？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98-1"><span class="nav-text">问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88langchain-callbacks"><span class="nav-text">解决方案：LangChain Callbacks</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%82%E6%AD%A5%E5%86%99%E5%85%A5%E8%AE%BE%E8%AE%A1"><span class="nav-text">异步写入设计</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9A%BE%E7%82%B9%E4%B8%89%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1"><span class="nav-text">难点三：负载均衡</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98-2"><span class="nav-text">问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-text">解决方案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9A%BE%E7%82%B9%E5%9B%9B%E5%A4%9A%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86"><span class="nav-text">难点四：多配置管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98-3"><span class="nav-text">问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88-1"><span class="nav-text">解决方案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%8C%E6%95%B4%E8%B0%83%E7%94%A8%E9%93%BE%E8%B7%AF"><span class="nav-text">完整调用链路</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E9%98%B6%E6%AE%B5"><span class="nav-text">创建阶段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B0%83%E7%94%A8%E9%98%B6%E6%AE%B5"><span class="nav-text">调用阶段</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9B%B4%E5%A4%9A%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-text">更多使用场景</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%81%E5%BC%8F%E8%BE%93%E5%87%BA"><span class="nav-text">流式输出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%A5%E5%85%B7%E8%B0%83%E7%94%A8"><span class="nav-text">工具调用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E6%A8%A1%E5%9D%97%E8%BF%BD%E8%B8%AA"><span class="nav-text">多模块追踪</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+
+
+<!-- common js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/utils.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/header-shrink.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/back2top.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/toggle-theme.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/code-block.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/main.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/libs/anime.min.js"></script>
+
+<!-- local search -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/local-search.min.js"></script>
+
+
+<!-- lazyload -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/lazyload.min.js"></script>
+
+
+<div class="">
+    <!-- home page -->
+    
+
+    <!-- post page -->
+    
+        <!-- post-helper -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/post-helper.min.js"></script>
+
+        <!-- toc -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/toc.min.js"></script>
+        
+
+        <!-- copyright-info -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/copyright-info.min.js"></script>
+        
+
+        <!-- share -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/share.min.js"></script>
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+
+
+    
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/custom_code_block.js" data-pjax></script>
+
+        
+    
+
+</body>
+</html>

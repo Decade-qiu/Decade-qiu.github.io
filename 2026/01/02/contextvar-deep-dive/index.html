@@ -1,0 +1,1733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="blog, decade, lucky">
+    <meta name="description" content="Decade&#39;s lucky blog">
+    <meta name="author" content="Zhongjun Qiu">
+    
+    <title>
+        
+            ContextVar底层实现深度解析：从原理到实战 |
+        
+        Decade
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="https://decade.net.cn/images/logo.ico">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/fontawesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/regular.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/solid.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/font/css/brands.min.css">
+    
+        
+            
+        
+            
+                
+<link rel="stylesheet" href="/css/custom.css">
+
+            
+        
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"decade.net.cn","root":"/","language":"en","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"Decade","author":"Zhongjun Qiu","avatar":"/images/avatar.ico","logo":"/images/avatar.ico","favicon":"https://decade.net.cn/images/logo.ico"},"menu":{"home":"/ || fa-solid fa-home","archives":"/archives || fa-solid fa-box-archive","tags":"/tags || fa-solid fa-tags","categories":"/categories || fa-solid fa-layer-group","more":{"icon":"fa-solid fa-circle-user","children":[{"tool":"/tools || fa-solid fa-tools"},{"life":"/photos || fa-solid fa-image"},{"me":"/about || fa-solid fa-user-graduate"},{"Git":"/custom/index.html || fa-solid fa-user"}]}},"first_screen":{"enable":true,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"The Steadfast Determination of An Ordinary Soul.","hitokoto":false},"social_contact":{"enable":true,"links":{"github":"https://github.com/Decade-qiu","weixin":"img | /images/social/weixin.jpg","qq":null,"weibo":null,"zhihu":null,"twitter":null,"x":"https://x.com/LukasMa46743746","facebook":null,"email":"qiuyu6021@gmail.com"}},"scroll":{"progress_bar":true,"percent":true,"hide_header":false},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"created || fa-solid fa-history","post_datetime_format":"ago"},"post":{"author_badge":{"enable":true,"level_badge":false,"custom_badge":"元婴开发者"},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":true,"img_link":"/images/post/payment.jpg","text":null,"icon":null},"created_datetime_icon":"fa-solid fa-calendar-plus","updated_datetime_icon":"fa-solid fa-arrows-rotate"},"code_block":{"tools":{"enable":true,"style":"mac"},"highlight_theme":"obsidian"},"toc":{"enable":true,"number":false,"expand_all":false,"init_open":false,"layout":"right"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":false,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":true,"use":"waline","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.39"},"waline":{"server_url":"https://waline-vercel-two-rho.vercel.app/","reaction":true,"version":"3.3.2"},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":false},"lazyload":{"enable":true},"cdn":{"enable":true,"provider":"cdnjs"},"pjax":{"enable":false},"footer":{"since":2020,"word_count":true,"site_deploy":{"enable":true,"provider":"github","url":"https://github.com"},"record":{"enable":false,"list":[{"code":null,"link":null}]}},"inject":{"enable":true,"css":[null,"/css/custom.css"],"js":[null,"/js/custom_code_block.js"]},"root":"","source_data":{"photos":[{"url":"/images/post/【哲风壁纸】日本动漫-电锯人.webp","name":"电锯人"},{"url":"/images/post/Quicker_20250428_193139.webp","name":"kowayia"},{"url":"/images/post/Quicker_20250428_233349.webp","name":"世界地图"},{"url":"/images/post/tmpFE1E.tmp.webp","name":"施红"},{"url":"/images/post/result-1745849388402.webp","name":"仇忠骏.动漫版"},{"url":"/images/photos/猫猫困了PNG.png","name":"猫猫困了PNG"},{"url":"/images/photos/宁静的暴雨天.png","name":"宁静的暴雨天"},{"url":"/images/photos/我在扬州好想你.png","name":"我在扬州好想你"},{"url":"/images/photos/信鸽.png","name":"信鸽"},{"url":"/images/photos/啤酒烧烤.png","name":"啤酒烧烤"},{"url":"/images/photos/随手拍.png","name":"随手拍"},{"url":"/images/photos/糖油混合炸弹.png","name":"糖油混合炸弹"},{"url":"/images/photos/香香的.png","name":"香香的"},{"url":"/images/photos/蝎子莱莱.png","name":"蝎子莱莱"},{"url":"/images/post/指C为python.png","name":"指C为python"},{"url":"/images/photos/YangZhou_Station.png","name":"YangZhou Station"},{"url":"/images/photos/GBC.jpg","name":"Girls Band Cry"},{"url":"/images/photos/bocchi.webp","name":"Bocchi the Rock!"}],"tools":[{"category":"AIGC","anchorId":"QUlHQw0"},{"name":"ChatGPT","link":"https://chat.openai.com/","description":"OpenAI 旗下 AI 聊天对话工具","image":"/images/tools/chatgpt.svg"},{"name":"Gemini","link":"https://gemini.google.com/app","description":"Google 旗下 AI 聊天对话工具","image":"/images/tools/gemini.svg"},{"name":"Copilot","link":"https://copilot.microsoft.com/","description":"Microsoft 旗下 AI 聊天对话工具","image":"/images/tools/copilot.png"},{"name":"Deepseek","link":"https://chat.deepseek.com/","description":"Deepseek 旗下 AI 聊天对话工具","image":"/images/tools/deepseek.jpg"},{"name":"Qwen","link":"https://chat.qwen.ai/","description":"Alibaba 旗下 AI 聊天对话工具","image":"/images/tools/tongyiqianwen.svg"},{"name":"即梦AI","link":"https://jimeng.jianying.com/ai-tool/home","description":"Dreamina 图像生成工具","image":"/images/tools/dream.png"},{"name":"komiko","link":"https://komiko.app/home","description":"Komiko 动漫化AI工具","image":"/images/tools/komiko.webp"},{"name":"InsMind","link":"https://www.insmind.com/zh-cn/workspace/","description":"AI图片编辑工具","image":"/images/tools/insmind.svg"},{"name":"Raphael","link":"https://raphael.app/zh","description":"AI图片生成工具","image":"/images/tools/rap.png"},{"name":"腾讯元宝","link":"https://yuanbao.tencent.com/chat/","description":"Tencent 旗下 AI 聊天对话工具","image":"/images/tools/tencent.jpg"},{"name":"豆包","link":"https://www.doubao.com/chat/","description":"字节跳动 图片生成工具","image":"/images/tools/dn.jpg"},{"category":"Airport","anchorId":"QWlycG9ydA12"},{"name":"独角兽","link":"https://91unicorn.cloud/","description":"十分稳定","image":"/images/tools/dujiaoshou.ico"},{"name":"极速机场","link":"https://xn--mes358acgm99l.com/","description":"便宜好用","image":"/images/tools/jisu.ico"},{"name":"iKuuu","link":"https://ikuuu.org/user","description":"以备不时之需","image":"/images/tools/ikuu.ico"},{"category":"File Converter","anchorId":"RmlsZSUyMENvbnZlcnRlcg16"},{"name":"Online Image Tool","link":"https://www.onlineimagetool.com/zh/","description":"在线压缩和转换图片","image":"/images/tools/oit.png"},{"name":"Vector Magic","link":"https://zh.vectormagic.com/","description":"文件矢量化","image":"/images/tools/apple-touch-icon-180_97956a9f5fbf6a767de100280d78c1f8.png"},{"name":"TinyPNG","link":"https://tinypng.com/","description":"Smart AVIF, WebP, PNG and JPEG Compression for Faster Websites","image":"/images/tools/tiny.ico"},{"name":"踏得","link":"https://techbrood.com/tool","description":"HTML5在线工具","image":"/images/tools/td.ico"},{"name":"UU在线工具","link":"https://uutool.cn/base64/","description":"base64工具包","image":"/images/tools/uu.png"},{"name":"I Love PDF","link":"https://www.ilovepdf.com/","description":"PDF工具包","image":"/images/tools/ilovepdf.svg"},{"category":"Free GPT API","anchorId":"RnJlZSUyMEdQVCUyMEFQSQ23"},{"name":"Gemini API","link":"https://ai.google.dev/gemini-api/docs/quickstart?lang=python","description":"Google Gemini API","image":"/images/tools/touchicon-180-new.png"},{"name":"SiliconCloud","link":"https://cloud.siliconflow.cn/models","description":"各种模型API"},{"name":"Cloudflare Workers AI","link":"https://developers.cloudflare.com/workers-ai/configuration/open-ai-compatibility/","description":"OpenAI compatible API endpoints","image":"/images/tools/logo.p_ySeMR1.svg"},{"name":"算了么","link":"https://api.suanli.cn/","description":"共享算力API","image":"/images/tools/suanlm.svg"},{"category":"Resource Explorer","anchorId":"UmVzb3VyY2UlMjBFeHBsb3Jlcg28"},{"name":"Free for Developers","link":"https://free-for.dev/","description":"A list of SaaS, PaaS and IaaS offerings that have free tiers of interest to devops and infradev","image":"/images/tools/freefd.webp"},{"name":"zlibrary","link":"https://zh.z-library.sk/","description":"在线图书馆","image":"/images/tools/logo.zlibrary.svg"},{"name":"PicX","link":"https://picx.xpoet.cn/","description":"基于Github的图床","image":"/images/tools/logo.ffee4291.png"},{"name":"HaoWallpaper","link":"https://haowallpaper.com/","description":"哲风壁纸","image":"/images/tools/haowall.ico"},{"name":"Awesome","link":"https://wallhaven.cc/","description":"WallHaven","image":"/images/tools/wallheaven.ico"},{"name":"WallHere","link":"https://wallhere.com/","description":"WallHere"},{"name":"SnapAny","link":"https://snapany.com/zh","description":"万能视频图片解析下载"},{"name":"ØMagnet","link":"https://0cili.org/","description":"种子下载"},{"name":"twitter","link":"https://snapvid.net/zh-cn/twitter-downloader","description":"推特视频下载器","image":"/images/tools/apple-touch-icon.png"},{"name":"youtube","link":"https://www.y2mate.com/en949","description":"Youtube视频下载器","image":"/images/tools/y2mate.webp"},{"name":"Icons8","link":"https://icons8.com/icons","description":"免费图标下载","image":"/images/tools/logo-icons8.svg"},{"name":"全能emoji","link":"https://www.emojiall.com/zh-hans","description":"emoji制作","image":"/images/tools/emoji.ico"},{"name":"emojidb","link":"https://emojidb.org/","description":"免费表情包下载","image":"/images/tools/emojidb.png"},{"name":"Flaticon","link":"https://www.flaticon.com/","description":"免费图标下载","image":"/images/tools/logo-flaticon.svg"},{"name":"IconFinder","link":"https://www.iconfinder.com/","description":"免费图标下载","image":"/images/tools/logo-iconfinder.svg"}]},"version":"4.2.5"}
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"}
+    KEEP.language_code_block = {"copy":"Copy code","copied":"Copied","fold":"Fold code block","folded":"Folded"}
+    KEEP.language_copy_copyright = {"copy":"Copy copyright info","copied":"Copied","title":"Original post title","author":"Original post author","link":"Original post link"}
+  </script>
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left flex-start border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/avatar.ico">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               Decade
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc border-box">
+                <ul class="menu-list border-box">
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-home"></i>
+                                
+                                HOME
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/archives">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-box-archive"></i>
+                                
+                                ARCHIVES
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/tags">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-tags"></i>
+                                
+                                TAGS
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/categories">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-layer-group"></i>
+                                
+                                CATEGORIES
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box has-sub-menu">
+                            <a class="menu-text-color border-box" href="javascript:void(0);">
+                                
+                                    <i class="menu-text-color menu-icon fa-solid fa-circle-user"></i>
+                                
+                                MORE
+                                
+                                    <i class="menu-text-color collapse-icon fa-solid fa-angle-down"></i>
+                                
+                            </a>
+                            
+                                <ul class="sub-menu-list border-box">
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" href="/tools">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-solid fa-tools"></i>
+                                                
+                                                TOOL
+                                            </a>
+                                        </li>
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" href="/photos">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-solid fa-image"></i>
+                                                
+                                                LIFE
+                                            </a>
+                                        </li>
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" href="/about">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-solid fa-user-graduate"></i>
+                                                
+                                                ME
+                                            </a>
+                                        </li>
+                                    
+                                        
+                                        <li class="sub-menu-item border-box ">
+                                            <a class="menu-text-color border-box flex-start" href="/custom/">
+                                                
+                                                    <i class="menu-text-color sub-menu-icon fa-solid fa-user"></i>
+                                                
+                                                GIT
+                                            </a>
+                                        </li>
+                                    
+                                </ul>
+                            
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="menu-text-color fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile border-box flex-start">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list border-box">
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-home"></i>
+                                </span>
+                            
+                            HOME
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/archives">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-box-archive"></i>
+                                </span>
+                            
+                            ARCHIVES
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/tags">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-tags"></i>
+                                </span>
+                            
+                            TAGS
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/categories">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-layer-group"></i>
+                                </span>
+                            
+                            CATEGORIES
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box has-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="javascript:void(0);">
+                            
+                                <span class="menu-icon-wrap border-box flex-center">
+                                    <i class="drawer-menu-text-color menu-icon fa-solid fa-circle-user"></i>
+                                </span>
+                            
+                            MORE
+                        </a>
+                        
+                            <i class="right-side collapse-icon fa-solid fa-angle-left"></i>
+                        
+                    </label>
+                    
+                        <ul class="drawer-sub-menu-list border-box">
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" href="/tools">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-solid fa-tools"></i>
+                                            </span>
+                                        
+                                        TOOL
+                                    </a>
+                                </li>
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" href="/photos">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-solid fa-image"></i>
+                                            </span>
+                                        
+                                        LIFE
+                                    </a>
+                                </li>
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" href="/about">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-solid fa-user-graduate"></i>
+                                            </span>
+                                        
+                                        ME
+                                    </a>
+                                </li>
+                            
+                                
+                                <li class="sub-menu-item border-box">
+                                    <a class="drawer-menu-text-color border-box flex-start" href="/custom/">
+                                        
+                                            <span class="sub-menu-icon-wrap border-box flex-center">
+                                                <i class="drawer-menu-text-color sub-menu-icon fa-solid fa-user"></i>
+                                            </span>
+                                        
+                                        GIT
+                                    </a>
+                                </li>
+                            
+                        </ul>
+                    
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        ContextVar底层实现深度解析：从原理到实战
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/avatar.ico">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">Zhongjun Qiu</span>
+                                
+                                    <span class="author-badge">元婴开发者</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2026-01-02 00:00:00</span>
+            </span>
+
+            
+                <span class="meta-info-item post-update-date">
+                    <i class="icon fa-solid fa-arrows-rotate"></i>&nbsp;
+                    <span class="datetime" data-updated="Mon Jan 19 2026 18:30:42 GMT+0800">2026-01-19 18:30:42</span>
+                </span>
+            
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/%E6%8A%80%E6%9C%AF%E7%AC%94%E8%AE%B0/">技术笔记</a></li>
+                        
+                    
+                            <li class="category-item">&nbsp;<i class="icon fas fa-angle-right"></i>&nbsp;<a href="/categories/%E9%9D%A2%E8%AF%95/">面试</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/">异步编程</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/ContextVar/">ContextVar</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>3.5k Words</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>13 Mins</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <h2 id="核心洞察">核心洞察</h2>
+<p>Java的ThreadLocal绑在线程上，Python的ContextVar绑在执行上下文上。在协程时代，一条线程会并发执行多个Task，如果继续用ThreadLocal存储上下文，Task之间会互相覆盖。ContextVar通过”协程创建时复制Context”的机制，完美解决了这个问题。本文将深入解析ContextVar的底层实现机制，并与ThreadLocal进行本质对比。</p>
+<span id="more"></span>
+<h2 id="一为什么需要-contextvar">一、为什么需要 ContextVar？</h2>
+<h3 id="传统模型的问题">1.1 传统模型的问题</h3>
+<p>在 async/await + 多任务并发的 Python 程序中：</p>
+<ul>
+<li><strong>同一个线程里</strong>会并发执行多个 Task / Coroutine</li>
+<li><strong>不能用 <code>threading.local()</code>
+来隔离上下文</strong></li>
+</ul>
+<p>例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Thread-1</span><br><span class="line"> ├─ Task-A (user_id=1)</span><br><span class="line"> └─ Task-B (user_id=2)</span><br></pre></td></tr></table></figure>
+<p>如果用 <code>threading.local()</code>： - Task-A / Task-B
+会<strong>互相覆盖变量</strong></p>
+<h3 id="contextvar-的设计目标">1.2 ContextVar 的设计目标</h3>
+<p><code>ContextVar</code> 的目标是：</p>
+<blockquote>
+<p><strong>让”上下文变量”绑定到「当前执行上下文（Task /
+协程调用链）」而不是线程</strong></p>
+</blockquote>
+<p>这正是你在 LLM 调用链追踪、Agent / Tool 交织、async +
+并发场景下需要的特性。</p>
+<h2 id="二contextvar-的抽象模型">二、ContextVar 的抽象模型</h2>
+<h3 id="核心概念">2.1 核心概念</h3>
+<p>Python 对 <code>ContextVar</code> 的语义定义是：</p>
+<blockquote>
+<p><strong>ContextVar 的值属于一个
+Context（上下文），而不是属于变量本身</strong></p>
+</blockquote>
+<p>关键概念有三个：</p>
+<table>
+<thead>
+<tr>
+<th>概念</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ContextVar</code></td>
+<td>一个”变量声明”（key）</td>
+</tr>
+<tr>
+<td><code>Context</code></td>
+<td>当前执行环境中的一组变量映射</td>
+</tr>
+<tr>
+<td><code>Context.run()</code></td>
+<td>在某个 Context 下执行代码</td>
+</tr>
+</tbody>
+</table>
+<h3 id="抽象结构">2.2 抽象结构</h3>
+<p>你可以理解为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Context</span><br><span class="line"> ├─ llm_context -&gt; LLMCallContext(...)</span><br><span class="line"> ├─ request_id  -&gt; xxx</span><br><span class="line"> └─ trace_id    -&gt; yyy</span><br></pre></td></tr></table></figure>
+<p>这种抽象设计使得 ContextVar
+能够在协程/任务链中正确传递和隔离上下文。</p>
+<h2 id="三contextvar-的底层实现机制">三、ContextVar 的底层实现机制</h2>
+<h3 id="context-本质是什么">3.1 Context 本质是什么？</h3>
+<p>在 CPython 中：</p>
+<ul>
+<li><strong>每个执行单元（线程 / asyncio Task）</strong>都绑定着一个
+<strong>Context 对象</strong></li>
+</ul>
+<p>这个 Context 内部结构可以抽象成：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Context</span>:</span><br><span class="line">    data: <span class="built_in">dict</span>[ContextVar, <span class="type">Any</span>]</span><br></pre></td></tr></table></figure>
+<p><strong>重点</strong>：Context
+<strong>不是全局的，也不是线程唯一的</strong>，而是
+<strong>可以被复制、继承、切换的执行上下文</strong>。</p>
+<h3 id="context-是怎么跟着协程跑的">3.2 Context
+是怎么”跟着协程跑”的？</h3>
+<h4 id="协程创建时">协程创建时</h4>
+<p>当你创建一个新任务：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">asyncio.create_task(coro())</span><br></pre></td></tr></table></figure>
+<p>CPython 会做一件非常关键的事情：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">new_task.context = copy(current_context)</span><br></pre></td></tr></table></figure>
+<p>也就是说：</p>
+<ul>
+<li>新 Task <strong>拷贝父 Task 的 Context</strong></li>
+<li>后续修改互不影响</li>
+</ul>
+<p>📌 这是 ContextVar 能在 async 场景下正确隔离的根本原因。</p>
+<h3 id="contextvar.set-到底做了什么">3.3 ContextVar.set()
+到底做了什么？</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">_llm_context.<span class="built_in">set</span>(ctx)</span><br></pre></td></tr></table></figure>
+<p><strong>不是</strong>把值存到 <code>_llm_context</code>
+这个对象里，而是等价于：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">current_context.data[_llm_context] = ctx</span><br></pre></td></tr></table></figure>
+<p>也就是说：</p>
+<ul>
+<li><code>ContextVar</code> 只是一个 key</li>
+<li>真正的值存在于 <strong>当前 Context</strong></li>
+</ul>
+<h3 id="contextvar.get-怎么取值">3.4 ContextVar.get() 怎么取值？</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">_llm_context.get()</span><br></pre></td></tr></table></figure>
+<p>内部流程：</p>
+<ol type="1">
+<li>获取当前执行的 Context</li>
+<li>在 <code>context.data</code> 中查找 <code>_llm_context</code></li>
+<li>找不到则返回 default</li>
+</ol>
+<h3 id="context-切换是怎么发生的">3.5 Context 切换是怎么发生的？</h3>
+<p>Context 切换发生在：</p>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>是否切换</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>async/await 切换</td>
+<td>❌（同 Task 不切）</td>
+</tr>
+<tr>
+<td>Task 创建</td>
+<td>✅（复制）</td>
+</tr>
+<tr>
+<td>线程切换</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>contextvars.copy_context()</code></td>
+<td>✅</td>
+</tr>
+<tr>
+<td><code>Context.run(fn)</code></td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<p>CPython 在 <strong>调度协程 / 切换 Task 时</strong>，会同时切换当前
+Context 指针。</p>
+<h2 id="四与-java-threadlocal-的本质区别">四、与 Java ThreadLocal
+的本质区别</h2>
+<h3 id="核心差异对比">4.1 核心差异对比</h3>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>Java ThreadLocal</th>
+<th>Python ContextVar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>绑定对象</td>
+<td><strong>Thread</strong></td>
+<td><strong>Execution Context（Task）</strong></td>
+</tr>
+<tr>
+<td>async / 协程安全</td>
+<td>❌（天然不安全）</td>
+<td>✅（原生支持）</td>
+</tr>
+<tr>
+<td>上下文复制</td>
+<td>❌</td>
+<td>✅（Task 创建时拷贝）</td>
+</tr>
+<tr>
+<td>上下文隔离粒度</td>
+<td>粗（线程）</td>
+<td>细（协程 / 调用链）</td>
+</tr>
+<tr>
+<td>嵌套调用</td>
+<td>易污染</td>
+<td>天然支持</td>
+</tr>
+<tr>
+<td>清理风险</td>
+<td>高（内存泄漏）</td>
+<td>低（作用域自动结束）</td>
+</tr>
+<tr>
+<td>控制传播</td>
+<td>几乎不可控</td>
+<td>可精确控制</td>
+</tr>
+</tbody>
+</table>
+<h3 id="一句话总结">4.2 一句话总结</h3>
+<blockquote>
+<p><strong>Java 的 <code>ThreadLocal</code> = 线程级上下文绑定</strong>
+<strong>Python 的 <code>ContextVar</code> = 执行上下文（Task /
+协程调用链）绑定</strong></p>
+</blockquote>
+<p>在<strong>同步、多线程模型</strong>里它们”看起来像”；在<strong>异步 /
+协程模型</strong>里，它们的语义是<strong>完全不一样的</strong>。</p>
+<h2 id="五threadlocal-的真实工作方式">五、ThreadLocal
+的真实工作方式</h2>
+<h3 id="threadlocal-并不存值">5.1 ThreadLocal 并不”存值”</h3>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ThreadLocal&lt;UserContext&gt; ctx = <span class="keyword">new</span> <span class="title class_">ThreadLocal</span>&lt;&gt;();</span><br></pre></td></tr></table></figure>
+<p><strong>值并不在 <code>ThreadLocal</code> 里</strong>，而是在：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Thread</span><br><span class="line"> └─ ThreadLocalMap</span><br><span class="line">     ├─ ThreadLocal A -&gt; valueA</span><br><span class="line">     └─ ThreadLocal B -&gt; valueB</span><br></pre></td></tr></table></figure>
+<p>也就是说：</p>
+<blockquote>
+<p><strong>一个 Thread 持有一张 Map，key 是 ThreadLocal
+实例</strong></p>
+</blockquote>
+<h3 id="threadlocal-的致命前提">5.2 ThreadLocal 的致命前提</h3>
+<blockquote>
+<p><strong>一个请求 = 一个线程</strong></p>
+</blockquote>
+<p>这在： - Servlet 早期模型 - 同步阻塞调用</p>
+<p>是成立的。</p>
+<h3 id="在现代-java-里为什么出问题">5.3 在现代 Java
+里为什么出问题？</h3>
+<h4 id="线程池复用">① 线程池复用</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Thread-1</span><br><span class="line"> ├─ 请求 A（user=1）</span><br><span class="line"> └─ 请求 B（user=2）</span><br></pre></td></tr></table></figure>
+<p>如果你忘了 <code>remove()</code>： 👉
+<strong>上下文串请求</strong></p>
+<h4 id="异步模型completablefuture-reactor">② 异步模型（CompletableFuture
+/ Reactor）</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CompletableFuture.supplyAsync(...)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>逻辑上下文 ≠ 执行线程</li>
+<li>ThreadLocal <strong>不会自动传播</strong></li>
+<li>甚至传播到”错误的线程”</li>
+</ul>
+<p>👉 必须靠： - 手动传参 - TTL（TransmittableThreadLocal） - Reactor
+Context</p>
+<h2 id="六通俗理解threadlocal-vs-contextvar">六、通俗理解：ThreadLocal
+vs ContextVar</h2>
+<h3 id="大白话区分">6.1 大白话区分</h3>
+<blockquote>
+<p><strong>ThreadLocal：</strong>
+👉「<strong>这条线程在干活时，用的共享便签纸</strong>」</p>
+</blockquote>
+<blockquote>
+<p><strong>ContextVar：</strong> 👉「<strong>这一次任务 / 请求 /
+对话，自带的随身小本子</strong>」</p>
+</blockquote>
+<p><strong>便签纸贴在线程上</strong>
+<strong>小本子跟着”事情”走</strong></p>
+<h3 id="关键差异">6.2 关键差异</h3>
+<p><strong>“东西是挂在线程上，还是挂在事情上？”</strong></p>
+<h3 id="直观的类比">6.3 直观的类比</h3>
+<h4 id="threadlocal-像什么">ThreadLocal 像什么？</h4>
+<blockquote>
+<p><strong>办公室里的一张工位桌子</strong> 你把 user 信息放在桌上
+谁坐这张桌子，看到的就是它</p>
+</blockquote>
+<ul>
+<li>人（任务）会换桌子 ❌</li>
+<li>桌子会被复用 ❌</li>
+</ul>
+<h4 id="contextvar-像什么">ContextVar 像什么？</h4>
+<blockquote>
+<p><strong>每个人随身携带的工牌</strong> 不管走到哪、换多少房间
+工牌始终跟着这个人</p>
+</blockquote>
+<ul>
+<li>人分裂成多个分身 → 复制工牌 ✔️</li>
+<li>人结束 → 工牌作废 ✔️</li>
+</ul>
+<h2 id="七为什么-java-项目习惯用-threadlocal-存-user">七、为什么 Java
+项目”习惯用 ThreadLocal 存 user”？</h2>
+<p>一句话真相：</p>
+<blockquote>
+<p><strong>不是 ThreadLocal 特别强，而是 Java
+早期模型太单一</strong></p>
+</blockquote>
+<ul>
+<li>同步</li>
+<li>阻塞</li>
+<li>一请求一线程</li>
+</ul>
+<p>在这个世界里：</p>
+<blockquote>
+<p>“线程 ≈ 请求 ≈ 上下文”</p>
+</blockquote>
+<p>所以 ThreadLocal 恰好”凑巧好用”。</p>
+<h2 id="八现代模型的挑战">八、现代模型的挑战</h2>
+<p>今天常见的是： - 异步 - 回调 - 消息驱动 - AI Agent / Tool / RAG -
+一个请求拆成 N 个子任务</p>
+<p>这时候：</p>
+<blockquote>
+<p><strong>“线程”已经不能代表”当前这件事”了</strong></p>
+</blockquote>
+<h3 id="可以这样跟-java-同事说">8.1 可以这样跟 Java 同事说：</h3>
+<blockquote>
+<p><strong>ThreadLocal 适合”线程就是请求”的时代</strong>
+<strong>ContextVar 适合”一个请求会分裂成很多并发任务”的时代</strong></p>
+</blockquote>
+<h2 id="九协程级别存储的实现">九、协程级别存储的实现</h2>
+<h3 id="能不能实现一个协程级别的存储">9.1
+能不能实现一个”协程级别的存储”？</h3>
+<blockquote>
+<p><strong>是的，完全可以实现”协程级别的存储”</strong> 而且 Python 的
+<code>ContextVar</code>、Java Loom 的 <code>ScopedValue</code>
+本质上就是它。</p>
+</blockquote>
+<p>但有一个关键前提：</p>
+<blockquote>
+<p><strong>这个东西必须由”语言运行时 / 调度器”配合实现</strong>
+<strong>用普通库，最多只能做到”近似模拟”，做不到语义完整</strong></p>
+</blockquote>
+<h3 id="为什么协程级别存储不是-threadlocal-升级版">9.2
+为什么”协程级别存储”不是 ThreadLocal 升级版？</h3>
+<p>先用一句通俗的话说清楚本质区别：</p>
+<blockquote>
+<p><strong>ThreadLocal 是：值挂在线程上</strong>
+<strong>协程级存储是：值挂在”当前执行单元”上</strong></p>
+</blockquote>
+<p>关键在于： 👉 <strong>谁在控制”当前执行单元”？</strong></p>
+<ul>
+<li>线程 → OS / JVM</li>
+<li>协程 → <strong>语言运行时调度器</strong></li>
+</ul>
+<h3 id="真正的难点">9.3 真正的难点</h3>
+<h4 id="难点-1你怎么拿到当前协程是谁">❗ 难点
+1：你怎么拿到”当前协程是谁”？</h4>
+<ul>
+<li>Java（无 Loom）：
+<ul>
+<li>❌ JVM 根本不知道”协程”这个概念</li>
+<li>❌ CompletableFuture / Reactor 都是库级抽象</li>
+</ul></li>
+<li>Python / Go：
+<ul>
+<li>✅ 运行时知道当前 Task / Goroutine</li>
+</ul></li>
+</ul>
+<p>👉 <strong>没有”调度器视角”，你根本不知道当前是谁在跑</strong></p>
+<h4 id="难点-2协程切换时谁帮你切上下文">❗ 难点
+2：协程切换时，谁帮你切上下文？</h4>
+<p>协程执行是这样的：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Task A → suspend</span><br><span class="line">Task B → run</span><br><span class="line">Task A → resume</span><br></pre></td></tr></table></figure>
+<p>在这三次切换中，你需要：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">切走 A 时：保存上下文</span><br><span class="line">切到 B 时：恢复 B 的上下文</span><br></pre></td></tr></table></figure>
+<p>⚠️ 这个时机只有<strong>运行时</strong>知道。</p>
+<h4 id="难点-3子协程的上下文继承语义">❗ 难点
+3：子协程的”上下文继承”语义</h4>
+<p>你真正想要的是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">父协程</span><br><span class="line"> └─ user = A</span><br><span class="line">     ├─ 子协程 1（继承 A）</span><br><span class="line">     └─ 子协程 2（继承 A）</span><br></pre></td></tr></table></figure>
+<p>这一步意味着：</p>
+<ul>
+<li><strong>创建协程时，要拷贝上下文</strong></li>
+<li><strong>而不是共享同一份</strong></li>
+</ul>
+<p>这已经是<strong>语言语义设计问题</strong>了，而不是工具类问题。</p>
+<h3 id="现实世界的正确答案">9.4 现实世界的”正确答案”</h3>
+<h4 id="pythoncontextvar">1️⃣ Python：ContextVar</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">user = ContextVar(<span class="string">"user"</span>)</span><br><span class="line"></span><br><span class="line">user.<span class="built_in">set</span>(<span class="string">"A"</span>)</span><br><span class="line">asyncio.create_task(task())  <span class="comment"># 自动继承</span></span><br></pre></td></tr></table></figure>
+<p>本质是：</p>
+<blockquote>
+<p><strong>协程创建时，运行时复制 Context</strong></p>
+</blockquote>
+<h4 id="java-新时代的答案loom-scopedvalue">2️⃣ Java 新时代的答案：Loom +
+ScopedValue</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ScopedValue&lt;User&gt; USER = ScopedValue.newInstance();</span><br><span class="line"></span><br><span class="line">ScopedValue.where(USER, userA).run(() -&gt; {</span><br><span class="line">    <span class="comment">// 这里 USER.get() == userA</span></span><br><span class="line">});</span><br></pre></td></tr></table></figure>
+<p>关键点： - 作用域级 - 自动回滚 - <strong>绑定的是”虚拟线程 /
+执行上下文”</strong></p>
+<h4 id="go直接内建到-runtime">3️⃣ Go：直接内建到 runtime</h4>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">context.Context</span><br></pre></td></tr></table></figure>
+<ul>
+<li>显式传</li>
+<li>runtime 协助</li>
+<li>不依赖线程</li>
+</ul>
+<h2 id="十threadlocal-的内存泄露风险">十、ThreadLocal
+的内存泄露风险</h2>
+<h3 id="一句话结论">10.1 一句话结论</h3>
+<blockquote>
+<p><strong>ThreadLocal 的内存泄露，本质不是”没人 remove”，</strong>
+<strong>而是：<code>ThreadLocalMap</code> 的 key 会被 GC 掉，但 value
+还被线程强引用着。</strong></p>
+</blockquote>
+<p>也就是常说的：</p>
+<blockquote>
+<p><strong>“key 是弱引用，value 是强引用”</strong></p>
+</blockquote>
+<h3 id="threadlocal-的真实存储结构">10.2 ThreadLocal 的真实存储结构</h3>
+<h4 id="threadlocal-并不存数据">ThreadLocal 并不存数据</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ThreadLocal&lt;User&gt; userCtx = <span class="keyword">new</span> <span class="title class_">ThreadLocal</span>&lt;&gt;();</span><br></pre></td></tr></table></figure>
+<p>很多人误以为 <code>userCtx</code> 里存了
+<code>User</code>，<strong>这是错的</strong>。</p>
+<p>真实结构是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Thread</span><br><span class="line"> └─ ThreadLocalMap</span><br><span class="line">      ├─ Entry(key=ThreadLocal, value=User)</span><br></pre></td></tr></table></figure>
+<p>📌 <strong>Thread 持有 ThreadLocalMap</strong> 📌
+<strong>ThreadLocalMap 持有 value 的强引用</strong></p>
+<h3 id="泄露是怎么一步一步发生的">10.3 泄露是怎么一步一步发生的？</h3>
+<h4 id="第-1-步你创建了-threadlocal">🧩 第 1 步：你创建了
+ThreadLocal</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> <span class="title function_">handle</span><span class="params">()</span> {</span><br><span class="line">    ThreadLocal&lt;BigObject&gt; tl = <span class="keyword">new</span> <span class="title class_">ThreadLocal</span>&lt;&gt;();</span><br><span class="line">    tl.set(<span class="keyword">new</span> <span class="title class_">BigObject</span>());</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<p>结构：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Thread</span><br><span class="line"> └─ ThreadLocalMap</span><br><span class="line">      └─ key = tl（弱引用）</span><br><span class="line">      └─ value = BigObject（强引用）</span><br></pre></td></tr></table></figure>
+<h4 id="第-2-步方法结束threadlocal-变量消失">🧩 第 2
+步：方法结束，ThreadLocal 变量消失</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">tl 这个局部变量</span><br><span class="line">↓</span><br><span class="line">没有任何强引用</span><br><span class="line">↓</span><br><span class="line">GC 回收 ThreadLocal 对象</span><br></pre></td></tr></table></figure>
+<p>现在变成：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Thread</span><br><span class="line"> └─ ThreadLocalMap</span><br><span class="line">      └─ key = null   （弱引用被回收）</span><br><span class="line">      └─ value = BigObject（还在！）</span><br></pre></td></tr></table></figure>
+<p>⚠️ <strong>重点来了：value 还活着</strong></p>
+<h4 id="第-3-步线程还活着线程池">🧩 第 3 步：线程还活着（线程池）</h4>
+<p>在 Web 服务中： - 线程来自线程池 - 线程 <strong>生命周期 ≈
+应用生命周期</strong></p>
+<p>所以：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ThreadLocalMap</span><br><span class="line">  → Entry(key=null, value=BigObject)</span><br></pre></td></tr></table></figure>
+<p>这个 <code>BigObject</code>： - ❌ 无法通过 key 访问 - ❌ 无法被 GC -
+❌ 无法 remove</p>
+<p>👉 <strong>彻底变成”僵尸对象”</strong></p>
+<h3 id="为什么线程池会把问题放大-100-倍">10.4 为什么线程池会把问题放大
+100 倍？</h3>
+<p>如果是一次性线程：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">线程结束 → ThreadLocalMap 释放 → 一切 OK</span><br></pre></td></tr></table></figure>
+<p>但在线程池中：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">线程一直活着</span><br><span class="line">↓</span><br><span class="line">ThreadLocalMap 一直活着</span><br><span class="line">↓</span><br><span class="line">value 一直活着</span><br></pre></td></tr></table></figure>
+<p>所以：</p>
+<blockquote>
+<p><strong>ThreadLocal 的内存泄露，本质上是”线程活得太久”</strong></p>
+</blockquote>
+<h3 id="为什么-contextvar-scopedvalue-不会这样">10.5 为什么 ContextVar /
+ScopedValue 不会这样？</h3>
+<p>因为它们是： - <strong>作用域级</strong> -
+<strong>随执行结束自动销毁</strong> -
+<strong>不绑定”长寿命容器”</strong></p>
+<p>它们更像：</p>
+<blockquote>
+<p><strong>函数栈上的变量，而不是线程私有缓存</strong></p>
+</blockquote>
+<h2 id="十一异步任务链的正确理解">十一、异步/任务链的正确理解</h2>
+<h3 id="核心概念-1">11.1 核心概念</h3>
+<blockquote>
+<p><strong>这里说的”异步 / 任务链”，既不是”子线程”，</strong>
+<strong>也不完全等同于”协程”，而是：</strong>
+👉「一件逻辑上的事情，被拆成了多个执行片段，在不同时间、可能在不同线程上继续执行」</p>
+</blockquote>
+<p><strong>重点是：逻辑连续 ≠ 执行连续</strong></p>
+<h3 id="三个关键概念">11.2 三个关键概念</h3>
+<h4 id="线程thread">1️⃣ 线程（Thread）</h4>
+<blockquote>
+<p><strong>线程是”CPU 执行的载体”</strong></p>
+</blockquote>
+<p>特点： - OS / JVM 调度 - 有独立的栈 - 生命周期通常较长（线程池）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CPU ←→ Thread</span><br></pre></td></tr></table></figure>
+<p>👉 ThreadLocal 就是<strong>绑在线程上的</strong></p>
+<h4 id="协程coroutine-task-fiber">2️⃣ 协程（Coroutine / Task /
+Fiber）</h4>
+<blockquote>
+<p><strong>协程是”一段可以暂停、恢复的执行逻辑”</strong></p>
+</blockquote>
+<p>特点： - 不一定绑定线程 - 可以在不同线程上恢复 - 生命周期 =
+逻辑任务</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Task A</span><br><span class="line"> ├─ suspend</span><br><span class="line"> ├─ resume</span><br><span class="line"> └─ finish</span><br></pre></td></tr></table></figure>
+<p>👉 ContextVar / ScopedValue 绑定的是这个层面</p>
+<h4 id="异步-任务链">3️⃣ 异步 / 任务链</h4>
+<blockquote>
+<p><strong>异步 / 任务链 =「一次逻辑任务的生命周期」</strong></p>
+</blockquote>
+<p>它可能包含： - 同步代码 - 异步回调 - 多个协程 - 多个线程切换</p>
+<p><strong>它是”逻辑概念”，不是执行实体</strong></p>
+<h3 id="为什么-threadlocal-在这里就不行了">11.3 为什么 ThreadLocal
+在这里就不行了？</h3>
+<p>因为 ThreadLocal 的世界观是：</p>
+<blockquote>
+<p><strong>“当前线程 = 当前事情”</strong></p>
+</blockquote>
+<p>但现实已经变成：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">当前事情</span><br><span class="line"> ├─ Thread-1（一会儿）</span><br><span class="line"> ├─ Thread-7（一会儿）</span><br><span class="line"> └─ Thread-3（一会儿）</span><br></pre></td></tr></table></figure>
+<p>你把 user 放在 ThreadLocal： - 线程一换 - 上下文就断了</p>
+<h3 id="contextvar-scopedvalue-是怎么理解任务链的">11.4 ContextVar /
+ScopedValue 是怎么理解”任务链”的？</h3>
+<h4 id="核心一句话">核心一句话：</h4>
+<blockquote>
+<p><strong>它们不关心”你在哪个线程”，</strong>
+<strong>只关心”你是不是在同一条执行语义链上”</strong></p>
+</blockquote>
+<h4 id="pythoncontextvar-1">Python（ContextVar）</h4>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">user.<span class="built_in">set</span>(<span class="string">"A"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">await</span> step1()</span><br><span class="line"><span class="keyword">await</span> step2()</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>await</code> 会挂起</li>
+<li>任务恢复时，Context 自动带回来</li>
+<li><strong>哪怕换线程，语义不变</strong></li>
+</ul>
+<h4 id="java-loomscopedvalue">Java Loom（ScopedValue）</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ScopedValue.where(USER, userA).run(() -&gt; {</span><br><span class="line">    step1();</span><br><span class="line">    step2();</span><br><span class="line">});</span><br></pre></td></tr></table></figure>
+<p><code>run</code> 定义了一个<strong>作用域</strong>： - 在这个作用域内
+- 不管怎么切换执行单元 - USER 都是同一个</p>
+<h3 id="非常关键的一点">11.5 非常关键的一点</h3>
+<p><strong>“异步 / 任务链 ≠ 子线程”</strong></p>
+<p>我们直接对比：</p>
+<table>
+<thead>
+<tr>
+<th>概念</th>
+<th>是不是子线程？</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Thread</td>
+<td>✅ 是</td>
+</tr>
+<tr>
+<td>协程 / Task</td>
+<td>❌ 不是</td>
+</tr>
+<tr>
+<td>异步任务链</td>
+<td>❌ 不是</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>异步任务链是一种”逻辑连续性”，不是执行方式</strong></p>
+</blockquote>
+<h2 id="十二实战应用llm-调用链追踪">十二、实战应用：LLM 调用链追踪</h2>
+<h3 id="标准实现模式">12.1 标准实现模式</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> contextvars <span class="keyword">import</span> ContextVar</span><br><span class="line"></span><br><span class="line">_llm_context: ContextVar[<span class="type">Optional</span>[LLMCallContext]] = ContextVar(</span><br><span class="line">    <span class="string">"llm_context"</span>, default=<span class="literal">None</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="meta">@contextmanager</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">llm_context</span>(<span class="params">module_name: <span class="built_in">str</span>, user_id: <span class="built_in">str</span> = <span class="literal">None</span>, conversation_id: <span class="built_in">str</span> = <span class="literal">None</span></span>):</span><br><span class="line">    ctx = LLMCallContext(</span><br><span class="line">        request_id=<span class="built_in">str</span>(uuid.uuid4()),</span><br><span class="line">        module_name=module_name,</span><br><span class="line">        user_id=user_id,</span><br><span class="line">        conversation_id=conversation_id,</span><br><span class="line">    )</span><br><span class="line">    _llm_context.<span class="built_in">set</span>(ctx)  <span class="comment"># 设置到上下文变量</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">yield</span> ctx</span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        clear_llm_context()  <span class="comment"># 自动清除</span></span><br></pre></td></tr></table></figure>
+<h3 id="使用示例">12.2 使用示例</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在任意函数中获取上下文</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_llm_context</span>():</span><br><span class="line">    <span class="keyword">return</span> _llm_context.get()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在 Agent / Tool 调用中自然传播</span></span><br><span class="line"><span class="meta">@contextmanager</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">llm_context</span>(<span class="params">module_name: <span class="built_in">str</span>, user_id: <span class="built_in">str</span> = <span class="literal">None</span>, conversation_id: <span class="built_in">str</span> = <span class="literal">None</span></span>):</span><br><span class="line">    ctx = LLMCallContext(...)</span><br><span class="line">    _llm_context.<span class="built_in">set</span>(ctx)</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">yield</span> ctx</span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        _llm_context.<span class="built_in">set</span>(<span class="literal">None</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="优势体现">12.3 优势体现</h3>
+<ul>
+<li><strong>跨协程传播</strong>：在 async/await 中自动传播</li>
+<li><strong>任务隔离</strong>：不同请求/用户上下文互不干扰</li>
+<li><strong>作用域管理</strong>：使用 contextmanager 自动清理</li>
+<li><strong>类型安全</strong>：通过类型注解保证类型正确</li>
+</ul>
+<h2 id="十三总结与选型建议">十三、总结与选型建议</h2>
+<h3 id="核心要点回顾">13.1 核心要点回顾</h3>
+<ol type="1">
+<li><strong>ContextVar 绑定的是执行上下文</strong>，而不是线程</li>
+<li><strong>协程创建时自动复制 Context</strong>，保证上下文隔离</li>
+<li><strong>ThreadLocal 适合同步模型</strong>，不适合异步/协程</li>
+<li><strong>ContextVar 生命周期 = 逻辑作用域</strong>，不会内存泄漏</li>
+<li><strong>异步任务链是逻辑连续的</strong>，不是执行连续</li>
+</ol>
+<h3 id="选型建议">13.2 选型建议</h3>
+<h4 id="选择-contextvarpython">选择 ContextVar（Python）</h4>
+<ul>
+<li>✅ 异步编程环境（asyncio、FastAPI）</li>
+<li>✅ 协程/任务链上下文传递</li>
+<li>✅ LLM / Agent / RAG 调用链追踪</li>
+<li>✅ 需要细粒度上下文隔离</li>
+</ul>
+<h4 id="选择-threadlocaljava">选择 ThreadLocal（Java）</h4>
+<ul>
+<li>✅ 纯同步调用栈</li>
+<li>✅ 线程不切换</li>
+<li>✅ 生命周期与线程严格绑定</li>
+</ul>
+<p>典型例子： - JDBC Connection 绑定线程 - 事务上下文（早期 Spring） -
+线程内缓存</p>
+<h4 id="避免使用-threadlocaljava">避免使用 ThreadLocal（Java）</h4>
+<ul>
+<li>❌ 用户身份（user / tenant）</li>
+<li>❌ trace / span</li>
+<li>❌ 请求上下文</li>
+<li>❌ 异步回调</li>
+<li>❌ 并发 fan-out</li>
+</ul>
+<h3 id="最终判断标准">13.3 最终判断标准</h3>
+<p>你可以在代码评审时问一句：</p>
+<blockquote>
+<p><strong>“这段代码有没有可能换线程执行？”</strong></p>
+</blockquote>
+<ul>
+<li>如果答案是 <strong>永远不会</strong> → ThreadLocal 勉强可用</li>
+<li>只要有 <strong>一点可能</strong> → ThreadLocal 就已经不安全了</li>
+</ul>
+<h3 id="一句话时代总结">13.4 一句话时代总结</h3>
+<blockquote>
+<p><strong>ThreadLocal 不是被”废弃”了，</strong>
+<strong>而是它所依赖的”线程 = 请求”的时代结束了。</strong></p>
+</blockquote>
+<p>你现在做的 <strong>LLM / Agent / async 系统</strong>，如果还用
+ThreadLocal 存 user，那基本等于：</p>
+<blockquote>
+<p><strong>在协程世界里，用”工位号”来识别”人”</strong></p>
+</blockquote>
+<hr>
+<p><em>本文整理自与 AI 的技术对话，深入探讨了 ContextVar
+的底层实现机制及其在现代异步编程中的应用。如有疑问或需要补充，欢迎讨论。</em></p>
+
+                    
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                ContextVar底层实现深度解析：从原理到实战
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                2026/01/02/contextvar-deep-dive/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    Author
+                </div>
+                <div class="content">Zhongjun Qiu</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    Published
+                </div>
+                <div class="content">2026-01-02 00:00</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    License
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="Copy copyright info" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/">异步编程</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/ContextVar/">ContextVar</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="Share to WeChat"
+            data-tooltip-img-tip="Scan by WeChat"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to WeiBo"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+                    
+
+<div class="reward-author-container border-box flex-center">
+    <div class="reward-btn border-box flex-center tooltip tooltip-img"
+            data-tooltip-img-url="/images/post/payment.jpg"
+            data-tooltip-img-trigger="click"
+            data-tooltip-img-style="top: -6px;"
+    >
+        <i class="fa-solid fa-gift"></i>&nbsp;REWARD AUTHOR
+    </div>
+</div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/2026/01/13/llm-%E7%BB%9F%E4%B8%80%E8%B0%83%E7%94%A8%E8%AE%BE%E8%AE%A1/"
+                                   title="从混乱到秩序：我如何设计一个统一的 LLM 调用框架"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">从混乱到秩序：我如何设计一个统一的 LLM 调用框架</span>
+                                        <span class="post-nav-item">Prev posts</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/2025/12/10/RAG%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87%E6%80%9D%E8%80%83/"
+                                   title="RAG 评估的黄金陷阱：为何高召回率不等于高质量答案"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">RAG 评估的黄金陷阱：为何高召回率不等于高质量答案</span>
+                                        <span class="post-nav-item">Next posts</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+    <div class="comments-container border-box">
+        <div id="comments-anchor" class="comment-area-title border-box">
+            <i class="fas fa-comments"></i>&nbsp;Comments
+        </div>
+        <div class="comment-plugin-fail border-box">
+    <span class="fail-tip">Comment plugin failed to load</span>
+    <button class="reload keep-button">Click to reload</button>
+</div>
+<div class="comment-plugin-loading flex-center border-box">
+    <i class="loading-icon fa-solid fa-spinner fa-spin"></i>
+    <span class="load-tip">Loading comment plugin</span>
+</div>
+<script data-pjax>
+  window.KeepCommentPlugin = {}
+  window.KeepCommentPlugin.hideLoading = () => {
+    const cplDom = document.querySelector('.comments-container .comment-plugin-loading')
+    cplDom.style.display = 'none'
+  }
+  window.KeepCommentPlugin.loadFailHandle = () => {
+    window.KeepCommentPlugin.hideLoading()
+    const cpfDom = document.querySelector('.comments-container .comment-plugin-fail')
+    cpfDom.style.display = 'flex'
+    cpfDom.querySelector('.reload').addEventListener('click', () => {
+      window.location.reload()
+    })
+  }
+</script>
+
+        
+            
+
+    <div class="waline-comment-container">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/waline/3.3.2/waline.css"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/waline/3.3.2/waline-meta.css"/>
+        <div id="waline-comment"></div>
+        <script data-pjax>
+          window.KeepCommentPlugin.walineOptions = JSON.parse('{}'.replace(/&#34;/g, '"'))
+          window.KeepCommentPlugin.walineOptions.el = '#waline-comment'
+          window.KeepCommentPlugin.walineOptions.comment = '.post-comments-count'
+          window.KeepCommentPlugin.walineOptions.serverURL = 'https://waline-vercel-two-rho.vercel.app/'
+          window.KeepCommentPlugin.walineOptions.lang = 'en' || 'zh-CN'
+          window.KeepCommentPlugin.walineOptions.reaction = 'true' === 'true'
+        </script>
+
+        
+
+        
+            <script 
+                    async
+                    type="module"
+            >
+              import { init } from 'https://cdnjs.cloudflare.com/ajax/libs/waline/3.3.2/waline.js'
+              window.KeepCommentPlugin.initWaline = () => {
+                if (init) {
+                  init(window.KeepCommentPlugin.walineOptions)
+                  window.KeepCommentPlugin.hideLoading()
+                } else {
+                  setTimeout(() => {
+                    window.KeepCommentPlugin.initWaline()
+                  }, 1000)
+                }
+              }
+
+              if ('false' === 'true') {
+                setTimeout(() => {
+                  window.KeepCommentPlugin.initWaline()
+                }, 1200)
+              } else {
+                window.addEventListener('DOMContentLoaded', window.KeepCommentPlugin.initWaline)
+              }
+            </script>
+        
+    </div>
+
+
+        
+    </div>
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc right-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E6%B4%9E%E5%AF%9F"><span class="nav-text">核心洞察</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81-contextvar"><span class="nav-text">一、为什么需要 ContextVar？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%A0%E7%BB%9F%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-text">1.1 传统模型的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#contextvar-%E7%9A%84%E8%AE%BE%E8%AE%A1%E7%9B%AE%E6%A0%87"><span class="nav-text">1.2 ContextVar 的设计目标</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8Ccontextvar-%E7%9A%84%E6%8A%BD%E8%B1%A1%E6%A8%A1%E5%9E%8B"><span class="nav-text">二、ContextVar 的抽象模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5"><span class="nav-text">2.1 核心概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%BD%E8%B1%A1%E7%BB%93%E6%9E%84"><span class="nav-text">2.2 抽象结构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89contextvar-%E7%9A%84%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6"><span class="nav-text">三、ContextVar 的底层实现机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#context-%E6%9C%AC%E8%B4%A8%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-text">3.1 Context 本质是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#context-%E6%98%AF%E6%80%8E%E4%B9%88%E8%B7%9F%E7%9D%80%E5%8D%8F%E7%A8%8B%E8%B7%91%E7%9A%84"><span class="nav-text">3.2 Context
+是怎么”跟着协程跑”的？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%8F%E7%A8%8B%E5%88%9B%E5%BB%BA%E6%97%B6"><span class="nav-text">协程创建时</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#contextvar.set-%E5%88%B0%E5%BA%95%E5%81%9A%E4%BA%86%E4%BB%80%E4%B9%88"><span class="nav-text">3.3 ContextVar.set()
+到底做了什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#contextvar.get-%E6%80%8E%E4%B9%88%E5%8F%96%E5%80%BC"><span class="nav-text">3.4 ContextVar.get() 怎么取值？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#context-%E5%88%87%E6%8D%A2%E6%98%AF%E6%80%8E%E4%B9%88%E5%8F%91%E7%94%9F%E7%9A%84"><span class="nav-text">3.5 Context 切换是怎么发生的？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E4%B8%8E-java-threadlocal-%E7%9A%84%E6%9C%AC%E8%B4%A8%E5%8C%BA%E5%88%AB"><span class="nav-text">四、与 Java ThreadLocal
+的本质区别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E5%B7%AE%E5%BC%82%E5%AF%B9%E6%AF%94"><span class="nav-text">4.1 核心差异对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%80%BB%E7%BB%93"><span class="nav-text">4.2 一句话总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94threadlocal-%E7%9A%84%E7%9C%9F%E5%AE%9E%E5%B7%A5%E4%BD%9C%E6%96%B9%E5%BC%8F"><span class="nav-text">五、ThreadLocal
+的真实工作方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#threadlocal-%E5%B9%B6%E4%B8%8D%E5%AD%98%E5%80%BC"><span class="nav-text">5.1 ThreadLocal 并不”存值”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#threadlocal-%E7%9A%84%E8%87%B4%E5%91%BD%E5%89%8D%E6%8F%90"><span class="nav-text">5.2 ThreadLocal 的致命前提</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8%E7%8E%B0%E4%BB%A3-java-%E9%87%8C%E4%B8%BA%E4%BB%80%E4%B9%88%E5%87%BA%E9%97%AE%E9%A2%98"><span class="nav-text">5.3 在现代 Java
+里为什么出问题？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%A4%8D%E7%94%A8"><span class="nav-text">① 线程池复用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BC%82%E6%AD%A5%E6%A8%A1%E5%9E%8Bcompletablefuture-reactor"><span class="nav-text">② 异步模型（CompletableFuture
+&#x2F; Reactor）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AD%E9%80%9A%E4%BF%97%E7%90%86%E8%A7%A3threadlocal-vs-contextvar"><span class="nav-text">六、通俗理解：ThreadLocal
+vs ContextVar</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%A7%E7%99%BD%E8%AF%9D%E5%8C%BA%E5%88%86"><span class="nav-text">6.1 大白话区分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E5%B7%AE%E5%BC%82"><span class="nav-text">6.2 关键差异</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B4%E8%A7%82%E7%9A%84%E7%B1%BB%E6%AF%94"><span class="nav-text">6.3 直观的类比</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#threadlocal-%E5%83%8F%E4%BB%80%E4%B9%88"><span class="nav-text">ThreadLocal 像什么？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#contextvar-%E5%83%8F%E4%BB%80%E4%B9%88"><span class="nav-text">ContextVar 像什么？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%83%E4%B8%BA%E4%BB%80%E4%B9%88-java-%E9%A1%B9%E7%9B%AE%E4%B9%A0%E6%83%AF%E7%94%A8-threadlocal-%E5%AD%98-user"><span class="nav-text">七、为什么 Java
+项目”习惯用 ThreadLocal 存 user”？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AB%E7%8E%B0%E4%BB%A3%E6%A8%A1%E5%9E%8B%E7%9A%84%E6%8C%91%E6%88%98"><span class="nav-text">八、现代模型的挑战</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%AF%E4%BB%A5%E8%BF%99%E6%A0%B7%E8%B7%9F-java-%E5%90%8C%E4%BA%8B%E8%AF%B4"><span class="nav-text">8.1 可以这样跟 Java 同事说：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B9%9D%E5%8D%8F%E7%A8%8B%E7%BA%A7%E5%88%AB%E5%AD%98%E5%82%A8%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="nav-text">九、协程级别存储的实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%83%BD%E4%B8%8D%E8%83%BD%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E5%8D%8F%E7%A8%8B%E7%BA%A7%E5%88%AB%E7%9A%84%E5%AD%98%E5%82%A8"><span class="nav-text">9.1
+能不能实现一个”协程级别的存储”？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E5%8D%8F%E7%A8%8B%E7%BA%A7%E5%88%AB%E5%AD%98%E5%82%A8%E4%B8%8D%E6%98%AF-threadlocal-%E5%8D%87%E7%BA%A7%E7%89%88"><span class="nav-text">9.2
+为什么”协程级别存储”不是 ThreadLocal 升级版？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9C%9F%E6%AD%A3%E7%9A%84%E9%9A%BE%E7%82%B9"><span class="nav-text">9.3 真正的难点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9A%BE%E7%82%B9-1%E4%BD%A0%E6%80%8E%E4%B9%88%E6%8B%BF%E5%88%B0%E5%BD%93%E5%89%8D%E5%8D%8F%E7%A8%8B%E6%98%AF%E8%B0%81"><span class="nav-text">❗ 难点
+1：你怎么拿到”当前协程是谁”？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9A%BE%E7%82%B9-2%E5%8D%8F%E7%A8%8B%E5%88%87%E6%8D%A2%E6%97%B6%E8%B0%81%E5%B8%AE%E4%BD%A0%E5%88%87%E4%B8%8A%E4%B8%8B%E6%96%87"><span class="nav-text">❗ 难点
+2：协程切换时，谁帮你切上下文？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9A%BE%E7%82%B9-3%E5%AD%90%E5%8D%8F%E7%A8%8B%E7%9A%84%E4%B8%8A%E4%B8%8B%E6%96%87%E7%BB%A7%E6%89%BF%E8%AF%AD%E4%B9%89"><span class="nav-text">❗ 难点
+3：子协程的”上下文继承”语义</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%B0%E5%AE%9E%E4%B8%96%E7%95%8C%E7%9A%84%E6%AD%A3%E7%A1%AE%E7%AD%94%E6%A1%88"><span class="nav-text">9.4 现实世界的”正确答案”</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#pythoncontextvar"><span class="nav-text">1️⃣ Python：ContextVar</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#java-%E6%96%B0%E6%97%B6%E4%BB%A3%E7%9A%84%E7%AD%94%E6%A1%88loom-scopedvalue"><span class="nav-text">2️⃣ Java 新时代的答案：Loom +
+ScopedValue</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#go%E7%9B%B4%E6%8E%A5%E5%86%85%E5%BB%BA%E5%88%B0-runtime"><span class="nav-text">3️⃣ Go：直接内建到 runtime</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%81threadlocal-%E7%9A%84%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2%E9%A3%8E%E9%99%A9"><span class="nav-text">十、ThreadLocal
+的内存泄露风险</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E5%8F%A5%E8%AF%9D%E7%BB%93%E8%AE%BA"><span class="nav-text">10.1 一句话结论</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#threadlocal-%E7%9A%84%E7%9C%9F%E5%AE%9E%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84"><span class="nav-text">10.2 ThreadLocal 的真实存储结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#threadlocal-%E5%B9%B6%E4%B8%8D%E5%AD%98%E6%95%B0%E6%8D%AE"><span class="nav-text">ThreadLocal 并不存数据</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%84%E9%9C%B2%E6%98%AF%E6%80%8E%E4%B9%88%E4%B8%80%E6%AD%A5%E4%B8%80%E6%AD%A5%E5%8F%91%E7%94%9F%E7%9A%84"><span class="nav-text">10.3 泄露是怎么一步一步发生的？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC-1-%E6%AD%A5%E4%BD%A0%E5%88%9B%E5%BB%BA%E4%BA%86-threadlocal"><span class="nav-text">🧩 第 1 步：你创建了
+ThreadLocal</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC-2-%E6%AD%A5%E6%96%B9%E6%B3%95%E7%BB%93%E6%9D%9Fthreadlocal-%E5%8F%98%E9%87%8F%E6%B6%88%E5%A4%B1"><span class="nav-text">🧩 第 2
+步：方法结束，ThreadLocal 变量消失</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC-3-%E6%AD%A5%E7%BA%BF%E7%A8%8B%E8%BF%98%E6%B4%BB%E7%9D%80%E7%BA%BF%E7%A8%8B%E6%B1%A0"><span class="nav-text">🧩 第 3 步：线程还活着（线程池）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E7%BA%BF%E7%A8%8B%E6%B1%A0%E4%BC%9A%E6%8A%8A%E9%97%AE%E9%A2%98%E6%94%BE%E5%A4%A7-100-%E5%80%8D"><span class="nav-text">10.4 为什么线程池会把问题放大
+100 倍？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88-contextvar-scopedvalue-%E4%B8%8D%E4%BC%9A%E8%BF%99%E6%A0%B7"><span class="nav-text">10.5 为什么 ContextVar &#x2F;
+ScopedValue 不会这样？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%81%E4%B8%80%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1%E9%93%BE%E7%9A%84%E6%AD%A3%E7%A1%AE%E7%90%86%E8%A7%A3"><span class="nav-text">十一、异步&#x2F;任务链的正确理解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5-1"><span class="nav-text">11.1 核心概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E4%B8%AA%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5"><span class="nav-text">11.2 三个关键概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8Bthread"><span class="nav-text">1️⃣ 线程（Thread）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%8F%E7%A8%8Bcoroutine-task-fiber"><span class="nav-text">2️⃣ 协程（Coroutine &#x2F; Task &#x2F;
+Fiber）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BC%82%E6%AD%A5-%E4%BB%BB%E5%8A%A1%E9%93%BE"><span class="nav-text">3️⃣ 异步 &#x2F; 任务链</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88-threadlocal-%E5%9C%A8%E8%BF%99%E9%87%8C%E5%B0%B1%E4%B8%8D%E8%A1%8C%E4%BA%86"><span class="nav-text">11.3 为什么 ThreadLocal
+在这里就不行了？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#contextvar-scopedvalue-%E6%98%AF%E6%80%8E%E4%B9%88%E7%90%86%E8%A7%A3%E4%BB%BB%E5%8A%A1%E9%93%BE%E7%9A%84"><span class="nav-text">11.4 ContextVar &#x2F;
+ScopedValue 是怎么理解”任务链”的？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E4%B8%80%E5%8F%A5%E8%AF%9D"><span class="nav-text">核心一句话：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pythoncontextvar-1"><span class="nav-text">Python（ContextVar）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#java-loomscopedvalue"><span class="nav-text">Java Loom（ScopedValue）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%9E%E5%B8%B8%E5%85%B3%E9%94%AE%E7%9A%84%E4%B8%80%E7%82%B9"><span class="nav-text">11.5 非常关键的一点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%81%E4%BA%8C%E5%AE%9E%E6%88%98%E5%BA%94%E7%94%A8llm-%E8%B0%83%E7%94%A8%E9%93%BE%E8%BF%BD%E8%B8%AA"><span class="nav-text">十二、实战应用：LLM 调用链追踪</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%87%E5%87%86%E5%AE%9E%E7%8E%B0%E6%A8%A1%E5%BC%8F"><span class="nav-text">12.1 标准实现模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B"><span class="nav-text">12.2 使用示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%98%E5%8A%BF%E4%BD%93%E7%8E%B0"><span class="nav-text">12.3 优势体现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%81%E4%B8%89%E6%80%BB%E7%BB%93%E4%B8%8E%E9%80%89%E5%9E%8B%E5%BB%BA%E8%AE%AE"><span class="nav-text">十三、总结与选型建议</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E8%A6%81%E7%82%B9%E5%9B%9E%E9%A1%BE"><span class="nav-text">13.1 核心要点回顾</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%89%E5%9E%8B%E5%BB%BA%E8%AE%AE"><span class="nav-text">13.2 选型建议</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%89%E6%8B%A9-contextvarpython"><span class="nav-text">选择 ContextVar（Python）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%89%E6%8B%A9-threadlocaljava"><span class="nav-text">选择 ThreadLocal（Java）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%81%BF%E5%85%8D%E4%BD%BF%E7%94%A8-threadlocaljava"><span class="nav-text">避免使用 ThreadLocal（Java）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%80%E7%BB%88%E5%88%A4%E6%96%AD%E6%A0%87%E5%87%86"><span class="nav-text">13.3 最终判断标准</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%97%B6%E4%BB%A3%E6%80%BB%E7%BB%93"><span class="nav-text">13.4 一句话时代总结</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="copyright-info info-item">
+    &copy;&nbsp;<span>2020</span>&nbsp;-&nbsp;2026
+    
+            &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">Zhongjun Qiu</a>
+        
+    </div>
+
+    <div class="theme-info info-item">
+        Powered by&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;&&nbsp;Theme&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+    </div>
+
+    
+        
+        <div class="deploy-info info-item">
+            
+                <a target="_blank" rel="nofollow" href="https://github.com">
+            
+            This site is deployed on <span class="tooltip" data-tooltip-content="GitHub Pages"><img src="/images/brands/github.png"></span>
+            
+                </a>
+            
+        </div>
+    
+
+    
+        <div class="count-info info-item">
+            
+                <span class="count-item border-box word">
+                    <span class="item-type border-box">Total words</span>
+                    <span class="item-value border-box word">461.4k</span>
+                </span>
+            
+
+            
+
+            
+                <span class="count-item border-box pv">
+                    <span class="item-type border-box">Page View</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+    
+
+    
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+            <li class="tools-item flex-center go-to-comments">
+                <i class="fas fa-comment"></i>
+                <span class="post-comments-count"></span>
+            </li>
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <!-- toggle mode -->
+        
+            <li class="tools-item tool-toggle-theme-mode flex-center">
+                <i class="fas fa-moon"></i>
+            </li>
+        
+
+        <!-- rss -->
+        
+
+        <!-- to bottom -->
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+            <li class="tools-item go-to-comments-tablet flex-center">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E6%B4%9E%E5%AF%9F"><span class="nav-text">核心洞察</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81-contextvar"><span class="nav-text">一、为什么需要 ContextVar？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%A0%E7%BB%9F%E6%A8%A1%E5%9E%8B%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-text">1.1 传统模型的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#contextvar-%E7%9A%84%E8%AE%BE%E8%AE%A1%E7%9B%AE%E6%A0%87"><span class="nav-text">1.2 ContextVar 的设计目标</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8Ccontextvar-%E7%9A%84%E6%8A%BD%E8%B1%A1%E6%A8%A1%E5%9E%8B"><span class="nav-text">二、ContextVar 的抽象模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5"><span class="nav-text">2.1 核心概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%BD%E8%B1%A1%E7%BB%93%E6%9E%84"><span class="nav-text">2.2 抽象结构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89contextvar-%E7%9A%84%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6"><span class="nav-text">三、ContextVar 的底层实现机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#context-%E6%9C%AC%E8%B4%A8%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-text">3.1 Context 本质是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#context-%E6%98%AF%E6%80%8E%E4%B9%88%E8%B7%9F%E7%9D%80%E5%8D%8F%E7%A8%8B%E8%B7%91%E7%9A%84"><span class="nav-text">3.2 Context
+是怎么”跟着协程跑”的？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%8F%E7%A8%8B%E5%88%9B%E5%BB%BA%E6%97%B6"><span class="nav-text">协程创建时</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#contextvar.set-%E5%88%B0%E5%BA%95%E5%81%9A%E4%BA%86%E4%BB%80%E4%B9%88"><span class="nav-text">3.3 ContextVar.set()
+到底做了什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#contextvar.get-%E6%80%8E%E4%B9%88%E5%8F%96%E5%80%BC"><span class="nav-text">3.4 ContextVar.get() 怎么取值？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#context-%E5%88%87%E6%8D%A2%E6%98%AF%E6%80%8E%E4%B9%88%E5%8F%91%E7%94%9F%E7%9A%84"><span class="nav-text">3.5 Context 切换是怎么发生的？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E4%B8%8E-java-threadlocal-%E7%9A%84%E6%9C%AC%E8%B4%A8%E5%8C%BA%E5%88%AB"><span class="nav-text">四、与 Java ThreadLocal
+的本质区别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E5%B7%AE%E5%BC%82%E5%AF%B9%E6%AF%94"><span class="nav-text">4.1 核心差异对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%80%BB%E7%BB%93"><span class="nav-text">4.2 一句话总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94threadlocal-%E7%9A%84%E7%9C%9F%E5%AE%9E%E5%B7%A5%E4%BD%9C%E6%96%B9%E5%BC%8F"><span class="nav-text">五、ThreadLocal
+的真实工作方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#threadlocal-%E5%B9%B6%E4%B8%8D%E5%AD%98%E5%80%BC"><span class="nav-text">5.1 ThreadLocal 并不”存值”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#threadlocal-%E7%9A%84%E8%87%B4%E5%91%BD%E5%89%8D%E6%8F%90"><span class="nav-text">5.2 ThreadLocal 的致命前提</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8%E7%8E%B0%E4%BB%A3-java-%E9%87%8C%E4%B8%BA%E4%BB%80%E4%B9%88%E5%87%BA%E9%97%AE%E9%A2%98"><span class="nav-text">5.3 在现代 Java
+里为什么出问题？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%A4%8D%E7%94%A8"><span class="nav-text">① 线程池复用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BC%82%E6%AD%A5%E6%A8%A1%E5%9E%8Bcompletablefuture-reactor"><span class="nav-text">② 异步模型（CompletableFuture
+&#x2F; Reactor）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AD%E9%80%9A%E4%BF%97%E7%90%86%E8%A7%A3threadlocal-vs-contextvar"><span class="nav-text">六、通俗理解：ThreadLocal
+vs ContextVar</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%A7%E7%99%BD%E8%AF%9D%E5%8C%BA%E5%88%86"><span class="nav-text">6.1 大白话区分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E5%B7%AE%E5%BC%82"><span class="nav-text">6.2 关键差异</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B4%E8%A7%82%E7%9A%84%E7%B1%BB%E6%AF%94"><span class="nav-text">6.3 直观的类比</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#threadlocal-%E5%83%8F%E4%BB%80%E4%B9%88"><span class="nav-text">ThreadLocal 像什么？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#contextvar-%E5%83%8F%E4%BB%80%E4%B9%88"><span class="nav-text">ContextVar 像什么？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%83%E4%B8%BA%E4%BB%80%E4%B9%88-java-%E9%A1%B9%E7%9B%AE%E4%B9%A0%E6%83%AF%E7%94%A8-threadlocal-%E5%AD%98-user"><span class="nav-text">七、为什么 Java
+项目”习惯用 ThreadLocal 存 user”？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AB%E7%8E%B0%E4%BB%A3%E6%A8%A1%E5%9E%8B%E7%9A%84%E6%8C%91%E6%88%98"><span class="nav-text">八、现代模型的挑战</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%AF%E4%BB%A5%E8%BF%99%E6%A0%B7%E8%B7%9F-java-%E5%90%8C%E4%BA%8B%E8%AF%B4"><span class="nav-text">8.1 可以这样跟 Java 同事说：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B9%9D%E5%8D%8F%E7%A8%8B%E7%BA%A7%E5%88%AB%E5%AD%98%E5%82%A8%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="nav-text">九、协程级别存储的实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%83%BD%E4%B8%8D%E8%83%BD%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E5%8D%8F%E7%A8%8B%E7%BA%A7%E5%88%AB%E7%9A%84%E5%AD%98%E5%82%A8"><span class="nav-text">9.1
+能不能实现一个”协程级别的存储”？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E5%8D%8F%E7%A8%8B%E7%BA%A7%E5%88%AB%E5%AD%98%E5%82%A8%E4%B8%8D%E6%98%AF-threadlocal-%E5%8D%87%E7%BA%A7%E7%89%88"><span class="nav-text">9.2
+为什么”协程级别存储”不是 ThreadLocal 升级版？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9C%9F%E6%AD%A3%E7%9A%84%E9%9A%BE%E7%82%B9"><span class="nav-text">9.3 真正的难点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9A%BE%E7%82%B9-1%E4%BD%A0%E6%80%8E%E4%B9%88%E6%8B%BF%E5%88%B0%E5%BD%93%E5%89%8D%E5%8D%8F%E7%A8%8B%E6%98%AF%E8%B0%81"><span class="nav-text">❗ 难点
+1：你怎么拿到”当前协程是谁”？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9A%BE%E7%82%B9-2%E5%8D%8F%E7%A8%8B%E5%88%87%E6%8D%A2%E6%97%B6%E8%B0%81%E5%B8%AE%E4%BD%A0%E5%88%87%E4%B8%8A%E4%B8%8B%E6%96%87"><span class="nav-text">❗ 难点
+2：协程切换时，谁帮你切上下文？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9A%BE%E7%82%B9-3%E5%AD%90%E5%8D%8F%E7%A8%8B%E7%9A%84%E4%B8%8A%E4%B8%8B%E6%96%87%E7%BB%A7%E6%89%BF%E8%AF%AD%E4%B9%89"><span class="nav-text">❗ 难点
+3：子协程的”上下文继承”语义</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%B0%E5%AE%9E%E4%B8%96%E7%95%8C%E7%9A%84%E6%AD%A3%E7%A1%AE%E7%AD%94%E6%A1%88"><span class="nav-text">9.4 现实世界的”正确答案”</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#pythoncontextvar"><span class="nav-text">1️⃣ Python：ContextVar</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#java-%E6%96%B0%E6%97%B6%E4%BB%A3%E7%9A%84%E7%AD%94%E6%A1%88loom-scopedvalue"><span class="nav-text">2️⃣ Java 新时代的答案：Loom +
+ScopedValue</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#go%E7%9B%B4%E6%8E%A5%E5%86%85%E5%BB%BA%E5%88%B0-runtime"><span class="nav-text">3️⃣ Go：直接内建到 runtime</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%81threadlocal-%E7%9A%84%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2%E9%A3%8E%E9%99%A9"><span class="nav-text">十、ThreadLocal
+的内存泄露风险</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E5%8F%A5%E8%AF%9D%E7%BB%93%E8%AE%BA"><span class="nav-text">10.1 一句话结论</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#threadlocal-%E7%9A%84%E7%9C%9F%E5%AE%9E%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84"><span class="nav-text">10.2 ThreadLocal 的真实存储结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#threadlocal-%E5%B9%B6%E4%B8%8D%E5%AD%98%E6%95%B0%E6%8D%AE"><span class="nav-text">ThreadLocal 并不存数据</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%84%E9%9C%B2%E6%98%AF%E6%80%8E%E4%B9%88%E4%B8%80%E6%AD%A5%E4%B8%80%E6%AD%A5%E5%8F%91%E7%94%9F%E7%9A%84"><span class="nav-text">10.3 泄露是怎么一步一步发生的？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC-1-%E6%AD%A5%E4%BD%A0%E5%88%9B%E5%BB%BA%E4%BA%86-threadlocal"><span class="nav-text">🧩 第 1 步：你创建了
+ThreadLocal</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC-2-%E6%AD%A5%E6%96%B9%E6%B3%95%E7%BB%93%E6%9D%9Fthreadlocal-%E5%8F%98%E9%87%8F%E6%B6%88%E5%A4%B1"><span class="nav-text">🧩 第 2
+步：方法结束，ThreadLocal 变量消失</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC-3-%E6%AD%A5%E7%BA%BF%E7%A8%8B%E8%BF%98%E6%B4%BB%E7%9D%80%E7%BA%BF%E7%A8%8B%E6%B1%A0"><span class="nav-text">🧩 第 3 步：线程还活着（线程池）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E7%BA%BF%E7%A8%8B%E6%B1%A0%E4%BC%9A%E6%8A%8A%E9%97%AE%E9%A2%98%E6%94%BE%E5%A4%A7-100-%E5%80%8D"><span class="nav-text">10.4 为什么线程池会把问题放大
+100 倍？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88-contextvar-scopedvalue-%E4%B8%8D%E4%BC%9A%E8%BF%99%E6%A0%B7"><span class="nav-text">10.5 为什么 ContextVar &#x2F;
+ScopedValue 不会这样？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%81%E4%B8%80%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1%E9%93%BE%E7%9A%84%E6%AD%A3%E7%A1%AE%E7%90%86%E8%A7%A3"><span class="nav-text">十一、异步&#x2F;任务链的正确理解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5-1"><span class="nav-text">11.1 核心概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E4%B8%AA%E5%85%B3%E9%94%AE%E6%A6%82%E5%BF%B5"><span class="nav-text">11.2 三个关键概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8Bthread"><span class="nav-text">1️⃣ 线程（Thread）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%8F%E7%A8%8Bcoroutine-task-fiber"><span class="nav-text">2️⃣ 协程（Coroutine &#x2F; Task &#x2F;
+Fiber）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BC%82%E6%AD%A5-%E4%BB%BB%E5%8A%A1%E9%93%BE"><span class="nav-text">3️⃣ 异步 &#x2F; 任务链</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88-threadlocal-%E5%9C%A8%E8%BF%99%E9%87%8C%E5%B0%B1%E4%B8%8D%E8%A1%8C%E4%BA%86"><span class="nav-text">11.3 为什么 ThreadLocal
+在这里就不行了？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#contextvar-scopedvalue-%E6%98%AF%E6%80%8E%E4%B9%88%E7%90%86%E8%A7%A3%E4%BB%BB%E5%8A%A1%E9%93%BE%E7%9A%84"><span class="nav-text">11.4 ContextVar &#x2F;
+ScopedValue 是怎么理解”任务链”的？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E4%B8%80%E5%8F%A5%E8%AF%9D"><span class="nav-text">核心一句话：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pythoncontextvar-1"><span class="nav-text">Python（ContextVar）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#java-loomscopedvalue"><span class="nav-text">Java Loom（ScopedValue）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%9E%E5%B8%B8%E5%85%B3%E9%94%AE%E7%9A%84%E4%B8%80%E7%82%B9"><span class="nav-text">11.5 非常关键的一点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%81%E4%BA%8C%E5%AE%9E%E6%88%98%E5%BA%94%E7%94%A8llm-%E8%B0%83%E7%94%A8%E9%93%BE%E8%BF%BD%E8%B8%AA"><span class="nav-text">十二、实战应用：LLM 调用链追踪</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%87%E5%87%86%E5%AE%9E%E7%8E%B0%E6%A8%A1%E5%BC%8F"><span class="nav-text">12.1 标准实现模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B"><span class="nav-text">12.2 使用示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%98%E5%8A%BF%E4%BD%93%E7%8E%B0"><span class="nav-text">12.3 优势体现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%81%E4%B8%89%E6%80%BB%E7%BB%93%E4%B8%8E%E9%80%89%E5%9E%8B%E5%BB%BA%E8%AE%AE"><span class="nav-text">十三、总结与选型建议</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E8%A6%81%E7%82%B9%E5%9B%9E%E9%A1%BE"><span class="nav-text">13.1 核心要点回顾</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%89%E5%9E%8B%E5%BB%BA%E8%AE%AE"><span class="nav-text">13.2 选型建议</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%89%E6%8B%A9-contextvarpython"><span class="nav-text">选择 ContextVar（Python）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%89%E6%8B%A9-threadlocaljava"><span class="nav-text">选择 ThreadLocal（Java）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%81%BF%E5%85%8D%E4%BD%BF%E7%94%A8-threadlocaljava"><span class="nav-text">避免使用 ThreadLocal（Java）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%80%E7%BB%88%E5%88%A4%E6%96%AD%E6%A0%87%E5%87%86"><span class="nav-text">13.3 最终判断标准</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%97%B6%E4%BB%A3%E6%80%BB%E7%BB%93"><span class="nav-text">13.4 一句话时代总结</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+
+
+<!-- common js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/utils.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/header-shrink.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/back2top.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/toggle-theme.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/code-block.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/main.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/libs/anime.min.js"></script>
+
+<!-- local search -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/local-search.min.js"></script>
+
+
+<!-- lazyload -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/lazyload.min.js"></script>
+
+
+<div class="">
+    <!-- home page -->
+    
+
+    <!-- post page -->
+    
+        <!-- post-helper -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/post-helper.min.js"></script>
+
+        <!-- toc -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/toc.min.js"></script>
+        
+
+        <!-- copyright-info -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/copyright-info.min.js"></script>
+        
+
+        <!-- share -->
+        
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-theme-keep/4.2.5/js/post/share.min.js"></script>
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+
+
+    
+        
+    
+        
+            
+<script class="custom-inject-js" src="/js/custom_code_block.js" data-pjax></script>
+
+        
+    
+
+</body>
+</html>
