@@ -1,6 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://decade.net.cn/2026/01/25/Agent-Skill-MCP-Prompt-%E5%8C%BA%E5%88%AB%E8%BE%A8%E6%9E%90/</loc>
+    <lastmod>2026-01-30</lastmod>
+  </url>
+  <url>
+    <loc>https://decade.net.cn/2026/01/12/AI-Agent-%E8%90%BD%E5%9C%B0%E5%AE%9E%E8%B7%B5-%E6%A8%A1%E5%9E%8B%E4%B8%8E%E5%B7%A5%E7%A8%8B/</loc>
+    <lastmod>2026-01-30</lastmod>
+  </url>
+  <url>
+    <loc>https://decade.net.cn/2026/01/06/MCP-Function-Calling-AI-Agent-%E5%85%B3%E7%B3%BB%E8%BE%A8%E6%9E%90/</loc>
+    <lastmod>2026-01-30</lastmod>
+  </url>
+  <url>
+    <loc>https://decade.net.cn/2026/01/01/%E9%93%BE%E8%A1%A8-vs-%E6%95%B0%E7%BB%84-%E9%AB%98%E6%80%A7%E8%83%BD%E7%B3%BB%E7%BB%9F%E7%9A%84%E9%80%89%E6%8B%A9/</loc>
+    <lastmod>2026-01-30</lastmod>
+  </url>
+  <url>
+    <loc>https://decade.net.cn/2026/01/23/OpenAI-Prompts-Guide/</loc>
+    <lastmod>2026-01-23</lastmod>
+  </url>
+  <url>
     <loc>https://decade.net.cn/2026/01/02/contextvar-deep-dive/</loc>
     <lastmod>2026-01-19</lastmod>
   </url>
@@ -217,11 +237,11 @@
     <lastmod>2025-05-15</lastmod>
   </url>
   <url>
-    <loc>https://decade.net.cn/2023/12/27/Web-Event/</loc>
+    <loc>https://decade.net.cn/2023/12/27/Web-UI-Event/</loc>
     <lastmod>2025-05-15</lastmod>
   </url>
   <url>
-    <loc>https://decade.net.cn/2023/12/27/Web-UI-Event/</loc>
+    <loc>https://decade.net.cn/2023/12/27/Web-Event/</loc>
     <lastmod>2025-05-15</lastmod>
   </url>
   <url>
@@ -253,15 +273,15 @@
     <lastmod>2025-05-15</lastmod>
   </url>
   <url>
+    <loc>https://decade.net.cn/2024/07/01/SpringBoot3-%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/</loc>
+    <lastmod>2025-05-15</lastmod>
+  </url>
+  <url>
     <loc>https://decade.net.cn/2024/07/08/SpringBoot3-Web-%E5%BC%80%E5%8F%91/</loc>
     <lastmod>2025-05-15</lastmod>
   </url>
   <url>
     <loc>https://decade.net.cn/2025/01/20/SpringBoot3-%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/</loc>
-    <lastmod>2025-05-15</lastmod>
-  </url>
-  <url>
-    <loc>https://decade.net.cn/2024/07/01/SpringBoot3-%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/</loc>
     <lastmod>2025-05-15</lastmod>
   </url>
   <url>
@@ -289,19 +309,15 @@
     <lastmod>2025-05-15</lastmod>
   </url>
   <url>
-    <loc>https://decade.net.cn/2024/02/22/SQL-%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B%E4%B8%8E%E5%87%BD%E6%95%B0/</loc>
-    <lastmod>2025-05-15</lastmod>
-  </url>
-  <url>
     <loc>https://decade.net.cn/2024/02/21/SQL-%E6%8E%92%E5%BA%8F%E4%B8%8E%E5%88%86%E9%A1%B5/</loc>
     <lastmod>2025-05-15</lastmod>
   </url>
   <url>
-    <loc>https://decade.net.cn/2024/02/22/SQL-%E7%BA%A6%E6%9D%9F/</loc>
+    <loc>https://decade.net.cn/2024/02/22/SQL-%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B%E4%B8%8E%E5%87%BD%E6%95%B0/</loc>
     <lastmod>2025-05-15</lastmod>
   </url>
   <url>
-    <loc>https://decade.net.cn/2024/02/21/SQL-DML%E8%AF%AD%E5%8F%A5/</loc>
+    <loc>https://decade.net.cn/2024/02/22/SQL-%E7%BA%A6%E6%9D%9F/</loc>
     <lastmod>2025-05-15</lastmod>
   </url>
   <url>
@@ -310,6 +326,10 @@
   </url>
   <url>
     <loc>https://decade.net.cn/2024/02/21/SQL-%E5%87%BD%E6%95%B0%E5%9F%BA%E7%A1%80/</loc>
+    <lastmod>2025-05-15</lastmod>
+  </url>
+  <url>
+    <loc>https://decade.net.cn/2024/02/21/SQL-DML%E8%AF%AD%E5%8F%A5/</loc>
     <lastmod>2025-05-15</lastmod>
   </url>
   <url>
@@ -381,11 +401,11 @@
     <lastmod>2025-05-15</lastmod>
   </url>
   <url>
-    <loc>https://decade.net.cn/2023/12/16/Javascript-%E7%B1%BB/</loc>
+    <loc>https://decade.net.cn/2023/12/22/Javascript-%E6%A8%A1%E5%9D%97/</loc>
     <lastmod>2025-05-15</lastmod>
   </url>
   <url>
-    <loc>https://decade.net.cn/2023/12/22/Javascript-%E6%A8%A1%E5%9D%97/</loc>
+    <loc>https://decade.net.cn/2023/12/16/Javascript-%E7%B1%BB/</loc>
     <lastmod>2025-05-15</lastmod>
   </url>
   <url>
@@ -398,6 +418,10 @@
   </url>
   <url>
     <loc>https://decade.net.cn/2023/08/27/Leetcode-2023-08-27-%E9%A2%98%E7%9B%AE%E5%88%86%E4%BA%AB-1/</loc>
+    <lastmod>2025-05-15</lastmod>
+  </url>
+  <url>
+    <loc>https://decade.net.cn/2023/08/27/Leetcode-2023-08-27-%E9%A2%98%E7%9B%AE%E5%88%86%E4%BA%AB/</loc>
     <lastmod>2025-05-15</lastmod>
   </url>
   <url>
@@ -414,10 +438,6 @@
   </url>
   <url>
     <loc>https://decade.net.cn/2024/02/05/Leetcode-2024-02-05-%E9%A2%98%E7%9B%AE%E5%88%86%E4%BA%AB/</loc>
-    <lastmod>2025-05-15</lastmod>
-  </url>
-  <url>
-    <loc>https://decade.net.cn/2023/08/27/Leetcode-2023-08-27-%E9%A2%98%E7%9B%AE%E5%88%86%E4%BA%AB/</loc>
     <lastmod>2025-05-15</lastmod>
   </url>
   <url>
@@ -441,19 +461,19 @@
     <lastmod>2025-05-15</lastmod>
   </url>
   <url>
-    <loc>https://decade.net.cn/2023/12/15/Javascript-%E5%87%BD%E6%95%B0/</loc>
-    <lastmod>2025-05-15</lastmod>
-  </url>
-  <url>
-    <loc>https://decade.net.cn/2023/12/15/Javascript-%E5%AF%B9%E8%B1%A1%E5%B1%9E%E6%80%A7%E9%85%8D%E7%BD%AE/</loc>
-    <lastmod>2025-05-15</lastmod>
-  </url>
-  <url>
     <loc>https://decade.net.cn/2024/06/29/JDBC-%E5%AE%9E%E8%B7%B5/</loc>
     <lastmod>2025-05-15</lastmod>
   </url>
   <url>
+    <loc>https://decade.net.cn/2023/12/15/Javascript-%E5%87%BD%E6%95%B0/</loc>
+    <lastmod>2025-05-15</lastmod>
+  </url>
+  <url>
     <loc>https://decade.net.cn/2023/12/12/Javascript-%E5%9F%BA%E7%A1%80/</loc>
+    <lastmod>2025-05-15</lastmod>
+  </url>
+  <url>
+    <loc>https://decade.net.cn/2023/12/15/Javascript-%E5%AF%B9%E8%B1%A1%E5%B1%9E%E6%80%A7%E9%85%8D%E7%BD%AE/</loc>
     <lastmod>2025-05-15</lastmod>
   </url>
   <url>
@@ -473,15 +493,15 @@
     <lastmod>2025-05-15</lastmod>
   </url>
   <url>
-    <loc>https://decade.net.cn/2024/02/23/Database-%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E%E4%BB%8B%E7%BB%8D/</loc>
-    <lastmod>2025-05-15</lastmod>
-  </url>
-  <url>
     <loc>https://decade.net.cn/2024/02/20/Database-%E6%A6%82%E8%BF%B0/</loc>
     <lastmod>2025-05-15</lastmod>
   </url>
   <url>
     <loc>https://decade.net.cn/2024/02/27/Database-%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/</loc>
+    <lastmod>2025-05-15</lastmod>
+  </url>
+  <url>
+    <loc>https://decade.net.cn/2024/02/23/Database-%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E%E4%BB%8B%E7%BB%8D/</loc>
     <lastmod>2025-05-15</lastmod>
   </url>
   <url>
