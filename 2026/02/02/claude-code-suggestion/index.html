@@ -513,7 +513,7 @@ mjx-container[display="true"] + br {
             
                 <span class="meta-info-item post-update-date">
                     <i class="icon fa-solid fa-arrows-rotate"></i>&nbsp;
-                    <span class="datetime" data-updated="Mon Feb 02 2026 20:20:26 GMT+0800">2026-02-02 20:20:26</span>
+                    <span class="datetime" data-updated="Mon Feb 02 2026 23:55:19 GMT+0800">2026-02-02 23:55:19</span>
                 </span>
             
         
@@ -543,7 +543,7 @@ mjx-container[display="true"] + br {
         
         
             <span class="meta-info-item post-wordcount">
-                <i class="icon fas fa-file-word"></i>&nbsp;<span>1.3k Words</span>
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>1.4k Words</span>
             </span>
         
         
@@ -570,115 +570,104 @@ mjx-container[display="true"] + br {
                     
 
                     
-                         <p>Claude Code 团队分享的使用技巧，包括并行会话、计划模式、CLAUDE.md
-维护、自定义技能、Bug修复、提示词优化、终端设置、子代理、数据分析以及学习功能等10个核心建议。</p>
+                         <p>Claude Code 团队分享的实战技巧，涵盖并行会话、计划模式、CLAUDE.md
+维护、自定义技能、Bug
+自动修复、提示词优化、终端配置、子代理协作、数据分析以及学习辅助等 10
+个核心建议。</p>
 <span id="more"></span>
-<ol type="1">
-<li>并行化处理</li>
-</ol>
+<h2 id="并行化处理">1. 并行化处理</h2>
 <p>同时启动 3-5 个 git worktree，每个 worktree 运行独立的 Claude
-会话。这是团队公认的最大生产力提升技巧。我个人使用多个 git
+会话。这是团队公认的最大生产力提升技巧。我个人习惯使用多个 git
 checkout，但大多数 Claude Code 团队成员更偏爱 worktree —— 这也是 <span class="citation" data-cites="amorriscode">@amorriscode</span> 在 Claude
 Desktop 应用中原生支持 worktree 的原因！</p>
 <p>有些人还会为 worktree 命名并设置 shell 别名（如
-za、zb、zc），一键即可切换。还有人专门设置一个 “analysis”
+za、zb、zc），实现一键切换。还有人专门设置一个 “analysis”
 worktree，仅用于读取日志和运行 BigQuery 查询。</p>
-<p>详见
-https://code.claude.com/docs/en/common-workflows#run-parallel-claude-code-sessions-with-git-worktrees</p>
+<p><a class="link" target="_blank" rel="noopener" href="https://code.claude.com/docs/en/common-workflows#run-parallel-claude-code-sessions-with-git-worktrees">查看详细文档<i class="fas fa-external-link-alt"></i></a></p>
 <p><img lazyload="" alt="image" data-src="image.png"></p>
-<ol start="2" type="1">
-<li>复杂任务从计划模式开始。把精力投入到规划中，让 Claude
-能够一次性完成实现。</li>
-</ol>
+<h2 id="复杂任务从计划模式开始">2. 复杂任务从计划模式开始</h2>
+<p>将精力集中在规划阶段，让 Claude 能够一次性高质量完成实现。</p>
 <p>有人会让一个 Claude 编写计划，然后启动第二个 Claude
 以高级工程师的身份进行审查。</p>
-<p>还有人说，一旦事情偏离正轨，立即切换回计划模式重新规划。不要硬撑。他们还会明确告诉
-Claude 在验证步骤时进入计划模式，而不仅仅是构建阶段。</p>
+<p>还有人说，一旦事情偏离正轨，立即切换回计划模式重新规划，不要硬撑。他们还会明确告诉
+Claude 在验证步骤时也进入计划模式，而不仅仅是构建阶段。</p>
 <p><img lazyload="" alt="image" data-src="image-1.png"></p>
-<ol start="3" type="1">
-<li>维护好你的 CLAUDE.md。每次修正后，结尾加上：“更新你的
-CLAUDE.md，这样你就不会再犯同样的错误。” Claude
-非常擅长为自己编写规则。</li>
-</ol>
-<p>持续无情地编辑你的 CLAUDE.md。不断迭代，直到 Claude
-的错误率明显下降。</p>
+<h2 id="精心维护-claude.md">3. 精心维护 CLAUDE.md</h2>
+<p>每次修正后，在结尾加上：<strong>“更新你的
+CLAUDE.md，避免再犯同样的错误。”</strong> Claude
+非常擅长为自己编写规则。</p>
+<p>持续迭代优化你的 CLAUDE.md，直到 Claude 的错误率明显下降。</p>
 <p>有一位工程师让 Claude 为每个任务/项目维护一个笔记目录，每次 PR
-后更新。然后将 CLAUDE.md 指向这个目录。</p>
+后更新，然后将 CLAUDE.md 指向该目录。</p>
 <p><img lazyload="" alt="image" data-src="image-2.png"></p>
-<ol start="4" type="1">
-<li>创建自定义技能并提交到 git。在所有项目中重复使用。</li>
-</ol>
-<p>团队的建议： - 如果你每天做某件事超过一次，就把它变成技能或命令 -
-创建一个 /techdebt 斜杠命令，在每次会话结束时运行，查找并清理重复代码 -
-设置一个斜杠命令，将过去 7 天的 Slack、GDrive、Asana 和 GitHub
+<h2 id="创建自定义技能并提交到-git">4. 创建自定义技能并提交到 Git</h2>
+<p>在所有项目中重复使用你的技能。</p>
+<p><strong>团队建议：</strong> -
+如果每天做某件事超过一次，就把它变成技能或命令 - 创建
+<code>/techdebt</code>
+斜杠命令，在每次会话结束时运行，查找并清理重复代码 -
+设置斜杠命令，将过去 7 天的 Slack、GDrive、Asana 和 GitHub
 同步到一个上下文汇总中 - 构建类似数据分析师的代理，编写 dbt
 模型、审查代码并在开发环境中测试变更</p>
-<p>了解更多：https://code.claude.com/docs/en/skills#extend-claude-with-skills</p>
-<ol start="5" type="1">
-<li>Claude 能自动修复大多数 Bug。以下是我们的做法：</li>
-</ol>
+<p><a class="link" target="_blank" rel="noopener" href="https://code.claude.com/docs/en/skills#extend-claude-with-skills">了解更多<i class="fas fa-external-link-alt"></i></a></p>
+<h2 id="让-claude-自动修复-bug">5. 让 Claude 自动修复 Bug</h2>
+<p><strong>以下是我们的最佳实践：</strong></p>
 <p>启用 Slack MCP，然后将 Slack 的 Bug 讨论串粘贴到 Claude 中，直接说
 “fix” 即可。无需切换上下文。</p>
 <p>或者，直接说 “去修复失败的 CI 测试”。不要微观管理具体怎么做。</p>
-<p>让 Claude 查看 docker 日志来排查分布式系统问题 —— 它在这方面
-surprisingly 很擅长。</p>
-<ol start="6" type="1">
-<li>提升提示词技巧</li>
-</ol>
-<ol type="a">
-<li><p>挑战 Claude。说 “仔细审查我的修改，我通过你的测试之前不要提交
-PR”。让 Claude 成为你的代码审查员。或者说 “向我证明这能工作”，让 Claude
-对比 main 分支和你的特性分支的行为差异。</p></li>
-<li><p>在得到一个平庸的修复后，说：“既然你已经知道了所有信息，扔掉这个方案，实现一个优雅的解决方案”</p></li>
-<li><p>在交接工作前编写详细的规格说明，减少歧义。你越具体，输出就越好</p></li>
-</ol>
-<ol start="7" type="1">
-<li>终端和环境设置</li>
-</ol>
-<p>团队都很喜欢 Ghostty！多人喜欢它的同步渲染、24位真彩色和完善的
-Unicode 支持。</p>
-<p>为了方便管理多个 Claude 会话，使用 /statusline
+<p>让 Claude 查看 docker 日志来排查分布式系统问题 ——
+它在这方面出乎意料地擅长。</p>
+<h2 id="提升提示词技巧">6. 提升提示词技巧</h2>
+<p><strong>a. 挑战 Claude</strong></p>
+<p>说 <strong>“仔细审查我的修改，我通过你的测试之前不要提交
+PR”</strong>。让 Claude 成为你的代码审查员。或者说
+<strong>“向我证明这能工作”</strong>，让 Claude 对比 main
+分支和你的特性分支的行为差异。</p>
+<p><strong>b. 追求卓越</strong></p>
+<p>在得到一个平庸的修复后，说：<strong>“既然你已经知道了所有信息，扔掉这个方案，实现一个优雅的解决方案。”</strong></p>
+<p><strong>c. 明确需求</strong></p>
+<p>在交接工作前编写详细的规格说明，减少歧义。你越具体，输出就越好。</p>
+<h2 id="终端与环境配置">7. 终端与环境配置</h2>
+<p>团队都很喜欢 <strong>Ghostty</strong>！大家喜欢它的同步渲染、24
+位真彩色和完善的 Unicode 支持。</p>
+<p>为了方便管理多个 Claude 会话，使用 <code>/statusline</code>
 自定义状态栏，始终显示上下文使用情况和当前 git
 分支。我们很多人还会给终端标签页着色和命名，有时使用 tmux ——
 每个任务/worktree 一个标签页。</p>
 <p>使用语音输入。你说话的速度是打字速度的 3
 倍，而且提示词也会因此变得更加详细。（在 macOS 上按 fn 键两次）</p>
-<p>更多技巧：https://code.claude.com/docs/en/terminal-config</p>
-<ol start="8" type="1">
-<li>使用子代理</li>
-</ol>
-<ol type="a">
-<li><p>在任何希望 Claude 投入更多计算资源的请求后面加上 “use
-subagents”</p></li>
-<li><p>将单个任务交给子代理处理，保持主代理的上下文窗口干净且专注</p></li>
-<li><p>通过钩子将权限请求路由到 Opus 4.5 ——
-让它扫描潜在的攻击并自动批准安全的请求（详见
-https://code.claude.com/docs/en/hooks#permissionrequest）</p></li>
-</ol>
+<p><a class="link" target="_blank" rel="noopener" href="https://code.claude.com/docs/en/terminal-config">更多技巧<i class="fas fa-external-link-alt"></i></a></p>
+<h2 id="使用子代理">8. 使用子代理</h2>
+<p><strong>a. 增加计算资源</strong></p>
+<p>在任何希望 Claude 投入更多计算资源的请求后面加上 <strong>“use
+subagents”</strong>。</p>
+<p><strong>b. 保持专注</strong></p>
+<p>将单个任务交给子代理处理，保持主代理的上下文窗口干净且专注。</p>
+<p><strong>c. 安全审批</strong></p>
+<p>通过钩子将权限请求路由到 Opus 4.5 ——
+让它扫描潜在的攻击并自动批准安全的请求（<a class="link" target="_blank" rel="noopener" href="https://code.claude.com/docs/en/hooks#permissionrequest">详见文档<i class="fas fa-external-link-alt"></i></a>）。</p>
 <p><img lazyload="" alt="image" data-src="image-3.png"></p>
-<ol start="9" type="1">
-<li>使用 Claude 进行数据分析</li>
-</ol>
-<p>让 Claude Code 使用 “bq” CLI 即时提取和分析指标。我们在代码库中有一个
-BigQuery 技能，团队里的每个人都在 Claude Code
+<h2 id="使用-claude-进行数据分析">9. 使用 Claude 进行数据分析</h2>
+<p>让 Claude Code 使用 <strong>“bq”</strong> CLI
+即时提取和分析指标。我们在代码库中有一个 BigQuery
+技能，团队里的每个人都在 Claude Code
 中直接使用它进行数据分析查询。就我个人而言，已经 6 个多月没有写过一行
 SQL 了。</p>
 <p>这适用于任何有 CLI、MCP 或 API 的数据库。</p>
-<ol start="10" type="1">
-<li>用 Claude 学习</li>
-</ol>
+<h2 id="用-claude-辅助学习">10. 用 Claude 辅助学习</h2>
 <p>团队分享的使用 Claude Code 进行学习的几个技巧：</p>
-<ol type="a">
-<li><p>在 /config 中启用 “Explanatory” 或 “Learning” 输出风格，让 Claude
-解释其变更背后的<em>原因</em></p></li>
-<li><p>让 Claude 生成可视化的 HTML
-演示文稿来解释不熟悉的代码。它制作的幻灯片 surprisingly
-很不错！</p></li>
-<li><p>让 Claude 绘制新协议和代码库的 ASCII
-图表，帮助你理解它们</p></li>
-<li><p>构建一个间隔重复学习技能：你解释你的理解，Claude
-提出后续问题来填补知识空白，并存储学习结果</p></li>
-</ol>
+<p><strong>a. 解释模式</strong></p>
+<p>在 <code>/config</code> 中启用 <strong>“Explanatory”</strong> 或
+<strong>“Learning”</strong> 输出风格，让 Claude
+解释其变更背后的<strong>原因</strong>。</p>
+<p><strong>b. 可视化学习</strong></p>
+<p>让 Claude 生成可视化的 HTML
+演示文稿来解释不熟悉的代码。它制作的幻灯片出乎意料地精美！</p>
+<p><strong>c. 图表辅助</strong></p>
+<p>让 Claude 绘制新协议和代码库的 ASCII 图表，帮助你理解它们。</p>
+<p><strong>d. 间隔重复</strong></p>
+<p>构建一个间隔重复学习技能：你解释你的理解，Claude
+提出后续问题来填补知识空白，并存储学习结果。</p>
 
                     
                 </div>
@@ -797,22 +786,6 @@ SQL 了。</p>
                 
                     <div class="post-nav border-box">
                         
-                            <div class="prev-post">
-                                <a class="prev"
-                                   rel="prev"
-                                   href="/2026/12/20/writealgcode/"
-                                   title="为什么我用 C++/Java 而非 Python 写算法题"
-                                >
-                                    <span class="left arrow-icon flex-center">
-                                        <i class="fas fa-chevron-left"></i>
-                                    </span>
-                                    <span class="title flex-center">
-                                        <span class="post-nav-title-item text-ellipsis">为什么我用 C++/Java 而非 Python 写算法题</span>
-                                        <span class="post-nav-item">Prev posts</span>
-                                    </span>
-                                </a>
-                            </div>
-                        
                         
                             <div class="next-post">
                                 <a class="next"
@@ -927,7 +900,7 @@ SQL 了。</p>
             <div class="pc-post-toc right-toc">
                 <div class="post-toc-wrap border-box">
     <div class="post-toc border-box">
-        
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B9%B6%E8%A1%8C%E5%8C%96%E5%A4%84%E7%90%86"><span class="nav-text">1. 并行化处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%8D%E6%9D%82%E4%BB%BB%E5%8A%A1%E4%BB%8E%E8%AE%A1%E5%88%92%E6%A8%A1%E5%BC%8F%E5%BC%80%E5%A7%8B"><span class="nav-text">2. 复杂任务从计划模式开始</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B2%BE%E5%BF%83%E7%BB%B4%E6%8A%A4-claude.md"><span class="nav-text">3. 精心维护 CLAUDE.md</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8A%80%E8%83%BD%E5%B9%B6%E6%8F%90%E4%BA%A4%E5%88%B0-git"><span class="nav-text">4. 创建自定义技能并提交到 Git</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%A9-claude-%E8%87%AA%E5%8A%A8%E4%BF%AE%E5%A4%8D-bug"><span class="nav-text">5. 让 Claude 自动修复 Bug</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%90%E5%8D%87%E6%8F%90%E7%A4%BA%E8%AF%8D%E6%8A%80%E5%B7%A7"><span class="nav-text">6. 提升提示词技巧</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%88%E7%AB%AF%E4%B8%8E%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="nav-text">7. 终端与环境配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%AD%90%E4%BB%A3%E7%90%86"><span class="nav-text">8. 使用子代理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-claude-%E8%BF%9B%E8%A1%8C%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90"><span class="nav-text">9. 使用 Claude 进行数据分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%A8-claude-%E8%BE%85%E5%8A%A9%E5%AD%A6%E4%B9%A0"><span class="nav-text">10. 用 Claude 辅助学习</span></a></li></ol>
     </div>
 </div>
 
@@ -973,7 +946,7 @@ SQL 了。</p>
             
                 <span class="count-item border-box word">
                     <span class="item-type border-box">Total words</span>
-                    <span class="item-value border-box word">483.8k</span>
+                    <span class="item-value border-box word">482.9k</span>
                 </span>
             
 
@@ -1125,7 +1098,7 @@ SQL 了。</p>
             <div class="tablet-post-toc">
                 <div class="post-toc-wrap border-box">
     <div class="post-toc border-box">
-        
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B9%B6%E8%A1%8C%E5%8C%96%E5%A4%84%E7%90%86"><span class="nav-text">1. 并行化处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%8D%E6%9D%82%E4%BB%BB%E5%8A%A1%E4%BB%8E%E8%AE%A1%E5%88%92%E6%A8%A1%E5%BC%8F%E5%BC%80%E5%A7%8B"><span class="nav-text">2. 复杂任务从计划模式开始</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B2%BE%E5%BF%83%E7%BB%B4%E6%8A%A4-claude.md"><span class="nav-text">3. 精心维护 CLAUDE.md</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8A%80%E8%83%BD%E5%B9%B6%E6%8F%90%E4%BA%A4%E5%88%B0-git"><span class="nav-text">4. 创建自定义技能并提交到 Git</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%A9-claude-%E8%87%AA%E5%8A%A8%E4%BF%AE%E5%A4%8D-bug"><span class="nav-text">5. 让 Claude 自动修复 Bug</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%90%E5%8D%87%E6%8F%90%E7%A4%BA%E8%AF%8D%E6%8A%80%E5%B7%A7"><span class="nav-text">6. 提升提示词技巧</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%88%E7%AB%AF%E4%B8%8E%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="nav-text">7. 终端与环境配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%AD%90%E4%BB%A3%E7%90%86"><span class="nav-text">8. 使用子代理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-claude-%E8%BF%9B%E8%A1%8C%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90"><span class="nav-text">9. 使用 Claude 进行数据分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%A8-claude-%E8%BE%85%E5%8A%A9%E5%AD%A6%E4%B9%A0"><span class="nav-text">10. 用 Claude 辅助学习</span></a></li></ol>
     </div>
 </div>
 
