@@ -9,6 +9,8 @@
     
     <title>
         
+            线程池死锁排查 |
+        
         Decade
     </title>
     
@@ -477,7 +479,7 @@ mjx-container[display="true"] + br {
             <div class="post-content-bottom border-box">
                 
                     <div class="post-title">
-                        
+                        线程池死锁排查
                     </div>
                 
 
@@ -505,30 +507,54 @@ mjx-container[display="true"] + br {
         
             <span class="meta-info-item post-create-date">
                 <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
-                <span class="datetime">2026-02-07 01:05:54</span>
+                <span class="datetime">2025-02-07 01:00:13</span>
             </span>
 
             
                 <span class="meta-info-item post-update-date">
                     <i class="icon fa-solid fa-arrows-rotate"></i>&nbsp;
-                    <span class="datetime" data-updated="Sat Feb 07 2026 01:07:53 GMT+0800">2026-02-07 01:07:53</span>
+                    <span class="datetime" data-updated="Sat Feb 07 2026 10:19:53 GMT+0800">2026-02-07 10:19:53</span>
                 </span>
             
         
 
         
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">并发编程</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
 
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">并发编程</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/Java/">Java</a></li>
+                        
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">线程池</a></li>
+                        
+                    
+                </ul>
+            </span>
         
 
         
         
             <span class="meta-info-item post-wordcount">
-                <i class="icon fas fa-file-word"></i>&nbsp;<span>971 Words</span>
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>1k Words</span>
             </span>
         
         
             <span class="meta-info-item post-min2read">
-                <i class="icon fas fa-clock"></i>&nbsp;<span>3 Mins</span>
+                <i class="icon fas fa-clock"></i>&nbsp;<span>4 Mins</span>
             </span>
         
         
@@ -550,7 +576,9 @@ mjx-container[display="true"] + br {
                     
 
                     
-                         <h2 id="线程池死锁问题">线程池死锁问题</h2>
+                         <p>记录一次线程池死锁的排查过程，涉及到父子任务的线程池设计，以及如何避免死锁和性能问题。</p>
+<span id="more"></span>
+<h2 id="线程池死锁问题">线程池死锁问题</h2>
 <p>我的 OJ 架构不算复杂：用户提交代码 -&gt; 消息队列解耦 -&gt;
 Judge模块接收消息 -&gt; 分发给线程池执行。</p>
 <p>为了提高效率，我设计了二级异步：</p>
@@ -607,11 +635,11 @@ src里进行；
     <div class="copyright-info-content border-box">
         <div class="copyright-info-top border-box">
             <div class="copyright-post-title border-box text-ellipsis">
-                
+                线程池死锁排查
             </div>
 
             <div class="copyright-post-link border-box text-ellipsis">
-                2026/02/07/线程池死锁排查/
+                2025/02/07/线程池死锁排查/
             </div>
         </div>
 
@@ -627,7 +655,7 @@ src里进行；
                 <div class="type">
                     Published
                 </div>
-                <div class="content">2026-02-07 01:05</div>
+                <div class="content">2025-02-07 01:00</div>
             </div>
 
 
@@ -659,6 +687,22 @@ src里进行；
 
                 <div class="post-bottom-tags-and-share border-box">
                     <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">并发编程</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/Java/">Java</a>
+                                    </li>
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/%E7%BA%BF%E7%A8%8B%E6%B1%A0/">线程池</a>
+                                    </li>
+                                
+                            </ul>
                         
                     </div>
                     <div>
@@ -707,15 +751,31 @@ src里进行；
                 
                     <div class="post-nav border-box">
                         
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/2025/02/12/Leetcode-332%E5%9C%BA%E5%91%A8%E8%B5%9B/"
+                                   title="Leetcode 332场周赛"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">Leetcode 332场周赛</span>
+                                        <span class="post-nav-item">Prev posts</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
                         
                             <div class="next-post">
                                 <a class="next"
                                    rel="next"
-                                   href="/2026/02/05/zhihu-%E6%B5%85%E8%B0%88CAS%E5%92%8CSync/"
-                                   title="CAS 和 synchronized 浅谈"
+                                   href="/2025/02/05/Leetcode-331%E5%9C%BA%E5%91%A8%E8%B5%9B/"
+                                   title="Leetcode 331场周赛"
                                 >
                                     <span class="title flex-center">
-                                        <span class="post-nav-title-item text-ellipsis">CAS 和 synchronized 浅谈</span>
+                                        <span class="post-nav-title-item text-ellipsis">Leetcode 331场周赛</span>
                                         <span class="post-nav-item">Next posts</span>
                                     </span>
                                     <span class="right arrow-icon flex-center">
